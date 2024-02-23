@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model Client {
+  id                      Int       @id @default(autoincrement())
+  name                    String
+  age                     Int
+  sex                     String
+  address                 String
+  email                   String?
+  contactNumber           String?
+  civilStatus             String?
+  religion                String?
+  citizenship             String?
+  educationalAttainment   String?
+  language                String?
+  individualMonthlyIncome Decimal?
+  detained                Boolean?
+  detainedAt              String?
+  detainedSince           DateTime?
+  spouseName              String?
+  spouseAddress           String?
+  spouseContactNumber     String?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  deletedAt               DateTime?
+  deleted                 Boolean   @default(false)
+  requests                Request[]
+}
+
+model Request {
+  id          Int       @id @default(autoincrement())
+  clientId    Int
+  requestType String
+  requestDate DateTime
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  deleted     Boolean   @default(false)
+  client      Client    @relation(fields: [clientId], references: [id])
+}
