@@ -28,7 +28,7 @@
 				second: 'numeric'
 			}).format(time)}
 		</h1>
-		<p>
+		<p class="text-sm text-gray-600">
 			{Intl.DateTimeFormat('en-PH', { timeZoneName: 'long' })
 				.formatToParts(time)
 				.find((part) => part.type === 'timeZoneName')?.value}
@@ -55,7 +55,9 @@
 						>Go to Dashboard</a
 					>
 				{:else if $page.data.user.role === 'client'}
-					<a class="px-4 py-2 rounded-lg bg-green-800 text-white" href="/home">Go to Home</a>
+					<a class="px-4 py-2 rounded-lg bg-green-800 text-white" href="/forms/client_profile"
+						>Add Profile</a
+					>
 				{/if}
 				<button class="px-4 py-2 rounded-lg bg-green-800 text-white" type="submit" form="logout">
 					<Logout />
