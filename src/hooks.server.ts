@@ -1,33 +1,18 @@
-import prisma from "$lib/server/prisma";
+import { authenticateUser } from "$lib/server/auth";
 import { redirect, type Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
-    const session = event.cookies.get('session');
+    event.locals.user = await authenticateUser(event);
 
-    const user = await prisma.user.findUnique({
-        where: { userAuthToken: session },
-        select: {
-            username: true,
-            role: true,
-        },
-    });
-
-    if (user) {
-        event.locals.user = {
-            name: user.username,
-            role: user.role.name,
-        }
-    }
-
-    if (event.route.id?.includes('admin') && event.locals.user.role !== 'admin') {
+    if (event.route.id?.includes('admin') && event.locals.user?.role !== 'admin') {
         throw redirect(302, '/');
     }
 
-    if (event.route.id?.includes('client') && event.locals.user.role !== 'client') {
+    if (event.route.id?.includes('client') && event.locals.user?.role !== 'client') {
         throw redirect(302, '/');
     }
 
-    if (event.route.id?.includes('lawyer') && event.locals.user.role !== 'lawyer') {
+    if (event.route.id?.includes('lawyer') && event.locals.user?.role !== 'lawyer') {
         throw redirect(302, '/');
     }
 
