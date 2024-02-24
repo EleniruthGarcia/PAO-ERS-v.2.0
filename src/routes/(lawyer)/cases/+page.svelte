@@ -32,7 +32,6 @@
 					<option value="Outreach">Outreach</option>
 				</select>
 			</form>
-			<button><Notification /></button>
 		</span>
 	</div>
 
@@ -43,14 +42,9 @@
 			<a href="/cases" class="block mt-4 text-blue-500">View Requests</a>
 		</div>
 		<div class="bg-white p-4 rounded-lg shadow-md">
-			<h2 class="text-xl font-bold">Ongoing Cases</h2>
+			<h2 class="text-xl font-bold">Active Cases</h2>
 			<p>Manage your cases here.</p>
-			<a href="/clients" class="block mt-4 text-blue-500">View Cases</a>
-		</div>
-		<div class="bg-white p-4 rounded-lg shadow-md">
-			<h2 class="text-xl font-bold">Reports</h2>
-			<p>View your reports here.</p>
-			<a href="/reports" class="block mt-4 text-blue-500">View Reports</a>
+			<a href="/cases" class="block mt-4 text-blue-500">View Cases</a>
 		</div>
 	</div>
 </main>

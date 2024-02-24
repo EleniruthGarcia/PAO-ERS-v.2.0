@@ -36,7 +36,6 @@
 					<option value="Outreach">Outreach</option>
 				</select>
 			</form>
-			<button><Notification /></button>
 		</span>
 	</div>
 

@@ -14,7 +14,10 @@
 
 <main class="h-screen w-screen flex flex-col justify-center items-center">
 	{#if $page.data.user}
-		<div class="fixed top-10 left-10">Welcome, {$page.data.user.name}!</div>
+		<span class="fixed top-10 left-10 flex gap-4">
+			<img src={Logo} alt="Public Attorney's Office" class="w-6 h-6" />
+			<p>Public Attorney's office</p>
+		</span>
 	{/if}
 	<div class="fixed top-10 right-10 text-right">
 		<h1>
@@ -35,15 +38,24 @@
 		</p>
 	</div>
 	<div class="container flex flex-col m-auto max-w-lg p-4 text-center gap-10">
-		<img src={Logo} alt="Public Attorney's Office" class="w-64 m-auto" />
-		<div class="flex flex-col gap-4">
-			<h1 class="text-3xl font-bold text-gray-800">Public Attorney's Office</h1>
-			<p>
-				The Public Attorney's Office exists to provide the indigent sector access to counsel at the
-				time of need and to implement the Constitutional guarantee of free access to courts, due
-				process, and equal protection of the laws.
-			</p>
-		</div>
+		{#if $page.data.user}
+			<div class="flex flex-col gap-4">
+				<h1 class="text-3xl font-bold text-gray-800">
+					WELCOME, {String($page.data.user.name).toUpperCase()}!
+				</h1>
+				<p>What would you like to do today?</p>
+			</div>
+		{:else}
+			<img src={Logo} alt="Public Attorney's Office" class="w-64 m-auto" />
+			<div class="flex flex-col gap-4">
+				<h1 class="text-3xl font-bold text-gray-800">Public Attorney's Office</h1>
+				<p>
+					The Public Attorney's Office exists to provide the indigent sector access to counsel at
+					the time of need and to implement the Constitutional guarantee of free access to courts,
+					due process, and equal protection of the laws.
+				</p>
+			</div>
+		{/if}
 		<span class="flex flex-row justify-center items-center gap-4">
 			{#if $page.data.user}
 				{#if $page.data.user.role === 'admin'}
