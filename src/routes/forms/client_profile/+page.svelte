@@ -23,8 +23,17 @@
 
 <main class="container">
 	<form method="POST" use:enhance class=" grid grid-cols-6 gap-4">
-		<label for="name">Name</label>
-		<input type="text" name="name" id="name" required autocomplete="name" />
+		<label for="firstName">First Name</label>
+		<input type="text" name="firstName" id="firstName" required autocomplete="given-name" />
+
+		<label for="middleName">Middle Name</label>
+		<input type="text" name="middleName" id="middleName" required autocomplete="additional-name" />
+
+		<label for="lastName">Last Name</label>
+		<input type="text" name="lastName" id="lastName" required autocomplete="family-name" />
+
+		<label for="nameSuffix">Name Suffix</label>
+		<input type="text" name="nameSuffix" id="nameSuffix" />
 
 		<label for="age">Age</label>
 		<input type="number" name="age" id="age" required />
@@ -32,8 +41,8 @@
 		<label for="sex">Sex</label>
 		<select name="sex" id="sex" required autocomplete="sex">
 			<option value="" hidden selected></option>
-			<option value="male">Male</option>
-			<option value="female">Female</option>
+			<option value="Male">Male</option>
+			<option value="Female">Female</option>
 		</select>
 
 		<label for="address">Address</label>
@@ -48,10 +57,10 @@
 		<label for="civilStatus">Civil Status</label>
 		<select name="civilStatus" id="civilStatus">
 			<option value="" hidden selected></option>
-			<option value="single">Single</option>
-			<option value="married">Married</option>
-			<option value="divorced">Divorced</option>
-			<option value="widowed">Widowed</option>
+			<option value="Single">Single</option>
+			<option value="Married">Married</option>
+			<option value="Divorced">Divorced</option>
+			<option value="Widowed">Widowed</option>
 		</select>
 
 		<label for="religion">Religion</label>

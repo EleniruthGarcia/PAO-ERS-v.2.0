@@ -1,4 +1,4 @@
-import prisma from "$lib/prisma";
+import prisma from "$lib/server/prisma";
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
 
@@ -7,12 +7,16 @@ export const actions = {
         const data = await request.formData();
 
         // required fields
-        let name = data.get('name');
+        let firstName = data.get('firstName');
+        let middleName = data.get('middleName');
+        let lastName = data.get('lastName');
+
         let age = data.get('age');
         let sex = data.get('sex');
         let address = data.get('address');
 
         // optional fields
+        let nameSuffix = data.get('nameSuffix');
         let email = data.get('email');
         let contactNumber = data.get('contactNumber');
         let civilStatus = data.get('civilStatus');
@@ -29,11 +33,15 @@ export const actions = {
         let spouseContactNumber = data.get('spouseContactNumber');
 
         // validation
-        if (!name || !age || !sex || !address) {
+        if (!firstName || !middleName || !lastName || !age || !sex || !address) {
             return fail(400, { missing: true });
         }
 
-        if (typeof name !== 'string' || typeof Number(age) !== 'number' || typeof sex !== 'string' || typeof address !== 'string') {
+        if (typeof firstName !== 'string' || typeof middleName !== 'string' || typeof lastName !== 'string' || typeof Number(age) !== 'number' || typeof sex !== 'string' || typeof address !== 'string') {
+            return fail(400, { invalid: true });
+        }
+
+        if (nameSuffix && typeof nameSuffix !== 'string') {
             return fail(400, { invalid: true });
         }
 
@@ -95,7 +103,7 @@ export const actions = {
 
         // save to database
         const client = await prisma.client.create({
-            data: { name, age: Number(age), sex, address, email, contactNumber, civilStatus, religion, citizenship, educationalAttainment, language, individualMonthlyIncome: individualMonthlyIncome ? Number(individualMonthlyIncome) : null, detained: detained !== null, detainedSince: detainedSince ? new Date(String(detainedSince)) : null, detainedAt, spouseName, spouseAddress, spouseContactNumber }
+            data: { firstName, middleName, lastName, nameSuffix, age: Number(age), sex, address, email, contactNumber, civilStatus, religion, citizenship, educationalAttainment, language, individualMonthlyIncome: individualMonthlyIncome ? Number(individualMonthlyIncome) : null, detained: detained !== null, detainedSince: detainedSince ? new Date(String(detainedSince)) : null, detainedAt, spouseName, spouseAddress, spouseContactNumber }
         });
 
         if (!client) {

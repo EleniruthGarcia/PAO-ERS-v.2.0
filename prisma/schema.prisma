@@ -8,9 +8,35 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
+model User {
+  id            String @id @default(uuid())
+  username      String @unique
+  passwordHash  String
+  userAuthToken String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  role   Role @relation(fields: [roleId], references: [id])
+  roleId Int
+
+  client Client[]
+}
+
+model Role {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  User User[]
+}
+
 model Client {
   id                      Int       @id @default(autoincrement())
-  name                    String
+  user                    User?     @relation(fields: [userId], references: [id])
+  userId                  String?
+  firstName               String
+  middleName              String
+  lastName                String
+  nameSuffix              String?
   age                     Int
   sex                     String
   address                 String
@@ -32,7 +58,7 @@ model Client {
   updatedAt               DateTime  @updatedAt
   deletedAt               DateTime?
   deleted                 Boolean   @default(false)
-  requests                Request[]
+  request                 Request[]
 }
 
 model Request {

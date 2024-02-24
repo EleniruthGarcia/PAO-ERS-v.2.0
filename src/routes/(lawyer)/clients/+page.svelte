@@ -1,12 +1,16 @@
 <script lang="ts">
+	import type { PageServerData } from './$types';
+
 	import Notification from '$lib/icons/Notification.svelte';
+
+	export let data: PageServerData;
 </script>
 
 <main>
 	<div class="flex justify-between">
 		<span>
-			<h1 class="text-3xl font-bold">Dashboard</h1>
-			<p>Welcome to the dashboard!</p>
+			<h1 class="text-3xl font-bold">Clients</h1>
+			<p>See all your clients here.</p>
 		</span>
 		<span class="flex items-center">
 			<form method="POST" action="filter">
@@ -37,20 +41,31 @@
 	</div>
 
 	<div class="grid grid-cols-2 gap-4 mt-6">
-		<div class="bg-white p-4 rounded-lg shadow-md">
-			<h2 class="text-xl font-bold">Active Cases</h2>
-			<p>Manage your cases here.</p>
-			<a href="/cases" class="block mt-4 text-blue-500">View Cases</a>
-		</div>
-		<div class="bg-white p-4 rounded-lg shadow-md">
-			<h2 class="text-xl font-bold">Clients</h2>
-			<p>Manage your clients here.</p>
-			<a href="/clients" class="block mt-4 text-blue-500">View Clients</a>
-		</div>
-		<div class="bg-white p-4 rounded-lg shadow-md">
-			<h2 class="text-xl font-bold">Reports</h2>
-			<p>View your reports here.</p>
-			<a href="/reports" class="block mt-4 text-blue-500">View Reports</a>
-		</div>
+		{#await data.clients}
+			<p>Loading cliens...</p>
+		{:then clients}
+			<div class="bg-white p-4 rounded-lg shadow-md">
+				{#if clients.length === 0}
+					<p>No clients found!</p>
+				{:else}
+					<ul>
+						{#each clients as client}
+							<li>
+								<a href="/clients/{client.id}"
+									>{client.firstName +
+										' ' +
+										client.middleName +
+										' ' +
+										client.lastName +
+										(client.nameSuffix ? ' ' + client.nameSuffix : '')}</a
+								>
+							</li>
+						{/each}
+					</ul>
+				{/if}
+			</div>
+		{:catch error}
+			<p>{error.message}</p>
+		{/await}
 	</div>
 </main>
