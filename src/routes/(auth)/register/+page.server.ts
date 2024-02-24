@@ -40,7 +40,6 @@ export const actions = {
                 username,
                 passwordHash: await bcrypt.hash(password, 10),
                 userAuthToken,
-                role: { connect: { name: "client" } },
             },
         })
 

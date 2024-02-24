@@ -16,6 +16,6 @@ export const authenticateUser = async (event: RequestEvent) => {
 
     return {
         name: user.username,
-        role: user.role.name,
+        role: user.role,
     };
 }
