@@ -4,7 +4,7 @@
 	import Logout from '$lib/icons/Logout.svelte';
 </script>
 
-<form id="logout" method="POST" action="/logout" />
+<form id="logout" method="POST" action="/logout" class="hidden" />
 
 <main class="h-screen w-screen m-auto">
 	<div class="flex flex-col justify-between">

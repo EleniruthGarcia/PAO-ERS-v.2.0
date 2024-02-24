@@ -22,7 +22,7 @@
 			<a href="/settings"><Settings /></a>
 		</nav>
 		<div class="group flex flex-col items-center justify-center w-full p-4 text-white gap-10">
-			<form id="logout" method="POST" action="/logout" />
+			<form id="logout" method="POST" action="/logout" class="hidden" />
 			<button class="invisible group-hover:visible" type="submit" form="logout">
 				<Logout />
 			</button>
