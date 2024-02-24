@@ -4,18 +4,15 @@ import bcrypt from 'bcrypt'
 import { fail, redirect } from '@sveltejs/kit'
 import type { Actions, PageServerLoad } from './$types'
 
-enum Roles {
-    ADMIN = 'ADMIN',
-    USER = 'USER',
-    LAWYER = 'LAWYER',
-}
 
-export const load: PageServerLoad = async () => {
-    // todo
+export const load: PageServerLoad = async ({ locals }) => {
+    if (locals.user) {
+        redirect(302, '/')
+    }
 }
 
 export const actions = {
-    default: async ({ request, cookies }) => {
+    default: async ({ cookies, request }) => {
         const data = await request.formData()
         const username = data.get('username')
         const password = data.get('password')
@@ -29,33 +26,30 @@ export const actions = {
             return fail(400, { invalid: true })
         }
 
-        const user = await prisma.user.findUnique({
-            where: { username },
-        })
+        const user = await prisma.user.findUnique({ where: { username } })
 
-        if (user) {
-            return fail(400, { user: true })
+        if (!user) {
+            return fail(400, { credentials: true })
         }
 
-        const userAuthToken = crypto.randomUUID()
+        const userPassword = await bcrypt.compare(password, user.passwordHash)
 
-        await prisma.user.create({
-            data: {
-                username,
-                passwordHash: await bcrypt.hash(password, 10),
-                userAuthToken,
-                role: { connect: { name: Roles.USER } },
-            },
+        if (!userPassword) {
+            return fail(400, { credentials: true })
+        }
+
+        const authenticatedUser = await prisma.user.update({
+            where: { username: user.username },
+            data: { userAuthToken: crypto.randomUUID() },
         })
 
-        cookies.set('session', userAuthToken, {
+        cookies.set('session', authenticatedUser.userAuthToken, {
             path: '/',
             httpOnly: true,
             sameSite: 'strict',
             secure: process.env.NODE_ENV === 'production',
             maxAge: 60 * 60 * 24 * 30,
         })
-
 
         redirect(302, '/')
     }
