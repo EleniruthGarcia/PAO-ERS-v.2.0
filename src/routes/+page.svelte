@@ -19,7 +19,7 @@
 			<p>Public Attorney's office</p>
 		</span>
 	{/if}
-	<div class="fixed top-10 right-10 text-right">
+	<div class="hidden sm:block fixed top-10 right-10 text-right">
 		<h1>
 			{Intl.DateTimeFormat('en-PH', {
 				weekday: 'long',
