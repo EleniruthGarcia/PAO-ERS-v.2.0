@@ -3,7 +3,7 @@ import { fail } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {
-    return { client: await prisma.client.findUnique({ where: { id: Number(params.id) } }) };
+    return { client: prisma.client.findUnique({ where: { id: Number(params.id) } }) };
 };
 
 export const actions = {
