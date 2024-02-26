@@ -1,13 +1,24 @@
 <script lang="ts">
 	import ExcelJS from 'exceljs';
-	import { saveAs } from '$lib/utils/file-saver';
+	import { saveAs, addHeader } from '$lib/utils';
 
 	import type { PageServerData } from './$types';
 
 	export let data: PageServerData;
 
 	const workbook = new ExcelJS.Workbook();
-	workbook.addWorksheet('F.017');
+	const worksheet = workbook.addWorksheet('F.017');
+	addHeader(
+		worksheet,
+		'Monthly Inventory of Clients Served',
+		'CAR',
+		'Baguio City',
+		'AS OF ' +
+			Intl.DateTimeFormat('en-PH', { month: 'long', year: 'numeric' })
+				.format(new Date())
+				.toUpperCase(),
+		6
+	);
 </script>
 
 <main>
