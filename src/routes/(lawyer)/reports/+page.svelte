@@ -35,11 +35,7 @@
 		</span>
 	</div>
 
-	<div class="grid grid-cols-2 gap-4 mt-6">
-		<div class="bg-white p-4 rounded-lg shadow-md">
-			<h2 class="text-xl font-bold">Reports</h2>
-			<p>View your reports here.</p>
-			<a href="/reports" class="block mt-4 text-blue-500">View Reports</a>
-		</div>
+	<div class="flex flex-col gap-4 mt-6">
+		<a href="reports/F.017">Monthly Inventory of Clients Served</a>
 	</div>
 </main>
