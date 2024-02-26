@@ -22,7 +22,5 @@
 </script>
 
 <main>
-	<h1>Monthly Inventory of Clients Served</h1>
-
 	<button on:click={async () => saveAs(workbook, 'F.017.xlsx')}>Generate Report</button>
 </main>
