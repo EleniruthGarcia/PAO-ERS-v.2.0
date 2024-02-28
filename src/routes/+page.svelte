@@ -12,7 +12,7 @@
 
 <form id="logout" method="POST" action="/logout" class="hidden" />
 
-<main class="h-screen w-screen flex flex-col justify-center items-center">
+<main class="h-screen w-screen flex flex-col justify-center items-center bg-witness">
 	{#if $page.data.user}
 		<span class="fixed top-10 left-10 flex gap-4">
 			<img src={Logo} alt="Public Attorney's Office" class="w-6 h-6" />
@@ -48,7 +48,7 @@
 		{:else}
 			<img src={Logo} alt="Public Attorney's Office" class="w-64 m-auto" />
 			<div class="flex flex-col gap-4">
-				<h1 class="text-3xl font-bold text-gray-800">Public Attorney's Office</h1>
+				<h1 class="text-3xl font-bold text-diligence">Public Attorney's Office</h1>
 				<p>
 					The Public Attorney's Office exists to provide the indigent sector access to counsel at
 					the time of need and to implement the Constitutional guarantee of free access to courts,

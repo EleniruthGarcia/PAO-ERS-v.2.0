@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        --color-diligence: 44 46 69;
+        --color-verdict: 52 73 85;
+        --color-equity: 54 99 110;
+        --color-trust: 120 160 131;
+        --color-innocence: 216 212 210;
+        --color-oath: 248 250 252;
+    }
+
+}
+
+@layer components {
+    .bg-witness {
+        background: linear-gradient(to bottom right, rgb(var(--color-oath)), rgb(var(--color-innocence))), linear-gradient(to bottom left, rgb(var(--color-oath)), rgb(var(--color-trust)));
+    }
+}
