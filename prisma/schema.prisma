@@ -15,14 +15,12 @@ model User {
   userAuthToken String   @unique
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  role          String   @default("client")
-  client        Client[]
+  role          String   @default("lawyer")
+  lawyer        Lawyer[]
 }
 
 model Client {
   id                      Int       @id @default(autoincrement())
-  user                    User?     @relation(fields: [userId], references: [id])
-  userId                  String?
   firstName               String
   middleName              String
   lastName                String
@@ -51,9 +49,31 @@ model Client {
   request                 Request[]
 }
 
+model Lawyer {
+  id            Int       @id @default(autoincrement())
+  user          User      @relation(fields: [userId], references: [id])
+  userId        String
+  title         String
+  firstName     String
+  middleName    String
+  lastName      String
+  nameSuffix    String?
+  age           Int
+  sex           String
+  address       String
+  email         String?
+  contactNumber String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+  deleted       Boolean   @default(false)
+  request       Request[]
+}
+
 model Request {
   id          Int       @id @default(autoincrement())
   clientId    Int
+  lawyerId    Int
   requestType String
   requestDate DateTime
   createdAt   DateTime  @default(now())
@@ -61,4 +81,25 @@ model Request {
   deletedAt   DateTime?
   deleted     Boolean   @default(false)
   client      Client    @relation(fields: [clientId], references: [id])
+  lawyer      Lawyer    @relation(fields: [lawyerId], references: [id])
+  case        Case[]
+}
+
+model Case {
+  id                 Int       @id @default(autoincrement())
+  requestId          Int
+  title              String
+  court              String
+  nature             String
+  status             String
+  causeOfAction      String
+  lastActionTaken    String
+  lastActionDate     DateTime
+  causeOfTermination String
+  dateOfTermination  DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  deletedAt          DateTime?
+  deleted            Boolean   @default(false)
+  request            Request   @relation(fields: [requestId], references: [id])
 }

@@ -42,6 +42,9 @@
 		"vitest": "^1.2.0"
 	},
 	"type": "module",
+	"prisma": {
+		"seed": "vite-node prisma/seed.ts"
+	},
 	"dependencies": {
 		"@prisma/client": "^5.10.2",
 		"bcrypt": "^5.1.1",

@@ -4,17 +4,17 @@ import { redirect, type Handle } from '@sveltejs/kit';
 export const handle: Handle = async ({ event, resolve }) => {
     event.locals.user = await authenticateUser(event);
 
-    if (event.route.id?.includes('(admin)') && event.locals.user?.role !== 'admin') {
-        throw redirect(302, '/');
-    }
+    if (!event.locals.user && (
+        event.url.pathname.startsWith('/cases') ||
+        event.url.pathname.startsWith('/clients') ||
+        event.url.pathname.startsWith('/lawyers') ||
+        event.url.pathname.startsWith('/reports') ||
+        event.url.pathname.startsWith('/settings')
+    ))
+        throw redirect(303, '/');
 
-    if (event.route.id?.includes('(client)') && event.locals.user?.role !== 'client') {
-        throw redirect(302, '/');
-    }
-
-    if (event.route.id?.includes('(lawyer)') && event.locals.user?.role !== 'lawyer') {
-        throw redirect(302, '/');
-    }
+    if (event.url.pathname.startsWith('/lawyers') && event.locals.user?.role !== 'admin')
+        throw redirect(303, '/');
 
     const response = await resolve(event);
     return response;
