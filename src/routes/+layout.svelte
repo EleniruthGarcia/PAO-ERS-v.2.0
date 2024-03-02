@@ -6,7 +6,7 @@
 	import Logo from '$lib/images/Logo.png';
 
 	import Dashboard from '$lib/icons/Dashboard.svelte';
-	import Cases from '$lib/icons/Cases.svelte';
+	import Records from '$lib/icons/Records.svelte';
 	import Lawyers from '$lib/icons/Lawyers.svelte';
 	import Reports from '$lib/icons/Reports.svelte';
 	import Settings from '$lib/icons/Settings.svelte';
@@ -32,9 +32,9 @@
 						><Dashboard />
 						<p class="hidden sm:block">Dashboard</p></a
 					>
-					<a href="/cases" class="flex gap-2"
-						><Cases />
-						<p class="hidden sm:block">Cases</p></a
+					<a href="/records" class="flex gap-2"
+						><Records />
+						<p class="hidden sm:block">Records</p></a
 					>
 					{#if data.user.role === 'admin'}
 						<a href="/lawyers" class="flex gap-2"
