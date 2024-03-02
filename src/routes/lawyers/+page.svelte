@@ -42,6 +42,6 @@
 	</div>
 
 	<span>
-		<a href="/lawyers/add" class="px-4 py-2 rounded-lg bg-trust text-white">Add Lawyer</a>
+		<a href="/lawyers/add" class="px-4 py-2 rounded-lg bg-trust text-diligence">Add Lawyer</a>
 	</span>
 </main>
