@@ -18,7 +18,7 @@
 {/if}
 
 {#if form?.success}
-	<span class="text-green-500">Successfully registered!</span>
+	<span class="text-trust">Successfully registered!</span>
 {/if}
 
 <main class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness">

@@ -92,7 +92,7 @@
 						required
 						placeholder="Password"
 					/>
-					<button class="px-4 py-2 rounded-lg bg-green-800 text-white" type="submit">Log in</button>
+					<button class="px-4 py-2 rounded-lg bg-trust text-white" type="submit">Log in</button>
 				</div>
 			</form>
 		</div>

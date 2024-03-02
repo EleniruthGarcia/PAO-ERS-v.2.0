@@ -45,7 +45,7 @@
 			</div>
 
 			<span>
-				<a href="/clients/add" class="px-4 py-2 rounded-lg bg-green-800 text-white">New Client</a>
+				<a href="/clients/add" class="px-4 py-2 rounded-lg bg-trust text-white">New Client</a>
 			</span>
 		</div>
 		<div class="flex flex-col gap-4 bg-white border border-gray-300 rounded-md p-4">
@@ -75,7 +75,7 @@
 			</div>
 
 			<span>
-				<a href="/requests/add" class="px-4 py-2 rounded-lg bg-green-800 text-white">New Request</a>
+				<a href="/requests/add" class="px-4 py-2 rounded-lg bg-trust text-white">New Request</a>
 			</span>
 		</div>
 		<div class="md:col-span-2 flex flex-col gap-4 bg-white border border-gray-300 rounded-md p-4">
@@ -105,7 +105,7 @@
 			</div>
 
 			<span>
-				<a href="/cases/add" class="px-4 py-2 rounded-lg bg-green-800 text-white">New Case</a>
+				<a href="/cases/add" class="px-4 py-2 rounded-lg bg-trust text-white">New Case</a>
 			</span>
 		</div>
 	</div>

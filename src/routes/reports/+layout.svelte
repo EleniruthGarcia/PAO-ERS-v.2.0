@@ -32,7 +32,7 @@
 		<nav class="flex w-full overflow-x-visible">
 			<a
 				class={$page.url.pathname === '/reports/F.017'
-					? 'py-2 px-4 bg-green-800 text-white border border-gray-300 rounded-t-md'
+					? 'py-2 px-4 bg-trust text-white border border-gray-300 rounded-t-md'
 					: 'py-2 px-4 bg-white border border-gray-300 rounded-t-md'}
 				href="/reports/F.017">Monthly Inventory of Clients Served</a
 			>
