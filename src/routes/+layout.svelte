@@ -20,7 +20,7 @@
 <main class="h-screen flex">
 	{#if data.user}
 		<aside
-			class="overflow-y-hidden flex flex-col items-center justify-between h-screen bg-diligence py-6 w-16 sm:w-64 sm:items-start sm:p-6"
+			class="overflow-y-hidden flex flex-col items-center justify-between h-screen bg-verdict py-6 w-16 sm:w-64 sm:items-start sm:p-6"
 		>
 			<span class="flex flex-col items-center gap-20 sm:items-start">
 				<a href="/" class="text-2xl font-bold text-white flex items-center gap-2"
