@@ -52,9 +52,10 @@
 					Public Attorney’s Office - Electronic Records System
 				</h1>
 				<p>
-					The Public Attorney’s Office exists to provide the indigent sector access to counsel at
-					the time of need and to implement the Constitutional guarantee of free access to courts,
-					due process, and equal protection of the laws.
+					The Public Attorney’s Office - Electronic Records System (PAO-ERS) is a web-based
+					application that aims to provide a more efficient and effective way of managing records
+					and cases of the Public Attorney’s Office. It is designed to be user-friendly and
+					accessible to all PAO personnel.
 				</p>
 			</span>
 		</div>
