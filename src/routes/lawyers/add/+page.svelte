@@ -65,6 +65,6 @@
 
 		<button type="submit">Submit</button>
 		<button type="reset">Reset</button>
-		<button type="button" on:click={() => history.back()}>Cancel</button>
+		<button type="button" on:click={() => history.back()}>Go Back</button>
 	</form>
 </main>
