@@ -39,12 +39,21 @@
 	</main>
 {:else}
 	<main class="h-screen w-screen bg-witness flex">
-		<div
-			class="hidden md:block h-screen w-1/2 flex flex-col justify-between bg-diligence text-oath"
-		>
-			<span class="p-6 text-2xl font-bold text-white flex items-center gap-2"
+		<div class="h-screen w-1/2 p-6 hidden md:flex flex-col justify-between bg-diligence text-oath">
+			<span class="text-2xl font-bold text-white flex items-center gap-2"
 				><img src={Logo} alt="PAO Logo" class="w-8" />
 				<p class="hidden sm:block text-base">PAO-ERS</p>
+			</span>
+
+			<span class="flex flex-col gap-2">
+				<h1 class="text-xl font-bold text-white">
+					Public Attorney’s Office - Electronic Records System
+				</h1>
+				<p>
+					The Public Attorney’s Office exists to provide the indigent sector access to counsel at
+					the time of need and to implement the Constitutional guarantee of free access to courts,
+					due process, and equal protection of the laws.
+				</p>
 			</span>
 		</div>
 		<div class="flex flex-col m-auto max-w-lg p-4 text-center gap-5">
