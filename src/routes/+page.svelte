@@ -42,16 +42,16 @@
 		<div
 			class="h-screen w-1/2 p-12 hidden lg:w-1/2 md:flex items-center justify-center flex-col gap-4 bg-verdict text-oath text-center pb-20"
 		>
-				<img src={Logo} alt="PAO Logo" class="w-8 sm:w-28" />
-				<h2 class="font-bold text-oath leading-tight">
-					Public Attorney’s Office <br /><span class="text-trust"> Electronic Records System </span>
-				</h2>
-				<p class="text-sm text-innocence">
-					The Public Attorney’s Office - Electronic Records System (PAO-ERS) is a web-based
-					application that aims to provide a more efficient and effective way of managing records
-					and cases of the Public Attorney’s Office. It is designed to be user-friendly and
-					accessible to all PAO personnel.
-				</p>
+			<img src={Logo} alt="PAO Logo" class="w-8 sm:w-28" />
+			<h2 class="font-bold text-oath leading-tight">
+				Public Attorney’s Office <br /><span class="text-trust"> Electronic Records System </span>
+			</h2>
+			<p class="text-sm text-innocence">
+				The Public Attorney’s Office - Electronic Records System (PAO-ERS) is a web-based
+				application that aims to provide a more efficient and effective way of managing records and
+				cases of the Public Attorney’s Office. It is designed to be user-friendly and accessible to
+				all PAO personnel.
+			</p>
 		</div>
 		<div class="flex flex-col m-auto p-4 text-center gap-4 pb-14">
 			<span class="flex flex-col items-center justify-center">
@@ -70,12 +70,13 @@
 								name="username"
 								type="text"
 								placeholder="Username"
+								autocomplete="username"
 							/>
-							
+
 							{#if form?.user}
 								<p class="text-sm text-red-400">Username does not exist.</p>
 							{/if}
-							
+
 							{#if form?.username}
 								<p class="text-red-400 text-sm">Username is required.</p>
 							{/if}
@@ -90,6 +91,7 @@
 								name="username"
 								type="text"
 								placeholder="Username"
+								autocomplete="username"
 							/>
 						{/if}
 
@@ -101,12 +103,13 @@
 								name="password"
 								type="password"
 								placeholder="Password"
+								autocomplete="current-password"
 							/>
 
 							{#if form?.credentials}
 								<p class="text-sm text-red-400">You have entered the wrong credentials.</p>
 							{/if}
-							
+
 							{#if form?.password}
 								<p class="text-red-400 text-sm">Password is required.</p>
 							{/if}
@@ -121,6 +124,7 @@
 								name="password"
 								type="password"
 								placeholder="Password"
+								autocomplete="current-password"
 							/>
 						{/if}
 					</span>
@@ -130,11 +134,12 @@
 							<input type="checkbox" id="remember" name="remember" class="mr-1 accent-trust" />
 							<label for="remember" class="text-sm">Remember me.</label>
 						</span>
-						
+
 						<a href="/forgot-password" class="text-sm text-trust">Forgot password?</a>
 					</span>
 
-					<button class="px-4 py-2 rounded-lg bg-trust text-diligence" type="submit">Sign-in</button>
+					<button class="px-4 py-2 rounded-lg bg-trust text-diligence" type="submit">Sign-in</button
+					>
 				</div>
 			</form>
 		</div>
