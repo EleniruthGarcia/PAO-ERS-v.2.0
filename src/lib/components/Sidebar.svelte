@@ -16,7 +16,7 @@
 </script>
 
 <aside
-	class="overflow-y-hidden flex flex-col items-center justify-between h-screen bg-verdict py-6 w-16 sm:w-96 sm:items-start sm:p-10"
+	class="flex flex-col items-center justify-between h-screen bg-verdict py-6 w-16 sm:w-96 sm:items-start sm:p-10"
 >
 	<span class="flex flex-col items-center gap-16 mt-4 sm:items-start">
 		<a href="/" class="text-2xl pl-4 font-bold text-oath flex items-center gap-2"
