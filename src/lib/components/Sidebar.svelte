@@ -16,14 +16,14 @@
 </script>
 
 <aside
-	class="flex flex-col items-center justify-between h-screen bg-verdict py-6 w-16 sm:w-96 sm:items-start sm:p-10"
+	class="flex flex-col items-center justify-between h-screen overflow-auto bg-verdict py-6 w-16 md:min-w-80 md:items-start md:p-10"
 >
-	<span class="flex flex-col items-center gap-16 mt-4 sm:items-start">
-		<a href="/" class="text-2xl pl-4 font-bold text-oath flex items-center gap-2"
-			><img src={Logo} alt="PAO Logo" class="w-8 sm:w-14" />
+	<span class="flex flex-col items-center gap-16 mt-4 md:items-start">
+		<a href="/" class="text-2xl md:pl-4 font-bold text-oath flex items-center gap-2"
+			><img src={Logo} alt="PAO Logo" class="w-8 md:w-14" />
 			<!-- <p class="hidden md:block text-base">PAO-ERS</p> -->
 		</a>
-		<nav class="flex flex-col items-center text-oath gap-2 sm:items-start">
+		<nav class="flex flex-col items-center text-oath gap-2 md:items-start">
 			<p class="hidden md:block font-bold pl-4 text-trust">Navigation</p>
 			<a
 				href="/"
@@ -99,7 +99,7 @@
 		</nav>
 	</span>
 	<div
-		class="group flex flex-col items-center justify-center w-full text-oath pl-4 gap-4 sm:items-start"
+		class="group flex flex-col items-center justify-center w-full text-oath md:pl-4 gap-4 md:items-start"
 	>
 		<form id="logout" method="POST" action="/logout" class="hidden" />
 		<button
@@ -115,7 +115,7 @@
 			<img
 				src="https://scontent-mnl1-2.xx.fbcdn.net/v/t1.15752-9/423472492_1218710399101134_1902887119327122381_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=8cd0a2&_nc_eui2=AeHIicY5kUZJphKW1Z9_1MSPLe47X58o_Jst7jtfnyj8m2-AejGaFZj9Y_6nGOgwBbN1yEFgsoLYJbmkwO1QuIxH&_nc_ohc=H4MqaBc1auwAX9sfQue&_nc_ht=scontent-mnl1-2.xx&oh=03_AdSZThtWz_8j64TQTMV5gEhXkAxt1rsvdU3qYwe0VdQuIg&oe=660C079E"
 				alt="User"
-				class="w-8 sm:w-12 rounded-full"
+				class="w-8 md:w-12 rounded-full"
 			/>
 			<span class="hidden md:block">
 				{#if $page.data.user.role === 'admin'}

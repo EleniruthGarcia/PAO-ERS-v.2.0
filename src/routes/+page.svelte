@@ -40,7 +40,7 @@
 {:else}
 	<main class="h-screen w-screen bg-witness text-diligence flex">
 		<div
-			class="h-screen w-1/2 p-12 hidden lg:w-1/2 md:flex items-center justify-center flex-col gap-4 bg-verdict text-oath text-center pb-20"
+			class="h-screen w-1/2 p-12 hidden lg:flex items-center justify-center flex-col gap-4 bg-verdict text-oath text-center pb-20"
 		>
 			<img src={Logo} alt="PAO Logo" class="w-8 sm:w-28" />
 			<h2 class="font-bold text-oath leading-tight">
