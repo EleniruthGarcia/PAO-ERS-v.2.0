@@ -3,4 +3,4 @@
 	import { mdiHistory } from '@mdi/js';
 </script>
 
-<SvgIcon size="30px" type="mdi" path={mdiHistory }></SvgIcon>
+<SvgIcon size="30px" type="mdi" path={mdiHistory}></SvgIcon>
