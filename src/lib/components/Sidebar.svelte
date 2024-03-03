@@ -6,10 +6,10 @@
 	import Dashboard from '$lib/icons/Dashboard.svelte';
 	import Cases from '$lib/icons/Cases.svelte';
 	import Clients from '$lib/icons/Clients.svelte';
-	import History from '$lib/icons/Historys.svelte';
+	import History from '$lib/icons/History.svelte';
 	import Lawyers from '$lib/icons/Lawyers.svelte';
 	import Reports from '$lib/icons/Reports.svelte';
-	import Recents from '$lib/icons/Historys.svelte';
+	import Recents from '$lib/icons/History.svelte';
 	import Settings from '$lib/icons/Settings.svelte';
 	import Logout from '$lib/icons/Logout.svelte';
 	import User from '$lib/icons/User.svelte';
