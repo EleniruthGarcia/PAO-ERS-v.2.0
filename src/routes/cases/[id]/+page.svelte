@@ -152,7 +152,7 @@
 			</form>
 		{:else}
 			<div class="grid grid-cols-2 gap-4 mt-6">
-				<div class="flex flex-col gap-4 bg-white p-4 rounded-lg shadow-md">
+				<div class="flex flex-col gap-4 bg-oath p-4 rounded-lg shadow-md">
 					<div class="flex justify-between">
 						<h1 class="text-3xl font-bold">Profile</h1>
 						<span class="flex gap-4">

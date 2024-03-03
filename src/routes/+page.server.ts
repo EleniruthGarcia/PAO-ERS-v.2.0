@@ -10,19 +10,34 @@ export const actions = {
         const username = data.get('username')
         const password = data.get('password')
 
-        if (
-            typeof username !== 'string' ||
-            typeof password !== 'string' ||
-            !username ||
-            !password
-        ) {
-            return fail(400, { invalid: true })
+        if (!username && !password) {
+            return fail(400, { missing: true, username: true, password: true })
+        }
+
+        if (!username) {
+            return fail(400, { missing: true, username:true })
+        }
+
+        if (!password) {
+            return fail(400, { missing: true, password: true })
+        }
+
+        if (typeof username !== 'string' && typeof password !== 'string') {
+            return fail(400, { invalid: true, username: true, password: true })
+        }
+
+        if (typeof username !== 'string') {
+            return fail(400, { invalid: true, username: true })
+        }
+
+        if (typeof password !== 'string') {
+            return fail(400, { invalid: true, password: true })
         }
 
         const user = await prisma.user.findUnique({ where: { username } })
 
         if (!user) {
-            return fail(400, { username: true })
+            return fail(400, { user: true })
         }
 
         const userPassword = await bcrypt.compare(password, user.passwordHash)

@@ -9,7 +9,7 @@
 		<p>See all lawyers here.</p>
 	</span>
 
-	<div class="flex flex-colgap-4 bg-white border border-gray-300 rounded-md p-4">
+	<div class="flex flex-colgap-4 bg-oath border border-innocence rounded-md p-4">
 		{#await data.lawyers}
 			<div class="animate-pulse flex flex-col gap-1">
 				<div class="rounded-full bg-slate-500 h-2 w-40"></div>

@@ -7,7 +7,7 @@
 <main class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness">
 	<span>
 		<h1 class="text-3xl font-bold">Cases</h1>
-		<p>See all your cases here.</p>
+		<p>See all cases here.</p>
 	</span>
 
 	<div class="flex flex-col md:grid md:grid-cols-2 gap-4">

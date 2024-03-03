@@ -6,12 +6,12 @@
 
 <main class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness">
 	<span>
-		<h1 class="text-3xl font-bold">Records</h1>
-		<p>See all records here.</p>
+		<h1 class="text-3xl font-bold">Cases</h1>
+		<p>See all cases here.</p>
 	</span>
 
 	<div class="flex flex-col md:grid md:grid-cols-2 gap-4">
-		<div class="flex flex-col gap-4 bg-white border border-gray-300 rounded-md p-4">
+		<div class="flex flex-col gap-4 bg-oath border border-innocence rounded-md p-4">
 			<h1 class="text-xl font-bold">Clients</h1>
 			<div class="flex flex-col gap-4">
 				{#await data.clients}
@@ -48,7 +48,7 @@
 				<a href="/clients/add" class="px-4 py-2 rounded-lg bg-trust text-diligence">New Client</a>
 			</span>
 		</div>
-		<div class="flex flex-col gap-4 bg-white border border-gray-300 rounded-md p-4">
+		<div class="flex flex-col gap-4 bg-oath border border-innocence rounded-md p-4">
 			<h1 class="text-xl font-bold">Requests</h1>
 			<div class="flex flex-col gap-4">
 				{#await data.requests}
@@ -78,7 +78,7 @@
 				<a href="/requests/add" class="px-4 py-2 rounded-lg bg-trust text-diligence">New Request</a>
 			</span>
 		</div>
-		<div class="md:col-span-2 flex flex-col gap-4 bg-white border border-gray-300 rounded-md p-4">
+		<div class="md:col-span-2 flex flex-col gap-4 bg-oath border border-innocence rounded-md p-4">
 			<h1 class="text-xl font-bold">Cases</h1>
 			<div class="flex flex-col gap-4">
 				{#await data.cases}

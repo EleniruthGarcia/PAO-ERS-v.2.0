@@ -20,7 +20,7 @@
 						month: '2-digit',
 						timeZone: 'Asia/Manila'
 					})}
-					class="p-2 rounded-lg border border-gray-300 text-sm"
+					class="p-2 rounded-lg border border-innocence text-sm"
 				/>
 			</form>
 		</span>
@@ -32,19 +32,19 @@
 		<nav class="flex w-full overflow-x-visible">
 			<a
 				class={$page.url.pathname === '/reports'
-					? 'py-2 px-4 bg-trust text-diligence border border-gray-300 rounded-t-md'
-					: 'py-2 px-4 bg-white border border-gray-300 rounded-t-md'}
+					? 'py-2 px-4 bg-trust text-diligence border border-innocence rounded-t-md'
+					: 'py-2 px-4 bg-oath border border-innocence rounded-t-md'}
 				href="/reports/F.017">Overview</a
 			>
 			<a
 				class={$page.url.pathname === '/reports/F.017'
-					? 'py-2 px-4 bg-trust text-diligence border border-gray-300 rounded-t-md'
-					: 'py-2 px-4 bg-white border border-gray-300 rounded-t-md'}
+					? 'py-2 px-4 bg-trust text-diligence border border-innocence rounded-t-md'
+					: 'py-2 px-4 bg-oath border border-innocence rounded-t-md'}
 				href="/reports/F.017">Monthly Inventory of Clients Served</a
 			>
 		</nav>
 		<!-- tab content -->
-		<div class="py-2 px-4 bg-white border border-gray-300 rounded-b-md">
+		<div class="py-2 px-4 bg-oath border border-innocence rounded-b-md">
 			<slot />
 		</div>
 	</div>
