@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import NavLink from './NavLink.svelte';
 
 	import Logo from '$lib/images/Logo.png';
 
 	import Dashboard from '$lib/icons/Dashboard.svelte';
+	import Requests from '$lib/icons/Requests.svelte';
 	import Cases from '$lib/icons/Cases.svelte';
 	import Clients from '$lib/icons/Clients.svelte';
 	import History from '$lib/icons/History.svelte';
@@ -25,76 +27,18 @@
 		</a>
 		<nav class="flex flex-col items-center text-oath gap-2 md:items-start">
 			<p class="hidden md:block font-bold pl-4 text-trust">Navigation</p>
-			<a
-				href="/"
-				class={$page.route.id === '/'
-					? 'flex font-bold hover:bg-equity p-4 py-2 rounded-full gap-4'
-					: 'flex hover:bg-equity p-4 py-2 rounded-full gap-4'}
-			>
-				<Dashboard />
-				<h4 class="hidden md:block">Dashboard</h4>
-			</a>
-			<a
-				href="/cases"
-				class={$page.route.id === '/cases'
-					? 'flex font-bold hover:bg-equity p-4 py-2 rounded-full gap-4'
-					: 'flex hover:bg-equity p-4 py-2 rounded-full gap-4'}
-			>
-				<Cases />
-				<h4 class="hidden md:block">Cases</h4>
-			</a>
+			<NavLink href="/" title="Dashboard"><Dashboard /></NavLink>
+			<NavLink href="/requests" title="Requests"><Requests /></NavLink>
 			{#if $page.data.user.role === 'lawyer'}
-				<a
-					href="/clients"
-					class={$page.route.id === '/clients'
-						? 'flex font-bold hover:bg-equity p-4 py-2 rounded-full gap-4'
-						: 'flex hover:bg-equity p-4 py-2 rounded-full gap-4'}
-				>
-					<Clients />
-					<h4 class="hidden md:block">Clients</h4>
-				</a>
+				<NavLink href="/cases" title="Cases"><Cases /></NavLink>
+				<NavLink href="/clients" title="Clients"><Clients /></NavLink>
+				<NavLink href="/reports" title="Reports"><Reports /></NavLink>
+				<NavLink href="/recents" title="Recent Services"><Recents /></NavLink>
 			{/if}
 			{#if $page.data.user.role === 'admin'}
-				<a
-					href="/lawyers"
-					class={$page.route.id === '/lawyers'
-						? 'flex font-bold hover:bg-equity p-4 py-2 rounded-full gap-4'
-						: 'flex hover:bg-equity p-4 py-2 rounded-full gap-4'}
-				>
-					<Lawyers />
-					<h4 class="hidden md:block">Lawyers</h4>
-				</a>
-			{/if}
-			<a
-				href="/reports"
-				class={$page.route.id === '/reports'
-					? 'flex font-bold hover:bg-equity p-4 py-2 rounded-full gap-4'
-					: 'flex hover:bg-equity p-4 py-2 rounded-full gap-4'}
-			>
-				<Reports />
-				<h4 class="hidden md:block">Reports</h4>
-			</a>
-			{#if $page.data.user.role === 'lawyer'}
-				<a
-					href="/recents"
-					class={$page.route.id === '/recents'
-						? 'flex font-bold hover:bg-equity p-4 py-2 rounded-full gap-4'
-						: 'flex hover:bg-equity p-4 py-2 rounded-full gap-4'}
-				>
-					<Recents />
-					<h4 class="hidden md:block">Recent Services</h4>
-				</a>
-			{/if}
-			{#if $page.data.user.role === 'admin'}
-				<a
-					href="/settings"
-					class={$page.route.id === '/settings'
-						? 'flex font-bold hover:bg-equity p-4 py-2 rounded-full gap-4'
-						: 'flex hover:bg-equity p-4 py-2 rounded-full gap-4'}
-				>
-					<Settings />
-					<h4 class="hidden md:block">Settings</h4>
-				</a>
+				<NavLink href="/lawyers" title="Lawyers"><Lawyers /></NavLink>
+				<NavLink href="/reports" title="Reports"><Reports /></NavLink>
+				<NavLink href="/settings" title="Settings"><Settings /></NavLink>
 			{/if}
 		</nav>
 	</span>
