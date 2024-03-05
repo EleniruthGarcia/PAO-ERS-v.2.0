@@ -9,7 +9,7 @@
 	<input
 		{type}
 		id="field"
-		class="rounded block px-2 pb-2 pt-5 {w} bg-oath text-sm outline outline-equity focus:outline-2 appearance-none peer"
+		class="rounded block px-2 pb-1 pt-4 {w} font-bold bg-oath text-sm outline outline-2 outline-equity placeholder-shown:outline-0 appearance-none peer"
 		placeholder=" "
 		{...$$restProps}
 	/>
