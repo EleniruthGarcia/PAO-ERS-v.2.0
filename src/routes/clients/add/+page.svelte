@@ -27,13 +27,14 @@
 	<span class="text-trust">Successfully registered!</span>
 {/if}
 
-<main class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness">
+<main class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14">
 	<div class="text-diligence">
 		<h2 class="font-bold">Client's Personal Circumstances</h2>
 		<span class="font-bold">Please fill out all necessary information.</span> | Mangyaring punan ang
 		lahat ng kinakailangang impormasyon.
 	</div>
 	<form method="POST" use:enhance class="flex flex-col gap-4">
+		<h3 class="font-bold">Personal Information</h3>
 		<div class="flex gap-4">
 			<Field
 				labelEng="First Name"
@@ -48,7 +49,6 @@
 				labelFil="Gitnang Pangalan"
 				w="w-64"
 				name="middleName"
-				required
 				autocomplete="additional-name"
 			/>
 			<Field
@@ -109,22 +109,10 @@
 			<Field labelEng="Language or Dialect" labelFil="Wika o Dayalekto" name="language" />
 			<Field labelEng="Religion" labelFil="Relihiyon" name="religion" />
 		</div>
-
-		<div class="flex gap-4">
-			<Field labelEng="Individual Monthly Income" name="individualMonthlyIncome" required />
-
-			<label for="detained">Detained</label>
-			<input type="checkbox" name="detained" id="detained" bind:checked={detained} />
-
-			{#if detained}
-				<label for="detainedSince">Detained Since</label>
-				<input type="date" name="detainedSince" id="detainedSince" />
-
-				<Field labelEng="Place of Detention" name="detainedAt" />
-			{/if}
-		</div>
+		<Field labelEng="Individual Monthly Income" name="individualMonthlyIncome" required />
 
 		{#if civilStatus === 'Married'}
+		<h3 class="font-bold">Spouse Information</h3>
 			<div class="flex gap-4">
 				<Field labelEng="Spouse Name" labelFil="Pangalan ng Asawa" name="spouseName" required />
 				<Field
@@ -138,6 +126,19 @@
 				<Field labelEng="Spouse Contact Number" name="spouseContactNumber" type="tel" />
 			</div>
 		{/if}
+
+		<h3 class="font-bold">Detainee Information</h3>
+		<div class="flex gap-4">
+			<label for="detained">Detained</label>
+			<input type="checkbox" name="detained" id="detained" bind:checked={detained} />
+
+			{#if detained}
+				<label for="detainedSince">Detained Since</label>
+				<input type="date" name="detainedSince" id="detainedSince" />
+
+				<Field labelEng="Place of Detention" name="detainedAt" />
+			{/if}
+		</div>
 
 		<div class="flex gap-4">
 			<button type="submit">Submit</button>

@@ -36,7 +36,7 @@
 		<input type="text" name="firstName" id="firstName" required autocomplete="given-name" />
 
 		<label for="middleName">Middle Name</label>
-		<input type="text" name="middleName" id="middleName" required autocomplete="additional-name" />
+		<input type="text" name="middleName" id="middleName" autocomplete="additional-name" />
 
 		<label for="lastName">Last Name</label>
 		<input type="text" name="lastName" id="lastName" required autocomplete="family-name" />
