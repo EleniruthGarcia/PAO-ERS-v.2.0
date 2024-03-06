@@ -13,6 +13,7 @@ declare global {
 		// interface PageState {}
 		// interface Platform {}
 	}
+	var prisma: import('@prisma/client').PrismaClient;
 }
 
 export { };
