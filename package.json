@@ -43,8 +43,7 @@
 	},
 	"type": "module",
 	"prisma": {
-		"seed": "vite-node prisma/seed.ts",
-		"test": "vite-node prisma/test.ts"
+		"seed": "vite-node prisma/seed.ts"
 	},
 	"dependencies": {
 		"@jamescoyle/svelte-icon": "^0.1.1",
