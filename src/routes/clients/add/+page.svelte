@@ -113,6 +113,7 @@
 			<Field labelEng="Contact Number" name="contactNumber" grow type="tel" />
 		</div>
 		<div class="flex gap-4">
+			<Checkbox name="detained" labelEng="Detained" bind:checked={detained} class="w-content" />
 			<Field labelEng="Educational Attainment" name="educationalAttainment" grow />
 			<Field
 				labelEng="Language or Dialect"
@@ -127,7 +128,6 @@
 				class="w-80"
 				required
 			/>
-			<Checkbox name="detained" labelEng="Detained" bind:checked={detained} class="w-content" />
 		</div>
 
 		{#if civilStatus === 'Married'}
