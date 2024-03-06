@@ -14,6 +14,19 @@ async function main() {
             role: 'admin',
         },
     })
+    await prisma.client.upsert({
+        where: { id: 1 },
+        update: {},
+        create: {
+            id: 1,
+            firstName: 'John',
+            middleName: 'Doe',
+            lastName: 'Smith',
+            age: 25,
+            sex: 'Male',
+            address: '1234 Main St.',
+        },
+    })
 }
 
 main()
