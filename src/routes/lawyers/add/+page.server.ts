@@ -17,6 +17,7 @@ export const actions = {
             return fail(403, { unauthorized: true })
 
         const data = await request.formData()
+
         const username = data.get('username')
         const password = data.get('password')
 
@@ -37,27 +38,18 @@ export const actions = {
             return fail(400, { user: true })
         }
 
-        const userAuthToken = crypto.randomUUID()
-
-        user = await prisma.user.create({
-            data: {
-                username,
-                passwordHash: await bcrypt.hash(password, 10),
-                userAuthToken,
-            },
-        })
 
         // required fields
         let title = data.get('title');
         let firstName = data.get('firstName');
         let lastName = data.get('lastName');
-        
-        let middleName = data.get('middleName');
+
         let age = data.get('age');
         let sex = data.get('sex');
         let address = data.get('address');
 
         // optional fields
+        let middleName = data.get('middleName');
         let nameSuffix = data.get('nameSuffix');
         let email = data.get('email');
         let contactNumber = data.get('contactNumber');
@@ -88,8 +80,16 @@ export const actions = {
         }
 
         // save to database
-        const client = await prisma.lawyer.create({
-            data: { userId: String(user.id), title, firstName, middleName, lastName, nameSuffix, age: Number(age), sex, address, email, contactNumber }
+        const client = await prisma.user.create({
+
+            data: {
+                username,
+                passwordHash: await bcrypt.hash(password, 10),
+                userAuthToken: crypto.randomUUID(),
+                lawyer: {
+                    create: { title, firstName, middleName, lastName, nameSuffix, age: Number(age), sex, address, email, contactNumber }
+                }
+            },
         });
 
         if (!client) {
