@@ -11,6 +11,7 @@
 
 <div class="relative text-diligence {grow ? 'grow' : ''}">
 	<input
+		{name}
 		type={focused ? 'date' : 'text'}
 		on:focus={() => (focused = true)}
 		id={name}

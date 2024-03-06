@@ -8,6 +8,7 @@
 
 <div class="relative text-diligence">
 	<select
+		{name}
 		id={name}
 		class="rounded block px-2 pb-1 pt-4 {w} font-bold bg-oath text-sm outline outline-0 outline-equity appearance-none peer"
 		placeholder=" "

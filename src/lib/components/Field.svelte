@@ -11,6 +11,7 @@
 
 <div class="relative text-diligence {grow ? 'grow' : ''}">
 	<input
+		{name}
 		{type}
 		id={name}
 		class="{classList} rounded block px-2 pb-1 pt-4 font-bold bg-oath text-sm outline outline-2 outline-equity placeholder-shown:outline-0 appearance-none peer"
