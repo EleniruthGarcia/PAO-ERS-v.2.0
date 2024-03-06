@@ -5,7 +5,8 @@
 	import Field from '$lib/components/Field.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import DatePicker from '$lib/components/DatePicker.svelte';
-	import * as Dropdown from '$lib/components/Dropdown';
+	import Select from '$lib/components/Select.svelte';
+	import Option from '$lib/components/Option.svelte';
 
 	export let form: ActionData;
 
@@ -80,24 +81,18 @@
 				type="number"
 				required
 			/>
-			<Dropdown.Root name="sex" labelEng="Sex" labelFil="Kasarian" w="w-32" required>
-				<Dropdown.Option value="" disabled hidden selected></Dropdown.Option>
-				<Dropdown.Option value="Male">Male</Dropdown.Option>
-				<Dropdown.Option value="Female">Female</Dropdown.Option>
-			</Dropdown.Root>
-			<Dropdown.Root
-				name="civilStatus"
-				labelEng="Civil Status"
-				w="w-32"
-				bind:value={civilStatus}
-				required
-			>
-				<Dropdown.Option value="" disabled hidden selected></Dropdown.Option>
-				<Dropdown.Option value="Single">Single</Dropdown.Option>
-				<Dropdown.Option value="Married">Married</Dropdown.Option>
-				<Dropdown.Option value="Divorced">Divorced</Dropdown.Option>
-				<Dropdown.Option value="Widowed">Widowed</Dropdown.Option>
-			</Dropdown.Root>
+			<Select name="sex" labelEng="Sex" labelFil="Kasarian" w="w-32" required>
+				<Option value="" disabled hidden selected></Option>
+				<Option value="Male">Male</Option>
+				<Option value="Female">Female</Option>
+			</Select>
+			<Select name="civilStatus" labelEng="Civil Status" w="w-32" bind:value={civilStatus} required>
+				<Option value="" disabled hidden selected></Option>
+				<Option value="Single">Single</Option>
+				<Option value="Married">Married</Option>
+				<Option value="Divorced">Divorced</Option>
+				<Option value="Widowed">Widowed</Option>
+			</Select>
 			<Field
 				labelEng="Address"
 				labelFil="Tirahan"
