@@ -16,9 +16,9 @@
 <form id="logout" method="POST" action="/logout" class="hidden" />
 
 {#if $page.data.user}
-	<main class="h-screen w-screen p-12 flex flex-col gap-4 bg-witness text-diligence">
+	<main class="h-screen w-screen p-12 pl-14 flex flex-col gap-4 bg-witness text-diligence">
 		<div class="hidden md:block fixed top-10 right-10 text-right">
-			<p class="font-bold text-diligence">
+			<p class="font-bold text-diligence text-sm">
 				{Intl.DateTimeFormat('en-PH', {
 					weekday: 'long',
 					year: 'numeric',
@@ -29,7 +29,7 @@
 					second: 'numeric'
 				}).format(time)}
 			</p>
-			<p class="text-equity">
+			<p class="text-equity text-sm">
 				{Intl.DateTimeFormat('en-PH', { timeZoneName: 'long' })
 					.formatToParts(time)
 					.find((part) => part.type === 'timeZoneName')?.value}
@@ -244,8 +244,7 @@
 						<a href="/forgot-password" class="text-sm text-trust">Forgot password?</a>
 					</span>
 
-					<button class="px-4 py-2 rounded-lg bg-trust text-diligence" type="submit">Sign-in</button
-					>
+					<button class="bg-trust" type="submit">Sign-in</button>
 				</div>
 			</form>
 		</div>
