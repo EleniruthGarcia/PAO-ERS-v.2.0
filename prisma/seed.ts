@@ -16,7 +16,16 @@ async function main() {
     })
     await prisma.client.upsert({
         where: { id: 1 },
-        update: {},
+        update: {
+            id: 1,
+            firstName: 'John',
+            middleName: 'Doe',
+            lastName: 'Smith',
+            nameSuffix: 'III',
+            age: 25,
+            sex: 'Male',
+            address: '1234 Main St.',
+        },
         create: {
             id: 1,
             firstName: 'John',
