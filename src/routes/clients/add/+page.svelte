@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
 
+	import AlertDialog from '$lib/components/AlertDialog.svelte';
 	import Field from '$lib/components/Field.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import DatePicker from '$lib/components/DatePicker.svelte';
@@ -15,35 +16,39 @@
 </script>
 
 {#if form?.invalid}
-	<span class="text-red-500">Invalid input values!</span>
+	<AlertDialog message="Invalid input values!" />
 {/if}
 
 {#if form?.missing}
-	<span class="text-red-500">Please fill in all the required fields!</span>
+	<AlertDialog message="Please fill out all necessary information!" />
 {/if}
 
 {#if form?.error}
-	<span class="text-red-500">Failed to create user!</span>
+	<AlertDialog message="An error occurred while submitting the form!" />
 {/if}
 
 {#if form?.success}
-	<span class="text-trust">Successfully registered!</span>
+	<AlertDialog
+		message="Client's personal circumstances successfully added!"
+		success={() => history.back()}
+	/>
 {/if}
 
-<main class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14">
+<main
+	class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden"
+>
 	<div class="text-diligence">
 		<h2 class="font-bold">Client's Personal Circumstances</h2>
 		<span class="font-bold">Please fill out all necessary information.</span> | Mangyaring punan ang
 		lahat ng kinakailangang impormasyon.
 	</div>
-	<form method="POST" use:enhance class="flex flex-col gap-4">
+	<form method="POST" use:enhance class="flex flex-col gap-6">
 		<h3 class="font-bold">Personal Information</h3>
-		<div class="flex gap-4">
+		<div class="inline-flex flex-wrap gap-4">
 			<Field
 				labelEng="First Name"
 				labelFil="Unang Pangalan"
 				name="firstName"
-				grow
 				required
 				autocomplete="given-name"
 			/>
@@ -51,7 +56,6 @@
 				labelEng="Middle Name"
 				labelFil="Gitnang Pangalan"
 				name="middleName"
-				grow
 				autocomplete="additional-name"
 			/>
 			<Field
@@ -59,18 +63,15 @@
 				labelFil="Apelyido"
 				name="lastName"
 				required
-				grow
 				autocomplete="family-name"
 			/>
 			<Field
 				labelEng="Suffix"
 				labelFil=""
-				class="w-32"
+				class="w-24"
 				name="nameSuffix"
 				autocomplete="additional-name"
 			/>
-		</div>
-		<div class="flex gap-4">
 			<Field
 				labelEng="Age"
 				labelFil="Edad"
@@ -81,6 +82,7 @@
 				type="number"
 				required
 			/>
+			<DatePicker labelEng="Date of Birth" name="dob" id="dob" />
 			<Select name="sex" labelEng="Sex" labelFil="Kasarian" w="w-32" required>
 				<Option value="" disabled hidden selected></Option>
 				<Option value="Male">Male</Option>
@@ -93,80 +95,79 @@
 				<Option value="Divorced">Divorced</Option>
 				<Option value="Widowed">Widowed</Option>
 			</Select>
+			<Field labelEng="Citizenship" name="citizenship" />
 			<Field
 				labelEng="Address"
 				labelFil="Tirahan"
 				name="address"
-				grow
+				class="w-96"
 				required
 				autocomplete="address-level1"
 			/>
-		</div>
-		<div class="flex gap-4">
-			<Field labelEng="Citizenship" name="citizenship" grow />
-			<Field labelEng="Email" name="email" grow required autocomplete="email" />
-			<Field labelEng="Contact Number" name="contactNumber" grow type="tel" />
-		</div>
-		<div class="flex gap-4">
-			<Checkbox name="detained" labelEng="Detained" bind:checked={detained} class="w-content" />
-			<Field labelEng="Educational Attainment" name="educationalAttainment" grow />
+			<Field labelEng="Email" name="email" required autocomplete="email" />
+			<Field labelEng="Contact Number" name="contactNumber" type="tel" />
 			<Field
 				labelEng="Language or Dialect"
 				labelFil="Wika o Dayalekto"
 				name="language"
 				class="w-80"
 			/>
-			<Field labelEng="Religion" labelFil="Relihiyon" name="religion" grow />
+			<Field labelEng="Educational Attainment" name="educationalAttainment" />
+			<Field labelEng="Religion" labelFil="Relihiyon" name="religion" />
 			<Field
 				labelEng="Individual Monthly Income"
 				name="individualMonthlyIncome"
-				class="w-80"
+				class="w-80 lg:max-w-96"
 				required
 			/>
+		</div>
+		<div class="flex gap-4 items-center">
+			<p>Is the client detained?</p>
+			<Checkbox name="detained" labelEng="Detained" bind:checked={detained} class="" />
 		</div>
 
 		{#if civilStatus === 'Married'}
 			<h3 class="font-bold">Spouse Information</h3>
-			<div class="flex gap-4">
-				<Field
-					labelEng="Spouse Name"
-					labelFil="Pangalan ng Asawa"
-					name="spouseName"
-					grow
-					required
-				/>
+			<div class="flex flex-wrap gap-4">
+				<Field labelEng="Spouse Name" labelFil="Pangalan ng Asawa" name="spouseName" required />
 				<Field
 					labelEng="Address of Spouse"
 					labelFil="Tirahan ng Asawa"
 					name="spouseAddress"
 					w="w-96"
-					grow
 					required
 					autocomplete="spouseAddress"
 				/>
-				<Field labelEng="Spouse Contact Number" name="spouseContactNumber" grow type="tel" />
+				<Field labelEng="Spouse Contact Number" name="spouseContactNumber" type="tel" />
 			</div>
 		{/if}
 
 		{#if detained}
 			<h3 class="font-bold">Detainee Information</h3>
-			<div class="flex gap-4">
-				<DatePicker labelEng="Detained Since" name="detainedSince" id="detainedSince" />
-
-				<Field labelEng="Place of Detention" name="detainedAt" grow />
+			<div class="flex flex-wrap gap-4">
+				<Field labelEng="Place of Detention" name="detainedAt" class="w-96" />
+				<DatePicker
+					labelEng="Detained Since"
+					name="detainedSince"
+					id="detainedSince"
+					class="max-w-40"
+				/>
 			</div>
 		{/if}
 
-		<div class="flex gap-4">
-			<button type="submit">Submit</button>
+		<div class="flex gap-4 mt-6">
+			<button class="bg-trust" type="submit">Submit</button>
 			<button
+				class="bg-diligence text-oath"
 				type="reset"
 				on:click={() => {
 					detained = false;
 					civilStatus = '';
 				}}>Reset</button
 			>
-			<button type="button" on:click={() => history.back()}>Go Back</button>
+			<button class="border border-2 border-diligence" type="button" on:click={() => history.back()}
+				>Go Back</button
+			>
 		</div>
 	</form>
 </main>

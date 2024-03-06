@@ -47,7 +47,7 @@ model Client {
   citizenship             String?
   educationalAttainment   String?
   language                String?
-  individualMonthlyIncome Decimal?
+  individualMonthlyIncome Float?
   detained                Boolean?
   detainedAt              String?
   detainedSince           DateTime?

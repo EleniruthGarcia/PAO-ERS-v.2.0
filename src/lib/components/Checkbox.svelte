@@ -8,12 +8,12 @@
 	export { classList as class };
 </script>
 
-<input {name} type="checkbox" bind:checked class="peer" hidden placeholder=" " {...$$restProps} />
 <div
-	class="{classList} text-diligence outline outline-0 peer-checked:outline-2 outline-equity rounded block p-2 bg-oath text-sm text-equity duration-300"
+	class="{classList} text-diligence has-[:checked]:bg-diligence has-[:checked]:text-oath outline-equity rounded block bg-oath text-sm text-equity duration-300"
 >
-	<button type="button" class="h-full" on:click={() => (checked = !checked)}>
-		<span class="font-bold"> {labelEng} </span>
+	<button type="button" class="flex items-center justify-center p-2 px-3" on:click={() => (checked = !checked)}>
+		<input {name} type="checkbox" bind:checked class="accent-diligence mr-2" placeholder=" " {...$$restProps} />
+		<span class="font-bold pb-0.5"> {labelEng} </span>
 		{labelFil !== '' ? ` | ${labelFil}` : ''}
 	</button>
 </div>

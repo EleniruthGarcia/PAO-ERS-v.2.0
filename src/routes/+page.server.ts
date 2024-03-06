@@ -2,7 +2,21 @@ import prisma from '$lib/server/prisma'
 import bcrypt from 'bcrypt'
 
 import { fail, redirect } from '@sveltejs/kit'
-import type { Actions } from './$types'
+import type { PageServerLoad, Actions } from './$types'
+
+export const load: PageServerLoad = async () => {
+    return {
+        clients: prisma.client.findMany({
+            where: { deletedAt: null },
+        }),
+        requests: prisma.request.findMany({
+            where: { deletedAt: null },
+        }),
+        cases: prisma.case.findMany({
+            where: { deletedAt: null },
+        }),
+    }
+}
 
 export const actions = {
     login: async ({ cookies, request }) => {
@@ -15,7 +29,7 @@ export const actions = {
         }
 
         if (!username) {
-            return fail(400, { missing: true, username:true })
+            return fail(400, { missing: true, username: true })
         }
 
         if (!password) {

@@ -3,18 +3,17 @@
 	export let type = 'text';
 	export let labelEng: string;
 	export let labelFil = '';
-	export let grow = false;
 
-	let classList = 'w-full';
+	let classList = 'w-72';
 	export { classList as class };
 </script>
 
-<div class="relative text-diligence {grow ? 'grow' : ''}">
+<div class="relative text-diligence {classList} flex-auto">
 	<input
 		{name}
 		{type}
 		id={name}
-		class="{classList} rounded block px-2 pb-1 pt-4 font-bold bg-oath text-sm outline outline-2 outline-equity placeholder-shown:outline-0 appearance-none peer"
+		class="w-full rounded block px-2 pb-1 pt-4 font-bold bg-oath text-sm outline outline-2 outline-equity placeholder-shown:outline-0 appearance-none peer"
 		placeholder=" "
 		{...$$restProps}
 	/>
