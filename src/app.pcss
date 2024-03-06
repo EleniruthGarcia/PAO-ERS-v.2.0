@@ -3,46 +3,51 @@
 @tailwind utilities;
 
 @layer base {
-    :root {
-        --color-diligence: 44 46 69;
-        --color-verdict: 52 73 85;
-        --color-equity: 54 99 110;
-        --color-trust: 120 160 131;
-        --color-innocence: 216 212 210;
-        --color-oath: 248 250 252;
-    }
+	:root {
+		--color-diligence: 44 46 69;
+		--color-verdict: 52 73 85;
+		--color-equity: 54 99 110;
+		--color-trust: 120 160 131;
+		--color-innocence: 216 212 210;
+		--color-oath: 248 250 252;
+	}
 
-    h1 {
-        font-size: 60px;
-    }
+	h1 {
+		font-size: 60px;
+	}
 
-    h2 {
-        font-size: 36px;
-    }
+	h2 {
+		font-size: 36px;
+	}
 
-    h3 {
-        font-size: 30px;
-    }
+	h3 {
+		font-size: 30px;
+	}
 
-    h4 {
-        font-size: 20px;
-    }
+	h4 {
+		font-size: 20px;
+	}
 
-    p {
-        font-size: 16px;
-    }
+	p {
+		font-size: 16px;
+	}
 
-    button {
-        background-color: rgb(var(--color-trust) / 1);
-        border-radius: 0.5rem;
-        padding: 0.5rem 1rem 0.5rem 1rem; 
-        color: var(--color-diligence);
-        font-weight: bold;
-    }
+	button {
+		background-color: rgb(var(--color-trust) / 1);
+		border-radius: 0.5rem;
+		padding: 0.5rem 1rem 0.5rem 1rem;
+		color: var(--color-diligence);
+		font-weight: bold;
+	}
 }
 
 @layer components {
-    .bg-witness {
-        background: linear-gradient(to bottom right, rgb(var(--color-oath) / 0.75), rgb(var(--color-innocence) / 0.75)), linear-gradient(to bottom left, rgb(var(--color-oath)), rgb(var(--color-trust)));
-    }
+	.bg-witness {
+		background: linear-gradient(
+				to bottom right,
+				rgb(var(--color-oath) / 0.75),
+				rgb(var(--color-innocence) / 0.75)
+			),
+			linear-gradient(to bottom left, rgb(var(--color-oath)), rgb(var(--color-trust)));
+	}
 }

@@ -3,7 +3,7 @@ module.exports = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
 		fontFamily: {
-			'sans': ['"Public Sans"']
+			sans: ['"Public Sans"']
 		},
 		extend: {
 			colors: {
@@ -12,9 +12,9 @@ module.exports = {
 				equity: 'rgb(var(--color-equity) / <alpha-value>)',
 				trust: 'rgb(var(--color-trust) / <alpha-value>)',
 				innocence: 'rgb(var(--color-innocence) / <alpha-value>)',
-				oath: 'rgb(var(--color-oath) / <alpha-value>)',
-			},
-		},
+				oath: 'rgb(var(--color-oath) / <alpha-value>)'
+			}
+		}
 	},
-	plugins: [],
+	plugins: []
 };

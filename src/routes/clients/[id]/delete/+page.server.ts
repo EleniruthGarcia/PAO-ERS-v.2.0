@@ -1,26 +1,26 @@
-import prisma from "$lib/server/prisma";
+import prisma from '$lib/server/prisma';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {
-    return {
-        client: prisma.client.findUnique({
-            where: { id: Number(params.id) },
-        })
-    };
+	return {
+		client: prisma.client.findUnique({
+			where: { id: Number(params.id) }
+		})
+	};
 };
 
 export const actions = {
-    default: async ({ params }) => {
-        const client = await prisma.client.update({
-            where: { id: Number(params.id) },
-            data: { deletedAt: new Date() }
-        });
+	default: async ({ params }) => {
+		const client = await prisma.client.update({
+			where: { id: Number(params.id) },
+			data: { deletedAt: new Date() }
+		});
 
-        if (!client.deletedAt) {
-            return fail(400, { unsuccessful: true });
-        }
+		if (!client.deletedAt) {
+			return fail(400, { unsuccessful: true });
+		}
 
-        return { success: true };
-    },
+		return { success: true };
+	}
 } satisfies Actions;

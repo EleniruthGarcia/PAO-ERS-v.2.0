@@ -1,78 +1,78 @@
-import prisma from '$lib/server/prisma'
-import bcrypt from 'bcrypt'
+import prisma from '$lib/server/prisma';
+import bcrypt from 'bcrypt';
 
-import { fail, redirect } from '@sveltejs/kit'
-import type { PageServerLoad, Actions } from './$types'
+import { fail, redirect } from '@sveltejs/kit';
+import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async () => {
-    return {
-        clients: prisma.client.findMany({
-            where: { deletedAt: null },
-        }),
-        requests: prisma.request.findMany({
-            where: { deletedAt: null },
-        }),
-        cases: prisma.case.findMany({
-            where: { deletedAt: null },
-        }),
-    }
-}
+	return {
+		clients: prisma.client.findMany({
+			where: { deletedAt: null }
+		}),
+		requests: prisma.request.findMany({
+			where: { deletedAt: null }
+		}),
+		cases: prisma.case.findMany({
+			where: { deletedAt: null }
+		})
+	};
+};
 
 export const actions = {
-    login: async ({ cookies, request }) => {
-        const data = await request.formData()
-        const username = data.get('username')
-        const password = data.get('password')
+	login: async ({ cookies, request }) => {
+		const data = await request.formData();
+		const username = data.get('username');
+		const password = data.get('password');
 
-        if (!username && !password) {
-            return fail(400, { missing: true, username: true, password: true })
-        }
+		if (!username && !password) {
+			return fail(400, { missing: true, username: true, password: true });
+		}
 
-        if (!username) {
-            return fail(400, { missing: true, username: true })
-        }
+		if (!username) {
+			return fail(400, { missing: true, username: true });
+		}
 
-        if (!password) {
-            return fail(400, { missing: true, password: true })
-        }
+		if (!password) {
+			return fail(400, { missing: true, password: true });
+		}
 
-        if (typeof username !== 'string' && typeof password !== 'string') {
-            return fail(400, { invalid: true, username: true, password: true })
-        }
+		if (typeof username !== 'string' && typeof password !== 'string') {
+			return fail(400, { invalid: true, username: true, password: true });
+		}
 
-        if (typeof username !== 'string') {
-            return fail(400, { invalid: true, username: true })
-        }
+		if (typeof username !== 'string') {
+			return fail(400, { invalid: true, username: true });
+		}
 
-        if (typeof password !== 'string') {
-            return fail(400, { invalid: true, password: true })
-        }
+		if (typeof password !== 'string') {
+			return fail(400, { invalid: true, password: true });
+		}
 
-        const user = await prisma.user.findUnique({ where: { username } })
+		const user = await prisma.user.findUnique({ where: { username } });
 
-        if (!user) {
-            return fail(400, { user: true })
-        }
+		if (!user) {
+			return fail(400, { user: true });
+		}
 
-        const userPassword = await bcrypt.compare(password, user.passwordHash)
+		const userPassword = await bcrypt.compare(password, user.passwordHash);
 
-        if (!userPassword) {
-            return fail(400, { credentials: true })
-        }
+		if (!userPassword) {
+			return fail(400, { credentials: true });
+		}
 
-        const authenticatedUser = await prisma.user.update({
-            where: { username: user.username },
-            data: { userAuthToken: crypto.randomUUID() },
-        })
+		const authenticatedUser = await prisma.user.update({
+			where: { username: user.username },
+			data: { userAuthToken: crypto.randomUUID() }
+		});
 
-        cookies.set('session', authenticatedUser.userAuthToken, {
-            path: '/',
-            httpOnly: true,
-            sameSite: 'strict',
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: 60 * 60 * 24 * 30,
-        })
+		cookies.set('session', authenticatedUser.userAuthToken, {
+			path: '/',
+			httpOnly: true,
+			sameSite: 'strict',
+			secure: process.env.NODE_ENV === 'production',
+			maxAge: 60 * 60 * 24 * 30
+		});
 
-        throw redirect(303, '/')
-    },
+		throw redirect(303, '/');
+	}
 } satisfies Actions;

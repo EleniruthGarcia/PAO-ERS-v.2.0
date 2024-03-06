@@ -3,4 +3,4 @@
 	import { mdiBriefcaseVariantOutline } from '@mdi/js';
 </script>
 
-<SvgIcon size="30px" type="mdi" path={mdiBriefcaseVariantOutline }></SvgIcon>
+<SvgIcon size="30px" type="mdi" path={mdiBriefcaseVariantOutline}></SvgIcon>
