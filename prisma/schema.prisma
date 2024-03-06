@@ -22,7 +22,7 @@ model User {
 model Client {
   id                      Int       @id @default(autoincrement())
   firstName               String
-  middleName              String
+  middleName              String?
   lastName                String
   nameSuffix              String?
   age                     Int
@@ -55,7 +55,7 @@ model Lawyer {
   userId        String
   title         String
   firstName     String
-  middleName    String
+  middleName    String?
   lastName      String
   nameSuffix    String?
   age           Int

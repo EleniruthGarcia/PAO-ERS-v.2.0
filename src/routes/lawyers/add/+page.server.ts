@@ -50,9 +50,9 @@ export const actions = {
         // required fields
         let title = data.get('title');
         let firstName = data.get('firstName');
-        let middleName = data.get('middleName');
         let lastName = data.get('lastName');
-
+        
+        let middleName = data.get('middleName');
         let age = data.get('age');
         let sex = data.get('sex');
         let address = data.get('address');
@@ -63,11 +63,15 @@ export const actions = {
         let contactNumber = data.get('contactNumber');
 
         // validation
-        if (!title || !firstName || !middleName || !lastName || !age || !sex || !address) {
+        if (!title || !firstName || !lastName || !age || !sex || !address) {
             return fail(400, { missing: true });
         }
 
-        if (typeof title !== 'string' || typeof firstName !== 'string' || typeof middleName !== 'string' || typeof lastName !== 'string' || typeof Number(age) !== 'number' || typeof sex !== 'string' || typeof address !== 'string') {
+        if (typeof title !== 'string' || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof Number(age) !== 'number' || typeof sex !== 'string' || typeof address !== 'string') {
+            return fail(400, { invalid: true });
+        }
+
+        if (middleName && typeof middleName !== 'string') {
             return fail(400, { invalid: true });
         }
 
