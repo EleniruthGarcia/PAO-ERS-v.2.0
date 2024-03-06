@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
 
+	import AlertDialog from '$lib/components/AlertDialog.svelte';
 	import Field from '$lib/components/Field.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import DatePicker from '$lib/components/DatePicker.svelte';
@@ -15,19 +16,22 @@
 </script>
 
 {#if form?.invalid}
-	<span class="text-red-500">Invalid input values!</span>
+	<AlertDialog message="Invalid input values!" />
 {/if}
 
 {#if form?.missing}
-	<span class="text-red-500">Please fill in all the required fields!</span>
+	<AlertDialog message="Please fill out all necessary information!" />
 {/if}
 
 {#if form?.error}
-	<span class="text-red-500">Failed to create user!</span>
+	<AlertDialog message="An error occurred while submitting the form!" />
 {/if}
 
 {#if form?.success}
-	<span class="text-trust">Successfully registered!</span>
+	<AlertDialog
+		message="Client's personal circumstances successfully added!"
+		success={() => history.back()}
+	/>
 {/if}
 
 <main class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14">
