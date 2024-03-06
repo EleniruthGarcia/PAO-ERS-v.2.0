@@ -3,6 +3,8 @@
 	import type { ActionData } from './$types';
 
 	import Field from '$lib/components/Field.svelte';
+	import Checkbox from '$lib/components/Checkbox.svelte';
+	import DatePicker from '$lib/components/DatePicker.svelte';
 	import * as Dropdown from '$lib/components/Dropdown';
 
 	export let form: ActionData;
@@ -78,12 +80,18 @@
 				type="number"
 				required
 			/>
-			<Dropdown.Root labelEng="Sex" labelFil="Kasarian" w="w-32" required>
+			<Dropdown.Root name="sex" labelEng="Sex" labelFil="Kasarian" w="w-32" required>
 				<Dropdown.Option value="" disabled hidden selected></Dropdown.Option>
 				<Dropdown.Option value="Male">Male</Dropdown.Option>
 				<Dropdown.Option value="Female">Female</Dropdown.Option>
 			</Dropdown.Root>
-			<Dropdown.Root labelEng="Civil Status" w="w-32" bind:value={civilStatus} required>
+			<Dropdown.Root
+				name="civilStatus"
+				labelEng="Civil Status"
+				w="w-32"
+				bind:value={civilStatus}
+				required
+			>
 				<Dropdown.Option value="" disabled hidden selected></Dropdown.Option>
 				<Dropdown.Option value="Single">Single</Dropdown.Option>
 				<Dropdown.Option value="Married">Married</Dropdown.Option>
@@ -106,15 +114,21 @@
 		</div>
 		<div class="flex gap-4">
 			<Field labelEng="Educational Attainment" name="educationalAttainment" grow />
-			<Field labelEng="Language or Dialect" labelFil="Wika o Dayalekto" name="language" grow />
+			<Field
+				labelEng="Language or Dialect"
+				labelFil="Wika o Dayalekto"
+				name="language"
+				class="w-80"
+			/>
 			<Field labelEng="Religion" labelFil="Relihiyon" name="religion" grow />
+			<Field
+				labelEng="Individual Monthly Income"
+				name="individualMonthlyIncome"
+				class="w-80"
+				required
+			/>
+			<Checkbox name="detained" labelEng="Detained" bind:checked={detained} class="w-content" />
 		</div>
-		<Field
-			labelEng="Individual Monthly Income"
-			name="individualMonthlyIncome"
-			class="w-80"
-			required
-		/>
 
 		{#if civilStatus === 'Married'}
 			<h3 class="font-bold">Spouse Information</h3>
@@ -139,21 +153,24 @@
 			</div>
 		{/if}
 
-		<h3 class="font-bold">Detainee Information</h3>
-		<div class="flex gap-4">
-			<label for="detained">Detained</label>
-			<input type="checkbox" name="detained" id="detained" bind:checked={detained} />
-
-			{#if detained}
-				<Field labelEng="Detained Since" type="date" name="detainedSince" id="detainedSince" />
+		{#if detained}
+			<h3 class="font-bold">Detainee Information</h3>
+			<div class="flex gap-4">
+				<DatePicker labelEng="Detained Since" name="detainedSince" id="detainedSince" />
 
 				<Field labelEng="Place of Detention" name="detainedAt" grow />
-			{/if}
-		</div>
+			</div>
+		{/if}
 
 		<div class="flex gap-4">
 			<button type="submit">Submit</button>
-			<button type="reset">Reset</button>
+			<button
+				type="reset"
+				on:click={() => {
+					detained = false;
+					civilStatus = '';
+				}}>Reset</button
+			>
 			<button type="button" on:click={() => history.back()}>Go Back</button>
 		</div>
 	</form>

@@ -1,17 +1,18 @@
 <script lang="ts">
 	export let name: string;
-	export let type = 'text';
 	export let labelEng: string;
 	export let labelFil = '';
 	export let grow = false;
 
+	let focused = false;
 	let classList = 'w-full';
 	export { classList as class };
 </script>
 
 <div class="relative text-diligence {grow ? 'grow' : ''}">
 	<input
-		{type}
+		type={focused ? 'date' : 'text'}
+		on:focus={() => (focused = true)}
 		id={name}
 		class="{classList} rounded block px-2 pb-1 pt-4 font-bold bg-oath text-sm outline outline-2 outline-equity placeholder-shown:outline-0 appearance-none peer"
 		placeholder=" "
