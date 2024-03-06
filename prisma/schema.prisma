@@ -9,13 +9,14 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(uuid())
-  username      String   @unique
+  id            Int       @id @default(autoincrement())
+  username      String    @unique
   passwordHash  String
-  userAuthToken String   @unique
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  role          String   @default("lawyer")
+  userAuthToken String    @unique
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+  role          String    @default("lawyer")
   lawyer        Lawyer[]
 }
 
@@ -45,14 +46,13 @@ model Client {
   createdAt               DateTime  @default(now())
   updatedAt               DateTime  @updatedAt
   deletedAt               DateTime?
-  deleted                 Boolean   @default(false)
   request                 Request[]
 }
 
 model Lawyer {
   id            Int       @id @default(autoincrement())
   user          User      @relation(fields: [userId], references: [id])
-  userId        String
+  userId        Int
   title         String
   firstName     String
   middleName    String?
@@ -66,27 +66,26 @@ model Lawyer {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   deletedAt     DateTime?
-  deleted       Boolean   @default(false)
   request       Request[]
 }
 
 model Request {
   id          Int       @id @default(autoincrement())
+  client      Client    @relation(fields: [clientId], references: [id])
   clientId    Int
+  lawyer      Lawyer    @relation(fields: [lawyerId], references: [id])
   lawyerId    Int
   requestType String
   requestDate DateTime
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
-  deleted     Boolean   @default(false)
-  client      Client    @relation(fields: [clientId], references: [id])
-  lawyer      Lawyer    @relation(fields: [lawyerId], references: [id])
   case        Case[]
 }
 
 model Case {
   id                 Int       @id @default(autoincrement())
+  request            Request   @relation(fields: [requestId], references: [id])
   requestId          Int
   title              String
   court              String
@@ -100,6 +99,4 @@ model Case {
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
   deletedAt          DateTime?
-  deleted            Boolean   @default(false)
-  request            Request   @relation(fields: [requestId], references: [id])
 }
