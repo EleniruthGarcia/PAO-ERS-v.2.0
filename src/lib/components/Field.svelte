@@ -1,15 +1,18 @@
 <script lang="ts">
+	export let type = 'text';
 	export let labelEng: string;
 	export let labelFil = '';
-	export let w = 'w-80';
-	export let type = 'text';
+	export let grow = false;
+
+	let classList = 'w-full';
+	export { classList as class };
 </script>
 
-<div class="relative text-diligence">
+<div class="relative text-diligence {grow ? 'grow' : ''}">
 	<input
 		{type}
 		id="field"
-		class="rounded block px-2 pb-1 pt-4 {w} font-bold bg-oath text-sm outline outline-2 outline-equity placeholder-shown:outline-0 appearance-none peer"
+		class="{classList} rounded block px-2 pb-1 pt-4 font-bold bg-oath text-sm outline outline-2 outline-equity placeholder-shown:outline-0 appearance-none peer"
 		placeholder=" "
 		{...$$restProps}
 	/>

@@ -39,30 +39,30 @@
 			<Field
 				labelEng="First Name"
 				labelFil="Unang Pangalan"
-				w="w-64"
 				name="firstName"
+				grow
 				required
 				autocomplete="given-name"
 			/>
 			<Field
 				labelEng="Middle Name"
 				labelFil="Gitnang Pangalan"
-				w="w-64"
 				name="middleName"
+				grow
 				autocomplete="additional-name"
 			/>
 			<Field
 				labelEng="Last Name"
 				labelFil="Apelyido"
-				w="w-64"
 				name="lastName"
 				required
+				grow
 				autocomplete="family-name"
 			/>
 			<Field
 				labelEng="Suffix"
 				labelFil=""
-				w="w-32"
+				class="w-32"
 				name="nameSuffix"
 				autocomplete="additional-name"
 			/>
@@ -71,7 +71,7 @@
 			<Field
 				labelEng="Age"
 				labelFil="Edad"
-				w="w-32"
+				class="w-32"
 				name="age"
 				min="1"
 				max="120"
@@ -94,36 +94,48 @@
 				labelEng="Address"
 				labelFil="Tirahan"
 				name="address"
-				w="w-96"
+				grow
 				required
 				autocomplete="address-level1"
 			/>
 		</div>
 		<div class="flex gap-4">
-			<Field labelEng="Citizenship" name="citizenship" />
-			<Field labelEng="Email" name="email" required autocomplete="email" />
-			<Field labelEng="Contact Number" name="contactNumber" type="tel" />
+			<Field labelEng="Citizenship" name="citizenship" grow />
+			<Field labelEng="Email" name="email" grow required autocomplete="email" />
+			<Field labelEng="Contact Number" name="contactNumber" grow type="tel" />
 		</div>
 		<div class="flex gap-4">
-			<Field labelEng="Educational Attainment" name="educationalAttainment" />
-			<Field labelEng="Language or Dialect" labelFil="Wika o Dayalekto" name="language" />
-			<Field labelEng="Religion" labelFil="Relihiyon" name="religion" />
+			<Field labelEng="Educational Attainment" name="educationalAttainment" grow />
+			<Field labelEng="Language or Dialect" labelFil="Wika o Dayalekto" name="language" grow />
+			<Field labelEng="Religion" labelFil="Relihiyon" name="religion" grow />
 		</div>
-		<Field labelEng="Individual Monthly Income" name="individualMonthlyIncome" required />
+		<Field
+			labelEng="Individual Monthly Income"
+			name="individualMonthlyIncome"
+			class="w-80"
+			required
+		/>
 
 		{#if civilStatus === 'Married'}
-		<h3 class="font-bold">Spouse Information</h3>
+			<h3 class="font-bold">Spouse Information</h3>
 			<div class="flex gap-4">
-				<Field labelEng="Spouse Name" labelFil="Pangalan ng Asawa" name="spouseName" required />
+				<Field
+					labelEng="Spouse Name"
+					labelFil="Pangalan ng Asawa"
+					name="spouseName"
+					grow
+					required
+				/>
 				<Field
 					labelEng="Address of Spouse"
 					labelFil="Tirahan ng Asawa"
 					name="spouseAddress"
 					w="w-96"
+					grow
 					required
 					autocomplete="spouseAddress"
 				/>
-				<Field labelEng="Spouse Contact Number" name="spouseContactNumber" type="tel" />
+				<Field labelEng="Spouse Contact Number" name="spouseContactNumber" grow type="tel" />
 			</div>
 		{/if}
 
@@ -133,10 +145,9 @@
 			<input type="checkbox" name="detained" id="detained" bind:checked={detained} />
 
 			{#if detained}
-				<label for="detainedSince">Detained Since</label>
-				<input type="date" name="detainedSince" id="detainedSince" />
+				<Field labelEng="Detained Since" type="date" name="detainedSince" id="detainedSince" />
 
-				<Field labelEng="Place of Detention" name="detainedAt" />
+				<Field labelEng="Place of Detention" name="detainedAt" grow />
 			{/if}
 		</div>
 
