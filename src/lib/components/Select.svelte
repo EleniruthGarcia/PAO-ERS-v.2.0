@@ -6,11 +6,11 @@
 	export let value = '';
 </script>
 
-<div class="relative text-diligence">
+<div class="relative {w} text-diligence flex-auto">
 	<select
 		{name}
 		id={name}
-		class="rounded block px-2 pb-1 pt-4 {w} font-bold bg-oath text-sm outline outline-0 outline-equity appearance-none peer"
+		class="w-full rounded block px-2 pb-1 pt-4 font-bold bg-oath text-sm outline outline-0 outline-equity appearance-none peer"
 		placeholder=" "
 		bind:value
 		{...$$restProps}
@@ -34,6 +34,7 @@
 		--tw-scale-x: 0.75;
 		--tw-scale-y: 0.75;
 		--tw-translate-y: -0.5rem;
+		padding-top: 0;
 	}
 
 	select:not([value='']):valid {
