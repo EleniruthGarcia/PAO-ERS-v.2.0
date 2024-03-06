@@ -20,6 +20,17 @@ model User {
   lawyer        Lawyer[]
 }
 
+model Branch {
+  id        Int       @id @default(autoincrement())
+  name      String
+  district  String
+  region    String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  lawyer    Lawyer[]
+}
+
 model Client {
   id                      Int       @id @default(autoincrement())
   firstName               String
@@ -53,6 +64,8 @@ model Lawyer {
   id            Int       @id @default(autoincrement())
   user          User      @relation(fields: [userId], references: [id])
   userId        Int
+  branch        Branch?   @relation(fields: [branchId], references: [id])
+  branchId      Int?
   title         String
   firstName     String
   middleName    String?
