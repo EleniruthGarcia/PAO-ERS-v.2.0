@@ -28,10 +28,10 @@
 		<nav class="flex flex-col items-center text-oath gap-2 md:items-start">
 			<p class="hidden md:block font-bold pl-4 text-trust">Navigation</p>
 			<NavLink href="/" title="Dashboard"><Dashboard /></NavLink>
-			<NavLink href="/requests" title="Requests"><Requests /></NavLink>
 			{#if $page.data.user.role === 'lawyer'}
-				<NavLink href="/cases" title="Cases"><Cases /></NavLink>
 				<NavLink href="/clients" title="Clients"><Clients /></NavLink>
+				<NavLink href="/requests" title="Requests"><Requests /></NavLink>
+				<NavLink href="/cases" title="Cases"><Cases /></NavLink>
 				<NavLink href="/reports" title="Reports"><Reports /></NavLink>
 				<NavLink href="/recents" title="Recent Services"><Recents /></NavLink>
 			{/if}
