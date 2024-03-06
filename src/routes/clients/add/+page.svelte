@@ -34,7 +34,9 @@
 	/>
 {/if}
 
-<main class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden">
+<main
+	class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden"
+>
 	<div class="text-diligence">
 		<h2 class="font-bold">Client's Personal Circumstances</h2>
 		<span class="font-bold">Please fill out all necessary information.</span> | Mangyaring punan ang
@@ -47,7 +49,6 @@
 				labelEng="First Name"
 				labelFil="Unang Pangalan"
 				name="firstName"
-				
 				required
 				autocomplete="given-name"
 			/>
@@ -55,7 +56,6 @@
 				labelEng="Middle Name"
 				labelFil="Gitnang Pangalan"
 				name="middleName"
-				
 				autocomplete="additional-name"
 			/>
 			<Field
@@ -63,7 +63,6 @@
 				labelFil="Apelyido"
 				name="lastName"
 				required
-				
 				autocomplete="family-name"
 			/>
 			<Field
@@ -96,7 +95,7 @@
 				<Option value="Divorced">Divorced</Option>
 				<Option value="Widowed">Widowed</Option>
 			</Select>
-			<Field labelEng="Citizenship" name="citizenship"  />
+			<Field labelEng="Citizenship" name="citizenship" />
 			<Field
 				labelEng="Address"
 				labelFil="Tirahan"
@@ -105,16 +104,16 @@
 				required
 				autocomplete="address-level1"
 			/>
-			<Field labelEng="Email" name="email"  required autocomplete="email" />
-			<Field labelEng="Contact Number" name="contactNumber"  type="tel" />
+			<Field labelEng="Email" name="email" required autocomplete="email" />
+			<Field labelEng="Contact Number" name="contactNumber" type="tel" />
 			<Field
 				labelEng="Language or Dialect"
 				labelFil="Wika o Dayalekto"
 				name="language"
 				class="w-80"
 			/>
-			<Field labelEng="Educational Attainment" name="educationalAttainment"  />
-			<Field labelEng="Religion" labelFil="Relihiyon" name="religion"  />
+			<Field labelEng="Educational Attainment" name="educationalAttainment" />
+			<Field labelEng="Religion" labelFil="Relihiyon" name="religion" />
 			<Field
 				labelEng="Individual Monthly Income"
 				name="individualMonthlyIncome"
@@ -130,12 +129,7 @@
 		{#if civilStatus === 'Married'}
 			<h3 class="font-bold">Spouse Information</h3>
 			<div class="flex flex-wrap gap-4">
-				<Field
-					labelEng="Spouse Name"
-					labelFil="Pangalan ng Asawa"
-					name="spouseName"
-					required
-				/>
+				<Field labelEng="Spouse Name" labelFil="Pangalan ng Asawa" name="spouseName" required />
 				<Field
 					labelEng="Address of Spouse"
 					labelFil="Tirahan ng Asawa"
@@ -144,7 +138,7 @@
 					required
 					autocomplete="spouseAddress"
 				/>
-				<Field labelEng="Spouse Contact Number" name="spouseContactNumber"  type="tel" />
+				<Field labelEng="Spouse Contact Number" name="spouseContactNumber" type="tel" />
 			</div>
 		{/if}
 
@@ -152,7 +146,12 @@
 			<h3 class="font-bold">Detainee Information</h3>
 			<div class="flex flex-wrap gap-4">
 				<Field labelEng="Place of Detention" name="detainedAt" class="w-96" />
-				<DatePicker labelEng="Detained Since" name="detainedSince" id="detainedSince" class="max-w-40"/>
+				<DatePicker
+					labelEng="Detained Since"
+					name="detainedSince"
+					id="detainedSince"
+					class="max-w-40"
+				/>
 			</div>
 		{/if}
 
@@ -166,7 +165,9 @@
 					civilStatus = '';
 				}}>Reset</button
 			>
-			<button class="border border-2 border-diligence" type="button" on:click={() => history.back()}>Go Back</button>
+			<button class="border border-2 border-diligence" type="button" on:click={() => history.back()}
+				>Go Back</button
+			>
 		</div>
 	</form>
 </main>
