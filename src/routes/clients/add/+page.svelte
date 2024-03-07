@@ -35,12 +35,12 @@
 {/if}
 
 <main
-	class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden"
+	class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden leading-tight"
 >
 	<div class="text-diligence">
 		<h3 class="font-bold">Client's Personal Circumstances</h3>
-		<p><span class="font-bold">Please fill out all necessary information.</span> | Mangyaring punan ang
-		lahat ng kinakailangang impormasyon.</p>
+		<span class="font-bold">Please fill out all necessary information.</span> | Mangyaring punan ang
+		lahat ng kinakailangang impormasyon.
 	</div>
 	<form method="POST" use:enhance class="flex flex-col gap-4">
 		<h4 class="font-bold">Personal Information</h4>

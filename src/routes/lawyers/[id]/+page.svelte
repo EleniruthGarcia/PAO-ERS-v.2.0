@@ -113,31 +113,31 @@
 						</span>
 					</div>
 					<table>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Username</td>
 							<td>{lawyer?.user.username}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Title</td>
 							<td>{lawyer?.title}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Age</td>
 							<td>{lawyer?.age}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Sex</td>
 							<td>{lawyer?.sex}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Address</td>
 							<td>{lawyer?.address}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Email</td>
 							<td>{lawyer?.email}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Contact Number</td>
 							<td>{lawyer?.contactNumber}</td>
 						</tr>

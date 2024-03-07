@@ -161,56 +161,56 @@
 						</span>
 					</div>
 					<table>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Age</td>
 							<td>{client?.age}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Sex</td>
 							<td>{client?.sex}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Address</td>
 							<td>{client?.address}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Email</td>
 							<td>{client?.email}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Contact Number</td>
 							<td>{client?.contactNumber}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Civil Status</td>
 							<td>{client?.civilStatus}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Religion</td>
 							<td>{client?.religion}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Citizenship</td>
 							<td>{client?.citizenship}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Educational Attainment</td>
 							<td>{client?.educationalAttainment}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Language/Dialect</td>
 							<td>{client?.language}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Individual Monthly Income</td>
 							<td>{client?.individualMonthlyIncome ? client?.individualMonthlyIncome : ''}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Detained</td>
 							<td>{client?.detained ? 'Yes' : 'No'}</td>
 						</tr>
 						{#if client?.detained}
-							<tr>
+							<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 								<td>Detained Since</td>
 								<td
 									>{client?.detainedSince?.toLocaleDateString('en-CA', {
@@ -218,20 +218,20 @@
 									})}</td
 								>
 							</tr>
-							<tr>
+							<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 								<td>Detained At</td>
 								<td>{client?.detainedAt}</td>
 							</tr>
 						{/if}
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Spouse Name</td>
 							<td>{client?.spouseName}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Spouse Address</td>
 							<td>{client?.spouseAddress}</td>
 						</tr>
-						<tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td>Spouse Contact Number</td>
 							<td>{client?.spouseContactNumber}</td>
 						</tr>
