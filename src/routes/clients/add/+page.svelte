@@ -38,12 +38,12 @@
 	class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden"
 >
 	<div class="text-diligence">
-		<h2 class="font-bold">Client's Personal Circumstances</h2>
-		<span class="font-bold">Please fill out all necessary information.</span> | Mangyaring punan ang
-		lahat ng kinakailangang impormasyon.
+		<h3 class="font-bold">Client's Personal Circumstances</h3>
+		<p><span class="font-bold">Please fill out all necessary information.</span> | Mangyaring punan ang
+		lahat ng kinakailangang impormasyon.</p>
 	</div>
-	<form method="POST" use:enhance class="flex flex-col gap-6">
-		<h3 class="font-bold">Personal Information</h3>
+	<form method="POST" use:enhance class="flex flex-col gap-4">
+		<h4 class="font-bold">Personal Information</h4>
 		<div class="inline-flex flex-wrap gap-4">
 			<Field
 				labelEng="First Name"
@@ -122,12 +122,12 @@
 			/>
 		</div>
 		<div class="flex gap-4 items-center">
-			<p>Is the client detained?</p>
+			<p class = "text-sm">Is the client detained?</p>
 			<Checkbox name="detained" labelEng="Detained" bind:checked={detained} class="" />
 		</div>
 
 		{#if civilStatus === 'Married'}
-			<h3 class="font-bold">Spouse Information</h3>
+			<h4 class="font-bold">Spouse Information</h4>
 			<div class="flex flex-wrap gap-4">
 				<Field labelEng="Spouse Name" labelFil="Pangalan ng Asawa" name="spouseName" required />
 				<Field
@@ -143,9 +143,9 @@
 		{/if}
 
 		{#if detained}
-			<h3 class="font-bold">Detainee Information</h3>
+			<h4 class="font-bold">Detainee Information</h4>
 			<div class="flex flex-wrap gap-4">
-				<Field labelEng="Place of Detention" name="detainedAt" class="w-96" />
+				<Field labelEng="Place of Detention" name="detainedAt" class="w-96 lg:max-w-96" />
 				<DatePicker
 					labelEng="Detained Since"
 					name="detainedSince"

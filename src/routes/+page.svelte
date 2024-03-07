@@ -161,7 +161,7 @@
 		</div>
 		<div class="flex flex-col m-auto p-4 text-center gap-4 pb-14">
 			<span class="flex flex-col items-center justify-center">
-				<h2 class="text-diligence font-bold">Sign-in</h2>
+				<h3 class="text-diligence font-bold">Sign-in</h3>
 				<p>Enter your credentials to access your dashboard.</p>
 			</span>
 
