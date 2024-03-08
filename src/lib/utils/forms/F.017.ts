@@ -76,6 +76,7 @@ export const addRowTitle = async (
 			size: 7,
 			bold: true
 		};
+		
 	};
 
 	const rowNum2 = worksheet.getRow(11);
@@ -102,15 +103,31 @@ export const addRow = async (
     for (let i = 0; i < clients.length; i++) {
 			const client = clients[i];
 			console.log(client.id);
-      const row = worksheet.addRow([
-          `${client.id}`,
-          `${client.firstName} ${client.middleName ? client.middleName : ''} ${client.lastName} ${client.nameSuffix ? client.nameSuffix : ''}`,
-          client.address,
-          client.age,
-          client.sex,
-          client.contactNumber ? client.contactNumber : '',
-          client.email ? client.email : '',
-			]);
+      const row = worksheet.insertRow(i+13, [{
+          id: `${client.id}`,
+          name: `${client.firstName} ${client.middleName ? client.middleName : ''} ${client.lastName} ${client.nameSuffix ? client.nameSuffix : ''}`,
+          address: client.address,
+          age: client.age,
+          gender:client.sex,
+          contact: client.contactNumber ? client.contactNumber : '',
+          email: client.email ? client.email : '',
+					cicl: '',
+					women: '',
+					ig: '',
+					pwd: '',
+					upoor: '',
+					rpoor: '',
+					senior: '',
+					ofw: '',
+					judi: '',
+					quasi: '',
+					nonjudi: '',
+					action: '',
+					title: '',
+					case: '',
+					status: '',
+					nature: ''
+		}]);
       row.font = { bold: false };
     }
 

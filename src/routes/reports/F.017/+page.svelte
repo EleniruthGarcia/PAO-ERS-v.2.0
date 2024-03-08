@@ -63,6 +63,13 @@
 			worksheet.getRow(n).height = 25;
 		}
 
+		// const image = workbook.addImage({
+		// 	filename: './src/lib/images/Logo.png',
+		// 	extension: 'png',
+		// });
+
+		// worksheet.addImage(image, `E${3}:E${3}`);
+
 		addHeader(
 			worksheet,
 			'Monthly Inventory of Clients Served',
