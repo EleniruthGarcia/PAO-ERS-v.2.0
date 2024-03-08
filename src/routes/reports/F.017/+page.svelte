@@ -87,6 +87,7 @@
 		addRowTitle(worksheet);
 
 		const clientArray = await prisma.client.findMany({});
+		// console.log(clientArray);
 		// let j = 13;
 		
 		addRow(worksheet, clientArray);

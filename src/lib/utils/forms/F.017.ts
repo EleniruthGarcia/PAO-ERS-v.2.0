@@ -98,19 +98,21 @@ export const addRow = async (
     worksheet: ExcelJS.Worksheet,
     clients: Client[]
 ) => {
-    for (const client of clients) {
-        const row = worksheet.addRow([
-            client.id,
-            `${client.firstName} ${client.middleName ? client.middleName : ''} ${client.lastName} ${client.nameSuffix ? client.nameSuffix : ''}`,
-            client.address,
-            client.age,
-            client.sex,
-            client.contactNumber ? client.contactNumber : '',
-            client.email ? client.email : '',
-        ]);
-        row.font = { bold: false };
+		// console.log(clients);
+    for (let i = 0; i < clients.length; i++) {
+			const client = clients[i];
+			console.log(client.id);
+      const row = worksheet.addRow([
+          `${client.id}`,
+          `${client.firstName} ${client.middleName ? client.middleName : ''} ${client.lastName} ${client.nameSuffix ? client.nameSuffix : ''}`,
+          client.address,
+          client.age,
+          client.sex,
+          client.contactNumber ? client.contactNumber : '',
+          client.email ? client.email : '',
+			]);
+      row.font = { bold: false };
     }
-		
 
     return worksheet;
 };
