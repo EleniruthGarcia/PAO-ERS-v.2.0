@@ -32,7 +32,7 @@ model Branch {
 }
 
 model Client {
-  id                      Int       @id @default(autoincrement())
+  id                      Int              @id @default(autoincrement())
   firstName               String
   middleName              String?
   lastName                String
@@ -54,10 +54,21 @@ model Client {
   spouseName              String?
   spouseAddress           String?
   spouseContactNumber     String?
-  createdAt               DateTime  @default(now())
-  updatedAt               DateTime  @updatedAt
-  deletedAt               DateTime?
   request                 Request[]
+  classification          Classification[]
+  createdAt               DateTime         @default(now())
+  updatedAt               DateTime         @updatedAt
+  deletedAt               DateTime?
+}
+
+model Classification {
+  id        Int       @id @default(autoincrement())
+  client    Client?   @relation(fields: [clientId], references: [id])
+  clientId  Int?
+  type      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 }
 
 model Lawyer {
