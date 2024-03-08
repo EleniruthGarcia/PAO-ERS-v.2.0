@@ -63,12 +63,12 @@
 			worksheet.getRow(n).height = 25;
 		}
 
-		const imageId = workbook.addImage({
-			filename: '$lib/images/Logo.png', 
-			extension: 'png',
-		});
+		// const imageId = workbook.addImage({
+		// 	filename: '$lib/images/Logo.png', 
+		// 	extension: 'png',
+		// });
 
-		worksheet.addImage(imageId, 'E2:F4');
+		// worksheet.addImage(imageId, 'E2:F4');
 
 		// worksheet.addImage(imageId, {tl: { col: 4.5, row: 1.5 }, br: { col: 6, row: 3 }, ext: {width: 50, height: 50}});
 
