@@ -4,10 +4,8 @@ import ExcelJS from 'exceljs';
 
 // F.17 - Monthly Inventory of Clients Served
 
-export const addRowTitle = async (
-    worksheet: ExcelJS.Worksheet
-) => {
-    worksheet.mergeCells('A9:B12');
+export const addRowTitle = async (worksheet: ExcelJS.Worksheet) => {
+	worksheet.mergeCells('A9:B12');
 	worksheet.getCell('A9').value = 'Name of Client/s';
 	worksheet.mergeCells('C9:C12');
 	worksheet.getCell('C9').value = 'Address';
@@ -69,67 +67,64 @@ export const addRowTitle = async (
 	worksheet.mergeCells('W10:W12');
 	worksheet.getCell('W10').value = 'Nature of Case4';
 
-    const rowNum = worksheet.getRow(11);
-	for(let m = 8; m <= 18; m++) {
+	const rowNum = worksheet.getRow(11);
+	for (let m = 8; m <= 18; m++) {
 		rowNum.getCell(m).font = {
 			name: 'Arial',
 			size: 7,
 			bold: true
 		};
-		
-	};
+	}
 
 	const rowNum2 = worksheet.getRow(11);
-	for(let m = 4; m <= 6; m++) {
+	for (let m = 4; m <= 6; m++) {
 		rowNum.getCell(m).font = {
 			name: 'Arial',
 			size: 7,
 			bold: true
 		};
-	};
+	}
 	worksheet.getRow(12).getCell(6).font = {
 		name: 'Arial',
 		size: 7,
 		bold: true
 	};
-}
+};
 
+export const addRow = async (worksheet: ExcelJS.Worksheet, clients: Client[]) => {
+	// console.log(clients);
+	for (let i = 0; i < clients.length; i++) {
+		const client = clients[i];
+		console.log(client.id);
+		const row = worksheet.insertRow(i + 13, [
+			{
+				id: `${client.id}`,
+				name: `${client.firstName} ${client.middleName ? client.middleName : ''} ${client.lastName} ${client.nameSuffix ? client.nameSuffix : ''}`,
+				address: client.address,
+				age: client.age,
+				gender: client.sex,
+				contact: client.contactNumber ? client.contactNumber : '',
+				email: client.email ? client.email : '',
+				cicl: '',
+				women: '',
+				ig: '',
+				pwd: '',
+				upoor: '',
+				rpoor: '',
+				senior: '',
+				ofw: '',
+				judi: '',
+				quasi: '',
+				nonjudi: '',
+				action: '',
+				title: '',
+				case: '',
+				status: '',
+				nature: ''
+			}
+		]);
+		row.font = { bold: false };
+	}
 
-export const addRow = async (
-    worksheet: ExcelJS.Worksheet,
-    clients: Client[]
-) => {
-		// console.log(clients);
-    for (let i = 0; i < clients.length; i++) {
-			const client = clients[i];
-			console.log(client.id);
-      const row = worksheet.insertRow(i+13, [{
-          id: `${client.id}`,
-          name: `${client.firstName} ${client.middleName ? client.middleName : ''} ${client.lastName} ${client.nameSuffix ? client.nameSuffix : ''}`,
-          address: client.address,
-          age: client.age,
-          gender:client.sex,
-          contact: client.contactNumber ? client.contactNumber : '',
-          email: client.email ? client.email : '',
-					cicl: '',
-					women: '',
-					ig: '',
-					pwd: '',
-					upoor: '',
-					rpoor: '',
-					senior: '',
-					ofw: '',
-					judi: '',
-					quasi: '',
-					nonjudi: '',
-					action: '',
-					title: '',
-					case: '',
-					status: '',
-					nature: ''
-		}]);
-      row.font = { bold: false };
-    }
-
-    return worksheet;
+	return worksheet;
 };

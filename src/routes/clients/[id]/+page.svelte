@@ -4,7 +4,9 @@
 	export let data: PageServerData;
 </script>
 
-<main class="max-h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden overflow-y-hidden leading-tight">
+<main
+	class="max-h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden overflow-y-hidden leading-tight"
+>
 	{#await data.client}
 		<div class="animate-pulse flex flex-col gap-1">
 			<div class="rounded-full bg-slate-500 h-2 w-40"></div>
@@ -14,7 +16,7 @@
 	{:then client}
 		<div class="flex items-center justify-between">
 			<div>
-				<p class="font-bold text-equity">Client</p>
+				<p class="font-bold text-equity mb-2">Client Profile</p>
 				<h3 class="font-bold">
 					{client?.firstName +
 						' ' +
@@ -26,12 +28,16 @@
 			</div>
 			<span class="flex gap-4">
 				<a href="/clients/{client?.id}/edit"><button>Edit</button></a>
-				<a href="/clients/{client?.id}/delete"><button class="bg-diligence text-oath">Delete</button></a>
+				<a href="/clients/{client?.id}/delete"
+					><button class="bg-diligence text-oath">Delete</button></a
+				>
 			</span>
 		</div>
 		<div class="grid grid-cols-10 gap-4 max-h-[90%]">
 			<div class="flex flex-col gap-4 lg:col-span-7 col-span-10 overflow-y-auto p-2 pt-0">
-				<div class="flex flex-col gap-4 py-6 rounded-lg border border-innocence bg-witness shadow-md">
+				<div
+					class="flex flex-col gap-4 py-6 rounded-lg border border-innocence bg-witness shadow-md"
+				>
 					<h4 class="font-bold text-equity px-6">Personal Information</h4>
 					<table class="text-sm space-y-10">
 						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
@@ -76,13 +82,17 @@
 						</tr>
 						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 							<td class="font-bold p-3 px-6 w-1/3">Individual Monthly Income</td>
-							<td class="text-base px-6">{client?.individualMonthlyIncome ? client?.individualMonthlyIncome : ''}</td>
+							<td class="text-base px-6"
+								>{client?.individualMonthlyIncome ? client?.individualMonthlyIncome : ''}</td
+							>
 						</tr>
 					</table>
 				</div>
 				{#if client?.detained}
-				<div class="flex flex-col gap-4 py-6 rounded-lg border border-innocence bg-witness shadow-md">
-					<h4 class="font-bold text-equity px-6">Detainee Information</h4>
+					<div
+						class="flex flex-col gap-4 py-6 rounded-lg border border-innocence bg-witness shadow-md"
+					>
+						<h4 class="font-bold text-equity px-6">Detainee Information</h4>
 						<table class="text-sm space-y-10">
 							<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 								<td class="font-bold p-3 px-6 w-1/3">Detained</td>
@@ -104,8 +114,10 @@
 					</div>
 				{/if}
 				{#if client?.civilStatus === 'Married'}
-				<div class="flex flex-col gap-4 py-6 rounded-lg border border-innocence bg-witness shadow-md">
-					<h4 class="font-bold text-equity px-6">Spouse Information</h4>
+					<div
+						class="flex flex-col gap-4 py-6 rounded-lg border border-innocence bg-witness shadow-md"
+					>
+						<h4 class="font-bold text-equity px-6">Spouse Information</h4>
 						<table class="text-sm space-y-10">
 							<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
 								<td class="font-bold p-3 px-6 w-1/3">Spouse Name</td>
@@ -137,8 +149,7 @@
 						{:else}
 							<span class="flex flex-col gap-4">
 								<p class="text-sm">No requests found.</p>
-								<a
-									href="/requests/add?clientId={client?.id}"
+								<a href="/requests/add?clientId={client?.id}"
 									><button class="w-full">New Request</button></a
 								>
 							</span>

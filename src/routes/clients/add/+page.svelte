@@ -38,7 +38,7 @@
 	class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden leading-tight"
 >
 	<div class="text-diligence">
-		<h3 class="font-bold">Client's Personal Circumstances</h3>
+		<h3 class="font-bold mb-2">Client's Personal Circumstances</h3>
 		<span class="font-bold">Please fill out all necessary information.</span> | Mangyaring punan ang
 		lahat ng kinakailangang impormasyon.
 	</div>
@@ -96,14 +96,7 @@
 				<Option value="Widowed">Widowed</Option>
 			</Select>
 			<Field labelEng="Citizenship" name="citizenship" />
-			<Field
-				labelEng="Address"
-				labelFil="Tirahan"
-				name="address"
-				class="w-96"
-				required
-				autocomplete="address-level1"
-			/>
+			<Field labelEng="Address" labelFil="Tirahan" name="address" class="w-96" required />
 			<Field labelEng="Email" name="email" required autocomplete="email" />
 			<Field labelEng="Contact Number" name="contactNumber" type="tel" />
 			<Field
@@ -122,7 +115,7 @@
 			/>
 		</div>
 		<div class="flex gap-4 items-center">
-			<p class = "text-sm">Is the client detained?</p>
+			<p class="text-sm">Is the client detained?</p>
 			<Checkbox name="detained" labelEng="Detained" bind:checked={detained} class="" />
 		</div>
 
@@ -136,7 +129,6 @@
 					name="spouseAddress"
 					w="w-96"
 					required
-					autocomplete="spouseAddress"
 				/>
 				<Field labelEng="Spouse Contact Number" name="spouseContactNumber" type="tel" />
 			</div>
