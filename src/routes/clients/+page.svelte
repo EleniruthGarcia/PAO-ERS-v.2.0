@@ -1,8 +1,7 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
 	import SvgIcon from '@jamescoyle/svelte-icon';
-	import { mdiPencil } from '@mdi/js';
-	import { mdiTrashCan } from '@mdi/js';
+	import { mdiPencil, mdiTrashCan, mdiEye, mdiEyeOutline } from '@mdi/js';
 	import Loading from '$lib/components/Loading.svelte';
 
 	export let data: PageServerData;
@@ -63,7 +62,11 @@
 					<div class="flex items-center justify-between px-6">
 						<h4 class="font-bold text-equity">Clients</h4>
 						<button class="px-2 bg-diligence text-oath" on:click={toggleShowDeletedClients}>
-							<SvgIcon size="20px" type="mdi" path={mdiTrashCan}></SvgIcon>
+							{#if showDeletedClients}
+								<SvgIcon size="20px" type="mdi" path={mdiEye}></SvgIcon>
+							{:else}
+								<SvgIcon size="20px" type="mdi" path={mdiEyeOutline}></SvgIcon>
+							{/if}
 						</button>
 					</div>
 					{#if clients.length === 0}
