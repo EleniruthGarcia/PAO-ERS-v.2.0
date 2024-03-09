@@ -3,6 +3,7 @@
 	import SvgIcon from '@jamescoyle/svelte-icon';
 	import { mdiPencil } from '@mdi/js';
 	import { mdiTrashCan } from '@mdi/js';
+	import Loading from '$lib/components/Loading.svelte';
 
 	export let data: PageServerData;
 
@@ -33,18 +34,14 @@
 		</p>
 	</div>
 
-	<div>
+	<div class="mb-4">
 		<h2 class="font-bold mb-2">Clients</h2>
 		<span class="font-bold">All clients are listed here.</span> Click on a client to view their profile.
 	</div>
 
 	<div class="flex flex-col gap-4">
 		{#await data.clients}
-			<div class="animate-pulse flex flex-col gap-1">
-				<div class="rounded-full bg-slate-500 h-2 w-40"></div>
-				<div class="rounded-full bg-slate-500 h-1 w-20"></div>
-				<div class="rounded-full bg-slate-500 h-1 w-10"></div>
-			</div>
+			<div><Loading /></div>
 		{:then clients}
 			<div class="flex flex-col gap-4 lg:col-span-7 col-span-10 p-2 pt-0">
 				<div

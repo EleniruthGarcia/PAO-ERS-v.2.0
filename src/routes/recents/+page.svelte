@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
+	import Loading from '$lib/components/Loading.svelte';
 
 	export let data: PageServerData;
 </script>
@@ -15,11 +16,7 @@
 			<h1 class="text-xl font-bold">Clients</h1>
 			<div class="flex flex-col gap-4">
 				{#await data.clients}
-					<div class="animate-pulse flex flex-col gap-1">
-						<div class="rounded-full bg-slate-500 h-2 w-40"></div>
-						<div class="rounded-full bg-slate-500 h-1 w-20"></div>
-						<div class="rounded-full bg-slate-500 h-1 w-10"></div>
-					</div>
+					<div><Loading /></div>
 				{:then clients}
 					{#if clients.length === 0}
 						<p>No clients found!</p>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { ActionData, PageServerData } from './$types';
+	import Loading from '$lib/components/Loading.svelte';
 
 	export let data: PageServerData;
 	export let form: ActionData;
@@ -16,11 +17,7 @@
 
 <main class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness">
 	{#await data.client}
-		<div class="animate-pulse flex flex-col gap-1">
-			<div class="rounded-full bg-slate-500 h-2 w-40"></div>
-			<div class="rounded-full bg-slate-500 h-1 w-20"></div>
-			<div class="rounded-full bg-slate-500 h-1 w-10"></div>
-		</div>
+		<div><Loading /></div>
 	{:then client}
 		{#if client}
 			<h1 class="text-3xl font-bold">

@@ -3,6 +3,7 @@
 	import SvgIcon from '@jamescoyle/svelte-icon';
 	import { mdiPencil } from '@mdi/js';
 	import { mdiTrashCan } from '@mdi/js';
+	import Loading from '$lib/components/Loading.svelte';
 
 	export let data: PageServerData;
 </script>
@@ -11,11 +12,7 @@
 	class="max-h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden overflow-y-hidden leading-tight"
 >
 	{#await data.client}
-		<div class="animate-pulse flex flex-col gap-1">
-			<div class="rounded-full bg-slate-500 h-2 w-40"></div>
-			<div class="rounded-full bg-slate-500 h-1 w-20"></div>
-			<div class="rounded-full bg-slate-500 h-1 w-10"></div>
-		</div>
+		<div><Loading /></div>
 	{:then client}
 		<div class="flex items-center justify-between">
 			<div>

@@ -8,6 +8,7 @@
 	import DatePicker from '$lib/components/DatePicker.svelte';
 	import Select from '$lib/components/Select.svelte';
 	import Option from '$lib/components/Option.svelte';
+	import Loading from '$lib/components/Loading.svelte';
 
 	export let data: PageServerData;
 	export let form: ActionData;
@@ -42,14 +43,10 @@
 {/if}
 
 <main
-	class="max-h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden overflow-y-hidden leading-tight"
+	class="max-h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden leading-tight"
 >
 	{#await data.client}
-		<div class="animate-pulse flex flex-col gap-1">
-			<div class="rounded-full bg-slate-500 h-2 w-40"></div>
-			<div class="rounded-full bg-slate-500 h-1 w-20"></div>
-			<div class="rounded-full bg-slate-500 h-1 w-10"></div>
-		</div>
+		<div><Loading /></div>
 	{:then client}
 		{#if client}
 			<div>

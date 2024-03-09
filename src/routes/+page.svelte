@@ -4,6 +4,7 @@
 	import type { PageServerData, ActionData } from './$types';
 	import SvgIcon from '@jamescoyle/svelte-icon';
 	import { mdiPencil } from '@mdi/js';
+	import Loading from '$lib/components/Loading.svelte';
 
 	import Logo from '$lib/images/Logo.png';
 
@@ -42,15 +43,10 @@
 			<h2 class="text-diligence font-bold">Dashboard</h2>
 			<p class="font-bold">Welcome to your dashboard.</p>
 		</span>
-
-		<div class="grid grid-cols-10 gap-4 max-h-[90%]">
-			{#await data.clients}
-				<div class="animate-pulse flex flex-col gap-1">
-					<div class="rounded-full bg-slate-500 h-2 w-40"></div>
-					<div class="rounded-full bg-slate-500 h-1 w-20"></div>
-					<div class="rounded-full bg-slate-500 h-1 w-10"></div>
-				</div>
-			{:then clients}
+		{#await data.clients}
+			<div><Loading /></div>
+		{:then clients}
+			<div class="grid grid-cols-10 gap-4 max-h-[90%]">
 				<div class="flex flex-col gap-4 lg:col-span-7 col-span-10 overflow-y-auto p-2 pt-0">
 					<div
 						class="flex flex-col gap-4 py-6 rounded-lg border border-innocence bg-witness shadow-md"
@@ -121,8 +117,8 @@
 						<h4 class="font-bold">Analytics</h4>
 					</div>
 				</div>
-			{/await}
-		</div>
+			</div>
+		{/await}
 	</main>
 {:else}
 	<main class="h-screen w-screen bg-witness text-diligence flex">
