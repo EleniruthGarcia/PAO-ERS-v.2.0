@@ -10,7 +10,7 @@
 	const workbook = new ExcelJS.Workbook();
 
 	async function fetchRecord() {
-		const worksheet = workbook.addWorksheet('F.017');
+		const worksheet = workbook.addWorksheet('F.17');
 		worksheet.columns = [
 			{ key: 'id', width: 4 },
 			{ key: 'name', width: 15 },
@@ -216,5 +216,5 @@
 </script>
 
 <main>
-	<button on:click={async () => saveAs(workbook, 'F.017.xlsx')}>Generate Report</button>
+	<button on:click={async () => saveAs(workbook, 'Monthly Report.xlsx')}>Generate Report</button>
 </main>
