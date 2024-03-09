@@ -15,9 +15,10 @@
 	let detained: boolean;
 	let civilStatus: string;
 
-	if (data.client) {
-		civilStatus = data.client?.civilStatus || '';
-	}
+	data.client.then((client) => {
+		civilStatus = client?.civilStatus ? client?.civilStatus : '';
+		detained = client?.detained ? client?.detained : false;
+	});
 </script>
 
 {#if form?.invalid}
@@ -107,7 +108,14 @@
 						value={client.age}
 					/>
 					<DatePicker labelEng="Date of Birth" name="dob" id="dob" />
-					<Select name="sex" labelEng="Sex" labelFil="Kasarian" w="w-32" required>
+					<Select
+						name="sex"
+						labelEng="Sex"
+						labelFil="Kasarian"
+						w="w-32"
+						value={client.sex ? client.sex : ''}
+						required
+					>
 						<Option value="" disabled hidden selected></Option>
 						<Option value="Male">Male</Option>
 						<Option value="Female">Female</Option>
@@ -164,7 +172,7 @@
 				</div>
 				<div class="flex gap-4 items-center">
 					<p class="text-sm">Is the client detained?</p>
-					<Checkbox name="detained" labelEng="Detained" checked={client.detained} class="" />
+					<Checkbox name="detained" labelEng="Detained" bind:checked={detained} class="" />
 				</div>
 				{#if civilStatus === 'Married'}
 					<h4 class="font-bold">Spouse Information</h4>
