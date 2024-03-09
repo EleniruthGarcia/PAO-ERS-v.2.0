@@ -134,7 +134,7 @@
 						<Option value="Divorced">Divorced</Option>
 						<Option value="Widowed">Widowed</Option>
 					</Select>
-					<Field labelEng="Citizenship" name="citizenship" />
+					<Field labelEng="Citizenship" name="citizenship" value={client.citizenship} />
 					<Field
 						labelEng="Address"
 						labelFil="Tirahan"

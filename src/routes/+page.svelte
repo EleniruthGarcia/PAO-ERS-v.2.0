@@ -39,10 +39,10 @@
 			</p>
 		</div>
 
-		<span class="mb-4">
-			<h2 class="text-diligence font-bold">Dashboard</h2>
+		<div class="mb-4">
+			<h2 class="text-diligence font-bold mb-2">Dashboard</h2>
 			<p class="font-bold">Welcome to your dashboard.</p>
-		</span>
+		</div>
 		{#await data.clients}
 			<div><Loading /></div>
 		{:then clients}
