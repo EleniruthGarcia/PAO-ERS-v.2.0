@@ -37,7 +37,7 @@
 				href="/reports/F.017">Overview</a
 			>
 			<a
-				class={$page.url.pathname === '/reports/F.017'
+				class={$page.url.pathname === '/reports/Monthly Reports'
 					? 'py-2 px-4 bg-trust text-diligence border border-innocence rounded-t-md'
 					: 'py-2 px-4 bg-oath border border-innocence rounded-t-md'}
 				href="/reports/F.017">Monthly Inventory of Clients Served</a

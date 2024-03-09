@@ -4,7 +4,7 @@
 
 	import type { PageServerData } from './$types';
 	import { mdiBorderNone } from '@mdi/js';
-	import { addRow, addRowTitle } from '$lib/utils/forms/F.017';
+	import { addRow, addRowTitle } from '$lib/utils/forms/F.10';
 
 	// export let data: PageServerData;
 	const workbook = new ExcelJS.Workbook();
@@ -12,13 +12,13 @@
 	async function fetchRecord() {
 		const worksheet = workbook.addWorksheet('F.10');
 		worksheet.columns = [
-			{ key: 'date', width: 10 },
-			{ key: 'name', width: 15 },
-			{ key: 'gender', width: 8 },
-			{ key: 'problem', width: 15 },
-			{ key: 'action', width: 18 },
-			{ key: 'remarks', width: 10 },
-			{ key: 'id', width: 8 }
+			{ key: 'date', width: 20 },
+			{ key: 'name', width: 33 },
+			{ key: 'gender', width: 11 },
+			{ key: 'problem', width: 35 },
+			{ key: 'action', width: 40 },
+			{ key: 'remarks', width: 30 },
+			{ key: 'id', width: 15 }
 		];
 
 		// worksheet.insertRow(20, {address: "lala lala"});
@@ -42,6 +42,8 @@
 				right: { style: 'thin' }
 			};
 		}
+
+    // const count = await prisma.client.findMany({where: {outreach: true});
 
 		for (let n = 9; n <= 25; n++) {
 			worksheet.getRow(n).height = 40;
