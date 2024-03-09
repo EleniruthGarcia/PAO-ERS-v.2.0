@@ -3,9 +3,7 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
 	return {
-		clients: prisma.client.findMany({
-			where: { deletedAt: null }
-		}),
+		clients: prisma.client.findMany({}),
 		requests: prisma.request.findMany({
 			where: { deletedAt: null }
 		}),

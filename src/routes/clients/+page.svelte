@@ -9,6 +9,19 @@
 
 	let time = new Date();
 
+	let showDeletedClients = false;
+
+	let filteredClients = data.clients.then((clients) =>
+		clients.filter((client) => !client.deletedAt)
+	);
+
+	const toggleShowDeletedClients = () => {
+		showDeletedClients = !showDeletedClients;
+		filteredClients = data.clients.then((clients) =>
+			showDeletedClients ? clients : clients.filter((client) => !client.deletedAt)
+		);
+	};
+
 	setInterval(() => (time = new Date()));
 </script>
 
@@ -40,14 +53,19 @@
 	</div>
 
 	<div class="flex flex-col gap-4">
-		{#await data.clients}
+		{#await filteredClients}
 			<div><Loading /></div>
 		{:then clients}
 			<div class="flex flex-col gap-4 lg:col-span-7 col-span-10 p-2 pt-0">
 				<div
 					class="flex flex-col gap-4 py-6 rounded-lg border border-innocence bg-witness shadow-md"
 				>
-					<h4 class="font-bold text-equity px-6">Clients</h4>
+					<div class="flex items-center justify-between px-6">
+						<h4 class="font-bold text-equity">Clients</h4>
+						<button class="px-2 bg-diligence text-oath" on:click={toggleShowDeletedClients}>
+							<SvgIcon size="20px" type="mdi" path={mdiTrashCan}></SvgIcon>
+						</button>
+					</div>
 					{#if clients.length === 0}
 						<p>No clients found!</p>
 					{:else}

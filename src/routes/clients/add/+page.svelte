@@ -82,7 +82,6 @@
 				type="number"
 				required
 			/>
-			<DatePicker labelEng="Date of Birth" name="dob" id="dob" />
 			<Select name="sex" labelEng="Sex" labelFil="Kasarian" w="w-32" required>
 				<Option value="" disabled hidden selected></Option>
 				<Option value="Male">Male</Option>

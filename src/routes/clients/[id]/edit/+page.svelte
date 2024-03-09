@@ -108,7 +108,6 @@
 						required
 						value={client.age}
 					/>
-					<DatePicker labelEng="Date of Birth" name="dob" id="dob" />
 					<Select
 						name="sex"
 						labelEng="Sex"
