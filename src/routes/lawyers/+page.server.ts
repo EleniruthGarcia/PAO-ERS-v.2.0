@@ -5,7 +5,7 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async () => {
 	return {
 		lawyers: prisma.lawyer.findMany({
-			where: { deletedAt: null }
+			include: { user: true }
 		})
 	};
 };

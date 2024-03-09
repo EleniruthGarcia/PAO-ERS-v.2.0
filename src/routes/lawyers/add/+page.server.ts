@@ -18,9 +18,14 @@ export const actions = {
 
 		const username = data.get('username');
 		const password = data.get('password');
+		const confirmPassword = data.get('confirmPassword');
 
 		if (typeof username !== 'string' || typeof password !== 'string' || !username || !password) {
 			return fail(400, { invalid: true });
+		}
+
+		if (password !== confirmPassword) {
+			return fail(400, { mismatch: true });
 		}
 
 		let user = await prisma.user.findUnique({

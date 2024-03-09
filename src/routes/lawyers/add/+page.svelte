@@ -2,69 +2,109 @@
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
 
+	import Modal from '$lib/components/Modal.svelte';
+	import Field from '$lib/components/Field.svelte';
+	import Select from '$lib/components/Select.svelte';
+	import Option from '$lib/components/Option.svelte';
+
 	export let form: ActionData;
 </script>
 
 {#if form?.invalid}
-	<span class="text-red-500">Invalid input values!</span>
+	<Modal message="Invalid input values!" />
+{/if}
+
+{#if form?.mismatch}
+	<Modal title="Password Mismatch" message="Passwords do not match." />
+{/if}
+
+{#if form?.user}
+	<Modal title="Username Taken" message="Username is already taken." />
 {/if}
 
 {#if form?.missing}
-	<span class="text-red-500">Please fill in all the required fields!</span>
+	<Modal message="Please fill out all necessary information!" />
 {/if}
 
 {#if form?.error}
-	<span class="text-red-500">Failed to create user!</span>
+	<Modal message="An error occurred while submitting the form!" />
 {/if}
 
 {#if form?.success}
-	<span class="text-trust">Successfully registered!</span>
+	<Modal
+		title="Account Creation Success!"
+		message="Lawyer successfully added!"
+		success={() => history.back()}
+	/>
 {/if}
 
-<main class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness">
-	<form method="POST" use:enhance class=" grid grid-cols-6 gap-4">
-		<label for="username">Username</label>
-		<input type="text" name="username" id="username" required autocomplete="username" />
-
-		<label for="password">Password</label>
-		<input type="password" name="password" id="password" required autocomplete="new-password" />
-
-		<label for="title">Title</label>
-		<input type="text" name="title" id="title" required autocomplete="honorific-prefix" />
-
-		<label for="firstName">First Name</label>
-		<input type="text" name="firstName" id="firstName" required autocomplete="given-name" />
-
-		<label for="middleName">Middle Name</label>
-		<input type="text" name="middleName" id="middleName" autocomplete="additional-name" />
-
-		<label for="lastName">Last Name</label>
-		<input type="text" name="lastName" id="lastName" required autocomplete="family-name" />
-
-		<label for="nameSuffix">Name Suffix</label>
-		<input type="text" name="nameSuffix" id="nameSuffix" />
-
-		<label for="age">Age</label>
-		<input type="number" name="age" id="age" required />
-
-		<label for="sex">Sex</label>
-		<select name="sex" id="sex" required autocomplete="sex">
-			<option value="" hidden selected></option>
-			<option value="Male">Male</option>
-			<option value="Female">Female</option>
-		</select>
-
-		<label for="address">Address</label>
-		<input type="text" name="address" id="address" required autocomplete="address-level1" />
-
-		<label for="email">Email</label>
-		<input type="email" name="email" id="email" autocomplete="email" />
-
-		<label for="contactNumber">Contact Number</label>
-		<input type="tel" name="contactNumber" id="contactNumber" />
-
-		<button type="submit">Submit</button>
-		<button type="reset">Reset</button>
-		<button type="button" on:click={() => history.back()}>Go Back</button>
+<main
+	class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden leading-tight"
+>
+	<div class="text-diligence">
+		<h3 class="font-bold mb-2">Lawyer Profile</h3>
+		<span class="font-bold">Create a new lawyer account.</span> | Lumikha ng bagong account para sa abogado.
+	</div>
+	<form method="POST" use:enhance class="flex flex-col gap-4">
+		<h4 class="font-bold">Account Information</h4>
+		<div class="inline-flex flex-wrap gap-4">
+			<Field labelEng="Username" name="username" required />
+			<Field labelEng="Password" name="password" type="password" required />
+			<Field labelEng="Confirm Password" name="confirmPassword" type="password" required />
+		</div>
+		<h4 class="font-bold">Lawyer Information</h4>
+		<div class="inline-flex flex-wrap gap-4">
+			<Field
+				labelEng="First Name"
+				labelFil="Unang Pangalan"
+				name="firstName"
+				required
+				autocomplete="given-name"
+			/>
+			<Field
+				labelEng="Middle Name"
+				labelFil="Gitnang Pangalan"
+				name="middleName"
+				autocomplete="additional-name"
+			/>
+			<Field
+				labelEng="Last Name"
+				labelFil="Apelyido"
+				name="lastName"
+				required
+				autocomplete="family-name"
+			/>
+			<Field labelEng="Title" name="title" required />
+			<Field
+				labelEng="Suffix"
+				labelFil=""
+				class="w-24"
+				name="nameSuffix"
+				autocomplete="additional-name"
+			/>
+			<Field
+				labelEng="Age"
+				labelFil="Edad"
+				class="w-32"
+				name="age"
+				min="1"
+				max="120"
+				type="number"
+				required
+			/>
+			<Select name="sex" labelEng="Sex" labelFil="Kasarian" w="w-32" required>
+				<Option value="" disabled hidden selected></Option>
+				<Option value="Male">Male</Option>
+				<Option value="Female">Female</Option>
+			</Select>
+			<Field labelEng="Address" name="address" class="w-96" required />
+		</div>
+		<div class="flex gap-4 mt-6">
+			<button class="bg-trust" type="submit">Submit</button>
+			<button class="bg-diligence text-oath" type="reset">Reset</button>
+			<button class="border border-2 border-diligence" type="button" on:click={() => history.back()}
+				>Go Back</button
+			>
+		</div>
 	</form>
 </main>

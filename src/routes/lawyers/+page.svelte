@@ -78,16 +78,16 @@
 												<span class="block lg:hidden">{lawyer.lastName}</span>
 											</td>
 											<td class="p-3 w-1/4 text-center">{lawyer.title}</td>
-											<td class="p-3 w-1/4 text-center">{lawyer.userId}</td>
+											<td class="p-3 w-1/4 text-center">{lawyer.user.username}</td>
 											<td class="w-1/6 flex items-center justify-end gap-2">
-												<a href="/clients/{lawyer?.id}/edit"
+												<a href="/lawyers/{lawyer?.id}/edit"
 													><button class="flex items-center gap-2 px-2 lg:px-4"
 														><SvgIcon size="15px" type="mdi" path={mdiPencil}></SvgIcon><span
 															class="hidden lg:block">Edit</span
 														></button
 													></a
 												>
-												<a href="/clients/{lawyer?.id}/delete"
+												<a href="/lawyers/{lawyer?.id}/delete"
 													><button class="px-2 bg-diligence text-oath"
 														><SvgIcon size="20px" type="mdi" path={mdiTrashCan}></SvgIcon></button
 													></a

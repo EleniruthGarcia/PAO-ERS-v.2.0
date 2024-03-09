@@ -1,31 +1,12 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-	import type { ActionData, PageServerData } from './$types';
+	import type { PageServerData } from './$types';
 	import SvgIcon from '@jamescoyle/svelte-icon';
 	import { mdiPencil } from '@mdi/js';
 	import { mdiTrashCan } from '@mdi/js';
 	import Loading from '$lib/components/Loading.svelte';
 
 	export let data: PageServerData;
-	export let form: ActionData;
-	let edit = false;
 </script>
-
-{#if form?.invalid}
-	<span class="text-red-500">Invalid input values!</span>
-{/if}
-
-{#if form?.missing}
-	<span class="text-red-500">Please fill in all the required fields!</span>
-{/if}
-
-{#if form?.error}
-	<span class="text-red-500">Failed to edit lawyer!</span>
-{/if}
-
-{#if form?.success}
-	<span class="text-trust">Successfully edited the lawyer!</span>
-{/if}
 
 <main
 	class="max-h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden overflow-y-hidden leading-tight"
@@ -35,8 +16,7 @@
 	{:then lawyer}
 		<div class="flex items-center justify-between">
 			<div>
-				<p class="font-bold text-equity mb-2">Lawyer Profile{#if edit}<span class="p-1 px-2 bg-diligence text-oath rounded-lg ml-2"
-					>Edit Mode</span>{/if}</p>
+				<p class="font-bold text-equity mb-2">Lawyer Profile</p>
 				<h3 class="font-bold">
 					{lawyer?.firstName +
 						' ' +
@@ -47,11 +27,13 @@
 				</h3>
 			</div>
 			<span class="flex gap-2 lg:gap-4">
-				<button class="flex gap-2 px-2 lg:px-4" on:click={() => (edit = !edit)}
+				<a href="/lawyers/{lawyer?.id}/edit">
+					<button class="flex gap-2 px-2 lg:px-4"
 						><SvgIcon size="15px" type="mdi" path={mdiPencil}></SvgIcon><span
 							class="hidden lg:block">Edit</span
 						></button
 					>
+				</a>
 				<a href="/lawyers/{lawyer?.id}/delete"
 					><button class="flex gap-2 px-2 lg:px-4 bg-diligence text-oath"
 						><SvgIcon size="15px" type="mdi" path={mdiTrashCan}></SvgIcon><span
@@ -61,70 +43,6 @@
 				>
 			</span>
 		</div>
-		{#if edit}
-			<form method="POST" action="?/edit" use:enhance class=" grid grid-cols-6 gap-4">
-				<label for="username">Username</label>
-				<input
-					type="text"
-					name="username"
-					id="username"
-					required
-					autocomplete="username"
-					value={lawyer?.user.username}
-				/>
-
-				<label for="title">Title</label>
-				<input
-					type="text"
-					name="title"
-					id="title"
-					required
-					autocomplete="honorific-prefix"
-					value={lawyer?.title}
-				/>
-
-				<label for="firstName">First Name</label>
-				<input type="text" name="firstName" id="firstName" required value={lawyer?.firstName} />
-
-				<label for="middleName">Middle Name</label>
-				<input type="text" name="middleName" id="middleName" required value={lawyer?.middleName} />
-
-				<label for="lastName">Last Name</label>
-				<input type="text" name="lastName" id="lastName" required value={lawyer?.lastName} />
-
-				<label for="nameSuffix">Name Suffix</label>
-				<input type="text" name="nameSuffix" id="nameSuffix" value={lawyer?.nameSuffix} />
-
-				<label for="age">Age</label>
-				<input type="number" name="age" id="age" required value={lawyer?.age} />
-
-				<label for="sex">Sex</label>
-				<select name="sex" id="sex" required value={lawyer?.sex}>
-					<option value="" hidden selected></option>
-					<option value="Male">Male</option>
-					<option value="Female">Female</option>
-				</select>
-
-				<label for="address">Address</label>
-				<input
-					type="text"
-					name="address"
-					id="address"
-					required
-					value={lawyer?.address}
-					autocomplete="address-level1"
-				/>
-
-				<label for="email">Email</label>
-				<input type="email" name="email" id="email" value={lawyer?.email} autocomplete="email" />
-
-				<label for="contactNumber">Contact Number</label>
-				<input type="tel" name="contactNumber" id="contactNumber" value={lawyer?.contactNumber} />
-
-				<button type="submit">Save</button>
-				<button on:click={() => (edit = !edit)}>Cancel</button>
-			</form>
-		{:else}
 		<div class="grid grid-cols-10 gap-4 max-h-[90%]">
 			<div class="flex flex-col gap-4 lg:col-span-7 col-span-10 overflow-y-auto p-2 pt-0">
 				<div
@@ -197,7 +115,6 @@
 				</div>
 			</div>
 		</div>
-		{/if}
 	{:catch error}
 		<p>{error.message}</p>
 	{/await}
