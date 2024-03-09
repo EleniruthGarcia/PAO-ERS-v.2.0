@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
 
-	import AlertDialog from '$lib/components/AlertDialog.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 	import Field from '$lib/components/Field.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import DatePicker from '$lib/components/DatePicker.svelte';
@@ -16,19 +16,19 @@
 </script>
 
 {#if form?.invalid}
-	<AlertDialog message="Invalid input values!" />
+	<Modal message="Invalid input values!" />
 {/if}
 
 {#if form?.missing}
-	<AlertDialog message="Please fill out all necessary information!" />
+	<Modal message="Please fill out all necessary information!" />
 {/if}
 
 {#if form?.error}
-	<AlertDialog message="An error occurred while submitting the form!" />
+	<Modal message="An error occurred while submitting the form!" />
 {/if}
 
 {#if form?.success}
-	<AlertDialog
+	<Modal
 		message="Client's personal circumstances successfully added!"
 		success={() => history.back()}
 	/>
@@ -111,6 +111,7 @@
 				labelEng="Individual Monthly Income"
 				name="individualMonthlyIncome"
 				class="w-80 lg:max-w-96"
+				type="number"
 				required
 			/>
 		</div>

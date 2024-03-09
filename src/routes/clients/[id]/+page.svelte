@@ -1,5 +1,8 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
+	import SvgIcon from '@jamescoyle/svelte-icon';
+	import { mdiPencil } from '@mdi/js';
+	import { mdiTrashCan } from '@mdi/js';
 
 	export let data: PageServerData;
 </script>
@@ -26,10 +29,20 @@
 						(client?.nameSuffix ? ' ' + client?.nameSuffix : '')}
 				</h3>
 			</div>
-			<span class="flex gap-4">
-				<a href="/clients/{client?.id}/edit"><button>Edit</button></a>
+			<span class="flex gap-2 lg:gap-4">
+				<a href="/clients/{client?.id}/edit"
+					><button class="flex gap-2 px-2 lg:px-4"
+						><SvgIcon size="15px" type="mdi" path={mdiPencil}></SvgIcon><span
+							class="hidden lg:block">Edit</span
+						></button
+					></a
+				>
 				<a href="/clients/{client?.id}/delete"
-					><button class="bg-diligence text-oath">Delete</button></a
+					><button class="flex gap-2 px-2 lg:px-4 bg-diligence text-oath"
+						><SvgIcon size="15px" type="mdi" path={mdiTrashCan}></SvgIcon><span
+							class="hidden lg:block">Delete</span
+						></button
+					></a
 				>
 			</span>
 		</div>
