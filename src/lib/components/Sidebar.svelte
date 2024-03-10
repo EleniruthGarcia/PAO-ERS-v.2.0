@@ -18,7 +18,7 @@
 </script>
 
 <aside
-	class="fixed z-50 lg:static flex bottom-0 left-0 lg:flex-col items-center justify-evenly lg:justify-between lg:h-screen overflow-hidden bg-verdict w-full lg:w-auto lg:min-w-80 lg:items-start lg:p-10 lg:pt-14"
+	class="h-[10%] fixed z-50 lg:static flex bottom-0 left-0 lg:flex-col items-center justify-evenly lg:justify-between lg:h-screen overflow-hidden bg-verdict w-full lg:w-auto lg:min-w-80 lg:items-start lg:p-10 lg:pt-14"
 >
 		<a href="/" class="lg:pl-4 font-bold text-oath flex items-center gap-2"
 			><img src={Logo} alt="PAO Logo" class="min-w-10 w-10 lg:w-14" />

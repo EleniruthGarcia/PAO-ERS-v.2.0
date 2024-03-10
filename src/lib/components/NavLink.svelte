@@ -9,7 +9,7 @@
 	<a
 		{href}
 		class={($page.url.pathname?.startsWith(href) ? 'text-oath font-bold ' : '') +
-			'flex hover:bg-equity p-4 lg:py-2 lg:pr-6 lg:rounded-lg gap-4'}
+			'flex hover:bg-equity p-2 rounded-full lg:py-2 lg:pr-6 lg:rounded-lg gap-4'}
 	>
 		<slot />
 		<h4 class="hidden lg:block">{title}</h4>
@@ -18,7 +18,7 @@
 	<a
 		{href}
 		class={($page.url.pathname === href ? 'font-bold ' : '') +
-			'flex hover:bg-equity p-4 lg:py-2 lg:pr-6 lg:rounded-lg gap-4'}
+			'flex hover:bg-equity p-2 rounded-full lg:py-2 lg:pr-6 lg:rounded-lg gap-4'}
 	>
 		<slot />
 		<h4 class="hidden lg:block">{title}</h4>
