@@ -17,11 +17,11 @@
 </script>
 
 {#if form?.invalid}
-	<Modal message="Invalid input values." />
+	<Modal title="Invalid Input" message="Please ensure that all fields are filled properly." />
 {/if}
 
 {#if form?.missing}
-	<Modal message="Please fill out all necessary information." />
+	<Modal title="Form Incomplete" message="Please fill out all necessary information." />
 {/if}
 
 {#if form?.mismatch}
@@ -29,7 +29,7 @@
 {/if}
 
 {#if form?.error}
-	<Modal message="An error occurred while submitting the form." />
+	<Modal title="Form Error" message="An error occurred while submitting the form." />
 {/if}
 
 {#if form?.success}
@@ -41,7 +41,7 @@
 {/if}
 
 <main
-	class="max-h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden leading-tight"
+	class="h-screen w-screen p-12 lg:p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence lg:overflow-y-hidden leading-tight"
 >
 	{#await data.lawyer}
 		<div><Loading /></div>
@@ -70,7 +70,7 @@
 					<Field
 						labelEng="Username"
 						name="username"
-						class="max-w-96"
+						class="w-80 max-w-[420px]"
 						required
 						value={lawyer.user.username}
 					/>

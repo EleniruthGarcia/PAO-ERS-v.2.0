@@ -19,7 +19,7 @@
 		<div class="bg-witness p-4 rounded-md max-w-md flex flex-col gap-2">
 			<div class="flex items-center justify-between">
 				{#if closable}
-					<p class="font-bold">{title}</p>
+					<p class="font-bold mr-4">{title}</p>
 					<button class="p-2 bg-transparent hover:bg-oath" on:click={close}>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"

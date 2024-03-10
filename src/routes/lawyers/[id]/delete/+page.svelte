@@ -2,44 +2,61 @@
 	import { enhance } from '$app/forms';
 	import type { ActionData, PageServerData } from './$types';
 	import Loading from '$lib/components/Loading.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 
 	export let data: PageServerData;
 	export let form: ActionData;
 </script>
 
 {#if form?.unsuccessful}
-	<span class="text-red-500">Failed to delete lawyer!</span>
+	<Modal
+		title="Delete Failed."
+		message="Lawyer has not been deleted."
+		success={() => history.back()}
+	/>
 {/if}
 
 {#if form?.success}
-	<span class="text-trust">Successfully deleted lawyer!</span>
+	<Modal
+		title="Delete Success!"
+		message="Lawyer has been successfully deleted."
+		success={() => history.back()}
+	/>
 {/if}
 
-<main class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness">
+<main
+	class="h-screen w-screen py-12 p-6 lg:p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence lg:overflow-y-hidden leading-tight"
+>
 	{#await data.lawyer}
 		<div><Loading /></div>
 	{:then lawyer}
 		{#if lawyer}
-			<h1 class="text-3xl font-bold">
-				Delete
-				{lawyer.title +
-					' ' +
-					lawyer.firstName +
-					' ' +
-					lawyer.middleName +
-					' ' +
-					lawyer.lastName +
-					(lawyer.nameSuffix ? ' ' + lawyer.nameSuffix : '')}
-			</h1>
-
+		<div class="flex items-center justify-between">
+			<div class="pl-6 lg:pl-0">
+				<p class="font-bold text-equity mb-2">Lawyer Profile<span class="p-1 px-2 bg-diligence text-oath rounded-lg ml-2"
+					>Delete Mode</span
+				></p>
+				<h3 class="font-bold">
+					{lawyer.title +
+						' ' +
+						lawyer.firstName +
+						' ' +
+						lawyer.middleName +
+						' ' +
+						lawyer.lastName +
+						(lawyer.nameSuffix ? ' ' + lawyer.nameSuffix : '')}
+				</h3>
+			</div>
+		</div>
+		<div class="mt-4 font-bold">
 			<p>Do you really want to delete this lawyer?</p>
-
-			<form method="POST" use:enhance class=" grid grid-cols-6 gap-4">
-				<button type="submit">Yes</button>
-				<button type="button" on:click={() => history.back()}>No</button>
+			<form method="POST" use:enhance class="flex gap-4 mt-6">
+				<button class="bg-diligence text-oath" type="submit">Delete</button>
+				<button class="border border-2 border-diligence" type="button" on:click={() => history.back()}>Cancel</button>
 			</form>
+		</div>
 		{:else}
-			<p>No lawyer found!</p>
+			<p>No lawyer found.</p>
 		{/if}
 	{:catch error}
 		<p>{error.message}</p>

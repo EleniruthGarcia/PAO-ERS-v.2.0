@@ -43,7 +43,7 @@
 {/if}
 
 <main
-	class="max-h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden leading-tight"
+	class="h-screen w-screen p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence lg:overflow-y-hidden leading-tight"
 >
 	{#await data.client}
 		<div><Loading /></div>

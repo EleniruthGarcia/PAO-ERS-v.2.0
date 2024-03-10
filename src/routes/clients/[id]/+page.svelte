@@ -9,13 +9,13 @@
 </script>
 
 <main
-	class="max-h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden overflow-y-hidden leading-tight"
+	class="h-screen w-screen py-12 p-6 lg:p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence lg:overflow-y-hidden leading-tight"
 >
 	{#await data.client}
 		<div><Loading /></div>
 	{:then client}
 		<div class="flex items-center justify-between">
-			<div>
+			<div class="pl-6 lg:pl-0">
 				<p class="font-bold text-equity mb-2">Client Profile</p>
 				<h3 class="font-bold">
 					{client?.firstName +
@@ -43,7 +43,7 @@
 				>
 			</span>
 		</div>
-		<div class="grid grid-cols-10 gap-4 max-h-[90%]">
+		<div class="grid grid-cols-10 gap-4 max-h-[90%] pl-4 lg:pl-0">
 			<div class="flex flex-col gap-4 lg:col-span-7 col-span-10 overflow-y-auto p-2 pt-0">
 				<div
 					class="flex flex-col gap-4 py-6 rounded-lg border border-innocence bg-witness shadow-md"

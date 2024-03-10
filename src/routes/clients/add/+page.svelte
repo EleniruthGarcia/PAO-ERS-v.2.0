@@ -16,26 +16,27 @@
 </script>
 
 {#if form?.invalid}
-	<Modal message="Invalid input values!" />
+	<Modal title="Invalid Input" message="Please ensure that all fields are filled properly." />
 {/if}
 
 {#if form?.missing}
-	<Modal message="Please fill out all necessary information!" />
+	<Modal title="Form Incomplete" message="Please fill out all necessary information." />
 {/if}
 
 {#if form?.error}
-	<Modal message="An error occurred while submitting the form!" />
+	<Modal title="Form Error" message="An error occurred while submitting the form." />
 {/if}
 
 {#if form?.success}
 	<Modal
-		message="Client's personal circumstances successfully added!"
+		title="Add Success!"
+		message="Client has been successfully added."
 		success={() => history.back()}
 	/>
 {/if}
 
 <main
-	class="h-[90%] lg:h-full w-screen flex flex-col py-12 p-6 lg:p-12 gap-6 bg-witness text-diligence lg:pl-14 lg:pr-28 overflow-x-hidden leading-tight"
+	class="h-full w-screen flex flex-col p-12 gap-6 bg-witness text-diligence lg:pl-14 lg:pr-28 overflow-x-hidden leading-tight"
 >
 	<div class="text-diligence">
 		<h3 class="font-bold mb-2">Client's Personal Circumstances</h3>

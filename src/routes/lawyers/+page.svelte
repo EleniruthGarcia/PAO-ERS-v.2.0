@@ -13,7 +13,7 @@
 </script>
 
 <main
-	class="h-screen w-screen p-12 pl-14 flex flex-col gap-4 bg-witness text-diligence overflow-y-hidden"
+	class="h-screen w-screen py-12 p-6 lg:p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence lg:overflow-y-hidden leading-tight"
 >
 	<div class="hidden md:block fixed top-10 right-10 text-right">
 		<p class="font-bold text-diligence text-sm">
@@ -34,7 +34,7 @@
 		</p>
 	</div>
 
-	<div class="mb-4">
+	<div class="pl-6 lg:pl-0 mb-4">
 		<h2 class="font-bold mb-2">Lawyers</h2>
 		<span class="font-bold">All lawyers are listed here.</span> Click on a lawyer to view their profile.
 	</div>
@@ -67,7 +67,7 @@
 											class="h-12 px-6 flex w-full hover:bg-oath border border-0 border-b border-t border-innocence"
 										>
 											<td class="font-bold p-3 w-1/3">
-												<span class="hidden lg:block"
+												<span class="hidden sm:block"
 													>{lawyer.firstName +
 														' ' +
 														lawyer.middleName +
@@ -75,7 +75,7 @@
 														lawyer.lastName +
 														(lawyer.nameSuffix ? ' ' + lawyer.nameSuffix : '')}</span
 												>
-												<span class="block lg:hidden">{lawyer.lastName}</span>
+												<span class="block sm:hidden">{lawyer.lastName}</span>
 											</td>
 											<td class="p-3 w-1/4 text-center">{lawyer.title}</td>
 											<td class="p-3 w-1/4 text-center">{lawyer.user.username}</td>
