@@ -61,18 +61,21 @@
 				>
 					<div class="flex items-center justify-between px-6">
 						<h4 class="font-bold text-equity">Clients</h4>
-							{#if showDeletedClients}
+						{#if showDeletedClients}
 							<button class="px-2 bg-diligence text-oath" on:click={toggleShowDeletedClients}>
 								<SvgIcon size="20px" type="mdi" path={mdiEye}></SvgIcon>
 							</button>
-							{:else}
-							<button class="px-2 bg-transparent outline outline-1 outline-diligence text-diligence" on:click={toggleShowDeletedClients}>
+						{:else}
+							<button
+								class="px-2 bg-transparent outline outline-1 outline-diligence text-diligence"
+								on:click={toggleShowDeletedClients}
+							>
 								<SvgIcon size="20px" type="mdi" path={mdiEyeOutline}></SvgIcon>
 							</button>
-							{/if}
+						{/if}
 					</div>
 					{#if clients.length === 0}
-						<p>No clients found!</p>
+						<p>No clients found.</p>
 					{:else}
 						<table class="text-left w-full">
 							<thead class="w-full">
@@ -83,7 +86,7 @@
 									<th class="p-3 w-1/6"></th>
 								</tr>
 							</thead>
-							<tbody class="text-sm flex flex-col overflow-y-scroll w-full h-72">
+							<tbody class="text-sm flex flex-col overflow-y-scroll w-full h-72 overflow-x-clip">
 								{#each clients as client}
 									<a href="/clients/{client.id}">
 										<tr
@@ -108,25 +111,28 @@
 											>
 											<td class="w-1/6 flex items-center justify-center gap-2">
 												{#if !client.deletedAt}
-												<a href="/clients/{client?.id}/edit"
-													><button class="flex items-center gap-2 px-2 lg:px-4"
-														><SvgIcon size="15px" type="mdi" path={mdiPencil} class="lg:w-15"></SvgIcon><span
-															class="hidden lg:block">Edit</span></button
-													></a
-												>
-												<a href="/clients/{client?.id}/delete"
-													><button class="flex items-center gap-2 px-2 lg:px-4 bg-diligence text-oath"
-														><SvgIcon size="15px" type="mdi" path={mdiTrashCan}></SvgIcon><span
-														class="hidden lg:block">Delete</span></button
-													></a
-												>
+													<a href="/clients/{client?.id}/edit"
+														><button class="flex items-center gap-2 px-2 lg:px-4"
+															><SvgIcon size="15px" type="mdi" path={mdiPencil} class="lg:w-15"
+															></SvgIcon><span class="hidden lg:block">Edit</span></button
+														></a
+													>
+													<a href="/clients/{client?.id}/delete"
+														><button
+															class="flex items-center gap-2 px-2 lg:px-4 bg-diligence text-oath"
+															><SvgIcon size="15px" type="mdi" path={mdiTrashCan}></SvgIcon><span
+																class="hidden lg:block">Delete</span
+															></button
+														></a
+													>
 												{:else}
-												<a href="/clients/{client?.id}/delete"
-													><button class="flex items-center gap-2 px-2 lg:px-4 bg-equity text-oath"
-													><SvgIcon size="15px" type="mdi" path={mdiDeleteRestore}></SvgIcon><span
-													class="hidden lg:block">Restore</span></button
-												></a
-											>
+													<a href="/clients/{client?.id}/delete"
+														><button
+															class="flex items-center gap-2 px-2 lg:px-4 bg-equity text-oath"
+															><SvgIcon size="15px" type="mdi" path={mdiDeleteRestore}
+															></SvgIcon><span class="hidden lg:block">Restore</span></button
+														></a
+													>
 												{/if}
 											</td>
 										</tr>

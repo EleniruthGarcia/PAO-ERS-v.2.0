@@ -43,7 +43,7 @@
 			};
 		}
 
-    // const count = await prisma.client.findMany({where: {outreach: true});
+		// const count = await prisma.client.findMany({where: {outreach: true});
 
 		for (let n = 9; n <= 25; n++) {
 			worksheet.getRow(n).height = 40;
@@ -86,7 +86,6 @@
 		// let j = 13;
 
 		// addRow(worksheet, clientArray);
-
 	}
 
 	fetchRecord()

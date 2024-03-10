@@ -78,10 +78,13 @@ export const actions = {
 			return fail(400, { invalid: true });
 		}
 
-		let userUpdate = changePassword && password && typeof password === 'string' ? {
-			username,
-			passwordHash: await bcrypt.hash(password, 10)
-		} : { username };
+		let userUpdate =
+			changePassword && password && typeof password === 'string'
+				? {
+						username,
+						passwordHash: await bcrypt.hash(password, 10)
+					}
+				: { username };
 
 		// save to database
 		const lawyer = await prisma.lawyer.update({
@@ -100,7 +103,7 @@ export const actions = {
 				user: {
 					update: userUpdate
 				}
-			},
+			}
 		});
 
 		if (!lawyer) {

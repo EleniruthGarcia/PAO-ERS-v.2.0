@@ -31,30 +31,36 @@
 		<div><Loading /></div>
 	{:then lawyer}
 		{#if lawyer}
-		<div class="flex items-center justify-between">
-			<div class="pl-6 lg:pl-0">
-				<p class="font-bold text-equity mb-2">Lawyer Profile<span class="p-1 px-2 bg-diligence text-oath rounded-lg ml-2"
-					>Delete Mode</span
-				></p>
-				<h3 class="font-bold">
-					{lawyer.title +
-						' ' +
-						lawyer.firstName +
-						' ' +
-						lawyer.middleName +
-						' ' +
-						lawyer.lastName +
-						(lawyer.nameSuffix ? ' ' + lawyer.nameSuffix : '')}
-				</h3>
+			<div class="flex items-center justify-between">
+				<div class="pl-6 lg:pl-0">
+					<p class="font-bold text-equity mb-2">
+						Lawyer Profile<span class="p-1 px-2 bg-diligence text-oath rounded-lg ml-2"
+							>Delete Mode</span
+						>
+					</p>
+					<h3 class="font-bold">
+						{lawyer.title +
+							' ' +
+							lawyer.firstName +
+							' ' +
+							lawyer.middleName +
+							' ' +
+							lawyer.lastName +
+							(lawyer.nameSuffix ? ' ' + lawyer.nameSuffix : '')}
+					</h3>
+				</div>
 			</div>
-		</div>
-		<div class="mt-4 font-bold">
-			<p>Do you really want to delete this lawyer?</p>
-			<form method="POST" use:enhance class="flex gap-4 mt-6">
-				<button class="bg-diligence text-oath" type="submit">Delete</button>
-				<button class="border border-2 border-diligence" type="button" on:click={() => history.back()}>Cancel</button>
-			</form>
-		</div>
+			<div class="mt-4 font-bold">
+				<p>Do you really want to delete this lawyer?</p>
+				<form method="POST" use:enhance class="flex gap-4 mt-6">
+					<button class="bg-diligence text-oath" type="submit">Delete</button>
+					<button
+						class="border border-2 border-diligence"
+						type="button"
+						on:click={() => history.back()}>Cancel</button
+					>
+				</form>
+			</div>
 		{:else}
 			<p>No lawyer found.</p>
 		{/if}

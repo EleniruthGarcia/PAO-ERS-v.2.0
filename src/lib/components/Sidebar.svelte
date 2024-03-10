@@ -20,29 +20,29 @@
 <aside
 	class="lg:static flex flex-col items-center justify-evenly lg:justify-between lg:h-screen overflow-hidden bg-verdict w-auto lg:min-w-80 lg:items-start lg:p-10 lg:pt-14"
 >
-		<a href="/" class="lg:pl-4 font-bold text-oath flex items-center gap-2"
-			><img src={Logo} alt="PAO Logo" class="min-w-10 w-10 lg:w-14" />
-			<!-- <p class="hidden md:block text-base">PAO-ERS</p> -->
-		</a>
-		<nav class="flex flex-col items-center text-oath lg:gap-2 lg:items-start h-[60%] w-[60%] justify-evenly lg:py-10">
-			<p class="hidden lg:block font-bold pl-4 text-trust">Navigation</p>
-			<NavLink href="/" title="Dashboard"><Dashboard /></NavLink>
-			{#if $page.data.user.role === 'lawyer'}
-				<NavLink href="/clients" title="Clients"><Clients /></NavLink>
-				<NavLink href="/cases" title="Cases"><Cases /></NavLink>
-				<NavLink href="/requests" title="Requests"><Requests /></NavLink>
-				<NavLink href="/reports" title="Reports"><Reports /></NavLink>
-				<NavLink href="/recents" title="Recents"><Recents /></NavLink>
-			{/if}
-			{#if $page.data.user.role === 'admin'}
-				<NavLink href="/lawyers" title="Lawyers"><Lawyers /></NavLink>
-				<NavLink href="/reports" title="Reports"><Reports /></NavLink>
-				<NavLink href="/settings" title="Settings"><Settings /></NavLink>
-			{/if}
-		</nav>
-	<div
-		class="group flex flex-col items-center justify-center text-oath lg:pl-4 gap-4 p-4"
+	<a href="/" class="lg:pl-4 font-bold text-oath flex items-center gap-2"
+		><img src={Logo} alt="PAO Logo" class="min-w-10 w-10 lg:w-14" />
+		<!-- <p class="hidden md:block text-base">PAO-ERS</p> -->
+	</a>
+	<nav
+		class="flex flex-col items-center text-oath lg:gap-2 lg:items-start h-[60%] w-[60%] justify-evenly lg:py-10"
 	>
+		<p class="hidden lg:block font-bold pl-4 text-trust">Navigation</p>
+		<NavLink href="/" title="Dashboard"><Dashboard /></NavLink>
+		{#if $page.data.user.role === 'lawyer'}
+			<NavLink href="/clients" title="Clients"><Clients /></NavLink>
+			<NavLink href="/cases" title="Cases"><Cases /></NavLink>
+			<NavLink href="/requests" title="Requests"><Requests /></NavLink>
+			<NavLink href="/reports" title="Reports"><Reports /></NavLink>
+			<NavLink href="/recents" title="Recents"><Recents /></NavLink>
+		{/if}
+		{#if $page.data.user.role === 'admin'}
+			<NavLink href="/lawyers" title="Lawyers"><Lawyers /></NavLink>
+			<NavLink href="/reports" title="Reports"><Reports /></NavLink>
+			<NavLink href="/settings" title="Settings"><Settings /></NavLink>
+		{/if}
+	</nav>
+	<div class="group flex flex-col items-center justify-center text-oath lg:pl-4 gap-4 p-4">
 		<form id="logout" method="POST" action="/logout" class="hidden" />
 		<button
 			class="invisible fixed lg:static group-hover:visible flex gap-2 items-center bg-verdict hover:bg-equity p-2 lg:px-4 lg:py-2 rounded-full lg:rounded-lg font-normal hover:font-bold"

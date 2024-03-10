@@ -49,7 +49,7 @@
 				>
 					<h4 class="font-bold text-equity px-6">Lawyers</h4>
 					{#if lawyers.length === 0}
-						<p>No lawyers found!</p>
+						<p>No lawyers found.</p>
 					{:else}
 						<table class="text-left w-full">
 							<thead class="w-full">

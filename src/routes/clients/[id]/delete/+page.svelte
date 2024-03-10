@@ -31,28 +31,34 @@
 		<div><Loading /></div>
 	{:then client}
 		{#if client}
-		<div class="flex items-center justify-between">
-			<div class="pl-6 lg:pl-0">
-				<p class="font-bold text-equity mb-2">Client Profile<span class="p-1 px-2 bg-diligence text-oath rounded-lg ml-2"
-					>Delete Mode</span
-				></p>
-				<h3 class="font-bold">
-					{client?.firstName +
-						' ' +
-						client?.middleName +
-						' ' +
-						client?.lastName +
-						(client?.nameSuffix ? ' ' + client?.nameSuffix : '')}
-				</h3>
+			<div class="flex items-center justify-between">
+				<div class="pl-6 lg:pl-0">
+					<p class="font-bold text-equity mb-2">
+						Client Profile<span class="p-1 px-2 bg-diligence text-oath rounded-lg ml-2"
+							>Delete Mode</span
+						>
+					</p>
+					<h3 class="font-bold">
+						{client?.firstName +
+							' ' +
+							client?.middleName +
+							' ' +
+							client?.lastName +
+							(client?.nameSuffix ? ' ' + client?.nameSuffix : '')}
+					</h3>
+				</div>
 			</div>
-		</div>
-		<div class="mt-4 font-bold">
-			<p>Do you really want to delete this client?</p>
-			<form method="POST" use:enhance class="flex gap-4 mt-6">
-				<button class="bg-diligence text-oath" type="submit">Delete</button>
-				<button class="border border-2 border-diligence" type="button" on:click={() => history.back()}>Cancel</button>
-			</form>
-		</div>
+			<div class="mt-4 font-bold">
+				<p>Do you really want to delete this client?</p>
+				<form method="POST" use:enhance class="flex gap-4 mt-6">
+					<button class="bg-diligence text-oath" type="submit">Delete</button>
+					<button
+						class="border border-2 border-diligence"
+						type="button"
+						on:click={() => history.back()}>Cancel</button
+					>
+				</form>
+			</div>
 		{:else}
 			<p>No client found.</p>
 		{/if}

@@ -19,7 +19,9 @@
 <form id="logout" method="POST" action="/logout" class="hidden" />
 
 {#if $page.data.user}
-	<main class="h-screen w-screen pt-12 p-6 lg:p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence">
+	<main
+		class="h-screen w-screen pt-12 p-6 lg:p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence"
+	>
 		<div class="hidden md:block fixed top-10 right-10 text-right">
 			<p class="font-bold text-diligence text-sm">
 				{Intl.DateTimeFormat('en-PH', {
