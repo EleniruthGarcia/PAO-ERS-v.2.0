@@ -25,14 +25,14 @@
 {/if}
 
 <main
-	class="h-screen w-screen py-12 p-6 lg:p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence lg:overflow-y-hidden leading-tight"
+	class="h-screen w-screen p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence lg:overflow-y-hidden leading-tight"
 >
 	{#await data.lawyer}
 		<div><Loading /></div>
 	{:then lawyer}
 		{#if lawyer}
 			<div class="flex items-center justify-between">
-				<div class="pl-6 lg:pl-0">
+				<div>
 					<p class="font-bold text-equity mb-2">
 						Lawyer Profile<span class="p-1 px-2 bg-diligence text-oath rounded-lg ml-2"
 							>Delete Mode</span
