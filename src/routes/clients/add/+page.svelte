@@ -35,7 +35,7 @@
 {/if}
 
 <main
-	class="h-[90%] lg:h-full w-screen flex flex-col pt-12 p-6 lg:p-12 gap-6 bg-witness text-diligence lg:pl-14 lg:pr-28 overflow-x-hidden leading-tight"
+	class="h-[90%] lg:h-full w-screen flex flex-col py-12 p-6 lg:p-12 gap-6 bg-witness text-diligence lg:pl-14 lg:pr-28 overflow-x-hidden leading-tight"
 >
 	<div class="text-diligence">
 		<h3 class="font-bold mb-2">Client's Personal Circumstances</h3>
