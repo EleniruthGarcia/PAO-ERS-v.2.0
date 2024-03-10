@@ -25,7 +25,7 @@
 </script>
 
 <main
-	class="h-screen w-screen p-12 pl-14 flex flex-col gap-4 bg-witness text-diligence overflow-y-hidden"
+	class="h-screen w-screen pt-12 p-4 lg:p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence overflow-y-scroll lg:overflow-y-hidden"
 >
 	<div class="hidden md:block fixed top-10 right-10 text-right">
 		<p class="font-bold text-diligence text-sm">
@@ -46,7 +46,7 @@
 		</p>
 	</div>
 
-	<div class="mb-4">
+	<div class="pl-6 lg:pl-0 mb-4">
 		<h2 class="font-bold mb-2">Clients</h2>
 		<span class="font-bold">All clients are listed here.</span> Click on a client to view their profile.
 	</div>
@@ -81,7 +81,7 @@
 									<th class="p-3 w-1/6"></th>
 								</tr>
 							</thead>
-							<tbody class="text-sm flex flex-col overflow-y-scroll w-full h-72">
+							<tbody class="text-sm flex flex-col overflow-y-scroll w-full h-60 lg:h-72">
 								{#each clients as client}
 									<a href="/clients/{client.id}">
 										<tr
