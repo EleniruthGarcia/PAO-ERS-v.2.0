@@ -111,10 +111,11 @@ model Case {
   id                 Int       @id @default(autoincrement())
   request            Request   @relation(fields: [requestId], references: [id])
   requestId          Int
-  title              String
-  court              String
-  nature             String
+  title              String?
+  docketNumber       String?
+  court              String?
   status             String
+  nature             String
   causeOfAction      String
   lastActionTaken    String
   lastActionDate     DateTime
