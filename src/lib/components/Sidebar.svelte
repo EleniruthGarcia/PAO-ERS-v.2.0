@@ -25,7 +25,7 @@
 		<!-- <p class="hidden md:block text-base">PAO-ERS</p> -->
 	</a>
 	<nav
-		class="flex flex-col items-center text-oath lg:gap-2 lg:items-start h-[60%] w-[60%] justify-evenly lg:py-10"
+		class="flex flex-col items-center text-oath lg:gap-4 lg:items-start h-[60%] w-[60%] lg:justify-normal justify-evenly lg:py-10"
 	>
 		<p class="hidden lg:block font-bold pl-4 text-trust">Navigation</p>
 		<NavLink href="/" title="Dashboard"><Dashboard /></NavLink>
