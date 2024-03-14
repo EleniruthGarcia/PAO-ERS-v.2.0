@@ -180,9 +180,6 @@
 			</span>
 		</div>
 		<div class="flex flex-col gap-4">
-			<!-- {#await}
-			<div><Loading /></div>
-		{:then} -->
 			<div class="flex flex-col gap-4 lg:col-span-7 col-span-10 p-2 pt-0">
 				<div
 					class="flex flex-col gap-4 py-6 rounded-lg border border-innocence bg-witness shadow-md"

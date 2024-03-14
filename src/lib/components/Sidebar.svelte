@@ -31,8 +31,8 @@
 		<NavLink href="/" title="Dashboard"><Dashboard /></NavLink>
 		{#if $page.data.user.role === 'lawyer'}
 			<NavLink href="/clients" title="Clients"><Clients /></NavLink>
-			<NavLink href="/cases" title="Cases"><Cases /></NavLink>
 			<NavLink href="/requests" title="Requests"><Requests /></NavLink>
+			<NavLink href="/cases" title="Cases"><Cases /></NavLink>
 			<NavLink href="/reports" title="Reports"><Reports /></NavLink>
 		{/if}
 		{#if $page.data.user.role === 'admin'}

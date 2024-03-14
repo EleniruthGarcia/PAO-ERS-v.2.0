@@ -1,103 +1,107 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { ActionData } from './$types';
+	import type { PageServerData, ActionData } from './$types';
 
+	import Loading from '$lib/components/Loading.svelte';
+
+	import Modal from '$lib/components/Modal.svelte';
+	import Field from '$lib/components/Field.svelte';
+	import Checkbox from '$lib/components/Checkbox.svelte';
+	import DatePicker from '$lib/components/DatePicker.svelte';
+	import Select from '$lib/components/Select.svelte';
+	import Option from '$lib/components/Option.svelte';
+
+	export let data: PageServerData;
 	export let form: ActionData;
+
+	let classification = [
+    { name: "Child in Conflict with the Law" },
+    { name: "Woman Client" },
+    { name: "VAWC Victim" },
+    { name: "Law Enforcer" },
+    { name: "Drug-Related Duty" },
+    { name: "OFW (Land-Based)" },
+    { name: "OFW (Sea-Based)" },
+    { name: "Former Rebels (FRs) and Former Violent Extremists (FVEs)" },
+    { name: "Senior Citizen" },
+    { name: "Refugee or Evacuee" },
+    { name: "Tenant in Agrarian Case" },
+    { name: "Victim of Terrorism (R.A. No. 9372)" },
+    { name: "Victim of Torture (R.A. 9745)" },
+    { name: "Victim of Trafficking (R.A. No. 9208)" },
+    { name: "Foreign National" },
+    { name: "Urban Poor" },
+    { name: "Rural Poor" },
+    { name: "Indigenous People" },
+    { name: "PWD" },
+    { name: "Petitioner for Voluntary Rehabilitation" }
+  ];
 </script>
 
 {#if form?.invalid}
-	<span class="text-red-500">Invalid input values!</span>
+	<Modal title="Invalid Input" message="Please ensure that all fields are filled properly." />
 {/if}
 
 {#if form?.missing}
-	<span class="text-red-500">Please fill in all the required fields!</span>
+	<Modal title="Form Incomplete" message="Please fill out all necessary information." />
 {/if}
 
 {#if form?.error}
-	<span class="text-red-500">Failed to create user!</span>
+	<Modal title="Form Error" message="An error occurred while submitting the form." />
 {/if}
 
 {#if form?.success}
-	<span class="text-trust">Successfully registered!</span>
+	<Modal
+		title="Add Success!"
+		message="Client has been successfully added."
+		success={() => history.back()}
+	/>
 {/if}
 
-<main class="h-screen w-full flex flex-col p-12 gap-6 bg-witness">
-	<form method="POST" use:enhance class=" grid grid-cols-6 gap-4">
-		<label for="firstName">First Name</label>
-		<input type="text" name="firstName" id="firstName" required autocomplete="given-name" />
+<main
+	class="h-full w-screen flex flex-col p-12 gap-6 bg-witness text-diligence lg:pl-14 lg:pr-28 overflow-x-hidden leading-tight"
+>
+	<div class="text-diligence">
+		<h3 class="font-bold mb-2">Case Information</h3>
+		<span class="font-bold">Please fill out all necessary information.</span> | Mangyaring punan ang
+		lahat ng kinakailangang impormasyon.
+	</div>
+	<form method="POST" use:enhance class="flex flex-col gap-4">
+		<h4 class="font-bold">Request Information</h4>
+		<div class="inline-flex flex-wrap gap-4">
+			<Select name="requestId" labelEng="Request" w="w-32" required>
+				<Option value="" disabled hidden selected></Option>
+				{#await data.requests}
+					<Loading />
+				{:then requests}
+					{#if requests.length > 0}
+						{#each requests as request}
+							<Option value={String(request.id)}>{request.client.lastName} | {request.requestType}</Option>
+						{/each}
+					{:else}
+						<Option value="" disabled>No requests available</Option>
+					{/if}
+				{/await}
+			</Select>
+		</div>
+		
+		<h4 class="font-bold">Client Classification</h4>
+		<div class="grid grid-cols-3 gap-4">
+			{#each classification as classify}
+			<Checkbox name={classify.name} labelEng={classify.name} class="text-xs" />
+			{/each}
+		</div>
 
-		<label for="middleName">Middle Name</label>
-		<input type="text" name="middleName" id="middleName" required autocomplete="additional-name" />
-
-		<label for="lastName">Last Name</label>
-		<input type="text" name="lastName" id="lastName" required autocomplete="family-name" />
-
-		<label for="nameSuffix">Name Suffix</label>
-		<input type="text" name="nameSuffix" id="nameSuffix" />
-
-		<label for="age">Age</label>
-		<input type="number" name="age" id="age" required />
-
-		<label for="sex">Sex</label>
-		<select name="sex" id="sex" required autocomplete="sex">
-			<option value="" hidden selected></option>
-			<option value="Male">Male</option>
-			<option value="Female">Female</option>
-		</select>
-
-		<label for="address">Address</label>
-		<input type="text" name="address" id="address" required autocomplete="address-level1" />
-
-		<label for="email">Email</label>
-		<input type="email" name="email" id="email" autocomplete="email" />
-
-		<label for="contactNumber">Contact Number</label>
-		<input type="tel" name="contactNumber" id="contactNumber" />
-
-		<label for="civilStatus">Civil Status</label>
-		<select name="civilStatus" id="civilStatus">
-			<option value="" hidden selected></option>
-			<option value="Single">Single</option>
-			<option value="Married">Married</option>
-			<option value="Divorced">Divorced</option>
-			<option value="Widowed">Widowed</option>
-		</select>
-
-		<label for="religion">Religion</label>
-		<input type="text" name="religion" id="religion" />
-
-		<label for="citizenship">Citizenship</label>
-		<input type="text" name="citizenship" id="citizenship" />
-
-		<label for="educationalAttainment">Educational Attainment</label>
-		<input type="text" name="educationalAttainment" id="educationalAttainment" />
-
-		<label for="language">Language/Dialect</label>
-		<input type="text" name="language" id="language" />
-
-		<label for="individualMonthlyIncome">Individual Monthly Income</label>
-		<input type="number" name="individualMonthlyIncome" id="individualMonthlyIncome" />
-
-		<label for="detained">Detained</label>
-		<input type="checkbox" name="detained" id="detained" />
-
-		<label for="detainedSince">Detained Since</label>
-		<input type="date" name="detainedSince" id="detainedSince" />
-
-		<label for="detainedAt">Detained At</label>
-		<input type="text" name="detainedAt" id="detainedAt" />
-
-		<label for="spouseName">Spouse Name</label>
-		<input type="text" name="spouseName" id="spouseName" />
-
-		<label for="spouseAddress">Spouse Address</label>
-		<input type="text" name="spouseAddress" id="spouseAddress" />
-
-		<label for="spouseContactNumber">Spouse Contact Number</label>
-		<input type="tel" name="spouseContactNumber" id="spouseContactNumber" />
-
-		<button type="submit">Submit</button>
-		<button type="reset">Reset</button>
-		<button type="button" on:click={() => history.back()}>Go Back</button>
+		<div class="flex gap-4 mt-6">
+			<button class="bg-trust" type="submit">Submit</button>
+			<button
+				class="bg-diligence text-oath"
+				type="reset"
+				>Reset</button
+			>
+			<button class="border border-2 border-diligence" type="button" on:click={() => history.back()}
+				>Go Back</button
+			>
+		</div>
 	</form>
 </main>

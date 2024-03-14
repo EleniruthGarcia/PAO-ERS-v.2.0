@@ -25,6 +25,13 @@ export const actions = {
             where: {
                 // createdAt: { gte, lt }
             },
+            include: {
+                request: {
+                    include:{
+                        case: true
+                    }
+                }
+            }
         });
 
         const report = await generateReports(clients);

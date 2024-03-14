@@ -1,23 +1,22 @@
 import prisma from '$lib/server/prisma';
-import { fail, redirect } from '@sveltejs/kit';
-import type { Actions, PageServerLoad } from './$types';
+import { fail } from '@sveltejs/kit';
+import type { PageServerLoad, Actions } from './$types';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ params }) => {
 	return {
-		requests: prisma.request.findMany({where: { deletedAt: null }, include: { client: true }}),
-	}
-}
+		client: prisma.client.findUnique({
+			where: { id: Number(params.id), deletedAt: null }
+		})
+	};
+};
 
 export const actions = {
-	default: async ({ request, locals }) => {
-		if (!locals.user) {
-			throw redirect(303, '/');
-		}
-
+	default: async ({ request, params }) => {
 		const data = await request.formData();
 
 		// required fields
 		let firstName = data.get('firstName');
+		let middleName = data.get('middleName');
 		let lastName = data.get('lastName');
 
 		let age = data.get('age');
@@ -25,7 +24,6 @@ export const actions = {
 		let address = data.get('address');
 
 		// optional fields
-		let middleName = data.get('middleName');
 		let nameSuffix = data.get('nameSuffix');
 		let email = data.get('email');
 		let contactNumber = data.get('contactNumber');
@@ -43,21 +41,18 @@ export const actions = {
 		let spouseContactNumber = data.get('spouseContactNumber');
 
 		// validation
-		if (!firstName || !lastName || !age || !sex || !address) {
+		if (!firstName || !middleName || !lastName || !age || !sex || !address) {
 			return fail(400, { missing: true });
 		}
 
 		if (
 			typeof firstName !== 'string' ||
+			typeof middleName !== 'string' ||
 			typeof lastName !== 'string' ||
 			typeof Number(age) !== 'number' ||
 			typeof sex !== 'string' ||
 			typeof address !== 'string'
 		) {
-			return fail(400, { invalid: true });
-		}
-
-		if (middleName && typeof middleName !== 'string') {
 			return fail(400, { invalid: true });
 		}
 
@@ -122,7 +117,8 @@ export const actions = {
 		}
 
 		// save to database
-		const client = await prisma.client.create({
+		const client = await prisma.client.update({
+			where: { id: Number(params.id) },
 			data: {
 				firstName,
 				middleName,

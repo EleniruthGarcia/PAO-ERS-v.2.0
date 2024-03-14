@@ -75,7 +75,7 @@
 						{/if}
 					</div>
 					{#if clients.length === 0}
-						<p>No clients found.</p>
+						<p class="px-6">No clients found.</p>
 					{:else}
 						<table class="text-left w-full">
 							<thead class="w-full">
