@@ -1,7 +1,7 @@
 import ExcelJS from 'exceljs';
 import type { Client } from '@prisma/client';
 
-import template from '$lib/assets/reports.xlsx?raw';
+import template from '$lib/assets/reports.xlsx?url';
 
 import * as F10 from './F.10';
 import * as F17 from './F.017';
