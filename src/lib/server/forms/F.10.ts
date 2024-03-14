@@ -9,13 +9,17 @@ export const addRow = async (worksheet: ExcelJS.Worksheet | undefined, clients: 
 
 	for (let i = 0; i < clients.length; i++) {
 		const client = clients[i];
-		worksheet.insertRow(14, [
-			client.createdAt,
-			`${client.lastName} ${client.nameSuffix ? client.nameSuffix : ''}, ${client.firstName} ${client.middleName ? client.middleName : ''}`,
-			client.sex,
-			'',
-			'',
-			''
-		], 'o+');
+		worksheet.insertRow(
+			14,
+			[
+				client.createdAt,
+				`${client.lastName} ${client.nameSuffix ? client.nameSuffix : ''}, ${client.firstName} ${client.middleName ? client.middleName : ''}`,
+				client.sex,
+				'',
+				'',
+				''
+			],
+			'o+'
+		);
 	}
 };

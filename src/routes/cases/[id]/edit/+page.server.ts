@@ -12,7 +12,7 @@ export const load: PageServerLoad = async ({ params }) => {
 			include: {
 				client: true
 			}
-		}),
+		})
 	};
 };
 

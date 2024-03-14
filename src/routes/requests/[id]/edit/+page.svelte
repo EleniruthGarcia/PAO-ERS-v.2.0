@@ -13,19 +13,18 @@
 	export let data: PageServerData;
 	export let form: ActionData;
 
-	let client = 'value';
+	let request = 'value';
 	let lawyer = 'value';
 	let otherNature: false;
 	let natures = [
-    { name: "Legal Advice" },
-    { name: "Legal Documentation" },
-    { name: "Representation in Court or Quasi-Judicial Bodies" },
-    { name: "Inquest Legal Assistance" },
-    { name: "Mediation or Conciliation" },
-    { name: "Administration of Oath" },
-    { name: "Others" }
-  ];
-</script>
+		{ name: 'Legal Advice' },
+		{ name: 'Legal Documentation' },
+		{ name: 'Representation in Court or Quasi-Judicial Bodies' },
+		{ name: 'Inquest Legal Assistance' },
+		{ name: 'Mediation or Conciliation' },
+		{ name: 'Administration of Oath' },
+		{ name: 'Others' }
+	];
 </script>
 
 {#if form?.invalid}
@@ -43,7 +42,7 @@
 {#if form?.success}
 	<Modal
 		title="Edit Success!"
-		message="The client profile has been successfully edited."
+		message="The request profile has been successfully edited."
 		success={() => history.back()}
 	/>
 {/if}
@@ -51,10 +50,10 @@
 <main
 	class="h-screen w-full p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence lg:overflow-y-hidden leading-tight"
 >
-	{#await data.client}
+	{#await data.request}
 		<div><Loading /></div>
-	{:then client}
-		{#if client}
+	{:then request}
+		{#if request}
 			<div>
 				<p class="font-bold text-equity mb-2">
 					Request Information<span class="p-1 px-2 bg-diligence text-oath rounded-lg ml-2"
@@ -62,7 +61,7 @@
 					>
 				</p>
 				<h3 class="font-bold">
-					Request ID: {request?.ID)}
+					Request ID: {request.id}
 				</h3>
 			</div>
 			<form method="POST" use:enhance class="flex flex-col gap-4">
@@ -71,64 +70,35 @@
 						<Option value="" disabled hidden selected></Option>
 						<Option value="Baguio">Baguio City</Option>
 					</Select>
-					<DatePicker
-							labelEng="Date of Request"
-							name="date"
-							id="date"
-							class="max-w-40"
-						/>
-					<Field
-						labelEng="Control Number"
-						name="controlNum"
-						required
-					/>
-					<Field
-						labelEng="Assigned to"
-						name="assgnTo"
-						required
-					/>
-					<Field
-						labelEng="Referred to"
-						name="rffrdTo"
-						required
-					/>
-					<Field
-						labelEng="Referred by"
-						name="rffrdBy"
-						required
-					/>
-					<Field
-						labelEng="Interviewer"
-						name="interviewer"
-						required
-					/>
-					<Field
-						labelEng="Approved by"
-						name="apprvBy"
-						required
-					/>
+					<DatePicker labelEng="Date of Request" name="date" id="date" class="max-w-40" />
+					<Field labelEng="Control Number" name="controlNum" required />
+					<Field labelEng="Assigned to" name="assgnTo" required />
+					<Field labelEng="Referred to" name="rffrdTo" required />
+					<Field labelEng="Referred by" name="rffrdBy" required />
+					<Field labelEng="Interviewer" name="interviewer" required />
+					<Field labelEng="Approved by" name="apprvBy" required />
 				</div>
-		
-				<h4 class="font-bold">Client and Lawyer</h4>
+
+				<h4 class="font-bold">request and Lawyer</h4>
 				<div class="inline-flex flex-wrap gap-4">
-					<Select name="client" labelEng="Client" w="w-32" bind:value={client} required>
+					<Select name="request" labelEng="request" w="w-32" bind:value={request} required>
 						<Option value="" disabled hidden selected></Option>
-						{#await data.clients}
+						{#await data.requests}
 							<Loading />
-						{:then clients}
-							{#if clients.length > 0}
-								{#each clients as client}
-									<Option value={String(client.id)}
-										>{client.firstName +
+						{:then requests}
+							{#if requests.length > 0}
+								{#each requests as request}
+									<Option value={String(request.id)}
+										>{request.firstName +
 											' ' +
-											client.middleName +
+											request.middleName +
 											' ' +
-											client.lastName +
-											(client.nameSuffix ? ' ' + client.nameSuffix : '')}</Option
+											request.lastName +
+											(request.nameSuffix ? ' ' + request.nameSuffix : '')}</Option
 									>
 								{/each}
 							{:else}
-								<Option value="" disabled>No clients available.</Option>
+								<Option value="" disabled>No requests available.</Option>
 							{/if}
 						{/await}
 					</Select>
@@ -151,47 +121,45 @@
 									>
 								{/each}
 							{:else}
-								<Option value="" disabled>No clients available.</Option>
+								<Option value="" disabled>No requests available.</Option>
 							{/if}
 						{/await}
 					</Select>
 				</div>
-		
+
 				<h4 class="font-bold">Nature of Request</h4>
-					<div class="flex flex-col gap-4">
-						<div class="grid grid-cols-3 gap-4">
-							{#each natures as nature}
-								{#if nature.name === 'Others'}
-									<Checkbox
-										name={nature.name}
-										labelEng={nature.name}
-										class="text-xs"
-										bind:checked={otherNature}
-									/>
-								{:else}
-									<Checkbox name={nature.name} labelEng={nature.name} class="text-xs" />
-								{/if}
-							{/each}
-							{#if otherNature}
-								<Field labelEng="Other Nature" name="otherNature" class="w-full text-xs" required />
+				<div class="flex flex-col gap-4">
+					<div class="grid grid-cols-3 gap-4">
+						{#each natures as nature}
+							{#if nature.name === 'Others'}
+								<Checkbox
+									name={nature.name}
+									labelEng={nature.name}
+									class="text-xs"
+									bind:checked={otherNature}
+								/>
+							{:else}
+								<Checkbox name={nature.name} labelEng={nature.name} class="text-xs" />
 							{/if}
-						</div>
+						{/each}
+						{#if otherNature}
+							<Field labelEng="Other Nature" name="otherNature" class="w-full text-xs" required />
+						{/if}
 					</div>
-		
+				</div>
+
 				<div class="flex gap-4 mt-6">
 					<button class="bg-trust" type="submit">Submit</button>
+					<button class="bg-diligence text-oath" type="reset">Reset</button>
 					<button
-						class="bg-diligence text-oath"
-						type="reset"
-						>Reset</button
-					>
-					<button class="border border-2 border-diligence" type="button" on:click={() => history.back()}
-						>Go Back</button
+						class="border border-2 border-diligence"
+						type="button"
+						on:click={() => history.back()}>Go Back</button
 					>
 				</div>
 			</form>
 		{:else}
-			<p>Client not found!</p>
+			<p>request not found!</p>
 		{/if}
 	{:catch error}
 		<p>{error.message}</p>

@@ -27,10 +27,10 @@
 <main
 	class="h-screen w-full p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence lg:overflow-y-hidden leading-tight"
 >
-	{#await data.client}
+	{#await data.request}
 		<div><Loading /></div>
-	{:then client}
-		{#if client}
+	{:then request}
+		{#if request}
 			<div class="flex items-center justify-between">
 				<div>
 					<p class="font-bold text-equity mb-2">
@@ -39,7 +39,7 @@
 						>
 					</p>
 					<h3 class="font-bold">
-						Request ID: {request?.ID)}
+						Request ID: {request.id}
 					</h3>
 				</div>
 			</div>

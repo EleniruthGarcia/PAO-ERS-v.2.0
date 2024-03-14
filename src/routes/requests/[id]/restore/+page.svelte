@@ -39,7 +39,7 @@
 						>
 					</p>
 					<h3 class="font-bold">
-						Request ID: {request?.ID)}
+						Request ID: {request.id}
 					</h3>
 				</div>
 			</div>

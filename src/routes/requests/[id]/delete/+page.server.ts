@@ -4,7 +4,7 @@ import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {
 	return {
-		client: prisma.client.findUnique({
+		request: prisma.request.findUnique({
 			where: { id: Number(params.id) }
 		})
 	};
