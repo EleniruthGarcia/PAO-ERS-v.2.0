@@ -4,7 +4,7 @@ import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
 	return {
-		requests: prisma.request.findMany({where: { deletedAt: null }, include: { client: true }}),
+		requests: prisma.request.findMany({ where: { deletedAt: null }, include: { client: true } }),
 	}
 }
 
@@ -18,28 +18,37 @@ export const actions = {
 
 		// required fields
 		let requestId = data.get('requestId');
-		
 
 		// optional fields
-		let middleName = data.get('middleName');
-		let nameSuffix = data.get('nameSuffix');
-		let email = data.get('email');
-		let contactNumber = data.get('contactNumber');
-		let civilStatus = data.get('civilStatus');
-		let religion = data.get('religion');
-		let citizenship = data.get('citizenship');
-		let educationalAttainment = data.get('educationalAttainment');
-		let language = data.get('language');
-		let individualMonthlyIncome = data.get('individualMonthlyIncome');
-		let detained = data.get('detained');
-		let detainedSince = data.get('detainedSince');
-		let detainedAt = data.get('detainedAt');
-		let spouseName = data.get('spouseName');
-		let spouseAddress = data.get('spouseAddress');
-		let spouseContactNumber = data.get('spouseContactNumber');
+		let criminal = data.get('Criminal');
+		let administrative = data.get('Administrative');
+		let civil = data.get('Civil');
+		let appealed = data.get('Appealed');
+		let labor = data.get('Labor');
+		let additionalInformation = data.get('addInfo');
+
+		let plaintiff = data.get('plaintiff');
+		let defendant = data.get('defendant');
+		let oppositor = data.get('oppositor');
+		let advName = data.get('advName');
+
+		let facts = data.get('facts');
+		let coa = data.get('coa');
+
+		let pending = data.get('pending');
+
+		let caseTitle = data.get('caseTitle');
+		let docketNumber = data.get('docketNumber');
+		let court = data.get('court');
+
+		let incomeTaxReturn = data.get('Income Tax Return');
+		let certificateOfBarangay = data.get('Certificate of Barangay');
+		let cetrificateFromDSWD = data.get('Cetrificate from DSWD');
+		let others = data.get('Others');
+		let otherProof = data.get('otherProof');
 
 		// validation
-		if (!firstName || !lastName || !age || !sex || !address) {
+		if (!requestId) {
 			return fail(400, { missing: true });
 		}
 
@@ -53,94 +62,12 @@ export const actions = {
 			return fail(400, { invalid: true });
 		}
 
-		if (middleName && typeof middleName !== 'string') {
-			return fail(400, { invalid: true });
-		}
-
-		if (nameSuffix && typeof nameSuffix !== 'string') {
-			return fail(400, { invalid: true });
-		}
-
-		if (email && typeof email !== 'string') {
-			return fail(400, { invalid: true });
-		}
-
-		if (contactNumber && typeof contactNumber !== 'string') {
-			return fail(400, { invalid: true });
-		}
-
-		if (civilStatus && typeof civilStatus !== 'string') {
-			return fail(400, { invalid: true });
-		}
-
-		if (religion && typeof religion !== 'string') {
-			return fail(400, { invalid: true });
-		}
-
-		if (citizenship && typeof citizenship !== 'string') {
-			return fail(400, { invalid: true });
-		}
-
-		if (educationalAttainment && typeof educationalAttainment !== 'string') {
-			return fail(400, { invalid: true });
-		}
-
-		if (language && typeof language !== 'string') {
-			return fail(400, { invalid: true });
-		}
-
-		if (individualMonthlyIncome && typeof Number(individualMonthlyIncome) !== 'number') {
-			return fail(400, { invalid: true });
-		}
-
-		if (detainedSince && typeof detainedSince !== 'string') {
-			return fail(400, { invalid: true });
-		}
-
-		if (detainedSince && !new Date(String(detainedSince))) {
-			return fail(400, { invalid: true });
-		}
-
-		if (detainedAt && typeof detainedAt !== 'string') {
-			return fail(400, { invalid: true });
-		}
-
-		if (spouseName && typeof spouseName !== 'string') {
-			return fail(400, { invalid: true });
-		}
-
-		if (spouseAddress && typeof spouseAddress !== 'string') {
-			return fail(400, { invalid: true });
-		}
-
-		if (spouseContactNumber && typeof spouseContactNumber !== 'string') {
-			return fail(400, { invalid: true });
-		}
-
 		// save to database
-		const client = await prisma.client.create({
+		const client = await prisma.case.create({
 			data: {
-				firstName,
-				middleName,
-				lastName,
-				nameSuffix,
-				age: Number(age),
-				sex,
-				address,
-				email,
-				contactNumber,
-				civilStatus,
-				religion,
-				citizenship,
-				educationalAttainment,
-				language,
-				individualMonthlyIncome: individualMonthlyIncome ? Number(individualMonthlyIncome) : null,
-				detained: detained !== null,
-				detainedSince: detainedSince ? new Date(String(detainedSince)) : null,
-				detainedAt,
-				spouseName,
-				spouseAddress,
-				spouseContactNumber
+				requestId: Number(requestId),
+				title: caseTitle,
+				docketNumber,
 			}
 		});
 
