@@ -1,7 +1,9 @@
-import ExcelJS from 'exceljs';
+import { Buffer } from "buffer";
 
-export const saveAs = async (workbook: ExcelJS.Workbook, filename?: string) => {
-	const buffer = await workbook.xlsx.writeBuffer();
+export const saveAs = async (bufferString: string | undefined, filename?: string) => {
+	if (!bufferString) return;
+
+	const buffer = Buffer.from(bufferString, 'base64');
 
 	const blob = new Blob([buffer], {
 		type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
