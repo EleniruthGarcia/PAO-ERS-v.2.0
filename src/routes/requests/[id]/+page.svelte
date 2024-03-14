@@ -1,241 +1,173 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-	import type { ActionData, PageServerData } from './$types';
+	import type { PageServerData } from './$types';
+	import SvgIcon from '@jamescoyle/svelte-icon';
+	import { mdiPencil } from '@mdi/js';
+	import { mdiTrashCan } from '@mdi/js';
 	import Loading from '$lib/components/Loading.svelte';
 
 	export let data: PageServerData;
-	export let form: ActionData;
-	let edit = false;
 </script>
 
-{#if form?.invalid}
-	<span class="text-red-500">Invalid input values!</span>
-{/if}
-
-{#if form?.missing}
-	<span class="text-red-500">Please fill in all the required fields!</span>
-{/if}
-
-{#if form?.error}
-	<span class="text-red-500">Failed to edit client!</span>
-{/if}
-
-{#if form?.success}
-	<span class="text-trust">Successfully edited the client!</span>
-{/if}
-
-<main class="h-screen w-full flex flex-col p-12 gap-6 bg-witness">
+<main
+	class="h-screen w-full py-12 p-6 lg:p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence lg:overflow-y-hidden leading-tight"
+>
 	{#await data.client}
 		<div><Loading /></div>
 	{:then client}
-		<h1 class="text-3xl font-bold">
-			{client?.firstName +
-				' ' +
-				client?.middleName +
-				' ' +
-				client?.lastName +
-				(client?.nameSuffix ? ' ' + client?.nameSuffix : '')}
-		</h1>
-		{#if edit}
-			<form method="POST" action="?/edit" use:enhance class=" grid grid-cols-6 gap-4">
-				<label for="firstName">First Name</label>
-				<input type="text" name="firstName" id="firstName" required value={client?.firstName} />
-
-				<label for="middleName">Middle Name</label>
-				<input type="text" name="middleName" id="middleName" required value={client?.middleName} />
-
-				<label for="lastName">Last Name</label>
-				<input type="text" name="lastName" id="lastName" required value={client?.lastName} />
-
-				<label for="nameSuffix">Name Suffix</label>
-				<input type="text" name="nameSuffix" id="nameSuffix" value={client?.nameSuffix} />
-
-				<label for="age">Age</label>
-				<input type="number" name="age" id="age" required value={client?.age} />
-
-				<label for="sex">Sex</label>
-				<select name="sex" id="sex" required value={client?.sex}>
-					<option value="" hidden selected></option>
-					<option value="Male">Male</option>
-					<option value="Female">Female</option>
-				</select>
-
-				<label for="address">Address</label>
-				<input
-					type="text"
-					name="address"
-					id="address"
-					required
-					value={client?.address}
-					autocomplete="address-level1"
-				/>
-
-				<label for="email">Email</label>
-				<input type="email" name="email" id="email" value={client?.email} autocomplete="email" />
-
-				<label for="contactNumber">Contact Number</label>
-				<input type="tel" name="contactNumber" id="contactNumber" value={client?.contactNumber} />
-
-				<label for="civilStatus">Civil Status</label>
-				<select name="civilStatus" id="civilStatus" value={client?.civilStatus}>
-					<option value="" hidden selected></option>
-					<option value="Single">Single</option>
-					<option value="Married">Married</option>
-					<option value="Divorced">Divorced</option>
-					<option value="Widowed">Widowed</option>
-				</select>
-
-				<label for="religion">Religion</label>
-				<input type="text" name="religion" id="religion" value={client?.religion} />
-
-				<label for="citizenship">Citizenship</label>
-				<input type="text" name="citizenship" id="citizenship" value={client?.citizenship} />
-
-				<label for="educationalAttainment">Educational Attainment</label>
-				<input
-					type="text"
-					name="educationalAttainment"
-					id="educationalAttainment"
-					value={client?.educationalAttainment}
-				/>
-
-				<label for="language">Language/Dialect</label>
-				<input type="text" name="language" id="language" value={client?.language} />
-
-				<label for="individualMonthlyIncome">Individual Monthly Income</label>
-				<input
-					type="number"
-					name="individualMonthlyIncome"
-					id="individualMonthlyIncome"
-					value={client?.individualMonthlyIncome}
-				/>
-
-				<label for="detained">Detained</label>
+		<div class="flex items-center justify-between">
+			<div class="pl-6 lg:pl-0">
+				<p class="font-bold text-equity mb-2">Client Profile</p>
+				<h3 class="font-bold">
+					{client?.firstName +
+						' ' +
+						client?.middleName +
+						' ' +
+						client?.lastName +
+						(client?.nameSuffix ? ' ' + client?.nameSuffix : '')}
+				</h3>
+			</div>
+			<span class="flex gap-2 lg:gap-4">
+				<a href="/clients/{client?.id}/edit"
+					><button class="flex gap-2 px-2 lg:px-4"
+						><SvgIcon size="15px" type="mdi" path={mdiPencil}></SvgIcon><span
+							class="hidden lg:block">Edit</span
+						></button
+					></a
+				>
+				<a href="/clients/{client?.id}/delete"
+					><button class="flex gap-2 px-2 lg:px-4 bg-diligence text-oath"
+						><SvgIcon size="15px" type="mdi" path={mdiTrashCan}></SvgIcon><span
+							class="hidden lg:block">Delete</span
+						></button
+					></a
+				>
+			</span>
+		</div>
+		<div class="grid grid-cols-10 gap-4 max-h-[90%] pl-4 lg:pl-0">
+			<div class="flex flex-col gap-4 lg:col-span-7 col-span-10 overflow-y-auto p-2 pt-0">
+				<div
+					class="flex flex-col gap-4 py-6 rounded-lg border border-innocence bg-witness shadow-md"
+				>
+					<h4 class="font-bold text-equity px-6">Personal Information</h4>
+					<table class="text-sm space-y-10">
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
+							<td class="font-bold p-3 px-6 w-1/3">Age</td>
+							<td class="text-base px-6">{client?.age}</td>
+						</tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
+							<td class="font-bold p-3 px-6 w-1/3">Sex</td>
+							<td class="text-base px-6">{client?.sex}</td>
+						</tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
+							<td class="font-bold p-3 px-6 w-1/3">Address</td>
+							<td class="text-base px-6">{client?.address}</td>
+						</tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
+							<td class="font-bold p-3 px-6 w-1/3">Email</td>
+							<td class="text-base px-6">{client?.email}</td>
+						</tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
+							<td class="font-bold p-3 px-6 w-1/3">Contact Number</td>
+							<td class="text-base px-6">{client?.contactNumber}</td>
+						</tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
+							<td class="font-bold p-3 px-6 w-1/3">Civil Status</td>
+							<td class="text-base px-6">{client?.civilStatus}</td>
+						</tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
+							<td class="font-bold p-3 px-6 w-1/3">Religion</td>
+							<td class="text-base px-6">{client?.religion}</td>
+						</tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
+							<td class="font-bold p-3 px-6 w-1/3">Citizenship</td>
+							<td class="text-base px-6">{client?.citizenship}</td>
+						</tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
+							<td class="font-bold p-3 px-6 w-1/3">Educational Attainment</td>
+							<td class="text-base px-6">{client?.educationalAttainment}</td>
+						</tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
+							<td class="font-bold p-3 px-6 w-1/3">Language/Dialect</td>
+							<td class="text-base px-6">{client?.language}</td>
+						</tr>
+						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
+							<td class="font-bold p-3 px-6 w-1/3">Individual Monthly Income</td>
+							<td class="text-base px-6"
+								>{client?.individualMonthlyIncome ? client?.individualMonthlyIncome : ''}</td
+							>
+						</tr>
+					</table>
+				</div>
 				{#if client?.detained}
-					<input type="checkbox" name="detained" id="detained" checked />
-				{:else}
-					<input type="checkbox" name="detained" id="detained" />
-				{/if}
-
-				<label for="detainedSince">Detained Since</label>
-				<input
-					type="date"
-					name="detainedSince"
-					id="detainedSince"
-					value={client?.detainedSince?.toLocaleDateString('en-CA', {
-						timeZone: 'Asia/Manila'
-					})}
-				/>
-
-				<label for="detainedAt">Detained At</label>
-				<input type="text" name="detainedAt" id="detainedAt" value={client?.detainedAt} />
-
-				<label for="spouseName">Spouse Name</label>
-				<input type="text" name="spouseName" id="spouseName" value={client?.spouseName} />
-
-				<label for="spouseAddress">Spouse Address</label>
-				<input type="text" name="spouseAddress" id="spouseAddress" value={client?.spouseAddress} />
-
-				<label for="spouseContactNumber">Spouse Contact Number</label>
-				<input
-					type="tel"
-					name="spouseContactNumber"
-					id="spouseContactNumber"
-					value={client?.spouseContactNumber}
-				/>
-
-				<button type="submit">Save</button>
-				<button on:click={() => (edit = !edit)}>Cancel</button>
-			</form>
-		{:else}
-			<div class="grid grid-cols-2 gap-4 mt-6">
-				<div class="flex flex-col gap-4 bg-oath p-4 rounded-lg shadow-md">
-					<div class="flex justify-between">
-						<h1 class="text-3xl font-bold">Profile</h1>
-						<span class="flex gap-4">
-							<button on:click={() => (edit = !edit)}>Edit</button>
-							<button type="submit" formaction="?/delete" formmethod="POST">Delete</button>
-						</span>
-					</div>
-					<table>
-						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
-							<td>Age</td>
-							<td>{client?.age}</td>
-						</tr>
-						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
-							<td>Sex</td>
-							<td>{client?.sex}</td>
-						</tr>
-						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
-							<td>Address</td>
-							<td>{client?.address}</td>
-						</tr>
-						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
-							<td>Email</td>
-							<td>{client?.email}</td>
-						</tr>
-						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
-							<td>Contact Number</td>
-							<td>{client?.contactNumber}</td>
-						</tr>
-						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
-							<td>Civil Status</td>
-							<td>{client?.civilStatus}</td>
-						</tr>
-						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
-							<td>Religion</td>
-							<td>{client?.religion}</td>
-						</tr>
-						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
-							<td>Citizenship</td>
-							<td>{client?.citizenship}</td>
-						</tr>
-						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
-							<td>Educational Attainment</td>
-							<td>{client?.educationalAttainment}</td>
-						</tr>
-						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
-							<td>Language/Dialect</td>
-							<td>{client?.language}</td>
-						</tr>
-						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
-							<td>Individual Monthly Income</td>
-							<td>{client?.individualMonthlyIncome ? client?.individualMonthlyIncome : ''}</td>
-						</tr>
-						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
-							<td>Detained</td>
-							<td>{client?.detained ? 'Yes' : 'No'}</td>
-						</tr>
-						{#if client?.detained}
+					<div
+						class="flex flex-col gap-4 py-6 rounded-lg border border-innocence bg-witness shadow-md"
+					>
+						<h4 class="font-bold text-equity px-6">Detainee Information</h4>
+						<table class="text-sm space-y-10">
 							<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
-								<td>Detained Since</td>
-								<td
+								<td class="font-bold p-3 px-6 w-1/3">Detained</td>
+								<td class="text-base px-6">{client?.detained ? 'Yes' : 'No'}</td>
+							</tr>
+							<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
+								<td class="font-bold p-3 px-6 w-1/3">Detained Since</td>
+								<td class="text-base px-6"
 									>{client?.detainedSince?.toLocaleDateString('en-CA', {
 										timeZone: 'Asia/Manila'
 									})}</td
 								>
 							</tr>
 							<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
-								<td>Detained At</td>
-								<td>{client?.detainedAt}</td>
+								<td class="font-bold p-3 px-6 w-1/3">Detained At</td>
+								<td class="text-base px-6">{client?.detainedAt}</td>
 							</tr>
+						</table>
+					</div>
+				{/if}
+				{#if client?.civilStatus === 'Married'}
+					<div
+						class="flex flex-col gap-4 py-6 rounded-lg border border-innocence bg-witness shadow-md"
+					>
+						<h4 class="font-bold text-equity px-6">Spouse Information</h4>
+						<table class="text-sm space-y-10">
+							<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
+								<td class="font-bold p-3 px-6 w-1/3">Spouse Name</td>
+								<td class="text-base px-6">{client?.spouseName}</td>
+							</tr>
+							<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
+								<td class="font-bold p-3 px-6 w-1/3">Spouse Address</td>
+								<td class="text-base px-6">{client?.spouseAddress}</td>
+							</tr>
+							<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
+								<td class="font-bold p-3 px-6 w-1/3">Spouse Contact Number</td>
+								<td class="text-base px-6">{client?.spouseContactNumber}</td>
+							</tr>
+						</table>
+					</div>
+				{/if}
+			</div>
+			<div class="hidden lg:block lg:col-span-3">
+				<div class="flex flex-col gap-4 bg-oath p-4 rounded-lg shadow-md">
+					<h4 class="font-bold">Requests</h4>
+					<table class="text-sm">
+						{#if client?.request && client?.request.length > 0}
+							{#each client?.request as request}
+								<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
+									<td>{request.requestType}</td>
+									<td>{request.requestDate}</td>
+								</tr>
+							{/each}
+						{:else}
+							<span class="flex flex-col gap-4">
+								<p class="text-sm">No requests found.</p>
+								<a href="/requests/add?clientId={client?.id}"
+									><button class="w-full">New Request</button></a
+								>
+							</span>
 						{/if}
-						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
-							<td>Spouse Name</td>
-							<td>{client?.spouseName}</td>
-						</tr>
-						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
-							<td>Spouse Address</td>
-							<td>{client?.spouseAddress}</td>
-						</tr>
-						<tr class="hover:bg-oath border border-0 border-b border-t border-innocence">
-							<td>Spouse Contact Number</td>
-							<td>{client?.spouseContactNumber}</td>
-						</tr>
 					</table>
 				</div>
 			</div>
-		{/if}
+		</div>
 	{:catch error}
 		<p>{error.message}</p>
 	{/await}

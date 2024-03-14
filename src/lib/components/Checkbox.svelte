@@ -9,7 +9,7 @@
 </script>
 
 <div
-	class="{classList} text-diligence has-[:checked]:bg-diligence has-[:checked]:text-oath outline-equity rounded block bg-oath text-sm text-equity duration-300"
+	class="{classList} flex items-center justify-start text-diligence has-[:checked]:bg-diligence has-[:checked]:text-oath outline-equity rounded block bg-oath text-sm text-equity duration-300"
 >
 	<button
 		type="button"
@@ -24,7 +24,7 @@
 			placeholder=" "
 			{...$$restProps}
 		/>
-		<span class="font-bold pb-0.5"> {labelEng} </span>
+		<span class="font-bold pb-0.5 text-left"> {labelEng} </span>
 		{labelFil !== '' ? ` | ${labelFil}` : ''}
 	</button>
 </div>
