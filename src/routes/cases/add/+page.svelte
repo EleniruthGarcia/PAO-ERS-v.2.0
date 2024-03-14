@@ -149,17 +149,9 @@
 			<div class="flex flex-col gap-4">
 				<div class="grid grid-cols-3 gap-4">
 					{#each proofs as proof}
-						{#if proof.name === 'Others'}
-							<Checkbox
-								name={proof.name}
-								labelEng={proof.name}
-								class="text-xs"
-								bind:checked={otherProof}
-							/>
-						{:else}
-							<Checkbox name={proof.name} labelEng={proof.name} class="text-xs" />
-						{/if}
+						<Checkbox name={proof.name} labelEng={proof.name} class="text-xs" />
 					{/each}
+					<Checkbox name="Others" labelEng="Others" class="text-xs" bind:checked={otherProof} />
 					{#if otherProof}
 						<Field labelEng="Other Proof" name="otherProof" class="w-full text-xs" required />
 					{/if}

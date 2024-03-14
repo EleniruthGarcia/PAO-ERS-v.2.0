@@ -13,17 +13,15 @@
 	export let data: PageServerData;
 	export let form: ActionData;
 
-	let request = 'value';
-	let lawyer = 'value';
 	let otherNature: false;
+
 	let natures = [
 		{ name: 'Legal Advice' },
 		{ name: 'Legal Documentation' },
 		{ name: 'Representation in Court or Quasi-Judicial Bodies' },
 		{ name: 'Inquest Legal Assistance' },
 		{ name: 'Mediation or Conciliation' },
-		{ name: 'Administration of Oath' },
-		{ name: 'Others' }
+		{ name: 'Administration of Oath' }
 	];
 </script>
 
@@ -79,30 +77,30 @@
 					<Field labelEng="Approved by" name="apprvBy" required />
 				</div>
 
-				<h4 class="font-bold">request and Lawyer</h4>
+				<h4 class="font-bold">Client and Lawyer</h4>
 				<div class="inline-flex flex-wrap gap-4">
-					<Select name="request" labelEng="request" w="w-32" bind:value={request} required>
+					<Select name="client" labelEng="Client" w="w-32" required>
 						<Option value="" disabled hidden selected></Option>
-						{#await data.requests}
+						{#await data.clients}
 							<Loading />
-						{:then requests}
-							{#if requests.length > 0}
-								{#each requests as request}
-									<Option value={String(request.id)}
-										>{request.firstName +
+						{:then clients}
+							{#if clients.length > 0}
+								{#each clients as client}
+									<Option value={String(client.id)}
+										>{client.firstName +
 											' ' +
-											request.middleName +
+											client.middleName +
 											' ' +
-											request.lastName +
-											(request.nameSuffix ? ' ' + request.nameSuffix : '')}</Option
+											client.lastName +
+											(client.nameSuffix ? ' ' + client.nameSuffix : '')}</Option
 									>
 								{/each}
 							{:else}
-								<Option value="" disabled>No requests available.</Option>
+								<Option value="" disabled>No clients available.</Option>
 							{/if}
 						{/await}
 					</Select>
-					<Select name="lawyer" labelEng="Lawyer" w="w-32" bind:value={lawyer} required>
+					<Select name="lawyer" labelEng="Lawyer" w="w-32" required>
 						<Option value="" disabled hidden selected></Option>
 						{#await data.lawyers}
 							<Loading />
@@ -131,17 +129,10 @@
 				<div class="flex flex-col gap-4">
 					<div class="grid grid-cols-3 gap-4">
 						{#each natures as nature}
-							{#if nature.name === 'Others'}
-								<Checkbox
-									name={nature.name}
-									labelEng={nature.name}
-									class="text-xs"
-									bind:checked={otherNature}
-								/>
-							{:else}
-								<Checkbox name={nature.name} labelEng={nature.name} class="text-xs" />
-							{/if}
+							<Checkbox name={nature.name} labelEng={nature.name} class="text-xs" />
 						{/each}
+
+						<Checkbox name="Others" labelEng="Others" class="text-xs" bind:checked={otherNature} />
 						{#if otherNature}
 							<Field labelEng="Other Nature" name="otherNature" class="w-full text-xs" required />
 						{/if}

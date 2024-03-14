@@ -6,6 +6,12 @@ export const load: PageServerLoad = async ({ params }) => {
 	return {
 		request: prisma.request.findUnique({
 			where: { id: Number(params.id), deletedAt: null }
+		}),
+		clients: prisma.client.findMany({
+			where: { deletedAt: null }
+		}),
+		lawyers: prisma.lawyer.findMany({
+			where: { deletedAt: null }
 		})
 	};
 };

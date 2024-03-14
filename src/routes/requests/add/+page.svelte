@@ -13,8 +13,6 @@
 	export let form: ActionData;
 	export let data: PageServerData;
 
-	let client = 'value';
-	let lawyer = 'value';
 	let otherNature: false;
 	let natures = [
 		{ name: 'Legal Advice' },
@@ -22,8 +20,7 @@
 		{ name: 'Representation in Court or Quasi-Judicial Bodies' },
 		{ name: 'Inquest Legal Assistance' },
 		{ name: 'Mediation or Conciliation' },
-		{ name: 'Administration of Oath' },
-		{ name: 'Others' }
+		{ name: 'Administration of Oath' }
 	];
 </script>
 
@@ -72,7 +69,7 @@
 
 		<h4 class="font-bold">Client and Lawyer</h4>
 		<div class="inline-flex flex-wrap gap-4">
-			<Select name="client" labelEng="Client" w="w-32" bind:value={client} required>
+			<Select name="client" labelEng="Client" w="w-32" required>
 				<Option value="" disabled hidden selected></Option>
 				{#await data.clients}
 					<Loading />
@@ -93,7 +90,7 @@
 					{/if}
 				{/await}
 			</Select>
-			<Select name="lawyer" labelEng="Lawyer" w="w-32" bind:value={lawyer} required>
+			<Select name="lawyer" labelEng="Lawyer" w="w-32" required>
 				<Option value="" disabled hidden selected></Option>
 				{#await data.lawyers}
 					<Loading />
@@ -122,17 +119,10 @@
 		<div class="flex flex-col gap-4">
 			<div class="grid grid-cols-3 gap-4">
 				{#each natures as nature}
-					{#if nature.name === 'Others'}
-						<Checkbox
-							name={nature.name}
-							labelEng={nature.name}
-							class="text-xs"
-							bind:checked={otherNature}
-						/>
-					{:else}
-						<Checkbox name={nature.name} labelEng={nature.name} class="text-xs" />
-					{/if}
+					<Checkbox name={nature.name} labelEng={nature.name} class="text-xs" />
 				{/each}
+
+				<Checkbox name="Others" labelEng="Others" class="text-xs" bind:checked={otherNature} />
 				{#if otherNature}
 					<Field labelEng="Other Nature" name="otherNature" class="w-full text-xs" required />
 				{/if}
