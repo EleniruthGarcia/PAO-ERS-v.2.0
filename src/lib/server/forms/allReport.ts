@@ -21,7 +21,7 @@ type ClientWithRequestAndCase = Prisma.ClientGetPayload<typeof clientWithRequest
 
 export const generateReports = async (clients: ClientWithRequestAndCase[]) => {
 	const workbook = new ExcelJS.Workbook();
-	await workbook.xlsx.readFile(template.slice(1));
+	await workbook.xlsx.readFile(template);
 
 	await F10.addRow(workbook.getWorksheet('F.10'), clients);
 	await F11.addRow(workbook.getWorksheet('F.11'), clients);
