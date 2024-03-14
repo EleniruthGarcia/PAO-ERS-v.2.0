@@ -4,7 +4,10 @@ import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
 	return {
-		requests: prisma.request.findMany({ where: { deletedAt: null }, include: { client: true } }),
+		requests: prisma.request.findMany({ where: { deletedAt: null }, include: { client: true } })
+	};
+};
+requests: prisma.request.findMany({ where: { deletedAt: null }, include: { client: true } }),
 	}
 }
 
