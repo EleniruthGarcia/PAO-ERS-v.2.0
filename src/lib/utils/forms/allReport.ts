@@ -1,5 +1,5 @@
 import ExcelJS from 'exceljs';
-import type { Client } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 import template from '$lib/assets/reports.xlsx?url';
 
@@ -7,7 +7,19 @@ import * as F10 from './F.10';
 import * as F11 from './F.11';
 import * as F17 from './F.17';
 
-export const generateReports = async (clients: Client[]) => {
+const clientWithRequestAndCase = Prisma.validator<Prisma.ClientDefaultArgs>()({
+	include: {
+		request: {
+			include: {
+				case: true
+			}
+		}
+	}
+});
+
+type ClientWithRequestAndCase = Prisma.ClientGetPayload<typeof clientWithRequestAndCase>;
+
+export const generateReports = async (clients: ClientWithRequestAndCase[]) => {
 	const workbook = new ExcelJS.Workbook();
 	await workbook.xlsx.readFile(template);
 
