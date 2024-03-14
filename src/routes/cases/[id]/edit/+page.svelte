@@ -56,10 +56,10 @@
 <main
 	class="h-screen w-full p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence lg:overflow-y-hidden leading-tight"
 >
-	{#await data.client}
+	{#await data.case}
 		<div><Loading /></div>
-	{:then client}
-		{#if client}
+	{:then _case}
+		{#if _case}
 			<div>
 				<p class="font-bold text-equity mb-2">
 					Case Information<span class="p-1 px-2 bg-diligence text-oath rounded-lg ml-2"
