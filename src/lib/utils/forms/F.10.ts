@@ -11,11 +11,11 @@ export const addRow = async (worksheet: ExcelJS.Worksheet | undefined, clients: 
 		const client = clients[i];
 		worksheet.insertRow(14, [
 			client.createdAt,
-			`${client.firstName} ${client.middleName ? client.middleName : ''} ${client.lastName} ${client.nameSuffix ? client.nameSuffix : ''}`,
+			`${client.lastName} ${client.nameSuffix ? client.nameSuffix : ''}, ${client.firstName} ${client.middleName ? client.middleName : ''}`,
 			client.sex,
 			'',
 			'',
 			''
-		], 'o');
+		], 'o+');
 	}
 };

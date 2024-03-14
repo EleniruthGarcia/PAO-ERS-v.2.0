@@ -152,7 +152,7 @@
 		message="Reports have been successfully generated."
 		success={() => {
 			saveAs(form?.report, 'Monthly Report.xlsx');
-			close();
+			history.back();
 		}}
 	/>
 {/if}

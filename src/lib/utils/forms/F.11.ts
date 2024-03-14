@@ -2,36 +2,45 @@ import type { Client } from '@prisma/client';
 
 import ExcelJS from 'exceljs';
 
-// F.10 - BRGY. Service Day Outreach Program
+// F.11 - Precinct/Jail Visitation Report
 
 export const addRow = async (worksheet: ExcelJS.Worksheet | undefined, clients: Client[]) => {
 	if (!worksheet) return;
 
-  // const join = await prisma.client.findMany{
-  //   where: {
-  //   }
-  //   include: {
-  //     request: {
-  //       include: {
-  //         case: true
-  //       }
-  //     }
-  //   },
-  // };
+  const client = await prisma.client.findMany({
+    where: {
 
-	for (let i = 0; i < clients.length; i++) {
-		const client = clients[i];
-		worksheet.insertRow(13, [
-			'',
-			`${client.firstName} ${client.middleName ? client.middleName : ''} ${client.lastName} ${client.nameSuffix ? client.nameSuffix : ''}`,
-			client.sex,
-			client.detainedSince,
-      '',
-			'',
-      '',
-      client.detainedAt,
-      '',
-			''
-		], 'o');
-	}
+    },
+    include: {
+        request: {
+            include:{
+                case: true
+            }
+        }
+    }
+  });
+
+  for (let l = 0; l < client.length; l++) {
+    const basic = client[l];
+    const request = client[l].request;
+    for (let m = 0; m < request.length; m++) {
+      const cases = request[m].case;
+      for (let n = 0; n < cases.length; n++) {
+        const info = cases[n];
+        worksheet.insertRow(13, [
+          '',
+          `${basic.firstName} ${basic.middleName ? basic.middleName : ''} ${basic.lastName} ${basic.nameSuffix ? basic.nameSuffix : ''}`,
+          basic.sex,
+          basic.detainedSince,
+          info.title,
+          '',
+          info.nature,
+          basic.detainedAt,
+          info.court,
+          info.lastActionTaken
+        ], 'o+');
+      }
+    }
+
+  }
 };
