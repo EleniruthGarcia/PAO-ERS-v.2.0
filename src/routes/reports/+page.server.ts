@@ -1,5 +1,5 @@
 import prisma from '$lib/server/prisma';
-import { generateReports } from '$lib/utils/forms/allReport';
+import { generateReports } from '$lib/server/forms/allReport';
 
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';

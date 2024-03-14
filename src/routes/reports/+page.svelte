@@ -4,7 +4,7 @@
 	import { mdiFileDownloadOutline } from '@mdi/js';
 	import type { ActionData } from './$types';
 	import Modal from '$lib/components/Modal.svelte';
-	import { saveAs } from '$lib/utils';
+	import { saveAs } from '$lib/utils/file-saver';
 
 	export let form: ActionData;
 
