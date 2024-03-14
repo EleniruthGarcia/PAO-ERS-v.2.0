@@ -1,4 +1,4 @@
-import { Buffer } from "buffer";
+import { Buffer } from 'buffer';
 
 export const saveAs = async (bufferString: string | undefined, filename?: string) => {
 	if (!bufferString) return;

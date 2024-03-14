@@ -4,9 +4,9 @@ import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
 	return {
-		requests: prisma.request.findMany({where: { deletedAt: null }, include: { client: true }}),
-	}
-}
+		requests: prisma.request.findMany({ where: { deletedAt: null }, include: { client: true } })
+	};
+};
 
 export const actions = {
 	default: async ({ request, locals }) => {
@@ -18,7 +18,6 @@ export const actions = {
 
 		// required fields
 		let requestId = data.get('requestId');
-		
 
 		// optional fields
 		let middleName = data.get('middleName');

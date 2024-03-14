@@ -10,9 +10,7 @@
 
 	let showDeletedCases = false;
 
-	let filteredCases = data.cases.then((cases) =>
-		cases.filter((_case) => !_case.deletedAt)
-	);
+	let filteredCases = data.cases.then((cases) => cases.filter((_case) => !_case.deletedAt));
 
 	const toggleShowDeletedCases = () => {
 		showDeletedCases = !showDeletedCases;

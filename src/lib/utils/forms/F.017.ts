@@ -9,30 +9,34 @@ export const addRow = async (worksheet: ExcelJS.Worksheet | undefined, clients: 
 
 	for (let i = 0; i < clients.length; i++) {
 		const client = clients[i];
-		worksheet.insertRow(15, [
-			`${client.id}`,
-			`${client.firstName} ${client.middleName ? client.middleName : ''} ${client.lastName} ${client.nameSuffix ? client.nameSuffix : ''}`,
-			client.address,
-			client.age,
-			client.sex,
-			client.contactNumber ? client.contactNumber : '',
-			client.email ? client.email : '',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			''
-		], 'o');
+		worksheet.insertRow(
+			15,
+			[
+				`${client.id}`,
+				`${client.firstName} ${client.middleName ? client.middleName : ''} ${client.lastName} ${client.nameSuffix ? client.nameSuffix : ''}`,
+				client.address,
+				client.age,
+				client.sex,
+				client.contactNumber ? client.contactNumber : '',
+				client.email ? client.email : '',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				''
+			],
+			'o'
+		);
 	}
 };
