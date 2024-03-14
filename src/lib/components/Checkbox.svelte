@@ -13,7 +13,7 @@
 >
 	<button
 		type="button"
-		class="flex items-center justify-center p-2 px-3"
+		class="flex items-center justify-start p-2 px-3 w-full"
 		on:click={() => (checked = !checked)}
 	>
 		<input

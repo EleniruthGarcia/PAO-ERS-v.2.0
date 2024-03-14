@@ -17,12 +17,8 @@ export const actions = {
 		const data = await request.formData();
 
 		// required fields
-		let firstName = data.get('firstName');
-		let lastName = data.get('lastName');
-
-		let age = data.get('age');
-		let sex = data.get('sex');
-		let address = data.get('address');
+		let requestId = data.get('requestId');
+		
 
 		// optional fields
 		let middleName = data.get('middleName');
