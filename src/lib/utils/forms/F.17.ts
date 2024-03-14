@@ -1,33 +1,32 @@
-import type { Client } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 import ExcelJS from 'exceljs';
 
+const clientWithRequestAndCase = Prisma.validator<Prisma.ClientDefaultArgs>()({
+	include: {
+		request: {
+			include: {
+				case: true
+			}
+		}
+	}
+});
+
+type ClientWithRequestAndCase = Prisma.ClientGetPayload<typeof clientWithRequestAndCase>;
+
 // F.17 - Monthly Inventory of Clients Served
 
-export const addRow = async (worksheet: ExcelJS.Worksheet | undefined, clients: Client[]) => {
+export const addRow = async (worksheet: ExcelJS.Worksheet | undefined, clients: ClientWithRequestAndCase[]) => {
 	if (!worksheet) return;
 
-	const client = await prisma.client.findMany({
-    where: {
-        // createdAt: { gte, lt }
-    },
-    include: {
-        request: {
-            include:{
-                case: true
-            }
-        }
-    }
-  });
-
-	for (let l = 0; l < client.length; l++) {
-    const basic = client[l];
-    const request = client[l].request;
-    for (let m = 0; m < request.length; m++) {
-      const cases = request[m].case;
-      for (let n = 0; n < cases.length; n++) {
-        const info = cases[n];
-        worksheet.insertRow(15, [
+	for (let l = 0; l < clients.length; l++) {
+		const basic = clients[l];
+		const request = clients[l].request;
+		for (let m = 0; m < request.length; m++) {
+			const cases = request[m].case;
+			for (let n = 0; n < cases.length; n++) {
+				const info = cases[n];
+				worksheet.insertRow(15, [
 					`${basic.id}`,
 					`${basic.lastName} ${basic.nameSuffix ? basic.nameSuffix : ''}, ${basic.firstName} ${basic.middleName ? basic.middleName : ''}`,
 					basic.address,
@@ -52,37 +51,7 @@ export const addRow = async (worksheet: ExcelJS.Worksheet | undefined, clients: 
 					`${info.status ? info.status : ''}`,
 					`${info.nature ? info.nature : ''}`
 				], 'o+');
-      }
-    }
-
-  }
-
-	for (let i = 0; i < clients.length; i++) {
-		const client = clients[i];
-		worksheet.insertRow(15, [
-			`${client.id}`,
-			`${client.firstName} ${client.middleName ? client.middleName : ''} ${client.lastName} ${client.nameSuffix ? client.nameSuffix : ''}`,
-			client.address,
-			client.age,
-			client.sex,
-			client.contactNumber ? client.contactNumber : '',
-			client.email ? client.email : '',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			''
-		], 'o');
+			}
+		}
 	}
 };
