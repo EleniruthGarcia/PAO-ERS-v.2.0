@@ -7,9 +7,6 @@ export const load: PageServerLoad = async () => {
 		requests: prisma.request.findMany({ where: { deletedAt: null }, include: { client: true } })
 	};
 };
-requests: prisma.request.findMany({ where: { deletedAt: null }, include: { client: true } }),
-	}
-}
 
 export const actions = {
 	default: async ({ request, locals }) => {
