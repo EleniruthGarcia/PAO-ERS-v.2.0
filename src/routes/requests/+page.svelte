@@ -5,7 +5,7 @@
 	export let data: PageServerData;
 </script>
 
-<main class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness">
+<main class="h-screen w-full flex flex-col p-12 gap-6 bg-witness">
 	<span>
 		<h1 class="text-3xl font-bold">Cases</h1>
 		<p>See all your cases here.</p>

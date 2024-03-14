@@ -41,7 +41,7 @@
 {/if}
 
 <main
-	class="h-screen w-screen p-12 lg:p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence lg:overflow-y-hidden leading-tight"
+	class="h-screen w-full p-12 lg:p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence lg:overflow-y-hidden leading-tight"
 >
 	{#await data.lawyer}
 		<div><Loading /></div>

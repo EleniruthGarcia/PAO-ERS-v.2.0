@@ -151,7 +151,7 @@
 {/if}
 
 <main
-	class="h-screen w-screen py-12 p-6 lg:p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence lg:overflow-y-hidden"
+	class="h-screen w-full py-12 p-6 lg:p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence lg:overflow-y-hidden"
 >
 	<form method="POST">
 		<div class="flex items-center justify-between">

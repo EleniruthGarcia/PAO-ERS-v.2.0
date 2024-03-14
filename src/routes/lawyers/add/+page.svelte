@@ -39,7 +39,7 @@
 {/if}
 
 <main
-	class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden leading-tight"
+	class="h-screen w-full flex flex-col p-12 gap-6 bg-witness text-diligence pl-14 pr-28 overflow-x-hidden leading-tight"
 >
 	<div class="text-diligence">
 		<h3 class="font-bold mb-2">Lawyer Profile</h3>

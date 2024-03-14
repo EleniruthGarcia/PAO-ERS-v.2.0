@@ -24,7 +24,7 @@
 	<span class="text-trust">Successfully edited the client!</span>
 {/if}
 
-<main class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness">
+<main class="h-screen w-full flex flex-col p-12 gap-6 bg-witness">
 	{#await data.client}
 		<div><Loading /></div>
 	{:then client}

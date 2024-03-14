@@ -21,7 +21,7 @@
 	<span class="text-trust">Successfully registered!</span>
 {/if}
 
-<main class="h-screen w-screen flex flex-col p-12 gap-6 bg-witness">
+<main class="h-screen w-full flex flex-col p-12 gap-6 bg-witness">
 	<form method="POST" use:enhance class=" grid grid-cols-6 gap-4">
 		<label for="firstName">First Name</label>
 		<input type="text" name="firstName" id="firstName" required autocomplete="given-name" />
