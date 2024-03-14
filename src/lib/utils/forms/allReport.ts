@@ -1,7 +1,7 @@
 import ExcelJS from 'exceljs';
 import { Prisma } from '@prisma/client';
 
-import template from '$lib/assets/reports.xlsx?url';
+import template from '$lib/assets/reports.xlsx?raw';
 
 import * as F10 from './F.10';
 import * as F11 from './F.11';
@@ -21,7 +21,7 @@ type ClientWithRequestAndCase = Prisma.ClientGetPayload<typeof clientWithRequest
 
 export const generateReports = async (clients: ClientWithRequestAndCase[]) => {
 	const workbook = new ExcelJS.Workbook();
-	await workbook.xlsx.readFile(template);
+	await workbook.xlsx.readFile('src/lib/assets/reports.xlsx');
 
 	await F10.addRow(workbook.getWorksheet('F.10'), clients);
 	await F11.addRow(workbook.getWorksheet('F.11'), clients);
