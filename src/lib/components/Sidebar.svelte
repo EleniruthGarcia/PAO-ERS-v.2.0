@@ -34,12 +34,10 @@
 			<NavLink href="/cases" title="Cases"><Cases /></NavLink>
 			<NavLink href="/requests" title="Requests"><Requests /></NavLink>
 			<NavLink href="/reports" title="Reports"><Reports /></NavLink>
-			<NavLink href="/recents" title="Recents"><Recents /></NavLink>
 		{/if}
 		{#if $page.data.user.role === 'admin'}
 			<NavLink href="/lawyers" title="Lawyers"><Lawyers /></NavLink>
 			<NavLink href="/reports" title="Reports"><Reports /></NavLink>
-			<NavLink href="/settings" title="Settings"><Settings /></NavLink>
 		{/if}
 	</nav>
 	<div class="group flex flex-col items-center justify-center text-oath lg:pl-4 gap-4 p-4">
