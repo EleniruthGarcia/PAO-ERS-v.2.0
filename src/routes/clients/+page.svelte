@@ -126,7 +126,7 @@
 														></a
 													>
 												{:else}
-													<a href="/clients/{client?.id}/delete"
+													<a href="/clients/{client?.id}/restore"
 														><button
 															class="flex items-center gap-2 px-2 lg:px-4 bg-equity text-oath"
 															><SvgIcon size="15px" type="mdi" path={mdiDeleteRestore}
