@@ -52,26 +52,16 @@ export const actions = {
 			return fail(400, { missing: true });
 		}
 
-		if (
-			typeof firstName !== 'string' ||
-			typeof lastName !== 'string' ||
-			typeof Number(age) !== 'number' ||
-			typeof sex !== 'string' ||
-			typeof address !== 'string'
-		) {
-			return fail(400, { invalid: true });
-		}
-
 		// save to database
-		const client = await prisma.case.create({
+		const _case = await prisma.case.create({
 			data: {
 				requestId: Number(requestId),
 				title: caseTitle,
-				docketNumber,
+				docketNumber
 			}
 		});
 
-		if (!client) {
+		if (!_case) {
 			return fail(500, { error: true });
 		}
 

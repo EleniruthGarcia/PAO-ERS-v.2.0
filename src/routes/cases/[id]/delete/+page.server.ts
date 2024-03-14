@@ -12,12 +12,12 @@ export const load: PageServerLoad = async ({ params }) => {
 
 export const actions = {
 	default: async ({ params }) => {
-		const case = await prisma.case.update({
+		const _case = await prisma.case.update({
 			where: { id: Number(params.id) },
 			data: { deletedAt: new Date() }
 		});
 
-		if (!case.deletedAt) {
+		if (!_case.deletedAt) {
 			return fail(400, { unsuccessful: true });
 		}
 
