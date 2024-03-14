@@ -43,7 +43,7 @@
 		},
 		{
 			name: 'Monthly Inventory of Clients Served',
-			link: '/reports/F.017'
+			link: 'http://example.com/monthly_clients_inventory'
 		},
 		{
 			name: 'Monthly Report on Legal Assistance Extended To Non-Filipino Citizens',
