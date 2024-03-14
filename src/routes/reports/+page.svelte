@@ -8,134 +8,140 @@
 
 	export let form: ActionData;
 
+	let date = new Date().toLocaleDateString('en-CA', {
+		year: 'numeric',
+		month: '2-digit',
+		timeZone: 'Asia/Manila'
+	});
+
 	let reports = [
 		{
 			name: 'Individual Report on Children In Conflict With The Law, Women, Torture, Rape Case, and Other Specific Mandates',
-			link: 'http://example.com/individual_report'
+			action: 'http://example.com/individual_report'
 		},
 		{
 			name: 'Brgy. Service Day Outreach Program',
-			link: 'http://example.com/service_day_outreach'
+			action: 'http://example.com/service_day_outreach'
 		},
 		{
 			name: 'Precinct/Jail Visitation Report',
-			link: 'http://example.com/precinct_visitation'
+			action: 'http://example.com/precinct_visitation'
 		},
 		{
 			name: 'Report on Victim’s Cases Handled',
-			link: 'http://example.com/victims_report'
+			action: 'http://example.com/victims_report'
 		},
 		{
 			name: 'Report on The Rendition of Free Legal Assistance To Children In Conflict With The Law',
-			link: 'http://example.com/legal_assistance_report'
+			action: 'http://example.com/legal_assistance_report'
 		},
 		{
 			name: 'Report on The Assistance of Detainees In The Execution of Waiver/Manifestation In Relation to R.A. 10592',
-			link: 'http://example.com/detainee_assistance_report'
+			action: 'http://example.com/detainee_assistance_report'
 		},
 		{
 			name: 'Report on Clients Assisted on Drug Cases (Involving Voluntary Submission For Confinement And Rehabilitation)',
-			link: 'http://example.com/drug_assistance_report'
+			action: 'http://example.com/drug_assistance_report'
 		},
 		{
 			name: 'Monthly Report on Legal Assistance Extended To Taiwanese Nationals',
-			link: 'http://example.com/monthly_taiwanese_report'
+			action: 'http://example.com/monthly_taiwanese_report'
 		},
 		{
 			name: 'Monthly Inventory of Clients Served',
-			link: 'http://example.com/monthly_clients_inventory'
+			action: 'http://example.com/monthly_clients_inventory'
 		},
 		{
 			name: 'Monthly Report on Legal Assistance Extended To Non-Filipino Citizens',
-			link: 'http://example.com/monthly_non_filipino_report'
+			action: 'http://example.com/monthly_non_filipino_report'
 		},
 		{
 			name: 'Monthly Inventory of Cases',
-			link: 'http://example.com/monthly_cases_inventory'
+			action: 'http://example.com/monthly_cases_inventory'
 		},
 		{
 			name: 'Monthly Report on Persons With Disability (PWD)',
-			link: 'http://example.com/monthly_pwd_report'
+			action: 'http://example.com/monthly_pwd_report'
 		},
 		{
 			name: 'Report on Documents Notarized/Oaths Administered',
-			link: 'http://example.com/notarized_documents_report'
+			action: 'http://example.com/notarized_documents_report'
 		},
 		{
 			name: 'Report on Documents Notarized/Oaths Administered For Philippines Statistic Authority (Census)',
-			link: 'http://example.com/notarized_census_report'
+			action: 'http://example.com/notarized_census_report'
 		},
 		{
 			name: 'For Philippines Statistic Authority (Census) For Pao Legal Assistance',
-			link: 'http://example.com/census_pao_legal_report'
+			action: 'http://example.com/census_pao_legal_report'
 		},
 		{
 			name: 'Consolidated List of Clients Who Benefitted From R.A. 10951',
-			link: 'http://example.com/ra_10951_clients_list'
+			action: 'http://example.com/ra_10951_clients_list'
 		},
 		{
 			name: 'Consolidated Gender-Related Cases Handled',
-			link: 'http://example.com/gender_related_cases'
+			action: 'http://example.com/gender_related_cases'
 		},
 		{
 			name: 'Deadline For Action on Cases / Assignment Monthly Report',
-			link: 'http://example.com/deadline_monthly_report'
+			action: 'http://example.com/deadline_monthly_report'
 		},
 		{
 			name: 'Individual Report on Status of Special And Appealed Cases',
-			link: 'http://example.com/special_appealed_cases_report'
+			action: 'http://example.com/special_appealed_cases_report'
 		},
 		{
 			name: 'Individual Performance Report',
-			link: 'http://example.com/individual_performance_report'
+			action: 'http://example.com/individual_performance_report'
 		},
 		{
 			name: 'List of Favorable Decisions/Dispositions',
-			link: 'http://example.com/favorable_decisions_list'
+			action: 'http://example.com/favorable_decisions_list'
 		},
 		{
 			name: 'List of Detainees Represented In Court',
-			link: 'http://example.com/detainees_represented_report'
+			action: 'http://example.com/detainees_represented_report'
 		},
 		{
 			name: 'List of Assisted Law Enforcement officers Who Were Sued In The Performance of Their Duties Involving Drug Related Cases',
-			link: 'http://example.com/assisted_law_enforcement_report'
+			action: 'http://example.com/assisted_law_enforcement_report'
 		},
 		{
 			name: 'Year-End Inventory of Cases',
-			link: 'http://example.com/year_end_cases_inventory'
+			action: 'http://example.com/year_end_cases_inventory'
 		},
 		{
 			name: 'Year End Inventory of Clients Served',
-			link: 'http://example.com/year_end_clients_inventory'
+			action: 'http://example.com/year_end_clients_inventory'
 		},
 		{
 			name: 'Innovation Report',
-			link: 'http://example.com/innovation_report'
+			action: 'http://example.com/innovation_report'
 		},
 		{
 			name: 'Age And Sex Disaggregated Report on Released Pdls',
-			link: 'http://example.com/age_sex_disaggregated_report'
+			action: 'http://example.com/age_sex_disaggregated_report'
 		},
 		{
 			name: 'Consolidated Report',
-			link: 'http://example.com/consolidated_report'
+			action: 'http://example.com/consolidated_report'
 		},
 		{
 			name: 'On Legal Assistance Rendered To Former Rebels (FRS) And Former Violent Extremists (FVES)',
-			link: 'http://example.com/legal_assistance_former_rebels'
+			action: 'http://example.com/legal_assistance_former_rebels'
 		},
 		{
 			name: 'Summary Report on Legal Outreach Activities Related To Illegal Drugs And Gad',
-			link: 'http://example.com/summary_legal_outreach_report'
+			action: 'http://example.com/summary_legal_outreach_report'
 		},
 		{
 			name: 'Report on Home Visit',
-			link: 'http://example.com/home_visit_report'
+			action: 'http://example.com/home_visit_report'
 		},
 		{
 			name: 'Consolidated Report on Clients Assisted on Drug Cases (Involving Voluntary Submission For Confinement And Rehabilitation)',
-			link: 'http://example.com/consolidated_drug_assistance_report'
+			action: 'http://example.com/consolidated_drug_assistance_report'
 		}
 	];
 </script>
@@ -163,15 +169,11 @@
 			<span class="flex flex-col text-sm items-end justify-center gap-2">
 				<span>You are viewing reports for: </span>
 				<input
+					bind:value={date}
 					type="month"
 					name="month"
 					id="month"
 					required
-					value={new Date().toLocaleDateString('en-CA', {
-						year: 'numeric',
-						month: '2-digit',
-						timeZone: 'Asia/Manila'
-					})}
 					class="p-2 font-bold rounded-lg border border-2 border-diligence bg-transparent text-sm"
 				/>
 			</span>
@@ -206,16 +208,18 @@
 											<span class="hidden sm:block text-balance">{report.name}</span>
 										</td>
 										<td class="w-1/6 flex items-center justify-center gap-2">
-											<a href={report.link}
-												><button class="flex items-center gap-2 px-2 lg:px-4"
-													><SvgIcon
+											<form method="POST" action={report.action}>
+												<input type="hidden" name="month" value={date} />
+												<button class="flex items-center gap-2 px-2 lg:px-4">
+													<SvgIcon
 														size="15px"
 														type="mdi"
 														path={mdiFileDownloadOutline}
 														class="lg:w-15"
-													></SvgIcon><span class="hidden lg:block">Generate</span></button
-												></a
-											>
+													/>
+													<span class="hidden lg:block">Generate</span>
+												</button>
+											</form>
 										</td>
 									</tr>
 								{/each}
