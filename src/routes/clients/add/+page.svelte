@@ -13,6 +13,41 @@
 
 	let detained: boolean;
 	let civilStatus: string;
+	let otherInvolvement: false;
+
+	let classification = [
+		{ name: 'Child in Conflict with the Law' },
+		{ name: 'Woman Client' },
+		{ name: 'VAWC Victim' },
+		{ name: 'Law Enforcer' },
+		{ name: 'Drug-Related Duty' },
+		{ name: 'OFW (Land-Based)' },
+		{ name: 'OFW (Sea-Based)' },
+		{ name: 'Former Rebels (FRs) and Former Violent Extremists (FVEs)' },
+		{ name: 'Senior Citizen' },
+		{ name: 'Refugee or Evacuee' },
+		{ name: 'Tenant in Agrarian Case' },
+		{ name: 'Victim of Terrorism (R.A. No. 9372)' },
+		{ name: 'Victim of Torture (R.A. 9745)' },
+		{ name: 'Victim of Trafficking (R.A. No. 9208)' },
+		{ name: 'Foreign National' },
+		{ name: 'Urban Poor' },
+		{ name: 'Rural Poor' },
+		{ name: 'Indigenous People' },
+		{ name: 'PWD' },
+		{ name: 'Petitioner for Voluntary Rehabilitation' }
+	];
+
+	let involvement = [
+		{ name: 'Plaintiff' },
+		{ name: 'Petitioner' },
+		{ name: 'Complainant' },
+		{ name: 'Defendant' },
+		{ name: 'Respondent' },
+		{ name: 'Accused' },
+		{ name: 'Oppositor' },
+		{ name: 'Others' }
+	];
 </script>
 
 {#if form?.invalid}
@@ -147,6 +182,39 @@
 				/>
 			</div>
 		{/if}
+
+		<h4 class="font-bold">Client Classification</h4>
+		<div class="grid grid-cols-3 gap-4">
+			{#each classification as classify}
+				<Checkbox name={classify.name} labelEng={classify.name} class="text-xs" />
+			{/each}
+		</div>
+
+		<h4 class="font-bold">Client's Case Involvement</h4>
+		<div class="flex flex-col gap-4">
+			<div class="grid grid-cols-3 gap-4">
+				{#each involvement as involve}
+					{#if involve.name === 'Others'}
+						<Checkbox
+							name={involve.name}
+							labelEng={involve.name}
+							class="text-xs"
+							bind:checked={otherInvolvement}
+						/>
+					{:else}
+						<Checkbox name={involve.name} labelEng={involve.name} class="text-xs" />
+					{/if}
+				{/each}
+				{#if otherInvolvement}
+					<Field
+						labelEng="Other Involvement"
+						name="otherInvolvement"
+						class="w-full text-xs"
+						required
+					/>
+				{/if}
+			</div>
+		</div>
 
 		<div class="flex gap-4 mt-6">
 			<button class="bg-trust" type="submit">Submit</button>

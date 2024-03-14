@@ -1,18 +1,24 @@
 import ExcelJS from 'exceljs';
-import type { Client } from "@prisma/client"
+import type { Client } from '@prisma/client';
+
+import template from '$lib/assets/reports.xlsx?url';
 
 import * as F10 from './F.10';
 import * as F11 from './F.11';
 import * as F17 from './F.17';
 
 export const generateReports = async (clients: Client[]) => {
-    const workbook = new ExcelJS.Workbook();
-    await workbook.xlsx.readFile('src/lib/utils/forms/reports.xlsx');
+	const workbook = new ExcelJS.Workbook();
+	await workbook.xlsx.readFile(template);
 
+<<<<<<< HEAD
     await F10.addRow(workbook.getWorksheet('F.10'), clients);
     await F11.addRow(workbook.getWorksheet('F.11'), clients);
     await F17.addRow(workbook.getWorksheet('F.17'), clients);
+=======
+	await F10.addRow(workbook.getWorksheet('F.10'), clients);
+	await F17.addRow(workbook.getWorksheet('F.17'), clients);
+>>>>>>> fe01fda9571d6cbf77379ffa8fdba17360750c9f
 
-    return await workbook.xlsx.writeBuffer() as Buffer;
-
+	return (await workbook.xlsx.writeBuffer()) as Buffer;
 };

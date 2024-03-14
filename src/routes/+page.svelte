@@ -55,7 +55,7 @@
 					>
 						<h4 class="font-bold text-equity px-6">Clients</h4>
 						{#if clients.length === 0}
-							<p>No clients found!</p>
+							<p class="px-6">No clients found!</p>
 						{:else}
 							<table class="text-left w-full">
 								<thead class="w-full">
@@ -131,7 +131,7 @@
 			<h2 class="font-bold text-oath leading-tight">
 				Public Attorney’s Office <br /><span class="text-trust"> Electronic Records System </span>
 			</h2>
-			<p class="text-sm text-innocence">
+			<p class="text-sm text-innocence w-[80%]">
 				The Public Attorney’s Office - Electronic Records System (PAO-ERS) is a web-based
 				application that aims to provide a more efficient and effective way of managing records and
 				cases of the Public Attorney’s Office. It is designed to be user-friendly and accessible to
