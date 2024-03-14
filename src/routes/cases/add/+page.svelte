@@ -49,7 +49,7 @@
 {#if form?.success}
 	<Modal
 		title="Add Success!"
-		message="Client has been successfully added."
+		message="Case has been successfully added."
 		success={() => history.back()}
 	/>
 {/if}

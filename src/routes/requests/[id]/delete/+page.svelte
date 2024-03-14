@@ -11,7 +11,7 @@
 {#if form?.unsuccessful}
 	<Modal
 		title="Delete Failed."
-		message="Client has not been deleted."
+		message="Request has not been deleted."
 		success={() => history.back()}
 	/>
 {/if}
@@ -19,7 +19,7 @@
 {#if form?.success}
 	<Modal
 		title="Delete Success!"
-		message="Client has been successfully deleted."
+		message="Request has been successfully deleted."
 		success={() => history.back()}
 	/>
 {/if}
@@ -34,22 +34,17 @@
 			<div class="flex items-center justify-between">
 				<div>
 					<p class="font-bold text-equity mb-2">
-						Client Profile<span class="p-1 px-2 bg-diligence text-oath rounded-lg ml-2"
+						Request Information<span class="p-1 px-2 bg-diligence text-oath rounded-lg ml-2"
 							>Delete Mode</span
 						>
 					</p>
 					<h3 class="font-bold">
-						{client?.firstName +
-							' ' +
-							client?.middleName +
-							' ' +
-							client?.lastName +
-							(client?.nameSuffix ? ' ' + client?.nameSuffix : '')}
+						Request ID: {request?.ID)}
 					</h3>
 				</div>
 			</div>
 			<div class="mt-4 font-bold">
-				<p>Do you really want to delete this client?</p>
+				<p>Do you really want to delete this request?</p>
 				<form method="POST" use:enhance class="flex gap-4 mt-6">
 					<button class="bg-diligence text-oath" type="submit">Delete</button>
 					<button
@@ -60,7 +55,7 @@
 				</form>
 			</div>
 		{:else}
-			<p>No client found.</p>
+			<p>No request found.</p>
 		{/if}
 	{:catch error}
 		<p>{error.message}</p>
