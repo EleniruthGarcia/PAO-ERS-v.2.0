@@ -165,7 +165,7 @@
 				</div>
 			</form>
 		{:else}
-			<p>Lawyer not found!</p>
+			<p>Lawyer not found.</p>
 		{/if}
 	{:catch error}
 		<p>{error.message}</p>

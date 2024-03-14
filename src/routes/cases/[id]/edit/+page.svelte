@@ -13,13 +13,24 @@
 	export let data: PageServerData;
 	export let form: ActionData;
 
-	let detained: boolean;
-	let civilStatus: string;
+	let request = 'value';
+	let otherProof = false;
+	let pending: boolean;
 
-	data.client.then((client) => {
-		civilStatus = client?.civilStatus ? client?.civilStatus : '';
-		detained = client?.detained ? client?.detained : false;
-	});
+	let nature = [
+		{ name: "Criminal" },
+		{ name: "Administrative" },
+		{ name: "Civil" },
+		{ name: "Appealed" },
+		{ name: "Labor" }
+	];
+
+	let proofs = [
+    { name: "Income Tax Return" },
+    { name: "Certification of Barangay" },
+    { name: "Certification from DSWD" },
+    { name: "Others" }
+  ];
 </script>
 
 {#if form?.invalid}
@@ -51,196 +62,136 @@
 		{#if client}
 			<div>
 				<p class="font-bold text-equity mb-2">
-					Client Profile<span class="p-1 px-2 bg-diligence text-oath rounded-lg ml-2"
+					Case Information<span class="p-1 px-2 bg-diligence text-oath rounded-lg ml-2"
 						>Edit Mode</span
 					>
 				</p>
 				<h3 class="font-bold">
-					{client?.firstName +
-						' ' +
-						client?.middleName +
-						' ' +
-						client?.lastName +
-						(client?.nameSuffix ? ' ' + client?.nameSuffix : '')}
+					{_case.title}
 				</h3>
 			</div>
+			<div class="text-diligence">
+				<h3 class="font-bold mb-2">Case Information</h3>
+				<span class="font-bold">Please fill out all necessary information.</span> | Mangyaring punan ang
+				lahat ng kinakailangang impormasyon.
+			</div>
 			<form method="POST" use:enhance class="flex flex-col gap-4">
+				<h4 class="font-bold">Request Information</h4>
 				<div class="inline-flex flex-wrap gap-4">
-					<Field
-						labelEng="First Name"
-						labelFil="Unang Pangalan"
-						name="firstName"
-						required
-						autocomplete="given-name"
-						value={client.firstName}
-					/>
-					<Field
-						labelEng="Middle Name"
-						labelFil="Gitnang Pangalan"
-						name="middleName"
-						autocomplete="additional-name"
-						value={client.middleName}
-					/>
-					<Field
-						labelEng="Last Name"
-						labelFil="Apelyido"
-						name="lastName"
-						required
-						autocomplete="family-name"
-						value={client.lastName}
-					/>
-					<Field
-						labelEng="Suffix"
-						labelFil=""
-						class="w-24"
-						name="nameSuffix"
-						autocomplete="additional-name"
-						value={client.nameSuffix}
-					/>
-					<Field
-						labelEng="Age"
-						labelFil="Edad"
-						class="w-32"
-						name="age"
-						min="1"
-						max="120"
-						type="number"
-						required
-						value={client.age}
-					/>
-					<Select
-						name="sex"
-						labelEng="Sex"
-						labelFil="Kasarian"
-						w="w-32"
-						value={client.sex ? client.sex : ''}
-						required
-					>
+					<Select name="requestId" labelEng="Request" w="w-32" bind:value={request} required>
 						<Option value="" disabled hidden selected></Option>
-						<Option value="Male">Male</Option>
-						<Option value="Female">Female</Option>
+						{#await data.requests}
+							<Loading />
+						{:then requests}
+							{#if requests.length > 0}
+								{#each requests as request}
+									<Option value={String(request.id)}>{request.client.lastName} | {request.requestType}</Option>
+								{/each}
+							{:else}
+								<Option value="" disabled>No requests available</Option>
+							{/if}
+						{/await}
 					</Select>
-					<Select
-						name="civilStatus"
-						labelEng="Civil Status"
-						w="w-32"
-						bind:value={civilStatus}
-						required
-					>
-						<Option value="" disabled hidden selected></Option>
-						<Option value="Single">Single</Option>
-						<Option value="Married">Married</Option>
-						<Option value="Divorced">Divorced</Option>
-						<Option value="Widowed">Widowed</Option>
-					</Select>
-					<Field labelEng="Citizenship" name="citizenship" value={client.citizenship} />
-					<Field
-						labelEng="Address"
-						labelFil="Tirahan"
-						name="address"
-						class="w-96"
-						required
-						value={client.address}
-					/>
-					<Field labelEng="Email" name="email" required autocomplete="email" value={client.email} />
-					<Field
-						labelEng="Contact Number"
-						name="contactNumber"
-						type="tel"
-						value={client.contactNumber}
-					/>
-					<Field
-						labelEng="Language or Dialect"
-						labelFil="Wika o Dayalekto"
-						name="language"
-						class="w-80"
-						value={client.language}
-					/>
-					<Field
-						labelEng="Educational Attainment"
-						name="educationalAttainment"
-						value={client.educationalAttainment}
-					/>
-					<Field labelEng="Religion" labelFil="Relihiyon" name="religion" value={client.religion} />
-					<Field
-						labelEng="Individual Monthly Income"
-						name="individualMonthlyIncome"
-						class="w-80 lg:max-w-96"
-						type="number"
-						required
-						value={client.individualMonthlyIncome}
-					/>
 				</div>
-				<div class="flex gap-4 items-center">
-					<p class="text-sm">Is the client detained?</p>
-					<Checkbox name="detained" labelEng="Detained" bind:checked={detained} class="" />
-				</div>
-				{#if civilStatus === 'Married'}
-					<h4 class="font-bold">Spouse Information</h4>
-					<div class="flex flex-wrap gap-4">
-						<Field
-							labelEng="Spouse Name"
-							labelFil="Pangalan ng Asawa"
-							name="spouseName"
-							required
-							value={client.spouseName}
-						/>
-						<Field
-							labelEng="Address of Spouse"
-							labelFil="Tirahan ng Asawa"
-							name="spouseAddress"
-							w="w-96"
-							required
-							value={client.spouseAddress}
-						/>
-						<Field
-							labelEng="Spouse Contact Number"
-							name="spouseContactNumber"
-							type="tel"
-							value={client.spouseContactNumber}
-						/>
+				{#if request}
+					<h4 class="font-bold">Nature of Case</h4>
+					<div class="flex flex-col gap-4">
+						<div class="grid grid-cols-3 gap-4">
+							{#each nature as nat}
+							<Checkbox name={nat.name} labelEng={nat.name} class="text-xs" />
+							{/each}
+						</div>
+						<div class="flex flex-col gap-2">
+							<label for="addinfo" class="text-sm font-bold">Additional Information</label>
+							<input
+								class="p-2 rounded outline outline-equity outline-1 focus:outline-2 focus:outline-equity text-sm w-full"
+								id="addinfo"
+								name="addinfo"
+								type="text"
+								placeholder="Type additional information about the case here."
+								>
+						</div>
+					</div>
+		
+					<h4 class="font-bold">Adverse Party</h4>
+					<div class="flex flex-col gap-4">
+						<div class="grid grid-cols-3 gap-4">
+							<Checkbox name="plaintiff" labelEng="Plaintiff or Complainant" class="text-xs" />
+							<Checkbox name="defendant" labelEng="Defendant, Respondent, or Accused" class="text-xs" />
+							<Checkbox name="oppositor" labelEng="Oppositor or Others" class="text-xs" />
+						</div>
+						<div class="flex flex-wrap gap-4">
+							<Field labelEng="Name" name="advName" required />
+							<Field
+								labelEng="Address"
+								name="advAddress"
+								w="w-96"
+								required
+							/>
+							</div>
+					</div>
+		
+					<h4 class="font-bold">Facts of the Case</h4>
+					<textarea
+								class="p-2 rounded outline outline-equity outline-1 focus:outline-2 focus:outline-equity text-sm w-full"
+								id="facts"
+								name="facts"
+								placeholder="Type the facts about the case here."
+								/>
+					
+								<h4 class="font-bold">Cause of Action or Nature of Offense</h4>
+								<textarea
+											class="p-2 rounded outline outline-equity outline-1 focus:outline-2 focus:outline-equity text-sm w-full"
+											id="coa"
+											name="coa"
+											placeholder="Type the cause of action or nature of offense here."
+											/>
+					
+					<div class="flex gap-4 items-center">
+						<p class="text-sm">Is the case pending in court?</p>
+						<Checkbox name="pending" labelEng="Pending" bind:checked={pending} class="" />
+					</div>
+		
+					{#if pending}
+						<h4 class="font-bold">Pending Case Information</h4>
+						<div class="flex flex-wrap gap-4">
+							<Field labelEng="Title of the Case" name="caseTitle" required />
+							<Field labelEng="Docket Number" name="docketNumber" required />
+							<Field labelEng="Court" name="court" required />
+						</div>
+					{/if}
+		
+					<h4 class="font-bold">Proof of Indigency</h4>
+					<div class="flex flex-col gap-4">
+						<div class="grid grid-cols-3 gap-4">
+							{#each proofs as proof}
+							{#if proof.name === "Others"}
+								<Checkbox name={proof.name} labelEng={proof.name} class="text-xs" bind:checked={otherProof} />
+							{:else}
+								<Checkbox name={proof.name} labelEng={proof.name} class="text-xs" />
+							{/if}
+							{/each}
+							{#if otherProof}
+							<Field labelEng="Other Proof" name="otherProof" class="w-full text-xs" required />
+							{/if}
+						</div>
+					</div>
+		
+					<div class="flex gap-4 mt-6">
+						<button class="bg-trust" type="submit">Submit</button>
+						<button
+							class="bg-diligence text-oath"
+							type="reset"
+							>Reset</button
+						>
+						<button class="border border-2 border-diligence" type="button" on:click={() => history.back()}
+							>Go Back</button
+						>
 					</div>
 				{/if}
-
-				{#if detained}
-					<h4 class="font-bold">Detainee Information</h4>
-					<div class="flex flex-wrap gap-4">
-						<Field
-							labelEng="Place of Detention"
-							name="detainedAt"
-							class="w-96 lg:max-w-96"
-							value={client.detainedAt}
-						/>
-						<DatePicker
-							labelEng="Detained Since"
-							name="detainedSince"
-							id="detainedSince"
-							class="max-w-40"
-							value={client.detainedSince?.toLocaleDateString('en-CA', {
-								timeZone: 'Asia/Manila'
-							})}
-						/>
-					</div>
-				{/if}
-
-				<div class="flex gap-4 mt-6">
-					<button class="bg-trust" type="submit">Save</button>
-					<button
-						type="button"
-						class="bg-diligence text-oath"
-						on:click={() => (location.href = `/clients/${client.id}/delete`)}
-					>
-						Delete
-					</button>
-					<button
-						type="button"
-						class="border border-2 border-diligence"
-						on:click={() => history.back()}>Cancel</button
-					>
-				</div>
 			</form>
 		{:else}
-			<p>Client not found!</p>
+			<p>Client not found.</p>
 		{/if}
 	{:catch error}
 		<p>{error.message}</p>

@@ -4,7 +4,7 @@ import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {
 	return {
-		client: prisma.client.findUnique({
+		case: prisma.case.findUnique({
 			where: { id: Number(params.id) }
 		})
 	};
@@ -12,12 +12,12 @@ export const load: PageServerLoad = async ({ params }) => {
 
 export const actions = {
 	default: async ({ params }) => {
-		const client = await prisma.client.update({
+		const case = await prisma.case.update({
 			where: { id: Number(params.id) },
 			data: { deletedAt: new Date() }
 		});
 
-		if (!client.deletedAt) {
+		if (!case.deletedAt) {
 			return fail(400, { unsuccessful: true });
 		}
 

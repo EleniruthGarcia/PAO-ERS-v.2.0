@@ -240,7 +240,7 @@
 				</div>
 			</form>
 		{:else}
-			<p>Client not found!</p>
+			<p>Client not found.</p>
 		{/if}
 	{:catch error}
 		<p>{error.message}</p>

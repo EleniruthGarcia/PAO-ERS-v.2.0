@@ -11,7 +11,7 @@
 {#if form?.unsuccessful}
 	<Modal
 		title="Delete Failed."
-		message="Client has not been deleted."
+		message="Case has not been deleted."
 		success={() => history.back()}
 	/>
 {/if}
@@ -19,7 +19,7 @@
 {#if form?.success}
 	<Modal
 		title="Delete Success!"
-		message="Client has been successfully deleted."
+		message="Case has been successfully deleted."
 		success={() => history.back()}
 	/>
 {/if}
@@ -27,29 +27,24 @@
 <main
 	class="h-screen w-full p-12 lg:pl-14 flex flex-col gap-4 bg-witness text-diligence lg:overflow-y-hidden leading-tight"
 >
-	{#await data.client}
+	{#await data.case}
 		<div><Loading /></div>
-	{:then client}
-		{#if client}
+	{:then _case}
+		{#if _case}
 			<div class="flex items-center justify-between">
 				<div>
 					<p class="font-bold text-equity mb-2">
-						Client Profile<span class="p-1 px-2 bg-diligence text-oath rounded-lg ml-2"
+						Case Information<span class="p-1 px-2 bg-diligence text-oath rounded-lg ml-2"
 							>Delete Mode</span
 						>
 					</p>
 					<h3 class="font-bold">
-						{client?.firstName +
-							' ' +
-							client?.middleName +
-							' ' +
-							client?.lastName +
-							(client?.nameSuffix ? ' ' + client?.nameSuffix : '')}
+						{_case.title}
 					</h3>
 				</div>
 			</div>
 			<div class="mt-4 font-bold">
-				<p>Do you really want to delete this client?</p>
+				<p>Do you really want to delete this case?</p>
 				<form method="POST" use:enhance class="flex gap-4 mt-6">
 					<button class="bg-diligence text-oath" type="submit">Delete</button>
 					<button
@@ -60,7 +55,7 @@
 				</form>
 			</div>
 		{:else}
-			<p>No client found.</p>
+			<p>No case found.</p>
 		{/if}
 	{:catch error}
 		<p>{error.message}</p>

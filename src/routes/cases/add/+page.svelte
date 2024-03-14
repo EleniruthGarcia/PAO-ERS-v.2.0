@@ -148,7 +148,7 @@
 				</div>
 			{/if}
 
-			<h4 class="font-bold">Proof of Indigency Submitted</h4>
+			<h4 class="font-bold">Proof of Indigency</h4>
 			<div class="flex flex-col gap-4">
 				<div class="grid grid-cols-3 gap-4">
 					{#each proofs as proof}
