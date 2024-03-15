@@ -145,7 +145,7 @@
 					<button
 						class="border border-2 border-diligence"
 						type="button"
-						on:click={() => history.back()}>Go Back</button
+						on:click={() => history.back()}>Cancel</button
 					>
 				</div>
 			</form>

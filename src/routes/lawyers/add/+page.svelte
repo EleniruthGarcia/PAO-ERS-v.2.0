@@ -103,7 +103,7 @@
 			<button class="bg-trust" type="submit">Submit</button>
 			<button class="bg-diligence text-oath" type="reset">Reset</button>
 			<button class="border border-2 border-diligence" type="button" on:click={() => history.back()}
-				>Go Back</button
+				>Cancel</button
 			>
 		</div>
 	</form>

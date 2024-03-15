@@ -10,16 +10,56 @@
 	import Option from '$lib/components/Option.svelte';
 	import Loading from '$lib/components/Loading.svelte';
 
+	import SvgIcon from '@jamescoyle/svelte-icon';
+	import { mdiChevronRight, mdiChevronLeft } from '@mdi/js';
+
 	export let data: PageServerData;
 	export let form: ActionData;
 
 	let detained: boolean;
 	let civilStatus: string;
+	let steps = ['Primary Information', 'Classification'], currentActive = 1;
+	let active_step = steps[currentActive - 1];
 
 	data.client.then((client) => {
 		civilStatus = client?.civilStatus ? client?.civilStatus : '';
 		detained = client?.detained ? client?.detained : false;
 	});
+
+	export const handleProgress = (stepIncrement) => {
+		if(stepIncrement == 1){
+			currentActive++
+		} else {
+			currentActive--
+			if(currentActive < 1) {
+					currentActive = 1 
+			}
+		}
+		active_step = steps[currentActive - 1]
+	}
+
+	let classification = [
+		{ name: 'Child in Conflict with the Law' },
+		{ name: 'Woman Client' },
+		{ name: 'VAWC Victim' },
+		{ name: 'Law Enforcer' },
+		{ name: 'Drug-Related Duty' },
+		{ name: 'OFW (Land-Based)' },
+		{ name: 'OFW (Sea-Based)' },
+		{ name: 'Former Rebels (FRs) and Former Violent Extremists (FVEs)' },
+		{ name: 'Senior Citizen' },
+		{ name: 'Refugee or Evacuee' },
+		{ name: 'Tenant in Agrarian Case' },
+		{ name: 'Victim of Terrorism (R.A. No. 9372)' },
+		{ name: 'Victim of Torture (R.A. 9745)' },
+		{ name: 'Victim of Trafficking (R.A. No. 9208)' },
+		{ name: 'Foreign National' },
+		{ name: 'Urban Poor' },
+		{ name: 'Rural Poor' },
+		{ name: 'Indigenous People' },
+		{ name: 'PWD' },
+		{ name: 'Petitioner for Voluntary Rehabilitation' }
+	];
 </script>
 
 {#if form?.invalid}
@@ -27,7 +67,7 @@
 {/if}
 
 {#if form?.missing}
-	<Modal message="Please fill out all necessary information." />
+	<Modal title="Form Incomplete" message="Please fill out all necessary information." />
 {/if}
 
 {#if form?.error}
@@ -65,6 +105,7 @@
 				</h3>
 			</div>
 			<form method="POST" use:enhance class="flex flex-col gap-4">
+				{#if active_step == 'Primary Information'}
 				<div class="inline-flex flex-wrap gap-4">
 					<Field
 						labelEng="First Name"
@@ -223,7 +264,48 @@
 					</div>
 				{/if}
 
+				{:else if active_step == 'Classification'}
+
+				<h4 class="font-bold">Client Classification</h4>
+				<div class="grid grid-cols-3 gap-4">
+					{#each classification as classify}
+						<Checkbox name={classify.name} labelEng={classify.name} class="text-xs" />
+					{/each}
+				</div>
+		
+				<!-- {:else if active_step == 'Involvement'}
+		
+				<h4 class="font-bold">Client's Case Involvement</h4>
+				<div class="flex flex-col gap-4">
+					<div class="grid grid-cols-3 gap-4">
+						{#each involvement as involve}
+							{#if involve.name === 'Others'}
+								<Checkbox
+									name={involve.name}
+									labelEng={involve.name}
+									class="text-xs"
+									bind:checked={otherInvolvement}
+								/>
+							{:else}
+								<Checkbox name={involve.name} labelEng={involve.name} class="text-xs" />
+							{/if}
+						{/each}
+						{#if otherInvolvement}
+							<Field
+								labelEng="Other Involvement"
+								name="otherInvolvement"
+								class="w-full text-xs"
+								required
+							/>
+						{/if}
+					</div>
+				</div> -->
+		
+				{/if}
+
 				<div class="flex gap-4 mt-6">
+					<button class="bg-equity text-oath disabled:hidden" on:click={() => handleProgress(-1)} disabled={currentActive == 1} type="button"><SvgIcon size="15px" type="mdi" path={mdiChevronLeft}></SvgIcon></button>
+					<button class="bg-equity text-oath disabled:hidden" on:click={() => handleProgress(+1)} disabled={currentActive == steps.length} type="button"><SvgIcon size="15px" type="mdi" path={mdiChevronRight}></SvgIcon></button>
 					<button class="bg-trust" type="submit">Save</button>
 					<button
 						type="button"

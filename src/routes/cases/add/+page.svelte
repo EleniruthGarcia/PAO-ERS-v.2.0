@@ -11,12 +11,30 @@
 	import Select from '$lib/components/Select.svelte';
 	import Option from '$lib/components/Option.svelte';
 
+	import SvgIcon from '@jamescoyle/svelte-icon';
+	import { mdiChevronRight, mdiChevronLeft } from '@mdi/js';
+
 	export let data: PageServerData;
 	export let form: ActionData;
 
 	let request = 'value';
 	let otherProof = false;
+	let otherInvolvement: false;
 	let pending: boolean;
+	let steps = ['Nature', 'Parties', 'Facts', 'Proof'], currentActive = 1;
+	let active_step = steps[currentActive - 1];
+
+	export const handleProgress = (stepIncrement) => {
+		if(stepIncrement == 1){
+			currentActive++
+		} else {
+			currentActive--
+			if(currentActive < 1) {
+					currentActive = 1 
+			}
+		}
+		active_step = steps[currentActive - 1]
+	}
 
 	let nature = [
 		{ name: 'Criminal' },
@@ -30,6 +48,18 @@
 		{ name: 'Income Tax Return' },
 		{ name: 'Certification of Barangay' },
 		{ name: 'Certification from DSWD' },
+		{ name: 'Others' }
+	];
+
+	
+	let involvement = [
+		{ name: 'Plaintiff' },
+		{ name: 'Petitioner' },
+		{ name: 'Complainant' },
+		{ name: 'Defendant' },
+		{ name: 'Respondent' },
+		{ name: 'Accused' },
+		{ name: 'Oppositor' },
 		{ name: 'Others' }
 	];
 </script>
@@ -63,6 +93,7 @@
 		lahat ng kinakailangang impormasyon.
 	</div>
 	<form method="POST" use:enhance class="flex flex-col gap-4">
+		{#if currentActive == 1}
 		<h4 class="font-bold">Request Information</h4>
 		<div class="inline-flex flex-wrap gap-4">
 			<Select name="requestId" labelEng="Request" w="w-32" bind:value={request} required>
@@ -82,7 +113,9 @@
 				{/await}
 			</Select>
 		</div>
+		{/if}
 		{#if request}
+			{#if active_step == 'Nature'}
 			<h4 class="font-bold">Nature of Case</h4>
 			<div class="flex flex-col gap-4">
 				<div class="grid grid-cols-3 gap-4">
@@ -102,6 +135,34 @@
 				</div>
 			</div>
 
+			{:else if active_step == 'Parties'}
+
+			<h4 class="font-bold">Client's Case Involvement</h4>
+			<div class="flex flex-col gap-4">
+				<div class="grid grid-cols-3 gap-4">
+					{#each involvement as involve}
+						{#if involve.name === 'Others'}
+							<Checkbox
+								name={involve.name}
+								labelEng={involve.name}
+								class="text-xs"
+								bind:checked={otherInvolvement}
+							/>
+						{:else}
+							<Checkbox name={involve.name} labelEng={involve.name} class="text-xs" />
+						{/if}
+					{/each}
+					{#if otherInvolvement}
+						<Field
+							labelEng="Other Involvement"
+							name="otherInvolvement"
+							class="w-full text-xs"
+							required
+						/>
+					{/if}
+				</div>
+			</div>
+
 			<h4 class="font-bold">Adverse Party</h4>
 			<div class="flex flex-col gap-4">
 				<div class="grid grid-cols-3 gap-4">
@@ -114,6 +175,8 @@
 					<Field labelEng="Address" name="advAddress" w="w-96" required />
 				</div>
 			</div>
+
+			{:else if active_step == 'Facts'}
 
 			<h4 class="font-bold">Facts of the Case</h4>
 			<textarea
@@ -145,6 +208,8 @@
 				</div>
 			{/if}
 
+			{:else if active_step == 'Proof'}
+
 			<h4 class="font-bold">Proof of Indigency</h4>
 			<div class="flex flex-col gap-4">
 				<div class="grid grid-cols-3 gap-4">
@@ -158,13 +223,17 @@
 				</div>
 			</div>
 
+			{/if}
+
 			<div class="flex gap-4 mt-6">
-				<button class="bg-trust" type="submit">Submit</button>
+				<button class="bg-equity text-oath disabled:hidden" on:click={() => handleProgress(-1)} disabled={currentActive == 1} type="button"><SvgIcon size="15px" type="mdi" path={mdiChevronLeft}></SvgIcon></button>
+				<button class="bg-equity text-oath disabled:hidden" on:click={() => handleProgress(+1)} disabled={currentActive == steps.length} type="button"><SvgIcon size="15px" type="mdi" path={mdiChevronRight}></SvgIcon></button>
+				<button class="bg-trust disabled:hidden" disabled={currentActive != steps.length} type="submit">Submit</button>
 				<button class="bg-diligence text-oath" type="reset">Reset</button>
 				<button
 					class="border border-2 border-diligence"
 					type="button"
-					on:click={() => history.back()}>Go Back</button
+					on:click={() => history.back()}>Cancel</button
 				>
 			</div>
 		{/if}

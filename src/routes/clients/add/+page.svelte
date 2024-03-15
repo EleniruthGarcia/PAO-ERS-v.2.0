@@ -9,11 +9,27 @@
 	import Select from '$lib/components/Select.svelte';
 	import Option from '$lib/components/Option.svelte';
 
+	import SvgIcon from '@jamescoyle/svelte-icon';
+	import { mdiChevronRight, mdiChevronLeft } from '@mdi/js';
+
 	export let form: ActionData;
 
 	let detained: boolean;
 	let civilStatus: string;
-	let otherInvolvement: false;
+	let steps = ['Primary Information', 'Classification'], currentActive = 1;
+	let active_step = steps[currentActive - 1];
+
+	export const handleProgress = (stepIncrement) => {
+		if(stepIncrement == 1){
+			currentActive++
+		} else {
+			currentActive--
+			if(currentActive < 1) {
+					currentActive = 1 
+			}
+		}
+		active_step = steps[currentActive - 1]
+	}
 
 	let classification = [
 		{ name: 'Child in Conflict with the Law' },
@@ -36,17 +52,6 @@
 		{ name: 'Indigenous People' },
 		{ name: 'PWD' },
 		{ name: 'Petitioner for Voluntary Rehabilitation' }
-	];
-
-	let involvement = [
-		{ name: 'Plaintiff' },
-		{ name: 'Petitioner' },
-		{ name: 'Complainant' },
-		{ name: 'Defendant' },
-		{ name: 'Respondent' },
-		{ name: 'Accused' },
-		{ name: 'Oppositor' },
-		{ name: 'Others' }
 	];
 </script>
 
@@ -79,6 +84,7 @@
 		lahat ng kinakailangang impormasyon.
 	</div>
 	<form method="POST" use:enhance class="flex flex-col gap-4">
+		{#if active_step == 'Primary Information'}
 		<h4 class="font-bold">Personal Information</h4>
 		<div class="inline-flex flex-wrap gap-4">
 			<Field
@@ -183,12 +189,16 @@
 			</div>
 		{/if}
 
+		{:else if active_step == 'Classification'}
+
 		<h4 class="font-bold">Client Classification</h4>
 		<div class="grid grid-cols-3 gap-4">
 			{#each classification as classify}
 				<Checkbox name={classify.name} labelEng={classify.name} class="text-xs" />
 			{/each}
 		</div>
+
+		<!-- {:else if active_step == 'Involvement'}
 
 		<h4 class="font-bold">Client's Case Involvement</h4>
 		<div class="flex flex-col gap-4">
@@ -214,10 +224,14 @@
 					/>
 				{/if}
 			</div>
-		</div>
+		</div> -->
+
+		{/if}
 
 		<div class="flex gap-4 mt-6">
-			<button class="bg-trust" type="submit">Submit</button>
+			<button class="bg-equity text-oath disabled:hidden" on:click={() => handleProgress(-1)} disabled={currentActive == 1} type="button"><SvgIcon size="15px" type="mdi" path={mdiChevronLeft}></SvgIcon></button>
+			<button class="bg-equity text-oath disabled:hidden" on:click={() => handleProgress(+1)} disabled={currentActive == steps.length} type="button"><SvgIcon size="15px" type="mdi" path={mdiChevronRight}></SvgIcon></button>
+			<button class="bg-trust disabled:hidden" disabled={currentActive != steps.length} type="submit">Submit</button>
 			<button
 				class="bg-diligence text-oath"
 				type="reset"
@@ -227,7 +241,7 @@
 				}}>Reset</button
 			>
 			<button class="border border-2 border-diligence" type="button" on:click={() => history.back()}
-				>Go Back</button
+				>Cancel</button
 			>
 		</div>
 	</form>
