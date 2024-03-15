@@ -80,10 +80,10 @@
 						<table class="text-left w-full">
 							<thead class="w-full">
 								<tr class=" px-6 flex w-full border border-0 border-t border-innocence">
-									<th class="p-3 w-1/3">Name</th>
-									<th class="p-3 w-1/4 text-center">Case Number</th>
-									<th class="p-3 w-1/4 text-center">Case Type</th>
-									<th class="p-3 w-1/6"></th>
+									<th class="p-3 flex items-center w-1/3">Name</th>
+									<th class="p-3 flex items-center w-1/4 text-center">Case Number</th>
+									<th class="p-3 flex items-center w-1/4 text-center">Case Type</th>
+									<th class="p-3 flex items-center w-1/6"></th>
 								</tr>
 							</thead>
 							<tbody class="text-sm flex flex-col overflow-y-scroll w-full h-72 overflow-x-clip">

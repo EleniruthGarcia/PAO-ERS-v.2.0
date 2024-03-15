@@ -54,10 +54,10 @@
 						<table class="text-left w-full">
 							<thead class="w-full">
 								<tr class=" px-6 flex w-full border border-0 border-t border-innocence">
-									<th class="p-3 w-1/3">Name</th>
-									<th class="p-3 w-1/4 text-center">Title</th>
-									<th class="p-3 w-1/4 text-center">Username</th>
-									<th class="p-3 w-1/6"></th>
+									<th class="p-3 flex items-center w-1/3">Name</th>
+									<th class="p-3 flex items-center justify-center w-1/4 text-center">Title</th>
+									<th class="p-3 flex items-center justify-center w-1/4 text-center">Username</th>
+									<th class="p-3 flex items-center w-1/6"></th>
 								</tr>
 							</thead>
 							<tbody class="text-sm flex flex-col overflow-y-scroll w-full h-72">
@@ -66,7 +66,7 @@
 										<tr
 											class="h-12 px-6 flex w-full hover:bg-oath border border-0 border-b border-t border-innocence"
 										>
-											<td class="font-bold p-3 w-1/3">
+											<td class="font-bold px-3 flex items-center w-1/3">
 												<span class="hidden sm:block"
 													>{lawyer.firstName +
 														' ' +
@@ -77,8 +77,8 @@
 												>
 												<span class="block sm:hidden">{lawyer.lastName}</span>
 											</td>
-											<td class="p-3 w-1/4 text-center">{lawyer.title}</td>
-											<td class="p-3 w-1/4 text-center">{lawyer.user.username}</td>
+											<td class="px-3 flex items-center w-1/4 justify-center text-center">{lawyer.title}</td>
+											<td class="px-3 flex items-center w-1/4 justify-center text-center">{lawyer.user.username}</td>
 											<td class="w-1/6 flex items-center justify-end gap-2">
 												<a href="/lawyers/{lawyer?.id}/edit"
 													><button class="flex items-center gap-2 px-2 lg:px-4"

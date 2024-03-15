@@ -78,10 +78,10 @@
 						<table class="text-left w-full">
 							<thead class="w-full">
 								<tr class=" px-6 flex w-full border border-0 border-t border-innocence">
-									<th class="p-3 w-1/3">Name</th>
-									<th class="p-3 w-1/4 text-center">Case Number</th>
-									<th class="p-3 w-1/4 text-center">Case Type</th>
-									<th class="p-3 w-1/6"></th>
+									<th class="p-3 flex items-center w-1/3">Name</th>
+									<th class="p-3 flex items-center justify-center w-1/4 text-center">Case Number</th>
+									<th class="p-3 flex items-center justify-center w-1/4 text-center">Case Type</th>
+									<th class="p-3 flex items-center w-1/6"></th>
 								</tr>
 							</thead>
 							<tbody class="text-sm flex flex-col overflow-y-scroll w-full h-72 overflow-x-clip">
@@ -90,7 +90,7 @@
 										<tr
 											class="h-12 px-6 flex w-full hover:bg-oath border border-0 border-b border-t border-innocence"
 										>
-											<td class="font-bold p-3 w-1/3">
+											<td class="font-bold px-3 flex items-center w-1/3">
 												<span class="hidden sm:block"
 													>{_case.firstName +
 														' ' +
@@ -101,10 +101,10 @@
 												>
 												<span class="block sm:hidden">{_case.lastName}</span>
 											</td>
-											<td class="p-3 w-1/4 text-center"
+											<td class="px-3 flex items-center w-1/4 justify-center"
 												>{_case.caseNumber ? 'Case Number' : 'No Number'}</td
 											>
-											<td class="p-3 w-1/4 text-center"
+											<td class="px-3 flex items-center w-1/4 justify-center"
 												>{_case.caseType ? 'Case Type' : 'No Case'}</td
 											>
 											<td class="w-1/6 flex items-center justify-center gap-2">
