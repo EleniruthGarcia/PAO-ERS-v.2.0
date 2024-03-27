@@ -1,6 +1,9 @@
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const { PrismaClient } = require('@prisma/client');
+
 import { Lucia } from 'lucia';
 import { PrismaAdapter } from '@lucia-auth/adapter-prisma';
-import { PrismaClient } from '@prisma/client';
 import { dev } from '$app/environment';
 
 export const prisma = new PrismaClient();
