@@ -3,17 +3,11 @@
 declare global {
 	namespace App {
 		// interface Error {}
-		interface Locals {
-			user: {
-				name: string;
-				role: string;
-			} | null;
-		}
+		// interface Locals {}
 		// interface PageData {}
 		// interface PageState {}
 		// interface Platform {}
 	}
-	var prisma: import('@prisma/client').PrismaClient;
 }
 
 export {};

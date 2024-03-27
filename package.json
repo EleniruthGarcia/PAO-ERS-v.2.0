@@ -1,10 +1,10 @@
 {
-	"name": "pao-portal",
+	"name": "pao-ers",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "prisma generate && vite dev",
-		"build": "prisma generate && vite build",
+		"dev": "vite dev",
+		"build": "vite build",
 		"preview": "vite preview",
 		"test": "npm run test:integration && npm run test:unit",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -19,37 +19,30 @@
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
-		"@types/bcrypt": "^5.0.2",
 		"@types/eslint": "^8.56.0",
-		"@types/node": "^20.11.20",
 		"@typescript-eslint/eslint-plugin": "^7.0.0",
 		"@typescript-eslint/parser": "^7.0.0",
-		"autoprefixer": "^10.4.17",
+		"autoprefixer": "^10.4.16",
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.35.1",
-		"postcss": "^8.4.35",
+		"postcss": "^8.4.32",
+		"postcss-load-config": "^5.0.2",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
-		"prisma": "^5.10.2",
+		"prettier-plugin-tailwindcss": "^0.5.9",
 		"svelte": "^4.2.7",
 		"svelte-check": "^3.6.0",
-		"tailwindcss": "^3.4.1",
-		"ts-node": "^10.9.2",
+		"tailwindcss": "^3.3.6",
 		"tslib": "^2.4.1",
-		"typescript": "^5.3.3",
+		"typescript": "^5.0.0",
 		"vite": "^5.0.3",
 		"vitest": "^1.2.0"
 	},
 	"type": "module",
-	"prisma": {
-		"seed": "vite-node prisma/seed.ts"
-	},
 	"dependencies": {
-		"@jamescoyle/svelte-icon": "^0.1.1",
-		"@mdi/js": "^7.4.47",
-		"@prisma/client": "^5.10.2",
-		"bcrypt": "^5.1.1",
-		"exceljs": "^4.4.0"
+		"clsx": "^2.1.0",
+		"tailwind-merge": "^2.2.2",
+		"tailwind-variants": "^0.2.1"
 	}
 }
