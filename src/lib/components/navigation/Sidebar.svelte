@@ -7,19 +7,23 @@
 	import * as Tooltip from '$lib/components/ui/tooltip';
 </script>
 
-<aside class="hidden h-screen w-16 flex-col border-r bg-background sm:flex">
+<aside class="hidden h-screen w-16 flex-none flex-col border-r bg-background sm:flex">
 	<nav class="flex flex-col items-center gap-4 px-2 py-4">
 		<a
 			href="/"
-			class="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+			class="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground [view-transition-name:logo] md:h-8 md:w-8 md:text-base"
 		>
-			<img src="/favicon.png" alt="PAO Logo" class="h-8 w-8 transition-all group-hover:scale-110" />
+			<img
+				src="/favicon.png"
+				alt="PAO Logo"
+				class="h-8 w-8 transition-all group-hover:scale-110 md:h-7 md:w-7"
+			/>
 			<span class="sr-only">PAO-ERS</span>
 		</a>
 		<Tooltip.Root>
 			<Tooltip.Trigger asChild let:builder>
 				<a
-					href="##"
+					href="/dashboard"
 					class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
 					use:builder.action
 					{...builder}
@@ -33,7 +37,7 @@
 		<Tooltip.Root>
 			<Tooltip.Trigger asChild let:builder>
 				<a
-					href="##"
+					href="/clients"
 					class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
 					use:builder.action
 					{...builder}
@@ -47,7 +51,7 @@
 		<Tooltip.Root>
 			<Tooltip.Trigger asChild let:builder>
 				<a
-					href="##"
+					href="/reports"
 					class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
 					use:builder.action
 					{...builder}
@@ -63,7 +67,7 @@
 		<Tooltip.Root>
 			<Tooltip.Trigger asChild let:builder>
 				<a
-					href="##"
+					href="/settings"
 					class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
 					use:builder.action
 					{...builder}

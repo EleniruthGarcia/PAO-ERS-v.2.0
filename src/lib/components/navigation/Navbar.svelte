@@ -5,11 +5,15 @@
 </script>
 
 <header
-	class="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+	class="sticky top-0 z-50 w-full flex-none border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
 >
 	<div class="container flex h-16 max-w-screen-2xl items-center">
 		<div class="mr-4 hidden md:flex">
-			<Button variant="ghost" href="/" class="mr-6 gap-2">
+			<Button
+				variant="link"
+				href="/"
+				class="mr-6 gap-3 font-semibold text-foreground decoration-transparent"
+			>
 				<img src="/favicon.png" alt="PAO-ERS Logo" class="h-6 w-6" />
 				<span class="hidden font-bold sm:inline-block">PAO-ERS</span>
 			</Button>

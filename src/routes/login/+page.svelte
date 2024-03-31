@@ -7,7 +7,11 @@
 
 <div class="h-screen w-screen lg:flex">
 	<div class="hidden h-full flex-col items-center justify-center gap-6 bg-secondary lg:flex">
-		<img src="/favicon.png" alt="PAO-ERS Logo" class="aspect-square w-32 sm:w-40 md:w-48" />
+		<img
+			src="/favicon.png"
+			alt="PAO-ERS Logo"
+			class="aspect-square w-32 [view-transition-name:logo] sm:w-40 md:w-48"
+		/>
 		<div class="flex w-9/12 flex-col items-center justify-center gap-4">
 			<span class="text-center">
 				<h1 class="text-xl font-bold sm:text-2xl md:text-4xl">Public Attorney's Office</h1>

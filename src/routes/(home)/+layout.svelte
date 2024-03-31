@@ -10,10 +10,12 @@
 {#await data.user}
 	<Loading />
 {:then user}
-	<ScrollArea class="flex h-screen w-screen flex-col">
-		<Navbar />
-		<div class="h-full w-full flex-1">
-			<slot />
+	<ScrollArea class="flex h-screen w-screen">
+		<div class="flex h-screen w-screen flex-col">
+			<Navbar />
+			<div class="h-full w-full">
+				<slot />
+			</div>
 		</div>
 	</ScrollArea>
 {:catch error}

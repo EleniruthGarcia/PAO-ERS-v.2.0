@@ -2,8 +2,12 @@
 	import { Button } from '$lib/components/ui/button';
 </script>
 
-<div class="container flex flex-col items-center justify-center gap-6">
-	<img src="/favicon.png" alt="PAO-ERS Logo" class="aspect-square w-32 sm:w-40 md:w-48" />
+<div class="container flex h-full flex-col items-center justify-center gap-6">
+	<img
+		src="/favicon.png"
+		alt="PAO-ERS Logo"
+		class="aspect-square w-32 [view-transition-name:logo] sm:w-40 md:w-48"
+	/>
 	<div class="flex w-7/12 flex-col items-center justify-center gap-4">
 		<span class="text-center">
 			<h1 class="text-xl font-bold sm:text-2xl md:text-4xl">Public Attorney's Office</h1>
