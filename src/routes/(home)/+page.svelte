@@ -1,11 +1,12 @@
 <script lang="ts">
+	import Loading from '$lib/components/utils/Loading.svelte';
 	import type { PageServerData } from './$types';
 
 	export let data: PageServerData;
 </script>
 
 {#await data.user}
-	<p>Loading...</p>
+	<Loading />
 {:then user}
 	{#if user}
 		Please login

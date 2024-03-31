@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Loading from '$lib/components/utils/Loading.svelte';
 	import Navbar from '$lib/components/navigation/Navbar.svelte';
 	import type { LayoutServerData } from './$types';
 
@@ -6,10 +7,12 @@
 </script>
 
 {#await data.user}
-	<p>Loading...</p>
+	<Loading />
 {:then user}
 	<Navbar />
-	<slot />
+	<div class="container py-6">
+		<slot />
+	</div>
 {:catch error}
 	<p style="color: red">{error.message}</p>
 {/await}
