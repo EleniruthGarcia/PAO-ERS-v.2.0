@@ -1,10 +1,14 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { Argon2id } from "oslo/password";
 
-const client = new MongoClient(process.env.DATABASE_URL!, {
+if (!process.env['DATABASE_URL']) {
+    throw new Error('DATABASE_URL environment variable is required');
+}
+
+const client = new MongoClient(process.env['DATABASE_URL'], {
     serverApi: {
         version: ServerApiVersion.v1,
-        strict: process.env.NODE_ENV === 'production',
+        strict: process.env['NODE_ENV'] === 'production',
         deprecationErrors: true
     }
 });
