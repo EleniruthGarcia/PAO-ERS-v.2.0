@@ -12,7 +12,7 @@
 {:then user}
 	<ScrollArea class="flex h-screen w-screen flex-col">
 		<Navbar />
-		<div class="container h-full pt-16">
+		<div class="flex-1">
 			<slot />
 		</div>
 	</ScrollArea>

@@ -8,7 +8,7 @@
 	<Sidebar />
 	<ScrollArea class="flex h-full flex-col">
 		<Header />
-		<div class="container h-full pt-16">
+		<div class="flex-1">
 			<slot />
 		</div>
 	</ScrollArea>
