@@ -9,9 +9,11 @@
 {#await data.user}
 	<Loading />
 {:then user}
-	<Navbar />
-	<div class="container py-6">
-		<slot />
+	<div class="flex h-screen w-screen flex-col">
+		<Navbar />
+		<div class="container h-full py-6">
+			<slot />
+		</div>
 	</div>
 {:catch error}
 	<p style="color: red">{error.message}</p>

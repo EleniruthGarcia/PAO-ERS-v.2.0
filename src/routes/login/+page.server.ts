@@ -46,6 +46,6 @@ export const actions: Actions = {
 			...sessionCookie.attributes
 		});
 
-		redirect(302, event.url.searchParams.get('redirect') || '/');
+		redirect(302, event.cookies.get('redirect') || '/');
 	}
 };

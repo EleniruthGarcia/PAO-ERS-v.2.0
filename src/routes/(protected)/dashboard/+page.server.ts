@@ -3,8 +3,9 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {
+		event.cookies.set('redirect', '/dashboard', { path: '/' });
 		redirect(
-			'/login?redirect=dashboard',
+			'/login',
 			{ type: 'error', message: 'You must be logged in to access this page!' },
 			event
 		);
