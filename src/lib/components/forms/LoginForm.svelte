@@ -5,7 +5,6 @@
 
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
-	import { Toaster } from '$lib/components/ui/sonner';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
