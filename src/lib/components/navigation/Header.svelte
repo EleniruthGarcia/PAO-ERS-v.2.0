@@ -12,9 +12,9 @@
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
 	import { Button } from '$lib/components/ui/button';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	import { Input } from '$lib/components/ui/input';
 	import * as Sheet from '$lib/components/ui/sheet';
 	import * as Avatar from '$lib/components/ui/avatar';
+	import { Shortcut } from '$lib/components/ui/command';
 
 	const initials = () => {
 		const name = $page.data.username as string;
@@ -83,14 +83,21 @@
 				</Breadcrumb.Item>
 			</Breadcrumb.List>
 		</Breadcrumb.Root>
-		<div class="relative ml-auto flex-1 md:grow-0">
-			<MagnifyingGlass class="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-			<Input
-				type="search"
-				placeholder="Search..."
-				class="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
-			/>
-		</div>
+		<Button
+			variant="outline"
+			class="ml-auto flex flex-1 text-muted-foreground hover:text-muted-foreground md:grow-0"
+			on:click={() =>
+				document.dispatchEvent(
+					new KeyboardEvent('keydown', {
+						key: 'k',
+						metaKey: true
+					})
+				)}
+		>
+			<MagnifyingGlass class="h-4 w-4" />
+			<span class="w-full px-4 text-start md:w-[280px]">Type a command or search...</span>
+			<Shortcut>⌘K</Shortcut>
+		</Button>
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger asChild let:builder>
 				<Button

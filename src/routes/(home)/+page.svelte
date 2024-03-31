@@ -7,12 +7,15 @@
 	<div class="flex w-7/12 flex-col items-center justify-center gap-4">
 		<span class="text-center">
 			<h1 class="text-xl font-bold sm:text-2xl md:text-4xl">Public Attorney's Office</h1>
-			<h2 class="text-l font-semibold sm:text-xl md:text-3xl">Electronic Records System</h2>
+			<h2 class="text-l font-semibold text-primary sm:text-xl md:text-3xl">
+				Electronic Records System
+			</h2>
 		</span>
 		<p class="text-center text-xs sm:text-sm md:text-base">
-			The Public Attorney’s Office exists to provide the indigent sector access to counsel at the
-			time of need and to implement the Constitutional guarantee of free access to courts, due
-			process, and equal protection of the laws.
+			The Public Attorney’s Office - Electronic Records System (PAO-ERS) is a web-based application
+			that aims to provide a more efficient and effective way of managing records and cases of the
+			Public Attorney’s Office. It is designed to be user-friendly and accessible to all PAO
+			personnel.
 		</p>
 	</div>
 	<Button on:click={() => {}}>Generate Interview Sheet</Button>
