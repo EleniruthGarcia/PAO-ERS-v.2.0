@@ -6,9 +6,9 @@
 
 <div class="flex h-screen w-screen">
 	<Sidebar />
-	<ScrollArea class="flex h-full flex-col">
+	<ScrollArea class="flex h-full w-full flex-1 flex-col">
 		<Header />
-		<div class="flex-1">
+		<div class="h-full w-full flex-1">
 			<slot />
 		</div>
 	</ScrollArea>
