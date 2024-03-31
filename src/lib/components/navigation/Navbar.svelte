@@ -32,8 +32,8 @@
 			</a>
 		</Button>
 		<div class="flex flex-1 items-center justify-end space-x-2">
-			<NightToggle />
 			<Button href="/dashboard">Go to Dashboard</Button>
+			<NightToggle />
 		</div>
 	</div>
 </header>
