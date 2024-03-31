@@ -6,7 +6,7 @@ export const load: PageServerLoad = async (event) => {
 		event.cookies.set('redirect', '/dashboard', { path: '/' });
 		redirect(
 			'/login',
-			{ type: 'error', message: 'You must be logged in to access this page!' },
+			{ type: 'warning', message: 'You must be logged in to access this page!' },
 			event
 		);
 	}

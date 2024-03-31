@@ -14,7 +14,43 @@
 	const flash = getFlash(page);
 
 	$: if ($flash) {
-		toast($flash.message);
+		switch ($flash.type) {
+			case 'success':
+				toast.success($flash.message);
+				break;
+			case 'error':
+				toast.error($flash.message);
+				break;
+			case 'info':
+				toast.info($flash.message);
+				break;
+			case 'warning':
+				toast.warning($flash.message);
+				break;
+			case 'description':
+				toast.message($flash.message, {
+					description: $flash.description
+				});
+				break;
+			case 'action':
+				toast($flash.message, {
+					action: $flash.action
+				});
+				break;
+			case 'promise':
+				toast.promise($flash.promise, {
+					loading: $flash.loading,
+					success: $flash.success,
+					error: $flash.error
+				});
+				break;
+			case 'loading':
+				toast.loading($flash.message);
+				break;
+			default:
+				toast($flash.message);
+				break;
+		}
 
 		$flash = undefined;
 	}
@@ -57,7 +93,7 @@
 </svelte:head>
 
 <ModeWatcher />
-<Toaster />
+<Toaster richColors closeButton position="top-right" />
 <slot />
 
 <Command.Dialog bind:open>
