@@ -1,12 +1,10 @@
-import { MongoClient, ObjectId, ServerApiVersion } from "mongodb";
-import { DATABASE_URL } from "$env/static/private";
-import { dev } from "$app/environment";
+import { MongoClient, ServerApiVersion } from "mongodb";
 import { Argon2id } from "oslo/password";
 
-const client = new MongoClient(DATABASE_URL, {
+const client = new MongoClient(process.env.DATABASE_URL!, {
     serverApi: {
         version: ServerApiVersion.v1,
-        strict: !dev,
+        strict: process.env.NODE_ENV === 'production',
         deprecationErrors: true
     }
 });

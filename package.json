@@ -46,7 +46,6 @@
 		"@lucia-auth/adapter-mongodb": "^1.0.3",
 		"bits-ui": "^0.21.1",
 		"clsx": "^2.1.0",
-		"dotenv": "^16.4.5",
 		"formsnap": "^0.5.1",
 		"mode-watcher": "^0.3.0",
 		"mongodb": "^6.5.0",
