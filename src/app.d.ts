@@ -9,8 +9,17 @@ declare global {
 		}
 		interface PageData {
 			flash?: {
-				type: 'success' | 'error' | 'description' | 'info' | 'warning' | 'error' | 'action' | 'promise' | 'loading';
-				message: string,
+				type:
+					| 'success'
+					| 'error'
+					| 'description'
+					| 'info'
+					| 'warning'
+					| 'error'
+					| 'action'
+					| 'promise'
+					| 'loading';
+				message: string;
 				description?: string;
 				action?: {
 					label: string;
@@ -27,4 +36,4 @@ declare global {
 	}
 }
 
-export { };
+export {};
