@@ -11,7 +11,7 @@
 {:then user}
 	<div class="flex h-screen w-screen flex-col">
 		<Navbar />
-		<div class="container h-full py-6">
+		<div class="container h-full pt-14">
 			<slot />
 		</div>
 	</div>
