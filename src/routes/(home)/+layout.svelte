@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Loading from '$lib/components/utils/Loading.svelte';
 	import Navbar from '$lib/components/navigation/Navbar.svelte';
+	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import type { LayoutServerData } from './$types';
 
 	export let data: LayoutServerData;
@@ -9,12 +10,12 @@
 {#await data.user}
 	<Loading />
 {:then user}
-	<div class="flex h-screen w-screen flex-col">
+	<ScrollArea class="flex h-screen w-screen flex-col">
 		<Navbar />
-		<div class="container h-full pt-14">
+		<div class="container h-full pt-16">
 			<slot />
 		</div>
-	</div>
+	</ScrollArea>
 {:catch error}
 	<p style="color: red">{error.message}</p>
 {/await}

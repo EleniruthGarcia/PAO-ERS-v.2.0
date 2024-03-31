@@ -7,7 +7,7 @@
 	import * as Tooltip from '$lib/components/ui/tooltip';
 </script>
 
-<aside class="hidden h-screen w-14 flex-col border-r bg-background sm:flex">
+<aside class="hidden h-screen w-16 flex-col border-r bg-background sm:flex">
 	<nav class="flex flex-col items-center gap-4 px-2 py-4">
 		<a
 			href="/"
