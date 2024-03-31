@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { HamburgerMenu } from 'svelte-radix';
-	import NightToggle from '$lib/components/night-toggle.svelte';
+	import NightToggle from '$lib/components/utils/night-toggle.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 </script>
 

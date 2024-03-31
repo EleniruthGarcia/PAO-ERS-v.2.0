@@ -1,12 +1,13 @@
 import type { PageServerLoad, Actions } from "./$types.js";
 import { fail, redirect } from "@sveltejs/kit";
 
-import { lucia, prisma } from "$lib/server";
+import db from "$lib/server/database";
+import { lucia } from "$lib/server/auth";
 import { Argon2id } from "oslo/password";
 
-import { formSchema } from "./schema";
+import { formSchema } from "../../lib/schema/login.js";
 import { zod } from "sveltekit-superforms/adapters";
-import { superValidate } from "sveltekit-superforms";
+import { setError, superValidate } from "sveltekit-superforms";
 
 export const load: PageServerLoad = async () => {
     return {
@@ -25,23 +26,17 @@ export const actions: Actions = {
 
         const { username, password } = form.data;
 
-        const existingUser = await prisma.user.findUnique({
-            where: {
-                username,
-            },
+        const existingUser = await db.collection('users').findOne({
+            username
         });
 
         if (!existingUser) {
-            return fail(400, {
-                message: "Invalid username or password",
-            });
+            return setError(form, "username", "User does not exist!");
         }
 
         const validPassword = await new Argon2id().verify(existingUser.hashedPassword, password);
         if (!validPassword) {
-            return fail(400, {
-                message: "Invalid username or password",
-            });
+            return setError(form, "password", "Wrong password!");
         }
 
         const session = await lucia.createSession(existingUser.id, {});

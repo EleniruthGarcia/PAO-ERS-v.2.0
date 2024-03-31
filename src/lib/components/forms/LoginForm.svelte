@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { formSchema, type FormSchema } from './schema';
+	import { formSchema, type FormSchema } from '../../schema/login';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
+	import { Toaster } from '$lib/components/ui/sonner';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
