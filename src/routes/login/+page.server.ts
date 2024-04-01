@@ -47,6 +47,10 @@ export const actions: Actions = {
 			...sessionCookie.attributes
 		});
 
-		redirect(event.cookies.get('redirect') || '/', { type: 'success', message: 'Logged in successfully!' }, event);
+		redirect(
+			event.cookies.get('redirect') || '/',
+			{ type: 'success', message: 'Logged in successfully!' },
+			event
+		);
 	}
 };

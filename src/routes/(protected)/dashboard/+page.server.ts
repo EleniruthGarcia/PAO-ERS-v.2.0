@@ -20,6 +20,7 @@ export const load: PageServerLoad = async (event) => {
 			{
 				href: '/dashboard',
 				text: 'Dashboard'
-			}]
+			}
+		]
 	};
 };

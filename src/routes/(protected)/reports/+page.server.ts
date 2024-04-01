@@ -12,6 +12,9 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	return {
-		breadcrumbs: [{ href: '/', text: 'PAO-ERS' }, { href: '/reports', text: 'Reports' }]
+		breadcrumbs: [
+			{ href: '/', text: 'PAO-ERS' },
+			{ href: '/reports', text: 'Reports' }
+		]
 	};
 };
