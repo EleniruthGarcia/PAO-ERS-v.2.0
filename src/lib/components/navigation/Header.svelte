@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Menu from '$lib/components/utils/Menu.svelte';
-	import Breadcrumb from '$lib/components/utils/Breadcrumb.svelte';
-	import Search from '$lib/components/utils/Search.svelte';
-	import NightToggle from '$lib/components/utils/NightToggle.svelte';
+	import Menu from '$lib/components/Menu.svelte';
+	import Breadcrumb from '$lib/components/Breadcrumb.svelte';
+	import Search from '$lib/components/Search.svelte';
+	import NightToggle from '$lib/components/NightToggle.svelte';
 	import Account from '$lib/components/Account.svelte';
 </script>
 

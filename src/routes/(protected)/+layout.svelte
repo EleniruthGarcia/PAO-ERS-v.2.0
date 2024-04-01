@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Header from '$lib/components/navigation/Header.svelte';
-	import Sidebar from '$lib/components/utils/Sidebar.svelte';
+	import Sidebar from '$lib/components/Sidebar.svelte';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 </script>
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { HamburgerMenu } from 'svelte-radix';
 	import { Button } from '$lib/components/ui/button';
-	import NightToggle from '$lib/components/utils/NightToggle.svelte';
+	import NightToggle from '$lib/components/NightToggle.svelte';
 </script>
 
 <header
