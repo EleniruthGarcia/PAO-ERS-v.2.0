@@ -5,6 +5,7 @@
 	import FileText from 'svelte-radix/FileText.svelte';
 
 	import * as Tooltip from '$lib/components/ui/tooltip';
+	import { Button } from '$lib/components/ui/button';
 </script>
 
 <aside class="hidden h-screen w-16 flex-none flex-col border-r bg-background sm:flex">
@@ -22,43 +23,46 @@
 		</a>
 		<Tooltip.Root>
 			<Tooltip.Trigger asChild let:builder>
-				<a
+				<Button
 					href="/dashboard"
-					class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-					use:builder.action
-					{...builder}
+					size="icon"
+					variant="ghost"
+					class="text-muted-foreground"
+					builders={[builder]}
 				>
 					<Home class="h-5 w-5" />
 					<span class="sr-only">Dashboard</span>
-				</a>
+				</Button>
 			</Tooltip.Trigger>
 			<Tooltip.Content side="right">Dashboard</Tooltip.Content>
 		</Tooltip.Root>
 		<Tooltip.Root>
 			<Tooltip.Trigger asChild let:builder>
-				<a
+				<Button
 					href="/clients"
-					class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-					use:builder.action
-					{...builder}
+					size="icon"
+					variant="ghost"
+					class="text-muted-foreground"
+					builders={[builder]}
 				>
 					<Person class="h-5 w-5" />
 					<span class="sr-only">Clients</span>
-				</a>
+				</Button>
 			</Tooltip.Trigger>
 			<Tooltip.Content side="right">Clients</Tooltip.Content>
 		</Tooltip.Root>
 		<Tooltip.Root>
 			<Tooltip.Trigger asChild let:builder>
-				<a
+				<Button
 					href="/reports"
-					class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-					use:builder.action
-					{...builder}
+					size="icon"
+					variant="ghost"
+					class="text-muted-foreground"
+					builders={[builder]}
 				>
 					<FileText class="h-5 w-5" />
 					<span class="sr-only">Reports</span>
-				</a>
+				</Button>
 			</Tooltip.Trigger>
 			<Tooltip.Content side="right">Reports</Tooltip.Content>
 		</Tooltip.Root>
@@ -66,15 +70,16 @@
 	<nav class="mt-auto flex flex-col items-center gap-4 px-2 py-4">
 		<Tooltip.Root>
 			<Tooltip.Trigger asChild let:builder>
-				<a
+				<Button
 					href="/settings"
-					class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-					use:builder.action
-					{...builder}
+					size="icon"
+					variant="ghost"
+					class="text-muted-foreground"
+					builders={[builder]}
 				>
 					<Gear class="h-5 w-5" />
 					<span class="sr-only">Settings</span>
-				</a>
+				</Button>
 			</Tooltip.Trigger>
 			<Tooltip.Content side="right">Settings</Tooltip.Content>
 		</Tooltip.Root>
