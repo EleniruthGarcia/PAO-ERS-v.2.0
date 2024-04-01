@@ -10,7 +10,7 @@ if (!database_url) {
 }
 
 interface User {
-	_id: ObjectId;
+	_id?: ObjectId;
 	username: string;
 	hashedPassword: string;
 	role: 'admin' | 'user';

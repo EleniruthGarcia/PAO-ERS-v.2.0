@@ -1,5 +1,6 @@
 import type { PageServerLoad, Actions } from './$types.js';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
+import { redirect } from 'sveltekit-flash-message/server';
 
 import db from '$lib/server/database';
 import { lucia } from '$lib/server/auth';
@@ -46,6 +47,6 @@ export const actions: Actions = {
 			...sessionCookie.attributes
 		});
 
-		redirect(302, event.cookies.get('redirect') || '/');
+		redirect(event.cookies.get('redirect') || '/', { type: 'success', message: 'Logged in successfully!' }, event);
 	}
 };

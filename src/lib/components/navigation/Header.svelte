@@ -8,12 +8,14 @@
 	import FileText from 'svelte-radix/FileText.svelte';
 	import MagnifyingGlass from 'svelte-radix/MagnifyingGlass.svelte';
 
+	import { Badge } from '$lib/components/ui/badge';
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
 	import { Button } from '$lib/components/ui/button';
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as Sheet from '$lib/components/ui/sheet';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Shortcut } from '$lib/components/ui/command';
+	import { Separator } from '$lib/components/ui/separator';
+	import NightToggle from '../utils/NightToggle.svelte';
 
 	const initials = () => {
 		const name = $page.data.username as string;
@@ -39,17 +41,21 @@
 		</Sheet.Trigger>
 		<Sheet.Content side="left" class="sm:max-w-xs">
 			<nav class="grid gap-6 text-lg font-medium">
-				<a
-					href="/"
-					class="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
-				>
-					<img
-						src="/favicon.png"
-						alt="PAO Logo"
-						class="h-9 w-9 transition-all group-hover:scale-110"
-					/>
-					<span class="sr-only">PAO-ERS</span>
-				</a>
+				<Sheet.Header>
+					<Sheet.Title>
+						<a
+							href="/"
+							class="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+						>
+							<img
+								src="/favicon.png"
+								alt="PAO Logo"
+								class="h-9 w-9 transition-all group-hover:scale-110"
+							/>
+							<span class="sr-only">PAO-ERS</span>
+						</a>
+					</Sheet.Title>
+				</Sheet.Header>
 				<a
 					href="##"
 					class="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
@@ -80,9 +86,26 @@
 	</Sheet.Root>
 	<Breadcrumb.Root class="hidden md:flex">
 		<Breadcrumb.List>
-			<Breadcrumb.Item>
-				<Breadcrumb.Link href="/dashboard">Dashboard</Breadcrumb.Link>
-			</Breadcrumb.Item>
+			{#if $page.data.breadcrumbs && $page.data.breadcrumbs.length > 0}
+				{#each $page.data.breadcrumbs as { text, href }, i}
+					{#if i !== 0}
+						<Breadcrumb.Separator />
+					{/if}
+					{#if i === $page.data.breadcrumbs.length - 1}
+						<Breadcrumb.Page>
+							<Breadcrumb.Link {href}>
+								{text}
+							</Breadcrumb.Link>
+						</Breadcrumb.Page>
+					{:else}
+						<Breadcrumb.Item>
+							<Breadcrumb.Link {href}>
+								{text}
+							</Breadcrumb.Link>
+						</Breadcrumb.Item>
+					{/if}
+				{/each}
+			{/if}
 		</Breadcrumb.List>
 	</Breadcrumb.Root>
 	<Button
@@ -100,8 +123,9 @@
 		<span class="w-full px-4 text-start md:w-[280px]">Type a command or search...</span>
 		<Shortcut>⌘K</Shortcut>
 	</Button>
-	<DropdownMenu.Root>
-		<DropdownMenu.Trigger asChild let:builder>
+	<NightToggle />
+	<Sheet.Root>
+		<Sheet.Trigger asChild let:builder>
 			<Button
 				variant="outline"
 				size="icon"
@@ -112,15 +136,38 @@
 					<Avatar.Fallback>{initials().toUpperCase()}</Avatar.Fallback>
 				</Avatar.Root>
 			</Button>
-		</DropdownMenu.Trigger>
-		<DropdownMenu.Content align="end">
-			<DropdownMenu.Label>My Account</DropdownMenu.Label>
-			<DropdownMenu.Separator />
-			<DropdownMenu.Item>Settings</DropdownMenu.Item>
-			<DropdownMenu.Item>Support</DropdownMenu.Item>
-			<DropdownMenu.Separator />
-			<form bind:this={form} action="/logout" method="POST" />
-			<DropdownMenu.Item on:click={() => form.submit()}>Logout</DropdownMenu.Item>
-		</DropdownMenu.Content>
-	</DropdownMenu.Root>
+		</Sheet.Trigger>
+		<Sheet.Content>
+			<Sheet.Header>
+				<div class="flex items-center gap-4 pr-5">
+					<Avatar.Root>
+						<Avatar.Fallback>{initials().toUpperCase()}</Avatar.Fallback>
+					</Avatar.Root>
+					<div class="grow">
+						<Sheet.Title>
+							{$page.data.username}
+						</Sheet.Title>
+						{#if $page.data.name}
+							<Sheet.Description>
+								{$page.data.name}
+							</Sheet.Description>
+						{/if}
+					</div>
+				</div>
+			</Sheet.Header>
+			<div class="grid gap-1 py-2">
+				<Button variant="ghost" class="w-full items-start justify-start">My Account</Button>
+				<Separator />
+				<Button variant="ghost" class="w-full items-start justify-start">Settings</Button>
+				<Button variant="ghost" class="w-full items-start justify-start">Support</Button>
+				<Separator />
+				<form bind:this={form} action="/logout" method="POST" />
+				<Button
+					variant="ghost"
+					class="w-full items-start justify-start"
+					on:click={() => form.submit()}>Logout</Button
+				>
+			</div>
+		</Sheet.Content>
+	</Sheet.Root>
 </header>

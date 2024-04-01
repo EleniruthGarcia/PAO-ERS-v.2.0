@@ -105,7 +105,7 @@
 </svelte:head>
 
 <ModeWatcher />
-<Toaster richColors closeButton position="top-right" />
+<Toaster richColors closeButton />
 <slot />
 
 <Command.Dialog bind:open>

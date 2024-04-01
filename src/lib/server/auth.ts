@@ -32,7 +32,8 @@ export const lucia = new Lucia(new MongodbAdapter(sessions, users), {
 	sessionExpiresIn: new TimeSpan(1, 'd'),
 	getUserAttributes: (attributes) => {
 		return {
-			username: attributes.username
+			username: attributes.username,
+			role: attributes.role
 		};
 	}
 });

@@ -11,5 +11,5 @@ export const load: PageServerLoad = async (event) => {
 		);
 	}
 
-	return { username: event.locals.user.username };
+	return { breadcrumbs: [{ href: '/', text: 'PAO-ERS' }, { href: '/clients', text: 'Clients' }] };
 };
