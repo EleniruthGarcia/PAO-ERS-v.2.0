@@ -50,10 +50,6 @@ export const actions: Actions = {
 		const redirectUrl = event.cookies.get('redirect') || '/';
 		if (event.cookies.get('redirect')) event.cookies.set('redirect', '', { path: '.' });
 
-		redirect(
-			redirectUrl,
-			{ type: 'success', message: 'Logged in successfully!' },
-			event
-		);
+		redirect(redirectUrl, { type: 'success', message: 'Logged in successfully!' }, event);
 	}
 };
