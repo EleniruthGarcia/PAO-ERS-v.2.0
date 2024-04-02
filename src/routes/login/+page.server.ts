@@ -47,8 +47,11 @@ export const actions: Actions = {
 			...sessionCookie.attributes
 		});
 
+		const redirectUrl = event.cookies.get('redirect') || '/';
+		if (event.cookies.get('redirect')) event.cookies.set('redirect', '', { path: '.' });
+
 		redirect(
-			event.cookies.get('redirect') || '/',
+			redirectUrl,
 			{ type: 'success', message: 'Logged in successfully!' },
 			event
 		);
