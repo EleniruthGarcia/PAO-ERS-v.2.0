@@ -1,9 +1,5 @@
 <script lang="ts">
-	import Rows from 'svelte-radix/Rows.svelte';
-	import Home from 'svelte-radix/Home.svelte';
-	import Person from 'svelte-radix/Person.svelte';
-	import Gear from 'svelte-radix/Gear.svelte';
-	import FileText from 'svelte-radix/FileText.svelte';
+	import { Rows, Home, Person, Gear, FileText } from 'svelte-radix';
 
 	import { Button } from '$lib/components/ui/button';
 	import * as Sheet from '$lib/components/ui/sheet';

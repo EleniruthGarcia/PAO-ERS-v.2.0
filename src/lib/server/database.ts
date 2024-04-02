@@ -1,40 +1,40 @@
-import { ObjectId, MongoClient, ServerApiVersion } from 'mongodb';
-import { Argon2id } from 'oslo/password';
-import { DATABASE_URL } from '$env/static/private';
 import { dev } from '$app/environment';
+import { DATABASE_URL } from '$env/static/private';
+import { type ObjectId, MongoClient, ServerApiVersion } from 'mongodb';
 
-const database_url = dev ? DATABASE_URL : process.env['DATABASE_URL'];
+const client = new MongoClient(DATABASE_URL, {
+	serverApi: {
+		version: ServerApiVersion.v1,
+		strict: !dev,
+	}
+});
 
-if (!database_url) {
-	throw new Error('DATABASE_URL environment variable is required');
-}
+await client.connect();
 
-interface User {
-	_id?: ObjectId;
+export const db = client.db();
+
+export const users = db.collection<User>('users');
+export const sessions = db.collection<Session>('sessions');
+export const clients = db.collection<Client>('clients');
+
+export default { users, sessions, clients };
+
+export interface User {
+	_id: ObjectId;
 	username: string;
 	hashedPassword: string;
 	role: 'admin' | 'user';
 }
 
-const client = new MongoClient(database_url, {
-	serverApi: {
-		version: ServerApiVersion.v1,
-		strict: dev ? false : process.env['NODE_ENV'] === 'production',
-		deprecationErrors: process.env['NODE_ENV'] === 'development'
-	}
-});
-
-await client.connect();
-export const db = client.db('pao');
-export const users = db.collection<User>('users');
-
-const admin = await users.findOne({ username: 'admin' });
-if (!admin) {
-	await users.insertOne({
-		username: 'admin',
-		hashedPassword: await new Argon2id().hash('password'),
-		role: 'admin'
-	});
+export interface Session {
+	_id: string;
+	expires_at: Date;
+	user_id: ObjectId;
 }
 
-export default { users };
+export interface Client {
+	_id?: ObjectId;
+	name: string;
+	secret: string;
+	redirect_uris: string[];
+}

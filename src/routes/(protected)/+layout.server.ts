@@ -12,6 +12,7 @@ export const load: LayoutServerLoad = async (event) => {
 	}
 
 	return {
+		user_id: event.locals.user._id,
 		username: event.locals.user.username,
 		role: event.locals.user.role,
 		breadcrumbs: [

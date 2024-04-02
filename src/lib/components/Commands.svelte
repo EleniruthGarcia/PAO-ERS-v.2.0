@@ -1,12 +1,7 @@
 <script lang="ts">
 	import * as Command from '$lib/components/ui/command/index.js';
 
-	import Calendar from 'svelte-radix/Calendar.svelte';
-	import EnvelopeClosed from 'svelte-radix/EnvelopeClosed.svelte';
-	import Face from 'svelte-radix/Face.svelte';
-	import Gear from 'svelte-radix/Gear.svelte';
-	import Person from 'svelte-radix/Person.svelte';
-	import Rocket from 'svelte-radix/Rocket.svelte';
+	import { Calendar, EnvelopeClosed, Face, Gear, Person, Rocket } from 'svelte-radix';
 </script>
 
 <Command.List>

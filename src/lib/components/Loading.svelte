@@ -1,5 +1,5 @@
 <div
-	class="background-primary fixed flex h-screen w-screen flex-col items-center justify-center gap-1 p-6"
+	class="background-primary bg-blur fixed left-0 top-0 z-50 flex h-screen w-screen flex-col items-center justify-center gap-1 bg-muted/90 p-6"
 >
 	<svg
 		aria-hidden="true"

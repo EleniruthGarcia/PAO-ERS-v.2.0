@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MagnifyingGlass from 'svelte-radix/MagnifyingGlass.svelte';
+	import { MagnifyingGlass } from 'svelte-radix';
 
 	import { Button } from '$lib/components/ui/button';
 	import { Shortcut } from '$lib/components/ui/command';

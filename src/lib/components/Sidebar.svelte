@@ -1,14 +1,13 @@
 <script lang="ts">
-	import Home from 'svelte-radix/Home.svelte';
-	import Person from 'svelte-radix/Person.svelte';
-	import Gear from 'svelte-radix/Gear.svelte';
-	import FileText from 'svelte-radix/FileText.svelte';
+	import { Home, Person, Gear, FileText } from 'svelte-radix';
 
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { Button } from '$lib/components/ui/button';
 </script>
 
-<aside class="hidden h-screen w-16 flex-none flex-col border-r bg-background sm:flex">
+<aside
+	class="hidden h-screen w-14 flex-col border-r bg-background [view-transition-name:sidebar] sm:flex"
+>
 	<nav class="flex flex-col items-center gap-4 px-2 py-4">
 		<a
 			href="/"

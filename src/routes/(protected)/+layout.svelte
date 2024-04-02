@@ -4,12 +4,12 @@
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 </script>
 
-<ScrollArea class="flex h-screen w-screen">
-	<div class="flex h-screen w-screen">
-		<Sidebar />
-		<div class="flex h-full w-full flex-1 flex-col">
+<div class="flex bg-muted">
+	<Sidebar />
+	<ScrollArea class="h-screen w-full">
+		<div class="flex h-full min-h-screen w-full flex-col sm:gap-4 sm:py-4">
 			<Header />
 			<slot />
 		</div>
-	</div>
-</ScrollArea>
+	</ScrollArea>
+</div>

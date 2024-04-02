@@ -1,37 +1,23 @@
-import { db } from './database';
-import { ObjectId } from 'mongodb';
+import { dev } from '$app/environment';
+import type { ObjectId } from 'mongodb';
+
+import type { User } from './database';
+import { users, sessions } from './database';
 
 import { Lucia, TimeSpan } from 'lucia';
-
-import type { RegisteredDatabaseUserAttributes, RegisteredDatabaseSessionAttributes } from 'lucia';
-
 import { MongodbAdapter } from '@lucia-auth/adapter-mongodb';
-
-interface User extends RegisteredDatabaseUserAttributes {
-	_id: ObjectId;
-	username: string;
-	role: 'admin' | 'user';
-}
-
-interface Session extends RegisteredDatabaseSessionAttributes {
-	_id: string;
-	expires_at: Date;
-	user_id: ObjectId;
-}
-
-const users = db.collection<User>('users');
-const sessions = db.collection<Session>('sessions');
 
 export const lucia = new Lucia(new MongodbAdapter(sessions, users), {
 	sessionCookie: {
 		attributes: {
-			secure: process.env['NODE_ENV'] === 'production',
+			secure: !dev,
 			sameSite: 'strict'
 		}
 	},
 	sessionExpiresIn: new TimeSpan(1, 'd'),
 	getUserAttributes: (attributes) => {
 		return {
+			_id: attributes._id,
 			username: attributes.username,
 			role: attributes.role
 		};
@@ -42,11 +28,6 @@ declare module 'lucia' {
 	interface Register {
 		Lucia: typeof lucia;
 		UserId: ObjectId;
-		DatabaseUserAttributes: DatabaseUserAttributes;
+		DatabaseUserAttributes: User;
 	}
-}
-
-interface DatabaseUserAttributes {
-	username: string;
-	role: 'admin' | 'user';
 }
