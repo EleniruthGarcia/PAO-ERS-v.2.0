@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { formSchema, type FormSchema } from '../../schema/login';
+	import { formSchema, type FormSchema } from '$lib/schema/login';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 
 	import * as Form from '$lib/components/ui/form';

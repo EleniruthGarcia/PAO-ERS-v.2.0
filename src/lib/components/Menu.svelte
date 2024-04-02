@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-
 	import Rows from 'svelte-radix/Rows.svelte';
 	import Home from 'svelte-radix/Home.svelte';
 	import Person from 'svelte-radix/Person.svelte';
