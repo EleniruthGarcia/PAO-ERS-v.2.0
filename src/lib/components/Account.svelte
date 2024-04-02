@@ -22,7 +22,7 @@
 	<Sheet.Trigger asChild let:builder>
 		<Button variant="outline" size="icon" class="overflow-hidden rounded-full" builders={[builder]}>
 			<Avatar.Root>
-				<Avatar.Fallback>{initials().toUpperCase()}</Avatar.Fallback>
+				<Avatar.Fallback class="dark:bg-muted/30">{initials().toUpperCase()}</Avatar.Fallback>
 			</Avatar.Root>
 		</Button>
 	</Sheet.Trigger>
