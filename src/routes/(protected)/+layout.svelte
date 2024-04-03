@@ -6,8 +6,8 @@
 
 <div class="flex bg-muted">
 	<Sidebar />
-	<ScrollArea class="h-screen w-full">
-		<div class="flex h-full min-h-screen w-full flex-col sm:gap-4 sm:py-4">
+	<ScrollArea class="h-dvh w-full">
+		<div class="flex h-full max-h-dvh min-h-screen w-full flex-col sm:gap-4 sm:py-4">
 			<Header />
 			<slot />
 		</div>

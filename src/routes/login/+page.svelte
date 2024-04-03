@@ -5,7 +5,7 @@
 	export let data: PageServerData;
 </script>
 
-<div class="h-screen w-screen lg:flex">
+<div class="h-dvh w-screen lg:flex">
 	<div class="hidden h-full flex-col items-center justify-center gap-6 bg-secondary lg:flex">
 		<img
 			src="/favicon.png"

@@ -6,7 +6,7 @@
 </script>
 
 <aside
-	class="hidden h-screen w-14 flex-col border-r bg-background [view-transition-name:sidebar] sm:flex"
+	class="hidden h-dvh w-14 flex-col border-r bg-background [view-transition-name:sidebar] sm:flex"
 >
 	<nav class="flex flex-col items-center gap-4 px-2 py-4">
 		<a

@@ -10,8 +10,8 @@
 {#await data.user}
 	<Loading />
 {:then user}
-	<ScrollArea class="flex h-screen w-screen bg-muted">
-		<div class="flex h-screen w-full flex-col">
+	<ScrollArea class="flex h-dvh w-screen bg-muted">
+		<div class="flex h-dvh w-full flex-col">
 			<Navbar />
 			<div class="h-full w-full">
 				<slot />
