@@ -1,21 +1,13 @@
 <script lang="ts">
-	import Loading from '$lib/components/Loading.svelte';
-	import Navbar from '$lib/components/navigation/Navbar.svelte';
+	import NavBar from '$lib/components/NavBar.svelte';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
-	import type { LayoutServerData } from './$types';
-
-	export let data: LayoutServerData;
 </script>
 
-{#await data.user}
-	<Loading />
-{:then user}
-	<ScrollArea class="flex h-dvh w-screen bg-muted">
-		<div class="flex h-dvh w-full flex-col">
-			<Navbar />
-			<div class="h-full w-full">
-				<slot />
-			</div>
-		</div>
-	</ScrollArea>
-{/await}
+<ScrollArea class="h-dvh w-dvw">
+	<div class="flex min-h-dvh w-full flex-col">
+		<NavBar />
+		<main class="container h-full flex-1 p-4 md:p-8">
+			<slot />
+		</main>
+	</div>
+</ScrollArea>

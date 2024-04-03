@@ -20,7 +20,7 @@ export const records = db.collection<Record>('records');
 export default { users, sessions, records };
 
 export interface User {
-	_id: ObjectId;
+	_id: string;
 	username: string;
 	hashedPassword: string;
 	role: 'admin' | 'user';
@@ -29,7 +29,7 @@ export interface User {
 export interface Session {
 	_id: string;
 	expires_at: Date;
-	user_id: ObjectId;
+	user_id: string;
 }
 
 export interface Record {

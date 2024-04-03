@@ -1,5 +1,4 @@
 import { dev } from '$app/environment';
-import { ObjectId } from 'mongodb';
 import cron from 'node-cron';
 
 import type { User } from './database';
@@ -28,7 +27,7 @@ export const lucia = new Lucia(new MongodbAdapter(sessions, users), {
 declare module 'lucia' {
 	interface Register {
 		Lucia: typeof lucia;
-		UserId: ObjectId;
+		UserId: string;
 		DatabaseUserAttributes: User;
 	}
 }

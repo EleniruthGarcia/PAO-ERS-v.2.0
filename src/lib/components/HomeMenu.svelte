@@ -1,13 +1,16 @@
 <script lang="ts">
-	import { Rows, Home, Person, Gear, FileText } from 'svelte-radix';
+	import { visibleLinks } from '$lib/links';
+	import { Rows } from 'svelte-radix';
 
 	import { Button } from '$lib/components/ui/button';
 	import * as Sheet from '$lib/components/ui/sheet';
+
+	const links = visibleLinks(['dashboard', 'about']);
 </script>
 
 <Sheet.Root>
 	<Sheet.Trigger asChild let:builder>
-		<Button builders={[builder]} size="icon" variant="outline" class="sm:hidden">
+		<Button builders={[builder]} size="icon" variant="outline" class="md:hidden">
 			<Rows class="h-5 w-5" />
 			<span class="sr-only">Toggle Menu</span>
 		</Button>
@@ -29,31 +32,15 @@
 					</a>
 				</Sheet.Title>
 			</Sheet.Header>
-			<a
-				href="##"
-				class="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-			>
-				<Home class="h-5 w-5" />
-				Dashboard
-			</a>
-			<a href="##" class="flex items-center gap-4 px-2.5 text-foreground">
-				<Person class="h-5 w-5" />
-				Clients
-			</a>
-			<a
-				href="##"
-				class="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-			>
-				<FileText class="h-5 w-5" />
-				Reports
-			</a>
-			<a
-				href="##"
-				class="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-			>
-				<Gear class="h-5 w-5" />
-				Settings
-			</a>
+			{#each links as link}
+				<a
+					href={link.href}
+					class="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+				>
+					<svelte:component this={link.icon} />
+					{link.label}
+				</a>
+			{/each}
 		</nav>
 	</Sheet.Content>
 </Sheet.Root>

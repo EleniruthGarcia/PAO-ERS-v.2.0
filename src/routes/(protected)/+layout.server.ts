@@ -11,15 +11,19 @@ export const load: LayoutServerLoad = async (event) => {
 		);
 	}
 
+	const { id, username, role } = event.locals.user;
+
 	return {
-		user_id: event.locals.user._id,
-		username: event.locals.user.username,
-		role: event.locals.user.role,
 		breadcrumbs: [
 			{
 				href: '/dashboard',
 				text: 'Dashboard'
 			}
-		]
+		],
+		user: {
+			id,
+			username,
+			role
+		}
 	};
 };
