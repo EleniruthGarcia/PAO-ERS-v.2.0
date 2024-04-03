@@ -7,7 +7,7 @@
 </script>
 
 <header
-	class="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 [view-transition-name:header] sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6"
+	class="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 py-2 [view-transition-name:header] sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 sm:py-0"
 >
 	<Menu />
 	<Breadcrumb />

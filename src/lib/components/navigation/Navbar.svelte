@@ -31,7 +31,7 @@
 		</div>
 		<Button variant="ghost" class=" gap-6 md:hidden">
 			<HamburgerMenu />
-			<a href="/" class="mr-6 flex items-center space-x-2">
+			<a href="/" class="mr-6 hidden items-center space-x-2 min-[420px]:flex">
 				<span class="font-bold">PAO-ERS</span>
 			</a>
 		</Button>
