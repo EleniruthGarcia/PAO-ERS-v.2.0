@@ -9,7 +9,7 @@
 
 	import { onMount } from 'svelte';
 	import * as Command from '$lib/components/ui/command/index.js';
-	import Commands from '$lib/components/Commands.svelte';
+	import { Commands } from '$lib/components/commands';
 	import { onNavigate } from '$app/navigation';
 
 	onNavigate((navigation) => {
