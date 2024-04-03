@@ -6,11 +6,11 @@ export const formSchema = z.object({
 	lastName: z.string().min(1).max(50),
 	nameSuffix: z.string().min(1).max(50).optional(),
 	age: z.number().int(),
-	sex: z.enum(["male", "female"]),
+	sex: z.enum(['male', 'female']),
 	address: z.string().min(1).max(100),
 	email: z.string().email().optional(),
 	contactNumber: z.number().min(11).max(11).optional(),
-	civilStatus: z.enum(["single", "married", "widowed", "separated"]),
+	civilStatus: z.enum(['single', 'married', 'widowed', 'separated']),
 	religion: z.string().min(1).max(50).optional(),
 	citizenship: z.string().min(1).max(50),
 	educationalAttainment: z.string().min(1).max(50),
@@ -21,7 +21,7 @@ export const formSchema = z.object({
 	detainedSince: z.date().optional(),
 	spouseName: z.string().min(1).max(50).optional(),
 	spouseAddress: z.string().min(1).max(100).optional(),
-	spouseContactNumber: z.number().min(11).max(11).optional(),
+	spouseContactNumber: z.number().min(11).max(11).optional()
 });
 
 export type FormSchema = typeof formSchema;

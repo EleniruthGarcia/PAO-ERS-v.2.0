@@ -44,7 +44,6 @@ export const actions: Actions = {
 			password
 		});
 
-
 		const redirectUrl = event.cookies.get('redirect') || '/clients';
 		if (event.cookies.get('redirect')) event.cookies.set('redirect', '', { path: '.' });
 

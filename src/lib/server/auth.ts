@@ -33,6 +33,9 @@ declare module 'lucia' {
 	}
 }
 
-if (!process.env['VERCEL']) cron.schedule('0 0 * * *', async () => {
-	await lucia.deleteExpiredSessions();
-}).start();
+if (!process.env['VERCEL'])
+	cron
+		.schedule('0 0 * * *', async () => {
+			await lucia.deleteExpiredSessions();
+		})
+		.start();

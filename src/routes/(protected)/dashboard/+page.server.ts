@@ -13,7 +13,10 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	return {
-		breadcrumbs: [{ href: '/', text: 'PAO-ERS' }, { href: '/dashboard', text: 'Dashboard' }],
+		breadcrumbs: [
+			{ href: '/', text: 'PAO-ERS' },
+			{ href: '/dashboard', text: 'Dashboard' }
+		],
 		records: db.records.find().toArray()
 	};
 };
