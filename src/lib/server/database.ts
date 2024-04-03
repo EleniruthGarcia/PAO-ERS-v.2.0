@@ -15,9 +15,9 @@ export const db = client.db();
 
 export const users = db.collection<User>('users');
 export const sessions = db.collection<Session>('sessions');
-export const clients = db.collection<Client>('clients');
+export const records = db.collection<Record>('records');
 
-export default { users, sessions, clients };
+export default { users, sessions, records };
 
 export interface User {
 	_id: ObjectId;
@@ -32,9 +32,47 @@ export interface Session {
 	user_id: ObjectId;
 }
 
+export interface Record {
+	_id?: ObjectId;
+	client: Client;
+	request: Request;
+	case?: Case;
+}
+
 export interface Client {
 	_id?: ObjectId;
-	name: string;
-	secret: string;
-	redirect_uris: string[];
+	firstName: string;
+	middleName?: string;
+	lastName: string;
+	nameSuffix?: string;
+	age: number;
+	sex: 'male' | 'female';
+	address: string;
+	email?: string;
+	contactNumber?: number;
+	civilStatus: 'single' | 'married' | 'widowed' | 'separated';
+	religion?: string;
+	citizenship: string;
+	educationalAttainment: string;
+	language: string;
+	individualMonthlyIncome?: number;
+	detained: boolean;
+	detainedAt?: string;
+	detainedSince?: Date;
+	spouseName?: string;
+	spouseAddress?: string;
+	spouseContactNumber?: number;
+}
+
+interface Request {
+	_id?: ObjectId;
+	date: Date;
+	type: 'request' | 'complaint' | 'inquiry';
+}
+
+interface Case {
+	_id?: ObjectId;
+	dateFiled: Date;
+	dateResolved?: Date;
+	status: 'ongoing' | 'resolved';
 }

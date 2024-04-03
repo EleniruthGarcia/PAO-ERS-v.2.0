@@ -1,5 +1,6 @@
 import { dev } from '$app/environment';
-import type { ObjectId } from 'mongodb';
+import { ObjectId } from 'mongodb';
+import cron from 'node-cron';
 
 import type { User } from './database';
 import { users, sessions } from './database';
@@ -31,3 +32,7 @@ declare module 'lucia' {
 		DatabaseUserAttributes: User;
 	}
 }
+
+if (!process.env['VERCEL']) cron.schedule('0 0 * * *', async () => {
+	await lucia.deleteExpiredSessions();
+}).start();

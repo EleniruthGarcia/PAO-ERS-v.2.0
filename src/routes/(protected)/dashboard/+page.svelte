@@ -1,6 +1,6 @@
 <script lang="ts">
 	import clsx from 'clsx';
-	import type { Document } from 'mongodb';
+	import type { Client } from '$lib/server/database';
 	import type { PageServerData } from './$types';
 
 	import Loading from '$lib/components/Loading.svelte';
@@ -12,7 +12,7 @@
 
 	export let data: PageServerData;
 
-	let selectedClients: Document[] = [];
+	let selectedClients: Client[] = [];
 </script>
 
 {#await data.clients}
@@ -34,7 +34,7 @@
 						</Card.Description>
 					</Card.Header>
 					<Card.Footer>
-						<Button>Add Client</Button>
+						<Button href="/clients/add">Add Client</Button>
 					</Card.Footer>
 				</Card.Root>
 				<Card.Root>

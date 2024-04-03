@@ -1,6 +1,6 @@
 <script lang="ts">
 	import clsx from 'clsx';
-	import type { Document } from 'mongodb';
+	import type { Client } from '$lib/server/database';
 	import type { PageServerData } from './$types';
 
 	import Loading from '$lib/components/Loading.svelte';
@@ -12,12 +12,12 @@
 
 	export let data: PageServerData;
 
-	let selectedClients: Document[] = [];
+	let selectedClients: Client[] = [];
 </script>
 
-{#await data.clients}
+{#await data.records}
 	<Loading />
-{:then clients}
+{:then records}
 	<main
 		class={clsx(
 			'grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8',
@@ -34,7 +34,7 @@
 						</Card.Description>
 					</Card.Header>
 					<Card.Footer>
-						<Button>Add Client</Button>
+						<Button href="/clients/add">Add Client</Button>
 					</Card.Footer>
 				</Card.Root>
 				<Card.Root>
@@ -62,7 +62,7 @@
 					</Card.Footer>
 				</Card.Root>
 			</div>
-			<ClientTable {clients} />
+			<ClientTable />
 		</div>
 		{#if selectedClients.length > 0}
 			<div>

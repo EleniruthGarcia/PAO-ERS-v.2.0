@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Document } from 'mongodb';
+	import type { Client } from '$lib/server/database';
 
 	import { ChevronLeft, ChevronRight, Copy, Person, DotsVertical } from 'svelte-radix';
 
@@ -9,7 +9,7 @@
 	import * as Pagination from '$lib/components/ui/pagination';
 	import { Separator } from '$lib/components/ui/separator';
 
-	export let selectedClients: Document[];
+	export let selectedClients: Client[];
 </script>
 
 <Card.Root class="overflow-hidden">

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Document } from 'mongodb';
+	import { page } from '$app/stores';
 
 	import { PlusCircled, File, MixerHorizontal } from 'svelte-radix';
 
@@ -10,7 +10,7 @@
 
 	import Table from './data-table.svelte';
 
-	export let clients: Document[];
+	let clients = $page.data.records;
 </script>
 
 <Tabs.Root value="all">
@@ -64,7 +64,7 @@
 							<p class="text-sm text-muted-foreground">
 								You can start rendering services as soon as you add a new client.
 							</p>
-							<Button class="mt-4">Add Client</Button>
+							<Button class="mt-4" href="/clients/add">Add Client</Button>
 						</div>
 					</div>
 				{/if}
