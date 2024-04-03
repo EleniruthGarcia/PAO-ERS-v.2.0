@@ -2,7 +2,7 @@
 	import { Button } from '$lib/components/ui/button';
 </script>
 
-<div class="container flex h-full flex-col items-center justify-center gap-6">
+<div class="container flex h-full min-h-[550px] flex-col items-center justify-center gap-6 py-16">
 	<img
 		src="/favicon.png"
 		alt="PAO-ERS Logo"
