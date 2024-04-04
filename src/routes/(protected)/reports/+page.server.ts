@@ -1,14 +1,7 @@
+import db from '$lib/server/database';
 import { redirect } from 'sveltekit-flash-message/server';
 import type { PageServerLoad, Actions } from './$types';
-
-import { superValidate } from "sveltekit-superforms";
-import { formSchema } from "$lib/schema/report";
-import { zod } from "sveltekit-superforms/adapters";
-
-import { message, setError, fail, withFiles } from 'sveltekit-superforms';
-
-
-import { generateReport } from '$lib/server/report';
+import { generateReport } from '$lib/server/reports/report';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {
@@ -24,8 +17,7 @@ export const load: PageServerLoad = async (event) => {
 		breadcrumbs: [
 			{ href: '/', text: 'PAO-ERS' },
 			{ href: '/reports', text: 'Reports' }
-		],
-		form: await superValidate(zod(formSchema))
+		]
 	};
 };
 
@@ -41,9 +33,8 @@ export const actions = {
 		}
 
 		const formData = await event.request.formData();
-		const form = await superValidate(formData, zod(formSchema));
 
-		if (!form.valid) return fail(400, withFiles({ form }));
+		const data_ = db.requests.aggregate([{ id: formData.get('id') }]);
 
 		let data = {
 			region: 'CAR',
@@ -117,6 +108,6 @@ export const actions = {
 			]
 		};
 
-		return message(form, { report: await generateReport(data) });
+		return { report: await generateReport(data) };
 	},
 } satisfies Actions;

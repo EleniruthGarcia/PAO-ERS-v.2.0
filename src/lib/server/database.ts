@@ -15,9 +15,12 @@ export const db = client.db();
 
 export const users = db.collection<User>('users');
 export const sessions = db.collection<Session>('sessions');
-export const records = db.collection<Record>('records');
 
-export default { users, sessions, records };
+export const clients = db.collection<Client>('clients');
+export const requests = db.collection<Request>('requests');
+export const cases = db.collection<Case>('cases');
+
+export default { users, sessions, clients, requests, cases };
 
 export interface User {
 	_id: string;
@@ -36,7 +39,6 @@ export interface Record {
 	_id?: ObjectId;
 	client: Client;
 	request: Request;
-	case?: Case;
 }
 
 export interface Client {
@@ -66,8 +68,10 @@ export interface Client {
 
 interface Request {
 	_id?: ObjectId;
+	client: Client;
 	date: Date;
-	type: 'request' | 'complaint' | 'inquiry';
+	type: 'request' | 'complaint' | 'inquiry' | 'other';
+	case?: Case;
 }
 
 interface Case {
