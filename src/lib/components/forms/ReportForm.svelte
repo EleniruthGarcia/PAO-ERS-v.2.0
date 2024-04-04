@@ -32,7 +32,7 @@
 				a.href =
 					'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' +
 					f.message.report;
-				a.download = `report-${f.data.dob}.xlsx`;
+				a.download = `report-${f.data.date}.xlsx`;
 				a.click();
 			} else {
 				toast.error('Please fix the errors in the form.');
@@ -48,7 +48,7 @@
 
 	let value: DateValue | undefined;
 
-	$: value = $formData.dob ? parseDate($formData.dob) : undefined;
+	$: value = $formData.date ? parseDate($formData.date) : undefined;
 
 	let placeholder: DateValue = today(getLocalTimeZone());
 </script>
@@ -79,17 +79,17 @@
 						initialFocus
 						onValueChange={(v) => {
 							if (v) {
-								$formData.dob = v.toString();
+								$formData.date = v.toString();
 							} else {
-								$formData.dob = '';
+								$formData.date = '';
 							}
 						}}
 					/>
 				</Popover.Content>
 			</Popover.Root>
-			<Form.Description>Your date of birth is used to calculator your age</Form.Description>
+			<Form.Description>Enter the date you want to generate the report from.</Form.Description>
 			<Form.FieldErrors />
-			<input hidden value={$formData.dob} name={attrs.name} />
+			<input hidden value={$formData.date} name={attrs.name} />
 		</Form.Control>
 	</Form.Field>
 	<Button type="submit">Submit</Button>
