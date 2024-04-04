@@ -19,9 +19,14 @@ export const formSchema = z.object({
 	detained: z.boolean(),
 	detainedAt: z.string().min(1).max(100).optional(),
 	detainedSince: z.date().optional(),
-	spouseName: z.string().min(1).max(50).optional(),
+	spouseFirstName: z.string().min(1).max(50).optional(),
+	spouseMiddleName: z.string().min(1).max(50).optional(),
+	spouseLastName: z.string().min(1).max(50).optional(),
+	spouseNameSuffix: z.string().min(1).max(50).optional(),
 	spouseAddress: z.string().min(1).max(100).optional(),
-	spouseContactNumber: z.number().min(11).max(11).optional()
+	spouseEmail: z.string().email().optional(),
+	spouseContactNumber: z.number().min(11).max(11).optional(),
+	items: z.string().array(),
 });
 
 export type FormSchema = typeof formSchema;
