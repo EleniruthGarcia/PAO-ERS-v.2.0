@@ -5,65 +5,59 @@
 	import { Button } from '$lib/components/ui/button';
 </script>
 
-<aside
-	class="hidden h-dvh w-14 flex-col border-r bg-background [view-transition-name:sidebar] sm:flex"
->
-	<nav class="flex flex-col items-center gap-4 px-2 py-4">
-		<a
-			href="/"
-			class="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground [view-transition-name:logo] md:h-8 md:w-8 md:text-base"
-		>
+<aside class="hidden h-dvh flex-col border-r bg-background [view-transition-name:sidebar] sm:flex">
+	<div class="flex h-14 w-max items-center border-b px-4 pr-8 lg:h-[60px]">
+		<a href="/" class="flex items-center gap-2 font-semibold [view-transition-name:logo]">
 			<img
-				src="/favicon.png"
-				alt="PAO Logo"
-				class="h-8 w-8 transition-all group-hover:scale-110 md:h-7 md:w-7"
-			/>
-			<span class="sr-only">PAO-ERS</span>
+			src="/favicon.png"
+			alt="PAO Logo"
+			class="h-6 w-6 transition-all group-hover:scale-110 md:h-7 md:w-7"
+		/>
+		  <span class="">PAO-ERS</span>
 		</a>
+	  </div>
+	<nav class="flex flex-col items-start gap-2 px-2 py-4">
 		<Tooltip.Root>
 			<Tooltip.Trigger asChild let:builder>
 				<Button
 					href="/dashboard"
-					size="icon"
 					variant="ghost"
-					class="text-muted-foreground"
+					class="flex items-center gap-3 rounded-lg px-2 py-2 text-muted-foreground transition-all hover:text-primary"
 					builders={[builder]}
 				>
 					<Home class="h-5 w-5" />
-					<span class="sr-only">Dashboard</span>
+					Dashboard
 				</Button>
 			</Tooltip.Trigger>
-			<Tooltip.Content side="right">Dashboard</Tooltip.Content>
+			<Tooltip.Content side="right">Go to Dashboard</Tooltip.Content>
 		</Tooltip.Root>
 		<Tooltip.Root>
 			<Tooltip.Trigger asChild let:builder>
 				<Button
 					href="/clients"
-					size="icon"
 					variant="ghost"
-					class="text-muted-foreground"
+					class="flex items-center gap-3 rounded-lg px-2 py-2 text-muted-foreground transition-all hover:text-primary"
 					builders={[builder]}
 				>
 					<Person class="h-5 w-5" />
-					<span class="sr-only">Clients</span>
+					Clients
 				</Button>
 			</Tooltip.Trigger>
-			<Tooltip.Content side="right">Clients</Tooltip.Content>
+			<Tooltip.Content side="right">View Clients</Tooltip.Content>
 		</Tooltip.Root>
 		<Tooltip.Root>
 			<Tooltip.Trigger asChild let:builder>
 				<Button
 					href="/reports"
-					size="icon"
 					variant="ghost"
-					class="text-muted-foreground"
+					class="flex items-center gap-3 rounded-lg px-2 py-2 text-muted-foreground transition-all hover:text-primary"
 					builders={[builder]}
 				>
 					<FileText class="h-5 w-5" />
-					<span class="sr-only">Reports</span>
+					Reports
 				</Button>
 			</Tooltip.Trigger>
-			<Tooltip.Content side="right">Reports</Tooltip.Content>
+			<Tooltip.Content side="right">View Reports</Tooltip.Content>
 		</Tooltip.Root>
 	</nav>
 	<nav class="mt-auto flex flex-col items-center gap-4 px-2 py-4">

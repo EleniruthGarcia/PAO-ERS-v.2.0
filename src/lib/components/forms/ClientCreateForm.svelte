@@ -1,16 +1,57 @@
+<script lang="ts" context="module">
+	import { z } from 'zod';
+
+	const classification = [
+		{ id: 'childInConflictWithTheLaw', label: 'Child in Conflict with the Law' },
+		{ id: 'womanClient', label: 'Woman Client' },
+		{ id: 'vawcVictim', label: 'VAWC Victim' },
+		{ id: 'lawEnforcer', label: 'Law Enforcer' },
+		{ id: 'drugRelatedDuty', label: 'Drug-Related Duty' },
+		{ id: 'ofwLandBased', label: 'OFW (Land-Based)' },
+		{ id: 'ofwSeaBased', label: 'OFW (Sea-Based)' },
+		{ id: 'frs', label: 'FRs and FVEs' },
+		{ id: 'seniorCitizen', label: 'Senior Citizen' },
+		{ id: 'refugeeOrEvacuee', label: 'Refugee or Evacuee' },
+		{ id: 'tenantInAgrarianCase', label: 'Tenant in Agrarian Case' },
+		{ id: 'victimOfTerrorism', label: 'Victim of Terrorism (R.A. No. 9372)' },
+		{ id: 'victimOfTorture', label: 'Victim of Torture (R.A. 9745)' },
+		{ id: 'victimOfTrafficking', label: 'Victim of Trafficking (R.A. No. 9208)' },
+		{ id: 'foreignNational', label: 'Foreign National' },
+		{ id: 'urbanPoor', label: 'Urban Poor' },
+		{ id: 'ruralPoor', label: 'Rural Poor' },
+		{ id: 'indigenousPeople', label: 'Indigenous People' },
+		{ id: 'pwd', label: 'PWD' },
+		{ id: 'petitionerForVoluntaryRehabilitation', label: 'Petitioner for Voluntary Rehabilitation' }
+	] as const;
+
+	export const selectSchema = z.object({
+		items: z.array(z.string()).refine((value) => value.some((item) => item), {
+			message: 'You have to select at least one item.'
+		})
+	});
+	export type FormSchema = typeof formSchema;
+</script>
+
 <script lang="ts">
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { formSchema, type FormSchema } from '$lib/schema/client';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 
 	import { ChevronLeft, PlusCircled } from 'svelte-radix';
+	import CalendarIcon from 'svelte-radix/Calendar.svelte';
+
+	import { DateFormatter, type DateValue, getLocalTimeZone } from '@internationalized/date';
+	import { cn } from '$lib/utils.js';
 
 	import { Badge } from '$lib/components/ui/badge/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
+	import { Calendar } from '$lib/components/ui/calendar/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
+	import { Checkbox } from '$lib/components/ui/checkbox/index.js';
 	import * as Form from '$lib/components/ui/form/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
+	import * as Popover from '$lib/components/ui/popover/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import * as Table from '$lib/components/ui/table/index.js';
 	import { Textarea } from '$lib/components/ui/textarea/index.js';
@@ -23,10 +64,24 @@
 	});
 
 	const { form: formData, enhance } = form;
+
+	const df = new DateFormatter('en-US', {
+		dateStyle: 'long'
+	});
+
+	let value: DateValue | undefined = undefined;
+
+	function addItem(id: string) {
+		$formData.items = [...$formData.items, id];
+	}
+
+	function removeItem(id: string) {
+		$formData.items = $formData.items.filter((i) => i !== id);
+	}
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
-	<div class="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
+	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
 		<div class="flex items-center gap-4">
 			<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>
 				<ChevronLeft class="h-4 w-4" />
@@ -35,188 +90,330 @@
 			<h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
 				Add a New Client
 			</h1>
-			<Badge class="ml-auto sm:ml-0">In stock</Badge>
+			<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 				<Form.Button type="submit" size="sm">Add Client</Form.Button>
 			</div>
 		</div>
-		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
-			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-5 lg:gap-8">
+			<div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
 				<Card.Root>
 					<Card.Header>
-						<Card.Title>Client Details</Card.Title>
-						<Card.Description>Lipsum dolor sit amet, consectetur adipiscing elit</Card.Description>
+						<Card.Title>Personal Information</Card.Title>
+						<Card.Description>Please fill out all necessary information.</Card.Description>
 					</Card.Header>
-					<Card.Content>
-						<div class="grid gap-6">
-							<Form.Field {form} name="firstName" class="grid gap-3">
+					<Card.Content class="grid auto-rows-max items-start gap-3">
+						<div class="grid grid-cols-7 items-start gap-3">
+							<Form.Field {form} name="firstName" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>First Name</Form.Label>
 									<Input {...attrs} bind:value={$formData.firstName} />
 								</Form.Control>
 								<Form.FieldErrors />
-								<Label for="name">Name</Label>
-								<Input id="name" type="text" class="w-full" value="Gamer Gear Pro Controller" />
 							</Form.Field>
-							<div class="grid gap-3">
-								<Label for="description">Description</Label>
-								<Textarea
-									id="description"
-									value="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc."
-									class="min-h-32"
-								/>
-							</div>
+							<Form.Field {form} name="middleName" class="col-span-2 grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Middle Name</Form.Label>
+									<Input {...attrs} bind:value={$formData.middleName} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="lastName" class="col-span-2 grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Last Name</Form.Label>
+									<Input {...attrs} bind:value={$formData.lastName} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="nameSuffix" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Suffix</Form.Label>
+									<Input {...attrs} bind:value={$formData.nameSuffix} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</div>
+						<div class="grid grid-cols-7 items-start gap-3">
+							<Form.Field {form} name="age" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Age</Form.Label>
+									<Input type="number" {...attrs} bind:value={$formData.age} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="sex" class="col-span-2 grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Sex</Form.Label>
+									<Select.Root>
+										<Select.Trigger id="sex" aria-label="Select sex">
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											<Select.Item value="male" label="Male">Male</Select.Item>
+											<Select.Item value="female" label="Female">Female</Select.Item>
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="civilStatus" class="col-span-2 grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Civil Status</Form.Label>
+									<Select.Root>
+										<Select.Trigger id="civilStatus" aria-label="Select civil status">
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											<Select.Item value="single" label="Single">Single</Select.Item>
+											<Select.Item value="married" label="Married">Married</Select.Item>
+											<Select.Item value="divorced" label="Divorced">Divorced</Select.Item>
+											<Select.Item value="widowed" label="Widowed">Widowed</Select.Item>
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+							</Form.Field>
+							<Form.Field {form} name="citizenship" class="col-span-2 grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Citizenship</Form.Label>
+									<Input {...attrs} bind:value={$formData.citizenship} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</div>
+						<div class="grid grid-cols-3 items-start gap-3">
+							<Form.Field {form} name="language" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Language</Form.Label>
+									<Input {...attrs} bind:value={$formData.language} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="religion" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Religion</Form.Label>
+									<Input {...attrs} bind:value={$formData.religion} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="educationalAttainment" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Education</Form.Label>
+									<Select.Root>
+										<Select.Trigger
+											class="truncate"
+											id="educationalAttainment"
+											aria-label="Select from options"
+										>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											<Select.Item value="noFormalSchooling" label="No Formal Schooling"
+												>No Formal Schooling</Select.Item
+											>
+											<Select.Item value="elementaryLevel" label="Elementary Level"
+												>Elementary Level</Select.Item
+											>
+											<Select.Item value="elementaryGraduate" label="Elementary Graduate"
+												>Elementary Graduate</Select.Item
+											>
+											<Select.Item value="highSchoolLevel" label="High School Level"
+												>High School Level</Select.Item
+											>
+											<Select.Item value="highSchoolGraduate" label="High School Graduate"
+												>High School Graduate</Select.Item
+											>
+											<Select.Item value="collegeLevel" label="College Level"
+												>College Level</Select.Item
+											>
+											<Select.Item value="collegeGraduate" label="College Graduate"
+												>College Graduate</Select.Item
+											>
+											<Select.Item value="withMastersUnits" label="With Master's Units"
+												>With Master's Units</Select.Item
+											>
+											<Select.Item value="mastersGraduate" label="Master's Graduate"
+												>Master's Graduate</Select.Item
+											>
+											<Select.Item value="withDoctoralUnits" label="With Doctoral Units"
+												>With Doctoral Units</Select.Item
+											>
+											<Select.Item value="doctorateGraduate" label="Doctorate Graduate"
+												>Doctorate Graduate</Select.Item
+											>
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
 						</div>
 					</Card.Content>
 				</Card.Root>
 				<Card.Root>
 					<Card.Header>
-						<Card.Title>Stock</Card.Title>
-						<Card.Description>Lipsum dolor sit amet, consectetur adipiscing elit</Card.Description>
+						<Card.Title>Contact Information</Card.Title>
 					</Card.Header>
 					<Card.Content>
-						<Table.Root>
-							<Table.Header>
-								<Table.Row>
-									<Table.Head class="w-[100px]">SKU</Table.Head>
-									<Table.Head>Stock</Table.Head>
-									<Table.Head>Price</Table.Head>
-									<Table.Head class="w-[100px]">Size</Table.Head>
-								</Table.Row>
-							</Table.Header>
-							<Table.Body>
-								<Table.Row>
-									<Table.Cell class="font-semibold">GGPC-001</Table.Cell>
-									<Table.Cell>
-										<Label for="stock-1" class="sr-only">Stock</Label>
-										<Input id="stock-1" type="number" value="100" />
-									</Table.Cell>
-									<Table.Cell>
-										<Label for="price-1" class="sr-only">Price</Label>
-										<Input id="price-1" type="number" value="99.99" />
-									</Table.Cell>
-									<Table.Cell>
-										<ToggleGroup.Root type="single" value="s" variant="outline">
-											<ToggleGroup.Item value="s">S</ToggleGroup.Item>
-											<ToggleGroup.Item value="m">M</ToggleGroup.Item>
-											<ToggleGroup.Item value="l">L</ToggleGroup.Item>
-										</ToggleGroup.Root>
-									</Table.Cell>
-								</Table.Row>
-								<Table.Row>
-									<Table.Cell class="font-semibold">GGPC-002</Table.Cell>
-									<Table.Cell>
-										<Label for="stock-2" class="sr-only">Stock</Label>
-										<Input id="stock-2" type="number" value="143" />
-									</Table.Cell>
-									<Table.Cell>
-										<Label for="price-2" class="sr-only">Price</Label>
-										<Input id="price-2" type="number" value="99.99" />
-									</Table.Cell>
-									<Table.Cell>
-										<ToggleGroup.Root type="single" value="m" variant="outline">
-											<ToggleGroup.Item value="s">S</ToggleGroup.Item>
-											<ToggleGroup.Item value="m">M</ToggleGroup.Item>
-											<ToggleGroup.Item value="l">L</ToggleGroup.Item>
-										</ToggleGroup.Root>
-									</Table.Cell>
-								</Table.Row>
-								<Table.Row>
-									<Table.Cell class="font-semibold">GGPC-003</Table.Cell>
-									<Table.Cell>
-										<Label for="stock-3" class="sr-only">Stock</Label>
-										<Input id="stock-3" type="number" value="32" />
-									</Table.Cell>
-									<Table.Cell>
-										<Label for="price-3" class="sr-only">Stock</Label>
-										<Input id="price-3" type="number" value="99.99" />
-									</Table.Cell>
-									<Table.Cell>
-										<ToggleGroup.Root type="single" value="s" variant="outline">
-											<ToggleGroup.Item value="s">S</ToggleGroup.Item>
-											<ToggleGroup.Item value="m">M</ToggleGroup.Item>
-											<ToggleGroup.Item value="l">L</ToggleGroup.Item>
-										</ToggleGroup.Root>
-									</Table.Cell>
-								</Table.Row>
-							</Table.Body>
-						</Table.Root>
+						<Form.Field {form} name="address" class="grid gap-3">
+							<Form.Control let:attrs>
+								<Form.Label>Address</Form.Label>
+								<Input {...attrs} bind:value={$formData.address} />
+							</Form.Control>
+							<Form.FieldErrors />
+						</Form.Field>
+						<div class="grid grid-cols-2 items-start gap-3">
+							<Form.Field {form} name="email" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Email</Form.Label>
+									<Input {...attrs} bind:value={$formData.email} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="contactNumber" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Contact Number</Form.Label>
+									<Input {...attrs} bind:value={$formData.contactNumber} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</div>
 					</Card.Content>
-					<Card.Footer class="justify-center border-t p-4">
-						<Button size="sm" variant="ghost" class="gap-1">
-							<PlusCircled class="h-3.5 w-3.5" />
-							Add Variant
-						</Button>
-					</Card.Footer>
 				</Card.Root>
 				<Card.Root>
 					<Card.Header>
-						<Card.Title>Product Category</Card.Title>
+						<Card.Title>Spouse Information</Card.Title>
 					</Card.Header>
 					<Card.Content>
-						<div class="grid gap-6 sm:grid-cols-3">
-							<div class="grid gap-3">
-								<Label for="category">Category</Label>
-								<Select.Root>
-									<Select.Trigger id="category" aria-label="Select category">
-										<Select.Value placeholder="Select category" />
-									</Select.Trigger>
-									<Select.Content>
-										<Select.Item value="clothing" label="Clothing">Clothing</Select.Item>
-										<Select.Item value="electronics" label="Electronics">Electronics</Select.Item>
-										<Select.Item value="accessories" label="Accessories">Accessories</Select.Item>
-									</Select.Content>
-								</Select.Root>
-							</div>
-							<div class="grid gap-3">
-								<Label for="subcategory">Subcategory (optional)</Label>
-								<Select.Root>
-									<Select.Trigger id="subcategory" aria-label="Select subcategory">
-										<Select.Value placeholder="Select subcategory" />
-									</Select.Trigger>
-									<Select.Content>
-										<Select.Item value="t-shirts" label="T-Shirts">T-Shirts</Select.Item>
-										<Select.Item value="hoodies" label="Hoodies">Hoodies</Select.Item>
-										<Select.Item value="sweatshirts" label="Sweatshirts">Sweatshirts</Select.Item>
-									</Select.Content>
-								</Select.Root>
-							</div>
+						<div class="grid grid-cols-7 items-start gap-3">
+							<Form.Field {form} name="spouseFirstName" class="col-span-2 grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>First Name</Form.Label>
+									<Input {...attrs} bind:value={$formData.spouseFirstName} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="spouseMiddleName" class="col-span-2 grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Middle Name</Form.Label>
+									<Input {...attrs} bind:value={$formData.spouseMiddleName} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="spouseLastName" class="col-span-2 grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Last Name</Form.Label>
+									<Input {...attrs} bind:value={$formData.spouseLastName} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="spouseNameSuffix" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Suffix</Form.Label>
+									<Input {...attrs} bind:value={$formData.spouseNameSuffix} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</div>
+						<Form.Field {form} name="spouseAddress" class="grid gap-3">
+							<Form.Control let:attrs>
+								<Form.Label>Address</Form.Label>
+								<Input {...attrs} bind:value={$formData.spouseAddress} />
+							</Form.Control>
+							<Form.FieldErrors />
+						</Form.Field>
+						<div class="grid grid-cols-2 items-start gap-3">
+							<Form.Field {form} name="spouseEmail" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Email</Form.Label>
+									<Input {...attrs} bind:value={$formData.spouseEmail} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Contact Number</Form.Label>
+									<Input {...attrs} bind:value={$formData.spouseContactNumber} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</div>
+					</Card.Content>
+				</Card.Root>
+				<Card.Root>
+					<Card.Header>
+						<Card.Title>Detainee Information</Card.Title>
+					</Card.Header>
+					<Card.Content>
+						<div class="grid grid-cols-8 items-start gap-3">
+							<Form.Field {form} name="detainedAt" class="col-span-5 grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Place of Detention</Form.Label>
+									<Input {...attrs} bind:value={$formData.detainedAt} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="detainedSince" class="grid col-span-3 gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Detained Since</Form.Label>
+									<Popover.Root>
+										<Popover.Trigger asChild let:builder>
+											<Button
+												variant="outline"
+												class={cn(
+													'w-auto justify-start text-left font-normal',
+													!value && 'text-muted-foreground'
+												)}
+												builders={[builder]}
+											>
+												<CalendarIcon class="mr-2 h-4 w-4" />
+												{value ? df.format(value.toDate(getLocalTimeZone())) : ''}
+											</Button>
+										</Popover.Trigger>
+										<Popover.Content class="w-auto p-0" align="start">
+											<Calendar bind:value={$formData.detainedSince} />
+										</Popover.Content>
+									</Popover.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
 						</div>
 					</Card.Content>
 				</Card.Root>
 			</div>
-			<div class="grid auto-rows-max items-start gap-4 lg:gap-8">
+			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
 				<Card.Root>
 					<Card.Header>
-						<Card.Title>Product Status</Card.Title>
+						<Card.Title>Client Classification</Card.Title>
+						<Card.Description>Please check all that apply.</Card.Description>
 					</Card.Header>
 					<Card.Content>
-						<div class="grid gap-6">
-							<div class="grid gap-3">
-								<Label for="status">Status</Label>
-								<Select.Root>
-									<Select.Trigger id="status" aria-label="Select status">
-										<Select.Value placeholder="Select status" />
-									</Select.Trigger>
-									<Select.Content>
-										<Select.Item value="draft" label="Draft">Draft</Select.Item>
-										<Select.Item value="published" label="Active">Active</Select.Item>
-										<Select.Item value="archived" label="Archived">Archived</Select.Item>
-									</Select.Content>
-								</Select.Root>
+						<Form.Fieldset {form} name="items" class="space-y-0">
+							<div class="space-y-2">
+								{#each classification as item}
+									{@const checked = $formData.items.includes(item.id)}
+									<div class="flex flex-row items-start space-x-3">
+										<Form.Control let:attrs>
+											<Checkbox
+												{...attrs}
+												{checked}
+												onCheckedChange={(v) => {
+													if (v) {
+														addItem(item.id);
+													} else {
+														removeItem(item.id);
+													}
+												}}
+											/>
+											<Form.Label class="text-sm font-normal">
+												{item.label}
+											</Form.Label>
+											<input hidden type="checkbox" name={attrs.name} value={item.id} {checked} />
+										</Form.Control>
+									</div>
+								{/each}
+								<Form.FieldErrors />
 							</div>
-						</div>
-					</Card.Content>
-				</Card.Root>
-				<Card.Root>
-					<Card.Header>
-						<Card.Title>Archive Product</Card.Title>
-						<Card.Description>Lipsum dolor sit amet, consectetur adipiscing elit.</Card.Description>
-					</Card.Header>
-					<Card.Content>
-						<div></div>
-						<Button size="sm" variant="secondary">Archive Product</Button>
+						</Form.Fieldset>
 					</Card.Content>
 				</Card.Root>
 			</div>
