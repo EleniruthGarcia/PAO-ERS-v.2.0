@@ -1,61 +1,25 @@
-<script lang="ts" context="module">
-	import { z } from 'zod';
-
-	const classification = [
-		{ id: 'childInConflictWithTheLaw', label: 'Child in Conflict with the Law' },
-		{ id: 'womanClient', label: 'Woman Client' },
-		{ id: 'vawcVictim', label: 'VAWC Victim' },
-		{ id: 'lawEnforcer', label: 'Law Enforcer' },
-		{ id: 'drugRelatedDuty', label: 'Drug-Related Duty' },
-		{ id: 'ofwLandBased', label: 'OFW (Land-Based)' },
-		{ id: 'ofwSeaBased', label: 'OFW (Sea-Based)' },
-		{ id: 'frs', label: 'FRs and FVEs' },
-		{ id: 'seniorCitizen', label: 'Senior Citizen' },
-		{ id: 'refugeeOrEvacuee', label: 'Refugee or Evacuee' },
-		{ id: 'tenantInAgrarianCase', label: 'Tenant in Agrarian Case' },
-		{ id: 'victimOfTerrorism', label: 'Victim of Terrorism (R.A. No. 9372)' },
-		{ id: 'victimOfTorture', label: 'Victim of Torture (R.A. 9745)' },
-		{ id: 'victimOfTrafficking', label: 'Victim of Trafficking (R.A. No. 9208)' },
-		{ id: 'foreignNational', label: 'Foreign National' },
-		{ id: 'urbanPoor', label: 'Urban Poor' },
-		{ id: 'ruralPoor', label: 'Rural Poor' },
-		{ id: 'indigenousPeople', label: 'Indigenous People' },
-		{ id: 'pwd', label: 'PWD' },
-		{ id: 'petitionerForVoluntaryRehabilitation', label: 'Petitioner for Voluntary Rehabilitation' }
-	] as const;
-
-	export const selectSchema = z.object({
-		items: z.array(z.string()).refine((value) => value.some((item) => item), {
-			message: 'You have to select at least one item.'
-		})
-	});
-	export type FormSchema = typeof formSchema;
-</script>
-
 <script lang="ts">
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { formSchema, type FormSchema } from '$lib/schema/client';
-	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
+	import { classification, formSchema, type FormSchema } from '$lib/schema/client';
+	import {
+		type SuperValidated,
+		type Infer,
+		superForm,
+		dateProxy,
+		intProxy
+	} from 'sveltekit-superforms';
 
-	import { ChevronLeft, PlusCircled } from 'svelte-radix';
-	import CalendarIcon from 'svelte-radix/Calendar.svelte';
+	import { ChevronLeft } from 'svelte-radix';
 
-	import { DateFormatter, type DateValue, getLocalTimeZone } from '@internationalized/date';
-	import { cn } from '$lib/utils.js';
+	import { DateFormatter, type DateValue } from '@internationalized/date';
 
-	import { Badge } from '$lib/components/ui/badge/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import { Calendar } from '$lib/components/ui/calendar/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Checkbox } from '$lib/components/ui/checkbox/index.js';
 	import * as Form from '$lib/components/ui/form/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
-	import { Label } from '$lib/components/ui/label/index.js';
-	import * as Popover from '$lib/components/ui/popover/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
-	import * as Table from '$lib/components/ui/table/index.js';
-	import { Textarea } from '$lib/components/ui/textarea/index.js';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+	import DatePicker from '$lib/components/DatePicker.svelte';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -69,8 +33,6 @@
 		dateStyle: 'long'
 	});
 
-	let value: DateValue | undefined = undefined;
-
 	function addItem(id: string) {
 		$formData.items = [...$formData.items, id];
 	}
@@ -78,6 +40,11 @@
 	function removeItem(id: string) {
 		$formData.items = $formData.items.filter((i) => i !== id);
 	}
+
+	const proxyAge = intProxy(form, 'age');
+	const proxyContactNumber = intProxy(form, 'contactNumber');
+	const proxySpouseContactNumber = intProxy(form, 'spouseContactNumber');
+	const proxyDetainedSince = dateProxy(form, 'detainedSince', { format: 'date' });
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
@@ -138,7 +105,7 @@
 							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Age</Form.Label>
-									<Input type="number" {...attrs} bind:value={$formData.age} />
+									<Input type="number" {...attrs} bind:value={$proxyAge} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -272,7 +239,7 @@
 							<Form.Field {form} name="contactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Contact Number</Form.Label>
-									<Input {...attrs} bind:value={$formData.contactNumber} />
+									<Input {...attrs} bind:value={$proxyContactNumber} type="number" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -332,7 +299,7 @@
 							<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Contact Number</Form.Label>
-									<Input {...attrs} bind:value={$formData.spouseContactNumber} />
+									<Input {...attrs} bind:value={$proxySpouseContactNumber} type="number" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -352,27 +319,10 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="detainedSince" class="grid col-span-3 gap-3">
+							<Form.Field {form} name="detainedSince" class="col-span-3 grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Detained Since</Form.Label>
-									<Popover.Root>
-										<Popover.Trigger asChild let:builder>
-											<Button
-												variant="outline"
-												class={cn(
-													'w-auto justify-start text-left font-normal',
-													!value && 'text-muted-foreground'
-												)}
-												builders={[builder]}
-											>
-												<CalendarIcon class="mr-2 h-4 w-4" />
-												{value ? df.format(value.toDate(getLocalTimeZone())) : ''}
-											</Button>
-										</Popover.Trigger>
-										<Popover.Content class="w-auto p-0" align="start">
-											<Calendar bind:value={$formData.detainedSince} />
-										</Popover.Content>
-									</Popover.Root>
+									<DatePicker bind:value={$proxyDetainedSince} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>

@@ -1,18 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { visibleLinks } from '$lib/links';
-
-	import { Home, Person, Gear, FileText } from 'svelte-radix';
-	import { Badge } from '$lib/components/ui/badge';
-
-	import { cn } from '$lib/utils';
 	import SidebarLink from './SidebarLink.svelte';
-
-	let navLink = (href: string) =>
-		cn(
-			'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
-			$page.url.pathname.startsWith(href) && 'bg-muted text-primary'
-		);
 
 	const links = visibleLinks($page.data.user);
 </script>
@@ -35,6 +24,7 @@
 		<!-- <div class="mt-auto p-4"></div> -->
 	</div>
 </aside>
+
 <!-- 
 <aside
 	class="hidden h-dvh w-14 flex-col border-r bg-background [view-transition-name:sidebar] sm:flex"

@@ -1,12 +1,10 @@
 <script lang="ts">
-	import { navigating, page } from '$app/stores';
-	import { Home, Person, Gear, FileText } from 'svelte-radix';
+	import { page } from '$app/stores';
 	import { Badge } from '$lib/components/ui/badge';
 
 	import { cn } from '$lib/utils';
 
-	let navLink = (href: string) =>
-		navigating &&
+	$: navLink = (href: string) =>
 		cn(
 			'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
 			$page.url.pathname.startsWith(href) && 'bg-muted text-primary'

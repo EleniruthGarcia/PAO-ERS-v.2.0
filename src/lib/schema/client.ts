@@ -1,5 +1,28 @@
 import z from 'zod';
 
+export const classification = [
+	{ id: 'childInConflictWithTheLaw', label: 'Child in Conflict with the Law' },
+	{ id: 'womanClient', label: 'Woman Client' },
+	{ id: 'vawcVictim', label: 'VAWC Victim' },
+	{ id: 'lawEnforcer', label: 'Law Enforcer' },
+	{ id: 'drugRelatedDuty', label: 'Drug-Related Duty' },
+	{ id: 'ofwLandBased', label: 'OFW (Land-Based)' },
+	{ id: 'ofwSeaBased', label: 'OFW (Sea-Based)' },
+	{ id: 'frs', label: 'FRs and FVEs' },
+	{ id: 'seniorCitizen', label: 'Senior Citizen' },
+	{ id: 'refugeeOrEvacuee', label: 'Refugee or Evacuee' },
+	{ id: 'tenantInAgrarianCase', label: 'Tenant in Agrarian Case' },
+	{ id: 'victimOfTerrorism', label: 'Victim of Terrorism (R.A. No. 9372)' },
+	{ id: 'victimOfTorture', label: 'Victim of Torture (R.A. 9745)' },
+	{ id: 'victimOfTrafficking', label: 'Victim of Trafficking (R.A. No. 9208)' },
+	{ id: 'foreignNational', label: 'Foreign National' },
+	{ id: 'urbanPoor', label: 'Urban Poor' },
+	{ id: 'ruralPoor', label: 'Rural Poor' },
+	{ id: 'indigenousPeople', label: 'Indigenous People' },
+	{ id: 'pwd', label: 'PWD' },
+	{ id: 'petitionerForVoluntaryRehabilitation', label: 'Petitioner for Voluntary Rehabilitation' }
+] as const;
+
 export const formSchema = z.object({
 	firstName: z.string().min(1).max(50),
 	middleName: z.string().min(1).max(50).optional(),
@@ -26,7 +49,12 @@ export const formSchema = z.object({
 	spouseAddress: z.string().min(1).max(100).optional(),
 	spouseEmail: z.string().email().optional(),
 	spouseContactNumber: z.number().min(11).max(11).optional(),
-	items: z.string().array(),
+	items: z.array(z.string().refine((string) => Object.keys(classification.map(
+		({ id }) => id
+	)).includes(string), {
+		message: 'Invalid classification'
+	})).min(1),
+	classification: z.enum(['client', 'witness', 'complainant', 'respondent']).array(),
 });
 
 export type FormSchema = typeof formSchema;
