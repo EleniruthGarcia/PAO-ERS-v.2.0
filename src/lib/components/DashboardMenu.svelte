@@ -1,17 +1,17 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { visibleLinks } from '$lib/links';
-
 	import { Rows } from 'svelte-radix';
 
 	import { Button } from '$lib/components/ui/button';
 	import * as Sheet from '$lib/components/ui/sheet';
 
-	const links = visibleLinks();
+	const links = visibleLinks($page.data.user);
 </script>
 
 <Sheet.Root>
 	<Sheet.Trigger asChild let:builder>
-		<Button builders={[builder]} size="icon" variant="outline" class="sm:hidden">
+		<Button builders={[builder]} size="icon" variant="outline" class="md:hidden">
 			<Rows class="h-5 w-5" />
 			<span class="sr-only">Toggle Menu</span>
 		</Button>

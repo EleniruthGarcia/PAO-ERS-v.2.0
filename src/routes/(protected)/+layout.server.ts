@@ -11,8 +11,6 @@ export const load: LayoutServerLoad = async (event) => {
 		);
 	}
 
-	const { id, username, role } = event.locals.user;
-
 	return {
 		breadcrumbs: [
 			{
@@ -20,10 +18,6 @@ export const load: LayoutServerLoad = async (event) => {
 				text: 'Dashboard'
 			}
 		],
-		user: {
-			id,
-			username,
-			role
-		}
+		user: { ...event.locals.user }
 	};
 };

@@ -1,11 +1,12 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { visibleLinks } from '$lib/links';
 	import { Rows } from 'svelte-radix';
 
 	import { Button } from '$lib/components/ui/button';
 	import * as Sheet from '$lib/components/ui/sheet';
 
-	const links = visibleLinks(['dashboard', 'about']);
+	const links = visibleLinks($page.data.user);
 </script>
 
 <Sheet.Root>

@@ -10,7 +10,7 @@
 
 	import Table from './data-table.svelte';
 
-	let clients = $page.data.records;
+	let clients = $page.data.clients;
 </script>
 
 <Tabs.Root value="all">

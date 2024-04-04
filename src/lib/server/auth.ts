@@ -17,9 +17,7 @@ export const lucia = new Lucia(new MongodbAdapter(sessions, users), {
 	sessionExpiresIn: new TimeSpan(1, 'd'),
 	getUserAttributes: (attributes) => {
 		return {
-			_id: attributes._id,
-			username: attributes.username,
-			role: attributes.role
+			...attributes,
 		};
 	}
 });
@@ -33,8 +31,6 @@ declare module 'lucia' {
 }
 
 if (!process.env['VERCEL'])
-	cron
-		.schedule('0 0 * * *', async () => {
-			await lucia.deleteExpiredSessions();
-		})
-		.start();
+	cron.schedule('0 0 * * *', async () => {
+		await lucia.deleteExpiredSessions();
+	}).start();

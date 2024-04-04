@@ -15,9 +15,9 @@
 	let selectedClients: Client[] = [];
 </script>
 
-{#await data.records}
+{#await data.requests}
 	<Loading />
-{:then records}
+{:then requests}
 	<main class={clsx('grid gap-4', selectedClients.length > 0 && 'lg:grid-cols-3 xl:grid-cols-3')}>
 		<div class="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
 			<div class="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">

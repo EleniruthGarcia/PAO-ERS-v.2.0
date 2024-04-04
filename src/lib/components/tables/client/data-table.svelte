@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { Document } from 'mongodb';
+	import type { Client } from '$lib/server/database';
 
 	import { Badge } from '$lib/components/ui/badge';
 	import * as Table from '$lib/components/ui/table';
 
-	export let clients: Document[];
+	export let clients: Client[];
 </script>
 
 <Table.Root>

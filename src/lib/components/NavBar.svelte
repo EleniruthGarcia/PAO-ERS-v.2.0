@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { visibleLinks } from '$lib/links';
 
 	import Account from '$lib/components/Account.svelte';
@@ -7,7 +8,7 @@
 	import NightToggle from '$lib/components/NightToggle.svelte';
 	import Search from '$lib/components/Search.svelte';
 
-	const links = visibleLinks(['dashboard', 'about']);
+	const links = visibleLinks($page.data.user);
 </script>
 
 <header

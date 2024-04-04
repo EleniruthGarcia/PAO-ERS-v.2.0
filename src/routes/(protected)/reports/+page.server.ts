@@ -1,7 +1,7 @@
 import db from '$lib/server/database';
 import { redirect } from 'sveltekit-flash-message/server';
 import type { PageServerLoad, Actions } from './$types';
-import { generateReport } from '$lib/server/reports/report';
+import { generateReport } from '$lib/server/report';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {
@@ -32,9 +32,11 @@ export const actions = {
 			);
 		}
 
-		const formData = await event.request.formData();
+		const { month } = Object.fromEntries(await event.request.formData());
 
-		const data_ = db.requests.aggregate([{ id: formData.get('id') }]);
+		const data_ = db.requests.aggregate([{
+			$match: {}
+		}]);
 
 		let data = {
 			region: 'CAR',

@@ -1,10 +1,41 @@
 <script lang="ts">
-	import { Home, Person, Gear, FileText } from 'svelte-radix';
+	import { page } from '$app/stores';
+	import { visibleLinks } from '$lib/links';
 
-	import * as Tooltip from '$lib/components/ui/tooltip';
-	import { Button } from '$lib/components/ui/button';
+	import { Home, Person, Gear, FileText } from 'svelte-radix';
+	import { Badge } from '$lib/components/ui/badge';
+
+	import { cn } from '$lib/utils';
+	import SidebarLink from './SidebarLink.svelte';
+
+	let navLink = (href: string) =>
+		cn(
+			'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
+			$page.url.pathname.startsWith(href) && 'bg-muted text-primary'
+		);
+
+	const links = visibleLinks($page.data.user);
 </script>
 
+<aside class="hidden w-[220px] border-r [view-transition-name:sidebar] md:block lg:w-[280px]">
+	<div class="flex h-full max-h-dvh flex-col gap-2">
+		<div class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+			<a href="/" class="flex items-center gap-2 font-semibold">
+				<img src="/favicon.png" alt="PAO Logo" class="h-6 w-6 [view-transition-name:logo]" />
+				<span class="">PAO-ERS</span>
+			</a>
+		</div>
+		<div class="flex-1">
+			<nav class="grid items-start px-2 text-sm font-medium lg:px-4">
+				{#each links as link}
+					<SidebarLink {link} />
+				{/each}
+			</nav>
+		</div>
+		<!-- <div class="mt-auto p-4"></div> -->
+	</div>
+</aside>
+<!-- 
 <aside
 	class="hidden h-dvh w-14 flex-col border-r bg-background [view-transition-name:sidebar] sm:flex"
 >
@@ -83,4 +114,4 @@
 			<Tooltip.Content side="right">Settings</Tooltip.Content>
 		</Tooltip.Root>
 	</nav>
-</aside>
+</aside> -->

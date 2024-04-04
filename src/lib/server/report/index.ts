@@ -7,8 +7,8 @@ export const generateReport = async (data: any) => {
     const template = new XlsxTemplate(Buffer.from(file));
     template.substitute('F.10', { ...data, num: data.f10.length });
 
-    template.substitute('F.28', {});
-    template.substitute('F.29', {});
+    template.substitute('F.028', {});
+    template.substitute('F.029', {});
 
     return template.generate({ type: 'base64' });
 };
