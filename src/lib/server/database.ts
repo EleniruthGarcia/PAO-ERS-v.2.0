@@ -63,7 +63,7 @@ export interface Client {
 	sex: 'male' | 'female';
 	address: string;
 	email?: string;
-	contactNumber?: number;
+	contactNumber?: string;
 	civilStatus: 'single' | 'married' | 'widowed' | 'separated';
 	religion?: string;
 	citizenship: string;
@@ -75,7 +75,7 @@ export interface Client {
 	detainedSince?: Date;
 	spouseName?: string;
 	spouseAddress?: string;
-	spouseContactNumber?: number;
+	spouseContactNumber?: string;
 }
 
 interface Case {

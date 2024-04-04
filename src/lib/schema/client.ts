@@ -24,6 +24,7 @@ export const classification = [
 ] as const;
 
 export const formSchema = z.object({
+	_id: z.string().optional(),
 	firstName: z.string().min(1).max(50),
 	middleName: z.string().min(1).max(50).optional(),
 	lastName: z.string().min(1).max(50),
@@ -32,7 +33,7 @@ export const formSchema = z.object({
 	sex: z.enum(['male', 'female']),
 	address: z.string().min(1).max(100),
 	email: z.string().email().optional(),
-	contactNumber: z.number().min(11).max(11).optional(),
+	contactNumber: z.string().regex(/^(09|\+639)\d{9}$/),
 	civilStatus: z.enum(['single', 'married', 'widowed', 'separated']),
 	religion: z.string().min(1).max(50).optional(),
 	citizenship: z.string().min(1).max(50),
@@ -48,13 +49,12 @@ export const formSchema = z.object({
 	spouseNameSuffix: z.string().min(1).max(50).optional(),
 	spouseAddress: z.string().min(1).max(100).optional(),
 	spouseEmail: z.string().email().optional(),
-	spouseContactNumber: z.number().min(11).max(11).optional(),
-	items: z.array(z.string().refine((string) => Object.keys(classification.map(
+	spouseContactNumber: z.string().regex(/^(09|\+639)\d{9}$/).optional(),
+	classification: z.array(z.string().refine((string) => Object.keys(classification.map(
 		({ id }) => id
 	)).includes(string), {
 		message: 'Invalid classification'
 	})).min(1),
-	classification: z.enum(['client', 'witness', 'complainant', 'respondent']).array(),
 });
 
 export type FormSchema = typeof formSchema;

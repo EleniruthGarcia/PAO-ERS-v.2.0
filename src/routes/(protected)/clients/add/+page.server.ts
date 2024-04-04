@@ -1,4 +1,4 @@
-import type { PageServerLoad, Actions } from './$types.js';
+import type { PageServerLoad, Actions } from './$types';
 import { fail } from '@sveltejs/kit';
 import { redirect } from 'sveltekit-flash-message/server';
 
@@ -31,22 +31,15 @@ export const load: PageServerLoad = async (event) => {
 export const actions: Actions = {
 	default: async (event) => {
 		const form = await superValidate(event, zod(formSchema));
-		if (!form.valid) {
-			return fail(400, {
-				form
-			});
-		}
-
-		const { username, password } = form.data;
+		if (!form.valid) return fail(400, { form })
 
 		const client = await db.clients.insertOne({
-			username,
-			password
+			...form.data,
+			_id: 'CLIENT-' + Date.now().toString(36).toUpperCase(),
+			name: `${form.data.firstName} ${form.data.middleName !== '' ? form.data.middleName + ' ' : ''}${form.data.lastName}${form.data.nameSuffix !== '' ? ', ' + form.data.nameSuffix : ''}`
 		});
+		if (!client.acknowledged) return fail(500, { form });
 
-		const redirectUrl = event.cookies.get('redirect') || '/clients';
-		if (event.cookies.get('redirect')) event.cookies.set('redirect', '', { path: '.' });
-
-		redirect(redirectUrl, { type: 'success', message: 'Logged in successfully!' }, event);
+		redirect('/clients/' + client.insertedId, { type: 'success', message: 'Client added successfully!' }, event);
 	}
 };

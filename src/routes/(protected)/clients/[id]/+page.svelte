@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
-	import { getLocalTimeZone, today } from '@internationalized/date';
 
 	import { Button } from '$lib/components/ui/button';
 	import { enhance } from '$app/forms';
+	import ClientForm from '$lib/components/forms/ClientForm.svelte';
 
 	export let data: PageServerData;
 	export let form;
@@ -19,6 +19,8 @@
 	$: form?.interview_sheet && save(form.interview_sheet);
 </script>
 
-<form method="POST" use:enhance>
-	<Button type="submit">Download Interview Sheet</Button>
+<form method="POST" action="?/generateInterviewSheet" use:enhance>
+	<Button type="submit">Generate Interview Sheet</Button>
 </form>
+
+<ClientForm data={data.form} />

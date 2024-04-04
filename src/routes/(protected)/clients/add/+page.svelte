@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
-	import ClientCreateForm from '$lib/components/forms/ClientCreateForm.svelte';
+	import ClientForm from '$lib/components/forms/ClientForm.svelte';
 
 	export let data: PageServerData;
 </script>
 
-<ClientCreateForm data={data.form} />
+<ClientForm data={data.form} />
