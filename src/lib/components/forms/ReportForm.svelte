@@ -54,9 +54,9 @@
 </script>
 
 <form method="POST" class="space-y-8" use:enhance>
-	<Form.Field {form} name="dob" class="flex flex-col">
+	<Form.Field {form} name="date" class="flex flex-col">
 		<Form.Control let:attrs>
-			<Form.Label>Date of birth</Form.Label>
+			<Form.Label>Date</Form.Label>
 			<Popover.Root>
 				<Popover.Trigger
 					{...attrs}
