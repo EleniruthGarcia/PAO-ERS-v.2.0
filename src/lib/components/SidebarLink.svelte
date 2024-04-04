@@ -17,7 +17,9 @@
 <main>
 	<a href={link.href} class={navLink(link.href)}>
 		<svelte:component this={link.icon} class="h-4 w-4" />
-		{link.label}
+		<span class="hidden lg:block">
+			{link.label}
+		</span>
 	</a>
 
 	{#if notificationCount > 0}

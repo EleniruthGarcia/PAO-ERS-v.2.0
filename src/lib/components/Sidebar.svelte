@@ -6,12 +6,12 @@
 	const links = visibleLinks($page.data.user);
 </script>
 
-<aside class="hidden w-[220px] border-r [view-transition-name:sidebar] md:block lg:w-[280px]">
+<aside class="hidden border-r [view-transition-name:sidebar] md:block lg:w-[280px]">
 	<div class="flex h-full max-h-dvh flex-col gap-2">
-		<div class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+		<div class="flex h-14 items-center px-4 lg:h-[60px] lg:border-b lg:px-6">
 			<a href="/" class="flex items-center gap-2 font-semibold">
 				<img src="/favicon.png" alt="PAO Logo" class="h-6 w-6 [view-transition-name:logo]" />
-				<span class="">PAO-ERS</span>
+				<span class="hidden lg:block">PAO-ERS</span>
 			</a>
 		</div>
 		<div class="flex-1">
