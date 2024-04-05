@@ -31,13 +31,11 @@ export const load: PageServerLoad = async (event) => {
 export const actions: Actions = {
 	default: async (event) => {
 		const form = await superValidate(event, zod(formSchema));
-		console.log(form.data.educationalAttainment);
 		if (!form.valid) return fail(400, { form });
 
 		const client = await db.clients.insertOne({
 			...form.data,
 			_id: 'CLIENT-' + Date.now().toString(36).toUpperCase(),
-			name: `${form.data.firstName} ${form.data.middleName !== '' ? form.data.middleName + ' ' : ''}${form.data.lastName}${form.data.nameSuffix !== '' ? ', ' + form.data.nameSuffix : ''}`
 		});
 		if (!client.acknowledged) return fail(500, { form });
 
