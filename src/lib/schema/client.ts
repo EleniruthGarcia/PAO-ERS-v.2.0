@@ -21,40 +21,59 @@ export const classification = [
 	{ id: 'indigenousPeople', label: 'Indigenous People' },
 	{ id: 'pwd', label: 'PWD' },
 	{ id: 'petitionerForVoluntaryRehabilitation', label: 'Petitioner for Voluntary Rehabilitation' }
-] as const;
+];
+
+export const educationalAttainment = [
+	{ label: 'No Formal Schooling', value: 'noFormalSchooling' },
+	{ label: 'Elementary Level', value: 'elementaryLevel' },
+	{ label: 'Elementary Graduate', value: 'elementaryGraduate' },
+	{ label: 'High School Level', value: 'highSchoolLevel' },
+	{ label: 'High School Graduate', value: 'highSchoolGraduate' },
+	{ label: 'College Level', value: 'collegeLevel' },
+	{ label: 'College Graduate', value: 'collegeGraduate' },
+	{ label: 'With Master\'s Units', value: 'withMastersUnits' },
+	{ label: 'Master\'s Graduate', value: 'mastersGraduate' },
+	{ label: 'With Doctoral Units', value: 'withDoctoralUnits' },
+	{ label: 'Doctorate Graduate', value: 'doctorateGraduate' }
+];
 
 export const formSchema = z.object({
 	_id: z.string().optional(),
 	firstName: z.string().min(1).max(50),
-	middleName: z.string().min(1).max(50).optional(),
+	middleName: z.string().max(50).optional(),
 	lastName: z.string().min(1).max(50),
-	nameSuffix: z.string().min(1).max(50).optional(),
-	age: z.number().int(),
+	nameSuffix: z.string().optional(),
+	age: z.number().positive(),
 	sex: z.enum(['male', 'female']),
-	address: z.string().min(1).max(100),
+	address: z.string().max(100),
 	email: z.string().email().optional(),
-	contactNumber: z.string().regex(/^(09|\+639)\d{9}$/),
+	contactNumber: z.string().regex(/^(09|\+639)\d{9}$/, 'Invalid contact number!'),
 	civilStatus: z.enum(['single', 'married', 'widowed', 'separated']),
-	religion: z.string().min(1).max(50).optional(),
-	citizenship: z.string().min(1).max(50),
-	educationalAttainment: z.string().min(1).max(50),
-	language: z.string().min(1).max(50),
+	religion: z.string().max(50).optional(),
+	citizenship: z.string().max(50),
+	educationalAttainment: z.string().refine((string) => educationalAttainment.map(
+		({ value }) => value
+	).includes(string), {
+		message: 'Invalid educational attainment!'
+	}),
+	language: z.string().max(50),
 	individualMonthlyIncome: z.number().optional(),
 	detained: z.boolean(),
-	detainedAt: z.string().min(1).max(100).optional(),
+	detainedAt: z.string().max(100).optional(),
 	detainedSince: z.date().optional(),
-	spouseFirstName: z.string().min(1).max(50).optional(),
-	spouseMiddleName: z.string().min(1).max(50).optional(),
-	spouseLastName: z.string().min(1).max(50).optional(),
-	spouseNameSuffix: z.string().min(1).max(50).optional(),
-	spouseAddress: z.string().min(1).max(100).optional(),
+	spouseName: z.string().max(100).optional(),
+	spouseFirstName: z.string().max(50).optional(),
+	spouseMiddleName: z.string().max(50).optional(),
+	spouseLastName: z.string().max(50).optional(),
+	spouseNameSuffix: z.string().max(50).optional(),
+	spouseAddress: z.string().max(100).optional(),
 	spouseEmail: z.string().email().optional(),
-	spouseContactNumber: z.string().regex(/^(09|\+639)\d{9}$/).optional(),
+	spouseContactNumber: z.string().regex(/^(09|\+639)\d{9}$/, 'Invalid contact number!').optional(),
 	classification: z.array(z.string().refine((string) => Object.keys(classification.map(
 		({ id }) => id
 	)).includes(string), {
-		message: 'Invalid classification'
-	})).min(1),
+		message: 'Invalid classification!'
+	})),
 });
 
 export type FormSchema = typeof formSchema;

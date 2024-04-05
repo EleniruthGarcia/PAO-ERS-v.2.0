@@ -31,6 +31,7 @@ export const load: PageServerLoad = async (event) => {
 export const actions: Actions = {
 	default: async (event) => {
 		const form = await superValidate(event, zod(formSchema));
+		console.log(form.data.educationalAttainment);
 		if (!form.valid) return fail(400, { form })
 
 		const client = await db.clients.insertOne({

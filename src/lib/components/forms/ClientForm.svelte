@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { classification, formSchema, type FormSchema } from '$lib/schema/client';
+	import {
+		classification,
+		educationalAttainment,
+		formSchema,
+		type FormSchema
+	} from '$lib/schema/client';
 	import {
 		type SuperValidated,
 		type Infer,
@@ -37,6 +42,12 @@
 
 	const proxyAge = intProxy(form, 'age');
 	const proxyDetainedSince = dateProxy(form, 'detainedSince', { format: 'date' });
+
+	$: selectedEducationalAttainment = {
+		label: educationalAttainment.find((item) => item.value === $formData.educationalAttainment)
+			?.label,
+		value: $formData.educationalAttainment
+	};
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
@@ -160,7 +171,7 @@
 							</Form.Field>
 							<Form.Field {form} name="educationalAttainment" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Education</Form.Label>
+									<Form.Label>Educational Attainment</Form.Label>
 									<Select.Root>
 										<Select.Trigger
 											class="truncate"
@@ -170,39 +181,10 @@
 											<Select.Value placeholder="" />
 										</Select.Trigger>
 										<Select.Content>
-											<Select.Item value="noFormalSchooling" label="No Formal Schooling"
-												>No Formal Schooling</Select.Item
-											>
-											<Select.Item value="elementaryLevel" label="Elementary Level"
-												>Elementary Level</Select.Item
-											>
-											<Select.Item value="elementaryGraduate" label="Elementary Graduate"
-												>Elementary Graduate</Select.Item
-											>
-											<Select.Item value="highSchoolLevel" label="High School Level"
-												>High School Level</Select.Item
-											>
-											<Select.Item value="highSchoolGraduate" label="High School Graduate"
-												>High School Graduate</Select.Item
-											>
-											<Select.Item value="collegeLevel" label="College Level"
-												>College Level</Select.Item
-											>
-											<Select.Item value="collegeGraduate" label="College Graduate"
-												>College Graduate</Select.Item
-											>
-											<Select.Item value="withMastersUnits" label="With Master's Units"
-												>With Master's Units</Select.Item
-											>
-											<Select.Item value="mastersGraduate" label="Master's Graduate"
-												>Master's Graduate</Select.Item
-											>
-											<Select.Item value="withDoctoralUnits" label="With Doctoral Units"
-												>With Doctoral Units</Select.Item
-											>
-											<Select.Item value="doctorateGraduate" label="Doctorate Graduate"
-												>Doctorate Graduate</Select.Item
-											>
+											{#each educationalAttainment as item (item.value)}
+												<Select.Item value={item.value} label={item.label}>{item.label}</Select.Item
+												>
+											{/each}
 										</Select.Content>
 									</Select.Root>
 								</Form.Control>
@@ -234,12 +216,7 @@
 							<Form.Field {form} name="contactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Contact Number</Form.Label>
-									<Input
-										{...attrs}
-										bind:value={$formData.contactNumber}
-										type="tel"
-										pattern={`^(09|\+639)\d{9}$`}
-									/>
+									<Input {...attrs} bind:value={$formData.contactNumber} type="tel" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -299,12 +276,7 @@
 							<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Contact Number</Form.Label>
-									<Input
-										{...attrs}
-										bind:value={$formData.spouseContactNumber}
-										type="tel"
-										pattern={`^(09|\+639)\d{9}$`}
-									/>
+									<Input {...attrs} bind:value={$formData.spouseContactNumber} type="tel" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
