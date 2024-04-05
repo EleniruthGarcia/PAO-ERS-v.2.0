@@ -1,17 +1,11 @@
-import { read } from '$app/server';
-import templateFile from './template.xlsx?url';
-import XlsxTemplate from 'xlsx-template';
+import { read } from "$app/server";
+import templateFile from "./template.pdf?url";
+import { PDFDocument, rgb } from "pdf-lib";
 
 export const generateInterviewSheet = async (data: any) => {
-	const file = await read(templateFile).arrayBuffer();
-	const template = new XlsxTemplate(Buffer.from(file));
-
-	template.substitute(1, data);
-
-	return template.generate({ type: 'base64' });
+  return await addTextToPDF(data);
 };
-import { PDFDocument, rgb } from "pdf-lib";
-import fs from "fs";
+
 function getFormattedDate(): [string, string, string, number] {
   const now = new Date();
   const monthNames = [
@@ -55,98 +49,71 @@ function addOrdinalSuffix(day: number): string {
       return `${day}th`;
   }
 }
-async function addTextToPDF() {
+async function addTextToPDF(data: any) {
   const values = getFormattedDate();
-  const monthYear = `December ${values[3]}`;
-  const region = "CAR";
-  const districtProvince = "Baguio City, Benguet del Norte";
-  const district = "San Jose del Monte,";
-  const province = "San Jose del Monte";
-  const controlNo = "2403-12341";
-  // Client data
-  const religion = "Christianity";
-  const citizenship = "Filipino";
-  const name = "Juan Dela Cruz";
-  const age = 35;
-  const address = "123 Main Street, Metro Manila";
-  const email = "juan@example.com";
-  const individualMonthlyIncome = 25000;
-  const detainedSince = "2023-01-15";
-  const civilStatus: string = "Widow/Widower";
-  const sex = "Male";
-  const educationalAttainment = "Bachelor's Degree";
-  const languageDialect = "Tagalog";
-  const contactNo = "09123456789";
-  const spouse = "Maria Dela Cruz";
-  const addressOfSpouse = "123 Main Street, Metro Manila";
-  const spouseContactNo = "09883291238";
-  const placeOfDetention = "Metro Manila Detention Center";
 
-  // Interviewee data
-  const intervieweeName = "Adolph Blaine Charles David Earl Frederick";
-  const intervieweeAddress = "456 Elm Street, Metro Manila";
-  const relationshipToClient = "Friend";
-  const intervieweeAge = 35;
-  const intervieweeSex = "Male";
-  const intervieweeCivilStatus = "Married";
-  const intervieweeContactNo = "09876543210";
-  const intervieweeEmail = "pedro@example.com";
-  const natureOfRequest: string = "Others";
-  const otherNatureOfRequest = "Jail Visitation";
-  const PDLStatus: string = "No"; // Set initial value to "No"
-  const natureOfTheCase: string = "Criminal";
-  const caseSpecs: string = "RA 1234125323";
+  const {
+    monthYear,
 
-  const clientClasses: (string | Record<string, string>)[] = [
-    "Drug-Related Duty",
-    "Tenant in Agrarian Case",
-    "OFW - Land-based",
-    "OFW - Sea-based",
-    "Victim of Terrorism (R.A. No. 9372)",
-    "Victim of Torture (R.A. No. 9745)",
-    "Victim of Trafficking (R.A. No. 9208)",
-    "Former Rebels (FRs) and Former Violent Extremists (FVEs)",
-    "Refugee/Evacuee",
-    { "Indigenous People": "Quezon Hill, Baguio" },
-  ];
+    // branch data
+    region,
+    districtProvince,
+    district,
+    province,
+    controlNo,
 
-  const clientInvolvement: (string | Record<string, string>)[] = [
-    "Plaintiff",
-    "Accused",
-    "Defendant",
-    "Oppositor",
-    "Petitioner",
-    "Respondent",
-    "Complainant",
-    "Accused",
-    { Others: "Quezon Hill, Baguio" },
-  ];
-  const adverseParty: string[] = [
-    "Plaintiff/Complainant",
-    "Defendant/Respondent/Accused",
-    "Oppositor/Others",
-  ];
-  const adversePartyName =
-    "Bador et al., asldj alsdlkjas aslkdjas lsdajsdlj lasdljasljd lasdjasdl jasldjasldj";
-  const adversePartyAddress =
-    "addressasjkdaskl alksjdaskj lasjdlaksj laksjdlasjd lasjdalsdj lasjdasljd lasdjasdlj";
-  const factsOfTheCase =
-    "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?";
-  const natureOfOffence =
-    "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?";
-  const courtPendingStatus: string = "No";
-  const titleOfCaseDocketNum =
-    "al;skdjasj asl;kdjasjld al;ksjdasjlkdasdasd asdasd asdas asdasdas asdasd al;jsdjlasd";
-  const courtBodyTribunal =
-    "aslkdjaslkj alskjdlkjads ljkasdljas lkajsdljdsa lajsdljads lasjdjldas lkjasljd jlaksdjlas ljasddljaljsd lajsasldjasl ljasdjlasldjasdljdjsl";
-  const proofOfIndegency: (string | Record<string, string>)[] = [
-    "Income Tax Return",
-    "Certification from Barangay",
-    "Certification from DSWD",
-    { Others: "Quezon Hill, Baguio" },
-  ];
+    // client data
+    religion,
+    citizenship,
+    name,
+    age,
+    address,
+    email,
+    individualMonthlyIncome,
+    detainedSince,
+    civilStatus,
+    sex,
+    educationalAttainment,
+    languageDialect,
+    contactNo,
+    spouse,
+    addressOfSpouse,
+    spouseContactNo,
+    placeOfDetention,
+    proofOfIndigency,
+
+    // interviewee data
+    intervieweeName,
+    intervieweeAddress,
+    relationshipToClient,
+    intervieweeAge,
+    intervieweeSex,
+    intervieweeCivilStatus,
+    intervieweeContactNo,
+    intervieweeEmail,
+
+    // nature of request
+    natureOfRequest,
+    otherNatureOfRequest,
+    PDLStatus, // from client.detained
+    natureOfTheCase,
+    caseSpecs,
+
+    // client class
+    clientClasses,
+    clientInvolvement,
+
+    adverseParty,
+    adversePartyName,
+    factsOfTheCase,
+    natureOfOffence,
+    courtPendingStatus,
+    titleOfCaseDocketNum,
+    courtBodyTribunal,
+  } = data;
+
   // Load existing PDF
-  const pdfBytes = fs.readFileSync("../form_template/information-sheet.pdf");
+  const pdfBytes = await read(templateFile).arrayBuffer();
   const pdfDoc = await PDFDocument.load(pdfBytes);
   // Get the first page of the PDF
   const firstPage = pdfDoc.getPages()[0];
@@ -1021,7 +988,7 @@ async function addTextToPDF() {
       }
     }
   }
-  for (const item of proofOfIndegency) {
+  for (const item of proofOfIndigency) {
     if (item === "Income Tax Return") {
       secondPage.drawRectangle({
         x: 33,
@@ -1087,73 +1054,73 @@ async function addTextToPDF() {
   for (let i = 0; i < adversePartyName.length; i += adversePartyMaxLength) {
     const textChunk = adversePartyName.substring(i, i + adversePartyMaxLength);
     secondPage.drawText(textChunk, {
-        x: 70,
-        y: yCoordinate,
-        size: 10,
-        color: rgb(0, 0, 0), // Black
+      x: 70,
+      y: yCoordinate,
+      size: 10,
+      color: rgb(0, 0, 0), // Black
     });
     yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
-}
-var adversePartyMaxLength = 48;
-var yCoordinate = 845;
-for (let i = 0; i < adversePartyAddress.length; i += adversePartyMaxLength) {
-  const textChunk = adversePartyAddress.substring(i, i + adversePartyMaxLength);
-  secondPage.drawText(textChunk, {
+  }
+  var adversePartyMaxLength = 48;
+  var yCoordinate = 845;
+  for (let i = 0; i < adversePartyAddress.length; i += adversePartyMaxLength) {
+    const textChunk = adversePartyAddress.substring(i, i + adversePartyMaxLength);
+    secondPage.drawText(textChunk, {
       x: 330,
       y: yCoordinate,
       size: 10,
       color: rgb(0, 0, 0), // Black
-  });
-  yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
-}
-var adversePartyMaxLength = 100;
-var yCoordinate = 798;
-for (let i = 0; i < factsOfTheCase.length; i += adversePartyMaxLength) {
-  const textChunk = factsOfTheCase.substring(i, i + adversePartyMaxLength);
-  secondPage.drawText(textChunk, {
+    });
+    yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
+  }
+  var adversePartyMaxLength = 100;
+  var yCoordinate = 798;
+  for (let i = 0; i < factsOfTheCase.length; i += adversePartyMaxLength) {
+    const textChunk = factsOfTheCase.substring(i, i + adversePartyMaxLength);
+    secondPage.drawText(textChunk, {
       x: 50,
       y: yCoordinate,
       size: 10,
       color: rgb(0, 0, 0), // Black
-  });
-  yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
-}
-var adversePartyMaxLength = 100;
-var yCoordinate = 492;
-for (let i = 0; i < natureOfOffence.length; i += adversePartyMaxLength) {
-  const textChunk = natureOfOffence.substring(i, i + adversePartyMaxLength);
-  secondPage.drawText(textChunk, {
+    });
+    yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
+  }
+  var adversePartyMaxLength = 100;
+  var yCoordinate = 492;
+  for (let i = 0; i < natureOfOffence.length; i += adversePartyMaxLength) {
+    const textChunk = natureOfOffence.substring(i, i + adversePartyMaxLength);
+    secondPage.drawText(textChunk, {
       x: 50,
       y: yCoordinate,
       size: 10,
       color: rgb(0, 0, 0), // Black
-  });
-  yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
-}
-var adversePartyMaxLength = 60;
-var yCoordinate = 344;
-for (let i = 0; i < titleOfCaseDocketNum.length; i += adversePartyMaxLength) {
-  const textChunk = titleOfCaseDocketNum.substring(i, i + adversePartyMaxLength);
-  secondPage.drawText(textChunk, {
+    });
+    yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
+  }
+  var adversePartyMaxLength = 60;
+  var yCoordinate = 344;
+  for (let i = 0; i < titleOfCaseDocketNum.length; i += adversePartyMaxLength) {
+    const textChunk = titleOfCaseDocketNum.substring(i, i + adversePartyMaxLength);
+    secondPage.drawText(textChunk, {
       x: 190,
       y: yCoordinate,
       size: 10,
       color: rgb(0, 0, 0), // Black
-  });
-  yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
-}
-var adversePartyMaxLength = 60;
-var yCoordinate = 295;
-for (let i = 0; i < courtBodyTribunal.length; i += adversePartyMaxLength) {
-  const textChunk = courtBodyTribunal.substring(i, i + adversePartyMaxLength);
-  secondPage.drawText(textChunk, {
+    });
+    yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
+  }
+  var adversePartyMaxLength = 60;
+  var yCoordinate = 295;
+  for (let i = 0; i < courtBodyTribunal.length; i += adversePartyMaxLength) {
+    const textChunk = courtBodyTribunal.substring(i, i + adversePartyMaxLength);
+    secondPage.drawText(textChunk, {
       x: 130,
       y: yCoordinate,
       size: 10,
       color: rgb(0, 0, 0), // Black
-  });
-  yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
-}
+    });
+    yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
+  }
 
   // PARTY/REP
   secondPage.drawText(name, {
@@ -1177,14 +1144,5 @@ for (let i = 0; i < courtBodyTribunal.length; i += adversePartyMaxLength) {
     color: rgb(0, 0, 0), // Black
   });
   // Save the modified PDF
-  const modifiedPdfBytes = await pdfDoc.save();
-  fs.writeFileSync("../info-sheet.pdf", modifiedPdfBytes);
+  return await pdfDoc.saveAsBase64({ dataUri: true });
 }
-
-addTextToPDF()
-  .then(() => {
-    console.log("Text added to PDF");
-  })
-  .catch((error) => {
-    console.error("Error adding text to PDF:", error);
-  });

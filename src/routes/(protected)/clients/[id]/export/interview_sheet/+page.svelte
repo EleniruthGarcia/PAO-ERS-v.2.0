@@ -9,9 +9,8 @@
 
 	const save = (file: string) => {
 		const a = document.createElement('a');
-		a.href =
-			'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + file;
-		a.download = `Interview Sheet_${data.client.lastName}.xlsx`;
+		a.href = file;
+		a.download = `Interview Sheet_${data.client.lastName}.pdf`;
 		a.click();
 	};
 

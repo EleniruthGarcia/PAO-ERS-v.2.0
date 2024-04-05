@@ -44,9 +44,72 @@ export const actions = {
 			);
 		}
 
-		const data = await db.requests.find({
-			client_id: event.params.id
-		});
+		const data = await db.requests.aggregate([{
+			$match: { _id: event.params.id },
+			$lookup: {
+				from: 'clients',
+				localField: 'client_id',
+				foreignField: '_id',
+				as: 'clients'
+			}
+		}]);
+
+		// branch data
+		// region,
+		// districtProvince,
+		// district,
+		// province,
+		// controlNo,
+
+		// // client data
+		// religion,
+		// citizenship,
+		// name,
+		// age,
+		// address,
+		// email,
+		// individualMonthlyIncome,
+		// detainedSince,
+		// civilStatus,
+		// sex,
+		// educationalAttainment,
+		// languageDialect,
+		// contactNo,
+		// spouse,
+		// addressOfSpouse,
+		// spouseContactNo,
+		// placeOfDetention,
+		// proofOfIndigency,
+
+		// // interviewee data
+		// intervieweeName,
+		// intervieweeAddress,
+		// relationshipToClient,
+		// intervieweeAge,
+		// intervieweeSex,
+		// intervieweeCivilStatus,
+		// intervieweeContactNo,
+		// intervieweeEmail,
+
+		// // nature of request
+		// natureOfRequest,
+		// otherNatureOfRequest,
+		// PDLStatus, // from client.detained
+		// natureOfTheCase,
+		// caseSpecs,
+
+		// // client class
+		// clientClasses,
+		// clientInvolvement,
+
+		// adverseParty,
+		// adversePartyName,
+		// factsOfTheCase,
+		// natureOfOffence,
+		// courtPendingStatus,
+		// titleOfCaseDocketNum,
+		// courtBodyTribunal,
+
 		if (!data) return fail(404);
 
 		return { interview_sheet: await generateInterviewSheet(data) };

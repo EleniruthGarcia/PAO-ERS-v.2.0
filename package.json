@@ -57,6 +57,7 @@
 		"mongodb": "^6.5.0",
 		"node-cron": "^3.0.3",
 		"oslo": "^1.1.3",
+		"pdf-lib": "^1.17.1",
 		"svelte-radix": "^1.1.0",
 		"svelte-sonner": "^0.3.20",
 		"sveltekit-superforms": "^2.11.0",

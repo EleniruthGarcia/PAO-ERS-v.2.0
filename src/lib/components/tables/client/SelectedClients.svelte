@@ -53,16 +53,16 @@
 						class="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
 					>
 						<Copy class="h-3 w-3" />
-						<span class="sr-only">Copy Order ID</span>
+						<span class="sr-only">Copy Client ID</span>
 					</Button>
 				</Card.Title>
 				<Card.Description>Date: November 23, 2023</Card.Description>
 			</div>
 			<div class="ml-auto flex items-center gap-1">
-				<Button size="sm" variant="outline" class="h-8 gap-1">
+				<!-- <Button size="sm" variant="outline" class="h-8 gap-1">
 					<Person class="h-3.5 w-3.5" />
 					<span class="lg:sr-only xl:not-sr-only xl:whitespace-nowrap"> Track Client </span>
-				</Button>
+				</Button> -->
 				<DropdownMenu.Root>
 					<DropdownMenu.Trigger asChild let:builder>
 						<Button builders={[builder]} size="icon" variant="outline" class="h-8 w-8">
@@ -177,7 +177,7 @@
 			{/if}
 			<Separator class="my-4" />
 			<div>
-				<div class="font-semibold mb-3">Classifications</div>
+				<div class="mb-3 font-semibold">Classifications</div>
 				{#each client.classification as classification}
 					<Badge class="m-1">{classification}</Badge>
 				{/each}
