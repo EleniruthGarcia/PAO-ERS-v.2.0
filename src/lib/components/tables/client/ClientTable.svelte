@@ -9,8 +9,7 @@
 	import * as Tabs from '$lib/components/ui/tabs';
 
 	import Table from './data-table.svelte';
-
-	let clients = $page.data.clients;
+	import Loading from '$lib/components/Loading.svelte';
 </script>
 
 <Tabs.Root value="all">
@@ -49,25 +48,29 @@
 	<Tabs.Content value="all">
 		<Card.Root>
 			<Card.Header class="px-7">
-				<Card.Title>Orders</Card.Title>
-				<Card.Description>Recent orders from your store.</Card.Description>
+				<Card.Title>Client</Card.Title>
+				<Card.Description>Recent clients added to the system.</Card.Description>
 			</Card.Header>
 			<Card.Content>
-				{#if clients.length > 0}
-					<Table {clients} />
-				{:else}
-					<div
-						class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
-					>
-						<div class="flex flex-col items-center gap-1 text-center">
-							<h3 class="text-2xl font-bold tracking-tight">You have no clients!</h3>
-							<p class="text-sm text-muted-foreground">
-								You can start rendering services as soon as you add a new client.
-							</p>
-							<Button class="mt-4" href="/clients/add">Add Client</Button>
+				{#await $page.data.clients}
+					<Loading />
+				{:then clients}
+					{#if clients.length > 0}
+						<Table data={clients} />
+					{:else}
+						<div
+							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
+						>
+							<div class="flex flex-col items-center gap-1 text-center">
+								<h3 class="text-2xl font-bold tracking-tight">You have no clients!</h3>
+								<p class="text-sm text-muted-foreground">
+									You can start rendering services as soon as you add a new client.
+								</p>
+								<Button class="mt-4" href="/clients/add">Add Client</Button>
+							</div>
 						</div>
-					</div>
-				{/if}
+					{/if}
+				{/await}
 			</Card.Content>
 		</Card.Root>
 	</Tabs.Content>

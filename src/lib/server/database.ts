@@ -110,7 +110,7 @@ const seed = {
 		lastName: 'Doe',
 		nameSuffix: 'Jr.',
 		dateOfBirth: new Date('2003-05-19'),
-		age: new Date().getFullYear() - new Date('2003-05-19').getFullYear(),
+		address: 'Cebu City',
 	},
 	case: {
 		_id: 'CASE-0000000',
@@ -126,12 +126,35 @@ const seed = {
 // upload seed data to database
 db.collection<{ _id: string }>('clients').updateOne({
 	_id: seed.client._id
-}, {
+}, [{
 	$set: {
 		...seed.client,
-		age: { $subtract: [new Date(), '$dateOfBirth'] },
+		age: {
+			$subtract: [
+				{
+					$dateDiff:
+					{
+						startDate: "$dateOfBirth",
+						endDate: "$$NOW",
+						unit: "year"
+					},
+				},
+				{
+					$cond: [
+						{
+							$gt: [0, {
+								$subtract: [{ $dayOfYear: "$$NOW" },
+								{ $dayOfYear: "$dateOfBirth" }]
+							}]
+						},
+						1,
+						0
+					]
+				}
+			]
+		},
 	}
-}, { upsert: true });
+}], { upsert: true });
 
 db.collection<{ _id: string }>('requests').updateOne({
 	_id: seed.request._id

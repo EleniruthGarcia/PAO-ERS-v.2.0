@@ -11,8 +11,6 @@
 
 	import { ChevronLeft } from 'svelte-radix';
 
-	import { DateFormatter, type DateValue } from '@internationalized/date';
-
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Checkbox } from '$lib/components/ui/checkbox/index.js';
@@ -29,25 +27,20 @@
 
 	const { form: formData, enhance } = form;
 
-	const df = new DateFormatter('en-US', {
-		dateStyle: 'long'
-	});
-
 	function addItem(id: string) {
-		$formData.items = [...$formData.items, id];
+		$formData.classification = [...$formData.classification, id];
 	}
 
 	function removeItem(id: string) {
-		$formData.items = $formData.items.filter((i) => i !== id);
+		$formData.classification = $formData.classification.filter((i) => i !== id);
 	}
 
 	const proxyAge = intProxy(form, 'age');
-	const proxyContactNumber = intProxy(form, 'contactNumber');
-	const proxySpouseContactNumber = intProxy(form, 'spouseContactNumber');
 	const proxyDetainedSince = dateProxy(form, 'detainedSince', { format: 'date' });
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
+	<input type="hidden" name="_id" value={$formData._id} />
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
 		<div class="flex items-center gap-4">
 			<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>
@@ -55,12 +48,14 @@
 				<span class="sr-only">Back</span>
 			</Button>
 			<h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-				Add a New Client
+				{!$formData._id ? 'Add a New Client' : 'Update Client Information'}
 			</h1>
 			<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
-				<Form.Button type="submit" size="sm">Add Client</Form.Button>
+				<Form.Button type="submit" size="sm"
+					>{!$formData._id ? 'Add Client' : 'Update Client'}</Form.Button
+				>
 			</div>
 		</div>
 		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-5 lg:gap-8">
@@ -239,7 +234,12 @@
 							<Form.Field {form} name="contactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Contact Number</Form.Label>
-									<Input {...attrs} bind:value={$proxyContactNumber} type="number" />
+									<Input
+										{...attrs}
+										bind:value={$formData.contactNumber}
+										type="tel"
+										pattern={`^(09|\+639)\d{9}$`}
+									/>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -299,7 +299,12 @@
 							<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Contact Number</Form.Label>
-									<Input {...attrs} bind:value={$proxySpouseContactNumber} type="number" />
+									<Input
+										{...attrs}
+										bind:value={$formData.spouseContactNumber}
+										type="tel"
+										pattern={`^(09|\+639)\d{9}$`}
+									/>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -337,10 +342,10 @@
 						<Card.Description>Please check all that apply.</Card.Description>
 					</Card.Header>
 					<Card.Content>
-						<Form.Fieldset {form} name="items" class="space-y-0">
+						<Form.Fieldset {form} name="classification" class="space-y-0">
 							<div class="space-y-2">
 								{#each classification as item}
-									{@const checked = $formData.items.includes(item.id)}
+									{@const checked = $formData.classification.includes(item.id)}
 									<div class="flex flex-row items-start space-x-3">
 										<Form.Control let:attrs>
 											<Checkbox

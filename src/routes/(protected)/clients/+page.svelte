@@ -1,6 +1,5 @@
 <script lang="ts">
 	import clsx from 'clsx';
-	import type { Client } from '$lib/server/database';
 	import type { PageServerData } from './$types';
 
 	import { ClientTable, SelectedClients } from '$lib/components/tables/client';
@@ -8,13 +7,21 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Progress } from '$lib/components/ui/progress';
+	import { setContext } from 'svelte';
+	import { writable } from 'svelte/store';
 
 	export let data: PageServerData;
 
-	let selectedClients: Client[] = [];
+	const selectedClients = writable({});
+	setContext('selectedData', selectedClients);
 </script>
 
-<main class={clsx('grid gap-4', selectedClients.length > 0 && 'lg:grid-cols-3 xl:grid-cols-3')}>
+<main
+	class={clsx(
+		'grid gap-4',
+		Object.entries($selectedClients).length > 0 && 'lg:grid-cols-3 xl:grid-cols-3'
+	)}
+>
 	<div class="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
 		<div class="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
 			<Card.Root class="sm:col-span-2">
@@ -55,7 +62,7 @@
 		</div>
 		<ClientTable />
 	</div>
-	{#if selectedClients.length > 0}
+	{#if Object.entries($selectedClients).length > 0}
 		<div>
 			<SelectedClients />
 		</div>

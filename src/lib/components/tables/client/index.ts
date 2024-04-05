@@ -1,2 +1,4 @@
-export { default as ClientTable } from './ClientTable.svelte';
-export { default as SelectedClients } from './SelectedClients.svelte';
+import ClientTable from "./ClientTable.svelte";
+import SelectedClients from "./SelectedClients.svelte";
+
+export { ClientTable, SelectedClients };
