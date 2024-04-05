@@ -88,37 +88,36 @@
 						<Card.Description>Please fill out all necessary information.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<Form.Fieldset {form} name="name" class="grid grid-cols-7 items-start gap-3">
-							<Form.Legend class="col-span-7">Name</Form.Legend>
+						<div class="grid grid-cols-7 items-start gap-3">
 							<Form.Field {form} name="firstName" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
+									<Form.Label>Name</Form.Label>
 									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="middleName" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
+									<Form.Label>&nbsp;</Form.Label>
 									<Input {...attrs} bind:value={$formData.middleName} placeholder="Middle Name" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="lastName" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
+									<Form.Label>&nbsp;</Form.Label>
 									<Input {...attrs} bind:value={$formData.lastName} placeholder="Last Name" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
+									<Form.Label>&nbsp;</Form.Label>
 									<Input {...attrs} bind:value={$formData.nameSuffix} placeholder="Suffix" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Control let:attrs>
-								<input type="hidden" {...attrs} bind:value={$formData.name} />
-							</Form.Control>
-							<Form.FieldErrors class="col-span-7" />
-						</Form.Fieldset>
+						</div>
 						<div class="grid grid-cols-7 items-start gap-3">
 							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>
@@ -219,6 +218,30 @@
 											{/each}
 										</Select.Content>
 									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</div>
+						<div class="grid grid-cols-2 items-start gap-3">
+							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Individual Monthly Income</Form.Label>
+									<Input {...attrs} bind:value={$formData.individualMonthlyIncome} type="number" />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field
+								{form}
+								name="religion"
+								class="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-4"
+							>
+								<Form.Control let:attrs>
+									<Checkbox {...attrs} bind:checked={$formData.detained} />
+									<div class="space-y-2 leading-none h-10 truncate">
+										<Form.Label>Detained</Form.Label>
+										<Form.Description>Check if the client is detained.</Form.Description>
+									</div>
+									<input name={attrs.name} bind:value={$formData.detained} hidden />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -400,9 +423,9 @@
 							<Form.Field {form} name="foreignNational" class="grid grid-cols-2 items-center">
 								<Form.Control let:attrs>
 									<Form.Label>Foreign National</Form.Label>
-									<Input {...attrs} bind:value={$formData.foreignNational}/>
+									<Input {...attrs} bind:value={$formData.foreignNational} />
 								</Form.Control>
-								<Form.FieldErrors class="col-span-2"/>
+								<Form.FieldErrors class="col-span-2" />
 							</Form.Field>
 							<Form.Field {form} name="pwd" class="grid grid-cols-2 items-center">
 								<Form.Control let:attrs>
