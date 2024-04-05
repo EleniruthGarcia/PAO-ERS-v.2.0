@@ -97,8 +97,11 @@
 							<input
 								type="hidden"
 								name="name"
-								value="{$formData.firstName}{$formData.middleName + ' ' ??
-									' '}{$formData.lastName}{', ' + $formData.nameSuffix ?? ''}"
+								value="{$formData.firstName}{$formData.middleName
+									? $formData.middleName + ' '
+									: ' '}{$formData.lastName}{$formData.nameSuffix
+									? ', ' + $formData.nameSuffix
+									: ''}"
 							/>
 							<Form.FieldErrors class="col-span-7" />
 						</Form.Fieldset>

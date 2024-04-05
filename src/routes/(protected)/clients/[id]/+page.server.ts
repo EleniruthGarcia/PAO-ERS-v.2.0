@@ -8,95 +8,108 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { fail } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async (event) => {
-    if (!event.locals.user) {
-        event.cookies.set('redirect', '/clients/' + event.params.id, { path: '/' });
-        redirect(
-            '/login',
-            { type: 'warning', message: 'You must be logged in to access this page!' },
-            event
-        );
-    }
+	if (!event.locals.user) {
+		event.cookies.set('redirect', '/clients/' + event.params.id, { path: '/' });
+		redirect(
+			'/login',
+			{ type: 'warning', message: 'You must be logged in to access this page!' },
+			event
+		);
+	}
 
-    const client = await db.clients.findOne({ _id: event.params.id });
-    if (!client) {
-        redirect(
-            '/clients',
-            { type: 'warning', message: 'Client not found!' },
-            event
-        );
-    }
+	const client = await db.clients.findOne({ _id: event.params.id });
+	if (!client) {
+		redirect('/clients', { type: 'warning', message: 'Client not found!' }, event);
+	}
 
-    return {
-        breadcrumbs: [
-            { href: '/', text: 'PAO-ERS' },
-            { href: '/clients', text: 'Clients' },
-            {
-                href: '/clients/' + event.params.id,
-                text: client.name
-            }
-        ],
-        form: await superValidate(client, zod(formSchema)),
-        client
-    };
+	return {
+		breadcrumbs: [
+			{ href: '/', text: 'PAO-ERS' },
+			{ href: '/clients', text: 'Clients' },
+			{
+				href: '/clients/' + event.params.id,
+				text: client.name
+			}
+		],
+		form: await superValidate(client, zod(formSchema)),
+		client
+	};
 };
 
-
 export const actions = {
-    update: async (event) => {
-        if (!event.locals.user) {
-            event.cookies.set('redirect', '/clients/' + event.params.id, { path: '/' });
-            redirect(
-                '/login',
-                { type: 'warning', message: 'You must be logged in to access this page!' },
-                event
-            );
-        }
+	update: async (event) => {
+		if (!event.locals.user) {
+			event.cookies.set('redirect', '/clients/' + event.params.id, { path: '/' });
+			redirect(
+				'/login',
+				{ type: 'warning', message: 'You must be logged in to access this page!' },
+				event
+			);
+		}
 
-        const form = await superValidate(event, zod(formSchema));
-        if (!form.valid) return fail(400, { form })
+		const form = await superValidate(event, zod(formSchema));
+		if (!form.valid) return fail(400, { form });
 
-        const client = await db.clients.updateOne({ _id: event.params.id }, {
-            ...form.data,
-            name: `${form.data.firstName} ${form.data.middleName !== '' ? form.data.middleName + ' ' : ''}${form.data.lastName}${form.data.nameSuffix !== '' ? ', ' + form.data.nameSuffix : ''}`
-        });
-        if (!client || !client.acknowledged) return fail(500, { form });
-        if (client.matchedCount === 0) return fail(404, { form });
-        if (client.modifiedCount === 0 && client.upsertedCount === 0) return fail(304, { form });
-        redirect('/clients/' + client.upsertedId, client.modifiedCount > 0 || client.upsertedCount > 0 ? { type: 'success', message: 'Client updated!' } : { type: 'info', message: 'No changes made...' }, event);
-    },
-    delete: async (event) => {
-        if (!event.locals.user) {
-            event.cookies.set('redirect', '/clients/' + event.params.id, { path: '/' });
-            redirect(
-                '/login',
-                { type: 'warning', message: 'You must be logged in to access this page!' },
-                event
-            );
-        }
+		const client = await db.clients.updateOne(
+			{ _id: event.params.id },
+			{
+				...form.data,
+				name: `${form.data.firstName} ${form.data.middleName !== '' ? form.data.middleName + ' ' : ''}${form.data.lastName}${form.data.nameSuffix !== '' ? ', ' + form.data.nameSuffix : ''}`
+			}
+		);
+		if (!client || !client.acknowledged) return fail(500, { form });
+		if (client.matchedCount === 0) return fail(404, { form });
+		if (client.modifiedCount === 0 && client.upsertedCount === 0) return fail(304, { form });
+		redirect(
+			'/clients/' + client.upsertedId,
+			client.modifiedCount > 0 || client.upsertedCount > 0
+				? { type: 'success', message: 'Client updated!' }
+				: { type: 'info', message: 'No changes made...' },
+			event
+		);
+	},
+	delete: async (event) => {
+		if (!event.locals.user) {
+			event.cookies.set('redirect', '/clients/' + event.params.id, { path: '/' });
+			redirect(
+				'/login',
+				{ type: 'warning', message: 'You must be logged in to access this page!' },
+				event
+			);
+		}
 
-        const client = await db.clients.updateOne({ _id: event.params.id }, {
-            $set: { status: 'deleted' }
-        });
-        if (!client || !client.acknowledged) return fail(500);
-        if (client.matchedCount === 0) return fail(404);
-        if (client.modifiedCount === 0 && client.upsertedCount === 0) return fail(304);
-        redirect('/clients/' + client.upsertedId, client.modifiedCount > 0 || client.upsertedCount > 0 ? { type: 'success', message: 'Client deleted!' } : { type: 'info', message: 'No changes made...' }, event);
-    },
-    generateInterviewSheet: async (event) => {
-        if (!event.locals.user) {
-            event.cookies.set('redirect', '/clients/' + event.params.id, { path: '/' });
-            redirect(
-                '/login',
-                { type: 'warning', message: 'You must be logged in to access this page!' },
-                event
-            );
-        }
+		const client = await db.clients.updateOne(
+			{ _id: event.params.id },
+			{
+				$set: { status: 'deleted' }
+			}
+		);
+		if (!client || !client.acknowledged) return fail(500);
+		if (client.matchedCount === 0) return fail(404);
+		if (client.modifiedCount === 0 && client.upsertedCount === 0) return fail(304);
+		redirect(
+			'/clients/' + client.upsertedId,
+			client.modifiedCount > 0 || client.upsertedCount > 0
+				? { type: 'success', message: 'Client deleted!' }
+				: { type: 'info', message: 'No changes made...' },
+			event
+		);
+	},
+	generateInterviewSheet: async (event) => {
+		if (!event.locals.user) {
+			event.cookies.set('redirect', '/clients/' + event.params.id, { path: '/' });
+			redirect(
+				'/login',
+				{ type: 'warning', message: 'You must be logged in to access this page!' },
+				event
+			);
+		}
 
-        const data = await db.requests.find({
-            client_id: event.params.id,
-        });
-        if (!data) return fail(404);
+		const data = await db.requests.find({
+			client_id: event.params.id
+		});
+		if (!data) return fail(404);
 
-        return { interview_sheet: await generateInterviewSheet(data) };
-    },
+		return { interview_sheet: await generateInterviewSheet(data) };
+	}
 } satisfies Actions;

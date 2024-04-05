@@ -92,7 +92,7 @@ const seed = {
 		lawyer_id: 'LAWYER-0000000',
 		case_id: 'CASE-0000000',
 		date: new Date(),
-		type: 'request',
+		type: 'request'
 	},
 	lawyer: {
 		_id: 'LAWYER-0000000',
@@ -100,7 +100,7 @@ const seed = {
 		firstName: 'John',
 		middleName: 'Doe',
 		lastName: 'Doe',
-		nameSuffix: 'Jr.',
+		nameSuffix: 'Jr.'
 	},
 	client: {
 		_id: 'CLIENT-0000000',
@@ -110,7 +110,7 @@ const seed = {
 		lastName: 'Doe',
 		nameSuffix: 'Jr.',
 		dateOfBirth: new Date('2003-05-19'),
-		address: 'Cebu City',
+		address: 'Cebu City'
 	},
 	case: {
 		_id: 'CASE-0000000',
@@ -118,56 +118,70 @@ const seed = {
 		type: 'interview',
 		location: 'Cebu City',
 		purpose: 'interview',
-		dateFiled: new Date(),
-	},
+		dateFiled: new Date()
+	}
 };
 
-
 // upload seed data to database
-db.collection<{ _id: string }>('clients').updateOne({
-	_id: seed.client._id
-}, [{
-	$set: {
-		...seed.client,
-		age: {
-			$subtract: [
-				{
-					$dateDiff:
-					{
-						startDate: "$dateOfBirth",
-						endDate: "$$NOW",
-						unit: "year"
-					},
-				},
-				{
-					$cond: [
+db.collection<{ _id: string }>('clients').updateOne(
+	{
+		_id: seed.client._id
+	},
+	[
+		{
+			$set: {
+				...seed.client,
+				age: {
+					$subtract: [
 						{
-							$gt: [0, {
-								$subtract: [{ $dayOfYear: "$$NOW" },
-								{ $dayOfYear: "$dateOfBirth" }]
-							}]
+							$dateDiff: {
+								startDate: '$dateOfBirth',
+								endDate: '$$NOW',
+								unit: 'year'
+							}
 						},
-						1,
-						0
+						{
+							$cond: [
+								{
+									$gt: [
+										0,
+										{
+											$subtract: [{ $dayOfYear: '$$NOW' }, { $dayOfYear: '$dateOfBirth' }]
+										}
+									]
+								},
+								1,
+								0
+							]
+						}
 					]
 				}
-			]
-		},
-	}
-}], { upsert: true });
+			}
+		}
+	],
+	{ upsert: true }
+);
 
-db.collection<{ _id: string }>('requests').updateOne({
-	_id: seed.request._id
-}, {
-	$set: {
-		...seed.request,
-	}
-}, { upsert: true });
+db.collection<{ _id: string }>('requests').updateOne(
+	{
+		_id: seed.request._id
+	},
+	{
+		$set: {
+			...seed.request
+		}
+	},
+	{ upsert: true }
+);
 
-db.collection<{ _id: string }>('cases').updateOne({
-	_id: seed.case._id
-}, {
-	$set: {
-		...seed.case,
-	}
-}, { upsert: true });
+db.collection<{ _id: string }>('cases').updateOne(
+	{
+		_id: seed.case._id
+	},
+	{
+		$set: {
+			...seed.case
+		}
+	},
+	{ upsert: true }
+);

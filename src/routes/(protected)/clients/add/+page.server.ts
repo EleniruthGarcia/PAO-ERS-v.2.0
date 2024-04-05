@@ -32,7 +32,7 @@ export const actions: Actions = {
 	default: async (event) => {
 		const form = await superValidate(event, zod(formSchema));
 		console.log(form.data.educationalAttainment);
-		if (!form.valid) return fail(400, { form })
+		if (!form.valid) return fail(400, { form });
 
 		const client = await db.clients.insertOne({
 			...form.data,
@@ -41,6 +41,10 @@ export const actions: Actions = {
 		});
 		if (!client.acknowledged) return fail(500, { form });
 
-		redirect('/clients/' + client.insertedId, { type: 'success', message: 'Client added successfully!' }, event);
+		redirect(
+			'/clients/' + client.insertedId,
+			{ type: 'success', message: 'Client added successfully!' },
+			event
+		);
 	}
 };
