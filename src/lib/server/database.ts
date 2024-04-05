@@ -76,6 +76,8 @@ export interface Client {
 	spouseName?: string;
 	spouseAddress?: string;
 	spouseContactNumber?: string;
+	classification?: ['Child in Conflict with the Law' | 'Woman Client' | 'VAWC Victim' | 'Law Enforcer' | 'Drug-Related Duty' | 'OFW (Land-Based)' | 'OFW (Sea-Based)' | 'FRs and FVEs' | 'Senior Citizen' | 'Refugee or Evacuee' | 'Tenant in Agrarian Case' | 'Victim of Terrorism (R.A. No. 9372)' | 'Victim of Torture (R.A. 9745)' | 'Victim of Trafficking (R.A. No. 9208)' | 'Foreign National' | 'Urban Poor' | 'Rural Poor' | 'Indigenous People' | 'PWD' | 'Petitioner for Voluntary Rehabilitation'];
+	status?: 'deleted' | 'archived';
 }
 
 interface Case {
@@ -84,104 +86,3 @@ interface Case {
 	dateResolved?: Date;
 	status: 'ongoing' | 'resolved';
 }
-
-const seed = {
-	request: {
-		_id: 'REQUEST-0000000',
-		client_id: ['CLIENT-0000000'],
-		lawyer_id: 'LAWYER-0000000',
-		case_id: 'CASE-0000000',
-		date: new Date(),
-		type: 'request'
-	},
-	lawyer: {
-		_id: 'LAWYER-0000000',
-		title: 'Atty.',
-		firstName: 'John',
-		middleName: 'Doe',
-		lastName: 'Doe',
-		nameSuffix: 'Jr.'
-	},
-	client: {
-		_id: 'CLIENT-0000000',
-		name: 'John B. Doe Jr.',
-		firstName: 'John',
-		middleName: 'B.',
-		lastName: 'Doe',
-		nameSuffix: 'Jr.',
-		dateOfBirth: new Date('2003-05-19'),
-		address: 'Cebu City'
-	},
-	case: {
-		_id: 'CASE-0000000',
-		status: 'pending',
-		type: 'interview',
-		location: 'Cebu City',
-		purpose: 'interview',
-		dateFiled: new Date()
-	}
-};
-
-// upload seed data to database
-db.collection<{ _id: string }>('clients').updateOne(
-	{
-		_id: seed.client._id
-	},
-	[
-		{
-			$set: {
-				...seed.client,
-				age: {
-					$subtract: [
-						{
-							$dateDiff: {
-								startDate: '$dateOfBirth',
-								endDate: '$$NOW',
-								unit: 'year'
-							}
-						},
-						{
-							$cond: [
-								{
-									$gt: [
-										0,
-										{
-											$subtract: [{ $dayOfYear: '$$NOW' }, { $dayOfYear: '$dateOfBirth' }]
-										}
-									]
-								},
-								1,
-								0
-							]
-						}
-					]
-				}
-			}
-		}
-	],
-	{ upsert: true }
-);
-
-db.collection<{ _id: string }>('requests').updateOne(
-	{
-		_id: seed.request._id
-	},
-	{
-		$set: {
-			...seed.request
-		}
-	},
-	{ upsert: true }
-);
-
-db.collection<{ _id: string }>('cases').updateOne(
-	{
-		_id: seed.case._id
-	},
-	{
-		$set: {
-			...seed.case
-		}
-	},
-	{ upsert: true }
-);
