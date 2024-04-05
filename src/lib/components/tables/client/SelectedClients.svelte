@@ -30,6 +30,7 @@
 							size="icon"
 							variant="outline"
 							class="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
+							on:click={() => (i > 0 ? i-- : (i = $selectedClients.length - 1))}
 						>
 							<ChevronLeft class="h-3 w-3" />
 							<span class="sr-only">Previous Client</span>
@@ -38,6 +39,7 @@
 							size="icon"
 							variant="outline"
 							class="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
+							on:click={() => (i < $selectedClients.length - 1 ? i++ : (i = 0))}
 						>
 							<ChevronRight class="h-3 w-3" />
 							<span class="sr-only">Next Client</span>
@@ -157,15 +159,25 @@
 			<Pagination.Root count={10} class="ml-auto mr-0 w-auto">
 				<Pagination.Content>
 					<Pagination.Item>
-						<Button size="icon" variant="outline" class="h-6 w-6">
+						<Button
+							size="icon"
+							variant="outline"
+							class="h-6 w-6"
+							on:click={() => (i > 0 ? i-- : (i = $selectedClients.length - 1))}
+						>
 							<ChevronLeft class="h-3.5 w-3.5" />
-							<span class="sr-only">Previous Order</span>
+							<span class="sr-only">Previous Client</span>
 						</Button>
 					</Pagination.Item>
 					<Pagination.Item>
-						<Button size="icon" variant="outline" class="h-6 w-6">
+						<Button
+							size="icon"
+							variant="outline"
+							class="h-6 w-6"
+							on:click={() => (i < $selectedClients.length - 1 ? i++ : (i = 0))}
+						>
 							<ChevronRight class="h-3.5 w-3.5" />
-							<span class="sr-only">Next Order</span>
+							<span class="sr-only">Next Client</span>
 						</Button>
 					</Pagination.Item>
 				</Pagination.Content>
