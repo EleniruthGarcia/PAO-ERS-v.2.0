@@ -46,10 +46,10 @@ export const formSchema = z.object({
 	middleName: z.string().optional(),
 	lastName: z.string().min(1, 'Last name is required!'),
 	nameSuffix: z.string().optional(),
-	dateOfBirth: z.date(),
+	dateOfBirth: z.date().optional(),
 	age: z.number().int().min(1, 'Age is required!'),
 	sex: z.enum(['male', 'female']),
-	address: z.string(),
+	address: z.string().min(1, 'Address is required!'),
 	email: z.string().email().optional(),
 	contactNumber: z
 		.string()

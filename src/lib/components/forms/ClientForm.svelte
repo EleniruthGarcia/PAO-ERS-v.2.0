@@ -50,7 +50,7 @@
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
-	<input type="hidden" name="_id" value={$formData._id} />
+	<input type="hidden" name="_id" bind:value={$formData._id} />
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
 		<div class="flex items-center gap-4">
 			<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>
@@ -103,11 +103,11 @@
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Control let:attrs>
-								<input type="hidden" {...attrs} />
+								<input type="hidden" {...attrs} bind:value={$formData.name} />
 							</Form.Control>
 							<Form.FieldErrors class="col-span-7" />
 						</Form.Fieldset>
-						<fieldset class="grid grid-cols-7 items-start gap-3">
+						<div class="grid grid-cols-7 items-start gap-3">
 							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Age</Form.Label>
@@ -154,7 +154,7 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-						</fieldset>
+						</div>
 						<div class="grid grid-cols-3 items-start gap-3">
 							<Form.Field {form} name="language" class="grid gap-3">
 								<Form.Control let:attrs>
@@ -342,7 +342,13 @@
 											/>
 											<Form.Label class="text-sm font-normal">
 												{item}
-											</Form.Label>
+											</Form.Label><input
+												hidden
+												type="checkbox"
+												name={attrs.name}
+												value={item}
+												{checked}
+											/>
 										</Form.Control>
 									</div>
 								{/each}
