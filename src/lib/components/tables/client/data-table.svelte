@@ -129,7 +129,14 @@
 							{#each headerRow.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
 									<Table.Head {...attrs} class="[&:has([role=checkbox])]:pl-3">
-										{#if !props.sort.disabled}
+										{#if !props.sort.disabled && cell.id !== 'name'}
+											<div class="text-center font-medium">
+												<Button variant="ghost" on:click={props.sort.toggle}>
+													<Render of={cell.render()} />
+													<CaretSort class={'ml-2 h-4 w-4'} />
+												</Button>
+											</div>
+										{:else if cell.id === 'name'}
 											<Button variant="ghost" on:click={props.sort.toggle}>
 												<Render of={cell.render()} />
 												<CaretSort class={'ml-2 h-4 w-4'} />
@@ -154,8 +161,18 @@
 						>
 							{#each row.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>
-									<Table.Cell {...attrs}>
-										<Render of={cell.render()} />
+									<Table.Cell {...attrs} class="[&:has([role=checkbox])]:pl-3">
+										{#if cell.id === 'name'}
+											<div class="text-left font-medium">
+												<Render of={cell.render()} />
+											</div>
+										{:else if cell.id === 'age' || cell.id === 'address'}
+											<div class="text-center">
+												<Render of={cell.render()} />
+											</div>
+										{:else}
+											<Render of={cell.render()} />
+										{/if}
 									</Table.Cell>
 								</Subscribe>
 							{/each}

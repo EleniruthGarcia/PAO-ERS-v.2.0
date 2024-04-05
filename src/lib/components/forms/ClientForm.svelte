@@ -287,29 +287,29 @@
 							<div class="grid grid-cols-7 items-start gap-3">
 								<Form.Field {form} name="spouseFirstName" class="col-span-2 grid gap-3">
 									<Form.Control let:attrs>
-										<Form.Label>First Name</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseFirstName} />
+										<Form.Label>Name</Form.Label>
+										<Input {...attrs} bind:value={$formData.spouseFirstName} placeholder="First Name"/>
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseMiddleName" class="col-span-2 grid gap-3">
 									<Form.Control let:attrs>
-										<Form.Label>Middle Name</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseMiddleName} />
+										<Form.Label>&nbsp;</Form.Label>
+										<Input {...attrs} bind:value={$formData.spouseMiddleName} placeholder="Middle Name"/>
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseLastName" class="col-span-2 grid gap-3">
 									<Form.Control let:attrs>
-										<Form.Label>Last Name</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseLastName} />
+										<Form.Label>&nbsp;</Form.Label>
+										<Input {...attrs} bind:value={$formData.spouseLastName} placeholder="Last Name"/>
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseNameSuffix" class="grid gap-3">
 									<Form.Control let:attrs>
-										<Form.Label>Suffix</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseNameSuffix} />
+										<Form.Label>&nbsp;</Form.Label>
+										<Input {...attrs} bind:value={$formData.spouseNameSuffix} placeholder="Suffix"/>
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>

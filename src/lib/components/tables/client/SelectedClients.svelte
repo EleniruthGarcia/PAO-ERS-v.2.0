@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { ChevronLeft, ChevronRight, Copy, Person, DotsVertical } from 'svelte-radix';
 
+	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
@@ -10,6 +11,7 @@
 
 	import { getContext } from 'svelte';
 	import Loading from '$lib/components/Loading.svelte';
+	import { classification } from '$lib/schema/client';
 
 	const selectedClients = getContext('selectedData');
 
@@ -79,77 +81,106 @@
 		</Card.Header>
 		<Card.Content class="p-6 text-sm">
 			<div class="grid gap-3">
-				<div class="font-semibold">Order Details</div>
+				<div class="font-semibold">Personal Information</div>
 				<ul class="grid gap-3">
 					<li class="flex items-center justify-between">
-						<span class="text-muted-foreground">
-							Glimmer Lamps x <span>2</span>
-						</span>
-						<span>$250.00</span>
+						<span class="text-muted-foreground"> Age </span>
+						<span>{client.age}</span>
 					</li>
 					<li class="flex items-center justify-between">
-						<span class="text-muted-foreground">
-							Aqua Filters x <span>1</span>
-						</span>
-						<span>$49.00</span>
+						<span class="text-muted-foreground"> Sex </span>
+						<span>{client.sex}</span>
+					</li>
+					<li class="flex items-center justify-between">
+						<span class="text-muted-foreground"> Civil Status </span>
+						<span>{client.civilStatus}</span>
+					</li>
+					<li class="flex items-center justify-between">
+						<span class="text-muted-foreground"> Citizenship </span>
+						<span>{client.citizenship}</span>
+					</li>
+					<li class="flex items-center justify-between">
+						<span class="text-muted-foreground"> Language </span>
+						<span>{client.language}</span>
+					</li>
+					<li class="flex items-center justify-between">
+						<span class="text-muted-foreground"> Religion </span>
+						<span>{client.religion}</span>
+					</li>
+					<li class="flex items-center justify-between">
+						<span class="text-muted-foreground"> Educational Attainment </span>
+						<span>{client.educationalAttainment}</span>
+					</li>
+					<li class="flex items-center justify-between">
+						<span class="text-muted-foreground"> Individual Monthly Income </span>
+						<span>{client.individualMonthlyIncome}</span>
 					</li>
 				</ul>
-				<Separator class="my-2" />
-				<ul class="grid gap-3">
-					<li class="flex items-center justify-between">
-						<span class="text-muted-foreground">Subtotal</span>
-						<span>$299.00</span>
-					</li>
-					<li class="flex items-center justify-between">
-						<span class="text-muted-foreground">Shipping</span>
-						<span>$5.00</span>
-					</li>
-					<li class="flex items-center justify-between">
-						<span class="text-muted-foreground">Tax</span>
-						<span>$25.00</span>
-					</li>
-					<li class="flex items-center justify-between font-semibold">
-						<span class="text-muted-foreground">Total</span>
-						<span>$329.00</span>
-					</li>
-				</ul>
-			</div>
-			<Separator class="my-4" />
-			<div class="grid grid-cols-2 gap-4">
-				<div class="grid gap-3">
-					<div class="font-semibold">Shipping Information</div>
-					<address class="grid gap-0.5 not-italic text-muted-foreground">
-						<span>Liam Johnson</span>
-						<span>1234 Main St.</span>
-						<span>Anytown, CA 12345</span>
-					</address>
-				</div>
-				<div class="grid auto-rows-max gap-3">
-					<div class="font-semibold">Billing Information</div>
-					<div class="text-muted-foreground">Same as shipping address</div>
-				</div>
 			</div>
 			<Separator class="my-4" />
 			<div class="grid gap-3">
-				<div class="font-semibold">Customer Information</div>
-				<dl class="grid gap-3">
-					<div class="flex items-center justify-between">
-						<dt class="text-muted-foreground">Customer</dt>
-						<dd>Liam Johnson</dd>
-					</div>
-					<div class="flex items-center justify-between">
-						<dt class="text-muted-foreground">Email</dt>
-						<dd>
-							<a href="mailto:">liam@acme.com</a>
-						</dd>
-					</div>
-					<div class="flex items-center justify-between">
-						<dt class="text-muted-foreground">Phone</dt>
-						<dd>
-							<a href="tel:">+1 234 567 890</a>
-						</dd>
-					</div>
-				</dl>
+				<div class="font-semibold">Contact Information</div>
+				<ul class="grid gap-3">
+					<li class="flex items-center justify-between">
+						<span class="text-muted-foreground"> Address </span>
+						<span class="truncate">{client.address}</span>
+					</li>
+					<li class="flex items-center justify-between">
+						<span class="text-muted-foreground"> Email </span>
+						<span>{client.email}</span>
+					</li>
+					<li class="flex items-center justify-between">
+						<span class="text-muted-foreground"> Contact Number </span>
+						<span>{client.contactNumber}</span>
+					</li>
+				</ul>
+			</div>
+			{#if client.civilStatus === 'married'}
+				<Separator class="my-4" />
+				<div class="grid gap-3">
+					<div class="font-semibold">Spouse Information</div>
+					<ul class="grid gap-3">
+						<li class="flex items-center justify-between">
+							<span class="text-muted-foreground"> Name </span>
+							<span class="truncate">{client.spouseName}</span>
+						</li>
+						<li class="flex items-center justify-between">
+							<span class="text-muted-foreground"> Address </span>
+							<span class="truncate">{client.spouseAddress}</span>
+						</li>
+						<li class="flex items-center justify-between">
+							<span class="text-muted-foreground"> Email </span>
+							<span>{client.spouseEmail}</span>
+						</li>
+						<li class="flex items-center justify-between">
+							<span class="text-muted-foreground"> Contact Number </span>
+							<span>{client.spouseContactNumber}</span>
+						</li>
+					</ul>
+				</div>
+			{/if}
+			{#if client.detained}
+				<Separator class="my-4" />
+				<div class="grid gap-3">
+					<div class="font-semibold">Detainee Information</div>
+					<ul class="grid gap-3">
+						<li class="flex items-center justify-between">
+							<span class="text-muted-foreground"> Place of Detention </span>
+							<span class="truncate">{client.detainedAt}</span>
+						</li>
+						<li class="flex items-center justify-between">
+							<span class="text-muted-foreground"> Detained Since </span>
+							<span class="truncate">{client.detainedSince}</span>
+						</li>
+					</ul>
+				</div>
+			{/if}
+			<Separator class="my-4" />
+			<div>
+				<div class="font-semibold mb-3">Classifications</div>
+				{#each client.classification as classification}
+					<Badge class="m-1">{classification}</Badge>
+				{/each}
 			</div>
 		</Card.Content>
 		<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
