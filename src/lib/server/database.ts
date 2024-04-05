@@ -76,7 +76,12 @@ export interface Client {
 	spouseName?: string;
 	spouseAddress?: string;
 	spouseContactNumber?: string;
-	classification?: ['Child in Conflict with the Law' | 'Woman Client' | 'VAWC Victim' | 'Law Enforcer' | 'Drug-Related Duty' | 'OFW (Land-Based)' | 'OFW (Sea-Based)' | 'FRs and FVEs' | 'Senior Citizen' | 'Refugee or Evacuee' | 'Tenant in Agrarian Case' | 'Victim of Terrorism (R.A. No. 9372)' | 'Victim of Torture (R.A. 9745)' | 'Victim of Trafficking (R.A. No. 9208)' | 'Foreign National' | 'Urban Poor' | 'Rural Poor' | 'Indigenous People' | 'PWD' | 'Petitioner for Voluntary Rehabilitation'];
+	classification?: ['Child in Conflict with the Law' | 'Woman Client' | 'VAWC Victim' | 'Law Enforcer' | 'Drug-Related Duty' | 'OFW (Land-Based)' | 'OFW (Sea-Based)' | 'FRs and FVEs' | 'Senior Citizen' | 'Refugee or Evacuee' | 'Tenant in Agrarian Case' | 'Victim of Terrorism (R.A. No. 9372)' | 'Victim of Torture (R.A. 9745)' | 'Victim of Trafficking (R.A. No. 9208)' | 'Petitioner for Voluntary Rehabilitation'];
+	foreignNational?: string;
+	pwd?: string;
+	indigenousPeople?: string;
+	urbanPoor?: string;
+	ruralPoor?: string;
 	status?: 'deleted' | 'archived';
 }
 

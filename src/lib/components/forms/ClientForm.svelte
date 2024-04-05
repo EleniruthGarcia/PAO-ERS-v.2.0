@@ -349,8 +349,7 @@
 						<Card.Header>
 							<Card.Title><Form.Legend>Client Classification</Form.Legend></Card.Title>
 							<Card.Description
-								><Form.Description>Pleasse select all the apply.</Form.Description
-								></Card.Description
+								><Form.Description>Please select all the apply.</Form.Description></Card.Description
 							>
 						</Card.Header>
 						<Card.Content>
@@ -386,6 +385,53 @@
 								{/each}
 								<Form.FieldErrors />
 							</div>
+						</Card.Content>
+					</Form.Fieldset>
+				</Card.Root>
+				<Card.Root>
+					<Form.Fieldset {form} name="classification" class="space-y-0">
+						<Card.Header>
+							<Card.Title><Form.Legend>Other Classifications</Form.Legend></Card.Title>
+							<Card.Description
+								><Form.Description>Please input all the apply.</Form.Description></Card.Description
+							>
+						</Card.Header>
+						<Card.Content>
+							<Form.Field {form} name="foreignNational" class="grid grid-cols-2 items-center">
+								<Form.Control let:attrs>
+									<Form.Label>Foreign National</Form.Label>
+									<Input {...attrs} bind:value={$formData.foreignNational}/>
+								</Form.Control>
+								<Form.FieldErrors class="col-span-2"/>
+							</Form.Field>
+							<Form.Field {form} name="pwd" class="grid grid-cols-2 items-center">
+								<Form.Control let:attrs>
+									<Form.Label>Person with Disability</Form.Label>
+									<Input {...attrs} bind:value={$formData.pwd} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="indigenousPeople" class="grid grid-cols-2 items-center">
+								<Form.Control let:attrs>
+									<Form.Label>Indigenous People</Form.Label>
+									<Input {...attrs} bind:value={$formData.indigenousPeople} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="urbanPoor" class="grid grid-cols-2 items-center">
+								<Form.Control let:attrs>
+									<Form.Label>Urban Poor</Form.Label>
+									<Input {...attrs} bind:value={$formData.urbanPoor} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="ruralPoor" class="grid grid-cols-2 items-center">
+								<Form.Control let:attrs>
+									<Form.Label>Rural Poor</Form.Label>
+									<Input {...attrs} bind:value={$formData.ruralPoor} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
 						</Card.Content>
 					</Form.Fieldset>
 				</Card.Root>

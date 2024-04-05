@@ -15,11 +15,6 @@ export const classification = [
 	'Victim of Terrorism (R.A. No. 9372)',
 	'Victim of Torture (R.A. 9745)',
 	'Victim of Trafficking (R.A. No. 9208)',
-	'Foreign National',
-	'Urban Poor',
-	'Rural Poor',
-	'Indigenous People',
-	'PWD',
 	'Petitioner for Voluntary Rehabilitation'
 ] as const;
 
@@ -96,7 +91,12 @@ export const formSchema = z.object({
 	spouseAddress: z.string().optional(),
 	spouseEmail: z.string().email().optional(),
 	spouseContactNumber: z.string().regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number!'),
-	classification: z.array(z.enum(classification)).optional()
+	classification: z.array(z.enum(classification)).optional(),
+	foreignNational: z.string().optional(),
+	pwd: z.string().optional(),
+	indigenousPeople: z.string().optional(),
+	urbanPoor: z.string().optional(),
+	ruralPoor: z.string().optional(),
 });
 
 export type FormSchema = typeof formSchema;
