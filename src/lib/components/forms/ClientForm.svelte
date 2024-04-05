@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import {
+		civilStatus,
 		classification,
 		educationalAttainment,
 		formSchema,
+		sex,
 		type FormSchema
 	} from '$lib/schema/client';
 	import {
@@ -33,7 +35,7 @@
 
 	const { form: formData, enhance } = form;
 
-	const proxyAge = intProxy(form, 'age');
+	const proxyAge = intProxy(form, 'age', { initiallyEmptyIfZero: true });
 	const proxyDetainedSince = dateProxy(form, 'detainedSince', {
 		format: 'date',
 		empty: 'undefined'
@@ -42,6 +44,16 @@
 	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${
 		$formData.lastName
 	}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
+
+	$: selectedSex = {
+		label: sex[$formData.sex],
+		value: $formData.sex
+	};
+
+	$: selectedCivilStatus = {
+		label: civilStatus[$formData.civilStatus],
+		value: $formData.civilStatus
+	};
 
 	$: selectedEducationalAttainment = {
 		label: educationalAttainment[$formData.educationalAttainment],
@@ -118,13 +130,22 @@
 							<Form.Field {form} name="sex" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Sex</Form.Label>
-									<Select.Root>
-										<Select.Trigger id="sex" aria-label="Select sex">
+									<Select.Root
+										selected={selectedSex}
+										onSelectedChange={(s) => {
+											s && ($formData.sex = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
 											<Select.Value placeholder="" />
 										</Select.Trigger>
 										<Select.Content>
-											<Select.Item value="male" label="Male">Male</Select.Item>
-											<Select.Item value="female" label="Female">Female</Select.Item>
+											{#each Object.entries(sex) as [value, label]}
+												{#if value !== ''}
+													<Select.Item {value} {label}>{label}</Select.Item>
+												{/if}
+											{/each}
 										</Select.Content>
 									</Select.Root>
 								</Form.Control>
@@ -133,15 +154,22 @@
 							<Form.Field {form} name="civilStatus" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Civil Status</Form.Label>
-									<Select.Root>
-										<Select.Trigger id="civilStatus" aria-label="Select civil status">
+									<Select.Root
+										selected={selectedCivilStatus}
+										onSelectedChange={(s) => {
+											s && ($formData.civilStatus = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
 											<Select.Value placeholder="" />
 										</Select.Trigger>
 										<Select.Content>
-											<Select.Item value="single" label="Single">Single</Select.Item>
-											<Select.Item value="married" label="Married">Married</Select.Item>
-											<Select.Item value="divorced" label="Divorced">Divorced</Select.Item>
-											<Select.Item value="widowed" label="Widowed">Widowed</Select.Item>
+											{#each Object.entries(civilStatus) as [value, label]}
+												{#if value !== ''}
+													<Select.Item {value} {label}>{label}</Select.Item>
+												{/if}
+											{/each}
 										</Select.Content>
 									</Select.Root>
 								</Form.Control>
