@@ -39,6 +39,10 @@
 		empty: 'undefined'
 	});
 
+	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${
+		$formData.lastName
+	}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
+
 	$: selectedEducationalAttainment = {
 		label: educationalAttainment[$formData.educationalAttainment],
 		value: $formData.educationalAttainment
@@ -78,31 +82,29 @@
 								<Form.Control let:attrs>
 									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
 								</Form.Control>
+								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="middleName" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
 									<Input {...attrs} bind:value={$formData.middleName} placeholder="Middle Name" />
 								</Form.Control>
+								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="lastName" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
 									<Input {...attrs} bind:value={$formData.lastName} placeholder="Last Name" />
 								</Form.Control>
+								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Input {...attrs} bind:value={$formData.nameSuffix} placeholder="Suffix" />
 								</Form.Control>
+								<Form.FieldErrors />
 							</Form.Field>
-							<input
-								type="hidden"
-								name="name"
-								value="{$formData.firstName}{$formData.middleName
-									? $formData.middleName + ' '
-									: ' '}{$formData.lastName}{$formData.nameSuffix
-									? ', ' + $formData.nameSuffix
-									: ''}"
-							/>
+							<Form.Control let:attrs>
+								<input type="hidden" {...attrs} />
+							</Form.Control>
 							<Form.FieldErrors class="col-span-7" />
 						</Form.Fieldset>
 						<fieldset class="grid grid-cols-7 items-start gap-3">

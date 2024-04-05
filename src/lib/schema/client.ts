@@ -42,40 +42,40 @@ type EducationalAttainment = keyof typeof educationalAttainment;
 export const formSchema = z.object({
 	_id: z.string().optional(),
 	name: z.string().min(1, 'Name is required!'),
-	firstName: z.string().min(1, 'First name is required!').max(50),
-	middleName: z.string().max(50).optional(),
-	lastName: z.string().min(1, 'Last name is required!').max(50),
+	firstName: z.string().min(1, 'First name is required!'),
+	middleName: z.string().optional(),
+	lastName: z.string().min(1, 'Last name is required!'),
 	nameSuffix: z.string().optional(),
 	dateOfBirth: z.date(),
-	age: z.number().int().min(1, 'Age is required!').max(120),
+	age: z.number().int().min(1, 'Age is required!'),
 	sex: z.enum(['male', 'female']),
-	address: z.string().max(100),
+	address: z.string(),
 	email: z.string().email().optional(),
 	contactNumber: z
 		.string()
 		.regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number!')
 		.refine((value) => value !== '', { message: 'Contact number is required!' }),
 	civilStatus: z.enum(['single', 'married', 'widowed', 'separated']),
-	religion: z.string().max(50).optional(),
-	citizenship: z.string().max(50),
+	religion: z.string().optional(),
+	citizenship: z.string(),
 	educationalAttainment: z.enum(
 		Object.keys(educationalAttainment) as [EducationalAttainment, ...EducationalAttainment[]]
 	),
-	language: z.string().max(50),
+	language: z.string(),
 	individualMonthlyIncome: z.number().optional(),
 	detained: z.boolean(),
-	detainedAt: z.string().max(100).optional(),
+	detainedAt: z.string().optional(),
 	detainedSince: z
 		.date()
 		.or(z.literal(''))
 		.transform((e) => (e === '' ? undefined : e))
 		.optional(),
-	spouseName: z.string().max(100).optional(),
-	spouseFirstName: z.string().max(50).optional(),
-	spouseMiddleName: z.string().max(50).optional(),
-	spouseLastName: z.string().max(50).optional(),
-	spouseNameSuffix: z.string().max(50).optional(),
-	spouseAddress: z.string().max(100).optional(),
+	spouseName: z.string().optional(),
+	spouseFirstName: z.string().optional(),
+	spouseMiddleName: z.string().optional(),
+	spouseLastName: z.string().optional(),
+	spouseNameSuffix: z.string().optional(),
+	spouseAddress: z.string().optional(),
 	spouseEmail: z.string().email().optional(),
 	spouseContactNumber: z.string().regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number!'),
 	classification: z.array(z.enum(classification)).optional()
