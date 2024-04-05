@@ -16,12 +16,13 @@
 
 	import { ChevronLeft } from 'svelte-radix';
 
-	import { Button } from '$lib/components/ui/button/index.js';
-	import * as Card from '$lib/components/ui/card/index.js';
-	import { Checkbox } from '$lib/components/ui/checkbox/index.js';
-	import * as Form from '$lib/components/ui/form/index.js';
-	import { Input } from '$lib/components/ui/input/index.js';
-	import * as Select from '$lib/components/ui/select/index.js';
+	import { Button } from '$lib/components/ui/button';
+	import * as Card from '$lib/components/ui/card';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import * as Form from '$lib/components/ui/form';
+	import { Input } from '$lib/components/ui/input';
+	import * as Select from '$lib/components/ui/select';
+
 	import DatePicker from '$lib/components/DatePicker.svelte';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
@@ -32,20 +33,14 @@
 
 	const { form: formData, enhance } = form;
 
-	function addItem(id: string) {
-		$formData.classification = [...$formData.classification, id];
-	}
-
-	function removeItem(id: string) {
-		$formData.classification = $formData.classification.filter((i) => i !== id);
-	}
-
 	const proxyAge = intProxy(form, 'age');
-	const proxyDetainedSince = dateProxy(form, 'detainedSince', { format: 'date' });
+	const proxyDetainedSince = dateProxy(form, 'detainedSince', {
+		format: 'date',
+		empty: 'undefined'
+	});
 
 	$: selectedEducationalAttainment = {
-		label: educationalAttainment.find((item) => item.value === $formData.educationalAttainment)
-			?.label,
+		label: educationalAttainment[$formData.educationalAttainment],
 		value: $formData.educationalAttainment
 	};
 </script>
@@ -77,37 +72,37 @@
 						<Card.Description>Please fill out all necessary information.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid grid-cols-7 items-start gap-3">
+						<Form.Fieldset {form} name="name" class="grid grid-cols-7 items-start gap-3">
+							<Form.Legend class="col-span-7">Name</Form.Legend>
 							<Form.Field {form} name="firstName" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>First Name</Form.Label>
-									<Input {...attrs} bind:value={$formData.firstName} />
+									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
 								</Form.Control>
-								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="middleName" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Middle Name</Form.Label>
-									<Input {...attrs} bind:value={$formData.middleName} />
+									<Input {...attrs} bind:value={$formData.middleName} placeholder="Middle Name" />
 								</Form.Control>
-								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="lastName" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Last Name</Form.Label>
-									<Input {...attrs} bind:value={$formData.lastName} />
+									<Input {...attrs} bind:value={$formData.lastName} placeholder="Last Name" />
 								</Form.Control>
-								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Suffix</Form.Label>
-									<Input {...attrs} bind:value={$formData.nameSuffix} />
+									<Input {...attrs} bind:value={$formData.nameSuffix} placeholder="Suffix" />
 								</Form.Control>
-								<Form.FieldErrors />
 							</Form.Field>
-						</div>
-						<div class="grid grid-cols-7 items-start gap-3">
+							<input
+								type="hidden"
+								name="name"
+								value="{$formData.firstName}{$formData.middleName + ' ' ??
+									' '}{$formData.lastName}{', ' + $formData.nameSuffix ?? ''}"
+							/>
+							<Form.FieldErrors class="col-span-7" />
+						</Form.Fieldset>
+						<fieldset class="grid grid-cols-7 items-start gap-3">
 							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Age</Form.Label>
@@ -145,6 +140,7 @@
 										</Select.Content>
 									</Select.Root>
 								</Form.Control>
+								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="citizenship" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
@@ -153,7 +149,7 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-						</div>
+						</fieldset>
 						<div class="grid grid-cols-3 items-start gap-3">
 							<Form.Field {form} name="language" class="grid gap-3">
 								<Form.Control let:attrs>
@@ -172,18 +168,21 @@
 							<Form.Field {form} name="educationalAttainment" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Educational Attainment</Form.Label>
-									<Select.Root>
-										<Select.Trigger
-											class="truncate"
-											id="educationalAttainment"
-											aria-label="Select from options"
-										>
+									<Select.Root
+										selected={selectedEducationalAttainment}
+										onSelectedChange={(s) => {
+											s && ($formData.educationalAttainment = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
 											<Select.Value placeholder="" />
 										</Select.Trigger>
 										<Select.Content>
-											{#each educationalAttainment as item (item.value)}
-												<Select.Item value={item.value} label={item.label}>{item.label}</Select.Item
-												>
+											{#each Object.entries(educationalAttainment) as [value, label]}
+												{#if value !== ''}
+													<Select.Item {value} {label}>{label}</Select.Item>
+												{/if}
 											{/each}
 										</Select.Content>
 									</Select.Root>
@@ -309,39 +308,43 @@
 			</div>
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
 				<Card.Root>
-					<Card.Header>
-						<Card.Title>Client Classification</Card.Title>
-						<Card.Description>Please check all that apply.</Card.Description>
-					</Card.Header>
-					<Card.Content>
-						<Form.Fieldset {form} name="classification" class="space-y-0">
+					<Form.Fieldset {form} name="classification" class="space-y-0">
+						<Card.Header>
+							<Card.Title><Form.Legend>Client Classification</Form.Legend></Card.Title>
+							<Card.Description
+								><Form.Description>Pleasse select all the apply.</Form.Description
+								></Card.Description
+							>
+						</Card.Header>
+						<Card.Content>
 							<div class="space-y-2">
 								{#each classification as item}
-									{@const checked = $formData.classification.includes(item.id)}
+									{@const checked = $formData.classification?.includes(item) ?? false}
 									<div class="flex flex-row items-start space-x-3">
-										<Form.Control let:attrs>
-											<Checkbox
+										<Form.Control let:attrs
+											><Checkbox
 												{...attrs}
 												{checked}
 												onCheckedChange={(v) => {
 													if (v) {
-														addItem(item.id);
+														$formData.classification = [...($formData.classification ?? []), item];
 													} else {
-														removeItem(item.id);
+														$formData.classification = $formData.classification?.filter(
+															(v) => v !== item
+														);
 													}
 												}}
 											/>
 											<Form.Label class="text-sm font-normal">
-												{item.label}
+												{item}
 											</Form.Label>
-											<input hidden type="checkbox" name={attrs.name} value={item.id} {checked} />
 										</Form.Control>
 									</div>
 								{/each}
 								<Form.FieldErrors />
 							</div>
-						</Form.Fieldset>
-					</Card.Content>
+						</Card.Content>
+					</Form.Fieldset>
 				</Card.Root>
 			</div>
 		</div>

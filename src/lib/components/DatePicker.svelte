@@ -35,7 +35,7 @@
 		{...attrs}
 		class={cn(
 			buttonVariants({ variant: 'outline' }),
-			'w-[280px] justify-start pl-4 text-left font-normal',
+			'w-auto justify-start bg-muted/30 text-left font-normal',
 			!value && 'text-muted-foreground'
 		)}
 	>
@@ -44,6 +44,7 @@
 	</Popover.Trigger>
 	<Popover.Content class="w-auto p-0" side="top">
 		<Calendar
+			calendarLabel="Pick a date"
 			{value}
 			bind:placeholder
 			minValue={new CalendarDate(1900, 1, 1)}
