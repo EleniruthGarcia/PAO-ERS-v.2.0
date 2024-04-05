@@ -227,89 +227,93 @@
 						</div>
 					</Card.Content>
 				</Card.Root>
-				<Card.Root>
-					<Card.Header>
-						<Card.Title>Spouse Information</Card.Title>
-					</Card.Header>
-					<Card.Content>
-						<div class="grid grid-cols-7 items-start gap-3">
-							<Form.Field {form} name="spouseFirstName" class="col-span-2 grid gap-3">
+				{#if $formData.civilStatus === 'married'}
+					<Card.Root>
+						<Card.Header>
+							<Card.Title>Spouse Information</Card.Title>
+						</Card.Header>
+						<Card.Content>
+							<div class="grid grid-cols-7 items-start gap-3">
+								<Form.Field {form} name="spouseFirstName" class="col-span-2 grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>First Name</Form.Label>
+										<Input {...attrs} bind:value={$formData.spouseFirstName} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
+								<Form.Field {form} name="spouseMiddleName" class="col-span-2 grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>Middle Name</Form.Label>
+										<Input {...attrs} bind:value={$formData.spouseMiddleName} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
+								<Form.Field {form} name="spouseLastName" class="col-span-2 grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>Last Name</Form.Label>
+										<Input {...attrs} bind:value={$formData.spouseLastName} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
+								<Form.Field {form} name="spouseNameSuffix" class="grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>Suffix</Form.Label>
+										<Input {...attrs} bind:value={$formData.spouseNameSuffix} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
+							</div>
+							<Form.Field {form} name="spouseAddress" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>First Name</Form.Label>
-									<Input {...attrs} bind:value={$formData.spouseFirstName} />
+									<Form.Label>Address</Form.Label>
+									<Input {...attrs} bind:value={$formData.spouseAddress} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="spouseMiddleName" class="col-span-2 grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Middle Name</Form.Label>
-									<Input {...attrs} bind:value={$formData.spouseMiddleName} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-							<Form.Field {form} name="spouseLastName" class="col-span-2 grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Last Name</Form.Label>
-									<Input {...attrs} bind:value={$formData.spouseLastName} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-							<Form.Field {form} name="spouseNameSuffix" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Suffix</Form.Label>
-									<Input {...attrs} bind:value={$formData.spouseNameSuffix} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-						</div>
-						<Form.Field {form} name="spouseAddress" class="grid gap-3">
-							<Form.Control let:attrs>
-								<Form.Label>Address</Form.Label>
-								<Input {...attrs} bind:value={$formData.spouseAddress} />
-							</Form.Control>
-							<Form.FieldErrors />
-						</Form.Field>
-						<div class="grid grid-cols-2 items-start gap-3">
-							<Form.Field {form} name="spouseEmail" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Email</Form.Label>
-									<Input {...attrs} bind:value={$formData.spouseEmail} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-							<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Contact Number</Form.Label>
-									<Input {...attrs} bind:value={$formData.spouseContactNumber} type="tel" />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-						</div>
-					</Card.Content>
-				</Card.Root>
-				<Card.Root>
-					<Card.Header>
-						<Card.Title>Detainee Information</Card.Title>
-					</Card.Header>
-					<Card.Content>
-						<div class="grid grid-cols-8 items-start gap-3">
-							<Form.Field {form} name="detainedAt" class="col-span-5 grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Place of Detention</Form.Label>
-									<Input {...attrs} bind:value={$formData.detainedAt} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-							<Form.Field {form} name="detainedSince" class="col-span-3 grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Detained Since</Form.Label>
-									<DatePicker bind:value={$proxyDetainedSince} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-						</div>
-					</Card.Content>
-				</Card.Root>
+							<div class="grid grid-cols-2 items-start gap-3">
+								<Form.Field {form} name="spouseEmail" class="grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>Email</Form.Label>
+										<Input {...attrs} bind:value={$formData.spouseEmail} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
+								<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>Contact Number</Form.Label>
+										<Input {...attrs} bind:value={$formData.spouseContactNumber} type="tel" />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
+							</div>
+						</Card.Content>
+					</Card.Root>
+				{/if}
+				{#if $formData.detained}
+					<Card.Root>
+						<Card.Header>
+							<Card.Title>Detainee Information</Card.Title>
+						</Card.Header>
+						<Card.Content>
+							<div class="grid grid-cols-8 items-start gap-3">
+								<Form.Field {form} name="detainedAt" class="col-span-5 grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>Place of Detention</Form.Label>
+										<Input {...attrs} bind:value={$formData.detainedAt} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
+								<Form.Field {form} name="detainedSince" class="col-span-3 grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>Detained Since</Form.Label>
+										<DatePicker bind:value={$proxyDetainedSince} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
+							</div>
+						</Card.Content>
+					</Card.Root>
+				{/if}
 			</div>
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
 				<Card.Root>
