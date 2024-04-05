@@ -56,7 +56,7 @@
 					<Loading />
 				{:then clients}
 					{#if clients.length > 0}
-						<Table data={clients} />
+						<Table data={clients.filter((client) => client.status !== 'deleted')} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
