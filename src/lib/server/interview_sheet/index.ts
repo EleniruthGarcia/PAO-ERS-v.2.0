@@ -105,6 +105,7 @@ async function addTextToPDF(data: any) {
 
     adverseParty,
     adversePartyName,
+    adversePartyAddress,
     factsOfTheCase,
     natureOfOffence,
     courtPendingStatus,
@@ -253,7 +254,7 @@ async function addTextToPDF(data: any) {
     size: 10,
     color: rgb(0, 0, 0), // Black
   });
-  firstPage.drawText(individualMonthlyIncome.toString(), {
+  firstPage.drawText(individualMonthlyIncome, {
     x: 150,
     y: 635,
     size: 10,

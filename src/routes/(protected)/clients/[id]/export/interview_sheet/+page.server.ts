@@ -44,71 +44,133 @@ export const actions = {
 			);
 		}
 
-		const data = await db.requests.aggregate([{
-			$match: { _id: event.params.id },
-			$lookup: {
-				from: 'clients',
-				localField: 'client_id',
-				foreignField: '_id',
-				as: 'clients'
+		const data = (await db.requests.aggregate([
+			{
+				$match: { _id: event.params.id }
+			},
+			{
+				$lookup: {
+					from: 'clients',
+					localField: 'client_id',
+					foreignField: '_id',
+					as: 'client'
+				}
+			},
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'lawyer_id',
+					foreignField: '_id',
+					as: 'lawyer'
+				}
+			},
+			{
+				$lookup: {
+					from: 'clients',
+					localField: 'interviewee_id',
+					foreignField: '_id',
+					as: 'interviewee'
+				}
+			},
+			{
+				$lookup: {
+					from: 'cases',
+					localField: 'case_id',
+					foreignField: '_id',
+					as: 'case'
+				}
+			},
+			{
+				$lookup: {
+					from: 'branches',
+					localField: 'lawyer.branch_id',
+					foreignField: '_id',
+					as: 'branch'
+				}
+			},
+			{
+				$addFields: {
+					branch: { $arrayElemAt: ['$branch', 0] },
+					client: { $arrayElemAt: ['$client', 0] },
+					lawyer: { $arrayElemAt: ['$lawyer', 0] },
+					interviewee: { $arrayElemAt: ['$interviewee', 0] },
+					case: { $arrayElemAt: ['$case', 0] }
+				}
+			},
+			{
+				$project: {
+					monthYear: {
+						$dateToString: {
+							date: '$date',
+							format: '%B %Y',
+							timezone: '+08:00',
+							onNull: 'N/A'
+						}
+					},
+					region: '$branch.region',
+					districtProvince: {
+						$concat: ['$branch.district', ', ', '$branch.province']
+					},
+					district: '$branch.district',
+					province: '$branch.province',
+					controlNo: '$_id',
+					religion: { $ifNull: ['$client.religion', 'N/A'] },
+					citizenship: { $ifNull: ['$client.citizenship', 'N/A'] },
+					name: '$client.name',
+					age: '$client.age',
+					address: '$client.address',
+					email: { $ifNull: ['$client.email', ''] },
+					individualMonthlyIncome: { $toString: { $ifNull: ['$client.individualMonthlyIncome', 'N/A'] } },
+					detainedSince: '$client.detainedSince',
+					civilStatus: '$client.civilStatus',
+					sex: '$client.sex',
+					educationalAttainment: '$client.educationalAttainment',
+					languageDialect: '$client.language',
+					contactNo: { $ifNull: ['$client.contactNumber', 'N/A'] },
+					spouse: { $ifNull: ['$client.spouse', ''] },
+					addressOfSpouse: { $ifNull: ['$client.addressOfSpouse', ''] },
+					spouseContactNo: { $ifNull: ['$client.spouseContactNumber', ''] },
+					placeOfDetention: '$client.detainedAt',
+					proofOfIndigency: '$client.proofOfIndigency',
+					intervieweeName: '$interviewee.name',
+					intervieweeAddress: '$interviewee.address',
+					intervieweeAge: '$interviewee.age',
+					intervieweeSex: '$interviewee.sex',
+					intervieweeCivilStatus: '$interviewee.civilStatus',
+					intervieweeContactNo: { $ifNull: ['$interviewee.contactNumber', 'N/A'] },
+					intervieweeEmail: { $ifNull: ['$interviewee.email', ''] },
+					relationshipToClient: '$relationshipToClient',
+					natureOfRequest: '$natureOfRequest',
+					PDLStatus: '$client.detained',
+					natureOfTheCase: { $ifNull: ['$case.natureOfTheCase', ''] },
+					caseSpecs: { $ifNull: ['$case._id', ''] },
+					factsOfTheCase: { $ifNull: ['$case.factsOfTheCase', ''] },
+					clientClasses: { $ifNull: ['$client.classification', []] },
+					clientInvolvement: { $ifNull: ['$case.clientInvolvement', ''] },
+					adverseParty: { $ifNull: ['$case.adversePartyInvolvement', ''] },
+					adversePartyName: {
+						$reduce: {
+							input: '$case.adversePartyName',
+							initialValue: '',
+							in: { $concat: ['$$value', '$$this'] }
+						}
+					},
+					adversePartyAddress: {
+						$reduce: {
+							input: '$case.adversePartyAddress',
+							initialValue: '',
+							in: { $concat: ['$$value', ', ', '$$this'] }
+						}
+					},
+					natureOfOffence: { $ifNull: ['$case.natureOfOffence', ''] },
+					courtPendingStatus: { $ifNull: ['$case.status', ''] },
+					titleOfCaseDocketNum: {
+						$concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')']
+					},
+					courtBodyTribunal: { $ifNull: ['$case.courtBody', ''] },
+				}
 			}
-		}]);
-
-		// branch data
-		// region,
-		// districtProvince,
-		// district,
-		// province,
-		// controlNo,
-
-		// // client data
-		// religion,
-		// citizenship,
-		// name,
-		// age,
-		// address,
-		// email,
-		// individualMonthlyIncome,
-		// detainedSince,
-		// civilStatus,
-		// sex,
-		// educationalAttainment,
-		// languageDialect,
-		// contactNo,
-		// spouse,
-		// addressOfSpouse,
-		// spouseContactNo,
-		// placeOfDetention,
-		// proofOfIndigency,
-
-		// // interviewee data
-		// intervieweeName,
-		// intervieweeAddress,
-		// relationshipToClient,
-		// intervieweeAge,
-		// intervieweeSex,
-		// intervieweeCivilStatus,
-		// intervieweeContactNo,
-		// intervieweeEmail,
-
-		// // nature of request
-		// natureOfRequest,
-		// otherNatureOfRequest,
-		// PDLStatus, // from client.detained
-		// natureOfTheCase,
-		// caseSpecs,
-
-		// // client class
-		// clientClasses,
-		// clientInvolvement,
-
-		// adverseParty,
-		// adversePartyName,
-		// factsOfTheCase,
-		// natureOfOffence,
-		// courtPendingStatus,
-		// titleOfCaseDocketNum,
-		// courtBodyTribunal,
+		]).toArray())[0];
 
 		if (!data) return fail(404);
 

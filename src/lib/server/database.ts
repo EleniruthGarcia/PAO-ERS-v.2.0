@@ -31,7 +31,6 @@ export interface Branch {
 	region: string;
 	province: string;
 	district: string;
-	lawyers: string[];
 }
 
 export interface Log {
@@ -67,11 +66,12 @@ export interface Request {
 	_id?: string;
 	client_id: string[];
 	lawyer_id: string;
-	interviewee_id?: string;
+	interviewee_id: string;
+	relationshipToClient: string;
 	case_id?: string;
 	date: Date;
 	natureOfRequest: string[];
-	type: 'request' | 'complaint' | 'inquiry' | 'other';
+	type: 'Request' | 'Complaint' | 'Inquiry' | 'Other';
 }
 
 export interface Client {
@@ -82,11 +82,11 @@ export interface Client {
 	lastName: string;
 	nameSuffix?: string;
 	age: number;
-	sex: 'male' | 'female';
+	sex: 'Male' | 'Female';
 	address: string;
 	email?: string;
 	contactNumber?: string;
-	civilStatus: 'single' | 'married' | 'widowed' | 'separated';
+	civilStatus: 'Single' | 'Married' | 'Widowed' | 'Separated';
 	religion?: string;
 	citizenship: string;
 	educationalAttainment: string;
@@ -98,14 +98,14 @@ export interface Client {
 	spouseName?: string;
 	spouseAddress?: string;
 	spouseContactNumber?: string;
-	classification?: ['Child in Conflict with the Law' | 'Woman Client' | 'VAWC Victim' | 'Law Enforcer' | 'Drug-Related Duty' | 'OFW (Land-Based)' | 'OFW (Sea-Based)' | 'FRs and FVEs' | 'Senior Citizen' | 'Refugee or Evacuee' | 'Tenant in Agrarian Case' | 'Victim of Terrorism (R.A. No. 9372)' | 'Victim of Torture (R.A. 9745)' | 'Victim of Trafficking (R.A. No. 9208)' | 'Petitioner for Voluntary Rehabilitation'];
+	classification?: ('Child in Conflict with the Law' | 'Woman Client' | 'VAWC Victim' | 'Law Enforcer' | 'Drug-Related Duty' | 'OFW (Land-Based)' | 'OFW (Sea-Based)' | 'FRs and FVEs' | 'Senior Citizen' | 'Refugee or Evacuee' | 'Tenant in Agrarian Case' | 'Victim of Terrorism (R.A. No. 9372)' | 'Victim of Torture (R.A. 9745)' | 'Victim of Trafficking (R.A. No. 9208)' | 'Petitioner for Voluntary Rehabilitation')[];
 	foreignNational?: string;
 	pwd?: string;
 	indigenousPeople?: string;
 	urbanPoor?: string;
 	ruralPoor?: string;
-	status?: 'deleted' | 'archived';
-	proofOfIndigency?: string;
+	status?: 'Deleted' | 'Archived';
+	proofOfIndigency?: ('Income Tax Return' | 'Certification from Barangay' | 'Certification from DSWD' | { 'Others': string })[];
 }
 
 interface Case {
@@ -113,11 +113,12 @@ interface Case {
 	dateFiled: Date;
 	dateResolved?: Date;
 	natureOfTheCase: string[];
-	status: 'pending' | 'ongoing' | 'resolved';
+	status: 'Pending' | 'Ongoing' | 'Resolved';
 	lawId: string[];
-	clientInvolvement: string;
-	adverseParty: string[];
-	adverseParty_id: string[];
+	clientInvolvement: string[];
+	adversePartyInvolvement: string[];
+	adversePartyName: string[];
+	adversePartyAddress: string[];
 	factsOfTheCase: string;
 	natureOfOffence: string;
 	titleOfCase: string;
@@ -125,14 +126,13 @@ interface Case {
 	courtBody: string;
 }
 
-const seedBranches = [
+const seedBranches: Branch[] = [
 	{
 		_id: '1',
 		name: 'Branch A',
 		region: 'Region 1',
 		province: 'Province 1',
 		district: 'District 1',
-		lawyers: ['Lawyer A', 'Lawyer B']
 	},
 	{
 		_id: '2',
@@ -140,7 +140,6 @@ const seedBranches = [
 		region: 'Region 2',
 		province: 'Province 2',
 		district: 'District 2',
-		lawyers: ['Lawyer C', 'Lawyer D']
 	},
 	{
 		_id: '3',
@@ -148,7 +147,6 @@ const seedBranches = [
 		region: 'Region 1',
 		province: 'Province 3',
 		district: 'District 3',
-		lawyers: ['Lawyer E', 'Lawyer F']
 	},
 	{
 		_id: '4',
@@ -156,11 +154,10 @@ const seedBranches = [
 		region: 'Region 2',
 		province: 'Province 4',
 		district: 'District 4',
-		lawyers: ['Lawyer G', 'Lawyer H']
 	}
 ]
 
-const seedUsers = [
+const seedUsers: User[] = [
 	{
 		_id: '1',
 		branch_id: '1',
@@ -218,54 +215,62 @@ const seedUsers = [
 	}
 ]
 
-const seedRequests = [{
+const seedRequests: Request[] = [{
 	_id: '1',
 	client_id: ['1', '2'],
 	lawyer_id: '3',
 	interviewee_id: '4',
+	relationshipToClient: 'Spouse',
 	case_id: '5',
 	date: new Date('2024-04-01T10:00:00Z'),
 	natureOfRequest: ['Legal advice', 'Contract review'],
-	type: 'request'
+	type: 'Request'
 },
 {
 	_id: '2',
 	client_id: ['2'],
 	lawyer_id: '4',
+	case_id: '1',
+	interviewee_id: '2',
+	relationshipToClient: 'Self',
 	date: new Date('2024-04-02T11:00:00Z'),
-	natureOfRequest: ['Complaint about service'],
-	type: 'complaint'
+	natureOfRequest: ['Judicial'],
+	type: 'Complaint'
 },
 {
 	_id: '3',
 	client_id: ['3'],
 	lawyer_id: '5',
 	case_id: '6',
+	interviewee_id: '3',
+	relationshipToClient: 'Child',
 	date: new Date('2024-04-03T12:00:00Z'),
 	natureOfRequest: ['General inquiry'],
-	type: 'inquiry'
+	type: 'Inquiry'
 },
 {
 	_id: '4',
 	client_id: ['1', '3'],
 	lawyer_id: '6',
+	interviewee_id: '1',
+	relationshipToClient: 'Parent',
 	date: new Date('2024-04-04T13:00:00Z'),
 	natureOfRequest: ['Other request'],
-	type: 'other'
+	type: 'Other'
 }]
 
-const seedClients = [{
+const seedClients: Client[] = [{
 	_id: '1',
 	name: 'John Doe',
 	firstName: 'John',
 	middleName: 'Michael',
 	lastName: 'Doe',
 	age: 30,
-	sex: 'male',
+	sex: 'Male',
 	address: '123 Main St, City, Country',
 	email: 'john.doe@example.com',
 	contactNumber: '1234567890',
-	civilStatus: 'single',
+	civilStatus: 'Single',
 	religion: 'Christian',
 	citizenship: 'American',
 	educationalAttainment: 'Bachelor\'s Degree',
@@ -276,8 +281,7 @@ const seedClients = [{
 	spouseAddress: '456 Elm St, City, Country',
 	spouseContactNumber: '0987654321',
 	classification: ['Senior Citizen'],
-	status: 'archived',
-	proofOfIndigency: 'Proof123'
+	proofOfIndigency: ['Income Tax Return', 'Certification from Barangay'],
 },
 {
 	_id: '2',
@@ -285,9 +289,9 @@ const seedClients = [{
 	firstName: 'Jane',
 	lastName: 'Smith',
 	age: 25,
-	sex: 'female',
+	sex: 'Female',
 	address: '456 Elm St, City, Country',
-	civilStatus: 'married',
+	civilStatus: 'Married',
 	citizenship: 'British',
 	educationalAttainment: 'Master\'s Degree',
 	language: 'English',
@@ -296,7 +300,8 @@ const seedClients = [{
 	detainedSince: new Date('2024-01-01'),
 	classification: ['Woman Client', 'Victim of Trafficking (R.A. No. 9208)'],
 	foreignNational: 'Yes',
-	pwd: 'Yes'
+	pwd: 'Yes',
+	proofOfIndigency: [{ 'Others': 'Student' }],
 },
 {
 	_id: '3',
@@ -304,11 +309,11 @@ const seedClients = [{
 	firstName: 'Michael',
 	lastName: 'Johnson',
 	age: 40,
-	sex: 'male',
+	sex: 'Male',
 	address: '789 Oak St, City, Country',
 	email: 'michael.johnson@example.com',
 	contactNumber: '1122334455',
-	civilStatus: 'widowed',
+	civilStatus: 'Widowed',
 	religion: 'Muslim',
 	citizenship: 'Filipino',
 	educationalAttainment: 'High School Graduate',
@@ -326,30 +331,30 @@ const seedClients = [{
 	middleName: 'Anne',
 	lastName: 'Brown',
 	age: 60,
-	sex: 'female',
+	sex: 'Female',
 	address: '101 Pine St, City, Country',
 	email: 'emily.brown@example.com',
 	contactNumber: '5544332211',
-	civilStatus: 'widowed',
+	civilStatus: 'Widowed',
 	citizenship: 'Canadian',
 	educationalAttainment: 'Doctorate Degree',
 	language: 'English',
 	individualMonthlyIncome: 8000,
 	detained: false,
 	classification: ['Senior Citizen', 'Refugee or Evacuee'],
-	status: 'archived'
 }]
 
-const seedCases = [{
+const seedCases: Case[] = [{
 	_id: '1',
 	dateFiled: new Date('2024-03-15T00:00:00Z'),
 	dateResolved: undefined,
 	natureOfTheCase: ['Civil', 'Property Dispute'],
-	status: 'pending',
+	status: 'Pending',
 	lawId: ['1', '2'],
-	clientInvolvement: 'Plaintiff',
-	adverseParty: ['John Doe', 'Jane Doe'],
-	adverseParty_id: ['3', '4'],
+	clientInvolvement: ['Plaintiff'],
+	adversePartyInvolvement: ['Defendant'],
+	adversePartyName: ['Jane Smith'],
+	adversePartyAddress: ['456 Elm St, City, Country'],
 	factsOfTheCase: 'Property boundary dispute between neighbors',
 	natureOfOffence: 'Property Trespass',
 	titleOfCase: 'Smith vs Doe',
@@ -361,11 +366,13 @@ const seedCases = [{
 	dateFiled: new Date('2023-07-20T00:00:00Z'),
 	dateResolved: new Date('2024-01-10T00:00:00Z'),
 	natureOfTheCase: ['Criminal', 'Fraud'],
-	status: 'resolved',
+	status: 'Resolved',
 	lawId: ['5'],
-	clientInvolvement: 'Defendant',
-	adverseParty: ['Michael Johnson'],
-	adverseParty_id: ['5'],
+	clientInvolvement: ['Defendant'],
+	adversePartyInvolvement: ['Plaintiff'
+	],
+	adversePartyName: ['Michael Johnson'],
+	adversePartyAddress: ['789 Oak St, City, Country'],
 	factsOfTheCase: 'Accused of financial fraud',
 	natureOfOffence: 'Financial Fraud',
 	titleOfCase: 'People vs Johnson',
@@ -377,11 +384,12 @@ const seedCases = [{
 	dateFiled: new Date('2024-01-05T00:00:00Z'),
 	dateResolved: undefined,
 	natureOfTheCase: ['Family', 'Divorce'],
-	status: 'ongoing',
+	status: 'Ongoing',
 	lawId: ['6', '7'],
-	clientInvolvement: 'Petitioner',
-	adverseParty: ['Emily Brown'],
-	adverseParty_id: ['6'],
+	clientInvolvement: ['Petitioner'],
+	adversePartyInvolvement: ['Respondent'],
+	adversePartyName: ['John Doe'],
+	adversePartyAddress: ['123 Main St, City, Country'],
 	factsOfTheCase: 'Seeking divorce due to irreconcilable differences',
 	natureOfOffence: 'Divorce Petition',
 	titleOfCase: 'Brown vs Brown',
@@ -393,11 +401,12 @@ const seedCases = [{
 	dateFiled: new Date('2023-12-10T00:00:00Z'),
 	dateResolved: new Date('2024-03-01T00:00:00Z'),
 	natureOfTheCase: ['Labor', 'Wrongful Termination'],
-	status: 'resolved',
+	status: 'Resolved',
 	lawId: ['8'],
-	clientInvolvement: 'Plaintiff',
-	adverseParty: ['Jane Smith'],
-	adverseParty_id: ['7'],
+	clientInvolvement: ['Plaintiff'],
+	adversePartyInvolvement: ['Defendant'],
+	adversePartyName: ['Company XYZ'],
+	adversePartyAddress: ['101 Pine St, City, Country'],
 	factsOfTheCase: 'Unlawful termination from employment',
 	natureOfOffence: 'Wrongful Termination',
 	titleOfCase: 'Doe vs Company XYZ',
