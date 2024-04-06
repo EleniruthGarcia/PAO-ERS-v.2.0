@@ -1,10 +1,16 @@
 <script lang="ts">
+	import { save } from '$lib/utils';
+	import { enhance } from '$app/forms';
 	import type { PageServerData } from './$types';
 
 	import { Button } from '$lib/components/ui/button';
 
 	export let data: PageServerData;
+	export let form;
+
+	$: form?.interview_sheet && save(form.interview_sheet);
 </script>
 
-<Button href="/clients/{data.client._id}/export/interview_sheet">Download Interview Sheet</Button>
-<Button href="/clients/{data.client._id}/export/consent_form">Download Consent Form</Button>
+<form method="POST" use:enhance>
+	<Button type="submit">Generate Interview Sheet</Button>
+</form>
