@@ -120,8 +120,8 @@
 						{#await $page.data.clients}
 							<Loading />
 						{:then clients}
-							{#if clients.filter((client) => client.status !== 'deleted').length > 0}
-								<ClientTable data={clients.filter((client) => client.status !== 'deleted')} />
+							{#if clients.filter((client) => client.status !== 'Archived').length > 0}
+								<ClientTable data={clients.filter((client) => client.status !== 'Archived')} />
 							{:else}
 								<div
 									class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -149,8 +149,8 @@
 						{#await $page.data.clients}
 							<Loading />
 						{:then clients}
-							{#if clients.filter((client) => client.status !== 'deleted').length > 0}
-								<ClientTable data={clients.filter((client) => client.status !== 'deleted')} />
+							{#if clients.filter((client) => client.status !== 'Archived').length > 0}
+								<ClientTable data={clients.filter((client) => client.status !== 'Archived')} />
 							{:else}
 								<div
 									class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -178,8 +178,8 @@
 						{#await $page.data.clients}
 							<Loading />
 						{:then clients}
-							{#if clients.filter((client) => client.status !== 'deleted').length > 0}
-								<ClientTable data={clients.filter((client) => client.status !== 'deleted')} />
+							{#if clients.filter((client) => client.status !== 'Archived').length > 0}
+								<ClientTable data={clients.filter((client) => client.status !== 'Archived')} />
 							{:else}
 								<div
 									class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -207,8 +207,8 @@
 						{#await $page.data.clients}
 							<Loading />
 						{:then clients}
-							{#if clients.filter((client) => client.status !== 'deleted').length > 0}
-								<ClientTable data={clients.filter((client) => client.status !== 'deleted')} />
+							{#if clients.filter((client) => client.status !== 'Archived').length > 0}
+								<ClientTable data={clients.filter((client) => client.status !== 'Archived')} />
 							{:else}
 								<div
 									class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"

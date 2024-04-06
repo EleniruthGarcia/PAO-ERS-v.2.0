@@ -104,7 +104,7 @@ export interface Client {
 	indigenousPeople?: string;
 	urbanPoor?: string;
 	ruralPoor?: string;
-	status?: 'Deleted' | 'Archived';
+	status?: 'New' | 'Archived';
 	proofOfIndigency?: ('Income Tax Return' | 'Certification from Barangay' | 'Certification from DSWD' | { 'Others': string })[];
 }
 
