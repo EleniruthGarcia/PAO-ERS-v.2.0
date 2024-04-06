@@ -12,12 +12,7 @@ export const load: LayoutServerLoad = async (event) => {
 	}
 
 	return {
-		breadcrumbs: [
-			{
-				href: '/dashboard',
-				text: 'Dashboard'
-			}
-		],
+		breadcrumbs: [{ href: '/', text: 'PAO-ERS' }],
 		user: { ...event.locals.user }
 	};
 };
