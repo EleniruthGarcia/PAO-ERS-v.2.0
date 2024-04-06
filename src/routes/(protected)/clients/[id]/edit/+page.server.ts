@@ -17,9 +17,7 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	const client = await db.clients.findOne({ _id: event.params.id });
-	if (!client) {
-		redirect('/clients', { type: 'warning', message: 'Client not found!' }, event);
-	}
+	if (!client) redirect('/clients', { type: 'warning', message: 'Client not found!' }, event);
 
 	return {
 		breadcrumbs: [
@@ -29,7 +27,7 @@ export const load: PageServerLoad = async (event) => {
 				href: '/clients/' + event.params.id,
 				text: client.name
 			},
-			{ href: '/clients/' + event.params.id + '/edit', text: `Edit ${client.name}` }
+			{ href: '/clients/' + event.params.id + '/edit', text: `Edit` }
 		],
 		form: await superValidate(client, zod(formSchema)),
 		client
