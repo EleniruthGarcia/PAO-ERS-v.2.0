@@ -10,5 +10,5 @@ export const generateReport = async (data: any) => {
 	template.substitute('F.028', {});
 	template.substitute('F.029', {});
 
-	return template.generate({ type: 'base64' });
+	return { name: `Report_${data.month}.xlsx`, dataUri: 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + template.generate({ type: 'base64' }) };
 };

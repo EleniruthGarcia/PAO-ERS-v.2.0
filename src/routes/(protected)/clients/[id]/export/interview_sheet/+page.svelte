@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { save } from '$lib/utils';
 	import { enhance } from '$app/forms';
 	import type { PageServerData } from './$types';
 
@@ -6,13 +7,6 @@
 
 	export let data: PageServerData;
 	export let form;
-
-	const save = (file: string) => {
-		const a = document.createElement('a');
-		a.href = file;
-		a.download = `Interview Sheet_${data.client.lastName}.pdf`;
-		a.click();
-	};
 
 	$: form?.interview_sheet && save(form.interview_sheet);
 </script>

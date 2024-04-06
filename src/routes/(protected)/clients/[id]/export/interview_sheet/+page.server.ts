@@ -44,10 +44,7 @@ export const actions = {
 			);
 		}
 
-		const data = (await db.requests.aggregate([
-			{
-				$match: { _id: event.params.id }
-			},
+		const data = await db.requests.aggregate([
 			{
 				$lookup: {
 					from: 'clients',
@@ -55,6 +52,12 @@ export const actions = {
 					foreignField: '_id',
 					as: 'client'
 				}
+			},
+			{
+				$unwind: '$client',
+			},
+			{
+				$match: { 'client._id': event.params.id }
 			},
 			{
 				$lookup: {
@@ -91,7 +94,6 @@ export const actions = {
 			{
 				$addFields: {
 					branch: { $arrayElemAt: ['$branch', 0] },
-					client: { $arrayElemAt: ['$client', 0] },
 					lawyer: { $arrayElemAt: ['$lawyer', 0] },
 					interviewee: { $arrayElemAt: ['$interviewee', 0] },
 					case: { $arrayElemAt: ['$case', 0] }
@@ -170,7 +172,7 @@ export const actions = {
 					courtBodyTribunal: { $ifNull: ['$case.courtBody', ''] },
 				}
 			}
-		]).toArray())[0];
+		]).toArray();
 
 		if (!data) return fail(404);
 

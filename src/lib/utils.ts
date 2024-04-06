@@ -3,6 +3,13 @@ import { twMerge } from 'tailwind-merge';
 import { cubicOut } from 'svelte/easing';
 import type { TransitionConfig } from 'svelte/transition';
 
+export const save = (file: { name: string; dataUri: string }) => {
+	const a = document.createElement('a');
+	a.download = file.name;
+	a.href = file.dataUri;
+	a.click();
+};
+
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
