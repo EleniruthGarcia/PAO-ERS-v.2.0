@@ -46,7 +46,7 @@ export const actions = {
 		const client = await db.clients.updateOne(
 			{ _id: event.params.id },
 			{
-				$set: { status: 'deleted' }
+				$set: { status: 'Archived' }
 			}
 		);
 
