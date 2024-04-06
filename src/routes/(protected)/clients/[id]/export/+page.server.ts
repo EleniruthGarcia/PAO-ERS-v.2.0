@@ -27,7 +27,7 @@ export const load: PageServerLoad = async (event) => {
 				href: '/clients/' + event.params.id,
 				text: client.name
 			},
-			{ href: '/clients/' + event.params.id + '/export', text: `Export ${client.name}` }
+			{ href: '/clients/' + event.params.id + '/export', text: `Export` }
 		],
 		client
 	};
