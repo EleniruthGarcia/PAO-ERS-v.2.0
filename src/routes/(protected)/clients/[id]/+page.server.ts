@@ -1,11 +1,9 @@
 import db from '$lib/server/database';
+import { generateInterviewSheet } from '$lib/server/interview_sheet';
+
+import { fail } from '@sveltejs/kit';
 import { redirect } from 'sveltekit-flash-message/server';
 import type { PageServerLoad, Actions } from './$types';
-import { generateInterviewSheet } from '$lib/server/interview_sheet';
-import { superValidate } from 'sveltekit-superforms';
-import { formSchema } from '$lib/schema/client';
-import { zod } from 'sveltekit-superforms/adapters';
-import { fail } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {
@@ -31,43 +29,11 @@ export const load: PageServerLoad = async (event) => {
 				text: client.name
 			}
 		],
-		form: await superValidate(client, zod(formSchema)),
 		client
 	};
 };
 
 export const actions = {
-	update: async (event) => {
-		if (!event.locals.user) {
-			event.cookies.set('redirect', '/clients/' + event.params.id, { path: '/' });
-			redirect(
-				'/login',
-				{ type: 'warning', message: 'You must be logged in to access this page!' },
-				event
-			);
-		}
-
-		const form = await superValidate(event, zod(formSchema));
-		if (!form.valid) return fail(400, { form });
-
-		const client = await db.clients.updateOne(
-			{ _id: event.params.id },
-			{
-				...form.data,
-				name: `${form.data.firstName} ${form.data.middleName !== '' ? form.data.middleName + ' ' : ''}${form.data.lastName}${form.data.nameSuffix !== '' ? ', ' + form.data.nameSuffix : ''}`
-			}
-		);
-		if (!client || !client.acknowledged) return fail(500, { form });
-		if (client.matchedCount === 0) return fail(404, { form });
-		if (client.modifiedCount === 0 && client.upsertedCount === 0) return fail(304, { form });
-		redirect(
-			'/clients/' + client.upsertedId,
-			client.modifiedCount > 0 || client.upsertedCount > 0
-				? { type: 'success', message: 'Client updated!' }
-				: { type: 'info', message: 'No changes made...' },
-			event
-		);
-	},
 	delete: async (event) => {
 		if (!event.locals.user) {
 			event.cookies.set('redirect', '/clients/' + event.params.id, { path: '/' });
