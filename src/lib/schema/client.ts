@@ -18,37 +18,31 @@ export const classification = [
 	'Petitioner for Voluntary Rehabilitation'
 ] as const;
 
-export const sex = {
-	'': '',
-	male: 'Male',
-	female: 'Female'
-} as const;
-type Sex = keyof typeof sex;
+export const sex = [
+	'Male',
+	'Female'
+] as const;
 
-export const civilStatus = {
-	'': '',
-	single: 'Single',
-	married: 'Married',
-	separated: 'Separated',
-	widowed: 'Widowed',
-} as const;
-type CivilStatus = keyof typeof civilStatus;
+export const civilStatus = [
+	'Single',
+	'Married',
+	'Separated',
+	'Widowed'
+] as const;
 
-export const educationalAttainment = {
-	'': '',
-	noFormalSchooling: 'No Formal Schooling',
-	elementaryLevel: 'Elementary Level',
-	elementaryGraduate: 'Elementary Graduate',
-	highSchoolLevel: 'High School Level',
-	highSchoolGraduate: 'High School Graduate',
-	collegeLevel: 'College Level',
-	collegeGraduate: 'College Graduate',
-	withMastersUnits: "With Master's Units",
-	mastersGraduate: "Master's Graduate",
-	withDoctoralUnits: 'With Doctoral Units',
-	doctorateGraduate: 'Doctorate Graduate'
-} as const;
-type EducationalAttainment = keyof typeof educationalAttainment;
+export const educationalAttainment = [
+	'No Formal Schooling',
+	'Elementary Level',
+	'Elementary Graduate',
+	'High School Level',
+	'High School Graduate',
+	'College Level',
+	'College Graduate',
+	"With Master's Units",
+	"Master's Graduate",
+	'With Doctoral Units',
+	'Doctorate Graduate'
+] as const;
 
 export const formSchema = z.object({
 	_id: z.string().optional(),
@@ -58,25 +52,20 @@ export const formSchema = z.object({
 	lastName: z.string().min(1, 'Last name is required!'),
 	nameSuffix: z.string().optional(),
 	dateOfBirth: z.date().optional(),
-	age: z.number({
-		invalid_type_error: 'Age is required!',
-	}).positive().min(1, 'Age is required!'),
-	sex: z.enum(Object.keys(sex) as [Sex, ...Sex[]]),
+	age: z.number({ invalid_type_error: 'Age is required!', }).positive().min(1, 'Age is required!'),
+	sex: z.enum(sex),
 	address: z.string().min(1, 'Address is required!'),
 	email: z.string().email().optional(),
-	contactNumber: z
-		.string()
-		.regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number!')
-		.refine((value) => value !== '', { message: 'Contact number is required!' }),
-	civilStatus: z.enum(Object.keys(civilStatus) as [CivilStatus, ...CivilStatus[]]),
+	contactNumber: z.string().regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number!').refine((value) => value !== '', {
+		message: 'Contact number is required!',
+	}),
+	civilStatus: z.enum(civilStatus),
 	religion: z.string().optional(),
-	citizenship: z.string(),
-	educationalAttainment: z.enum(
-		Object.keys(educationalAttainment) as [EducationalAttainment, ...EducationalAttainment[]]
-	),
-	language: z.string(),
+	citizenship: z.string().optional(),
+	educationalAttainment: z.enum(educationalAttainment),
+	language: z.string().optional(),
 	individualMonthlyIncome: z.number().optional(),
-	detained: z.boolean(),
+	detained: z.boolean().default(false),
 	detainedAt: z.string().optional(),
 	detainedSince: z
 		.date()
@@ -90,7 +79,7 @@ export const formSchema = z.object({
 	spouseNameSuffix: z.string().optional(),
 	spouseAddress: z.string().optional(),
 	spouseEmail: z.string().email().optional(),
-	spouseContactNumber: z.string().regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number!'),
+	spouseContactNumber: z.string().regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number!').optional(),
 	classification: z.array(z.enum(classification)).optional(),
 	foreignNational: z.string().optional(),
 	pwd: z.string().optional(),

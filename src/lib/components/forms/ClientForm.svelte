@@ -45,24 +45,32 @@
 		$formData.lastName
 	}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
 
+	$: $formData.spouseName =
+		$formData.civilStatus === 'Married' && $formData.spouseFirstName && $formData.spouseLastName
+			? `${$formData.spouseFirstName}${
+					$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''
+				} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`
+			: undefined;
+
 	$: selectedSex = {
-		label: sex[$formData.sex],
+		label: $formData.sex,
 		value: $formData.sex
 	};
 
 	$: selectedCivilStatus = {
-		label: civilStatus[$formData.civilStatus],
+		label: $formData.civilStatus,
 		value: $formData.civilStatus
 	};
 
 	$: selectedEducationalAttainment = {
-		label: educationalAttainment[$formData.educationalAttainment],
+		label: $formData.educationalAttainment,
 		value: $formData.educationalAttainment
 	};
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
 	<input type="hidden" name="_id" bind:value={$formData._id} />
+	<input type="hidden" name="name" bind:value={$formData.name} />
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
 		<div class="flex items-center gap-4">
 			<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>
@@ -94,7 +102,6 @@
 									<Form.Label>Name</Form.Label>
 									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
 								</Form.Control>
-								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="middleName" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
@@ -140,10 +147,8 @@
 											<Select.Value placeholder="" />
 										</Select.Trigger>
 										<Select.Content>
-											{#each Object.entries(sex) as [value, label]}
-												{#if value !== ''}
-													<Select.Item {value} {label}>{label}</Select.Item>
-												{/if}
+											{#each sex as value}
+												<Select.Item {value} />
 											{/each}
 										</Select.Content>
 									</Select.Root>
@@ -164,10 +169,8 @@
 											<Select.Value placeholder="" />
 										</Select.Trigger>
 										<Select.Content>
-											{#each Object.entries(civilStatus) as [value, label]}
-												{#if value !== ''}
-													<Select.Item {value} {label}>{label}</Select.Item>
-												{/if}
+											{#each civilStatus as value}
+												<Select.Item {value} />
 											{/each}
 										</Select.Content>
 									</Select.Root>
@@ -211,10 +214,8 @@
 											<Select.Value placeholder="" />
 										</Select.Trigger>
 										<Select.Content>
-											{#each Object.entries(educationalAttainment) as [value, label]}
-												{#if value !== ''}
-													<Select.Item {value} {label}>{label}</Select.Item>
-												{/if}
+											{#each educationalAttainment as value}
+												<Select.Item {value} />
 											{/each}
 										</Select.Content>
 									</Select.Root>
@@ -237,7 +238,7 @@
 							>
 								<Form.Control let:attrs>
 									<Checkbox {...attrs} bind:checked={$formData.detained} />
-									<div class="space-y-2 leading-none h-10 truncate">
+									<div class="h-10 space-y-2 truncate leading-none">
 										<Form.Label>Detained</Form.Label>
 										<Form.Description>Check if the client is detained.</Form.Description>
 									</div>
@@ -278,7 +279,7 @@
 						</div>
 					</Card.Content>
 				</Card.Root>
-				{#if $formData.civilStatus === 'married'}
+				{#if $formData.civilStatus === 'Married'}
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Spouse Information</Card.Title>
@@ -288,28 +289,44 @@
 								<Form.Field {form} name="spouseFirstName" class="col-span-2 grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label>Name</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseFirstName} placeholder="First Name"/>
+										<Input
+											{...attrs}
+											bind:value={$formData.spouseFirstName}
+											placeholder="First Name"
+										/>
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseMiddleName" class="col-span-2 grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label>&nbsp;</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseMiddleName} placeholder="Middle Name"/>
+										<Input
+											{...attrs}
+											bind:value={$formData.spouseMiddleName}
+											placeholder="Middle Name"
+										/>
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseLastName" class="col-span-2 grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label>&nbsp;</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseLastName} placeholder="Last Name"/>
+										<Input
+											{...attrs}
+											bind:value={$formData.spouseLastName}
+											placeholder="Last Name"
+										/>
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseNameSuffix" class="grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label>&nbsp;</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseNameSuffix} placeholder="Suffix"/>
+										<Input
+											{...attrs}
+											bind:value={$formData.spouseNameSuffix}
+											placeholder="Suffix"
+										/>
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>

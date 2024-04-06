@@ -11,7 +11,6 @@
 
 	import { getContext } from 'svelte';
 	import Loading from '$lib/components/Loading.svelte';
-	import { classification } from '$lib/schema/client';
 
 	const selectedClients = getContext('selectedData');
 
