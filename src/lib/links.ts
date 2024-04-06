@@ -3,7 +3,7 @@ import type { User } from '$lib/server/database';
 import { Home, Person, FileText, Gear, Backpack, CardStack } from 'svelte-radix';
 
 const links = {
-	admin: { href: '/admin', icon: Home, label: 'Admin' },
+	admin: { href: '/admin', icon: Home, label: 'Dashboard' },
 	dashboard: { href: '/dashboard', icon: Home, label: 'Dashboard' },
 	clients: { href: '/clients', icon: Person, label: 'Clients' },
 	requests: { href: '/requests', icon: CardStack, label: 'Requests' },

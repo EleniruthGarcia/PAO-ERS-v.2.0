@@ -163,9 +163,13 @@
 								<Subscribe attrs={cell.attrs()} let:attrs>
 									<Table.Cell {...attrs} class="[&:has([role=checkbox])]:pl-3">
 										{#if cell.id === 'name'}
-											<div class="text-left font-medium">
+											<Button
+												class="text-left font-medium text-foreground"
+												variant="link"
+												href="/clients/{row.original._id}"
+											>
 												<Render of={cell.render()} />
-											</div>
+											</Button>
 										{:else if cell.id === 'age' || cell.id === 'address'}
 											<div class="text-center">
 												<Render of={cell.render()} />

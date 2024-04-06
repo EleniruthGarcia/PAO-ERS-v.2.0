@@ -2,6 +2,8 @@
 	import { page } from '$app/stores';
 	import { ChevronLeft, ChevronRight, Copy, Person, DotsVertical } from 'svelte-radix';
 
+	import { toast } from 'svelte-sonner';
+
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
@@ -25,7 +27,9 @@
 		<Card.Header class="flex flex-row items-start bg-muted/50">
 			<div class="grid gap-0.5">
 				<Card.Title class="group flex items-center gap-2 text-lg">
-					{client.name}
+					<Button variant="link" class="p-0 text-lg text-foreground" href="/clients/{client._id}">
+						{client.name}
+					</Button>
 					{#if $selectedClients.length > 1}
 						<Button
 							size="icon"
@@ -50,6 +54,10 @@
 						size="icon"
 						variant="outline"
 						class="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
+						on:click={() =>
+							navigator.clipboard
+								.writeText(client._id)
+								.then(() => toast(`Copied Client ID '${client._id}'!`))}
 					>
 						<Copy class="h-3 w-3" />
 						<span class="sr-only">Copy Client ID</span>
@@ -104,7 +112,7 @@
 					</li>
 					<li class="flex items-center justify-between">
 						<span class="text-muted-foreground"> Religion </span>
-						<span>{client.religion}</span>
+						<span>{client.religion !== '' ? client.religion : 'N/A'}</span>
 					</li>
 					<li class="flex items-center justify-between">
 						<span class="text-muted-foreground"> Educational Attainment </span>
@@ -174,13 +182,15 @@
 					</ul>
 				</div>
 			{/if}
-			<Separator class="my-4" />
-			<div>
-				<div class="mb-3 font-semibold">Classifications</div>
-				{#each client.classification as classification}
-					<Badge class="m-1">{classification}</Badge>
-				{/each}
-			</div>
+			{#if client.classification}
+				<Separator class="my-4" />
+				<div>
+					<div class="mb-3 font-semibold">Classifications</div>
+					{#each client.classification as classification}
+						<Badge class="m-1">{classification}</Badge>
+					{/each}
+				</div>
+			{/if}
 		</Card.Content>
 		<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 			<div class="text-xs text-muted-foreground">

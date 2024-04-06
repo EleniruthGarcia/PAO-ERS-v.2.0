@@ -1,4 +1,5 @@
 import ClientTable from './ClientTable.svelte';
 import SelectedClients from './SelectedClients.svelte';
+import Table from './data-table.svelte';
 
-export { ClientTable, SelectedClients };
+export { Table, ClientTable, SelectedClients };
