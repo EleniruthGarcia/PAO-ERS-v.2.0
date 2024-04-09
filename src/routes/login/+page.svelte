@@ -6,7 +6,7 @@
 </script>
 
 <div class="h-dvh w-screen lg:flex">
-	<div class="hidden h-full flex-col items-center justify-center gap-6 bg-secondary lg:flex">
+	<div class="hidden h-full flex-col items-center justify-center gap-6 lg:flex">
 		<img
 			src="/favicon.png"
 			alt="PAO-ERS Logo"
@@ -27,15 +27,7 @@
 			</p>
 		</div>
 	</div>
-	<div class="flex h-full w-full items-center justify-center p-12">
-		<div class="mx-auto grid w-[350px] gap-6">
-			<div class="grid gap-2 text-center">
-				<h1 class="text-3xl font-bold">PAO-ERS</h1>
-				<p class="text-balance text-muted-foreground">
-					Enter your credentials below to login to your account.
-				</p>
-			</div>
-			<LoginForm data={data.form} />
-		</div>
+	<div class="flex h-full w-full items-center justify-center bg-secondary p-12">
+		<LoginForm data={data.form} />
 	</div>
 </div>
