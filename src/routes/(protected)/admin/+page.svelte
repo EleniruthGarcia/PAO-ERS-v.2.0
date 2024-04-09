@@ -44,7 +44,7 @@
 						<DropdownMenu.Trigger asChild let:builder>
 							<Button class="gap-2" builders={[builder]}>
 								<PlusCircled class="h-3.5 w-3.5" />
-								<span class="sr-only sm:not-sr-only">Add New...</span>
+								<span class="sr-only sm:not-sr-only">Add</span>
 							</Button>
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content align="end">
@@ -98,7 +98,7 @@
 						<DropdownMenu.Trigger asChild let:builder>
 							<Button class="h-7 gap-1" builders={[builder]}>
 								<PlusCircled class="h-3.5 w-3.5" />
-								<span class="sr-only sm:not-sr-only">Add New...</span>
+								<span class="sr-only sm:not-sr-only">Add</span>
 							</Button>
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content align="end">
