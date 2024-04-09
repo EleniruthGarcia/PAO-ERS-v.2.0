@@ -49,7 +49,7 @@
 		<Card.Root>
 			<Card.Header class="px-7">
 				<Card.Title>Clients</Card.Title>
-				<Card.Description>All clients added to the system.</Card.Description>
+				<Card.Description>All active clients added to the system are shown here.</Card.Description>
 			</Card.Header>
 			<Card.Content>
 				{#await $page.data.clients}
@@ -78,7 +78,7 @@
 		<Card.Root>
 			<Card.Header class="px-7">
 				<Card.Title>Recent Clients</Card.Title>
-				<Card.Description>Recent clients added to the system.</Card.Description>
+				<Card.Description>Recent clients added to the system are shown here.</Card.Description>
 			</Card.Header>
 			<Card.Content>
 				{#await $page.data.clients}
@@ -107,7 +107,7 @@
 		<Card.Root>
 			<Card.Header class="px-7">
 				<Card.Title>Archived Clients</Card.Title>
-				<Card.Description>Clients archived from the system.</Card.Description>
+				<Card.Description>Clients archived from the system are shown here. For permanent deletion, please contact administrator.</Card.Description>
 			</Card.Header>
 			<Card.Content>
 				{#await $page.data.clients}

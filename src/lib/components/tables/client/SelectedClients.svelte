@@ -4,6 +4,7 @@
 
 	import { toast } from 'svelte-sonner';
 
+	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
@@ -70,20 +71,36 @@
 					<Person class="h-3.5 w-3.5" />
 					<span class="lg:sr-only xl:not-sr-only xl:whitespace-nowrap"> Track Client </span>
 				</Button> -->
-				<DropdownMenu.Root>
-					<DropdownMenu.Trigger asChild let:builder>
-						<Button builders={[builder]} size="icon" variant="outline" class="h-8 w-8">
-							<DotsVertical class="h-3.5 w-3.5" />
-							<span class="sr-only">More</span>
-						</Button>
-					</DropdownMenu.Trigger>
-					<DropdownMenu.Content align="end">
-						<DropdownMenu.Item href="/clients/{client._id}/edit">Edit</DropdownMenu.Item>
-						<DropdownMenu.Item href="/clients/{client._id}/export">Export</DropdownMenu.Item>
-						<DropdownMenu.Separator />
-						<DropdownMenu.Item href="/clients/{client._id}/delete">Trash</DropdownMenu.Item>
-					</DropdownMenu.Content>
-				</DropdownMenu.Root>
+				<AlertDialog.Root>
+					<DropdownMenu.Root>
+						<DropdownMenu.Trigger asChild let:builder>
+							<Button builders={[builder]} size="icon" variant="outline" class="h-8 w-8">
+								<DotsVertical class="h-3.5 w-3.5" />
+								<span class="sr-only">More</span>
+							</Button>
+						</DropdownMenu.Trigger>
+						<DropdownMenu.Content align="end">
+							<DropdownMenu.Item href="/clients/{client._id}/edit">Edit</DropdownMenu.Item>
+							<DropdownMenu.Item href="/clients/{client._id}/export">Export</DropdownMenu.Item>
+							<DropdownMenu.Separator />
+							<AlertDialog.Trigger class="w-full">
+								<DropdownMenu.Item>Delete</DropdownMenu.Item>
+							</AlertDialog.Trigger>
+						</DropdownMenu.Content>
+					</DropdownMenu.Root>
+					<AlertDialog.Content>
+						<AlertDialog.Header>
+							<AlertDialog.Title>Delete Client</AlertDialog.Title>
+							<AlertDialog.Description>
+								Are you aboslutely sure? The client will be archived and will not show up in Active Clients. If you want the client to be permanently deleted, please contact the administrator.
+							</AlertDialog.Description>
+						</AlertDialog.Header>
+						<AlertDialog.Footer>
+							<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+							<AlertDialog.Action>Delete</AlertDialog.Action>
+						</AlertDialog.Footer>
+					</AlertDialog.Content>
+				</AlertDialog.Root>
 			</div>
 		</Card.Header>
 		<Card.Content class="p-6 text-sm">
