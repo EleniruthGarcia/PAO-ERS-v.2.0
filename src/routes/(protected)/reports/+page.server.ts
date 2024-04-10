@@ -175,7 +175,15 @@ export const actions = {
 		]).toArray();
 
 		const f11 = requests.filter((d) => d.natureOfRequest.contains('Jail Visitation'));
+		const f12 = '';
 		const f13 = requests.filter((d) => d.client.classifcation.contains('Child Client'));
+		const f14 = '';
+		const f15 = requests.filter((d) => d.client.classification.contains('Petitioner for Voluntary Rehabilitation'));
+		const f16 = requests.filter((d) => d.client.foreignNational.contains('Taiwanese'));
+		const f18 = requests.filter((d) => d.client.classification.contains('OFW') && d.requests.nature.contains('Inquest Legal Assistance'));
+		const f19 = '';
+		const f20 = requests.filter((d) => d.client.PWD.contains(true));
+		const f21 = requests.filter((d) => d.request.natureOfRequest.contains('Administration of Oath'));
 
 		return {
 			report: await generateReport({
@@ -186,7 +194,12 @@ export const actions = {
 				f10: outreaches,
 				f11,
 				f13,
+				f15,
+				f16,
 				f17: { ...requests, ...outreaches },
+				f18,
+				f20,
+				f21
 			})
 		};
 	}
