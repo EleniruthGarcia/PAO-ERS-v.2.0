@@ -68,7 +68,7 @@
 							<Form.Field {form} name="username" class="col-span-4 grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Username</Form.Label>
-									<Input {...attrs} bind:value={$formData.firstName} placeholder="Username" />
+									<Input {...attrs} bind:value={$formData.username} placeholder="Username" />
 								</Form.Control>
 							</Form.Field>
 							<Form.Field {form} name="hashedPassword" class="col-span-2 grid gap-3">
@@ -77,7 +77,7 @@
 									<Input
 										{...attrs}
 										type="password"
-										bind:value={$formData.firstName}
+										bind:value={$formData.hashedPassword}
 										placeholder="Password"
 									/>
 								</Form.Control>
