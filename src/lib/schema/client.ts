@@ -3,22 +3,22 @@ import z from 'zod';
 export const classification = [
 	'Beneficiary of Hernan Ruling (R.A. No. 10951)',
 	'Child Client',
-    'Child in Conflict with the Law',
-    'Drug-Related Duty',
-    'FRs and FVEs',
-    'Law Enforcer',
-    'OFW (Land-Based)',
-    'OFW (Sea-Based)',
-    'Petitioner for Voluntary Rehabilitation',
-    'Refugee or Evacuee',
-    'Senior Citizen',
+	'Child in Conflict with the Law',
+	'Drug-Related Duty',
+	'FRs and FVEs',
+	'Law Enforcer',
+	'OFW (Land-Based)',
+	'OFW (Sea-Based)',
+	'Petitioner for Voluntary Rehabilitation',
+	'Refugee or Evacuee',
+	'Senior Citizen',
 	'Special Legal Services (R.A. No. 9406 and MOAs)',
-    'Tenant in Agrarian Case',
-    'VAWC Victim',
-    'Victim of Terrorism (R.A. No. 9372)',
-    'Victim of Torture (R.A. No. 9745)',
-    'Victim of Trafficking (R.A. No. 9208)',
-    'Woman Client'
+	'Tenant in Agrarian Case',
+	'VAWC Victim',
+	'Victim of Terrorism (R.A. No. 9372)',
+	'Victim of Torture (R.A. No. 9745)',
+	'Victim of Trafficking (R.A. No. 9208)',
+	'Woman Client'
 ] as const;
 
 export const sex = [

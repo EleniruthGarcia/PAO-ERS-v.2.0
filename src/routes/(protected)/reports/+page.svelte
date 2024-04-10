@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { save } from '$lib/utils';
-	import { Button } from '$lib/components/ui/button';
-	import { enhance } from '$app/forms';
+	import { page } from '$app/stores';
+	import type { PageServerData } from './$types';
+	import ReportForm from '$lib/components/forms/ReportForm.svelte';
 
-	export let form;
+	export let data: PageServerData;
 
-	$: form?.report && save(form.report);
+	$: $page.form?.report && save($page.form?.report);
 </script>
 
-<form method="POST" use:enhance>
-	<Button type="submit">Download Report</Button>
-</form>
+<ReportForm data={data.form} />
