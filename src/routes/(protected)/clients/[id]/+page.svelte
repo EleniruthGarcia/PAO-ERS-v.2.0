@@ -46,12 +46,12 @@
 									.then(() => toast(`Copied data.client ID '${data.client._id}'!`))}
 						>
 							<Copy class="h-3 w-3" />
-							<span class="sr-only">Copy data.client ID</span>
+							<span class="sr-only">Copy Client ID</span>
 						</Button>
 					</Card.Title>
 					<Card.Description>Date: November 23, 2023</Card.Description>
 				</div>
-				<div class="ml-auto flex items-center gap-1 invisible sm:visible">
+				<div class="invisible ml-auto flex items-center gap-1 sm:visible">
 					<Button
 						size="sm"
 						variant="outline"
@@ -63,59 +63,97 @@
 					</form>
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
-							<Button
-								size="sm"
-								variant="destructive"
-								class="h-7 gap-1 bg-destructive text-sm">Delete</Button
+							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
+								>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
 							>
 						</AlertDialog.Trigger>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
-								<AlertDialog.Title>Delete Client</AlertDialog.Title>
+								<AlertDialog.Title
+									>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
+								>
 								<AlertDialog.Description>
-									Are you aboslutely sure? The client will be archived and will not show up in
-									Active Clients. If you want the client to be permanently deleted, please contact
-									the administrator.
+									Are you aboslutely sure? The client will be {data.client.status.at(-1)?.type ===
+									'Archived'
+										? 'restored'
+										: 'archived'} and will {data.client.status.at(-1)?.type === 'Archived'
+										? ''
+										: 'not'} show up in Active Clients. If you want the client to be permanently deleted,
+									please contact the administrator.
 								</AlertDialog.Description>
 							</AlertDialog.Header>
 							<AlertDialog.Footer>
 								<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-								<AlertDialog.Action class="bg-destructive hover:bg-destructive/90">Delete</AlertDialog.Action>
+								<form
+									method="POST"
+									action="/clients/{data.client._id}/{data.client.status.at(-1)?.type === 'Archived'
+										? 'restore'
+										: 'delete'}"
+								>
+									<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90">
+										{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+									</AlertDialog.Action>
+								</form>
 							</AlertDialog.Footer>
 						</AlertDialog.Content>
 					</AlertDialog.Root>
 				</div>
-				<div class="ml-auto flex items-center gap-1 visible sm:hidden">
-					<AlertDialog.Root>
-						<DropdownMenu.Root>
-							<DropdownMenu.Trigger asChild let:builder>
-								<Button builders={[builder]} size="icon" variant="outline" class="h-8 w-8">
-									<DotsVertical class="h-3.5 w-3.5" />
-									<span class="sr-only">More</span>
-								</Button>
-							</DropdownMenu.Trigger>
-							<DropdownMenu.Content align="end">
-								<DropdownMenu.Item href="/clients/{data.client._id}/edit">Edit</DropdownMenu.Item>
-								<DropdownMenu.Item href="/clients/{data.client._id}/export">Export</DropdownMenu.Item>
-								<DropdownMenu.Separator />
-								<AlertDialog.Trigger class="w-full">
-									<DropdownMenu.Item>Delete</DropdownMenu.Item>
+				<div class="visible ml-auto flex items-center gap-1 sm:hidden">
+					<DropdownMenu.Root>
+						<DropdownMenu.Trigger asChild let:builder>
+							<Button builders={[builder]} size="icon" variant="outline" class="h-8 w-8">
+								<DotsVertical class="h-3.5 w-3.5" />
+								<span class="sr-only">More</span>
+							</Button>
+						</DropdownMenu.Trigger>
+						<DropdownMenu.Content align="end">
+							<DropdownMenu.Item href="/clients/{data.client._id}/edit">Edit</DropdownMenu.Item>
+							<form method="POST" use:enhance>
+								<DropdownMenu.Item type="submit">Export</DropdownMenu.Item>
+							</form>
+							<DropdownMenu.Separator />
+							<AlertDialog.Root>
+								<AlertDialog.Trigger>
+									<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
+										>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
+									>
 								</AlertDialog.Trigger>
-							</DropdownMenu.Content>
-						</DropdownMenu.Root>
-						<AlertDialog.Content>
-							<AlertDialog.Header>
-								<AlertDialog.Title>Delete Client</AlertDialog.Title>
-								<AlertDialog.Description>
-									Are you aboslutely sure? The client will be archived and will not show up in Active Clients. If you want the client to be permanently deleted, please contact the administrator.
-								</AlertDialog.Description>
-							</AlertDialog.Header>
-							<AlertDialog.Footer>
-								<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-								<AlertDialog.Action class="bg-destructive hover:bg-destructive/90">Delete</AlertDialog.Action>
-							</AlertDialog.Footer>
-						</AlertDialog.Content>
-					</AlertDialog.Root>
+								<AlertDialog.Content>
+									<AlertDialog.Header>
+										<AlertDialog.Title
+											>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
+										>
+										<AlertDialog.Description>
+											Are you aboslutely sure? The client will be {data.client.status.at(-1)
+												?.type === 'Archived'
+												? 'restored'
+												: 'archived'} and will {data.client.status.at(-1)?.type === 'Archived'
+												? ''
+												: 'not'} show up in Active Clients. If you want the client to be permanently
+											deleted, please contact the administrator.
+										</AlertDialog.Description>
+									</AlertDialog.Header>
+									<AlertDialog.Footer>
+										<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+										<form
+											method="POST"
+											action="/clients/{data.client._id}/{data.client.status.at(-1)?.type ===
+											'Archived'
+												? 'restore'
+												: 'delete'}"
+										>
+											<AlertDialog.Action
+												type="submit"
+												class="bg-destructive hover:bg-destructive/90"
+											>
+												{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+											</AlertDialog.Action>
+										</form>
+									</AlertDialog.Footer>
+								</AlertDialog.Content>
+							</AlertDialog.Root>
+						</DropdownMenu.Content>
+					</DropdownMenu.Root>
 				</div>
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
@@ -144,7 +182,9 @@
 						</li>
 						<li class="flex items-center justify-between">
 							<span class="text-muted-foreground"> Religion </span>
-							<span class="truncate">{data.client.religion !== '' ? data.client.religion : 'N/A'}</span>
+							<span class="truncate"
+								>{data.client.religion !== '' ? data.client.religion : 'N/A'}</span
+							>
 						</li>
 						<li class="flex items-center justify-between">
 							<span class="text-muted-foreground"> Educational Attainment </span>

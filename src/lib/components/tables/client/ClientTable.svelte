@@ -55,8 +55,8 @@
 				{#await $page.data.clients}
 					<Loading />
 				{:then clients}
-					{#if clients.filter((client) => client.status !== 'Archived').length > 0}
-						<Table data={clients.filter((client) => client.status !== 'Archived')} />
+					{#if clients.filter((client) => client.status.at(-1).type !== 'Archived').length > 0}
+						<Table data={clients.filter((client) => client.status.at(-1).type !== 'Archived')} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -84,8 +84,8 @@
 				{#await $page.data.clients}
 					<Loading />
 				{:then clients}
-					{#if clients.filter((client) => client.status === 'New').length > 0}
-						<Table data={clients.filter((client) => client.status === 'New')} />
+					{#if clients.filter((client) => client.status.at(-1).type === 'New').length > 0}
+						<Table data={clients.filter((client) => client.status.at(-1).type === 'New')} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -107,14 +107,17 @@
 		<Card.Root>
 			<Card.Header class="px-7">
 				<Card.Title>Archived Clients</Card.Title>
-				<Card.Description>Clients archived from the system are shown here. For permanent deletion, please contact administrator.</Card.Description>
+				<Card.Description
+					>Clients archived from the system are shown here. For permanent deletion, please contact
+					administrator.</Card.Description
+				>
 			</Card.Header>
 			<Card.Content>
 				{#await $page.data.clients}
 					<Loading />
 				{:then clients}
-					{#if clients.filter((client) => client.status === 'Archived').length > 0}
-						<Table data={clients.filter((client) => client.status === 'Archived')} />
+					{#if clients.filter((client) => client.status.at(-1).type === 'Archived').length > 0}
+						<Table data={clients.filter((client) => client.status.at(-1).type === 'Archived')} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"

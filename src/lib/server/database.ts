@@ -107,7 +107,7 @@ export interface Client {
 	urbanPoor?: string;
 	ruralPoor?: string;
 	proofOfIndigency?: ('Income Tax Return' | 'Certification from Barangay' | 'Certification from DSWD' | { 'Others': string })[];
-	status: { type: 'New' | 'Edited' | 'Archived' | 'Restored', date: Date }[];
+	status: { type: 'New' | 'Updated' | 'Archived' | 'Restored', date: Date }[];
 }
 
 interface Case {

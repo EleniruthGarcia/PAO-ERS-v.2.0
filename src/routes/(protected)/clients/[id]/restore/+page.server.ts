@@ -47,7 +47,7 @@ export const actions = {
 			{ _id: event.params.id },
 			{
 				$push: {
-					status: { type: 'Archived', date: new Date() }
+					status: { type: 'Restored', date: new Date() }
 				}
 			}
 		);

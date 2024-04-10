@@ -15,7 +15,7 @@ export const load: PageServerLoad = async (event) => {
 	return {
 		breadcrumbs: [
 			{ href: '/', text: 'PAO-ERS' },
-			{ href: '/dashboard', text: 'Dashboard' }
+			{ href: '/admin', text: 'Dashboard' }
 		],
 		clients: db.clients.find().toArray()
 	};

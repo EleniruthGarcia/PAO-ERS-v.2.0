@@ -36,6 +36,7 @@ export const actions: Actions = {
 		const client = await db.clients.insertOne({
 			...form.data,
 			_id: 'CLIENT-' + Date.now().toString(36).toUpperCase(),
+			status: [{ type: 'New', date: new Date() }],
 		});
 		if (!client.acknowledged) return fail(500, { form });
 
