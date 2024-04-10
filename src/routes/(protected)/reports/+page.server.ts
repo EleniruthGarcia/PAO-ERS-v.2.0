@@ -31,483 +31,143 @@ export const actions = {
 			);
 		}
 
-		const { month } = Object.fromEntries(await event.request.formData());
+		const { month, year } = Object.fromEntries(await event.request.formData());
 
-		const data_ = db.requests.aggregate([
+		const data = await db.requests.aggregate([
 			{
-				$match: {}
-			}
-		]);
-
-		let data = {
-			region: 'CAR',
-			district: 'Baguio City',
-			month: 'December',
-			day: '15',
-			year: '2023',
-			barangay: 'BAGUIO CITY JAIL',
-			lawyer: 'CECILIA F. BACANI',
-			f10: [
-				{
-					date: '12/15/2023',
-					name: 'Acaso, Mary Ann y Bariso',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Alonzo, Sunshine y Lucas',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Agoyos, April Lyn y Eyas',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Almazan, Britch ',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Amurao, Kristel Lorelaine',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Abelinde, Elsa',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Balbuena,Shaina Fane ',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Balicha, Rosario y Abuyog',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Banatao, Maricar y Salingbay',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Basman, Norlailah y Rascal',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Batolne, Brigitte y Ebbes',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Batolne, Clare y Sito',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Batolne, Ruby y Ebbes',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Buenaobra, Mary Anne ',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Bulatao, Cecilia y Baquilar',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Cabalo, Nicole',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Cabarlo, Nicole Ann ',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Camrot, Laija y Bagonia',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Castellano, Marichu y Leyte',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Cortez, Judith y Wagtingan',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Darapiza,Jerelyn y Calindas',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'De Guzman, May-ann ',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Del Mundo, Lilibeth y Flores',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'De Villes, Alma y Lazarte',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Delena, Angeline Mae ',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Dao-ayen, Arraine y Manis',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Domingo, Mimbla y Sabado',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Domingo, Sheena ',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Doss, Hazel y Gracia',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Ebra, Rasmia Ba',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Fernandez, Ferlinda ',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Furto, Myra y Ruiz',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Guiles, Akira Shan y Inciong',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Kimmayong, Lyca y Ananayo',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Labasan, Amelyn y Garcia',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Lau, Romyllie y Batolne',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Lee, Anna-lynn y Bugarin',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Lorenzana, Sharry y',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Mabalot, Cynthia',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Mendoza, Jessica y Dela Cruz',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Millare, Elisa y Aguirre',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Millanes, Heijen',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Mondero, Ann Marie ',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Moralde, Mercury ',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Perocho, Michelle y Marco',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Perez, Raye Ann Marie ',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Postre, Mia Jane y Noquilla',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Ricablanca, Moraine Gaile ',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Salvador, Azhel y Pablo',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Segwaben, Silene',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Sibug, Grace y Ubusan',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					sex: 'F'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Singson, Alysia y Allidem',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Tabisola, Emelyn y De Paz',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Tabula, Juvylyn y Recaplaza',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Tacadena, Judy y Ambasing',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Tandingan, Carla y Sacyat',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Taroma, Nichole y Viscara',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Tayao, Margie y Gabriel',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Torio, Veronica y Maquinto',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
-				},
-				{
-					date: '12/15/2023',
-					name: 'Uyan, Marjorie y Bon-og',
-					sex: 'F',
-					problem_presented: 'LECTURE ON EXPANDED SENIOR CITIZENS ACT OF 2010',
-					action_taken: 'OUTREACH/LECTURE',
-					remarks: 'NA'
+				$lookup: {
+					from: 'users',
+					localField: 'lawyer_id',
+					foreignField: '_id',
+					as: 'lawyer'
 				}
-			]
-		};
+			},
+			{
+				$addFields: {
+					lawyer: { $arrayElemAt: ['$lawyer', 0] },
+				}
+			},
+			{
+				$match: { 'lawyer._id': event.locals.user.id }
+			},
+			{
+				$lookup: {
+					from: 'clients',
+					localField: 'client_id',
+					foreignField: '_id',
+					as: 'client'
+				}
+			},
+			{
+				$unwind: '$client',
+			},
+			{
+				$lookup: {
+					from: 'clients',
+					localField: 'interviewee_id',
+					foreignField: '_id',
+					as: 'interviewee'
+				}
+			},
+			{
+				$lookup: {
+					from: 'cases',
+					localField: 'case_id',
+					foreignField: '_id',
+					as: 'case'
+				}
+			},
+			{
+				$lookup: {
+					from: 'branches',
+					localField: 'lawyer.branch_id',
+					foreignField: '_id',
+					as: 'branch'
+				}
+			},
+			{
+				$addFields: {
+					branch: { $arrayElemAt: ['$branch', 0] },
+					lawyer: { $arrayElemAt: ['$lawyer', 0] },
+					interviewee: { $arrayElemAt: ['$interviewee', 0] },
+					case: { $arrayElemAt: ['$case', 0] }
+				}
+			},
+			{
+				$project: {
+					region: '$branch.region',
+					district: '$branch.district',
+					province: '$branch.province',
+					monthYear: {
+						$dateToString: {
+							date: '$date',
+							format: '%B %Y',
+							timezone: '+08:00',
+							onNull: 'N/A'
+						}
+					},
+					f10: {
 
-		return { report: await generateReport(data) };
+					},
+					// controlNo: '$_id',
+					// religion: { $ifNull: ['$client.religion', 'N/A'] },
+					// citizenship: { $ifNull: ['$client.citizenship', 'N/A'] },
+					// name: '$client.name',
+					// age: '$client.age',
+					// address: '$client.address',
+					// email: { $ifNull: ['$client.email', ''] },
+					// individualMonthlyIncome: { $toString: { $ifNull: ['$client.individualMonthlyIncome', 'N/A'] } },
+					// detainedSince: '$client.detainedSince',
+					// civilStatus: '$client.civilStatus',
+					// sex: '$client.sex',
+					// educationalAttainment: '$client.educationalAttainment',
+					// languageDialect: '$client.language',
+					// contactNo: { $ifNull: ['$client.contactNumber', 'N/A'] },
+					// spouse: { $ifNull: ['$client.spouse', ''] },
+					// addressOfSpouse: { $ifNull: ['$client.addressOfSpouse', ''] },
+					// spouseContactNo: { $ifNull: ['$client.spouseContactNumber', ''] },
+					// placeOfDetention: '$client.detainedAt',
+					// proofOfIndigency: '$client.proofOfIndigency',
+					// intervieweeName: '$interviewee.name',
+					// intervieweeAddress: '$interviewee.address',
+					// intervieweeAge: '$interviewee.age',
+					// intervieweeSex: '$interviewee.sex',
+					// intervieweeCivilStatus: '$interviewee.civilStatus',
+					// intervieweeContactNo: { $ifNull: ['$interviewee.contactNumber', 'N/A'] },
+					// intervieweeEmail: { $ifNull: ['$interviewee.email', ''] },
+					// relationshipToClient: '$relationshipToClient',
+					// natureOfRequest: '$natureOfRequest',
+					// PDLStatus: '$client.detained',
+					// natureOfTheCase: { $ifNull: ['$case.natureOfTheCase', ''] },
+					// caseSpecs: { $ifNull: ['$case._id', ''] },
+					// factsOfTheCase: { $ifNull: ['$case.factsOfTheCase', ''] },
+					// clientClasses: { $ifNull: ['$client.classification', []] },
+					// clientInvolvement: { $ifNull: ['$case.clientInvolvement', ''] },
+					// adverseParty: { $ifNull: ['$case.adversePartyInvolvement', ''] },
+					// adversePartyName: {
+					// 	$reduce: {
+					// 		input: '$case.adversePartyName',
+					// 		initialValue: '',
+					// 		in: { $concat: ['$$value', '$$this'] }
+					// 	}
+					// },
+					// adversePartyAddress: {
+					// 	$reduce: {
+					// 		input: '$case.adversePartyAddress',
+					// 		initialValue: '',
+					// 		in: { $concat: ['$$value', ', ', '$$this'] }
+					// 	}
+					// },
+					// natureOfOffence: { $ifNull: ['$case.natureOfOffence', ''] },
+					// courtPendingStatus: { $ifNull: ['$case.status', ''] },
+					// titleOfCaseDocketNum: {
+					// 	$concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')']
+					// },
+					// courtBodyTribunal: { $ifNull: ['$case.courtBody', ''] },
+				}
+			}
+		]).toArray();
+
+		return { report: await generateReport({ ...data, month, year }) };
 	}
 } satisfies Actions;
