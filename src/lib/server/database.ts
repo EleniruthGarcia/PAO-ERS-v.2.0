@@ -13,17 +13,18 @@ await client.connect();
 
 export const db = client.db();
 
+export const logs = db.collection<Log>('logs');
+export const branches = db.collection<Branch>('branches');
+
 export const users = db.collection<User>('users');
 export const sessions = db.collection<Session>('sessions');
 
-export const branches = db.collection<Branch>('branches');
-export const logs = db.collection<Log>('logs');
-
-export const requests = db.collection<Request>('requests');
 export const clients = db.collection<Client>('clients');
+export const requests = db.collection<Request>('requests');
 export const cases = db.collection<Case>('cases');
+export const outreaches = db.collection<Outreach>('outreaches');
 
-export default { users, sessions, branches, clients, requests, cases, logs };
+export default { users, sessions, branches, clients, requests, cases, logs, outreaches };
 
 export interface Branch {
 	_id: string;
@@ -47,6 +48,7 @@ export interface User {
 	hashedPassword: string;
 	role: 'Administrator' | 'Lawyer' | 'Staff';
 	title?: string;
+	name: string;
 	firstName: string;
 	middleName?: string;
 	lastName: string;
@@ -70,8 +72,8 @@ export interface Request {
 	relationshipToClient: string;
 	case_id?: string;
 	date: Date;
-	natureOfRequest: string[];
-	type: 'Request' | 'Complaint' | 'Inquiry' | 'Other';
+	natureOfRequest: ('Legal Advice' | 'Legal Documentation' | 'Representation in Court or Quasi-Judicial Bodies' | 'Inquest Legal Assistance' | 'Mediation or Conciliation' | 'Administration of Oath' | 'Others')[];
+	status: { type: 'New' | 'Pending' | 'Ongoing' | 'Resolved' | 'Passed', date: Date, from?: string, to?: string }[];
 }
 
 export interface Client {
@@ -104,8 +106,8 @@ export interface Client {
 	indigenousPeople?: string;
 	urbanPoor?: string;
 	ruralPoor?: string;
-	status?: 'New' | 'Archived';
 	proofOfIndigency?: ('Income Tax Return' | 'Certification from Barangay' | 'Certification from DSWD' | { 'Others': string })[];
+	status: { type: 'New' | 'Edited' | 'Archived' | 'Restored', date: Date }[];
 }
 
 interface Case {
@@ -113,7 +115,7 @@ interface Case {
 	dateFiled: Date;
 	dateResolved?: Date;
 	natureOfTheCase: string[];
-	status: 'Pending' | 'Ongoing' | 'Resolved';
+	status: { type: 'Pending' | 'Ongoing' | 'Resolved', date: Date }[];
 	lawId: string[];
 	clientInvolvement: string[];
 	adversePartyInvolvement: string[];
@@ -124,6 +126,21 @@ interface Case {
 	titleOfCase: string;
 	docketNumber: string;
 	courtBody: string;
+}
+
+export interface Outreach {
+	_id?: string;
+	lawyer_id: string;
+	title: string;
+	date: Date;
+	venue: string;
+	problemsPresented: string;
+	activitiesUndertaken: string;
+	attendees: {
+		name: string;
+		sex: 'M' | 'F';
+		remarks: string;
+	}[];
 }
 
 const seedBranches: Branch[] = [
@@ -165,6 +182,7 @@ const seedUsers: User[] = [
 		hashedPassword: 'hashedPassword1',
 		role: 'Administrator',
 		title: 'Mr',
+		name: 'John Doe Smith Jr',
 		firstName: 'John',
 		middleName: 'Doe',
 		lastName: 'Smith',
@@ -180,6 +198,7 @@ const seedUsers: User[] = [
 		hashedPassword: 'hashedPassword2',
 		role: 'Lawyer',
 		title: 'Ms',
+		name: 'Jane Doe',
 		firstName: 'Jane',
 		lastName: 'Doe',
 		email: 'jane.doe@example.com',
@@ -193,6 +212,7 @@ const seedUsers: User[] = [
 		hashedPassword: 'hashedPassword3',
 		role: 'Staff',
 		title: 'Dr',
+		name: 'Emily Anne Brown',
 		firstName: 'Emily',
 		middleName: 'Anne',
 		lastName: 'Brown',
@@ -207,6 +227,7 @@ const seedUsers: User[] = [
 		hashedPassword: 'hashedPassword4',
 		role: 'Lawyer',
 		title: 'Mr',
+		name: 'Michael Johnson',
 		firstName: 'Michael',
 		lastName: 'Johnson',
 		email: 'michael.johnson@example.com',
@@ -223,8 +244,8 @@ const seedRequests: Request[] = [{
 	relationshipToClient: 'Spouse',
 	case_id: '1',
 	date: new Date('2024-04-01T10:00:00Z'),
-	natureOfRequest: ['Legal advice', 'Contract review'],
-	type: 'Request'
+	natureOfRequest: ['Legal Advice'],
+	status: [{ type: 'New', date: new Date() }]
 },
 {
 	_id: '2',
@@ -234,8 +255,8 @@ const seedRequests: Request[] = [{
 	interviewee_id: '2',
 	relationshipToClient: 'Self',
 	date: new Date('2024-04-02T11:00:00Z'),
-	natureOfRequest: ['Judicial'],
-	type: 'Complaint'
+	natureOfRequest: ['Representation in Court or Quasi-Judicial Bodies'],
+	status: [{ type: 'Pending', date: new Date() }]
 },
 {
 	_id: '3',
@@ -245,8 +266,8 @@ const seedRequests: Request[] = [{
 	interviewee_id: '3',
 	relationshipToClient: 'Child',
 	date: new Date('2024-04-03T12:00:00Z'),
-	natureOfRequest: ['General inquiry'],
-	type: 'Inquiry'
+	natureOfRequest: ['Legal Documentation'],
+	status: [{ type: 'Ongoing', date: new Date() }]
 },
 {
 	_id: '4',
@@ -255,8 +276,8 @@ const seedRequests: Request[] = [{
 	interviewee_id: '1',
 	relationshipToClient: 'Parent',
 	date: new Date('2024-04-04T13:00:00Z'),
-	natureOfRequest: ['Other request'],
-	type: 'Other'
+	natureOfRequest: ['Inquest Legal Assistance'],
+	status: [{ type: 'Resolved', date: new Date() }]
 }]
 
 const seedClients: Client[] = [{
@@ -282,6 +303,7 @@ const seedClients: Client[] = [{
 	spouseContactNumber: '0987654321',
 	classification: ['Senior Citizen'],
 	proofOfIndigency: ['Income Tax Return', 'Certification from Barangay'],
+	status: [{ type: 'New', date: new Date() }]
 },
 {
 	_id: '2',
@@ -302,6 +324,7 @@ const seedClients: Client[] = [{
 	foreignNational: 'Yes',
 	pwd: 'Yes',
 	proofOfIndigency: [{ 'Others': 'Student' }],
+	status: [{ type: 'New', date: new Date() }]
 },
 {
 	_id: '3',
@@ -322,7 +345,8 @@ const seedClients: Client[] = [{
 	detained: false,
 	classification: ['OFW (Land-Based)'],
 	foreignNational: 'Yes',
-	urbanPoor: 'Yes'
+	urbanPoor: 'Yes',
+	status: [{ type: 'New', date: new Date() }]
 },
 {
 	_id: '4',
@@ -342,6 +366,7 @@ const seedClients: Client[] = [{
 	individualMonthlyIncome: 8000,
 	detained: false,
 	classification: ['Senior Citizen', 'Refugee or Evacuee'],
+	status: [{ type: 'New', date: new Date() }]
 }]
 
 const seedCases: Case[] = [{
@@ -349,7 +374,7 @@ const seedCases: Case[] = [{
 	dateFiled: new Date('2024-03-15T00:00:00Z'),
 	dateResolved: undefined,
 	natureOfTheCase: ['Civil', 'Property Dispute'],
-	status: 'Pending',
+	status: [{ type: 'Ongoing', date: new Date() }],
 	lawId: ['1', '2'],
 	clientInvolvement: ['Plaintiff'],
 	adversePartyInvolvement: ['Defendant'],
@@ -366,7 +391,7 @@ const seedCases: Case[] = [{
 	dateFiled: new Date('2023-07-20T00:00:00Z'),
 	dateResolved: new Date('2024-01-10T00:00:00Z'),
 	natureOfTheCase: ['Criminal', 'Fraud'],
-	status: 'Resolved',
+	status: [{ type: 'Resolved', date: new Date() }],
 	lawId: ['5'],
 	clientInvolvement: ['Defendant'],
 	adversePartyInvolvement: ['Plaintiff'
@@ -384,7 +409,7 @@ const seedCases: Case[] = [{
 	dateFiled: new Date('2024-01-05T00:00:00Z'),
 	dateResolved: undefined,
 	natureOfTheCase: ['Family', 'Divorce'],
-	status: 'Ongoing',
+	status: [{ type: 'Ongoing', date: new Date() }],
 	lawId: ['6', '7'],
 	clientInvolvement: ['Petitioner'],
 	adversePartyInvolvement: ['Respondent'],
@@ -401,7 +426,7 @@ const seedCases: Case[] = [{
 	dateFiled: new Date('2023-12-10T00:00:00Z'),
 	dateResolved: new Date('2024-03-01T00:00:00Z'),
 	natureOfTheCase: ['Labor', 'Wrongful Termination'],
-	status: 'Resolved',
+	status: [{ type: 'Resolved', date: new Date() }],
 	lawId: ['8'],
 	clientInvolvement: ['Plaintiff'],
 	adversePartyInvolvement: ['Defendant'],
