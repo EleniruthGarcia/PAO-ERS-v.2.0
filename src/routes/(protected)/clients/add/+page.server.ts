@@ -30,6 +30,15 @@ export const load: PageServerLoad = async (event) => {
 
 export const actions: Actions = {
 	default: async (event) => {
+		if (!event.locals.user) {
+			event.cookies.set('redirect', '/clients/add', { path: '/' });
+			redirect(
+				'/login',
+				{ type: 'warning', message: 'You must be logged in to access this page!' },
+				event
+			);
+		}
+
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) return fail(400, { form });
 
