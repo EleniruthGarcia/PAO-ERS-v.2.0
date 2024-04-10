@@ -160,39 +160,38 @@
 				<div class="grid gap-3">
 					<div class="font-semibold">Personal Information</div>
 					<ul class="grid gap-3">
-						<li class="flex items-center justify-between">
+						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Age </span>
-							<span class="truncate">{data.client.age}</span>
+							<span>{data.client.age}</span>
 						</li>
-						<li class="flex items-center justify-between">
+						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Sex </span>
-							<span class="truncate">{data.client.sex}</span>
+							<span>{data.client.sex}</span>
 						</li>
-						<li class="flex items-center justify-between">
+						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Civil Status </span>
-							<span class="truncate">{data.client.civilStatus}</span>
+							<span>{data.client.civilStatus}</span>
 						</li>
-						<li class="flex items-center justify-between">
+						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Citizenship </span>
-							<span class="truncate">{data.client.citizenship}</span>
+							<span>{data.client.citizenship}</span>
 						</li>
-						<li class="flex items-center justify-between">
+						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Language </span>
-							<span class="truncate">{data.client.language}</span>
+							<span>{data.client.language}</span>
 						</li>
-						<li class="flex items-center justify-between">
+						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Religion </span>
-							<span class="truncate"
-								>{data.client.religion !== '' ? data.client.religion : 'N/A'}</span
+							<span>{data.client.religion !== '' ? data.client.religion : 'N/A'}</span
 							>
 						</li>
-						<li class="flex items-center justify-between">
+						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Educational Attainment </span>
-							<span class="truncate">{data.client.educationalAttainment}</span>
+							<span>{data.client.educationalAttainment}</span>
 						</li>
-						<li class="flex items-center justify-between">
+						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Individual Monthly Income </span>
-							<span class="truncate">{data.client.individualMonthlyIncome}</span>
+							<span>{data.client.individualMonthlyIncome}</span>
 						</li>
 					</ul>
 				</div>
@@ -200,17 +199,17 @@
 				<div class="grid gap-3">
 					<div class="font-semibold">Contact Information</div>
 					<ul class="grid gap-3">
-						<li class="flex items-center justify-between">
+						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Address </span>
-							<span class="truncate">{data.client.address}</span>
+							<span>{data.client.address}</span>
 						</li>
-						<li class="flex items-center justify-between">
+						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Email </span>
-							<span class="truncate">{data.client.email}</span>
+							<span>{data.client.email}</span>
 						</li>
-						<li class="flex items-center justify-between">
+						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Contact Number </span>
-							<span class="truncate">{data.client.contactNumber}</span>
+							<span>{data.client.contactNumber}</span>
 						</li>
 					</ul>
 				</div>
@@ -219,21 +218,21 @@
 					<div class="grid gap-3">
 						<div class="font-semibold">Spouse Information</div>
 						<ul class="grid gap-3">
-							<li class="flex items-center justify-between">
+							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground"> Name </span>
-								<span class="truncate">{data.client.spouseName}</span>
+								<span>{data.client.spouseName}</span>
 							</li>
-							<li class="flex items-center justify-between">
+							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground"> Address </span>
-								<span class="truncate">{data.client.spouseAddress}</span>
+								<span>{data.client.spouseAddress}</span>
 							</li>
-							<li class="flex items-center justify-between">
+							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground"> Email </span>
-								<span class="truncate">{data.client.spouseEmail}</span>
+								<span>{data.client.spouseEmail}</span>
 							</li>
-							<li class="flex items-center justify-between">
+							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground"> Contact Number </span>
-								<span class="truncate">{data.client.spouseContactNumber}</span>
+								<span>{data.client.spouseContactNumber}</span>
 							</li>
 						</ul>
 					</div>
@@ -243,13 +242,13 @@
 					<div class="grid gap-3">
 						<div class="font-semibold">Detainee Information</div>
 						<ul class="grid gap-3">
-							<li class="flex items-center justify-between">
+							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground"> Place of Detention </span>
-								<span class="truncate">{data.client.detainedAt}</span>
+								<span>{data.client.detainedAt}</span>
 							</li>
-							<li class="flex items-center justify-between">
+							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground"> Detained Since </span>
-								<span class="truncate">{data.client.detainedSince}</span>
+								<span>{data.client.detainedSince}</span>
 							</li>
 						</ul>
 					</div>

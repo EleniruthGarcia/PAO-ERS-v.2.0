@@ -45,32 +45,6 @@ export const classification = [
 	'Woman Client'
 ] as const;
 
-export const sex = [
-	'Male',
-	'Female'
-] as const;
-
-export const civilStatus = [
-	'Single',
-	'Married',
-	'Separated',
-	'Widowed'
-] as const;
-
-export const educationalAttainment = [
-	'No Formal Schooling',
-	'Elementary Level',
-	'Elementary Graduate',
-	'High School Level',
-	'High School Graduate',
-	'College Level',
-	'College Graduate',
-	"With Master's Units",
-	"Master's Graduate",
-	'With Doctoral Units',
-	'Doctorate Graduate'
-] as const;
-
 export const districtProvince = [
 	'Abra',
 	'Apayao',
