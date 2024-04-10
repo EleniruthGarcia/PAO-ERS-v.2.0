@@ -74,7 +74,8 @@ export interface Request {
 	relationshipToClient: string;
 	case_id?: string;
 	date: Date;
-	natureOfRequest: ('Legal Advice' | 'Legal Documentation' | 'Representation in Court or Quasi-Judicial Bodies' | 'Inquest Legal Assistance' | 'Mediation or Conciliation' | 'Administration of Oath' | 'Others')[];
+	nature: ('Legal Advice' | 'Legal Documentation' | 'Representation in Court or Quasi-Judicial Bodies' | 'Inquest Legal Assistance' | 'Mediation or Conciliation' | 'Administration of Oath' | 'Others')[];
+	otherNature?: string[];
 	status: { type: 'New' | 'Pending' | 'Ongoing' | 'Resolved' | 'Passed', date: Date, from?: string, to?: string }[];
 }
 
@@ -250,7 +251,7 @@ const seedRequests: Request[] = [{
 	relationshipToClient: 'Spouse',
 	case_id: '1',
 	date: new Date('2024-04-01T10:00:00Z'),
-	natureOfRequest: ['Legal Advice'],
+	nature: ['Legal Advice'],
 	status: [{ type: 'New', date: new Date() }]
 },
 {
@@ -261,7 +262,7 @@ const seedRequests: Request[] = [{
 	interviewee_id: '2',
 	relationshipToClient: 'Self',
 	date: new Date('2024-04-02T11:00:00Z'),
-	natureOfRequest: ['Representation in Court or Quasi-Judicial Bodies'],
+	nature: ['Representation in Court or Quasi-Judicial Bodies'],
 	status: [{ type: 'Pending', date: new Date() }]
 },
 {
@@ -272,7 +273,7 @@ const seedRequests: Request[] = [{
 	interviewee_id: '3',
 	relationshipToClient: 'Child',
 	date: new Date('2024-04-03T12:00:00Z'),
-	natureOfRequest: ['Legal Documentation'],
+	nature: ['Legal Documentation'],
 	status: [{ type: 'Ongoing', date: new Date() }]
 },
 {
@@ -282,7 +283,7 @@ const seedRequests: Request[] = [{
 	interviewee_id: '1',
 	relationshipToClient: 'Parent',
 	date: new Date('2024-04-04T13:00:00Z'),
-	natureOfRequest: ['Inquest Legal Assistance'],
+	nature: ['Inquest Legal Assistance'],
 	status: [{ type: 'Resolved', date: new Date() }]
 }]
 
