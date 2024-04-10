@@ -109,35 +109,35 @@
 				<ul class="grid gap-3">
 					<li class="flex items-center justify-between">
 						<span class="text-muted-foreground"> Age </span>
-						<span>{client.age}</span>
+						<span class="truncate">{client.age}</span>
 					</li>
 					<li class="flex items-center justify-between">
 						<span class="text-muted-foreground"> Sex </span>
-						<span>{client.sex}</span>
+						<span class="truncate">{client.sex}</span>
 					</li>
 					<li class="flex items-center justify-between">
 						<span class="text-muted-foreground"> Civil Status </span>
-						<span>{client.civilStatus}</span>
+						<span class="truncate">{client.civilStatus}</span>
 					</li>
 					<li class="flex items-center justify-between">
 						<span class="text-muted-foreground"> Citizenship </span>
-						<span>{client.citizenship}</span>
+						<span class="truncate">{client.citizenship}</span>
 					</li>
 					<li class="flex items-center justify-between">
 						<span class="text-muted-foreground"> Language </span>
-						<span>{client.language}</span>
+						<span class="truncate">{client.language}</span>
 					</li>
 					<li class="flex items-center justify-between">
 						<span class="text-muted-foreground"> Religion </span>
-						<span>{client.religion !== '' ? client.religion : 'N/A'}</span>
+						<span class="truncate">{client.religion !== '' ? client.religion : 'N/A'}</span>
 					</li>
 					<li class="flex items-center justify-between">
 						<span class="text-muted-foreground"> Educational Attainment </span>
-						<span>{client.educationalAttainment}</span>
+						<span class="truncate">{client.educationalAttainment}</span>
 					</li>
 					<li class="flex items-center justify-between">
 						<span class="text-muted-foreground"> Individual Monthly Income </span>
-						<span>{client.individualMonthlyIncome}</span>
+						<span class="truncate">{client.individualMonthlyIncome}</span>
 					</li>
 				</ul>
 			</div>
@@ -151,11 +151,11 @@
 					</li>
 					<li class="flex items-center justify-between">
 						<span class="text-muted-foreground"> Email </span>
-						<span>{client.email}</span>
+						<span class="truncate">{client.email}</span>
 					</li>
 					<li class="flex items-center justify-between">
 						<span class="text-muted-foreground"> Contact Number </span>
-						<span>{client.contactNumber}</span>
+						<span class="truncate">{client.contactNumber}</span>
 					</li>
 				</ul>
 			</div>
@@ -174,11 +174,11 @@
 						</li>
 						<li class="flex items-center justify-between">
 							<span class="text-muted-foreground"> Email </span>
-							<span>{client.spouseEmail}</span>
+							<span class="truncate">{client.spouseEmail}</span>
 						</li>
 						<li class="flex items-center justify-between">
 							<span class="text-muted-foreground"> Contact Number </span>
-							<span>{client.spouseContactNumber}</span>
+							<span class="truncate">{client.spouseContactNumber}</span>
 						</li>
 					</ul>
 				</div>
