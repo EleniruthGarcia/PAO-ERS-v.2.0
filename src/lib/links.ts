@@ -5,10 +5,10 @@ import { Home, Person, FileText, Gear, Backpack, CardStack } from 'svelte-radix'
 const links = {
 	admin: { href: '/admin', icon: Home, label: 'Dashboard' },
 	dashboard: { href: '/dashboard', icon: Home, label: 'Dashboard' },
+	users: { href: '/users', icon: Person, label: 'Users' },
 	clients: { href: '/clients', icon: Person, label: 'Clients' },
 	requests: { href: '/requests', icon: CardStack, label: 'Requests' },
 	cases: { href: '/cases', icon: Backpack, label: 'Cases' },
-	users: { href: '/users', icon: Person, label: 'Users' },
 	reports: { href: '/reports', icon: FileText, label: 'Reports' },
 	settings: { href: '/settings', icon: Gear, label: 'Settings' }
 };
