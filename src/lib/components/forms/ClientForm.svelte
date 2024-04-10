@@ -200,9 +200,18 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
+							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Monthly Income</Form.Label>
+									<Input {...attrs} bind:value={$formData.individualMonthlyIncome} type="number" />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</div>
+						<div class="grid grid-cols-2 items-start gap-3">
 							<Form.Field {form} name="educationalAttainment" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Educational Attainment</Form.Label>
+									<Form.Label>Education</Form.Label>
 									<Select.Root
 										selected={selectedEducationalAttainment}
 										onSelectedChange={(s) => {
@@ -219,15 +228,6 @@
 											{/each}
 										</Select.Content>
 									</Select.Root>
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-						</div>
-						<div class="grid grid-cols-2 items-start gap-3">
-							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Individual Monthly Income</Form.Label>
-									<Input {...attrs} bind:value={$formData.individualMonthlyIncome} type="number" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
