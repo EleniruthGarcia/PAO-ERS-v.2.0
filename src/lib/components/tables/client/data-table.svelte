@@ -137,7 +137,7 @@
 												</Button>
 											</div>
 										{:else if cell.id === 'name'}
-											<Button variant="ghost" on:click={props.sort.toggle}>
+											<Button variant="ghost">
 												<Render of={cell.render()} />
 												<CaretSort class={'ml-2 h-4 w-4'} />
 											</Button>

@@ -2,7 +2,7 @@
 	import { save } from '$lib/utils';
 	import { enhance } from '$app/forms';
 	import type { PageServerData } from './$types';
-	import { Copy, PlusCircled } from 'svelte-radix';
+	import { Copy, PlusCircled, DotsVertical } from 'svelte-radix';
 
 	import { toast } from 'svelte-sonner';
 
@@ -10,6 +10,7 @@
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Separator } from '$lib/components/ui/separator';
 
 	export let data: PageServerData;
@@ -22,8 +23,8 @@
 	$: form?.interview_sheet?.error && toast.error('No interview sheet data found!');
 </script>
 
-<main class="grid gap-4 lg:grid-cols-3 xl:grid-cols-3">
-	<div class="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
+<main class="grid gap-4 md:grid-cols-2">
+	<div class="grid auto-rows-max items-start gap-4 md:gap-8">
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
 				<div class="grid gap-0.5">
@@ -50,11 +51,7 @@
 					</Card.Title>
 					<Card.Description>Date: November 23, 2023</Card.Description>
 				</div>
-				<div class="ml-auto flex items-center gap-1">
-					<!-- <Button size="sm" variant="outline" class="h-8 gap-1">
-				<Person class="h-3.5 w-3.5" />
-				<span class="lg:sr-only xl:not-sr-only xl:whitespace-nowrap"> Track data.client </span>
-			</Button> -->
+				<div class="ml-auto flex items-center gap-1 invisible sm:visible">
 					<Button
 						size="sm"
 						variant="outline"
@@ -88,6 +85,38 @@
 						</AlertDialog.Content>
 					</AlertDialog.Root>
 				</div>
+				<div class="ml-auto flex items-center gap-1 visible sm:hidden">
+					<AlertDialog.Root>
+						<DropdownMenu.Root>
+							<DropdownMenu.Trigger asChild let:builder>
+								<Button builders={[builder]} size="icon" variant="outline" class="h-8 w-8">
+									<DotsVertical class="h-3.5 w-3.5" />
+									<span class="sr-only">More</span>
+								</Button>
+							</DropdownMenu.Trigger>
+							<DropdownMenu.Content align="end">
+								<DropdownMenu.Item href="/clients/{data.client._id}/edit">Edit</DropdownMenu.Item>
+								<DropdownMenu.Item href="/clients/{data.client._id}/export">Export</DropdownMenu.Item>
+								<DropdownMenu.Separator />
+								<AlertDialog.Trigger class="w-full">
+									<DropdownMenu.Item>Delete</DropdownMenu.Item>
+								</AlertDialog.Trigger>
+							</DropdownMenu.Content>
+						</DropdownMenu.Root>
+						<AlertDialog.Content>
+							<AlertDialog.Header>
+								<AlertDialog.Title>Delete Client</AlertDialog.Title>
+								<AlertDialog.Description>
+									Are you aboslutely sure? The client will be archived and will not show up in Active Clients. If you want the client to be permanently deleted, please contact the administrator.
+								</AlertDialog.Description>
+							</AlertDialog.Header>
+							<AlertDialog.Footer>
+								<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+								<AlertDialog.Action class="bg-destructive hover:bg-destructive/90">Delete</AlertDialog.Action>
+							</AlertDialog.Footer>
+						</AlertDialog.Content>
+					</AlertDialog.Root>
+				</div>
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
 				<div class="grid gap-3">
@@ -95,35 +124,35 @@
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between">
 							<span class="text-muted-foreground"> Age </span>
-							<span>{data.client.age}</span>
+							<span class="truncate">{data.client.age}</span>
 						</li>
 						<li class="flex items-center justify-between">
 							<span class="text-muted-foreground"> Sex </span>
-							<span>{data.client.sex}</span>
+							<span class="truncate">{data.client.sex}</span>
 						</li>
 						<li class="flex items-center justify-between">
 							<span class="text-muted-foreground"> Civil Status </span>
-							<span>{data.client.civilStatus}</span>
+							<span class="truncate">{data.client.civilStatus}</span>
 						</li>
 						<li class="flex items-center justify-between">
 							<span class="text-muted-foreground"> Citizenship </span>
-							<span>{data.client.citizenship}</span>
+							<span class="truncate">{data.client.citizenship}</span>
 						</li>
 						<li class="flex items-center justify-between">
 							<span class="text-muted-foreground"> Language </span>
-							<span>{data.client.language}</span>
+							<span class="truncate">{data.client.language}</span>
 						</li>
 						<li class="flex items-center justify-between">
 							<span class="text-muted-foreground"> Religion </span>
-							<span>{data.client.religion !== '' ? data.client.religion : 'N/A'}</span>
+							<span class="truncate">{data.client.religion !== '' ? data.client.religion : 'N/A'}</span>
 						</li>
 						<li class="flex items-center justify-between">
 							<span class="text-muted-foreground"> Educational Attainment </span>
-							<span>{data.client.educationalAttainment}</span>
+							<span class="truncate">{data.client.educationalAttainment}</span>
 						</li>
 						<li class="flex items-center justify-between">
 							<span class="text-muted-foreground"> Individual Monthly Income </span>
-							<span>{data.client.individualMonthlyIncome}</span>
+							<span class="truncate">{data.client.individualMonthlyIncome}</span>
 						</li>
 					</ul>
 				</div>
@@ -137,11 +166,11 @@
 						</li>
 						<li class="flex items-center justify-between">
 							<span class="text-muted-foreground"> Email </span>
-							<span>{data.client.email}</span>
+							<span class="truncate">{data.client.email}</span>
 						</li>
 						<li class="flex items-center justify-between">
 							<span class="text-muted-foreground"> Contact Number </span>
-							<span>{data.client.contactNumber}</span>
+							<span class="truncate">{data.client.contactNumber}</span>
 						</li>
 					</ul>
 				</div>
@@ -160,11 +189,11 @@
 							</li>
 							<li class="flex items-center justify-between">
 								<span class="text-muted-foreground"> Email </span>
-								<span>{data.client.spouseEmail}</span>
+								<span class="truncate">{data.client.spouseEmail}</span>
 							</li>
 							<li class="flex items-center justify-between">
 								<span class="text-muted-foreground"> Contact Number </span>
-								<span>{data.client.spouseContactNumber}</span>
+								<span class="truncate">{data.client.spouseContactNumber}</span>
 							</li>
 						</ul>
 					</div>
