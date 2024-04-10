@@ -56,6 +56,7 @@ export interface User {
 	email: string;
 	contactNumber: number;
 	address: string;
+	status: { type: 'New' | 'Updated' | 'Archived' | 'Restored', date: Date }[];
 }
 
 export interface Session {
@@ -100,7 +101,7 @@ export interface Client {
 	spouseName?: string;
 	spouseAddress?: string;
 	spouseContactNumber?: string;
-	classification?: ('Child in Conflict with the Law' | 'Woman Client' | 'VAWC Victim' | 'Law Enforcer' | 'Drug-Related Duty' | 'OFW (Land-Based)' | 'OFW (Sea-Based)' | 'FRs and FVEs' | 'Senior Citizen' | 'Refugee or Evacuee' | 'Tenant in Agrarian Case' | 'Victim of Terrorism (R.A. No. 9372)' | 'Victim of Torture (R.A. 9745)' | 'Victim of Trafficking (R.A. No. 9208)' | 'Petitioner for Voluntary Rehabilitation')[];
+	classification?: ('Child in Conflict with the Law' | 'Woman Client' | 'Child Client' | 'VAWC Victim' | 'Law Enforcer' | 'Drug-Related Duty' | 'OFW (Land-Based)' | 'OFW (Sea-Based)' | 'FRs and FVEs' | 'Senior Citizen' | 'Refugee or Evacuee' | 'Tenant in Agrarian Case' | 'Victim of Terrorism (R.A. No. 9372)' | 'Victim of Torture (R.A. 9745)' | 'Victim of Trafficking (R.A. No. 9208)' | 'Petitioner for Voluntary Rehabilitation')[];
 	foreignNational?: string;
 	pwd?: string;
 	indigenousPeople?: string;
@@ -189,7 +190,8 @@ const seedUsers: User[] = [
 		nameSuffix: 'Jr',
 		email: 'john.doe@example.com',
 		contactNumber: 1234567890,
-		address: '123 Main St, City, Country'
+		address: '123 Main St, City, Country',
+		status: [{ type: 'New', date: new Date() }]
 	},
 	{
 		_id: '2',
@@ -203,7 +205,8 @@ const seedUsers: User[] = [
 		lastName: 'Doe',
 		email: 'jane.doe@example.com',
 		contactNumber: 9876543210,
-		address: '456 Elm St, City, Country'
+		address: '456 Elm St, City, Country',
+		status: [{ type: 'New', date: new Date() }]
 	},
 	{
 		_id: '3',
@@ -218,7 +221,8 @@ const seedUsers: User[] = [
 		lastName: 'Brown',
 		email: 'emily.brown@example.com',
 		contactNumber: 1122334455,
-		address: '789 Oak St, City, Country'
+		address: '789 Oak St, City, Country',
+		status: [{ type: 'New', date: new Date() }]
 	},
 	{
 		_id: '4',
@@ -232,7 +236,8 @@ const seedUsers: User[] = [
 		lastName: 'Johnson',
 		email: 'michael.johnson@example.com',
 		contactNumber: 5544332211,
-		address: '101 Pine St, City, Country'
+		address: '101 Pine St, City, Country',
+		status: [{ type: 'New', date: new Date() }]
 	}
 ]
 

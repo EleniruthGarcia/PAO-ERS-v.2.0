@@ -10,7 +10,10 @@ import { formSchema } from '$lib/schema/login';
 import { zod } from 'sveltekit-superforms/adapters';
 import { setError, superValidate } from 'sveltekit-superforms';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async (event) => {
+	if (event.locals.user)
+		redirect('/', { type: 'warning', message: 'You are already logged in!' }, event);
+
 	return {
 		form: await superValidate(zod(formSchema))
 	};

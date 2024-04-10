@@ -1,0 +1,42 @@
+import z from 'zod';
+
+export const role = [
+	'Lawyer',
+	'Staff'
+] as const;
+
+export const sex = [
+	'Male',
+	'Female'
+] as const;
+
+export const civilStatus = [
+	'Single',
+	'Married',
+	'Separated',
+	'Widowed'
+] as const;
+
+export const formSchema = z.object({
+	_id: z.string().optional(),
+	role: z.enum(role),
+	branch_id: z.string().min(1, 'Branch is required!'),
+	username: z.string().min(1, 'Username is required!'),
+	hashedPassword: z.string().min(1, 'Password is required!'),
+	title: z.string().min(1, 'Title is required!'),
+	name: z.string().min(1, 'Name is required!'),
+	firstName: z.string().min(1, 'First name is required!'),
+	middleName: z.string().optional(),
+	lastName: z.string().min(1, 'Last name is required!'),
+	nameSuffix: z.string().optional(),
+	dateOfBirth: z.date().optional(),
+	age: z.number({ invalid_type_error: 'Age is required!', }).positive().min(1, 'Age is required!'),
+	sex: z.enum(sex),
+	address: z.string().min(1, 'Address is required!'),
+	email: z.string().email().optional(),
+	contactNumber: z.string().regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number!').refine((value) => value !== '', {
+		message: 'Contact number is required!',
+	}),
+});
+
+export type FormSchema = typeof formSchema;
