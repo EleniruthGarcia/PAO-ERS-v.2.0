@@ -67,6 +67,7 @@ export interface Session {
 
 export interface Request {
 	_id?: string;
+	districtProvince: ('Abra' | 'Apayao' | 'Benguet' | 'Ifugao' | 'Kalinga' | 'Mountain Province')[];
 	client_id: string[];
 	lawyer_id: string;
 	interviewee_id: string;
@@ -101,7 +102,7 @@ export interface Client {
 	spouseName?: string;
 	spouseAddress?: string;
 	spouseContactNumber?: string;
-	classification?: ('Child in Conflict with the Law' | 'Woman Client' | 'Child Client' | 'VAWC Victim' | 'Law Enforcer' | 'Drug-Related Duty' | 'OFW (Land-Based)' | 'OFW (Sea-Based)' | 'FRs and FVEs' | 'Senior Citizen' | 'Refugee or Evacuee' | 'Tenant in Agrarian Case' | 'Victim of Terrorism (R.A. No. 9372)' | 'Victim of Torture (R.A. 9745)' | 'Victim of Trafficking (R.A. No. 9208)' | 'Petitioner for Voluntary Rehabilitation')[];
+	classification?: ('Beneficiary of Hernan Ruling (R.A. No. 10951)' | 'Child Client' | 'Child in Conflict with the Law' | 'Woman Client' | 'VAWC Victim' | 'Law Enforcer' | 'Drug-Related Duty' | 'OFW (Land-Based)' | 'OFW (Sea-Based)' | 'FRs and FVEs' | 'Senior Citizen' | 'Refugee or Evacuee' | 'Tenant in Agrarian Case' | 'Victim of Terrorism (R.A. No. 9372)' | 'Victim of Torture (R.A. 9745)' | 'Victim of Trafficking (R.A. No. 9208)' | 'Petitioner for Voluntary Rehabilitation' | 'Special Legal Services (R.A. No. 9406 and MOAs)')[];
 	foreignNational?: string;
 	pwd?: string;
 	indigenousPeople?: string;

@@ -1,12 +1,13 @@
 import z from 'zod';
 
 export const nature = [
-	'Legal Advice',
-	'Legal Documentation',
-	'Representation in Court or Quasi-Judicial Bodies',
-	'Inquest Legal Assistance',
-	'Mediation or Conciliation',
-	'Administration of Oath',
+    'Administration of Oath',
+    'Inquest Legal Assistance',
+    'Jail Visitation Release',
+    'Legal Advice',
+    'Legal Documentation',
+    'Mediation or Conciliation',
+    'Representation in Court or Quasi-Judicial Bodies',
 	'Others'
 ] as const;
 
@@ -70,14 +71,44 @@ export const educationalAttainment = [
 	'Doctorate Graduate'
 ] as const;
 
+export const districtProvince = [
+	'Abra',
+	'Apayao',
+	'Benguet',
+	'Ifugao',
+	'Kalinga',
+	'Mountain Province'
+] as const
+
+export const typeOfAssistance = [
+    'Assisted during Custodial Interrogation',
+    'Assisted during Inquest Investigation',
+    'Counseled during Inquest or Night Duty'
+] as const;
+
+export const typeOfRelease = [
+    'Acquitted (After trial)',
+	'Acquitted (On appeal)',
+    'After serving the possible maximum of the prison term',
+    'On bail or on recognizance',
+    'On inquest assistance or representation',
+    'On motion to dismiss or motion to quash',
+    'On pardon, executive clemency, or probation',
+	'On other grounds',
+] as const;
+
 export const formSchema = z.object({
 	_id: z.string(),
-	date: z.date(),
-	client_id: z.array(z.string()).min(1, 'Client is required!'),
-	lawyer_id: z.string().min(1, 'Lawyer is required!'),
-	interviwee_id: z.string().min(1, 'Interviewee is required!'),
+	districtProvince: z.array(z.enum(districtProvince)).min(1, 'District Office is required.'),
+	date: z.date({required_error: 'Date is required.'}),
+	client_id: z.array(z.string()).min(1, 'Client is required.').default([""]),
+	lawyer_id: z.string().min(1, 'Lawyer is required.'),
+	interviwee_id: z.string().min(1, 'Interviewee is required.'),
 	relationshipToClient: z.enum(relationshipToClient),
-	nature: z.array(z.enum(nature)).min(1, 'Nature of Request is required!'),
+	nature: z.array(z.enum(nature)).min(1, 'Nature of Request is required.'),
+	otherNature: z.array(z.string()).default([""]),
+	typeOfAssistance: z.array(z.enum(typeOfAssistance)),
+	typeOfRelease: z.array(z.enum(typeOfRelease))
 });
 
 export type FormSchema = typeof formSchema;
