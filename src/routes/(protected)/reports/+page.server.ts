@@ -2,6 +2,10 @@ import db from '$lib/server/database';
 import { redirect } from 'sveltekit-flash-message/server';
 import type { PageServerLoad, Actions } from './$types';
 import { generateReport } from '$lib/server/report';
+import { formSchema } from '$lib/schema/report';
+import { superValidate } from 'sveltekit-superforms';
+import { fail } from '@sveltejs/kit';
+import { zod } from 'sveltekit-superforms/adapters';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {
@@ -17,13 +21,15 @@ export const load: PageServerLoad = async (event) => {
 		breadcrumbs: [
 			{ href: '/', text: 'PAO-ERS' },
 			{ href: '/reports', text: 'Reports' }
-		]
+		],
+		form: await superValidate(zod(formSchema))
 	};
 };
 
 export const actions = {
 	default: async (event) => {
 		if (!event.locals.user) {
+			event.cookies.set('redirect', '/reports', { path: '/' });
 			redirect(
 				'/login',
 				{ type: 'warning', message: 'You must be logged in to access this page!' },
@@ -31,7 +37,9 @@ export const actions = {
 			);
 		}
 
-		const { month, year } = Object.fromEntries(await event.request.formData());
+		const form = await superValidate(event, zod(formSchema));
+		if (!form.valid) return fail(400, { form });
+
 
 		const lawyer = await db.users.findOne({ _id: event.locals.user.id });
 		const branch = await db.branches.findOne({ _id: lawyer?.branch_id });
@@ -178,11 +186,13 @@ export const actions = {
 		const f13 = requests.filter((d) => d.client.classifcation.contains('Child Client'));
 
 		return {
+			form,
 			report: await generateReport({
 				...branch,
 				lawyer,
-				month,
-				year,
+				month: form.data.month,
+				year: form.data.year,
+				notedBy: form.data.notedBy,
 				f10: outreaches,
 				f11,
 				f13,
