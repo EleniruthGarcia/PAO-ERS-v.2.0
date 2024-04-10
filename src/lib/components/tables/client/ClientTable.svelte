@@ -127,7 +127,6 @@
 								<p class="text-sm text-muted-foreground">
 									Archived clients will appear here as soon as they are archived.
 								</p>
-								<Button class="mt-4" href="/clients/add">Add Client</Button>
 							</div>
 						</div>
 					{/if}
