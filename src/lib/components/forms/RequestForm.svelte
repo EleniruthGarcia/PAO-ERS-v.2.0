@@ -91,7 +91,7 @@
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 				<Form.Button type="submit" size="sm"
-					>{!$formData._id ? 'Add Client' : 'Update Client'}</Form.Button
+					>{!$formData._id ? 'Add Request' : 'Update Request'}</Form.Button
 				>
 			</div>
 		</div>
@@ -338,7 +338,7 @@
 			</div>
 			<div class="flex items-center justify-center gap-2 md:hidden">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
-				<Form.Button type="submit" size="sm">Add Client</Form.Button>
+				<Form.Button type="submit" size="sm">Add Request</Form.Button>
 			</div>
 		</div>
 	</div>

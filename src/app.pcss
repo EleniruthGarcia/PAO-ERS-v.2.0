@@ -63,4 +63,16 @@ Scale: 16 72% 54% */
 	body {
 		@apply bg-background text-foreground;
 	}
+	::-webkit-scrollbar {
+		position: absolute;
+  		z-index: 10;
+		width: 8px;
+  		border-left: 1px solid transparent;
+  		padding: 1px;
+	}
+	::-webkit-scrollbar-thumb {
+		position: relative;
+  		border-radius: 9999px;
+  		background-color: #DDDDDD;
+	}
 }
