@@ -60,6 +60,7 @@ export const formSchema = z.object({
 	contactNumber: z.string().regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number!').refine((value) => value !== '', {
 		message: 'Contact number is required!',
 	}),
+	currentStatus: z.enum(status),
 	status: z.array(z.object({
 		type: z.enum(status),
 		date: z.date(),

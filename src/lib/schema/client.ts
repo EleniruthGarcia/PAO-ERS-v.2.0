@@ -103,6 +103,7 @@ export const formSchema = z.object({
 	indigenousPeople: z.string().optional(),
 	urbanPoor: z.string().optional(),
 	ruralPoor: z.string().optional(),
+	currentStatus: z.enum(status),
 	status: z.array(z.object({
 		type: z.enum(status),
 		date: z.date(),

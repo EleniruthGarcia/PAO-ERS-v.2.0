@@ -95,6 +95,7 @@ export const formSchema = z.object({
 	otherNature: z.array(z.string()),
 	typeOfAssistance: z.array(z.enum(typeOfAssistance)).optional(),
 	typeOfRelease: z.array(z.enum(typeOfRelease)).optional(),
+	currentStatus: z.enum(status),
 	status: z.array(z.object({
 		type: z.enum(status),
 		date: z.date(),

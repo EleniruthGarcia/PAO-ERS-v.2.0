@@ -24,7 +24,10 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/requests', text: 'Requests' },
 			{ href: '/requests/add', text: 'Add Request' }
 		],
-		form: await superValidate({ _id: '' }, zod(formSchema)),
+		form: await superValidate({
+			currentStatus: 'New',
+			status: [{ type: 'New', date: new Date() }],
+		}, zod(formSchema)),
 		lawyers: await db.users.find({ role: 'Lawyer' }).toArray(),
 	};
 };
@@ -36,7 +39,7 @@ export const actions: Actions = {
 
 		const request = await db.requests.insertOne({
 			...form.data,
-			status: [{ type: 'New', date: new Date() }],
+			_id: 'REQUEST-' + Date.now().toString(36).toUpperCase(),
 		});
 		if (!request.acknowledged) return fail(500, { form });
 

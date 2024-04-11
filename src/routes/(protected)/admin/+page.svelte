@@ -48,7 +48,7 @@
 							</Button>
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content align="end">
-							<DropdownMenu.Item href="/lawyers/add">Lawyer</DropdownMenu.Item>
+							<DropdownMenu.Item href="/users/add">User</DropdownMenu.Item>
 							<DropdownMenu.Item href="/clients/add">Client</DropdownMenu.Item>
 							<DropdownMenu.Item href="/requests/add">Request</DropdownMenu.Item>
 							<DropdownMenu.Item href="/cases/add">Case</DropdownMenu.Item>

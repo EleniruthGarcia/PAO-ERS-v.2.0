@@ -25,7 +25,6 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/cases/add', text: 'Add Case' }
 		],
 		form: await superValidate({
-			_id: 'CASE-' + Date.now().toString(36).toUpperCase(),
 			currentStatus: 'New',
 			status: [{ type: 'New', date: new Date() }],
 		}, zod(formSchema))
@@ -46,7 +45,10 @@ export const actions: Actions = {
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) return fail(400, { form });
 
-		const _case = await db.cases.insertOne(form.data);
+		const _case = await db.cases.insertOne({
+			...form.data,
+			_id: 'CASE-' + Date.now().toString(36).toUpperCase(),
+		});
 		if (!_case.acknowledged) return fail(500, { form });
 
 		redirect(

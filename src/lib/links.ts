@@ -1,4 +1,4 @@
-import type { User } from '$lib/server/database';
+import type { User } from '$lib/schema';
 
 import { Home, Person, IdCard, FileText, Gear, Backpack, CardStack, Laptop } from 'svelte-radix';
 
