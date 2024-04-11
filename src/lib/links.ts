@@ -1,6 +1,6 @@
 import type { User } from '$lib/server/database';
 
-import { Home, Person, IdCard, FileText, Gear, Backpack, CardStack } from 'svelte-radix';
+import { Home, Person, IdCard, FileText, Gear, Backpack, CardStack, Laptop } from 'svelte-radix';
 
 const links = {
 	admin: { href: '/admin', icon: Home, label: 'Dashboard' },
@@ -11,13 +11,14 @@ const links = {
 	cases: { href: '/cases', icon: Backpack, label: 'Cases' },
 	reports: { href: '/reports', icon: FileText, label: 'Reports' },
 	settings: { href: '/settings', icon: Gear, label: 'Settings' },
+	presentation: { href: '/presentation', icon: Laptop, label: 'Presentation' },
 	about: { href: '/about', icon: Home, label: 'About' },
 	services: { href: '/services', icon: Home, label: 'Services' },
 	contact: { href: '/contact', icon: Home, label: 'Contact' },
 };
 
 const roles = {
-	Administrator: ['admin', 'users', 'clients', 'requests', 'cases', 'reports', 'settings'],
+	Administrator: ['admin', 'users', 'clients', 'requests', 'cases', 'reports', 'settings', 'presentation'],
 	Lawyer: ['dashboard', 'clients', 'requests', 'cases', 'reports', 'settings'],
 	Staff: ['dashboard', 'clients', 'requests', 'settings'],
 	Client: ['about', 'contact']
