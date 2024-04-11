@@ -46,13 +46,13 @@
 				<span class="sr-only">Back</span>
 			</Button>
 			<h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-				{!$formData._id ? 'Add a New Client' : 'Update Client Information'}
+				{!$formData._id ? 'Add User' : 'Update User'}
 			</h1>
 			<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 				<Form.Button type="submit" size="sm"
-					>{!$formData._id ? 'Add Client' : 'Update Client'}</Form.Button
+					>{!$formData._id ? 'Add User' : 'Update User'}</Form.Button
 				>
 			</div>
 		</div>
@@ -60,26 +60,15 @@
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
 				<Card.Root>
 					<Card.Header>
-						<Card.Title>Personal Information</Card.Title>
-						<Card.Description>Please fill out all necessary information.</Card.Description>
+						<Card.Title>Account Information</Card.Title>
+						<Card.Description>Set up the new account.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid grid-cols-7 items-start gap-3">
-							<Form.Field {form} name="username" class="col-span-4 grid gap-3">
+						<div class="grid grid-cols-2 items-start gap-3">
+							<Form.Field {form} name="username" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Username</Form.Label>
-									<Input {...attrs} bind:value={$formData.username} placeholder="Username" />
-								</Form.Control>
-							</Form.Field>
-							<Form.Field {form} name="hashedPassword" class="col-span-2 grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Password</Form.Label>
-									<Input
-										{...attrs}
-										type="password"
-										bind:value={$formData.hashedPassword}
-										placeholder="Password"
-									/>
+									<Input {...attrs} bind:value={$formData.username}/>
 								</Form.Control>
 							</Form.Field>
 							<Form.Field {form} name="role" class="grid gap-3">
@@ -104,14 +93,38 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-						</div>
-						<div class="grid grid-cols-7 items-start gap-3">
-							<Form.Field {form} name="title" class="col-span-2 grid gap-3">
+							<Form.Field {form} name="hashedPassword" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Title</Form.Label>
-									<Input {...attrs} bind:value={$formData.title} placeholder="Title" />
+									<Form.Label>Password</Form.Label>
+									<Input
+										{...attrs}
+										type="password"
+										bind:value={$formData.hashedPassword}
+									/>
 								</Form.Control>
 							</Form.Field>
+							<Form.Field {form} name="hashedPassword" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Confirm Password</Form.Label>
+									<Input
+										{...attrs}
+										type="password"
+									/>
+								</Form.Control>
+							</Form.Field>
+						</div>
+					</Card.Content>
+				</Card.Root>
+				<Card.Root>
+					<Card.Header>
+						<Card.Title>Personal Information</Card.Title>
+						<Card.Description>Please fill out all necessary information.</Card.Description>
+					</Card.Header>
+					<Card.Content class="grid auto-rows-max items-start gap-3">
+						<div class="grid grid-cols-7 items-start gap-3">
+							
+						</div>
+						<div class="grid grid-cols-7 items-start gap-3">
 							<Form.Field {form} name="firstName" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Name</Form.Label>
@@ -140,7 +153,13 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid grid-cols-7 items-start gap-3">
+						<div class="grid grid-cols-5 items-start gap-3">
+							<Form.Field {form} name="title" class="col-span-2 grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Title</Form.Label>
+									<Input {...attrs} bind:value={$formData.title} />
+								</Form.Control>
+							</Form.Field>
 							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Age</Form.Label>
@@ -206,7 +225,18 @@
 			</div>
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
 				<Card.Root>
-					<!-- branch information -->
+					<Card.Header>
+						<Card.Title>Branch Information</Card.Title>
+					</Card.Header>
+					<Card.Content>
+						<Form.Field {form} name="branch_id" class="grid gap-3">
+							<Form.Control let:attrs>
+								<Form.Label>Branch</Form.Label>
+								<Input {...attrs} bind:value={$formData.branch_id} />
+							</Form.Control>
+							<Form.FieldErrors />
+						</Form.Field>
+					</Card.Content>
 				</Card.Root>
 			</div>
 		</div>
