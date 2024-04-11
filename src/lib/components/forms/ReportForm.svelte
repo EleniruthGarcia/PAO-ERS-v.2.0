@@ -4,6 +4,8 @@
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { ChevronLeft } from 'svelte-radix';
 
+	import Loading from '$lib/components/Loading.svelte';
+
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Checkbox } from '$lib/components/ui/checkbox';
@@ -32,10 +34,11 @@
 		value: new Date().getFullYear() - i
 	}));
 
-	const { form: formData, enhance } = form;
+	const { form: formData, enhance, delayed } = form;
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
+	{#if $delayed}<Loading />{/if}
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
 		<div class="flex items-center gap-4">
 			<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>

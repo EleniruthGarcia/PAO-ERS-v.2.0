@@ -208,7 +208,7 @@ export const actions = {
 			report: await generateReport({
 				...branch,
 				lawyer,
-				month: form.data.month,
+				month: form.data.months,
 				year: form.data.year,
 				notedBy: form.data.notedBy,
 				f10: outreaches,

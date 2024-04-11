@@ -84,9 +84,9 @@ export const status = [
 
 export const formSchema = z.object({
 	_id: z.string(),
-	date: z.date({ required_error: 'Date is required.' }),
+	// date: z.date({ required_error: 'Date is required.' }),
 	client_id: z.array(z.string()).min(1, 'Client is required.').default(['']),
-	districtProvince: z.enum(districtProvince),
+	// districtProvince: z.enum(districtProvince),
 	lawyer_id: z.string().min(1, 'Lawyer is required.'),
 	case_id: z.array(z.string()).optional(),
 	interviewee_id: z.string().min(1, 'Interviewee is required.'),

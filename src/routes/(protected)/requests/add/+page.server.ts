@@ -32,12 +32,22 @@ export const load: PageServerLoad = async (event) => {
 			zod(formSchema),
 			{ errors: false }
 		),
-		lawyers: await db.users.find({ role: 'Lawyer' }).toArray()
+		lawyers: await db.users.find({ role: 'Lawyer' }).toArray(),
+		clients: await db.clients.find().toArray()
 	};
 };
 
 export const actions: Actions = {
 	default: async (event) => {
+		if (!event.locals.user) {
+			event.cookies.set('redirect', '/requests/add', { path: '/' });
+			redirect(
+				'/login',
+				{ type: 'warning', message: 'You must be logged in to access this page!' },
+				event
+			);
+		}
+
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) return fail(400, { form });
 

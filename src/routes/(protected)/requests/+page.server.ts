@@ -17,6 +17,41 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/', text: 'PAO-ERS' },
 			{ href: '/requests', text: 'Requests' }
 		],
-		requests: db.requests.find().toArray()
+		requests: db.requests.aggregate([{
+			$lookup: {
+				from: 'users',
+				localField: 'lawyer_id',
+				foreignField: '_id',
+				as: 'lawyer'
+			},
+		}, {
+			$unwind: {
+				path: '$lawyer',
+				preserveNullAndEmptyArrays: true
+			}
+		}, {
+			$match: { lawyer_id: event.locals.user.role === 'Administrator' ? { $exists: true } : event.locals.user._id }
+		}, {
+			$lookup: {
+				from: 'users',
+				localField: 'client_id',
+				foreignField: '_id',
+				as: 'client'
+			},
+		}, {
+			$unwind: {
+				path: '$client',
+				preserveNullAndEmptyArrays: true
+			}
+		}, {
+			$project: {
+				_id: '$_id',
+				client: '$client.name',
+				lawyer: '$lawyer.name',
+				status: '$status.type',
+				date: '$status.date',
+				natureOfRequest: '$natureOfRequest',
+			}
+		}]).toArray()
 	};
 };

@@ -5,6 +5,8 @@
 
 	import { ChevronLeft } from 'svelte-radix';
 
+	import Loading from '$lib/components/Loading.svelte';
+
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import * as Form from '$lib/components/ui/form';
@@ -18,7 +20,7 @@
 		validators: zodClient(formSchema)
 	});
 
-	const { form: formData, enhance } = form;
+	const { form: formData, enhance, delayed } = form;
 
 	const proxyAge = intProxy(form, 'age', { initiallyEmptyIfZero: true });
 
@@ -41,6 +43,7 @@
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
+	{#if $delayed}<Loading />{/if}
 	<input type="hidden" name="_id" bind:value={$formData._id} />
 	<input type="hidden" name="name" bind:value={$formData.name} />
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">

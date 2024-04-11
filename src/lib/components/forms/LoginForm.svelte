@@ -3,6 +3,8 @@
 	import { formSchema, type FormSchema } from '$lib/schema/login';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 
+	import Loading from '$lib/components/Loading.svelte';
+
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Form from '$lib/components/ui/form';
@@ -14,10 +16,11 @@
 		validators: zodClient(formSchema)
 	});
 
-	const { form: formData, enhance } = form;
+	const { form: formData, enhance, delayed } = form;
 </script>
 
 <form method="POST" use:enhance class="grid gap-4">
+	{#if $delayed}<Loading />{/if}
 	<Card.Root class="w-full max-w-sm">
 		<Card.Header>
 			<Card.Title class="text-2xl">Login</Card.Title>

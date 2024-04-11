@@ -19,6 +19,8 @@
 
 	import { ChevronLeft, PlusCircled, Trash } from 'svelte-radix';
 
+	import Loading from '$lib/components/Loading.svelte';
+
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Checkbox } from '$lib/components/ui/checkbox';
@@ -27,9 +29,6 @@
 	import * as Select from '$lib/components/ui/select';
 	import { Separator } from '$lib/components/ui/separator';
 
-	import DatePicker from '$lib/components/DatePicker.svelte';
-	import { FieldErrors } from 'formsnap';
-
 	export let data: SuperValidated<Infer<FormSchema>>;
 
 	const form = superForm(data, {
@@ -37,29 +36,41 @@
 		validators: zodClient(formSchema)
 	});
 
-	const { form: formData, enhance } = form;
+	const { form: formData, enhance, delayed } = form;
 
-	const proxyDate = dateProxy(form, 'date', {
-		format: 'date',
-		empty: 'undefined'
-	});
+	// const proxyDate = dateProxy(form, 'date', {
+	// 	format: 'date',
+	// 	empty: 'undefined'
+	// });
+
+	let selectedClient: { label: string; value: string }[] = [];
+	$: idx = 0;
+	$: selectedClient[idx] = {
+		label:
+			$page.data.clients.find((client: any) => client._id === $formData.client_id[idx])?.name ?? '',
+		value: $formData.client_id[idx]
+	};
 
 	$: selectedLawyer = {
 		label: $page.data.lawyers.find((lawyer: any) => lawyer._id === $formData.lawyer_id)?.name ?? '',
 		value: $formData.lawyer_id
 	};
-	$: selectDistrictProvince = {
-		label: $formData.districtProvince,
-		value: $formData.districtProvince
-	};
-	$: selectTypeOfAssistance = {
-		label: $formData.typeOfAssistance,
-		value: $formData.typeOfAssistance
-	};
-	$: selectTypeOfRelease = {
-		label: $formData.typeOfRelease,
-		value: $formData.typeOfRelease
-	};
+	// $: selectDistrictProvince = {
+	// 	label: $formData.districtProvince,
+	// 	value: $formData.districtProvince
+	// };
+	$: selectTypeOfAssistance = $formData.typeOfAssistance
+		? {
+				label: $formData.typeOfAssistance,
+				value: $formData.typeOfAssistance
+			}
+		: undefined;
+	$: selectTypeOfRelease = $formData.typeOfRelease
+		? {
+				label: $formData.typeOfRelease,
+				value: $formData.typeOfRelease
+			}
+		: undefined;
 
 	function removeClientByIndex(index: number) {
 		$formData.client_id = $formData.client_id.filter((_, i) => i !== index);
@@ -79,6 +90,8 @@
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
+	{#if $delayed}<Loading />{/if}
+	<input type="hidden" bind:value={$formData._id} name="_id" />
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
 		<div class="flex items-center gap-4">
 			<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>
@@ -104,7 +117,7 @@
 						<Card.Description>Please fill out all necessary information.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid grid-cols-3 items-start gap-3">
+						<!-- <div class="grid grid-cols-3 items-start gap-3">
 							<Form.Field {form} name="districtProvince" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>District Office</Form.Label>
@@ -132,7 +145,7 @@
 									<Form.Label>Control Number</Form.Label>
 									<Input
 										{...attrs}
-										disabled
+										name={attrs.name}
 										bind:value={$formData._id}
 										placeholder="Control Number"
 									/>
@@ -145,46 +158,51 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-						</div>
-						<Form.Field {form} name="client_id" class="grid gap-3">
-							<Form.Control let:attrs>
-								<Form.Label>Client</Form.Label>
-								{#each $formData.client_id as _, i}
-									<div class="flex gap-2">
-										<Select.Root
-											selected={selectedLawyer}
-											onSelectedChange={(s) => {
-												s && ($formData.lawyer_id = s.value);
-											}}
-										>
-											<Select.Input name="client[{i}]" />
-											<Select.Trigger {...attrs}>
-												<Select.Value placeholder="" />
-											</Select.Trigger>
-											<Select.Content>
-												{#each $page.data.clients as client}
-													<Select.Item bind:value={$formData.client_id[i]}
-														>{client.name}</Select.Item
-													>
-												{/each}
-											</Select.Content>
-										</Select.Root>
-										<Button
-											variant="destructive"
-											class="gap-2"
-											on:click={() => removeClientByIndex(i)}
-										>
-											<Trash class="h-3.5 w-3.5" />
-										</Button>
-									</div>
-								{/each}
-							</Form.Control>
-							<Button variant="outline" class="gap-2" on:click={addClient}>
-								<PlusCircled class="h-3.5 w-3.5" />
-								<span>Add Client</span>
-							</Button>
+						</div> -->
+						<Form.Fieldset {form} name="client_id" class="grid gap-3">
+							<Form.Legend>Client</Form.Legend>
+							{#each $formData.client_id as _, i}
+								<Form.ElementField {form} name="client_id[{i}]">
+									<Form.Control let:attrs>
+										<div class="flex gap-2">
+											<Select.Root
+												selected={selectedClient[i]}
+												onSelectedChange={(s) => {
+													idx = i;
+													s && ($formData.client_id[i] = s.value);
+												}}
+											>
+												<Select.Input name="client_id[{i}]" bind:value={$formData.client_id[i]} />
+												<Select.Trigger {...attrs}>
+													<Select.Value placeholder="" />
+												</Select.Trigger>
+												{#if $page.data.clients.filter((c) => !$formData.client_id.includes(c._id)).length > 0}
+													<Select.Content>
+														{#each $page.data.clients.filter((c) => !$formData.client_id.includes(c._id)) as client}
+															<Select.Item bind:value={client._id}>{client.name}</Select.Item>
+														{/each}
+													</Select.Content>
+												{/if}
+											</Select.Root>
+											<Button
+												variant="destructive"
+												class="gap-2"
+												on:click={() => removeClientByIndex(i)}
+											>
+												<Trash class="h-3.5 w-3.5" />
+											</Button>
+										</div>
+									</Form.Control>
+								</Form.ElementField>
+							{/each}
+							{#if $page.data.clients.filter((c) => !$formData.client_id.includes(c._id)).length > 0}
+								<Button variant="outline" class="gap-2" on:click={addClient}>
+									<PlusCircled class="h-3.5 w-3.5" />
+									<span>Add Client</span>
+								</Button>
+							{/if}
 							<Form.FieldErrors />
-						</Form.Field>
+						</Form.Fieldset>
 						<Separator />
 						<Form.Field {form} name="lawyer_id" class="grid gap-3">
 							<Form.Control let:attrs>

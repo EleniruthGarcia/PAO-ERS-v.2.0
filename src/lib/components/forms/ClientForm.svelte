@@ -18,6 +18,8 @@
 
 	import { ChevronLeft } from 'svelte-radix';
 
+	import Loading from '$lib/components/Loading.svelte';
+
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Checkbox } from '$lib/components/ui/checkbox';
@@ -34,7 +36,7 @@
 		validators: zodClient(formSchema)
 	});
 
-	const { form: formData, enhance } = form;
+	const { form: formData, enhance, delayed } = form;
 
 	const proxyAge = intProxy(form, 'age', { initiallyEmptyIfZero: true });
 	const proxyDetainedSince = dateProxy(form, 'detainedSince', {
@@ -70,6 +72,7 @@
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
+	{#if $delayed}<Loading />{/if}
 	<input type="hidden" name="_id" bind:value={$formData._id} />
 	<input type="hidden" name="name" bind:value={$formData.name} />
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
@@ -103,6 +106,7 @@
 									<Form.Label>Name</Form.Label>
 									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
 								</Form.Control>
+								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="middleName" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
@@ -255,18 +259,11 @@
 						<Card.Title>Contact Information</Card.Title>
 					</Card.Header>
 					<Card.Content>
-						<Form.Field {form} name="address" class="grid gap-3">
-							<Form.Control let:attrs>
-								<Form.Label>Address</Form.Label>
-								<Input {...attrs} bind:value={$formData.address} />
-							</Form.Control>
-							<Form.FieldErrors />
-						</Form.Field>
 						<div class="grid grid-cols-2 items-start gap-3">
-							<Form.Field {form} name="email" class="grid gap-3">
+							<Form.Field {form} name="address" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Email</Form.Label>
-									<Input {...attrs} bind:value={$formData.email} />
+									<Form.Label>Address</Form.Label>
+									<Input {...attrs} bind:value={$formData.address} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -274,6 +271,13 @@
 								<Form.Control let:attrs>
 									<Form.Label>Contact Number</Form.Label>
 									<Input {...attrs} bind:value={$formData.contactNumber} type="tel" />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="email" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Email</Form.Label>
+									<Input {...attrs} bind:value={$formData.email} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
