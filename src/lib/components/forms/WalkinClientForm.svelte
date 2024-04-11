@@ -71,14 +71,14 @@
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
 	<input type="hidden" name="_id" bind:value={$formData._id} />
 	<input type="hidden" name="name" bind:value={$formData.name} />
-	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
+	<div class="mx-auto grid max-w-[48rem] flex-1 auto-rows-max gap-4">
 		<div class="flex items-center gap-4">
 			<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>
 				<ChevronLeft class="h-4 w-4" />
 				<span class="sr-only">Back</span>
 			</Button>
 			<h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-				{!$formData._id ? 'Add Client' : 'Update Client'}
+				{!$formData._id ? 'Add a New Client' : 'Update Client Information'}
 			</h1>
 			<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
@@ -88,8 +88,8 @@
 				>
 			</div>
 		</div>
-		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-5 lg:gap-8">
-			<div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
+		<div class="flex gap-4">
+			<div class="grid auto-rows-max items-start gap-4">
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Personal Information</Card.Title>
@@ -382,99 +382,6 @@
 						</Card.Content>
 					</Card.Root>
 				{/if}
-			</div>
-			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-				<Card.Root>
-					<Form.Fieldset {form} name="classification" class="space-y-0">
-						<Card.Header>
-							<Card.Title><Form.Legend>Client Classification</Form.Legend></Card.Title>
-							<Card.Description
-								><Form.Description>Please select all the apply.</Form.Description></Card.Description
-							>
-						</Card.Header>
-						<Card.Content>
-							<div class="space-y-2">
-								{#each classification as item}
-									{@const checked = $formData.classification?.includes(item) ?? false}
-									<div class="flex flex-row items-start space-x-3">
-										<Form.Control let:attrs
-											><Checkbox
-												{...attrs}
-												{checked}
-												onCheckedChange={(v) => {
-													if (v) {
-														$formData.classification = [...($formData.classification ?? []), item];
-													} else {
-														$formData.classification = $formData.classification?.filter(
-															(v) => v !== item
-														);
-													}
-												}}
-											/>
-											<Form.Label class="text-sm font-normal">
-												{item}
-											</Form.Label><input
-												hidden
-												type="checkbox"
-												name={attrs.name}
-												value={item}
-												{checked}
-											/>
-										</Form.Control>
-									</div>
-								{/each}
-								<Form.FieldErrors />
-							</div>
-						</Card.Content>
-					</Form.Fieldset>
-				</Card.Root>
-				<Card.Root>
-					<Form.Fieldset {form} name="classification" class="space-y-0">
-						<Card.Header>
-							<Card.Title><Form.Legend>Other Classifications</Form.Legend></Card.Title>
-							<Card.Description
-								><Form.Description>Please input all the apply.</Form.Description></Card.Description
-							>
-						</Card.Header>
-						<Card.Content>
-							<Form.Field {form} name="foreignNational" class="grid grid-cols-2 items-center">
-								<Form.Control let:attrs>
-									<Form.Label>Foreign National</Form.Label>
-									<Input {...attrs} bind:value={$formData.foreignNational} />
-								</Form.Control>
-								<Form.FieldErrors class="col-span-2" />
-							</Form.Field>
-							<Form.Field {form} name="pwd" class="grid grid-cols-2 items-center">
-								<Form.Control let:attrs>
-									<Form.Label>Person with Disability</Form.Label>
-									<Input {...attrs} bind:value={$formData.pwd} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-							<Form.Field {form} name="indigenousPeople" class="grid grid-cols-2 items-center">
-								<Form.Control let:attrs>
-									<Form.Label>Indigenous People</Form.Label>
-									<Input {...attrs} bind:value={$formData.indigenousPeople} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-							<Form.Field {form} name="urbanPoor" class="grid grid-cols-2 items-center">
-								<Form.Control let:attrs>
-									<Form.Label>Urban Poor</Form.Label>
-									<Input {...attrs} bind:value={$formData.urbanPoor} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-							<Form.Field {form} name="ruralPoor" class="grid grid-cols-2 items-center">
-								<Form.Control let:attrs>
-									<Form.Label>Rural Poor</Form.Label>
-									<Input {...attrs} bind:value={$formData.ruralPoor} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-						</Card.Content>
-					</Form.Fieldset>
-				</Card.Root>
 			</div>
 		</div>
 		<div class="flex items-center justify-center gap-2 md:hidden">
