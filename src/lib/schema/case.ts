@@ -10,12 +10,20 @@ export const natureOfTheCase = [
 ] as const;
 
 export const clientInvolvement = [
+	'Accused',
+	'Complainant',
+	'Defendant',
+	'Oppositor',
+	'Petitioner',
 	'Plaintiff',
-	'Defendant'
+	'Respondent',
+	'Others'
 ] as const;
 
 export const adversePartyInvolvement = [
-	''
+	'Plaintiff or Complainant',
+	'Defendant, Respondent, or Accused',
+	'Oppositor or Others'
 ] as const;
 
 export const status = [
@@ -87,14 +95,14 @@ export const formSchema = z.object({
 	caseSpecs: z.string(),
 	clientInvolvement: z.array(z.enum(clientInvolvement)),
 	adversePartyInvolvement: z.array(z.enum(adversePartyInvolvement)),
-	adversePartyName: z.array(z.string()),
-	adversePartyAddress: z.array(z.string()),
+	adversePartyName: z.array(z.string()).min(1, 'Adverse Party Name is required.').default([""]),
+	adversePartyAddress: z.array(z.string()).min(1, 'Adverse Party Address is required.').default([""]),
 	factsOfTheCase: z.string().optional(),
 	causeOfActionOrNatureOfOffence: z.string().optional(),
 	pendingInCourt: z.boolean(),
 	titleOfTheCase: z.string().optional(),
 	docketNumber: z.number().optional(),
-	courtOrBodyOrTribunal: z.string().optional(),
+	court: z.string().optional(),
 	currentStatus: z.enum(status),
 	status: z.array(z.object({
 		type: z.enum(status),

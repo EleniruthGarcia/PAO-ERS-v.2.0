@@ -55,13 +55,13 @@
 				<span class="sr-only">Back</span>
 			</Button>
 			<h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-				{!$formData._id ? 'Add Request' : 'Update Request'}
+				{!$formData._id ? 'Add Case' : 'Update Case'}
 			</h1>
 			<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 				<Form.Button type="submit" size="sm"
-					>{!$formData._id ? 'Add Request' : 'Update Request'}</Form.Button
+					>{!$formData._id ? 'Add Case' : 'Update Case'}</Form.Button
 				>
 			</div>
 		</div>
@@ -73,7 +73,7 @@
 						<Card.Description>Please fill out all necessary information.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid grid-cols-3 items-start gap-3">
+						<div class="grid grid-cols-2 items-start gap-3">
 							<Form.Field {form} name="natureOfTheCase" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Nature of the Case</Form.Label>
@@ -107,49 +107,46 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field
+						</div>
+						<Form.Field
 								{form}
 								name="pendingInCourt"
-								class="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-4"
+								class="flex flex-row items-center space-x-3 w-fit space-y-0 rounded-md border p-4"
 							>
 								<Form.Control let:attrs>
 									<Checkbox {...attrs} bind:checked={$formData.pendingInCourt} />
 									<div class="h-10 space-y-2 truncate leading-none">
 										<Form.Label>Pending in Court</Form.Label>
-										<Form.Description>Check if the case is pending in court.</Form.Description>
+										<Form.Description>Check if case is pending in court.</Form.Description>
 									</div>
 									<input name={attrs.name} bind:value={$formData.pendingInCourt} hidden />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-						</div>
 					</Card.Content>
 				</Card.Root>
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Adverse Party's Information</Card.Title>
-						<Card.Description>Please fill out all necessary information.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid grid-cols-3 items-start gap-3">
-							<Form.Field {form} name="adversePartyName" class="grid gap-3">
+						<div class="grid grid-cols-5 items-start gap-3">
+							<Form.Field {form} name="adversePartyName" class="grid gap-3 col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label>Adverse Party Name</Form.Label>
 									<Input
 										{...attrs}
 										bind:value={$formData.adversePartyName}
-										placeholder="Adverse Party Name"
 									/>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="adversePartyAddress" class="grid gap-3">
+							<Form.Field {form} name="adversePartyAddress" class="grid gap-3 col-span-3">
 								<Form.Control let:attrs>
 									<Form.Label>Adverse Party Address</Form.Label>
 									<Input
 										{...attrs}
 										bind:value={$formData.adversePartyAddress}
-										placeholder="Adverse Party Name"
 									/>
 								</Form.Control>
 								<Form.FieldErrors />
@@ -164,18 +161,17 @@
 							<Card.Description>Please fill out all necessary information.</Card.Description>
 						</Card.Header>
 						<Card.Content class="grid auto-rows-max items-start gap-3">
-							<div class="grid grid-cols-3 items-start gap-3">
-								<Form.Field {form} name="titleOfTheCase" class="grid gap-3">
-									<Form.Control let:attrs>
-										<Form.Label>Title of the Case</Form.Label>
-										<Input
-											{...attrs}
-											bind:value={$formData.titleOfTheCase}
-											placeholder="Title of the Case"
-										/>
-									</Form.Control>
-									<Form.FieldErrors />
-								</Form.Field>
+							<Form.Field {form} name="titleOfTheCase" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Title of the Case</Form.Label>
+									<Input
+										{...attrs}
+										bind:value={$formData.titleOfTheCase}
+									/>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<div class="grid grid-cols-2 items-start gap-3">
 								<Form.Field {form} name="docketNumber" class="grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label>Docket Number</Form.Label>
@@ -187,13 +183,12 @@
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
-								<Form.Field {form} name="courtOrBodyOrTribunal" class="grid gap-3">
+								<Form.Field {form} name="court" class="grid gap-3">
 									<Form.Control let:attrs>
-										<Form.Label>Court/Body/Tribunal</Form.Label>
+										<Form.Label>Court</Form.Label>
 										<Input
 											{...attrs}
-											bind:value={$formData.courtOrBodyOrTribunal}
-											placeholder="Court/Body/Tribunal"
+											bind:value={$formData.court}
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -205,14 +200,13 @@
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Facts of the Case</Card.Title>
-						<Card.Description>Please fill out all necessary information.</Card.Description>
+						<Card.Description>Type the facts of the case here.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
 						<Form.Field {form} name="factsOfTheCase">
 							<Form.Control let:attrs>
 								<Textarea
 									{...attrs}
-									placeholder="Put the facts of the case here."
 									bind:value={$formData.factsOfTheCase}
 								/>
 							</Form.Control>
@@ -222,15 +216,14 @@
 				</Card.Root>
 				<Card.Root>
 					<Card.Header>
-						<Card.Title>Cause of Action/Nature of Offence</Card.Title>
-						<Card.Description>Please fill out all necessary information.</Card.Description>
+						<Card.Title>Cause of Action or Nature of Offence</Card.Title>
+						<Card.Description>Type the cause of action or the nature of offence here.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
 						<Form.Field {form} name="causeOfActionOrNatureOfOffence">
 							<Form.Control let:attrs>
 								<Textarea
 									{...attrs}
-									placeholder="Put the cause of action or the nature of offence here."
 									bind:value={$formData.causeOfActionOrNatureOfOffence}
 								/>
 							</Form.Control>
@@ -246,7 +239,7 @@
 						<Card.Description>Please fill out all necessary information.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid grid-cols-3 items-start gap-3">
+						<div class="grid items-start gap-3">
 							<Form.Field {form} name="currentStatus" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Case Status</Form.Label>
