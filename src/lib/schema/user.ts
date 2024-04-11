@@ -1,29 +1,12 @@
 import z from 'zod';
 
-export const role = [
-	'Administrator',
-	'Lawyer',
-	'Staff'
-] as const;
+export const role = ['Administrator', 'Lawyer', 'Staff'] as const;
 
-export const sex = [
-	'Male',
-	'Female'
-] as const;
+export const sex = ['Male', 'Female'] as const;
 
-export const civilStatus = [
-	'Single',
-	'Married',
-	'Separated',
-	'Widowed'
-] as const;
+export const civilStatus = ['Single', 'Married', 'Separated', 'Widowed'] as const;
 
-export const status = [
-	'New',
-	'Updated',
-	'Archived',
-	'Restored'
-] as const;
+export const status = ['New', 'Updated', 'Archived', 'Restored'] as const;
 
 export const rank = [
 	'Chief Public Attorney',
@@ -53,18 +36,23 @@ export const formSchema = z.object({
 	lastName: z.string().min(1, 'Last name is required!'),
 	nameSuffix: z.string().optional(),
 	dateOfBirth: z.date().optional(),
-	age: z.number({ invalid_type_error: 'Age is required!', }).positive().min(1, 'Age is required!'),
+	age: z.number({ invalid_type_error: 'Age is required!' }).positive().min(1, 'Age is required!'),
 	sex: z.enum(sex),
 	address: z.string().min(1, 'Address is required!'),
 	email: z.string().email().optional(),
-	contactNumber: z.string().regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number!').refine((value) => value !== '', {
-		message: 'Contact number is required!',
-	}),
+	contactNumber: z
+		.string()
+		.regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number!')
+		.refine((value) => value !== '', {
+			message: 'Contact number is required!'
+		}),
 	currentStatus: z.enum(status),
-	status: z.array(z.object({
-		type: z.enum(status),
-		date: z.date(),
-	}))
+	status: z.array(
+		z.object({
+			type: z.enum(status),
+			date: z.date()
+		})
+	)
 });
 
 export type FormSchema = typeof formSchema;

@@ -21,10 +21,7 @@ export const classification = [
 	'Woman Client'
 ] as const;
 
-export const sex = [
-	'Male',
-	'Female'
-] as const;
+export const sex = ['Male', 'Female'] as const;
 
 export const proofOfIndigency = [
 	'Income Tax Return',
@@ -32,12 +29,7 @@ export const proofOfIndigency = [
 	'Certification from DSWD'
 ] as const;
 
-export const civilStatus = [
-	'Single',
-	'Married',
-	'Separated',
-	'Widowed'
-] as const;
+export const civilStatus = ['Single', 'Married', 'Separated', 'Widowed'] as const;
 
 export const educationalAttainment = [
 	'No Formal Schooling',
@@ -47,19 +39,14 @@ export const educationalAttainment = [
 	'High School Graduate',
 	'College Level',
 	'College Degree',
-	'Bachelor\'s Degree',
+	"Bachelor's Degree",
 	"With Master's Units",
 	"Master's Degree",
 	'With Doctoral Units',
 	'Doctorate Degree'
 ] as const;
 
-export const status = [
-	'New',
-	'Updated',
-	'Archived',
-	'Restored'
-] as const;
+export const status = ['New', 'Updated', 'Archived', 'Restored'] as const;
 
 export const formSchema = z.object({
 	_id: z.string().optional(),
@@ -69,13 +56,16 @@ export const formSchema = z.object({
 	lastName: z.string().min(1, 'Last name is required.'),
 	nameSuffix: z.string().optional(),
 	dateOfBirth: z.date().optional(),
-	age: z.number({ invalid_type_error: 'Age is required.', }).positive().min(1, 'Age is required.'),
+	age: z.number({ invalid_type_error: 'Age is required.' }).positive().min(1, 'Age is required.'),
 	sex: z.enum(sex),
 	address: z.string().min(1, 'Address is required.'),
 	email: z.string().email().optional(),
-	contactNumber: z.string().regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number.').refine((value) => value !== '', {
-		message: 'Contact number is required.',
-	}),
+	contactNumber: z
+		.string()
+		.regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number.')
+		.refine((value) => value !== '', {
+			message: 'Contact number is required.'
+		}),
 	civilStatus: z.enum(civilStatus),
 	religion: z.string().optional(),
 	citizenship: z.string().optional(),
@@ -96,7 +86,10 @@ export const formSchema = z.object({
 	spouseNameSuffix: z.string().optional(),
 	spouseAddress: z.string().optional(),
 	spouseEmail: z.string().email().optional(),
-	spouseContactNumber: z.string().regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number.').optional(),
+	spouseContactNumber: z
+		.string()
+		.regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number.')
+		.optional(),
 	classification: z.array(z.enum(classification)).optional(),
 	foreignNational: z.string().optional(),
 	pwd: z.string().optional(),
@@ -104,11 +97,13 @@ export const formSchema = z.object({
 	urbanPoor: z.string().optional(),
 	ruralPoor: z.string().optional(),
 	currentStatus: z.enum(status),
-	status: z.array(z.object({
-		type: z.enum(status),
-		date: z.date(),
-	})),
-	proofOfIndigency: z.array(z.enum(proofOfIndigency).or(z.object({ 'Others': z.string() })))
+	status: z.array(
+		z.object({
+			type: z.enum(status),
+			date: z.date()
+		})
+	),
+	proofOfIndigency: z.array(z.enum(proofOfIndigency).or(z.object({ Others: z.string() })))
 });
 
 export type FormSchema = typeof formSchema;

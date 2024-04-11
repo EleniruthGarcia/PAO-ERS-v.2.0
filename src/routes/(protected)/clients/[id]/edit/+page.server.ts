@@ -48,14 +48,16 @@ export const actions = {
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) return fail(400, { form });
 
-		const client = await db.clients.updateOne({ _id: event.params.id }, [{
-			$set: form.data
-		},
-		{
-			$push: {
-				status: { type: 'Updated', date: new Date() }
+		const client = await db.clients.updateOne({ _id: event.params.id }, [
+			{
+				$set: form.data
+			},
+			{
+				$push: {
+					status: { type: 'Updated', date: new Date() }
+				}
 			}
-		}]);
+		]);
 
 		if (!client || !client.acknowledged) return fail(500, { form });
 		if (client.matchedCount === 0) return fail(404, { form });
@@ -68,5 +70,5 @@ export const actions = {
 				: { type: 'info', message: 'No changes made...' },
 			event
 		);
-	},
+	}
 } satisfies Actions;

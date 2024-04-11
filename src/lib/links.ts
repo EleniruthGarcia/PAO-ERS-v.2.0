@@ -14,11 +14,20 @@ const links = {
 	presentation: { href: '/presentation', icon: Laptop, label: 'Presentation' },
 	about: { href: '/about', icon: Home, label: 'About' },
 	services: { href: '/services', icon: Home, label: 'Services' },
-	contact: { href: '/contact', icon: Home, label: 'Contact' },
+	contact: { href: '/contact', icon: Home, label: 'Contact' }
 };
 
 const roles = {
-	Administrator: ['admin', 'users', 'clients', 'requests', 'cases', 'reports', 'settings', 'presentation'],
+	Administrator: [
+		'admin',
+		'users',
+		'clients',
+		'requests',
+		'cases',
+		'reports',
+		'settings',
+		'presentation'
+	],
 	Lawyer: ['dashboard', 'clients', 'requests', 'cases', 'reports', 'settings'],
 	Staff: ['dashboard', 'clients', 'requests', 'settings'],
 	Client: ['about', 'contact']

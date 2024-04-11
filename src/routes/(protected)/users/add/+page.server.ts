@@ -25,10 +25,14 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/users', text: 'Users' },
 			{ href: '/users/add', text: 'Add User' }
 		],
-		form: await superValidate({
-			currentStatus: 'New',
-			status: [{ type: 'New', date: new Date() }],
-		}, zod(formSchema))
+		form: await superValidate(
+			{
+				currentStatus: 'New',
+				status: [{ type: 'New', date: new Date() }]
+			},
+			zod(formSchema),
+			{ errors: false }
+		)
 	};
 };
 
@@ -48,8 +52,11 @@ export const actions: Actions = {
 
 		const user = await db.users.insertOne({
 			...form.data,
-			_id: form.data.role === 'Lawyer' ? 'LAWYER' : 'STAFF' + '-' + Date.now().toString(36).toUpperCase(),
-			hashedPassword: await (new Argon2id().hash(form.data.hashedPassword))
+			_id:
+				form.data.role === 'Lawyer'
+					? 'LAWYER'
+					: 'STAFF' + '-' + Date.now().toString(36).toUpperCase(),
+			hashedPassword: await new Argon2id().hash(form.data.hashedPassword)
 		});
 		if (!user.acknowledged) return fail(500, { form });
 

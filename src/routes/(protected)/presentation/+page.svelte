@@ -34,7 +34,7 @@
 			<Card.Header>
 				<Card.Title>Introduction</Card.Title>
 			</Card.Header>
-			<Card.Content class="flex auto-rows-max flex-col items-center gap-3 px-12 lg:px-24 pb-12">
+			<Card.Content class="flex auto-rows-max flex-col items-center gap-3 px-12 pb-12 lg:px-24">
 				<img
 					src="/favicon.png"
 					alt="PAO-ERS Logo"
@@ -59,7 +59,7 @@
 				<Card.Title>Developer Team</Card.Title>
 			</Card.Header>
 			<Card.Content class="grid auto-rows-max items-start justify-center gap-3 pb-12">
-				<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 pb-4">
+				<div class="grid gap-3 pb-4 sm:grid-cols-2 lg:grid-cols-4">
 					<div class="border-1 flex items-center gap-4 rounded-md border p-4">
 						<Avatar.Root>
 							<Avatar.Image
@@ -119,7 +119,9 @@
 			<Card.Header>
 				<Card.Title>Summary of Customer Priorities</Card.Title>
 			</Card.Header>
-			<Card.Content class="grid auto-rows-max items-start justify-center gap-3 px-12 md:px-24 pb-12">
+			<Card.Content
+				class="grid auto-rows-max items-start justify-center gap-3 px-12 pb-12 md:px-24"
+			>
 				<p>
 					In summary, the main requirement of the customer is a working database system with
 					integrated form generation, account systems, and report generation.
@@ -160,7 +162,7 @@
 			<Card.Header>
 				<Card.Title>Maintenance Services</Card.Title>
 			</Card.Header>
-			<Card.Content class="grid auto-rows-max items-start justify-center gap-3 px-12 md:px-24 pb-12"
+			<Card.Content class="grid auto-rows-max items-start justify-center gap-3 px-12 pb-12 md:px-24"
 				><p>
 					The developers agree to provide the following maintenance services, until the graduation
 					of the developers:
@@ -179,13 +181,12 @@
 				</ul>
 				<Separator />
 				<p>
-					<strong>Scaling:</strong> The developers' commitment to provide free maintenance services is limited to the
-					current scope and functionality of the system. Any future requests to scale the system's
-					operations, add new features, or modify existing functionalities will be subject to the
-					developers' availability, resources, and mutual agreement with PAO Cordillera
-					Administrative Region (CAR). The developers are not obligated to fulfill such requests but
-					will engage in good faith discussions with PAO CAR regarding feasibility and potential
-					costs.
+					<strong>Scaling:</strong> The developers' commitment to provide free maintenance services is
+					limited to the current scope and functionality of the system. Any future requests to scale
+					the system's operations, add new features, or modify existing functionalities will be subject
+					to the developers' availability, resources, and mutual agreement with PAO Cordillera Administrative
+					Region (CAR). The developers are not obligated to fulfill such requests but will engage in
+					good faith discussions with PAO CAR regarding feasibility and potential costs.
 				</p>
 			</Card.Content>
 		</Card.Root>
@@ -200,7 +201,7 @@
 				</div>
 			</Card.Header>
 			<Card.Content class="grid auto-rows-max items-start justify-center gap-3 px-24 pb-12">
-				<div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-3 pb-4">
+				<div class="grid gap-3 pb-4 sm:grid-cols-2 lg:grid-cols-5">
 					<div class="border-1 grid rounded-md border p-4">
 						<div class="mb-2 h-32 w-full border border-2 bg-[#F9FAFA]"></div>
 						<span class="font-bold">Oath</span>
@@ -232,7 +233,7 @@
 						<span class="text-xs text-muted-foreground">RGB(44, 46, 48)</span>
 					</div>
 				</div>
-				<div class="grid grid-cols-11 gap-3 invisible sm:visible">
+				<div class="invisible grid grid-cols-11 gap-3 sm:visible">
 					<span class="col-span-2 text-xs">Background</span>
 					<div class="col-span-3 flex lg:gap-4">
 						<div class="h-6 w-6 border border-2 bg-background"></div>

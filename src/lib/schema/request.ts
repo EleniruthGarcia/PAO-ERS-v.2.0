@@ -53,7 +53,7 @@ export const districtProvince = [
 	'Ifugao',
 	'Kalinga',
 	'Mountain Province'
-] as const
+] as const;
 
 export const typeOfAssistance = [
 	'Assisted during Custodial Interrogation',
@@ -69,7 +69,7 @@ export const typeOfRelease = [
 	'On inquest assistance or representation',
 	'On motion to dismiss or motion to quash',
 	'On pardon, executive clemency, or probation',
-	'On other grounds',
+	'On other grounds'
 ] as const;
 
 export const status = [
@@ -85,7 +85,7 @@ export const status = [
 export const formSchema = z.object({
 	_id: z.string(),
 	date: z.date({ required_error: 'Date is required.' }),
-	client_id: z.array(z.string()).min(1, 'Client is required.').default([""]),
+	client_id: z.array(z.string()).min(1, 'Client is required.').default(['']),
 	districtProvince: z.enum(districtProvince),
 	lawyer_id: z.string().min(1, 'Lawyer is required.'),
 	case_id: z.array(z.string()).optional(),
@@ -96,10 +96,12 @@ export const formSchema = z.object({
 	typeOfAssistance: z.array(z.enum(typeOfAssistance)).optional(),
 	typeOfRelease: z.array(z.enum(typeOfRelease)).optional(),
 	currentStatus: z.enum(status),
-	status: z.array(z.object({
-		type: z.enum(status),
-		date: z.date(),
-	}))
+	status: z.array(
+		z.object({
+			type: z.enum(status),
+			date: z.date()
+		})
+	)
 });
 
 export type FormSchema = typeof formSchema;

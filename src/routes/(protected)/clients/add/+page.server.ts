@@ -24,10 +24,14 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/clients', text: 'Clients' },
 			{ href: '/clients/add', text: 'Add Client' }
 		],
-		form: await superValidate({
-			currentStatus: 'New',
-			status: [{ type: 'New', date: new Date() }],
-		}, zod(formSchema))
+		form: await superValidate(
+			{
+				currentStatus: 'New',
+				status: [{ type: 'New', date: new Date() }]
+			},
+			zod(formSchema),
+			{ errors: false }
+		)
 	};
 };
 
@@ -47,7 +51,7 @@ export const actions: Actions = {
 
 		const client = await db.clients.insertOne({
 			...form.data,
-			_id: 'CLIENT-' + Date.now().toString(36).toUpperCase(),
+			_id: 'CLIENT-' + Date.now().toString(36).toUpperCase()
 		});
 		if (!client.acknowledged) return fail(500, { form });
 

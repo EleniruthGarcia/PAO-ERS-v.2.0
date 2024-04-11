@@ -182,8 +182,7 @@
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Religion </span>
-							<span>{data.client.religion !== '' ? data.client.religion : 'N/A'}</span
-							>
+							<span>{data.client.religion !== '' ? data.client.religion : 'N/A'}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Educational Attainment </span>

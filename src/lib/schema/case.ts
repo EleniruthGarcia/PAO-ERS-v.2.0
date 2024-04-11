@@ -41,7 +41,7 @@ export const pending = [
 	'On trial',
 	'Submitted for decision/resolution',
 	'Appealed case from MTC to RTC',
-	'Cases referred to SACS	',
+	'Cases referred to SACS	'
 ] as const;
 
 export const terminated = [
@@ -62,27 +62,27 @@ export const favorable = [
 	'Dismissed cases based on compromise agreement (civil & labor)',
 	'Criminal cases for preliminary investigation',
 	'Pre-trial releases and other dispositions'
-] as const
+] as const;
 
 export const favorableCriminalPreliminary = [
 	'Case filed in court (complainant)',
-	'Dismissed (respondent)',
-] as const
+	'Dismissed (respondent)'
+] as const;
 
 export const pretrialAndOtherDispositions = [
 	'Bail (Non-bailable offense)',
 	'Recognizance',
 	'Diversion proceedings / Intervention',
 	'Suspended sentence',
-	'Maximum imposable penalty served',
-] as const
+	'Maximum imposable penalty served'
+] as const;
 
 export const unfavorable = [
 	'Convicted as charged',
 	'Lost (civil, administrative & labor)',
 	'Dismissed (civil, administrative & labor)',
 	'Criminal cases for preliminary investigation'
-] as const
+] as const;
 
 export const unfavorableCriminalPreliminary = [
 	'Dismissed (complainant)',
@@ -93,10 +93,12 @@ export const formSchema = z.object({
 	_id: z.string().optional(),
 	natureOfTheCase: z.string(),
 	caseSpecs: z.string(),
-	clientInvolvement: z.array(z.enum(clientInvolvement)),
-	adversePartyInvolvement: z.array(z.enum(adversePartyInvolvement)),
-	adversePartyName: z.array(z.string()).min(1, 'Adverse Party Name is required.').default([""]),
-	adversePartyAddress: z.array(z.string()).min(1, 'Adverse Party Address is required.').default([""]),
+	clientInvolvement: z.array(z.enum(clientInvolvement)).min(1, 'Client Involvement is required.'),
+	adversePartyInvolvement: z
+		.array(z.enum(adversePartyInvolvement))
+		.min(1, 'Adverse Party Involvement is required.'),
+	adversePartyName: z.array(z.string()).min(1, 'Adverse Party Name is required.'),
+	adversePartyAddress: z.array(z.string()).min(1, 'Adverse Party Address is required.'),
 	factsOfTheCase: z.string().optional(),
 	causeOfActionOrNatureOfOffence: z.string().optional(),
 	pendingInCourt: z.boolean(),
@@ -104,10 +106,12 @@ export const formSchema = z.object({
 	docketNumber: z.number().optional(),
 	court: z.string().optional(),
 	currentStatus: z.enum(status),
-	status: z.array(z.object({
-		type: z.enum(status),
-		date: z.date(),
-	}))
+	status: z.array(
+		z.object({
+			type: z.enum(status),
+			date: z.date()
+		})
+	)
 });
 
 export type FormSchema = typeof formSchema;
