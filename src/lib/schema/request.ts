@@ -1,17 +1,18 @@
 import z from 'zod';
 
 export const nature = [
-    'Administration of Oath',
-    'Inquest Legal Assistance',
-    'Jail Visitation Release',
-    'Legal Advice',
-    'Legal Documentation',
-    'Mediation or Conciliation',
-    'Representation in Court or Quasi-Judicial Bodies',
+	'Administration of Oath',
+	'Inquest Legal Assistance',
+	'Jail Visitation Release',
+	'Legal Advice',
+	'Legal Documentation',
+	'Mediation or Conciliation',
+	'Representation in Court or Quasi-Judicial Bodies',
 	'Others'
 ] as const;
 
 export const relationshipToClient = [
+	'Self',
 	'Client',
 	'Parent',
 	'Sibling',
@@ -55,34 +56,49 @@ export const districtProvince = [
 ] as const
 
 export const typeOfAssistance = [
-    'Assisted during Custodial Interrogation',
-    'Assisted during Inquest Investigation',
-    'Counseled during Inquest or Night Duty'
+	'Assisted during Custodial Interrogation',
+	'Assisted during Inquest Investigation',
+	'Counseled during Inquest or Night Duty'
 ] as const;
 
 export const typeOfRelease = [
-    'Acquitted (After trial)',
+	'Acquitted (After trial)',
 	'Acquitted (On appeal)',
-    'After serving the possible maximum of the prison term',
-    'On bail or on recognizance',
-    'On inquest assistance or representation',
-    'On motion to dismiss or motion to quash',
-    'On pardon, executive clemency, or probation',
+	'After serving the possible maximum of the prison term',
+	'On bail or on recognizance',
+	'On inquest assistance or representation',
+	'On motion to dismiss or motion to quash',
+	'On pardon, executive clemency, or probation',
 	'On other grounds',
+] as const;
+
+export const status = [
+	'New',
+	'Pending',
+	'Updated',
+	'Ongoing',
+	'Resolved',
+	'Archived',
+	'Restored'
 ] as const;
 
 export const formSchema = z.object({
 	_id: z.string(),
-	districtProvince: z.array(z.enum(districtProvince)).min(1, 'District Office is required.'),
-	date: z.date({required_error: 'Date is required.'}),
+	date: z.date({ required_error: 'Date is required.' }),
 	client_id: z.array(z.string()).min(1, 'Client is required.').default([""]),
 	lawyer_id: z.string().min(1, 'Lawyer is required.'),
-	interviwee_id: z.string().min(1, 'Interviewee is required.'),
+	case_id: z.string().optional(),
+	interviewee_id: z.string().min(1, 'Interviewee is required.'),
 	relationshipToClient: z.enum(relationshipToClient),
 	nature: z.array(z.enum(nature)).min(1, 'Nature of Request is required.'),
-	otherNature: z.array(z.string()).default([""]),
-	typeOfAssistance: z.array(z.enum(typeOfAssistance)),
-	typeOfRelease: z.array(z.enum(typeOfRelease))
+	otherNature: z.array(z.string()).optional(),
+	typeOfAssistance: z.array(z.enum(typeOfAssistance)).optional(),
+	typeOfRelease: z.array(z.enum(typeOfRelease)).optional(),
+	status: z.array(z.object({
+		type: z.enum(status),
+		date: z.date().optional(),
+	})),
 });
 
 export type FormSchema = typeof formSchema;
+export type Request = z.infer<typeof formSchema>;
