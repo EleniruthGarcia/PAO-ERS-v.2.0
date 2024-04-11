@@ -26,6 +26,12 @@ export const sex = [
 	'Female'
 ] as const;
 
+export const proofOfIndigency = [
+	'Income Tax Return',
+	'Certification from Barangay',
+	'Certification from DSWD'
+] as const;
+
 export const civilStatus = [
 	'Single',
 	'Married',
@@ -40,11 +46,19 @@ export const educationalAttainment = [
 	'High School Level',
 	'High School Graduate',
 	'College Level',
-	'College Graduate',
+	'College Degree',
+	'Bachelor\'s Degree',
 	"With Master's Units",
-	"Master's Graduate",
+	"Master's Degree",
 	'With Doctoral Units',
-	'Doctorate Graduate'
+	'Doctorate Degree'
+] as const;
+
+export const status = [
+	'New',
+	'Updated',
+	'Archived',
+	'Restored'
 ] as const;
 
 export const formSchema = z.object({
@@ -89,6 +103,12 @@ export const formSchema = z.object({
 	indigenousPeople: z.string().optional(),
 	urbanPoor: z.string().optional(),
 	ruralPoor: z.string().optional(),
+	status: z.array(z.object({
+		type: z.enum(status),
+		date: z.date().optional(),
+	})),
+	proofOfIndigency: z.array(z.enum(proofOfIndigency).or(z.object({ 'Others': z.string() })))
 });
 
 export type FormSchema = typeof formSchema;
+export type Client = z.infer<typeof formSchema>;

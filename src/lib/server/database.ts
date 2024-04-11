@@ -2,6 +2,8 @@ import { dev } from '$app/environment';
 import { DATABASE_URL } from '$env/static/private';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
+import type { User, Client, Request, Case } from '$lib/schema';
+
 const client = new MongoClient(DATABASE_URL, {
 	serverApi: {
 		version: ServerApiVersion.v1,
@@ -41,94 +43,10 @@ export interface Log {
 	serviceType: string;
 }
 
-export interface User {
-	_id: string;
-	branch_id: string;
-	username: string;
-	hashedPassword: string;
-	role: 'Administrator' | 'Lawyer' | 'Staff';
-	title?: string;
-	name: string;
-	firstName: string;
-	middleName?: string;
-	lastName: string;
-	nameSuffix?: string;
-	email: string;
-	contactNumber: number;
-	address: string;
-	status: { type: 'New' | 'Updated' | 'Archived' | 'Restored', date: Date }[];
-}
-
 export interface Session {
 	_id: string;
 	user_id: string;
 	expires_at: Date;
-}
-
-export interface Request {
-	_id?: string;
-	districtProvince: ('Abra' | 'Apayao' | 'Benguet' | 'Ifugao' | 'Kalinga' | 'Mountain Province')[];
-	client_id: string[];
-	lawyer_id: string;
-	interviewee_id: string;
-	relationshipToClient: string;
-	case_id?: string;
-	date: Date;
-	nature: ('Legal Advice' | 'Legal Documentation' | 'Representation in Court or Quasi-Judicial Bodies' | 'Inquest Legal Assistance' | 'Mediation or Conciliation' | 'Administration of Oath' | 'Others')[];
-	otherNature?: string[];
-	status: { type: 'New' | 'Pending' | 'Ongoing' | 'Resolved' | 'Passed', date: Date, from?: string, to?: string }[];
-}
-
-export interface Client {
-	_id?: string;
-	name: string;
-	firstName: string;
-	middleName?: string;
-	lastName: string;
-	nameSuffix?: string;
-	age: number;
-	sex: 'Male' | 'Female';
-	address: string;
-	email?: string;
-	contactNumber?: string;
-	civilStatus: 'Single' | 'Married' | 'Widowed' | 'Separated';
-	religion?: string;
-	citizenship: string;
-	educationalAttainment: string;
-	language: string;
-	individualMonthlyIncome?: number;
-	detained: boolean;
-	detainedAt?: string;
-	detainedSince?: Date;
-	spouseName?: string;
-	spouseAddress?: string;
-	spouseContactNumber?: string;
-	classification?: ('Beneficiary of Hernan Ruling (R.A. No. 10951)' | 'Child Client' | 'Child in Conflict with the Law' | 'Woman Client' | 'VAWC Victim' | 'Law Enforcer' | 'Drug-Related Duty' | 'OFW (Land-Based)' | 'OFW (Sea-Based)' | 'FRs and FVEs' | 'Senior Citizen' | 'Refugee or Evacuee' | 'Tenant in Agrarian Case' | 'Victim of Terrorism (R.A. No. 9372)' | 'Victim of Torture (R.A. 9745)' | 'Victim of Trafficking (R.A. No. 9208)' | 'Petitioner for Voluntary Rehabilitation' | 'Special Legal Services (R.A. No. 9406 and MOAs)')[];
-	foreignNational?: string;
-	pwd?: string;
-	indigenousPeople?: string;
-	urbanPoor?: string;
-	ruralPoor?: string;
-	proofOfIndigency?: ('Income Tax Return' | 'Certification from Barangay' | 'Certification from DSWD' | { 'Others': string })[];
-	status: { type: 'New' | 'Updated' | 'Archived' | 'Restored', date: Date }[];
-}
-
-interface Case {
-	_id?: string;
-	dateFiled: Date;
-	dateResolved?: Date;
-	natureOfTheCase: string[];
-	status: { type: 'Pending' | 'Ongoing' | 'Resolved', date: Date }[];
-	lawId: string[];
-	clientInvolvement: string[];
-	adversePartyInvolvement: string[];
-	adversePartyName: string[];
-	adversePartyAddress: string[];
-	factsOfTheCase: string;
-	natureOfOffence: string;
-	titleOfCase: string;
-	docketNumber: string;
-	courtBody: string;
 }
 
 export interface Outreach {
@@ -184,14 +102,17 @@ const seedUsers: User[] = [
 		username: 'admin1',
 		hashedPassword: 'hashedPassword1',
 		role: 'Administrator',
+		rank: 'Chief Public Attorney',
 		title: 'Mr',
 		name: 'John Doe Smith Jr',
 		firstName: 'John',
 		middleName: 'Doe',
 		lastName: 'Smith',
 		nameSuffix: 'Jr',
+		age: 35,
+		sex: 'Male',
 		email: 'john.doe@example.com',
-		contactNumber: 1234567890,
+		contactNumber: '1234567890',
 		address: '123 Main St, City, Country',
 		status: [{ type: 'New', date: new Date() }]
 	},
@@ -201,12 +122,15 @@ const seedUsers: User[] = [
 		username: 'lawyer1',
 		hashedPassword: 'hashedPassword2',
 		role: 'Lawyer',
+		rank: 'Public Attorney V',
 		title: 'Ms',
 		name: 'Jane Doe',
 		firstName: 'Jane',
 		lastName: 'Doe',
 		email: 'jane.doe@example.com',
-		contactNumber: 9876543210,
+		contactNumber: '9876543210',
+		age: 30,
+		sex: 'Female',
 		address: '456 Elm St, City, Country',
 		status: [{ type: 'New', date: new Date() }]
 	},
@@ -217,12 +141,15 @@ const seedUsers: User[] = [
 		hashedPassword: 'hashedPassword3',
 		role: 'Staff',
 		title: 'Dr',
+		rank: 'Administrative Staff',
 		name: 'Emily Anne Brown',
 		firstName: 'Emily',
 		middleName: 'Anne',
 		lastName: 'Brown',
+		age: 60,
+		sex: 'Female',
 		email: 'emily.brown@example.com',
-		contactNumber: 1122334455,
+		contactNumber: '1122334455',
 		address: '789 Oak St, City, Country',
 		status: [{ type: 'New', date: new Date() }]
 	},
@@ -232,12 +159,15 @@ const seedUsers: User[] = [
 		username: 'lawyer2',
 		hashedPassword: 'hashedPassword4',
 		role: 'Lawyer',
+		rank: 'Public Attorney IV',
 		title: 'Mr',
 		name: 'Michael Johnson',
 		firstName: 'Michael',
 		lastName: 'Johnson',
 		email: 'michael.johnson@example.com',
-		contactNumber: 5544332211,
+		contactNumber: '5544332211',
+		age: 40,
+		sex: 'Male',
 		address: '101 Pine St, City, Country',
 		status: [{ type: 'New', date: new Date() }]
 	}
@@ -322,6 +252,7 @@ const seedClients: Client[] = [{
 	address: '456 Elm St, City, Country',
 	civilStatus: 'Married',
 	citizenship: 'British',
+	contactNumber: '3254353234',
 	educationalAttainment: 'Master\'s Degree',
 	language: 'English',
 	detained: true,
@@ -353,7 +284,8 @@ const seedClients: Client[] = [{
 	classification: ['OFW (Land-Based)'],
 	foreignNational: 'Yes',
 	urbanPoor: 'Yes',
-	status: [{ type: 'New', date: new Date() }]
+	status: [{ type: 'New', date: new Date() }],
+	proofOfIndigency: []
 },
 {
 	_id: '4',
@@ -373,7 +305,8 @@ const seedClients: Client[] = [{
 	individualMonthlyIncome: 8000,
 	detained: false,
 	classification: ['Senior Citizen', 'Refugee or Evacuee'],
-	status: [{ type: 'New', date: new Date() }]
+	status: [{ type: 'New', date: new Date() }],
+	proofOfIndigency: []
 }]
 
 const seedCases: Case[] = [{

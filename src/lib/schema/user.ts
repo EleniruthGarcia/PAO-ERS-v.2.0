@@ -1,6 +1,7 @@
 import z from 'zod';
 
 export const role = [
+	'Administrator',
 	'Lawyer',
 	'Staff'
 ] as const;
@@ -17,27 +18,35 @@ export const civilStatus = [
 	'Widowed'
 ] as const;
 
+export const status = [
+	'New',
+	'Updated',
+	'Archived',
+	'Restored'
+] as const;
+
 export const rank = [
-    'Chief Public Attorney',
-    'Deputy Chief Public Attorney',
-    'Public Attorney V',
-    'Public Attorney IV',
-    'Public Attorney III',
-    'Public Attorney II',
-    'Public Attorney I',
-    'Associate Public Attorney II',
-    'Associate Public Attorney I',
+	'Chief Public Attorney',
+	'Deputy Chief Public Attorney',
+	'Public Attorney V',
+	'Public Attorney IV',
+	'Public Attorney III',
+	'Public Attorney II',
+	'Public Attorney I',
+	'Associate Public Attorney II',
+	'Associate Public Attorney I',
 	'Administrative Staff',
 	'Intern'
 ] as const;
 
 export const formSchema = z.object({
-	_id: z.string().optional(),
+	_id: z.string(),
 	role: z.enum(role),
 	branch_id: z.string().min(1, 'Branch is required!'),
 	username: z.string().min(1, 'Username is required!'),
 	hashedPassword: z.string().min(1, 'Password is required!'),
 	rank: z.enum(rank),
+	title: z.string().min(1, 'Title is required!'),
 	name: z.string().min(1, 'Name is required!'),
 	firstName: z.string().min(1, 'First name is required!'),
 	middleName: z.string().optional(),
@@ -51,6 +60,11 @@ export const formSchema = z.object({
 	contactNumber: z.string().regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number!').refine((value) => value !== '', {
 		message: 'Contact number is required!',
 	}),
+	status: z.array(z.object({
+		type: z.enum(status),
+		date: z.date().optional(),
+	})),
 });
 
 export type FormSchema = typeof formSchema;
+export type User = z.infer<FormSchema>;

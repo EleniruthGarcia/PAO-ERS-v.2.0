@@ -1,7 +1,7 @@
 import { dev } from '$app/environment';
 import cron from 'node-cron';
 
-import type { User } from './database';
+import type { User } from '$lib/schema';
 import { users, sessions } from './database';
 
 import { Lucia, TimeSpan } from 'lucia';
