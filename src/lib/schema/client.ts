@@ -105,7 +105,7 @@ export const formSchema = z.object({
 	ruralPoor: z.string().optional(),
 	status: z.array(z.object({
 		type: z.enum(status),
-		date: z.date().optional(),
+		date: z.date(),
 	})),
 	proofOfIndigency: z.array(z.enum(proofOfIndigency).or(z.object({ 'Others': z.string() })))
 });

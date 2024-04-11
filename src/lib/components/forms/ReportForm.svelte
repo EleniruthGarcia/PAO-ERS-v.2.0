@@ -15,6 +15,7 @@
 	export let data: SuperValidated<Infer<FormSchema>>;
 
 	const form = superForm(data, {
+		dataType: 'json',
 		validators: zodClient(formSchema)
 	});
 	$: selectMonth = {
@@ -97,9 +98,7 @@
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Additional Information</Card.Title>
-						<Card.Description
-							>Please provide all necessary details.</Card.Description
-						>
+						<Card.Description>Please provide all necessary details.</Card.Description>
 					</Card.Header>
 					<Card.Content>
 						<div class="grid grid-cols-2 items-start gap-3">

@@ -62,8 +62,8 @@ export const formSchema = z.object({
 	}),
 	status: z.array(z.object({
 		type: z.enum(status),
-		date: z.date().optional(),
-	})),
+		date: z.date(),
+	}))
 });
 
 export type FormSchema = typeof formSchema;

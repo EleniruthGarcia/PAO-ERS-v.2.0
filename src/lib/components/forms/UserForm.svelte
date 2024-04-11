@@ -14,6 +14,7 @@
 	export let data: SuperValidated<Infer<FormSchema>>;
 
 	const form = superForm(data, {
+		dataType: 'json',
 		validators: zodClient(formSchema)
 	});
 
@@ -37,7 +38,6 @@
 		label: $formData.rank,
 		value: $formData.rank
 	};
-
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
@@ -72,7 +72,7 @@
 							<Form.Field {form} name="username" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Username</Form.Label>
-									<Input {...attrs} bind:value={$formData.username}/>
+									<Input {...attrs} bind:value={$formData.username} />
 								</Form.Control>
 							</Form.Field>
 							<Form.Field {form} name="role" class="grid gap-3">
@@ -100,20 +100,13 @@
 							<Form.Field {form} name="hashedPassword" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Password</Form.Label>
-									<Input
-										{...attrs}
-										type="password"
-										bind:value={$formData.hashedPassword}
-									/>
+									<Input {...attrs} type="password" bind:value={$formData.hashedPassword} />
 								</Form.Control>
 							</Form.Field>
 							<Form.Field {form} name="hashedPassword" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Confirm Password</Form.Label>
-									<Input
-										{...attrs}
-										type="password"
-									/>
+									<Input {...attrs} type="password" />
 								</Form.Control>
 							</Form.Field>
 						</div>
@@ -125,9 +118,7 @@
 						<Card.Description>Please fill out all necessary information.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid grid-cols-7 items-start gap-3">
-							
-						</div>
+						<div class="grid grid-cols-7 items-start gap-3"></div>
 						<div class="grid grid-cols-7 items-start gap-3">
 							<Form.Field {form} name="firstName" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>

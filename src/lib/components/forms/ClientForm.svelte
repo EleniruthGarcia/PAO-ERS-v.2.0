@@ -30,6 +30,7 @@
 	export let data: SuperValidated<Infer<FormSchema>>;
 
 	const form = superForm(data, {
+		dataType: 'json',
 		validators: zodClient(formSchema)
 	});
 
@@ -233,7 +234,7 @@
 							</Form.Field>
 							<Form.Field
 								{form}
-								name="religion"
+								name="detained"
 								class="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-4"
 							>
 								<Form.Control let:attrs>

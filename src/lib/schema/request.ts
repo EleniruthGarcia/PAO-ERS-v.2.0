@@ -86,18 +86,19 @@ export const formSchema = z.object({
 	_id: z.string(),
 	date: z.date({ required_error: 'Date is required.' }),
 	client_id: z.array(z.string()).min(1, 'Client is required.').default([""]),
+	districtProvince: z.enum(districtProvince),
 	lawyer_id: z.string().min(1, 'Lawyer is required.'),
-	case_id: z.string().optional(),
+	case_id: z.array(z.string()).optional(),
 	interviewee_id: z.string().min(1, 'Interviewee is required.'),
 	relationshipToClient: z.enum(relationshipToClient),
 	nature: z.array(z.enum(nature)).min(1, 'Nature of Request is required.'),
-	otherNature: z.array(z.string()).optional(),
+	otherNature: z.array(z.string()),
 	typeOfAssistance: z.array(z.enum(typeOfAssistance)).optional(),
 	typeOfRelease: z.array(z.enum(typeOfRelease)).optional(),
 	status: z.array(z.object({
 		type: z.enum(status),
-		date: z.date().optional(),
-	})),
+		date: z.date(),
+	}))
 });
 
 export type FormSchema = typeof formSchema;
