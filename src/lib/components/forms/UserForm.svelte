@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { formSchema, role, sex, type FormSchema } from '$lib/schema/user';
+	import { formSchema, rank, role, sex, type FormSchema } from '$lib/schema/user';
 	import { type SuperValidated, type Infer, superForm, intProxy } from 'sveltekit-superforms';
 
 	import { ChevronLeft } from 'svelte-radix';
@@ -29,11 +29,15 @@
 		label: $formData.role,
 		value: $formData.role
 	};
-
 	$: selectedSex = {
 		label: $formData.sex,
 		value: $formData.sex
 	};
+	$: selectedRank = {
+		label: $formData.rank,
+		value: $formData.rank
+	};
+
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
@@ -153,12 +157,28 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid grid-cols-5 items-start gap-3">
-							<Form.Field {form} name="title" class="col-span-2 grid gap-3">
+						<div class="grid grid-cols-6 items-start gap-3">
+							<Form.Field {form} name="rank" class="col-span-3 grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Title</Form.Label>
-									<Input {...attrs} bind:value={$formData.title} />
+									<Form.Label>Rank</Form.Label>
+									<Select.Root
+										selected={selectedRank}
+										onSelectedChange={(s) => {
+											s && ($formData.rank = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each rank as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
 								</Form.Control>
+								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>

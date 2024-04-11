@@ -17,13 +17,27 @@ export const civilStatus = [
 	'Widowed'
 ] as const;
 
+export const rank = [
+    'Chief Public Attorney',
+    'Deputy Chief Public Attorney',
+    'Public Attorney V',
+    'Public Attorney IV',
+    'Public Attorney III',
+    'Public Attorney II',
+    'Public Attorney I',
+    'Associate Public Attorney II',
+    'Associate Public Attorney I',
+	'Administrative Staff',
+	'Intern'
+] as const;
+
 export const formSchema = z.object({
 	_id: z.string().optional(),
 	role: z.enum(role),
 	branch_id: z.string().min(1, 'Branch is required!'),
 	username: z.string().min(1, 'Username is required!'),
 	hashedPassword: z.string().min(1, 'Password is required!'),
-	title: z.string().min(1, 'Title is required!'),
+	rank: z.enum(rank),
 	name: z.string().min(1, 'Name is required!'),
 	firstName: z.string().min(1, 'First name is required!'),
 	middleName: z.string().optional(),
