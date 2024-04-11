@@ -56,12 +56,24 @@
 			}
 		}),
 		table.column({
-			accessor: 'client_id',
+			accessor: 'client',
 			header: 'Client'
 		}),
 		table.column({
-			accessor: 'type',
-			header: 'Type'
+			accessor: 'natureOfRequest',
+			header: 'Nature of Request'
+		}),
+		table.column({
+			accessor: 'status',
+			header: 'Status'
+		}),
+		table.column({
+			accessor: 'date',
+			header: 'Date'
+		}),
+		table.column({
+			accessor: 'lawyer',
+			header: 'Lawyer'
 		}),
 		table.column({
 			accessor: ({ _id }) => _id,
@@ -125,15 +137,8 @@
 							{#each headerRow.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
 									<Table.Head {...attrs} class="[&:has([role=checkbox])]:pl-3">
-										{#if !props.sort.disabled && cell.id !== 'client_id'}
-											<div class="text-center font-medium">
-												<Button variant="ghost" on:click={props.sort.toggle}>
-													<Render of={cell.render()} />
-													<CaretSort class={'ml-2 h-4 w-4'} />
-												</Button>
-											</div>
-										{:else if cell.id === 'client_id'}
-											<Button variant="ghost">
+										{#if !props.sort.disabled}
+											<Button variant="ghost" on:click={props.sort.toggle}>
 												<Render of={cell.render()} />
 												<CaretSort class={'ml-2 h-4 w-4'} />
 											</Button>
@@ -150,15 +155,11 @@
 			<Table.Body {...$tableBodyAttrs}>
 				{#each $pageRows as row (row.id)}
 					<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-						<Table.Row
-							{...rowAttrs}
-							data-state={$selectedDataIds[row.id] && 'selected'}
-							on:click={() => ($selectedDataIds[row.id] = !$selectedDataIds[row.id])}
-						>
+						<Table.Row {...rowAttrs} data-state={$selectedDataIds[row.id] && 'selected'}>
 							{#each row.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>
 									<Table.Cell {...attrs} class="[&:has([role=checkbox])]:pl-3">
-										{#if cell.id === 'client_id'}
+										{#if cell.id === 'client'}
 											<Button
 												class="text-left font-medium text-foreground"
 												variant="link"
@@ -166,10 +167,6 @@
 											>
 												<Render of={cell.render()} />
 											</Button>
-										{:else if cell.id === 'type'}
-											<div class="text-center">
-												<Render of={cell.render()} />
-											</div>
 										{:else}
 											<Render of={cell.render()} />
 										{/if}
