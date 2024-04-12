@@ -15,28 +15,28 @@
 	import { Separator } from '$lib/components/ui/separator';
 
 	import type { Writable } from 'svelte/store';
-	import type { RequestWithJoins } from '$lib/schema';
+	import type { User } from '$lib/schema';
 	import { getContext } from 'svelte';
 
-	const selectedRequests = getContext<Writable<RequestWithJoins[]>>('selectedData');
+	const selectedUsers = getContext<Writable<User[]>>('selectedData');
 
 	$: i = 0;
-	$: request = $selectedRequests[i];
+	$: user = $selectedUsers[i];
 </script>
 
 <Card.Root class="overflow-hidden">
 	<Card.Header class="flex flex-row items-start bg-muted/50">
 		<div class="grid gap-0.5">
 			<Card.Title class="group flex items-center gap-2 text-lg">
-				<Button variant="link" class="p-0 text-lg text-foreground" href="/clients/{request.client._id}">
-					{request.client.name}
+				<Button variant="link" class="p-0 text-lg text-foreground" href="/users/{user._id}">
+					{user.name}
 				</Button>
-				{#if $selectedRequests.length > 1}
+				{#if $selectedUsers.length > 1}
 					<Button
 						size="icon"
 						variant="outline"
 						class="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
-						on:click={() => (i > 0 ? i-- : (i = $selectedRequests.length - 1))}
+						on:click={() => (i > 0 ? i-- : (i = $selectedUsers.length - 1))}
 					>
 						<ChevronLeft class="h-3 w-3" />
 						<span class="sr-only">Previous Client</span>
@@ -45,7 +45,7 @@
 						size="icon"
 						variant="outline"
 						class="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
-						on:click={() => (i < $selectedRequests.length - 1 ? i++ : (i = 0))}
+						on:click={() => (i < $selectedUsers.length - 1 ? i++ : (i = 0))}
 					>
 						<ChevronRight class="h-3 w-3" />
 						<span class="sr-only">Next Client</span>
@@ -57,8 +57,8 @@
 					class="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
 					on:click={() =>
 						navigator.clipboard
-							.writeText(request._id)
-							.then(() => toast(`Copied Client ID '${request._id}'!`))}
+							.writeText(user._id)
+							.then(() => toast(`Copied Client ID '${user._id}'!`))}
 				>
 					<Copy class="h-3 w-3" />
 					<span class="sr-only">Copy Client ID</span>
@@ -80,8 +80,8 @@
 						</Button>
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Content align="end">
-						<DropdownMenu.Item href="/requests/{request._id}/edit">Edit</DropdownMenu.Item>
-						<DropdownMenu.Item href="/requests/{request._id}/export">Export</DropdownMenu.Item>
+						<DropdownMenu.Item href="/users/{user._id}/edit">Edit</DropdownMenu.Item>
+						<DropdownMenu.Item href="/users/{user._id}/export">Export</DropdownMenu.Item>
 						<DropdownMenu.Separator />
 						<AlertDialog.Trigger class="w-full">
 							<DropdownMenu.Item>Delete</DropdownMenu.Item>
@@ -90,16 +90,16 @@
 				</DropdownMenu.Root>
 				<AlertDialog.Content>
 					<AlertDialog.Header>
-						<AlertDialog.Title>Delete Request</AlertDialog.Title>
+						<AlertDialog.Title>Delete user</AlertDialog.Title>
 						<AlertDialog.Description>
-							Are you absolutely sure? The request will be archived and will not show up in Active
-							Requests. If you want the client to be permanently deleted, please contact the
+							Are you absolutely sure? The user will be archived and will not show up in Active
+							users. If you want the client to be permanently deleted, please contact the
 							administrator.
 						</AlertDialog.Description>
 					</AlertDialog.Header>
 					<AlertDialog.Footer>
 						<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-						<form action="/requests/{request._id}/delete" method="POST">
+						<form action="/users/{user._id}/delete" method="POST">
 							<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90"
 								>Delete</AlertDialog.Action
 							>
@@ -111,65 +111,49 @@
 	</Card.Header>
 	<Card.Content class="p-6 text-sm">
 		<div class="grid gap-3">
+			<div class="font-semibold">Account Information</div>
+			<ul class="grid gap-3">
+				<li class="flex items-center justify-between gap-2 truncate">
+					<span class="text-muted-foreground"> Username </span>
+					<span>{user.username}</span>
+				</li>
+			</ul>
+		</div>
+		<Separator class="my-4" />
+		<div class="grid gap-3">
 			<div class="font-semibold">Personal Information</div>
 			<ul class="grid gap-3">
 				<li class="flex items-center justify-between gap-2 truncate">
+					<span class="text-muted-foreground"> Rank </span>
+					<span>{user.rank}</span>
+				</li>
+				<li class="flex items-center justify-between gap-2 truncate">
 					<span class="text-muted-foreground"> Age </span>
-					<span>{request.client.age}</span>
+					<span>{user.age}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
 					<span class="text-muted-foreground"> Sex </span>
-					<span>{request.client.sex}</span>
-				</li>
-				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Civil Status </span>
-					<span>{request.client.civilStatus}</span>
-				</li>
-				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Citizenship </span>
-					<span>{request.client.citizenship}</span>
-				</li>
-				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Language </span>
-					<span>{request.client.language}</span>
+					<span>{user.sex}</span>
 				</li>
 			</ul>
 		</div>
 		<Separator class="my-4" />
 		<div class="grid gap-3">
-			<div class="font-semibold">Interviewee Information</div>
+			<div class="font-semibold">Contact Information</div>
 			<ul class="grid gap-3">
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Interviewee </span>
-					<span>{request.interviewee.name}</span>
+					<span class="text-muted-foreground"> Address </span>
+					<span>{user.address}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Relationshipto Client </span>
-					<span>{request.relationshipToClient}</span>
+					<span class="text-muted-foreground"> Email </span>
+					<span>{user.email}</span>
 				</li>
-			</ul>
-		</div>
-		<Separator class="my-4" />
-		<div class="grid gap-3">
-			<div class="font-semibold">Lawyer Information</div>
-			<ul class="grid gap-3">
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Lawyer </span>
-					<span>{request.lawyer.name}</span>
+					<span class="text-muted-foreground"> Contact Number </span>
+					<span>{user.contactNumber}</span>
 				</li>
 			</ul>
-		</div>
-		<Separator class="my-4" />
-		<div>
-			<div class="font-semibold">Nature of Request</div>
-			{#each request.nature as nature}
-				<Badge class="m-1">{nature}</Badge>
-			{/each}
-			{#if request.otherNature != null}
-				{#each request.otherNature as nature}
-					<Badge class="m-1">{nature}</Badge>
-				{/each}
-			{/if}
 		</div>
 	</Card.Content>
 	<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
@@ -183,7 +167,7 @@
 						size="icon"
 						variant="outline"
 						class="h-6 w-6"
-						on:click={() => (i > 0 ? i-- : (i = $selectedRequests.length - 1))}
+						on:click={() => (i > 0 ? i-- : (i = $selectedUsers.length - 1))}
 					>
 						<ChevronLeft class="h-3.5 w-3.5" />
 						<span class="sr-only">Previous Client</span>
@@ -194,7 +178,7 @@
 						size="icon"
 						variant="outline"
 						class="h-6 w-6"
-						on:click={() => (i < $selectedRequests.length - 1 ? i++ : (i = 0))}
+						on:click={() => (i < $selectedUsers.length - 1 ? i++ : (i = 0))}
 					>
 						<ChevronRight class="h-3.5 w-3.5" />
 						<span class="sr-only">Next Client</span>

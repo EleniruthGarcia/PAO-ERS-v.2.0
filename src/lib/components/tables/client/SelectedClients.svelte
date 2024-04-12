@@ -92,7 +92,7 @@
 					<AlertDialog.Header>
 						<AlertDialog.Title>Delete Client</AlertDialog.Title>
 						<AlertDialog.Description>
-							Are you aboslutely sure? The client will be archived and will not show up in Active
+							Are you absolutely sure? The client will be archived and will not show up in Active
 							Clients. If you want the client to be permanently deleted, please contact the
 							administrator.
 						</AlertDialog.Description>

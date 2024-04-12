@@ -27,10 +27,9 @@
 	</DropdownMenu.Root>
 	<AlertDialog.Content>
 		<AlertDialog.Header>
-			<AlertDialog.Title>Delete Client</AlertDialog.Title>
+			<AlertDialog.Title>Delete User</AlertDialog.Title>
 			<AlertDialog.Description>
-				Are you absolutely sure? The client will be archived and will not show up in Active Clients.
-				If you want the client to be permanently deleted, please contact the administrator.
+				Are you absolutely sure? The user will be archived and will be permanently deleted.
 			</AlertDialog.Description>
 		</AlertDialog.Header>
 		<AlertDialog.Footer>

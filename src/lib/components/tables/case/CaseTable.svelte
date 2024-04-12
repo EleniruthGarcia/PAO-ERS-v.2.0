@@ -39,34 +39,34 @@
 				<File class="h-3.5 w-3.5" />
 				<span class="sr-only sm:not-sr-only">Export</span>
 			</Button>
-			<Button size="sm" class="h-7 gap-1 text-sm" href="/requests/add">
+			<Button size="sm" class="h-7 gap-1 text-sm" href="/cases/add">
 				<PlusCircled class="h-3.5 w-3.5" />
-				<span class="sr-only sm:not-sr-only sm:whitespace-nowrap"> Add Request </span>
+				<span class="sr-only sm:not-sr-only sm:whitespace-nowrap"> Add User </span>
 			</Button>
 		</div>
 	</div>
 	<Tabs.Content value="all">
 		<Card.Root>
 			<Card.Header class="px-7">
-				<Card.Title>Requests</Card.Title>
-				<Card.Description>All active requests added to the system are shown here.</Card.Description>
+				<Card.Title>Cases</Card.Title>
+				<Card.Description>All cases added to the system are shown here.</Card.Description>
 			</Card.Header>
 			<Card.Content>
-				{#await $page.data.requests}
+				{#await $page.data.cases}
 					<Loading />
-				{:then requests}
-					{#if requests.length > 0}
-						<Table data={requests} />
+				{:then cases}
+					{#if cases.length > 0}
+						<Table data={cases} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
 						>
 							<div class="flex flex-col items-center gap-1 text-center">
-								<h3 class="text-2xl font-bold tracking-tight">You have no requests!</h3>
+								<h3 class="text-2xl font-bold tracking-tight">You have no cases!</h3>
 								<p class="text-sm text-muted-foreground">
-									You can start rendering services as soon as you add a new request.
+									You can start using the system as soon as you add a new user.
 								</p>
-								<Button class="mt-4" href="/requests/add">Add Request</Button>
+								<Button class="mt-4" href="/cases/add">Add Case</Button>
 							</div>
 						</div>
 					{/if}
