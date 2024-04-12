@@ -4,9 +4,6 @@
 
 	import { RequestTable, SelectedRequests } from '$lib/components/tables/request';
 
-	import { Button } from '$lib/components/ui/button';
-	import * as Card from '$lib/components/ui/card';
-	import { Progress } from '$lib/components/ui/progress';
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 
