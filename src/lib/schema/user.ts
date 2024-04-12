@@ -58,4 +58,9 @@ export const formSchema = z.object({
 });
 
 export type FormSchema = typeof formSchema;
-export type User = z.infer<FormSchema>;
+
+const userSchema = formSchema.extend({
+	password: z.string().optional(),
+	confirmPassword: z.string().optional(),
+});
+export type User = z.infer<typeof userSchema>;

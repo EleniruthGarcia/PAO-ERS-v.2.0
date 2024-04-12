@@ -56,7 +56,7 @@
 			}
 		}),
 		table.column({
-			accessor: 'client',
+			accessor: (item) => item.client.name,
 			header: 'Client'
 		}),
 		table.column({
@@ -64,15 +64,15 @@
 			header: 'Nature of Request'
 		}),
 		table.column({
-			accessor: 'status',
+			accessor: (item) => item.status.type,
 			header: 'Status'
 		}),
 		table.column({
-			accessor: 'date',
+			accessor: (item) => item.status.date,
 			header: 'Date'
 		}),
 		table.column({
-			accessor: 'lawyer',
+			accessor: (item) => item.lawyer.name,
 			header: 'Lawyer'
 		}),
 		table.column({

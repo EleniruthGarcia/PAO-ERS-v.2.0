@@ -43,15 +43,6 @@ export const load: PageServerLoad = async (event) => {
 				path: '$client',
 				preserveNullAndEmptyArrays: true
 			}
-		}, {
-			$project: {
-				_id: '$_id',
-				client: '$client.name',
-				lawyer: '$lawyer.name',
-				status: '$status.type',
-				date: '$status.date',
-				natureOfRequest: '$natureOfRequest',
-			}
 		}]).toArray()
 	};
 };

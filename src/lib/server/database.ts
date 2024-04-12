@@ -114,6 +114,7 @@ const seedUsers: User[] = [
 		email: 'john.doe@example.com',
 		contactNumber: '1234567890',
 		address: '123 Main St, City, Country',
+		currentStatus: 'New',
 		status: [{ type: 'New', date: new Date() }]
 	},
 	{
@@ -132,6 +133,7 @@ const seedUsers: User[] = [
 		age: 30,
 		sex: 'Female',
 		address: '456 Elm St, City, Country',
+		currentStatus: 'New',
 		status: [{ type: 'New', date: new Date() }]
 	},
 	{
@@ -151,6 +153,7 @@ const seedUsers: User[] = [
 		email: 'emily.brown@example.com',
 		contactNumber: '1122334455',
 		address: '789 Oak St, City, Country',
+		currentStatus: 'New',
 		status: [{ type: 'New', date: new Date() }]
 	},
 	{
@@ -169,6 +172,7 @@ const seedUsers: User[] = [
 		age: 40,
 		sex: 'Male',
 		address: '101 Pine St, City, Country',
+		currentStatus: 'New',
 		status: [{ type: 'New', date: new Date() }]
 	}
 ];
@@ -180,9 +184,9 @@ const seedRequests: Request[] = [
 		lawyer_id: '3',
 		interviewee_id: '4',
 		relationshipToClient: 'Spouse',
-		case_id: '1',
-		date: new Date('2024-04-01T10:00:00Z'),
+		case_id: ['1'],
 		nature: ['Legal Advice'],
+
 		status: [{ type: 'New', date: new Date() }]
 	},
 	{
