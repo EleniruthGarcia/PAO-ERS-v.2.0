@@ -68,12 +68,12 @@
 			header: 'Status'
 		}),
 		table.column({
-			accessor: (item) => item.status.date,
-			header: 'Date'
-		}),
-		table.column({
 			accessor: (item) => item.lawyer.name,
-			header: 'Lawyer'
+			header: 'Lawyer',
+			plugins: {
+				filter: { exclude: true },
+				sort: { disable: true }
+			}
 		}),
 		table.column({
 			accessor: ({ _id }) => _id,
