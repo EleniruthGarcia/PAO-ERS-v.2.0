@@ -283,7 +283,17 @@
 					>
 				</div>
 			</Card.Header>
-			<Card.Content class="p-6 text-sm">Requests</Card.Content>
+			<Card.Content class="p-6 text-sm">
+				{#each data.requests as request}
+					<div class="grid gap-3">
+						<ul class="grid gap-3">
+							<li class="flex items-center justify-between gap-2 truncate">
+								<span>{request.otherNature ? request.otherNature : request.nature}</span>
+							</li>
+						</ul>
+					</div>
+				{/each}
+			</Card.Content>
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
 					Updated <time dateTime="2023-11-23">November 23, 2023</time>

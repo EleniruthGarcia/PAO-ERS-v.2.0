@@ -29,6 +29,9 @@ export const load: PageServerLoad = async (event) => {
 				text: client.name
 			}
 		],
+		requests: await db.requests.find({
+			client_id: client._id
+		}).toArray(),
 		client
 	};
 };

@@ -33,7 +33,14 @@ export const load: PageServerLoad = async (event) => {
 			$match: { lawyer_id: event.locals.user.role === 'Administrator' ? { $exists: true } : event.locals.user._id }
 		}, {
 			$lookup: {
-				from: 'users',
+				from: 'clients',
+				localField: 'interviewee_id',
+				foreignField: '_id',
+				as: 'interviewee'
+			},
+		}, {
+			$lookup: {
+				from: 'clients',
 				localField: 'client_id',
 				foreignField: '_id',
 				as: 'client'
@@ -43,6 +50,13 @@ export const load: PageServerLoad = async (event) => {
 				path: '$client',
 				preserveNullAndEmptyArrays: true
 			}
+		}, {
+			$lookup: {
+				from: 'cases',
+				localField: 'case_id',
+				foreignField: '_id',
+				as: 'case'
+			},
 		}]).toArray()
 	};
 };
