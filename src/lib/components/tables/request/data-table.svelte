@@ -1,6 +1,7 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import type { Document } from 'mongodb';
-	import { readable } from 'svelte/store';
+	import { type Writable, readable } from 'svelte/store';
 	import {
 		addPagination,
 		addSortBy,
@@ -20,8 +21,9 @@
 	import * as Table from '$lib/components/ui/table';
 	import { Input } from '$lib/components/ui/input';
 	import { getContext } from 'svelte';
+	import type { RequestWithJoins } from '$lib/schema';
 
-	export let data: Document[];
+	export let data: RequestWithJoins[];
 
 	const table = createTable(readable(data), {
 		page: addPagination(),
@@ -29,7 +31,9 @@
 		filter: addTableFilter({
 			fn: ({ filterValue, value }) => value.toLowerCase().includes(filterValue.toLowerCase())
 		}),
-		hide: addHiddenColumns(),
+		hide: addHiddenColumns({
+			initialHiddenColumnIds: $page.data.user.role === 'Administrator' ? [] : ['lawyer']
+		}),
 		select: addSelectedRows()
 	});
 
@@ -60,18 +64,15 @@
 			header: 'Client'
 		}),
 		table.column({
-			accessor: 'natureOfRequest',
+			accessor: (item) => (item.otherNature ? item.otherNature : item.nature),
 			header: 'Nature of Request'
 		}),
 		table.column({
-			accessor: (item) => item.status.type,
+			accessor: (item) => item.currentStatus,
 			header: 'Status'
 		}),
 		table.column({
-			accessor: (item) => item.status.date,
-			header: 'Date'
-		}),
-		table.column({
+			id: 'lawyer',
 			accessor: (item) => item.lawyer.name,
 			header: 'Lawyer'
 		}),
@@ -93,7 +94,7 @@
 	let { filterValue } = pluginStates.filter;
 	let { selectedDataIds } = pluginStates.select;
 
-	const selectedData = getContext('selectedData');
+	const selectedData = getContext<Writable<RequestWithJoins[]>>('selectedData');
 	$: selectedData.set(data.filter((_, i) => $selectedDataIds[i]));
 
 	export const ids = flatColumns.map((col) => col.id);
