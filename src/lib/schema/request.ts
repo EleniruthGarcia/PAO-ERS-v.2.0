@@ -92,7 +92,7 @@ export const formSchema = z.object({
 	interviewee_id: z.string().min(1, 'Interviewee is required.'),
 	relationshipToClient: z.enum(relationshipToClient),
 	nature: z.array(z.enum(nature)).min(1, 'Nature of Request is required.'),
-	otherNature: z.array(z.string()),
+	otherNature: z.array(z.string()).optional(),
 	typeOfAssistance: z.enum(typeOfAssistance).optional(),
 	typeOfRelease: z.enum(typeOfRelease).optional(),
 	currentStatus: z.enum(status),

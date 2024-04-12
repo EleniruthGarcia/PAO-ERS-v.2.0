@@ -186,30 +186,30 @@ const seedRequests: Request[] = [
 		relationshipToClient: 'Spouse',
 		case_id: ['1'],
 		nature: ['Legal Advice'],
-
+		currentStatus: 'New',
 		status: [{ type: 'New', date: new Date() }]
 	},
 	{
 		_id: '2',
 		client_id: ['2', '1'],
 		lawyer_id: '4',
-		case_id: '2',
+		case_id: ['2'],
 		interviewee_id: '2',
 		relationshipToClient: 'Self',
-		date: new Date('2024-04-02T11:00:00Z'),
 		nature: ['Representation in Court or Quasi-Judicial Bodies'],
+		currentStatus: 'Pending',
 		status: [{ type: 'Pending', date: new Date() }]
 	},
 	{
 		_id: '3',
 		client_id: ['3'],
 		lawyer_id: '2',
-		case_id: '3',
+		case_id: ['3'],
 		interviewee_id: '3',
 		relationshipToClient: 'Child',
-		date: new Date('2024-04-03T12:00:00Z'),
 		nature: ['Legal Documentation'],
-		status: [{ type: 'Ongoing', date: new Date() }]
+		currentStatus: 'Pending',
+		status: [{ type: 'Pending', date: new Date() }]
 	},
 	{
 		_id: '4',
@@ -217,8 +217,8 @@ const seedRequests: Request[] = [
 		lawyer_id: '4',
 		interviewee_id: '1',
 		relationshipToClient: 'Parent',
-		date: new Date('2024-04-04T13:00:00Z'),
 		nature: ['Inquest Legal Assistance'],
+		currentStatus: 'Resolved',
 		status: [{ type: 'Resolved', date: new Date() }]
 	}
 ];
@@ -247,6 +247,7 @@ const seedClients: Client[] = [
 		spouseContactNumber: '0987654321',
 		classification: ['Senior Citizen'],
 		proofOfIndigency: ['Income Tax Return', 'Certification from Barangay'],
+		currentStatus: 'New',
 		status: [{ type: 'New', date: new Date() }]
 	},
 	{
@@ -269,6 +270,7 @@ const seedClients: Client[] = [
 		foreignNational: 'Yes',
 		pwd: 'Yes',
 		proofOfIndigency: [{ Others: 'Student' }],
+		currentStatus: 'New',
 		status: [{ type: 'New', date: new Date() }]
 	},
 	{
@@ -292,6 +294,7 @@ const seedClients: Client[] = [
 		foreignNational: 'Yes',
 		urbanPoor: 'Yes',
 		status: [{ type: 'New', date: new Date() }],
+		currentStatus: 'New',
 		proofOfIndigency: []
 	},
 	{
@@ -312,7 +315,8 @@ const seedClients: Client[] = [
 		individualMonthlyIncome: 8000,
 		detained: false,
 		classification: ['Senior Citizen', 'Refugee or Evacuee'],
-		status: [{ type: 'New', date: new Date() }],
+		currentStatus: 'Updated',
+		status: [{ type: 'Updated', date: new Date() }],
 		proofOfIndigency: []
 	}
 ];
@@ -320,71 +324,67 @@ const seedClients: Client[] = [
 const seedCases: Case[] = [
 	{
 		_id: '1',
-		dateFiled: new Date('2024-03-15T00:00:00Z'),
-		dateResolved: undefined,
-		natureOfTheCase: ['Civil', 'Property Dispute'],
-		status: [{ type: 'Ongoing', date: new Date() }],
-		lawId: ['1', '2'],
+		natureOfTheCase: 'Civil',
+		caseSpecs: 'Property boundary dispute between neighbors',
 		clientInvolvement: ['Plaintiff'],
-		adversePartyInvolvement: ['Defendant'],
-		adversePartyName: ['Jane Smith'],
-		adversePartyAddress: ['456 Elm St, City, Country'],
+		adversePartyInvolvement: ['Defendant, Respondent, or Accused'],
+		adversePartyName: 'Jane Smith',
+		adversePartyAddress: '456 Elm St, City, Country',
 		factsOfTheCase: 'Property boundary dispute between neighbors',
-		natureOfOffence: 'Property Trespass',
-		titleOfCase: 'Smith vs Doe',
+		pendingInCourt: true,
+		titleOfTheCase: 'Smith vs Doe',
 		docketNumber: '2024-123',
-		courtBody: 'Regional Trial Court'
+		court: 'Regional Trial Court',
+		currentStatus: 'Pending',
+		status: [{ type: 'Pending', date: new Date() }],
 	},
 	{
 		_id: '2',
-		dateFiled: new Date('2023-07-20T00:00:00Z'),
-		dateResolved: new Date('2024-01-10T00:00:00Z'),
-		natureOfTheCase: ['Criminal', 'Fraud'],
-		status: [{ type: 'Resolved', date: new Date() }],
-		lawId: ['5'],
+		natureOfTheCase: 'Criminal',
+		caseSpecs: 'Accused of financial fraud',
 		clientInvolvement: ['Defendant'],
-		adversePartyInvolvement: ['Plaintiff'],
-		adversePartyName: ['Michael Johnson'],
-		adversePartyAddress: ['789 Oak St, City, Country'],
+		adversePartyInvolvement: ['Plaintiff or Complainant'],
+		adversePartyName: 'Michael Johnson',
+		adversePartyAddress: '789 Oak St, City, Country',
 		factsOfTheCase: 'Accused of financial fraud',
-		natureOfOffence: 'Financial Fraud',
-		titleOfCase: 'People vs Johnson',
+		pendingInCourt: true,
+		titleOfTheCase: 'People vs Johnson',
 		docketNumber: '2023-456',
-		courtBody: 'Municipal Trial Court'
+		court: 'Municipal Trial Court',
+		currentStatus: 'Terminated',
+		status: [{ type: 'Terminated', date: new Date() }],
 	},
 	{
 		_id: '3',
-		dateFiled: new Date('2024-01-05T00:00:00Z'),
-		dateResolved: undefined,
-		natureOfTheCase: ['Family', 'Divorce'],
-		status: [{ type: 'Ongoing', date: new Date() }],
-		lawId: ['6', '7'],
+		natureOfTheCase: 'Family',
+		caseSpecs: 'Divorce Petition',
 		clientInvolvement: ['Petitioner'],
-		adversePartyInvolvement: ['Respondent'],
-		adversePartyName: ['John Doe'],
-		adversePartyAddress: ['123 Main St, City, Country'],
+		adversePartyInvolvement: ['Defendant, Respondent, or Accused'],
+		adversePartyName: 'John Doe',
+		adversePartyAddress: '123 Main St, City, Country',
 		factsOfTheCase: 'Seeking divorce due to irreconcilable differences',
-		natureOfOffence: 'Divorce Petition',
-		titleOfCase: 'Brown vs Brown',
+		pendingInCourt: true,
+		titleOfTheCase: 'Brown vs Brown',
 		docketNumber: '2024-789',
-		courtBody: 'Family Court'
+		court: 'Family Court',
+		currentStatus: 'Ongoing',
+		status: [{ type: 'Ongoing', date: new Date() }]
 	},
 	{
 		_id: '4',
-		dateFiled: new Date('2023-12-10T00:00:00Z'),
-		dateResolved: new Date('2024-03-01T00:00:00Z'),
-		natureOfTheCase: ['Labor', 'Wrongful Termination'],
-		status: [{ type: 'Resolved', date: new Date() }],
-		lawId: ['8'],
-		clientInvolvement: ['Plaintiff'],
-		adversePartyInvolvement: ['Defendant'],
-		adversePartyName: ['Company XYZ'],
-		adversePartyAddress: ['101 Pine St, City, Country'],
-		factsOfTheCase: 'Unlawful termination from employment',
-		natureOfOffence: 'Wrongful Termination',
-		titleOfCase: 'Doe vs Company XYZ',
-		docketNumber: '2023-101',
-		courtBody: 'National Labor Relations Commission'
+		natureOfTheCase: 'Criminal',
+		caseSpecs: 'Accused of financial fraud',
+		clientInvolvement: ['Defendant'],
+		adversePartyInvolvement: ['Plaintiff or Complainant'],
+		adversePartyName: 'Michael Johnson',
+		adversePartyAddress: '789 Oak St, City, Country',
+		factsOfTheCase: 'Accused of financial fraud',
+		pendingInCourt: true,
+		titleOfTheCase: 'People vs Johnson',
+		docketNumber: '2023-456',
+		court: 'Municipal Trial Court',
+		currentStatus: 'Terminated',
+		status: [{ type: 'Terminated', date: new Date() }],
 	}
 ];
 

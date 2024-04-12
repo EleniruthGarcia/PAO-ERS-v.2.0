@@ -105,7 +105,7 @@ export const formSchema = z.object({
 		required_error: 'Pending in Court is required.'
 	}),
 	titleOfTheCase: z.string().optional(),
-	docketNumber: z.number().optional(),
+	docketNumber: z.string().optional(),
 	court: z.string().optional(),
 	currentStatus: z.enum(status, {
 		required_error: 'Current Status is required.'
