@@ -60,6 +60,7 @@
 			}
 		}),
 		table.column({
+			id: 'client',
 			accessor: (item) => item.client.name,
 			header: 'Client'
 		}),
@@ -168,7 +169,7 @@
 											<Button
 												class="text-left font-medium text-foreground"
 												variant="link"
-												href="/requests/{row.original._id}"
+												href="/clients/{row.original.client._id}"
 											>
 												<Render of={cell.render()} />
 											</Button>
