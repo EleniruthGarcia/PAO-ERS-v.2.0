@@ -26,6 +26,7 @@ export const load: PageServerLoad = async (event) => {
 		],
 		form: await superValidate(
 			{
+				_id: 'CASE-' + Date.now().toString(36).toUpperCase(),
 				currentStatus: 'New',
 				status: [{ type: 'New', date: new Date() }]
 			},
@@ -38,7 +39,7 @@ export const load: PageServerLoad = async (event) => {
 export const actions: Actions = {
 	default: async (event) => {
 		if (!event.locals.user) {
-			event.cookies.set('redirect', '/clients/add', { path: '/' });
+			event.cookies.set('redirect', '/cases/add', { path: '/' });
 			redirect(
 				'/login',
 				{ type: 'warning', message: 'You must be logged in to access this page!' },
@@ -49,10 +50,7 @@ export const actions: Actions = {
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) return fail(400, { form });
 
-		const _case = await db.cases.insertOne({
-			...form.data,
-			_id: 'CASE-' + Date.now().toString(36).toUpperCase()
-		});
+		const _case = await db.cases.insertOne(form.data);
 		if (!_case.acknowledged) return fail(500, { form });
 
 		redirect(
