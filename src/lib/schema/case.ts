@@ -91,8 +91,8 @@ export const unfavorableCriminalPreliminary = [
 
 export const formSchema = z.object({
 	_id: z.string().optional(),
-	natureOfTheCase: z.string(),
-	caseSpecs: z.string(),
+	natureOfTheCase: z.string().min(1, 'Nature of the Case is required.'),
+	caseSpecs: z.string().min(1, 'Case Specification is required.'),
 	clientInvolvement: z.array(z.enum(clientInvolvement)).min(1, 'Client Involvement is required.'),
 	adversePartyInvolvement: z
 		.array(z.enum(adversePartyInvolvement))
@@ -101,17 +101,21 @@ export const formSchema = z.object({
 	adversePartyAddress: z.string().min(1, 'Adverse Party Address is required.'),
 	factsOfTheCase: z.string().optional(),
 	causeOfActionOrNatureOfOffence: z.string().optional(),
-	pendingInCourt: z.boolean(),
+	pendingInCourt: z.boolean({
+		required_error: 'Pending in Court is required.'
+	}),
 	titleOfTheCase: z.string().optional(),
 	docketNumber: z.number().optional(),
 	court: z.string().optional(),
-	currentStatus: z.enum(status),
+	currentStatus: z.enum(status, {
+		required_error: 'Current Status is required.'
+	}),
 	status: z.array(
 		z.object({
 			type: z.enum(status),
 			date: z.date()
 		})
-	)
+	).min(1, 'Status is required.'),
 });
 
 export type FormSchema = typeof formSchema;
