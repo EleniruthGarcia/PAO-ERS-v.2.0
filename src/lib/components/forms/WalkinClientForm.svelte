@@ -105,6 +105,7 @@
 								<Form.Control let:attrs>
 									<Form.Label>Name</Form.Label>
 									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
+									<Form.FieldErrors />
 								</Form.Control>
 							</Form.Field>
 							<Form.Field {form} name="middleName" class="col-span-2 grid gap-3">
@@ -258,18 +259,11 @@
 						<Card.Title>Contact Information</Card.Title>
 					</Card.Header>
 					<Card.Content>
-						<Form.Field {form} name="address" class="grid gap-3">
-							<Form.Control let:attrs>
-								<Form.Label>Address</Form.Label>
-								<Input {...attrs} bind:value={$formData.address} />
-							</Form.Control>
-							<Form.FieldErrors />
-						</Form.Field>
 						<div class="grid grid-cols-2 items-start gap-3">
-							<Form.Field {form} name="email" class="grid gap-3">
+							<Form.Field {form} name="address" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Email</Form.Label>
-									<Input {...attrs} bind:value={$formData.email} />
+									<Form.Label>Address</Form.Label>
+									<Input {...attrs} bind:value={$formData.address} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -277,6 +271,13 @@
 								<Form.Control let:attrs>
 									<Form.Label>Contact Number</Form.Label>
 									<Input {...attrs} bind:value={$formData.contactNumber} type="tel" />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="email" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Email</Form.Label>
+									<Input {...attrs} bind:value={$formData.email} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>

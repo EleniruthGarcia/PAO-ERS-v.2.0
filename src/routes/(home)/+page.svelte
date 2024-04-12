@@ -22,5 +22,5 @@
 			personnel.
 		</p>
 	</div>
-	<Button on:click={() => {}}>Generate Interview Sheet</Button>
+	<Button href="/create">Generate Interview Sheet</Button>
 </div>
