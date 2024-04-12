@@ -97,6 +97,26 @@ const seedBranches: Branch[] = [
 
 const seedUsers: User[] = [
 	{
+		_id: 'ADMIN',
+		branch_id: '1',
+		username: 'admin',
+		hashedPassword: '$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
+		role: 'Administrator',
+		rank: 'Administrative Staff',
+		name: 'John Doe Smith Jr',
+		firstName: 'John',
+		middleName: 'Doe',
+		lastName: 'Smith',
+		nameSuffix: 'Jr',
+		age: 35,
+		sex: 'Male',
+		email: 'john.doe@example.com',
+		contactNumber: '1234567890',
+		address: '123 Main St, City, Country',
+		currentStatus: 'New',
+		status: [{ type: 'New', date: new Date() }]
+	},
+	{
 		_id: '1',
 		branch_id: '1',
 		username: 'admin1',
