@@ -293,12 +293,12 @@
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground"> Lawyer </span>
-								<span>{request.lawyer_id}</span>
+								<span>{request.lawyer.name}</span>
 							</li>
 						</ul>
 					</div>
 					{#if data.requests.length - 1 !== i}
-					<Separator class="my-4" />
+						<Separator class="my-4" />
 					{/if}
 				{/each}
 			</Card.Content>
