@@ -26,6 +26,7 @@ export const load: PageServerLoad = async (event) => {
 		],
 		form: await superValidate(
 			{
+				_id: 'CLIENT-' + Date.now().toString(36).toUpperCase(),
 				currentStatus: 'New',
 				status: [{ type: 'New', date: new Date() }]
 			},
@@ -49,10 +50,7 @@ export const actions: Actions = {
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) return fail(400, { form });
 
-		const client = await db.clients.insertOne({
-			...form.data,
-			_id: 'CLIENT-' + Date.now().toString(36).toUpperCase()
-		});
+		const client = await db.clients.insertOne(form.data);
 		if (!client.acknowledged) return fail(500, { form });
 
 		redirect(
