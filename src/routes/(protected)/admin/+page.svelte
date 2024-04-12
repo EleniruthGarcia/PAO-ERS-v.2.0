@@ -58,8 +58,14 @@
 			</Card.Root>
 			<Card.Root>
 				<Card.Header class="pb-2">
-					<Card.Description>This Week</Card.Description>
-					<Card.Title class="text-4xl">$1329</Card.Title>
+					<Card.Description>Active Users</Card.Description>
+					{#await data.users}
+						<Loading />
+					{:then users}
+						<Card.Title class="text-4xl">{users.length}</Card.Title>
+					{:catch error}
+						<Card.Title class="text-4xl">No users found!</Card.Title>
+					{/await}
 				</Card.Header>
 				<Card.Content>
 					<div class="text-xs text-muted-foreground">+25% from last week</div>
@@ -70,8 +76,14 @@
 			</Card.Root>
 			<Card.Root>
 				<Card.Header class="pb-2">
-					<Card.Description>This Month</Card.Description>
-					<Card.Title class="text-3xl">$5,329</Card.Title>
+					<Card.Description>Active Requests</Card.Description>
+					{#await data.requests}
+						<Loading />
+					{:then requests}
+						<Card.Title class="text-3xl">{requests.length}</Card.Title>
+					{:catch error}
+						<Card.Title class="text-3xl">No requests found!</Card.Title>
+					{/await}
 				</Card.Header>
 				<Card.Content>
 					<div class="text-xs text-muted-foreground">+10% from last month</div>
