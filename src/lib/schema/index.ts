@@ -6,6 +6,8 @@ import type { Case } from './case';
 interface RequestWithJoins extends Request {
     lawyer: User;
     client: Client;
+    interviewee: Client;
+    case: Case;
 }
 
 export type { User, Client, Request, Case, RequestWithJoins }
