@@ -73,7 +73,7 @@
 									>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
 								>
 								<AlertDialog.Description>
-									Are you aboslutely sure? The client will be {data.client.status.at(-1)?.type ===
+									Are you absolutely sure? The client will be {data.client.status.at(-1)?.type ===
 									'Archived'
 										? 'restored'
 										: 'archived'} and will {data.client.status.at(-1)?.type === 'Archived'
@@ -124,7 +124,7 @@
 											>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
 										>
 										<AlertDialog.Description>
-											Are you aboslutely sure? The client will be {data.client.status.at(-1)
+											Are you absolutely sure? The client will be {data.client.status.at(-1)
 												?.type === 'Archived'
 												? 'restored'
 												: 'archived'} and will {data.client.status.at(-1)?.type === 'Archived'
