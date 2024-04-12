@@ -105,8 +105,8 @@
 								<Form.Control let:attrs>
 									<Form.Label>Name</Form.Label>
 									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
-									<Form.FieldErrors />
 								</Form.Control>
+								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="middleName" class="col-span-2 grid gap-3">
 								<Form.Control let:attrs>
@@ -130,15 +130,15 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid grid-cols-7 items-start gap-3">
+						<div class="grid grid-cols-3 items-start gap-3">
 							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Age</Form.Label>
-									<Input type="number" {...attrs} bind:value={$proxyAge} />
+									<Form.Label>Date of Birth</Form.Label>
+									<DatePicker bind:value={$proxyDateOfBirth} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="sex" class="col-span-2 grid gap-3">
+							<Form.Field {form} name="sex" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Sex</Form.Label>
 									<Select.Root
@@ -160,7 +160,7 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="civilStatus" class="col-span-2 grid gap-3">
+							<Form.Field {form} name="civilStatus" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Civil Status</Form.Label>
 									<Select.Root
@@ -182,15 +182,15 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="citizenship" class="col-span-2 grid gap-3">
+						</div>
+						<div class="grid grid-cols-3 items-start gap-3">
+							<Form.Field {form} name="citizenship" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Citizenship</Form.Label>
 									<Input {...attrs} bind:value={$formData.citizenship} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-						</div>
-						<div class="grid grid-cols-3 items-start gap-3">
 							<Form.Field {form} name="language" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Language</Form.Label>
@@ -202,13 +202,6 @@
 								<Form.Control let:attrs>
 									<Form.Label>Religion</Form.Label>
 									<Input {...attrs} bind:value={$formData.religion} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Monthly Income</Form.Label>
-									<Input {...attrs} bind:value={$formData.individualMonthlyIncome} type="number" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -236,10 +229,18 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field
+							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Monthly Income</Form.Label>
+									<Input {...attrs} bind:value={$formData.individualMonthlyIncome} type="number" />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</div>
+						<Form.Field
 								{form}
-								name="religion"
-								class="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-4"
+								name="detained"
+								class="flex flex-row w-fit items-center space-x-3 space-y-0 rounded-md border p-4"
 							>
 								<Form.Control let:attrs>
 									<Checkbox {...attrs} bind:checked={$formData.detained} />
@@ -251,7 +252,6 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-						</div>
 					</Card.Content>
 				</Card.Root>
 				<Card.Root>
