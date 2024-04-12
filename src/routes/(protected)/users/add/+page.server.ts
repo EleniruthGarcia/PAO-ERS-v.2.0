@@ -6,7 +6,7 @@ import db from '$lib/server/database';
 
 import { formSchema } from '$lib/schema/user';
 import { zod } from 'sveltekit-superforms/adapters';
-import { superValidate } from 'sveltekit-superforms';
+import { setError, superValidate } from 'sveltekit-superforms';
 import { Argon2id } from 'oslo/password';
 
 export const load: PageServerLoad = async (event) => {
@@ -27,6 +27,7 @@ export const load: PageServerLoad = async (event) => {
 		],
 		form: await superValidate(
 			{
+				_id: 'USER-' + Date.now().toString(36).toUpperCase(),
 				currentStatus: 'New',
 				status: [{ type: 'New', date: new Date() }]
 			},
@@ -50,14 +51,17 @@ export const actions: Actions = {
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) return fail(400, { form });
 
-		const user = await db.users.insertOne({
-			...form.data,
-			_id:
-				form.data.role === 'Lawyer'
-					? 'LAWYER'
-					: 'STAFF' + '-' + Date.now().toString(36).toUpperCase(),
-			hashedPassword: await new Argon2id().hash(form.data.hashedPassword)
-		});
+		if (await db.users.findOne({ username: form.data.username }))
+			return setError(form, 'username', 'Username already exists!');
+
+		if (form.data.password !== form.data.confirmPassword)
+			return setError(form, 'confirmPassword', 'Passwords do not match!');
+
+		form.data.hashedPassword = await new Argon2id().hash(form.data.password);
+		form.data.password = '';
+		form.data.confirmPassword = '';
+
+		const user = await db.users.insertOne(form.data);
 		if (!user.acknowledged) return fail(500, { form });
 
 		redirect(
