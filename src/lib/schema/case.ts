@@ -102,7 +102,7 @@ export const formSchema = z.object({
 	causeOfActionOrNatureOfOffence: z.string().optional(),
 	pendingInCourt: z.boolean(),
 	titleOfTheCase: z.string().optional(),
-	docketNumber: z.number().optional(),
+	docketNumber: z.string().optional(),
 	court: z.string().optional(),
 	currentStatus: z.enum(status),
 	status: z.array(
