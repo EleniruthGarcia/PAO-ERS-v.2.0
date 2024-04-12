@@ -4,6 +4,8 @@
 
 	import { toast } from 'svelte-sonner';
 
+	import Loading from '$lib/components/Loading.svelte';
+
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
@@ -12,10 +14,11 @@
 	import * as Pagination from '$lib/components/ui/pagination';
 	import { Separator } from '$lib/components/ui/separator';
 
+	import type { Writable } from 'svelte/store';
+	import type { Request } from '$lib/schema';
 	import { getContext } from 'svelte';
-	import Loading from '$lib/components/Loading.svelte';
 
-	const selectedRequests = getContext('selectedData');
+	const selectedRequests = getContext<Writable<Request[]>>('selectedData');
 
 	$: i = 0;
 	$: request = $selectedRequests[i];

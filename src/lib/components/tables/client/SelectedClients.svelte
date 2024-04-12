@@ -4,6 +4,8 @@
 
 	import { toast } from 'svelte-sonner';
 
+	import Loading from '$lib/components/Loading.svelte';
+
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
@@ -12,10 +14,11 @@
 	import * as Pagination from '$lib/components/ui/pagination';
 	import { Separator } from '$lib/components/ui/separator';
 
+	import type { Writable } from 'svelte/store';
+	import type { Client } from '$lib/schema';
 	import { getContext } from 'svelte';
-	import Loading from '$lib/components/Loading.svelte';
 
-	const selectedClients = getContext('selectedData');
+	const selectedClients = getContext<Writable<Client[]>>('selectedData');
 
 	$: i = 0;
 	$: client = $selectedClients[i];
@@ -165,7 +168,7 @@
 					</li>
 				</ul>
 			</div>
-			{#if client.civilStatus === 'married'}
+			{#if client.civilStatus === 'Married'}
 				<Separator class="my-4" />
 				<div class="grid gap-3">
 					<div class="font-semibold">Spouse Information</div>
