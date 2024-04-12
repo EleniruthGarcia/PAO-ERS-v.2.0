@@ -175,7 +175,11 @@ export const actions = {
 					titleOfCaseDocketNum: {
 						$concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')']
 					},
-					courtBodyTribunal: { $ifNull: ['$case.courtBody', ''] },
+					court: { $ifNull: ['$case.court', ''] },
+					status: '$case.status',
+					titleOfCase: '$case.titleOfCase',
+					caseNo: '$case.docketNumber',
+					assistance: '$request.typeOfAssistance'
 				}
 			}
 		]).toArray();
@@ -187,7 +191,13 @@ export const actions = {
 		const f15 = requests.filter((d) => d.client.classification.contains('Petitioner for Voluntary Rehabilitation'));
 		const f16 = requests.filter((d) => d.client.foreignNational.contains('Taiwanese'));
 		const f18 = requests.filter((d) => d.client.classification.contains('OFW') && d.requests.nature.contains('Inquest Legal Assistance'));
-		const f19 = '';
+		const f19 = {
+			criminal: requests.filter((d) => d.case.natureOfTheCase.contains('Criminal')),
+			civil: requests.filter((d) => d.case.natureOfTheCase.contains('Civil')),
+			administrative: requests.filter((d) => d.case.natureOfTheCase.contains('Administrative')),
+			prosecutor: requests.filter((d) => d.case.natureOfTheCase.contains('')),
+			labor: requests.filter((d) => d.case.natureOfTheCase.contains('Labor')),
+		};
 		const f20 = requests.filter((d) => d.client.PWD.contains(true));
 		const f21 = requests.filter((d) => d.request.natureOfRequest.contains('Administration of Oath'));
 		const f22 = requests.filter((d) => d.request.natureOfRequest.contains('Others (PSA)'));
@@ -207,6 +217,7 @@ export const actions = {
 				f16,
 				f17: { ...requests, ...outreaches },
 				f18,
+				f19,
 				f20,
 				f21
 			})

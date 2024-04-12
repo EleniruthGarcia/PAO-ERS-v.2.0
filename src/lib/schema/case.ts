@@ -3,7 +3,6 @@ import z from 'zod';
 export const natureOfTheCase = [
 	'Criminal',
 	'Civil',
-	'Labor',
 	'Administrative',
 	'Appealed',
 	'Labor'
@@ -91,31 +90,27 @@ export const unfavorableCriminalPreliminary = [
 
 export const formSchema = z.object({
 	_id: z.string().optional(),
-	natureOfTheCase: z.string().min(1, 'Nature of the Case is required.'),
-	caseSpecs: z.string().min(1, 'Case Specification is required.'),
+	natureOfTheCase: z.string(),
+	caseSpecs: z.string(),
 	clientInvolvement: z.array(z.enum(clientInvolvement)).min(1, 'Client Involvement is required.'),
 	adversePartyInvolvement: z
 		.array(z.enum(adversePartyInvolvement))
 		.min(1, 'Adverse Party Involvement is required.'),
-	adversePartyName: z.string().min(1, 'Adverse Party Name is required.'),
-	adversePartyAddress: z.string().min(1, 'Adverse Party Address is required.'),
+	adversePartyName: z.array(z.string()).min(1, 'Adverse Party Name is required.'),
+	adversePartyAddress: z.array(z.string()).min(1, 'Adverse Party Address is required.'),
 	factsOfTheCase: z.string().optional(),
 	causeOfActionOrNatureOfOffence: z.string().optional(),
-	pendingInCourt: z.boolean({
-		required_error: 'Pending in Court is required.'
-	}),
+	pendingInCourt: z.boolean(),
 	titleOfTheCase: z.string().optional(),
 	docketNumber: z.string().optional(),
 	court: z.string().optional(),
-	currentStatus: z.enum(status, {
-		required_error: 'Current Status is required.'
-	}),
+	currentStatus: z.enum(status),
 	status: z.array(
 		z.object({
 			type: z.enum(status),
 			date: z.date()
 		})
-	).min(1, 'Status is required.'),
+	)
 });
 
 export type FormSchema = typeof formSchema;
