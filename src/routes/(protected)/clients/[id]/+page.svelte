@@ -284,14 +284,22 @@
 				</div>
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
-				{#each data.requests as request}
+				{#each data.requests as request, i}
 					<div class="grid gap-3">
 						<ul class="grid gap-3">
 							<li class="flex items-center justify-between gap-2 truncate">
+								<span class="text-muted-foreground"> Nature </span>
 								<span>{request.otherNature ? request.otherNature : request.nature}</span>
+							</li>
+							<li class="flex items-center justify-between gap-2 truncate">
+								<span class="text-muted-foreground"> Lawyer </span>
+								<span>{request.lawyer_id}</span>
 							</li>
 						</ul>
 					</div>
+					{#if data.requests.length - 1 !== i}
+					<Separator class="my-4" />
+					{/if}
 				{/each}
 			</Card.Content>
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">

@@ -160,7 +160,7 @@
 			</ul>
 		</div>
 		<Separator class="my-4" />
-		<div class="grid gap-3">
+		<div>
 			<div class="font-semibold">Nature of Request</div>
 			{#each request.nature as nature}
 				<Badge class="m-1">{nature}</Badge>
