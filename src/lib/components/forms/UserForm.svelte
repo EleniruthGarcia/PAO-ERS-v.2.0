@@ -13,6 +13,7 @@
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
 	import { page } from '$app/stores';
+	import type { Branch } from '$lib/server/database';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -45,7 +46,7 @@
 	};
 
 	$: selectedBranch = {
-		label: $page.data.branches.find((branch) => branch._id === $formData.branch_id)?.name,
+		label: $page.data.branches.find((branch: Branch) => branch._id === $formData.branch_id)?.name,
 		value: $formData.branch_id
 	};
 </script>
