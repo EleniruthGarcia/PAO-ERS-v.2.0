@@ -74,7 +74,11 @@
 		table.column({
 			id: 'lawyer',
 			accessor: (item) => item.lawyer.name,
-			header: 'Lawyer'
+			header: 'Lawyer',
+			plugins: {
+				filter: { exclude: true },
+				sort: { disable: true }
+			}
 		}),
 		table.column({
 			accessor: ({ _id }) => _id,

@@ -221,7 +221,8 @@
 							<Form.FieldErrors />
 						</Form.Fieldset>
 						<Separator />
-						<Form.Field {form} name="interviewee_id" class=" grid gap-3">
+						<div class="grid grid-cols-8 items-start gap-3">
+						<Form.Field {form} name="interviewee_id" class="grid col-span-5 gap-3">
 							<Form.Control let:attrs>
 								<Form.Label>Interviewee</Form.Label>
 								<Select.Root
@@ -243,9 +244,9 @@
 							</Form.Control>
 							<Form.FieldErrors />
 						</Form.Field>
-						<Form.Field {form} name="relationshipToClient" class="grid gap-3">
+						<Form.Field {form} name="relationshipToClient" class="grid col-span-3 gap-3">
 							<Form.Control let:attrs>
-								<Form.Label>Relationship to Client</Form.Label>
+								<Form.Label>Relation to Client</Form.Label>
 								<Select.Root
 									selected={selectedRelationshipToClient}
 									onSelectedChange={(s) => {
@@ -265,6 +266,7 @@
 							</Form.Control>
 							<Form.FieldErrors />
 						</Form.Field>
+					</div>
 						<Separator />
 						<Form.Field {form} name="lawyer_id" class="grid gap-3">
 							<Form.Control let:attrs>
