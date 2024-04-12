@@ -109,7 +109,69 @@
 			</AlertDialog.Root>
 		</div>
 	</Card.Header>
-	<Card.Content class="p-6 text-sm"></Card.Content>
+	<Card.Content class="p-6 text-sm">
+		<div class="grid gap-3">
+			<div class="font-semibold">Personal Information</div>
+			<ul class="grid gap-3">
+				<li class="flex items-center justify-between gap-2 truncate">
+					<span class="text-muted-foreground"> Age </span>
+					<span>{request.client.age}</span>
+				</li>
+				<li class="flex items-center justify-between gap-2 truncate">
+					<span class="text-muted-foreground"> Sex </span>
+					<span>{request.client.sex}</span>
+				</li>
+				<li class="flex items-center justify-between gap-2 truncate">
+					<span class="text-muted-foreground"> Civil Status </span>
+					<span>{request.client.civilStatus}</span>
+				</li>
+				<li class="flex items-center justify-between gap-2 truncate">
+					<span class="text-muted-foreground"> Citizenship </span>
+					<span>{request.client.citizenship}</span>
+				</li>
+				<li class="flex items-center justify-between gap-2 truncate">
+					<span class="text-muted-foreground"> Language </span>
+					<span>{request.client.language}</span>
+				</li>
+			</ul>
+		</div>
+		<Separator class="my-4" />
+		<div class="grid gap-3">
+			<div class="font-semibold">Interviewee Information</div>
+			<ul class="grid gap-3">
+				<li class="flex items-center justify-between gap-2 truncate">
+					<span class="text-muted-foreground"> Interviewee </span>
+					<span>{request.interviewee.name}</span>
+				</li>
+				<li class="flex items-center justify-between gap-2 truncate">
+					<span class="text-muted-foreground"> Relationshipto Client </span>
+					<span>{request.relationshipToClient}</span>
+				</li>
+			</ul>
+		</div>
+		<Separator class="my-4" />
+		<div class="grid gap-3">
+			<div class="font-semibold">Lawyer Information</div>
+			<ul class="grid gap-3">
+				<li class="flex items-center justify-between gap-2 truncate">
+					<span class="text-muted-foreground"> Lawyer </span>
+					<span>{request.lawyer.name}</span>
+				</li>
+			</ul>
+		</div>
+		<Separator class="my-4" />
+		<div class="grid gap-3">
+			<div class="font-semibold">Nature of Request</div>
+			{#each request.nature as nature}
+				<Badge class="m-1">{nature}</Badge>
+			{/each}
+			{#if request.otherNature != null}
+				{#each request.otherNature as nature}
+					<Badge class="m-1">{nature}</Badge>
+				{/each}
+			{/if}
+		</div>
+	</Card.Content>
 	<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 		<div class="text-xs text-muted-foreground">
 			Updated <time dateTime="2023-11-23">November 23, 2023</time>
