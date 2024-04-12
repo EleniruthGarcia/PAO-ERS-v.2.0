@@ -7,7 +7,8 @@
 		typeOfAssistance,
 		typeOfRelease,
 		formSchema,
-		type FormSchema
+		type FormSchema,
+		relationshipToClient
 	} from '$lib/schema/request';
 	import {
 		type SuperValidated,
@@ -38,6 +39,8 @@
 
 	const { form: formData, enhance, delayed } = form;
 
+	$: console.log($formData);
+
 	// const proxyDate = dateProxy(form, 'date', {
 	// 	format: 'date',
 	// 	empty: 'undefined'
@@ -55,17 +58,31 @@
 		label: $page.data.lawyers.find((lawyer: any) => lawyer._id === $formData.lawyer_id)?.name ?? '',
 		value: $formData.lawyer_id
 	};
+
+	$: selectedInterviewee = {
+		label:
+			$page.data.clients.find((client: any) => client._id === $formData.interviewee_id)?.name ?? '',
+		value: $formData.interviewee_id
+	};
+
+	$: selectedRelationshipToClient = {
+		label: $formData.relationshipToClient,
+		value: $formData.relationshipToClient
+	};
+
 	// $: selectDistrictProvince = {
 	// 	label: $formData.districtProvince,
 	// 	value: $formData.districtProvince
 	// };
-	$: selectTypeOfAssistance = $formData.typeOfAssistance
+
+	$: selectedTypeOfAssistance = $formData.typeOfAssistance
 		? {
 				label: $formData.typeOfAssistance,
 				value: $formData.typeOfAssistance
 			}
 		: undefined;
-	$: selectTypeOfRelease = $formData.typeOfRelease
+
+	$: selectedTypeOfRelease = $formData.typeOfRelease
 		? {
 				label: $formData.typeOfRelease,
 				value: $formData.typeOfRelease
@@ -91,7 +108,7 @@
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
 	{#if $delayed}<Loading />{/if}
-	<input type="hidden" bind:value={$formData._id} name="_id" />
+	<input type="hidden" name="_id" bind:value={$formData._id} />
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
 		<div class="flex items-center gap-4">
 			<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>
@@ -99,13 +116,13 @@
 				<span class="sr-only">Back</span>
 			</Button>
 			<h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-				{!$formData._id ? 'Add Request' : 'Update Request'}
+				{$formData.currentStatus === 'New' ? 'Add Request' : 'Update Request'}
 			</h1>
 			<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 				<Form.Button type="submit" size="sm"
-					>{!$formData._id ? 'Add Request' : 'Update Request'}</Form.Button
+					>{$formData.currentStatus === 'New' ? 'Add Request' : 'Update Request'}</Form.Button
 				>
 			</div>
 		</div>
@@ -204,6 +221,51 @@
 							<Form.FieldErrors />
 						</Form.Fieldset>
 						<Separator />
+						<Form.Field {form} name="interviewee_id" class=" grid gap-3">
+							<Form.Control let:attrs>
+								<Form.Label>Interviewee</Form.Label>
+								<Select.Root
+									selected={selectedInterviewee}
+									onSelectedChange={(s) => {
+										s && ($formData.interviewee_id = s.value);
+									}}
+								>
+									<Select.Input name={attrs.name} />
+									<Select.Trigger {...attrs}>
+										<Select.Value placeholder="" />
+									</Select.Trigger>
+									<Select.Content>
+										{#each $page.data.clients as client}
+											<Select.Item bind:value={client._id}>{client.name}</Select.Item>
+										{/each}
+									</Select.Content>
+								</Select.Root>
+							</Form.Control>
+							<Form.FieldErrors />
+						</Form.Field>
+						<Form.Field {form} name="relationshipToClient" class="grid gap-3">
+							<Form.Control let:attrs>
+								<Form.Label>Relationship to Client</Form.Label>
+								<Select.Root
+									selected={selectedRelationshipToClient}
+									onSelectedChange={(s) => {
+										s && ($formData.relationshipToClient = s.value);
+									}}
+								>
+									<Select.Input name={attrs.name} />
+									<Select.Trigger {...attrs}>
+										<Select.Value placeholder="" />
+									</Select.Trigger>
+									<Select.Content>
+										{#each relationshipToClient as value}
+											<Select.Item {value} />
+										{/each}
+									</Select.Content>
+								</Select.Root>
+							</Form.Control>
+							<Form.FieldErrors />
+						</Form.Field>
+						<Separator />
 						<Form.Field {form} name="lawyer_id" class="grid gap-3">
 							<Form.Control let:attrs>
 								<Form.Label>Lawyer</Form.Label>
@@ -239,7 +301,7 @@
 									<Form.Control let:attrs>
 										<Form.Label>Type of Inquest Legal Assistance</Form.Label>
 										<Select.Root
-											selected={selectTypeOfAssistance}
+											selected={selectedTypeOfAssistance}
 											onSelectedChange={(s) => {
 												s && ($formData.typeOfAssistance = s.value);
 											}}
@@ -263,7 +325,7 @@
 									<Form.Control let:attrs>
 										<Form.Label>Type of Jail Visitation Release</Form.Label>
 										<Select.Root
-											selected={selectTypeOfRelease}
+											selected={selectedTypeOfRelease}
 											onSelectedChange={(s) => {
 												s && ($formData.typeOfRelease = s.value);
 											}}
@@ -357,7 +419,9 @@
 			</div>
 			<div class="flex items-center justify-center gap-2 md:hidden">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
-				<Form.Button type="submit" size="sm">Add Request</Form.Button>
+				<Form.Button type="submit" size="sm"
+					>{$formData.currentStatus === 'New' ? 'Add Request' : 'Update Request'}</Form.Button
+				>
 			</div>
 		</div>
 	</div>

@@ -85,7 +85,7 @@ export const status = [
 export const formSchema = z.object({
 	_id: z.string(),
 	// date: z.date({ required_error: 'Date is required.' }),
-	client_id: z.array(z.string()).min(1, 'Client is required.').default(['']),
+	client_id: z.array(z.string()).min(1, 'Client is required.'),
 	// districtProvince: z.enum(districtProvince),
 	lawyer_id: z.string().min(1, 'Lawyer is required.'),
 	case_id: z.array(z.string()).optional(),
@@ -93,8 +93,8 @@ export const formSchema = z.object({
 	relationshipToClient: z.enum(relationshipToClient),
 	nature: z.array(z.enum(nature)).min(1, 'Nature of Request is required.'),
 	otherNature: z.array(z.string()),
-	typeOfAssistance: z.array(z.enum(typeOfAssistance)).optional(),
-	typeOfRelease: z.array(z.enum(typeOfRelease)).optional(),
+	typeOfAssistance: z.enum(typeOfAssistance).optional(),
+	typeOfRelease: z.enum(typeOfRelease).optional(),
 	currentStatus: z.enum(status),
 	status: z.array(
 		z.object({
