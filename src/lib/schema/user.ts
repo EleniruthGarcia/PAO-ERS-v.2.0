@@ -31,7 +31,6 @@ export const formSchema = z.object({
 	confirmPassword: z.string().min(1, 'Confirm password is required!'),
 	hashedPassword: z.string().min(1, 'Hashed password is required!'),
 	rank: z.enum(rank),
-	title: z.string().min(1, 'Title is required!'),
 	name: z.string().min(1, 'Name is required!'),
 	firstName: z.string().min(1, 'First name is required!'),
 	middleName: z.string().optional(),

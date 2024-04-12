@@ -3,11 +3,11 @@ import { redirect } from 'sveltekit-flash-message/server';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {
-	if (!event.locals.user) {
-		event.cookies.set('redirect', '/dashboard', { path: '/' });
+	if (event.locals.user?.role !== 'Administrator') {
+		event.cookies.set('redirect', '/admin', { path: '/' });
 		redirect(
 			'/login',
-			{ type: 'warning', message: 'You must be logged in to access this page!' },
+			{ type: 'warning', message: 'You must be logged in as an administrator to access this page!' },
 			event
 		);
 	}

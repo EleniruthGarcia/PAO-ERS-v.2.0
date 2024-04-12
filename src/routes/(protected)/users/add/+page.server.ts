@@ -10,11 +10,11 @@ import { setError, superValidate } from 'sveltekit-superforms';
 import { Argon2id } from 'oslo/password';
 
 export const load: PageServerLoad = async (event) => {
-	if (!event.locals.user) {
-		event.cookies.set('redirect', '/dashboard', { path: '/' });
+	if (event.locals.user?.role !== 'Administrator') {
+		event.cookies.set('redirect', '/clients/add', { path: '/' });
 		redirect(
 			'/login',
-			{ type: 'warning', message: 'You must be logged in to access this page!' },
+			{ type: 'warning', message: 'You must be logged in as an administrator to access this page!' },
 			event
 		);
 	}
@@ -25,6 +25,7 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/users', text: 'Users' },
 			{ href: '/users/add', text: 'Add User' }
 		],
+		branches: await db.branches.find().toArray(),
 		form: await superValidate(
 			{
 				_id: 'USER-' + Date.now().toString(36).toUpperCase(),
@@ -39,11 +40,11 @@ export const load: PageServerLoad = async (event) => {
 
 export const actions: Actions = {
 	default: async (event) => {
-		if (!event.locals.user) {
+		if (event.locals.user?.role !== 'Administrator') {
 			event.cookies.set('redirect', '/clients/add', { path: '/' });
 			redirect(
 				'/login',
-				{ type: 'warning', message: 'You must be logged in to access this page!' },
+				{ type: 'warning', message: 'You must be logged in as an administrator to access this page!' },
 				event
 			);
 		}

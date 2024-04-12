@@ -12,6 +12,7 @@
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
+	import { page } from '$app/stores';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -43,7 +44,10 @@
 		value: $formData.rank
 	};
 
-	$: console.log($formData);
+	$: selectedBranch = {
+		label: $page.data.branches.find((branch) => branch._id === $formData.branch_id)?.name,
+		value: $formData.branch_id
+	};
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
@@ -162,13 +166,6 @@
 							</Form.Field>
 						</div>
 						<div class="grid grid-cols-6 items-start gap-3">
-							<Form.Field {form} name="title" class="col-span-6 grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Title</Form.Label>
-									<Input {...attrs} bind:value={$formData.title} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
 							<Form.Field {form} name="rank" class="col-span-3 grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Rank</Form.Label>
@@ -263,7 +260,22 @@
 						<Form.Field {form} name="branch_id" class="grid gap-3">
 							<Form.Control let:attrs>
 								<Form.Label>Branch</Form.Label>
-								<Input {...attrs} bind:value={$formData.branch_id} />
+								<Select.Root
+									selected={selectedBranch}
+									onSelectedChange={(s) => {
+										s && ($formData.branch_id = s.value);
+									}}
+								>
+									<Select.Input name={attrs.name} />
+									<Select.Trigger {...attrs}>
+										<Select.Value placeholder="" />
+									</Select.Trigger>
+									<Select.Content>
+										{#each $page.data.branches as branch}
+											<Select.Item value={branch._id}>{branch.name}</Select.Item>
+										{/each}
+									</Select.Content>
+								</Select.Root>
 							</Form.Control>
 							<Form.FieldErrors />
 						</Form.Field>
