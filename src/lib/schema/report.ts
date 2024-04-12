@@ -50,8 +50,10 @@ export const months = [
 ] as const;
 
 export const formSchema = z.object({
-	months: z.array(z.enum(months)).min(1, 'Month is required!'),
-	year: z.string().min(1, 'Year is required!'),
+	months: z.enum(months, {
+		required_error: 'Month is required!'
+	}),
+	year: z.number().min(1, 'Year is required!'),
 	notedBy: z.string().min(1, 'Noted by is required!'),
 	reports: z.array(z.enum(reports))
 });
