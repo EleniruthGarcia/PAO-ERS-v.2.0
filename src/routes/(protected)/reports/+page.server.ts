@@ -60,7 +60,7 @@ export const actions = {
 				}
 			},
 			{
-				$match: { 'lawyer._id': event.locals.user.id }
+				$match: { 'lawyer._id': event.locals.user.role === 'Administrator' ? '' : event.locals.user.id }
 			},
 			{
 				$lookup: {
@@ -100,7 +100,6 @@ export const actions = {
 			{
 				$addFields: {
 					branch: { $arrayElemAt: ['$branch', 0] },
-					lawyer: { $arrayElemAt: ['$lawyer', 0] },
 					interviewee: { $arrayElemAt: ['$interviewee', 0] },
 					case: { $arrayElemAt: ['$case', 0] }
 				}
@@ -156,25 +155,11 @@ export const actions = {
 					clientClasses: { $ifNull: ['$client.classification', []] },
 					clientInvolvement: { $ifNull: ['$case.clientInvolvement', ''] },
 					adverseParty: { $ifNull: ['$case.adversePartyInvolvement', ''] },
-					adversePartyName: {
-						$reduce: {
-							input: '$case.adversePartyName',
-							initialValue: '',
-							in: { $concat: ['$$value', '$$this'] }
-						}
-					},
-					adversePartyAddress: {
-						$reduce: {
-							input: '$case.adversePartyAddress',
-							initialValue: '',
-							in: { $concat: ['$$value', ', ', '$$this'] }
-						}
-					},
+					adversePartyName: { $ifNull: ["$case.adversePartyName", "N/A"] },
+					adversePartyAddress: { $ifNull: ["$case.adversePartyAddress", "N/A"] },
 					natureOfOffence: { $ifNull: ['$case.natureOfOffence', ''] },
 					courtPendingStatus: { $ifNull: ['$case.status', ''] },
-					titleOfCaseDocketNum: {
-						$concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')']
-					},
+					titleOfCaseDocketNum: { $concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')'] },
 					court: { $ifNull: ['$case.court', ''] },
 					status: '$case.status',
 					titleOfCase: '$case.titleOfCase',
@@ -184,23 +169,23 @@ export const actions = {
 			}
 		]).toArray();
 
-		const f11 = requests.filter((d) => d.natureOfRequest.contains('Jail Visitation'));
+		const f11 = requests.filter((d) => d.natureOfRequest?.includes('Jail Visitation'));
 		const f12 = '';
-		const f13 = requests.filter((d) => d.client.classifcation.contains('Child Client'));
+		const f13 = requests.filter((d) => d.client?.classification?.includes('Child Client'));
 		const f14 = '';
-		const f15 = requests.filter((d) => d.client.classification.contains('Petitioner for Voluntary Rehabilitation'));
-		const f16 = requests.filter((d) => d.client.foreignNational.contains('Taiwanese'));
-		const f18 = requests.filter((d) => d.client.classification.contains('OFW') && d.requests.nature.contains('Inquest Legal Assistance'));
+		const f15 = requests.filter((d) => d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation'));
+		const f16 = requests.filter((d) => d.client?.foreignNational?.contains('Taiwanese'));
+		const f18 = requests.filter((d) => d.client?.classification?.includes('OFW') && d.requests?.nature?.contains('Inquest Legal Assistance'));
 		const f19 = {
-			criminal: requests.filter((d) => d.case.natureOfTheCase.contains('Criminal')),
-			civil: requests.filter((d) => d.case.natureOfTheCase.contains('Civil')),
-			administrative: requests.filter((d) => d.case.natureOfTheCase.contains('Administrative')),
-			prosecutor: requests.filter((d) => d.case.natureOfTheCase.contains('')),
-			labor: requests.filter((d) => d.case.natureOfTheCase.contains('Labor')),
+			criminal: requests.filter((d) => d.case?.natureOfTheCase?.contains('Criminal')),
+			civil: requests.filter((d) => d.case?.natureOfTheCase?.contains('Civil')),
+			administrative: requests.filter((d) => d.case?.natureOfTheCase?.contains('Administrative')),
+			prosecutor: requests.filter((d) => d.case?.natureOfTheCase?.contains('')),
+			labor: requests.filter((d) => d.case?.natureOfTheCase?.contains('Labor')),
 		};
-		const f20 = requests.filter((d) => d.client.PWD.contains(true));
-		const f21 = requests.filter((d) => d.request.natureOfRequest.contains('Administration of Oath'));
-		const f22 = requests.filter((d) => d.request.natureOfRequest.contains('Others (PSA)'));
+		const f20 = requests.filter((d) => d.client?.PWD?.contains(true));
+		const f21 = requests.filter((d) => d.request?.natureOfRequest?.includes('Administration of Oath'));
+		const f22 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
 
 		return {
 			form,
@@ -215,7 +200,7 @@ export const actions = {
 				f13,
 				f15,
 				f16,
-				f17: { ...requests, ...outreaches },
+				f17: [...requests, ...outreaches],
 				f18,
 				f19,
 				f20,
