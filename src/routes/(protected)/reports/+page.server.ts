@@ -164,14 +164,26 @@ export const actions = {
 					status: '$case.status',
 					titleOfCase: '$case.titleOfCase',
 					caseNo: '$case.docketNumber',
-					assistance: '$request.typeOfAssistance'
+					assistance: '$request.typeOfAssistance',
+					actionTaken: { $ifNull: ['$case.actionTaken', ''] },
+					CICL: { $cond: [ {$in: ['Child in Conflict with the Law', '$client.classification'] }, 'X', '']},
+					Women: { $cond: [ {$in:['Women', '$client.classification'] }, 'X', ''] },
+					IG: { $ifNull: ['$client.indigenousPeople', ''] },
+					PWD: { $ifNull: ['$client.pwd', ''] },
+					UP: { $ifNull: ['$client.urbanPoor', ''] },
+					RP: { $ifNull: ['$client.ruralPoor', ''] },
+					Senior: { $cond: [ {$in: ['Senior Citizen', '$client.classification']}, 'X', ''] },
+					OFW: { $cond: [ {$in: ['OFW (Land-Based)', '$client.classification', 'OFW (Sea-Based)', '$client.classification']}, 'X', ''] },
+					Judi: '',
+					Quasi: '',
+					NonJudi: ''
 				}
 			}
 		]).toArray();
 
 		const f11 = requests.filter((d) => d.natureOfRequest?.includes('Jail Visitation'));
 		const f12 = '';
-		const f13 = requests.filter((d) => d.client?.classification?.includes('Child Client'));
+		const f13 = requests.filter((d) => d.client?.classification?.includes('Child in Conflict with the Law'));
 		const f14 = '';
 		const f15 = requests.filter((d) => d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation'));
 		const f16 = requests.filter((d) => d.client?.foreignNational?.contains('Taiwanese'));
@@ -180,7 +192,7 @@ export const actions = {
 			criminal: requests.filter((d) => d.case?.natureOfTheCase?.contains('Criminal')),
 			civil: requests.filter((d) => d.case?.natureOfTheCase?.contains('Civil')),
 			administrative: requests.filter((d) => d.case?.natureOfTheCase?.contains('Administrative')),
-			prosecutor: requests.filter((d) => d.case?.natureOfTheCase?.contains('')),
+			prosecutor: requests.filter((d) => d.case?.natureOfTheCase?.contains('Administrative')),
 			labor: requests.filter((d) => d.case?.natureOfTheCase?.contains('Labor')),
 		};
 		const f20 = requests.filter((d) => d.client?.PWD?.contains(true));
