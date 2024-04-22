@@ -4,22 +4,24 @@ import { PDFDocument, rgb } from 'pdf-lib';
 import JSZip from 'jszip';
 
 export const generateInterviewSheet = async (data: any) => {
-	if (data.length === 0) return { name: '', dataUri: '', error: true };
+	if (data.length === 0) return { name: '', blob: '', type: '', error: true };
 	if (data.length > 1) {
 		const zip = new JSZip();
 
 		for (const item of data)
-			zip.file(`Interview Sheet_${item.controlNo}.pdf`, await addTextToPDF(item), { base64: true });
+			zip.file(`Interview Sheet_${item.controlNo}.pdf`, await addTextToPDF(item));
 
 		return {
 			name: `Interview Sheet_${data[0].name}.zip`,
-			dataUri: 'data:application/zip;base64,' + (await zip.generateAsync({ type: 'base64' }))
+			blob: await zip.generateAsync({ type: 'blob' }),
+			type: 'application/zip'
 		};
 	}
 
 	return {
 		name: `Interview Sheet_${data[0].name}.pdf`,
-		dataUri: await addTextToPDF(data[0], { dataUri: true })
+		blob: new Blob([await addTextToPDF(data[0])], { type: 'application/pdf' }),
+		type: 'application/pdf'
 	};
 };
 
@@ -66,7 +68,7 @@ function addOrdinalSuffix(day: number): string {
 			return `${day}th`;
 	}
 }
-async function addTextToPDF(data: any, options?: any) {
+async function addTextToPDF(data: any) {
 	const values = getFormattedDate();
 
 	const {
@@ -1140,5 +1142,5 @@ async function addTextToPDF(data: any, options?: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 	// Save the modified PDF
-	return await pdfDoc.saveAsBase64(options);
+	return await pdfDoc.save();
 }

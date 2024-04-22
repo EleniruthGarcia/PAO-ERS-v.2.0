@@ -29,7 +29,11 @@ export const load: PageServerLoad = async (event) => {
 			},
 			{ href: '/clients/' + event.params.id + '/edit', text: `Edit` }
 		],
-		form: await superValidate(client, zod(formSchema)),
+		form: await superValidate({
+			...client,
+			currentStatus: 'Updated',
+			status: [{ type: 'Updated', date: new Date() }]
+		}, zod(formSchema)),
 		client
 	};
 };

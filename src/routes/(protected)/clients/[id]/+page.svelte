@@ -14,13 +14,6 @@
 	import { Separator } from '$lib/components/ui/separator';
 
 	export let data: PageServerData;
-	export let form;
-
-	$: form?.interview_sheet &&
-		form?.interview_sheet?.error === undefined &&
-		save(form.interview_sheet);
-
-	$: form?.interview_sheet?.error && toast.error('No interview sheet data found!');
 </script>
 
 <main class="grid gap-4 md:grid-cols-2">
@@ -58,9 +51,9 @@
 						class="h-7 gap-1 text-sm"
 						href="/clients/{data.client._id}/edit">Edit</Button
 					>
-					<form method="POST" use:enhance>
-						<Button type="submit" size="sm" class="h-7 gap-1 text-sm">Export</Button>
-					</form>
+					<Button size="sm" class="h-7 gap-1 text-sm" href="/clients/{data.client._id}/export"
+						>Export</Button
+					>
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
 							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
@@ -108,9 +101,7 @@
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content align="end">
 							<DropdownMenu.Item href="/clients/{data.client._id}/edit">Edit</DropdownMenu.Item>
-							<form method="POST" use:enhance>
-								<DropdownMenu.Item type="submit">Export</DropdownMenu.Item>
-							</form>
+							<DropdownMenu.Item href="/clients/{data.client._id}/export">Export</DropdownMenu.Item>
 							<DropdownMenu.Separator />
 							<AlertDialog.Root>
 								<AlertDialog.Trigger>
