@@ -45,7 +45,8 @@ export const pending = [
 
 export const terminated = [
 	'Favorable Dispositions to Clients',
-	'Unfavorable Dispositions to Clients'
+	'Unfavorable Dispositions to Clients',
+	'Other dispositions'
 ] as const;
 
 export const favorable = [
