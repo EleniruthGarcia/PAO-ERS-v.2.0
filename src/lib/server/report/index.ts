@@ -24,13 +24,20 @@ export const generateReport = async (data: any) => {
 	template.substitute('F.025', { ...data, num: data.f25 ? data.f25.length : 0 });
 	template.substitute('F.026', { ...data, num: data.f26 ? data.f26.length : 0 });
 	template.substitute('F.027', { ...data, num: data.f27 ? data.f27.length : 0 });
+
 	template.substitute('F.028', { ...data, num: data.f28 ? data.f28.length : 0 });
 	template.substitute('F.029', { ...data, num: data.f29 ? data.f29.length : 0 });
+	
 	template.substitute('F.031', { ...data, num: data.f31 ? data.f31.length : 0 });
 	template.substitute('F.032', { ...data, num: data.f32 ? data.f32.length : 0 });
 	template.substitute('F.033', { ...data, num: data.f33 ? data.f33.length : 0 });
 	template.substitute('F.034', { ...data, num: data.f34 ? data.f34.length : 0 });
 	template.substitute('F.35', { ...data, num: data.f35 ? data.f35.length : 0 });
+
+
+	template.substitute('F.38', { ...data, num: data.f38 ? data.f38.length : 0 });
+	template.substitute('F.48', { ...data, num: data.f48 ? data.f48.length : 0 });
+	template.substitute('F.49', { ...data, num: data.f49 ? data.f49.length : 0 });
 
 	return { name: `Report_${data.month}.xlsx`, dataUri: 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + template.generate({ type: 'base64' }) };
 };
