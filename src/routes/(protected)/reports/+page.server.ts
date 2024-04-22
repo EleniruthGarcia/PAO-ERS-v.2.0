@@ -199,6 +199,37 @@ export const actions = {
 		const f21 = requests.filter((d) => d.request?.natureOfRequest?.includes('Administration of Oath'));
 		const f22 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
 
+		const f28 = {
+			i: {
+				a: {
+					total: f13.length,
+					cr: f13.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')).length,
+					cv: f13.filter((d) => d.case?.natureOfTheCase?.includes('Civil')).length,
+					ad1: f13.filter((d) => d.case?.natureOfTheCase?.includes('Administrative')).length,
+					ad2: f13.filter((d) => d.case?.natureOfTheCase?.includes('Prosecutor')).length,
+					ad3: f13.filter((d) => d.case?.natureOfTheCase?.includes('Labor')).length,
+					5: {
+						a: {
+							total: f13.length,
+							cr: f13.filter((d) => d.case?.pendingStatus?.includes('') && d.case?.natureOfTheCase?.includes('Criminal')).length,
+							cv: f13.filter((d) => d.case?.natureOfTheCase?.includes('Civil')).length,
+							ad1: f13.filter((d) => d.case?.natureOfTheCase?.includes('Administrative')).length,
+							ad2: f13.filter((d) => d.case?.natureOfTheCase?.includes('Prosecutor')).length,
+							ad3: f13.filter((d) => d.case?.natureOfTheCase?.includes('Labor')).length,
+						}
+					},
+					2: f13.filter((d) => d.case?.natureOfTheCase?.includes('Civil')).length,
+					3: requests.filter((d) => d.case?.natureOfTheCase?.includes('Others (PSA)')).length,
+				}
+			} // ${f28.i.a.5.a.cr}
+		};
+		const f29 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
+
+		const f38 = {
+			
+		};
+		const f48 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
+		const f49 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
 		return {
 			form,
 			report: await generateReport({
@@ -216,7 +247,12 @@ export const actions = {
 				f18,
 				f19,
 				f20,
-				f21
+				f21,
+				f28,
+				f29,
+				f38,
+				f48,
+				f49
 			})
 		};
 	}

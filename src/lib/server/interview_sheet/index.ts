@@ -279,7 +279,7 @@ async function addTextToPDF(data: any) {
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
-	if (PDLStatus === 'Yes') {
+	if (PDLStatus) {
 		// yes detained
 		firstPage.drawRectangle({
 			x: 96,
@@ -301,7 +301,7 @@ async function addTextToPDF(data: any) {
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
-	} else if (PDLStatus === 'No') {
+	} else {
 		// no detained
 		firstPage.drawRectangle({
 			x: 130,

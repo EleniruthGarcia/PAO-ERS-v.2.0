@@ -11,6 +11,13 @@ export const nature = [
 	'Others'
 ] as const;
 
+// other nature of cases possible
+export const otherNature = [
+	'Document/Pleadings Prepared',
+	'Assisted During Custodial Interrogation',
+	'Assisted During Inquest Investigation'
+]
+
 export const relationshipToClient = [
 	'Self',
 	'Client',
