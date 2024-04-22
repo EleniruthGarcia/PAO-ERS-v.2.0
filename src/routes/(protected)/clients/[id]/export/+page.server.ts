@@ -153,20 +153,22 @@ export const actions = {
 						clientClasses: { $ifNull: ['$client.classification', []] },
 						clientInvolvement: { $ifNull: ['$case.clientInvolvement', ''] },
 						adverseParty: { $ifNull: ['$case.adversePartyInvolvement', ''] },
-						adversePartyName: {
-							$reduce: {
-								input: '$case.adversePartyName',
-								initialValue: '',
-								in: { $concat: ['$$value', '$$this'] }
-							}
-						},
-						adversePartyAddress: {
-							$reduce: {
-								input: '$case.adversePartyAddress',
-								initialValue: '',
-								in: { $concat: ['$$value', ', ', '$$this'] }
-							}
-						},
+						adversePartyName: { $ifNull: ["$case.adversePartyName", "N/A"] },
+						adversePartyAddress: { $ifNull: ["$case.adversePartyAddress", "N/A"] },
+						// adversePartyName: {
+						// 	$reduce: {
+						// 		input: '$case.adversePartyName',
+						// 		initialValue: '',
+						// 		in: { $concat: ['$$value', '$$this'] }
+						// 	}
+						// },
+						// adversePartyAddress: {
+						// 	$reduce: {
+						// 		input: '$case.adversePartyAddress',
+						// 		initialValue: '',
+						// 		in: { $concat: ['$$value', ', ', '$$this'] }
+						// 	}
+						// },
 						natureOfOffence: { $ifNull: ['$case.natureOfOffence', ''] },
 						courtPendingStatus: { $ifNull: ['$case.status', ''] },
 						titleOfCaseDocketNum: {
