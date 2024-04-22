@@ -180,7 +180,7 @@ export const actions = {
 			])
 			.toArray();
 
-		if (!data) return fail(404);
+		if (!data) return fail(404, { message: 'No data to export. Please add requests first.' });
 		if (data.length === 0) return fail(404, { message: 'No data to export. Please add requests first.' });
 
 		return { interview_sheet: await generateInterviewSheet(data) };
