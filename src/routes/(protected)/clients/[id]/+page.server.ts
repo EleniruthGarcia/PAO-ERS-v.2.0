@@ -15,7 +15,15 @@ export const load: PageServerLoad = async (event) => {
 		);
 	}
 
-	const client = await db.clients.findOne({ _id: event.params.id });
+	const client = await db.clients.aggregate([
+		{
+			$match: { _id: event.params.id }
+		}, {
+			$addFields: {
+				age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+			}
+		}]).next();
+
 	if (!client) {
 		redirect('/clients', { type: 'warning', message: 'Client not found!' }, event);
 	}

@@ -38,12 +38,12 @@
 
 	const { form: formData, enhance, delayed } = form;
 
-	const proxyAge = intProxy(form, 'age', { initiallyEmptyIfZero: true });
-	const proxyDetainedSince = dateProxy(form, 'detainedSince', {
+	// const proxyAge = intProxy(form, 'age', { initiallyEmptyIfZero: true });
+	const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
 		format: 'date',
 		empty: 'undefined'
 	});
-	const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
+	const proxyDetainedSince = dateProxy(form, 'detainedSince', {
 		format: 'date',
 		empty: 'undefined'
 	});
@@ -135,7 +135,7 @@
 							</Form.Field>
 						</div>
 						<div class="grid grid-cols-3 items-start gap-3">
-							<Form.Field {form} name="age" class="grid gap-3">
+							<Form.Field {form} name="dateOfBirth" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Date of Birth</Form.Label>
 									<DatePicker bind:value={$proxyDateOfBirth} />
@@ -242,20 +242,20 @@
 							</Form.Field>
 						</div>
 						<Form.Field
-								{form}
-								name="detained"
-								class="flex flex-row w-fit items-center space-x-3 space-y-0 rounded-md border p-4"
-							>
-								<Form.Control let:attrs>
-									<Checkbox {...attrs} bind:checked={$formData.detained} />
-									<div class="h-10 space-y-2 truncate leading-none">
-										<Form.Label>Detained</Form.Label>
-										<Form.Description>Check if the client is detained.</Form.Description>
-									</div>
-									<input name={attrs.name} bind:value={$formData.detained} hidden />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
+							{form}
+							name="detained"
+							class="flex w-fit flex-row items-center space-x-3 space-y-0 rounded-md border p-4"
+						>
+							<Form.Control let:attrs>
+								<Checkbox {...attrs} bind:checked={$formData.detained} />
+								<div class="h-10 space-y-2 truncate leading-none">
+									<Form.Label>Detained</Form.Label>
+									<Form.Description>Check if the client is detained.</Form.Description>
+								</div>
+								<input name={attrs.name} bind:value={$formData.detained} hidden />
+							</Form.Control>
+							<Form.FieldErrors />
+						</Form.Field>
 					</Card.Content>
 				</Card.Root>
 				<Card.Root>

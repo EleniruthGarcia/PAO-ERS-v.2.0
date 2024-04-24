@@ -14,7 +14,16 @@ export const GET: RequestHandler = async (event) => {
     }
 
     const branch = await db.branches.findOne({ _id: event.locals.user.branch_id });
-    const client = await db.clients.findOne({ _id: event.params.id });
+    const client = await db.clients.aggregate([
+        {
+            $match: { _id: event.params.id }
+        },
+        {
+            $addFields: {
+                age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+            }
+        }
+    ]).next();
     const requests = await db.requests.find({ client_id: event.params.id }).toArray();
 
     let data = await db.requests.aggregate([
@@ -160,7 +169,6 @@ export const GET: RequestHandler = async (event) => {
         }
     ])
         .toArray();
-
 
     if (!data) {
         redirect('/clients', { type: 'warning', message: 'Client not found!' }, event);

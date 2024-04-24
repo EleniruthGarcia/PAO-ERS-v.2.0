@@ -38,12 +38,11 @@
 
 	const { form: formData, enhance, delayed } = form;
 
-	const proxyAge = intProxy(form, 'age', { initiallyEmptyIfZero: true });
-	const proxyDetainedSince = dateProxy(form, 'detainedSince', {
+	const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
 		format: 'date',
 		empty: 'undefined'
 	});
-	const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
+	const proxyDetainedSince = dateProxy(form, 'detainedSince', {
 		format: 'date',
 		empty: 'undefined'
 	});
@@ -86,13 +85,13 @@
 				<span class="sr-only">Back</span>
 			</Button>
 			<h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-				{!$formData._id ? 'Add a New Client' : 'Update Client Information'}
+				{$formData.currentStatus === 'New' ? 'Add a New Client' : 'Update Client Information'}
 			</h1>
 			<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 				<Form.Button type="submit" size="sm"
-					>{!$formData._id ? 'Add Client' : 'Update Client'}</Form.Button
+					>{$formData.currentStatus === 'New' ? 'Add Client' : 'Update Client'}</Form.Button
 				>
 			</div>
 		</div>
@@ -135,7 +134,7 @@
 							</Form.Field>
 						</div>
 						<div class="grid grid-cols-3 items-start gap-3">
-							<Form.Field {form} name="age" class="grid gap-3">
+							<Form.Field {form} name="dateOfBirth" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Date of Birth</Form.Label>
 									<DatePicker bind:value={$proxyDateOfBirth} />
@@ -395,7 +394,7 @@
 		</div>
 		<div class="flex items-center justify-center gap-2 md:hidden">
 			<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
-			<Form.Button type="submit" size="sm">Add Client</Form.Button>
+			<Form.Button type="submit" size="sm">{$formData.currentStatus === 'New' ? 'Add Client' : 'Update Client'}</Form.Button>
 		</div>
 	</div>
 </form>
