@@ -18,7 +18,7 @@
 	import type { RequestWithJoins } from '$lib/schema';
 	import { getContext } from 'svelte';
 
-	const selectedRequests = getContext<Writable<RequestWithJoins[]>>('selectedData');
+	const selectedRequests = getContext<Writable<RequestWithJoins[]>>('selectedRequests');
 
 	$: i = 0;
 	$: request = $selectedRequests[i];
@@ -28,7 +28,11 @@
 	<Card.Header class="flex flex-row items-start bg-muted/50">
 		<div class="grid gap-0.5">
 			<Card.Title class="group flex items-center gap-2 text-lg">
-				<Button variant="link" class="p-0 text-lg text-foreground" href="/clients/{request.client._id}">
+				<Button
+					variant="link"
+					class="p-0 text-lg text-foreground"
+					href="/clients/{request.client._id}"
+				>
 					{request.client.name}
 				</Button>
 				{#if $selectedRequests.length > 1}

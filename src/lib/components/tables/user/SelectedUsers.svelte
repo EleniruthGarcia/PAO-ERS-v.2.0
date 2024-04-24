@@ -18,7 +18,7 @@
 	import type { User } from '$lib/schema';
 	import { getContext } from 'svelte';
 
-	const selectedUsers = getContext<Writable<User[]>>('selectedData');
+	const selectedUsers = getContext<Writable<User[]>>('selectedUsers');
 
 	$: i = 0;
 	$: user = $selectedUsers[i];

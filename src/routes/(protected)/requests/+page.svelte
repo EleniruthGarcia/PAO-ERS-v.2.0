@@ -9,20 +9,20 @@
 
 	export let data: PageServerData;
 
-	const selectedClients = writable({});
-	setContext('selectedData', selectedClients);
+	const selectedRequests = writable({});
+	setContext('selectedRequests', selectedRequests);
 </script>
 
 <main
 	class={clsx(
 		'grid gap-4',
-		Object.entries($selectedClients).length > 0 && 'lg:grid-cols-3 xl:grid-cols-3'
+		Object.entries($selectedRequests).length > 0 && 'lg:grid-cols-3 xl:grid-cols-3'
 	)}
 >
 	<div class="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
 		<RequestTable />
 	</div>
-	{#if Object.entries($selectedClients).length > 0}
+	{#if Object.entries($selectedRequests).length > 0}
 		<div>
 			<SelectedRequests />
 		</div>

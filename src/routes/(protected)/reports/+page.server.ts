@@ -59,9 +59,9 @@ export const actions = {
 					lawyer: { $arrayElemAt: ['$lawyer', 0] },
 				}
 			},
-			{
-				$match: { 'lawyer._id': event.locals.user.role === 'Administrator' ? '' : event.locals.user.id }
-			},
+			// {
+			// 	$match: { 'lawyer._id': event.locals.user.role === 'Administrator' ? '' : event.locals.user.id }
+			// },
 			{
 				$lookup: {
 					from: 'clients',
@@ -124,7 +124,7 @@ export const actions = {
 					religion: { $ifNull: ['$client.religion', 'N/A'] },
 					citizenship: { $ifNull: ['$client.citizenship', 'N/A'] },
 					name: '$client.name',
-					age: '$client.age',
+					age: { $dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' } },
 					address: '$client.address',
 					email: { $ifNull: ['$client.email', ''] },
 					individualMonthlyIncome: { $toString: { $ifNull: ['$client.individualMonthlyIncome', 'N/A'] } },
@@ -166,20 +166,22 @@ export const actions = {
 					caseNo: '$case.docketNumber',
 					assistance: '$request.typeOfAssistance',
 					actionTaken: { $ifNull: ['$case.actionTaken', ''] },
-					CICL: { $cond: [ {$in: ['Child in Conflict with the Law', '$client.classification'] }, 'X', '']},
-					Women: { $cond: [ {$in:['Women', '$client.classification'] }, 'X', ''] },
+					CICL: { $cond: [{ $in: ['Child in Conflict with the Law', '$client.classification'] }, 'X', ''] },
+					Women: { $cond: [{ $in: ['Women', '$client.classification'] }, 'X', ''] },
 					IG: { $ifNull: ['$client.indigenousPeople', ''] },
 					PWD: { $ifNull: ['$client.pwd', ''] },
 					UP: { $ifNull: ['$client.urbanPoor', ''] },
 					RP: { $ifNull: ['$client.ruralPoor', ''] },
-					Senior: { $cond: [ {$in: ['Senior Citizen', '$client.classification']}, 'X', ''] },
-					OFW: { $cond: [ {$in: ['OFW (Land-Based)', '$client.classification', 'OFW (Sea-Based)', '$client.classification']}, 'X', ''] },
+					Senior: { $cond: [{ $in: ['Senior Citizen', '$client.classification'] }, 'X', ''] },
+					// OFW: { $cond: [{ $in: ['OFW (Land-Based)', '$client.classification', 'OFW (Sea-Based)', '$client.classification'] }, 'X', ''] },
 					Judi: '',
 					Quasi: '',
 					NonJudi: ''
 				}
 			}
 		]).toArray();
+
+		console.log(requests);
 
 		const f11 = requests.filter((d) => d.natureOfRequest?.includes('Jail Visitation'));
 		const f12 = '';
@@ -226,8 +228,9 @@ export const actions = {
 		const f29 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
 
 		const f38 = {
-			
+
 		};
+
 		const f48 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
 		const f49 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
 		return {

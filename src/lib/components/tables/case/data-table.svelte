@@ -63,7 +63,7 @@
 			header: 'Nature'
 		}),
 		table.column({
-			accessor: (item) => (item.caseSpecs),
+			accessor: (item) => item.caseSpecs,
 			header: 'Specifications'
 		}),
 		table.column({
@@ -88,7 +88,7 @@
 	let { filterValue } = pluginStates.filter;
 	let { selectedDataIds } = pluginStates.select;
 
-	const selectedData = getContext<Writable<Case[]>>('selectedData');
+	const selectedData = getContext<Writable<Case[]>>('selectedCases');
 	$: selectedData.set(data.filter((_, i) => $selectedDataIds[i]));
 
 	export const ids = flatColumns.map((col) => col.id);

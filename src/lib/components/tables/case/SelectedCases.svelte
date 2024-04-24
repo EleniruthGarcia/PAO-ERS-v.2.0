@@ -18,7 +18,7 @@
 	import type { Case } from '$lib/schema';
 	import { getContext } from 'svelte';
 
-	const selectedCases = getContext<Writable<Case[]>>('selectedData');
+	const selectedCases = getContext<Writable<Case[]>>('selectedCases');
 
 	$: i = 0;
 	$: _case = $selectedCases[i];

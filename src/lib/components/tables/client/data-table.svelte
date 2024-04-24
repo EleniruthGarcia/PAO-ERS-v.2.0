@@ -85,7 +85,7 @@
 	let { filterValue } = pluginStates.filter;
 	let { selectedDataIds } = pluginStates.select;
 
-	const selectedData = getContext('selectedData');
+	const selectedData = getContext('selectedClients');
 	$: selectedData.set(data.filter((_, i) => $selectedDataIds[i]));
 
 	export const ids = flatColumns.map((col) => col.id);

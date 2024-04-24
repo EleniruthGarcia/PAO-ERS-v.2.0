@@ -18,7 +18,7 @@
 	import type { Client } from '$lib/schema';
 	import { getContext } from 'svelte';
 
-	const selectedClients = getContext<Writable<Client[]>>('selectedData');
+	const selectedClients = getContext<Writable<Client[]>>('selectedClients');
 
 	$: i = 0;
 	$: client = $selectedClients[i];

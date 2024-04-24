@@ -99,7 +99,7 @@
 	let { filterValue } = pluginStates.filter;
 	let { selectedDataIds } = pluginStates.select;
 
-	const selectedData = getContext<Writable<RequestWithJoins[]>>('selectedData');
+	const selectedData = getContext<Writable<RequestWithJoins[]>>('selectedRequests');
 	$: selectedData.set(data.filter((_, i) => $selectedDataIds[i]));
 
 	export const ids = flatColumns.map((col) => col.id);

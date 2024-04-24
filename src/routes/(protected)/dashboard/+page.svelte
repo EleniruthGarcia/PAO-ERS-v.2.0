@@ -7,6 +7,8 @@
 
 	import Loading from '$lib/components/Loading.svelte';
 	import { Table as ClientTable, SelectedClients } from '$lib/components/tables/client';
+	import { Table as RequestTable, SelectedRequests } from '$lib/components/tables/request';
+	import { Table as CaseTable, SelectedCases } from '$lib/components/tables/case';
 
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
@@ -20,13 +22,22 @@
 	export let data: PageServerData;
 
 	const selectedClients = writable({});
-	setContext('selectedData', selectedClients);
+	setContext('selectedClients', selectedClients);
+
+	const selectedRequests = writable({});
+	setContext('selectedRequests', selectedRequests);
+
+	const selectedCases = writable({});
+	setContext('selectedCases', selectedCases);
 </script>
 
 <main
 	class={clsx(
 		'grid gap-4',
-		Object.entries($selectedClients).length > 0 && 'lg:grid-cols-3 xl:grid-cols-3'
+		(Object.entries($selectedClients).length > 0 ||
+			Object.entries($selectedRequests).length > 0 ||
+			Object.entries($selectedCases).length > 0) &&
+			'lg:grid-cols-3 xl:grid-cols-3'
 	)}
 >
 	<div class="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
@@ -144,12 +155,12 @@
 						<Card.Description>All requests added to the system.</Card.Description>
 					</Card.Header>
 					<Card.Content>
-						{#await $page.data.clients}
+						{#await $page.data.requests}
 							<Loading />
-						{:then clients}
-							{#if clients.filter((client) => client.status.at(-1).type !== 'Archived').length > 0}
-								<ClientTable
-									data={clients.filter((client) => client.status.at(-1).type !== 'Archived')}
+						{:then requests}
+							{#if requests.filter((request) => request.status.at(-1).type !== 'Archived').length > 0}
+								<RequestTable
+									data={requests.filter((request) => request.status.at(-1).type !== 'Archived')}
 								/>
 							{:else}
 								<div
@@ -175,12 +186,12 @@
 						<Card.Description>All cases added to the system.</Card.Description>
 					</Card.Header>
 					<Card.Content>
-						{#await $page.data.clients}
+						{#await $page.data.cases}
 							<Loading />
-						{:then clients}
-							{#if clients.filter((client) => client.status.at(-1).type !== 'Archived').length > 0}
-								<ClientTable
-									data={clients.filter((client) => client.status.at(-1).type !== 'Archived')}
+						{:then cases}
+							{#if cases.filter((_case) => _case.status.at(-1).type !== 'Archived').length > 0}
+								<CaseTable
+									data={cases.filter((_case) => _case.status.at(-1).type !== 'Archived')}
 								/>
 							{:else}
 								<div
@@ -201,9 +212,13 @@
 			</Tabs.Content>
 		</Tabs.Root>
 	</div>
-	{#if Object.entries($selectedClients).length > 0}
-		<div>
+	<div>
+		{#if Object.entries($selectedClients).length > 0}
 			<SelectedClients />
-		</div>
-	{/if}
+		{:else if Object.entries($selectedRequests).length > 0}
+			<SelectedRequests />
+		{:else if Object.entries($selectedCases).length > 0}
+			<SelectedCases />
+		{/if}
+	</div>
 </main>

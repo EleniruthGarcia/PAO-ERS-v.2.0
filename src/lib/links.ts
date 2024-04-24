@@ -28,8 +28,8 @@ const roles = {
 		'settings',
 		// 'presentation'
 	],
-	Lawyer: ['dashboard', 'clients', 'requests', 'cases', 'reports', 'settings'],
-	Staff: ['dashboard', 'clients', 'requests', 'settings'],
+	Lawyer: ['dashboard', 'clients', 'requests', 'cases', 'reports', /* 'settings' */],
+	Staff: ['dashboard', 'clients', 'requests', /* 'settings' */],
 	Client: ['about', 'contact']
 };
 

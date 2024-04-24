@@ -10,7 +10,7 @@
 	export let data: PageServerData;
 
 	const selectedClients = writable({});
-	setContext('selectedData', selectedClients);
+	setContext('selectedClients', selectedClients);
 </script>
 
 <main

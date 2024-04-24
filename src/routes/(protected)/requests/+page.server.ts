@@ -29,9 +29,11 @@ export const load: PageServerLoad = async (event) => {
 				path: '$lawyer',
 				preserveNullAndEmptyArrays: true
 			}
-		}, {
-			$match: { lawyer_id: event.locals.user.role === 'Administrator' ? { $exists: true } : event.locals.user._id }
-		}, {
+		},
+		// {
+		// 	$match: { lawyer_id: event.locals.user.role === 'Administrator' ? { $exists: true } : event.locals.user._id }
+		// },
+		{
 			$lookup: {
 				from: 'clients',
 				localField: 'interviewee_id',
@@ -57,6 +59,10 @@ export const load: PageServerLoad = async (event) => {
 				foreignField: '_id',
 				as: 'case'
 			},
+		}, {
+			$addFields: {
+				'client.age': { $dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+			}
 		}]).toArray()
 	};
 };

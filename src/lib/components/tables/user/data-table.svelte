@@ -63,7 +63,7 @@
 			header: 'User'
 		}),
 		table.column({
-			accessor: (item) => (item.username),
+			accessor: (item) => item.username,
 			header: 'Username'
 		}),
 		table.column({
@@ -88,7 +88,7 @@
 	let { filterValue } = pluginStates.filter;
 	let { selectedDataIds } = pluginStates.select;
 
-	const selectedData = getContext<Writable<User[]>>('selectedData');
+	const selectedData = getContext<Writable<User[]>>('selectedUsers');
 	$: selectedData.set(data.filter((_, i) => $selectedDataIds[i]));
 
 	export const ids = flatColumns.map((col) => col.id);
