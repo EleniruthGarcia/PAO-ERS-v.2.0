@@ -26,7 +26,7 @@ const roles = {
 		'cases',
 		'reports',
 		'settings',
-		'presentation'
+		// 'presentation'
 	],
 	Lawyer: ['dashboard', 'clients', 'requests', 'cases', 'reports', 'settings'],
 	Staff: ['dashboard', 'clients', 'requests', 'settings'],
