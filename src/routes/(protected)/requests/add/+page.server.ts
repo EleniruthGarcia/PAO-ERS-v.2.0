@@ -10,7 +10,7 @@ import { superValidate } from 'sveltekit-superforms';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {
-		event.cookies.set('redirect', '/dashboard', { path: '/' });
+		event.cookies.set('redirect', event.url.pathname, { path: '/' });
 		redirect(
 			'/login',
 			{ type: 'warning', message: 'You must be logged in to access this page!' },
@@ -41,7 +41,7 @@ export const load: PageServerLoad = async (event) => {
 export const actions: Actions = {
 	default: async (event) => {
 		if (!event.locals.user) {
-			event.cookies.set('redirect', '/requests/add', { path: '/' });
+			event.cookies.set('redirect', event.url.pathname, { path: '/' });
 			redirect(
 				'/login',
 				{ type: 'warning', message: 'You must be logged in to access this page!' },

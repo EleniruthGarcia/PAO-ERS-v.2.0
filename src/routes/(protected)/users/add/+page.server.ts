@@ -11,7 +11,7 @@ import { Argon2id } from 'oslo/password';
 
 export const load: PageServerLoad = async (event) => {
 	if (event.locals.user?.role !== 'Administrator') {
-		event.cookies.set('redirect', '/clients/add', { path: '/' });
+		event.cookies.set('redirect', event.url.pathname, { path: '/' });
 		redirect(
 			'/login',
 			{ type: 'warning', message: 'You must be logged in as an administrator to access this page!' },
@@ -41,7 +41,7 @@ export const load: PageServerLoad = async (event) => {
 export const actions: Actions = {
 	default: async (event) => {
 		if (event.locals.user?.role !== 'Administrator') {
-			event.cookies.set('redirect', '/clients/add', { path: '/' });
+			event.cookies.set('redirect', event.url.pathname, { path: '/' });
 			redirect(
 				'/login',
 				{ type: 'warning', message: 'You must be logged in as an administrator to access this page!' },
