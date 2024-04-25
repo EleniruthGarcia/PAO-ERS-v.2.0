@@ -181,8 +181,6 @@ export const actions = {
 			}
 		]).toArray();
 
-		console.log(requests);
-
 		const f11 = requests.filter((d) => d.natureOfRequest?.includes('Jail Visitation'));
 		const f12 = '';
 		const f13 = requests.filter((d) => d.client?.classification?.includes('Child in Conflict with the Law'));

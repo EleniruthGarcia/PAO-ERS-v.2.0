@@ -17,6 +17,10 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/', text: 'PAO-ERS' },
 			{ href: '/users', text: 'Users' }
 		],
-		users: db.users.find().toArray()
+		users: db.users.aggregate([{
+			$addFields: {
+				'client.age': { $dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+			}
+		}]).toArray()
 	};
 };

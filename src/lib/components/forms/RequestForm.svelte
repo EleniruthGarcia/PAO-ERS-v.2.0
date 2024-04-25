@@ -39,8 +39,6 @@
 
 	const { form: formData, enhance, delayed } = form;
 
-	$: console.log($formData);
-
 	// const proxyDate = dateProxy(form, 'date', {
 	// 	format: 'date',
 	// 	empty: 'undefined'
@@ -98,11 +96,11 @@
 	}
 
 	function removeNatureByIndex(index: number) {
-		$formData.otherNature = $formData.otherNature.filter((_, i) => i !== index);
+		$formData.otherNature = $formData.otherNature?.filter((_, i) => i !== index);
 	}
 
 	function addNature() {
-		$formData.otherNature = [...$formData.otherNature, ''];
+		$formData.otherNature = [...($formData.otherNature ?? []), ''];
 	}
 </script>
 
@@ -222,51 +220,51 @@
 						</Form.Fieldset>
 						<Separator />
 						<div class="grid grid-cols-8 items-start gap-3">
-						<Form.Field {form} name="interviewee_id" class="grid col-span-5 gap-3">
-							<Form.Control let:attrs>
-								<Form.Label>Interviewee</Form.Label>
-								<Select.Root
-									selected={selectedInterviewee}
-									onSelectedChange={(s) => {
-										s && ($formData.interviewee_id = s.value);
-									}}
-								>
-									<Select.Input name={attrs.name} />
-									<Select.Trigger {...attrs}>
-										<Select.Value placeholder="" />
-									</Select.Trigger>
-									<Select.Content>
-										{#each $page.data.clients as client}
-											<Select.Item bind:value={client._id}>{client.name}</Select.Item>
-										{/each}
-									</Select.Content>
-								</Select.Root>
-							</Form.Control>
-							<Form.FieldErrors />
-						</Form.Field>
-						<Form.Field {form} name="relationshipToClient" class="grid col-span-3 gap-3">
-							<Form.Control let:attrs>
-								<Form.Label>Relation to Client</Form.Label>
-								<Select.Root
-									selected={selectedRelationshipToClient}
-									onSelectedChange={(s) => {
-										s && ($formData.relationshipToClient = s.value);
-									}}
-								>
-									<Select.Input name={attrs.name} />
-									<Select.Trigger {...attrs}>
-										<Select.Value placeholder="" />
-									</Select.Trigger>
-									<Select.Content>
-										{#each relationshipToClient as value}
-											<Select.Item {value} />
-										{/each}
-									</Select.Content>
-								</Select.Root>
-							</Form.Control>
-							<Form.FieldErrors />
-						</Form.Field>
-					</div>
+							<Form.Field {form} name="interviewee_id" class="col-span-5 grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Interviewee</Form.Label>
+									<Select.Root
+										selected={selectedInterviewee}
+										onSelectedChange={(s) => {
+											s && ($formData.interviewee_id = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each $page.data.clients as client}
+												<Select.Item bind:value={client._id}>{client.name}</Select.Item>
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="relationshipToClient" class="col-span-3 grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Relation to Client</Form.Label>
+									<Select.Root
+										selected={selectedRelationshipToClient}
+										onSelectedChange={(s) => {
+											s && ($formData.relationshipToClient = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each relationshipToClient as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</div>
 						<Separator />
 						<Form.Field {form} name="lawyer_id" class="grid gap-3">
 							<Form.Control let:attrs>
@@ -395,7 +393,7 @@
 								<Form.Field {form} name="otherNature" class="grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label>Others</Form.Label>
-										{#each $formData.otherNature as _, i}
+										{#each $formData.otherNature ?? [] as _, i}
 											<div class="flex gap-2">
 												<Input {...attrs} />
 												<Button

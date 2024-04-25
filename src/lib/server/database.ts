@@ -20,13 +20,21 @@ export const branches = db.collection<Branch>('branches');
 
 export const users = db.collection<User>('users');
 export const sessions = db.collection<Session>('sessions');
+export const counters = db.collection<Counter>('counters');
 
 export const clients = db.collection<Client>('clients');
 export const requests = db.collection<Request>('requests');
 export const cases = db.collection<Case>('cases');
 export const outreaches = db.collection<Outreach>('outreaches');
 
-export default { users, sessions, branches, clients, requests, cases, logs, outreaches };
+export default { users, sessions, counters, branches, clients, requests, cases, logs, outreaches };
+
+interface Counter {
+	_id: string;
+	branch_id: string;
+	year: number;
+	count: number;
+}
 
 export interface Branch {
 	_id: string;
@@ -108,7 +116,6 @@ const seedUsers: User[] = [
 		middleName: 'Doe',
 		lastName: 'Smith',
 		nameSuffix: 'Jr',
-		age: 35,
 		dateOfBirth: new Date('1989-01-01'),
 		sex: 'Male',
 		email: 'john.doe@example.com',
@@ -129,7 +136,6 @@ const seedUsers: User[] = [
 		middleName: 'Doe',
 		lastName: 'Smith',
 		nameSuffix: 'Jr',
-		age: 35,
 		dateOfBirth: new Date('1989-01-01'),
 		sex: 'Male',
 		email: 'john.doe@example.com',
@@ -150,7 +156,6 @@ const seedUsers: User[] = [
 		lastName: 'Doe',
 		email: 'jane.doe@example.com',
 		contactNumber: '9876543210',
-		age: 30,
 		dateOfBirth: new Date('1994-01-01'),
 		sex: 'Female',
 		address: '456 Elm St, City, Country',
@@ -168,7 +173,6 @@ const seedUsers: User[] = [
 		firstName: 'Emily',
 		middleName: 'Anne',
 		lastName: 'Brown',
-		age: 60,
 		dateOfBirth: new Date('1964-01-01'),
 		sex: 'Female',
 		email: 'emily.brown@example.com',
@@ -189,7 +193,6 @@ const seedUsers: User[] = [
 		lastName: 'Johnson',
 		email: 'michael.johnson@example.com',
 		contactNumber: '5544332211',
-		age: 40,
 		dateOfBirth: new Date('1984-01-01'),
 		sex: 'Male',
 		address: '101 Pine St, City, Country',
