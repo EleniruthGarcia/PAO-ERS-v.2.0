@@ -224,7 +224,7 @@ const seedRequests: Request[] = [
 		lawyer_id: '4',
 		case_id: ['2'],
 		interviewee_id: '2',
-		relationshipToClient: 'Self',
+		relationshipToClient: 'Client',
 		nature: ['Representation in Court or Quasi-Judicial Bodies'],
 		currentStatus: 'Pending',
 		status: [{ type: 'Pending', date: new Date() }]
@@ -244,6 +244,7 @@ const seedRequests: Request[] = [
 		_id: '4',
 		client_id: ['1', '3'],
 		lawyer_id: '4',
+		case_id: ['4'],
 		interviewee_id: '1',
 		relationshipToClient: 'Parent',
 		nature: ['Inquest Legal Assistance'],
