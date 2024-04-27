@@ -181,18 +181,14 @@ export const actions = {
 							$concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')']
 						},
 						court: { $ifNull: ['$case.court', ''] },
-						status: '$case.status',
+						status: '$case.status.type',
+						date: '$case.status.date',
 						titleOfCase: '$case.titleOfCase',
 						caseNo: '$case.docketNumber',
+						judge: { $ifNull: ['$case.actionTaken', ''] },
 						assistance: '$request.typeOfAssistance',
 						actionTaken: { $ifNull: ['$case.actionTaken', ''] },
-						CICL: {
-							$cond: [
-								{ $in: ['Child in Conflict with the Law', '$client.classification'] },
-								'X',
-								''
-							]
-						},
+						CICL: { $cond: [{ $in: ['Child in Conflict with the Law', '$client.classification'] }, 'X', ''] },
 						Women: { $cond: [{ $in: ['Women', '$client.classification'] }, 'X', ''] },
 						IG: { $cond: [ {$ifNull: ['$client.indigenousPeople', 'true'] }, '', 'X'] },
 						PWD: { $cond: [ {$ifNull: ['$client.pwd', 'true'] }, '', 'X'] },
@@ -227,7 +223,7 @@ export const actions = {
 			criminal: requests.filter((d) => d.case?.natureOfTheCase?.contains('Criminal')),
 			civil: requests.filter((d) => d.case?.natureOfTheCase?.contains('Civil')),
 			administrative: requests.filter((d) => d.case?.natureOfTheCase?.contains('Administrative')),
-			prosecutor: requests.filter((d) => d.case?.natureOfTheCase?.contains('Administrative')),
+			prosecutor: requests.filter((d) => d.case?.natureOfTheCase?.contains('Prosecutor\'s office cases')),
 			labor: requests.filter((d) => d.case?.natureOfTheCase?.contains('Labor'))
 		};
 		const f20 = requests.filter((d) => d.client?.PWD?.contains(true));
@@ -235,6 +231,11 @@ export const actions = {
 			d.request?.natureOfRequest?.includes('Administration of Oath')
 		);
 		const f22 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
+		const f23 = '';
+		const f24 = '';
+		const f25 = '';
+		const f26 = '';
+		const f27 = '';
 
 		const f28 = {
 			i: {
@@ -570,6 +571,11 @@ export const actions = {
 		};
 
 		const f49 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
+
+		const f50 = '';
+		const f51 = '';
+		const f52 = '';
+
 		return {
 			form,
 			report: await generateReport({
