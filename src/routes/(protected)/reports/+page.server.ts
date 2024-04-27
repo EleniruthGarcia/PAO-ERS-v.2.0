@@ -22,7 +22,13 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/', text: 'PAO-ERS' },
 			{ href: '/reports', text: 'Reports' }
 		],
-		form: await superValidate(zod(formSchema))
+		form: await superValidate({
+			month: Intl.DateTimeFormat('en', { month: 'long' }).format(new Date()),
+			year: new Date().getFullYear(),
+			notedBy: event.locals.user.reportsTo,
+			reports: []
+		}, zod(formSchema), { errors: false }),
+		lawyers: await db.users.find().toArray()
 	};
 };
 
@@ -42,6 +48,7 @@ export const actions = {
 
 		const lawyer = await db.users.findOne({ _id: event.locals.user.id });
 		const branch = await db.branches.findOne({ _id: lawyer?.branch_id });
+		const notedBy = await db.users.findOne({ _id: form.data.notedBy });
 
 		const outreaches = await db.outreaches.find().toArray();
 
@@ -236,9 +243,9 @@ export const actions = {
 			report: await generateReport({
 				...branch,
 				lawyer,
-				month: form.data.months,
+				month: form.data.month,
 				year: form.data.year,
-				notedBy: form.data.notedBy,
+				notedBy,
 				f10: outreaches,
 				f11,
 				f13,
