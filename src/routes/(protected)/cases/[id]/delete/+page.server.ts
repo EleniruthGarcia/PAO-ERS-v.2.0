@@ -14,7 +14,7 @@ export const actions = {
 			);
 		}
 
-		const client = await db.clients.updateOne(
+		const _case = await db.cases.updateOne(
 			{ _id: event.params.id },
 			{
 				$push: {
@@ -23,14 +23,14 @@ export const actions = {
 			}
 		);
 
-		if (!client || !client.acknowledged) return fail(500);
-		if (client.matchedCount === 0) return fail(404);
-		if (client.modifiedCount === 0 && client.upsertedCount === 0) return fail(304);
+		if (!_case || !_case.acknowledged) return fail(500);
+		if (_case.matchedCount === 0) return fail(404);
+		if (_case.modifiedCount === 0 && _case.upsertedCount === 0) return fail(304);
 
 		redirect(
-			'/clients',
-			client.modifiedCount > 0 || client.upsertedCount > 0
-				? { type: 'success', message: 'Client archived!' }
+			'/cases',
+			_case.modifiedCount > 0 || _case.upsertedCount > 0
+				? { type: 'success', message: 'Case archived!' }
 				: { type: 'info', message: 'No changes made...' },
 			event
 		);

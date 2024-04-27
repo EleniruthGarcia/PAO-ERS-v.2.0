@@ -1,36 +1,7 @@
 import db from '$lib/server/database';
 import { redirect } from 'sveltekit-flash-message/server';
-import type { PageServerLoad, Actions } from './$types';
+import type { Actions } from './$types';
 import { fail } from '@sveltejs/kit';
-
-export const load: PageServerLoad = async (event) => {
-	if (!event.locals.user) {
-		event.cookies.set('redirect', event.url.pathname, { path: '/' });
-		redirect(
-			'/login',
-			{ type: 'warning', message: 'You must be logged in to access this page!' },
-			event
-		);
-	}
-
-	const client = await db.clients.findOne({ _id: event.params.id });
-	if (!client) {
-		redirect('/clients', { type: 'warning', message: 'Client not found!' }, event);
-	}
-
-	return {
-		breadcrumbs: [
-			{ href: '/', text: 'PAO-ERS' },
-			{ href: '/clients', text: 'Clients' },
-			{
-				href: '/clients/' + event.params.id,
-				text: client.name
-			},
-			{ href: '/clients/' + event.params.id + '/delete', text: `Delete` }
-		],
-		client
-	};
-};
 
 export const actions = {
 	default: async (event) => {

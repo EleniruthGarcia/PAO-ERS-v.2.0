@@ -14,24 +14,22 @@ export const actions = {
 			);
 		}
 
-		const client = await db.clients.updateOne(
+		const _case = await db._case.updateOne(
 			{ _id: event.params.id },
 			{
 				$push: {
-					status: { type: 'Archived', date: new Date() }
+					status: { type: 'Restored', date: new Date() }
 				}
 			}
 		);
 
-		if (!client || !client.acknowledged) return fail(500);
-		if (client.matchedCount === 0) return fail(404);
-		if (client.modifiedCount === 0 && client.upsertedCount === 0) return fail(304);
+		if (!_case || !_case.acknowledged) return fail(500);
+		if (_case.matchedCount === 0) return fail(404);
+		if (_case.modifiedCount === 0 && _case.upsertedCount === 0) return fail(304);
 
 		redirect(
-			'/clients',
-			client.modifiedCount > 0 || client.upsertedCount > 0
-				? { type: 'success', message: 'Client archived!' }
-				: { type: 'info', message: 'No changes made...' },
+			`/cases/${event.params.id}`,
+			{ type: 'success', message: 'Case resetored!' },
 			event
 		);
 	}
