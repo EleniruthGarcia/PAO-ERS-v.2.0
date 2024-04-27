@@ -94,6 +94,7 @@ export const unfavorableCriminalPreliminary = [
 
 export const formSchema = z.object({
 	_id: z.string().optional(),
+	request_id: z.string().min(1, 'Request is required.'),
 	natureOfTheCase: z.string(),
 	caseSpecs: z.string(),
 	clientInvolvement: z.array(z.enum(clientInvolvement)).min(1, 'Client Involvement is required.'),

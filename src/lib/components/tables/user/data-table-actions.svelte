@@ -17,9 +17,9 @@
 			</Button>
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content align="end">
-			<DropdownMenu.Item href="/clients/{id}/edit">Edit</DropdownMenu.Item>
-			<DropdownMenu.Item href="/clients/{id}/export">Export</DropdownMenu.Item>
-			<DropdownMenu.Separator />
+			<DropdownMenu.Item href="/users/{id}/edit">Edit</DropdownMenu.Item>
+			<!-- <DropdownMenu.Item href="/users/{id}/export">Export</DropdownMenu.Item>
+			<DropdownMenu.Separator /> -->
 			<AlertDialog.Trigger class="w-full">
 				<DropdownMenu.Item>Delete</DropdownMenu.Item>
 			</AlertDialog.Trigger>
@@ -34,7 +34,7 @@
 		</AlertDialog.Header>
 		<AlertDialog.Footer>
 			<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-			<form action="/clients/{id}/delete" method="POST">
+			<form action="/users/{id}/delete" method="POST">
 				<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90"
 					>Delete</AlertDialog.Action
 				>

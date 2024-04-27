@@ -17,6 +17,7 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/', text: 'PAO-ERS' },
 			{ href: '/admin', text: 'Dashboard' }
 		],
+		cases: db.cases.find().toArray(),
 		clients: db.clients.find().toArray(),
 		requests: db.requests.aggregate([{
 			$lookup: {

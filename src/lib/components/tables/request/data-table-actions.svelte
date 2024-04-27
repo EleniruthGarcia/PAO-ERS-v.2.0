@@ -17,8 +17,8 @@
 			</Button>
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content align="end">
-			<DropdownMenu.Item href="/clients/{id}/edit">Edit</DropdownMenu.Item>
-			<DropdownMenu.Item href="/clients/{id}/export">Export</DropdownMenu.Item>
+			<DropdownMenu.Item href="/requests/{id}/edit">Edit</DropdownMenu.Item>
+			<DropdownMenu.Item href="/requests/{id}/export">Export</DropdownMenu.Item>
 			<DropdownMenu.Separator />
 			<AlertDialog.Trigger class="w-full">
 				<DropdownMenu.Item>Delete</DropdownMenu.Item>
@@ -29,13 +29,14 @@
 		<AlertDialog.Header>
 			<AlertDialog.Title>Delete Request</AlertDialog.Title>
 			<AlertDialog.Description>
-				Are you absolutely sure? The request will be archived and will not show up in Active Requests.
-				If you want the client to be permanently deleted, please contact the administrator.
+				Are you absolutely sure? The request will be archived and will not show up in Active
+				Requests. If you want the client to be permanently deleted, please contact the
+				administrator.
 			</AlertDialog.Description>
 		</AlertDialog.Header>
 		<AlertDialog.Footer>
 			<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-			<form action="/clients/{id}/delete" method="POST">
+			<form action="/requests/{id}/delete" method="POST">
 				<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90"
 					>Delete</AlertDialog.Action
 				>

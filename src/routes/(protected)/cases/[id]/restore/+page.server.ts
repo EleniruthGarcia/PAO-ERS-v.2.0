@@ -14,9 +14,12 @@ export const actions = {
 			);
 		}
 
-		const _case = await db._case.updateOne(
+		const _case = await db.cases.updateOne(
 			{ _id: event.params.id },
 			{
+				$set: {
+					currentStatus: 'Restored',
+				},
 				$push: {
 					status: { type: 'Restored', date: new Date() }
 				}
@@ -29,7 +32,7 @@ export const actions = {
 
 		redirect(
 			`/cases/${event.params.id}`,
-			{ type: 'success', message: 'Case resetored!' },
+			{ type: 'success', message: 'Case restored!' },
 			event
 		);
 	}

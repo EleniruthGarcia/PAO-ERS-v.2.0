@@ -17,6 +17,9 @@ export const actions = {
 		const _case = await db.cases.updateOne(
 			{ _id: event.params.id },
 			{
+				$set: {
+					currentStatus: 'Archived',
+				},
 				$push: {
 					status: { type: 'Archived', date: new Date() }
 				}

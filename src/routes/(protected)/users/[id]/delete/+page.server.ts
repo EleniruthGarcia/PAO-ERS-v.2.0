@@ -5,7 +5,7 @@ import { fail } from '@sveltejs/kit';
 
 export const actions = {
 	default: async (event) => {
-		if (!event.locals.user) {
+		if (!event.locals.user || event.locals.user.role !== 'Administrator' || event.params.id !== event.locals.user._id) {
 			event.cookies.set('redirect', event.url.pathname, { path: '/' });
 			redirect(
 				'/login',
@@ -14,26 +14,26 @@ export const actions = {
 			);
 		}
 
-		const client = await db.clients.updateOne(
+		const user = await db.users.updateOne(
 			{ _id: event.params.id },
 			{
 				$set: {
-					currentStatus: 'Restored',
+					currentStatus: 'Archived',
 				},
 				$push: {
-					status: { type: 'Restored', date: new Date() }
+					status: { type: 'Archived', date: new Date() }
 				}
 			}
 		);
 
-		if (!client || !client.acknowledged) return fail(500);
-		if (client.matchedCount === 0) return fail(404);
-		if (client.modifiedCount === 0 && client.upsertedCount === 0) return fail(304);
+		if (!user || !user.acknowledged) return fail(500);
+		if (user.matchedCount === 0) return fail(404);
+		if (user.modifiedCount === 0 && user.upsertedCount === 0) return fail(304);
 
 		redirect(
-			'/clients',
-			client.modifiedCount > 0 || client.upsertedCount > 0
-				? { type: 'success', message: 'Client archived!' }
+			'/users',
+			user.modifiedCount > 0 || user.upsertedCount > 0
+				? { type: 'success', message: 'User archived!' }
 				: { type: 'info', message: 'No changes made...' },
 			event
 		);

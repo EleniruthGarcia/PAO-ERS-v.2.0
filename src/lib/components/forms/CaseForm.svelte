@@ -33,6 +33,7 @@
 
 	const { form: formData, enhance, delayed } = form;
 
+	$: console.log(selectedRequest);
 	$: selectedNatureOfTheCase = {
 		label: $formData.natureOfTheCase,
 		value: $formData.natureOfTheCase
@@ -41,16 +42,15 @@
 		label: $formData.currentStatus,
 		value: $formData.currentStatus
 	};
-	$: newStatus = {
-		type: selectedCurrentStatus.value,
-		date: new Date()
+	$: selectedRequest = {
+		label: $formData.request_id,
+		value: $formData.request_id
 	};
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
 	{#if $delayed}<Loading />{/if}
 	<input type="hidden" name="_id" bind:value={$formData._id} />
-	<input type="hidden" name="status" bind:value={newStatus} />
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
 		<div class="flex items-center gap-4">
 			<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>
@@ -111,21 +111,45 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<Form.Field
-							{form}
-							name="pendingInCourt"
-							class="flex w-fit flex-row items-center space-x-3 space-y-0 rounded-md border p-4"
-						>
-							<Form.Control let:attrs>
-								<Checkbox {...attrs} bind:checked={$formData.pendingInCourt} />
-								<div class="h-10 space-y-2 truncate leading-none">
-									<Form.Label>Pending in Court</Form.Label>
-									<Form.Description>Check if case is pending in court.</Form.Description>
-								</div>
-								<input name={attrs.name} bind:value={$formData.pendingInCourt} hidden />
-							</Form.Control>
-							<Form.FieldErrors />
-						</Form.Field>
+						<div class="grid grid-cols-2 items-start gap-3">
+							<Form.Field {form} name="request_id" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Control Number</Form.Label>
+									<Select.Root
+										selected={selectedRequest}
+										onSelectedChange={(s) => {
+											s && ($formData.request_id = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each $page.data.requests as request}
+												<Select.Item value={request._id} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field
+								{form}
+								name="pendingInCourt"
+								class="flex w-fit flex-row items-center space-x-3 space-y-0 rounded-md border p-4"
+							>
+								<Form.Control let:attrs>
+									<Checkbox {...attrs} bind:checked={$formData.pendingInCourt} />
+									<div class="h-10 space-y-2 truncate leading-none">
+										<Form.Label>Pending in Court</Form.Label>
+										<Form.Description>Check if case is pending in court.</Form.Description>
+									</div>
+									<input name={attrs.name} bind:value={$formData.pendingInCourt} hidden />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</div>
 					</Card.Content>
 				</Card.Root>
 				<Card.Root>

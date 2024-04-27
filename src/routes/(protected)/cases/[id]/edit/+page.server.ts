@@ -22,17 +22,19 @@ export const load: PageServerLoad = async (event) => {
 	return {
 		breadcrumbs: [
 			{ href: '/', text: 'PAO-ERS' },
-			{ href: '/cases', text: 'Clients' },
+			{ href: '/cases', text: 'Cases' },
 			{
 				href: '/cases/' + event.params.id,
 				text: _case.titleOfTheCase || 'Untitled Case'
 			},
-			{ href: '/clients/' + event.params.id + '/edit', text: `Edit` }
+			{ href: '/cases/' + event.params.id + '/edit', text: `Edit` }
 		],
 		form: await superValidate({
 			..._case,
-			currentStatus: 'Pending',
-		}, zod(formSchema), { errors: false })
+			currentStatus: _case.currentStatus === 'New' ? 'Pending' : _case.currentStatus,
+		}, zod(formSchema), { errors: false }),
+		requests: await db.requests.find().toArray(),
+		clients: await db.clients.find().toArray(),
 	};
 };
 
@@ -50,16 +52,9 @@ export const actions = {
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) return fail(400, { form });
 
-		const _case = await db.cases.updateOne({ _id: event.params.id }, [
-			{
-				$set: form.data
-			},
-			{
-				$push: {
-					status: { type: form.data.currentStatus, date: new Date() }
-				}
-			}
-		]);
+		form.data.status.push({ type: form.data.currentStatus, date: new Date() });
+
+		const _case = await db.cases.updateOne({ _id: event.params.id }, { $set: form.data });
 
 		if (!_case || !_case.acknowledged) return fail(500, { form });
 		if (_case.matchedCount === 0) return fail(404, { form });

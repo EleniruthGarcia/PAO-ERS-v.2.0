@@ -14,7 +14,7 @@ export const actions = {
 			);
 		}
 
-		const client = await db.clients.updateOne(
+		const request = await db.requests.updateOne(
 			{ _id: event.params.id },
 			{
 				$set: {
@@ -26,15 +26,13 @@ export const actions = {
 			}
 		);
 
-		if (!client || !client.acknowledged) return fail(500);
-		if (client.matchedCount === 0) return fail(404);
-		if (client.modifiedCount === 0 && client.upsertedCount === 0) return fail(304);
+		if (!request || !request.acknowledged) return fail(500);
+		if (request.matchedCount === 0) return fail(404);
+		if (request.modifiedCount === 0 && request.upsertedCount === 0) return fail(304);
 
 		redirect(
-			'/clients',
-			client.modifiedCount > 0 || client.upsertedCount > 0
-				? { type: 'success', message: 'Client archived!' }
-				: { type: 'info', message: 'No changes made...' },
+			`/requests/${event.params.id}`,
+			{ type: 'success', message: 'Request restored!' },
 			event
 		);
 	}

@@ -17,6 +17,9 @@ export const actions = {
 		const client = await db.clients.updateOne(
 			{ _id: event.params.id },
 			{
+				$set: {
+					currentStatus: 'Archived',
+				},
 				$push: {
 					status: { type: 'Archived', date: new Date() }
 				}

@@ -169,7 +169,7 @@
 											<Button
 												class="text-left font-medium text-foreground"
 												variant="link"
-												href="/clients/{row.original.client._id}"
+												href="/requests/{row.original._id}"
 											>
 												<Render of={cell.render()} />
 											</Button>

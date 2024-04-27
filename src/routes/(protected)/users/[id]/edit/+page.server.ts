@@ -17,13 +17,22 @@ export const load: PageServerLoad = async (event) => {
 		);
 	}
 
+	const user = await db.users.findOne({ _id: event.params.id });
+	if (!user)
+		redirect('/users', { type: 'warning', message: 'User not found!' }, event);
+
 	return {
 		breadcrumbs: [
 			{ href: '/', text: 'PAO-ERS' },
-			{ href: '/settings', text: 'Settings' }
+			{ href: '/users', text: 'Users' },
+			{
+				href: '/users/' + event.params.id,
+				text: user.name
+			},
+			{ href: '/users/' + event.params.id + '/edit', text: `Edit` }
 		],
 		form: await superValidate({
-			...event.locals.user,
+			...user,
 			currentStatus: 'Updated',
 		}, zod(formSchema), { errors: false }),
 		branches: await db.branches.find().toArray()
@@ -48,7 +57,7 @@ export const actions = {
 			return setError(form, '', 'Passwords do not match!')
 
 		const existingUser = await db.users.findOne({ username: form.data.username });
-		if (existingUser && existingUser._id !== event.locals.user.id)
+		if (existingUser && existingUser._id !== form.data._id)
 			return setError(form, '', 'Username already exists!');
 
 		form.data.hashedPassword = await new Argon2id().hash(form.data.password);
@@ -64,6 +73,12 @@ export const actions = {
 		if (user.matchedCount === 0) return fail(404, { form });
 		if (user.modifiedCount === 0 && user.upsertedCount === 0) return fail(304, { form });
 
-		return message(form, 'User updated!');
+		redirect(
+			'/users/' + form.data._id,
+			user.modifiedCount > 0 || user.upsertedCount > 0
+				? { type: 'success', message: 'User updated!' }
+				: { type: 'info', message: 'No changes made...' },
+			event
+		);
 	}
 } satisfies Actions;

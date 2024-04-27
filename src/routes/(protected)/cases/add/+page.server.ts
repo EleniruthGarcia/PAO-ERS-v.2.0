@@ -32,7 +32,9 @@ export const load: PageServerLoad = async (event) => {
 			},
 			zod(formSchema),
 			{ errors: false }
-		)
+		),
+		requests: await db.requests.find().toArray(),
+		clients: await db.clients.find().toArray()
 	};
 };
 
