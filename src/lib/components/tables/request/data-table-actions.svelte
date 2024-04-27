@@ -27,9 +27,9 @@
 	</DropdownMenu.Root>
 	<AlertDialog.Content>
 		<AlertDialog.Header>
-			<AlertDialog.Title>Delete Client</AlertDialog.Title>
+			<AlertDialog.Title>Delete Request</AlertDialog.Title>
 			<AlertDialog.Description>
-				Are you aboslutely sure? The client will be archived and will not show up in Active Clients.
+				Are you absolutely sure? The request will be archived and will not show up in Active Requests.
 				If you want the client to be permanently deleted, please contact the administrator.
 			</AlertDialog.Description>
 		</AlertDialog.Header>
