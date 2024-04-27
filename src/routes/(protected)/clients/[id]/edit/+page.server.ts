@@ -32,8 +32,7 @@ export const load: PageServerLoad = async (event) => {
 		form: await superValidate({
 			...client,
 			currentStatus: 'Updated',
-			status: [{ type: 'Updated', date: new Date() }]
-		}, zod(formSchema)),
+		}, zod(formSchema), { errors: false }),
 		client
 	};
 };
