@@ -41,13 +41,15 @@ export const pending = [
 	'On trial',
 	'Submitted for decision/resolution',
 	'Appealed case from MTC to RTC',
-	'Cases referred to SACS	'
+	'Cases referred to SACS'
 ] as const;
 
 export const terminated = [
 	'Favorable Dispositions to Clients',
 	'Unfavorable Dispositions to Clients',
-	'Other dispositions'
+	'Other dispositions',
+	'Cases for filing',
+	'Cases considered closed and terminated'
 ] as const;
 
 export const favorable = [

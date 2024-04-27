@@ -3,9 +3,10 @@ import { redirect } from 'sveltekit-flash-message/server';
 import type { PageServerLoad, Actions } from './$types';
 import { generateReport } from '$lib/server/report';
 import { formSchema } from '$lib/schema/report';
-import { superValidate } from 'sveltekit-superforms';
+import { actionResult, superValidate } from 'sveltekit-superforms';
 import { fail } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
+import { addColumnOrder } from 'svelte-headless-table/plugins';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {
@@ -230,32 +231,32 @@ export const actions = {
 		const f22 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
 
 		const f28 = {
-			i: {
-				a: {
-					total: f13.length,
-					cr: f13.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')).length,
-					cv: f13.filter((d) => d.case?.natureOfTheCase?.includes('Civil')).length,
-					ad1: f13.filter((d) => d.case?.natureOfTheCase?.includes('Administrative')).length,
-					ad2: f13.filter((d) => d.case?.natureOfTheCase?.includes('Prosecutor')).length,
-					ad3: f13.filter((d) => d.case?.natureOfTheCase?.includes('Labor')).length,
-					5: {
-						a: {
-							total: f13.length,
-							cr: f13.filter(
-								(d) =>
-									d.case?.pendingStatus?.includes('') &&
-									d.case?.natureOfTheCase?.includes('Criminal')
-							).length,
-							cv: f13.filter((d) => d.case?.natureOfTheCase?.includes('Civil')).length,
-							ad1: f13.filter((d) => d.case?.natureOfTheCase?.includes('Administrative')).length,
-							ad2: f13.filter((d) => d.case?.natureOfTheCase?.includes('Prosecutor')).length,
-							ad3: f13.filter((d) => d.case?.natureOfTheCase?.includes('Labor')).length
-						}
-					},
-					2: f13.filter((d) => d.case?.natureOfTheCase?.includes('Civil')).length,
-					3: requests.filter((d) => d.case?.natureOfTheCase?.includes('Others (PSA)')).length
-				}
-			} // ${f28.i.a.5.a.cr}
+			adoc : requests.filter(
+				(d) =>
+					d.client?.classification?.contains('Child in Conflict with the Law') &&
+					d.request?.otherNature?.contains('Document/Pleadings Prepared')
+			),
+			aoath : requests.filter(
+				(d) =>
+					d.client?.classification?.contains('Child in Conflict with the Law') &&
+					d.request?.nature?.contains('Administration of Oath')
+			),
+			acoun : requests.filter(
+				(d) =>
+					d.client?.classification?.contains('Child in Conflict with the Law') &&
+					d.request?.nature?.contains('Legal Advice')
+			),
+			acust : requests.filter(
+				(d) =>
+					d.client?.classification?.contains('Child in Conflict with the Law') &&
+					d.request?.otherNature?.contains('Assisted During Custodial Interrogation')
+			),
+			ainqu : requests.filter(
+				(d) =>
+					d.client?.classification?.contains('Child in Conflict with the Law') &&
+					d.request?.otherNature?.contains('Assisted During Inquest Investigation')
+			),
+			
 		};
 		const f29 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
 		const f38 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
