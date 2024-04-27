@@ -5,6 +5,7 @@ export const natureOfTheCase = [
 	'Civil',
 	'Administrative',
 	'Appealed',
+	'Prosecutor\'s office cases',
 	'Labor'
 ] as const;
 
