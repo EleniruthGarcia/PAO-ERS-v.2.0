@@ -354,6 +354,7 @@ const seedClients: Client[] = [
 const seedCases: Case[] = [
 	{
 		_id: '1',
+		request_id: '1',
 		natureOfTheCase: 'Civil',
 		caseSpecs: 'Property boundary dispute between neighbors',
 		clientInvolvement: ['Plaintiff'],
@@ -370,6 +371,7 @@ const seedCases: Case[] = [
 	},
 	{
 		_id: '2',
+		request_id: '2',
 		natureOfTheCase: 'Criminal',
 		caseSpecs: 'Accused of financial fraud',
 		clientInvolvement: ['Defendant'],
@@ -386,6 +388,7 @@ const seedCases: Case[] = [
 	},
 	{
 		_id: '3',
+		request_id: '3',
 		natureOfTheCase: 'Family',
 		caseSpecs: 'Divorce Petition',
 		clientInvolvement: ['Petitioner'],
@@ -402,6 +405,7 @@ const seedCases: Case[] = [
 	},
 	{
 		_id: '4',
+		request_id: '4',
 		natureOfTheCase: 'Criminal',
 		caseSpecs: 'Accused of financial fraud',
 		clientInvolvement: ['Defendant'],
