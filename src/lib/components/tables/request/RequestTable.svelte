@@ -48,15 +48,15 @@
 	<Tabs.Content value="all">
 		<Card.Root>
 			<Card.Header class="px-7">
-				<Card.Title>Requests</Card.Title>
+				<Card.Title>All Requests</Card.Title>
 				<Card.Description>All active requests added to the system are shown here.</Card.Description>
 			</Card.Header>
 			<Card.Content>
 				{#await $page.data.requests}
 					<Loading />
 				{:then requests}
-					{#if requests.length > 0}
-						<Table data={requests} />
+					{#if requests.filter((r) => r.status.at(-1)?.type !== 'Archived').length > 0}
+						<Table data={requests.filter((r) => r.status.at(-1)?.type !== 'Archived')} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -65,6 +65,66 @@
 								<h3 class="text-2xl font-bold tracking-tight">You have no requests!</h3>
 								<p class="text-sm text-muted-foreground">
 									You can start rendering services as soon as you add a new request.
+								</p>
+								<Button class="mt-4" href="/requests/add">Add Request</Button>
+							</div>
+						</div>
+					{/if}
+				{/await}
+			</Card.Content>
+		</Card.Root>
+	</Tabs.Content>
+	<Tabs.Content value="recents">
+		<Card.Root>
+			<Card.Header class="px-7">
+				<Card.Title>Recent Requests</Card.Title>
+				<Card.Description>All recent requests added to the system are shown here.</Card.Description>
+			</Card.Header>
+			<Card.Content>
+				{#await $page.data.requests}
+					<Loading />
+				{:then requests}
+					{#if requests.filter((r) => r.status.at(-1)?.type === 'New').length > 0}
+						<Table data={requests.filter((r) => r.status.at(-1)?.type === 'New')} />
+					{:else}
+						<div
+							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
+						>
+							<div class="flex flex-col items-center gap-1 text-center">
+								<h3 class="text-2xl font-bold tracking-tight">You have no new requests!</h3>
+								<p class="text-sm text-muted-foreground">
+									You can start rendering services as soon as you add a new request.
+								</p>
+								<Button class="mt-4" href="/requests/add">Add Request</Button>
+							</div>
+						</div>
+					{/if}
+				{/await}
+			</Card.Content>
+		</Card.Root>
+	</Tabs.Content>
+	<Tabs.Content value="archived">
+		<Card.Root>
+			<Card.Header class="px-7">
+				<Card.Title>Archived Requests</Card.Title>
+				<Card.Description
+					>All archived requests added to the system are shown here.</Card.Description
+				>
+			</Card.Header>
+			<Card.Content>
+				{#await $page.data.requests}
+					<Loading />
+				{:then requests}
+					{#if requests.filter((r) => r.status.at(-1)?.type === 'Archived').length > 0}
+						<Table data={requests.filter((r) => r.status.at(-1)?.type === 'Archived')} />
+					{:else}
+						<div
+							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
+						>
+							<div class="flex flex-col items-center gap-1 text-center">
+								<h3 class="text-2xl font-bold tracking-tight">You have no archived requests!</h3>
+								<p class="text-sm text-muted-foreground">
+									You may view your archived requests here.
 								</p>
 								<Button class="mt-4" href="/requests/add">Add Request</Button>
 							</div>

@@ -6,6 +6,7 @@
 	import { Button } from '$lib/components/ui/button';
 
 	export let id: string;
+	export let status: string;
 </script>
 
 <AlertDialog.Root>
@@ -21,23 +22,26 @@
 			<DropdownMenu.Item href="/clients/{id}/export">Export</DropdownMenu.Item>
 			<DropdownMenu.Separator />
 			<AlertDialog.Trigger class="w-full">
-				<DropdownMenu.Item>Delete</DropdownMenu.Item>
+				<DropdownMenu.Item>{status === 'Archived' ? 'Restore' : 'Delete'}</DropdownMenu.Item>
 			</AlertDialog.Trigger>
 		</DropdownMenu.Content>
 	</DropdownMenu.Root>
 	<AlertDialog.Content>
 		<AlertDialog.Header>
-			<AlertDialog.Title>Delete Client</AlertDialog.Title>
+			<AlertDialog.Title>{status === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title>
 			<AlertDialog.Description>
-				Are you absolutely sure? The client will be archived and will not show up in Active Clients.
-				If you want the client to be permanently deleted, please contact the administrator.
+				Are you absolutely sure? The client will be {status === 'Archived'
+					? 'restored'
+					: 'archived'}
+				and will {status === 'Archived' ? '' : 'not'}
+				show up in Active Clients.
 			</AlertDialog.Description>
 		</AlertDialog.Header>
 		<AlertDialog.Footer>
 			<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-			<form action="/clients/{id}/delete" method="POST">
+			<form action="/clients/{id}/{status === 'Archived' ? 'restore' : 'delete'}" method="POST">
 				<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90"
-					>Delete</AlertDialog.Action
+					>{status === 'Archived' ? 'Restore' : 'Delete'}</AlertDialog.Action
 				>
 			</form>
 		</AlertDialog.Footer>

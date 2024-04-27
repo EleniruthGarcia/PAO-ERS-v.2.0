@@ -48,7 +48,7 @@
 	<Tabs.Content value="all">
 		<Card.Root>
 			<Card.Header class="px-7">
-				<Card.Title>Cases</Card.Title>
+				<Card.Title>All Cases</Card.Title>
 				<Card.Description>All cases added to the system are shown here.</Card.Description>
 			</Card.Header>
 			<Card.Content>
