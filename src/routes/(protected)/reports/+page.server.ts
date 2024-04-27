@@ -23,7 +23,13 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/', text: 'PAO-ERS' },
 			{ href: '/reports', text: 'Reports' }
 		],
-		form: await superValidate(zod(formSchema))
+		form: await superValidate({
+			month: Intl.DateTimeFormat('en', { month: 'long' }).format(new Date()),
+			year: new Date().getFullYear(),
+			notedBy: event.locals.user.reportsTo,
+			reports: []
+		}, zod(formSchema), { errors: false }),
+		lawyers: await db.users.find().toArray()
 	};
 };
 
@@ -43,6 +49,7 @@ export const actions = {
 
 		const lawyer = await db.users.findOne({ _id: event.locals.user.id });
 		const branch = await db.branches.findOne({ _id: lawyer?.branch_id });
+		const notedBy = await db.users.findOne({ _id: form.data.notedBy });
 
 		const outreaches = await db.outreaches.find().toArray();
 
@@ -175,23 +182,19 @@ export const actions = {
 							$concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')']
 						},
 						court: { $ifNull: ['$case.court', ''] },
-						status: '$case.status',
+						status: '$case.status.type',
+						date: '$case.status.date',
 						titleOfCase: '$case.titleOfCase',
 						caseNo: '$case.docketNumber',
+						judge: { $ifNull: ['$case.actionTaken', ''] },
 						assistance: '$request.typeOfAssistance',
 						actionTaken: { $ifNull: ['$case.actionTaken', ''] },
-						CICL: {
-							$cond: [
-								{ $in: ['Child in Conflict with the Law', '$client.classification'] },
-								'X',
-								''
-							]
-						},
+						CICL: { $cond: [{ $in: ['Child in Conflict with the Law', '$client.classification'] }, 'X', ''] },
 						Women: { $cond: [{ $in: ['Women', '$client.classification'] }, 'X', ''] },
-						IG: { $ifNull: ['$client.indigenousPeople', ''] },
-						PWD: { $ifNull: ['$client.pwd', ''] },
-						UP: { $ifNull: ['$client.urbanPoor', ''] },
-						RP: { $ifNull: ['$client.ruralPoor', ''] },
+						IG: { $cond: [ {$ifNull: ['$client.indigenousPeople', 'true'] }, '', 'X'] },
+						PWD: { $cond: [ {$ifNull: ['$client.pwd', 'true'] }, '', 'X'] },
+						UP: { $cond: [ {$ifNull: ['$client.urbanPoor', 'true'] }, '', 'X'] },
+						RP: { $cond: [ {$ifNull: ['$client.ruralPoor', 'true'] }, '', 'X'] },
 						Senior: { $cond: [{ $in: ['Senior Citizen', '$client.classification'] }, 'X', ''] },
 						// OFW: { $cond: [{ $in: ['OFW (Land-Based)', '$client.classification', 'OFW (Sea-Based)', '$client.classification'] }, 'X', ''] },
 						Judi: '',
@@ -221,7 +224,7 @@ export const actions = {
 			criminal: requests.filter((d) => d.case?.natureOfTheCase?.contains('Criminal')),
 			civil: requests.filter((d) => d.case?.natureOfTheCase?.contains('Civil')),
 			administrative: requests.filter((d) => d.case?.natureOfTheCase?.contains('Administrative')),
-			prosecutor: requests.filter((d) => d.case?.natureOfTheCase?.contains('Administrative')),
+			prosecutor: requests.filter((d) => d.case?.natureOfTheCase?.contains('Prosecutor\'s office cases')),
 			labor: requests.filter((d) => d.case?.natureOfTheCase?.contains('Labor'))
 		};
 		const f20 = requests.filter((d) => d.client?.PWD?.contains(true));
@@ -229,6 +232,11 @@ export const actions = {
 			d.request?.natureOfRequest?.includes('Administration of Oath')
 		);
 		const f22 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
+		const f23 = '';
+		const f24 = '';
+		const f25 = '';
+		const f26 = '';
+		const f27 = '';
 
 		const f28 = {
 			adoc : requests.filter(
@@ -564,14 +572,19 @@ export const actions = {
 		};
 
 		const f49 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
+
+		const f50 = '';
+		const f51 = '';
+		const f52 = '';
+
 		return {
 			form,
 			report: await generateReport({
 				...branch,
 				lawyer,
-				month: form.data.months,
+				month: form.data.month,
 				year: form.data.year,
-				notedBy: form.data.notedBy,
+				notedBy,
 				f10: outreaches,
 				f11,
 				f13,
@@ -582,6 +595,12 @@ export const actions = {
 				f19,
 				f20,
 				f21,
+				f22,
+				f23,
+				f24,
+				f25,
+				f26,
+				f27,
 				f28,
 				f29,
 				f38,

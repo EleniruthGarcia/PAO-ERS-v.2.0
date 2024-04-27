@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { months, reports, formSchema, type FormSchema } from '$lib/schema/report';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
@@ -21,12 +22,16 @@
 		validators: zodClient(formSchema)
 	});
 	$: selectMonth = {
-		label: $formData.months,
-		value: $formData.months
+		label: $formData.month,
+		value: $formData.month
 	};
 	$: selectYear = {
-		label: $formData.year,
-		value: $formData.year
+		label: $formData.year.toString(),
+		value: $formData.year.toString()
+	};
+	$: selectedNotedBy = {
+		label: $page.data.lawyers.find((lawyer: any) => lawyer._id === $formData.notedBy)?.name ?? '',
+		value: $formData.notedBy
 	};
 
 	const yearOptions = Array.from({ length: 30 }, (_, i) => ({
@@ -105,13 +110,13 @@
 					</Card.Header>
 					<Card.Content>
 						<div class="grid grid-cols-2 items-start gap-3">
-							<Form.Field {form} name="months" class="grid gap-3">
+							<Form.Field {form} name="month" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Month</Form.Label>
 									<Select.Root
 										selected={selectMonth}
 										onSelectedChange={(s) => {
-											s && ($formData.months = s.value);
+											s && ($formData.month = s.value);
 										}}
 									>
 										<Select.Input disabled name={attrs.name} />
@@ -133,7 +138,7 @@
 									<Select.Root
 										selected={selectYear}
 										onSelectedChange={(s) => {
-											s && ($formData.year = s.value);
+											s && ($formData.year = parseInt(s.value));
 										}}
 									>
 										<Select.Input disabled name={attrs.name} />
@@ -154,8 +159,23 @@
 						</div>
 						<Form.Field {form} name="notedBy" class="grid gap-3">
 							<Form.Control let:attrs>
-								<Form.Label>Noted By</Form.Label>
-								<Input {...attrs} bind:value={$formData.notedBy} />
+								<Form.Label>Noted by</Form.Label>
+								<Select.Root
+									selected={selectedNotedBy}
+									onSelectedChange={(s) => {
+										s && ($formData.notedBy = s.value);
+									}}
+								>
+									<Select.Input name={attrs.name} />
+									<Select.Trigger {...attrs}>
+										<Select.Value placeholder="" />
+									</Select.Trigger>
+									<Select.Content>
+										{#each $page.data.lawyers as lawyer}
+											<Select.Item bind:value={lawyer._id}>{lawyer.name}</Select.Item>
+										{/each}
+									</Select.Content>
+								</Select.Root>
 							</Form.Control>
 							<Form.FieldErrors />
 						</Form.Field>

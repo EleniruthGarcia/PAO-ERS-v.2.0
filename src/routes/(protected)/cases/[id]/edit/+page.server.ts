@@ -2,7 +2,7 @@ import db from '$lib/server/database';
 import { redirect } from 'sveltekit-flash-message/server';
 import type { PageServerLoad, Actions } from './$types';
 import { superValidate } from 'sveltekit-superforms';
-import { formSchema } from '$lib/schema/user';
+import { formSchema } from '$lib/schema/case';
 import { zod } from 'sveltekit-superforms/adapters';
 import { fail } from '@sveltejs/kit';
 
@@ -16,16 +16,23 @@ export const load: PageServerLoad = async (event) => {
 		);
 	}
 
+	const _case = await db.cases.findOne({ _id: event.params.id });
+	if (!_case) redirect('/cases', { type: 'warning', message: 'Case not found!' }, event);
+
 	return {
 		breadcrumbs: [
 			{ href: '/', text: 'PAO-ERS' },
-			{ href: '/settings', text: 'Settings' }
+			{ href: '/cases', text: 'Clients' },
+			{
+				href: '/cases/' + event.params.id,
+				text: _case.titleOfTheCase || 'Untitled Case'
+			},
+			{ href: '/clients/' + event.params.id + '/edit', text: `Edit` }
 		],
 		form: await superValidate({
-			...event.locals.user,
-			currentStatus: 'Updated',
-		}, zod(formSchema), { errors: false }),
-		branches: await db.branches.find().toArray()
+			..._case,
+			currentStatus: 'Pending',
+		}, zod(formSchema), { errors: false })
 	};
 };
 
@@ -43,25 +50,25 @@ export const actions = {
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) return fail(400, { form });
 
-		const user = await db.users.updateOne({ _id: event.locals.user._id }, [
+		const _case = await db.cases.updateOne({ _id: event.params.id }, [
 			{
 				$set: form.data
 			},
 			{
 				$push: {
-					status: { type: 'Updated', date: new Date() }
+					status: { type: form.data.currentStatus, date: new Date() }
 				}
 			}
 		]);
 
-		if (!user || !user.acknowledged) return fail(500, { form });
-		if (user.matchedCount === 0) return fail(404, { form });
-		if (user.modifiedCount === 0 && user.upsertedCount === 0) return fail(304, { form });
+		if (!_case || !_case.acknowledged) return fail(500, { form });
+		if (_case.matchedCount === 0) return fail(404, { form });
+		if (_case.modifiedCount === 0 && _case.upsertedCount === 0) return fail(304, { form });
 
 		redirect(
-			event.url.pathname,
-			user.modifiedCount > 0 || user.upsertedCount > 0
-				? { type: 'success', message: 'User updated!' }
+			'/cases/' + form.data._id,
+			_case.modifiedCount > 0 || _case.upsertedCount > 0
+				? { type: 'success', message: 'Case updated!' }
 				: { type: 'info', message: 'No changes made...' },
 			event
 		);

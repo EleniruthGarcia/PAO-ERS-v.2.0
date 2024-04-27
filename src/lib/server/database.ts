@@ -122,7 +122,8 @@ const seedUsers: User[] = [
 		contactNumber: '1234567890',
 		address: '123 Main St, City, Country',
 		currentStatus: 'New',
-		status: [{ type: 'New', date: new Date() }]
+		status: [{ type: 'New', date: new Date() }],
+		reportsTo: 'ADMIN'
 	},
 	{
 		_id: '1',
@@ -142,7 +143,8 @@ const seedUsers: User[] = [
 		contactNumber: '1234567890',
 		address: '123 Main St, City, Country',
 		currentStatus: 'New',
-		status: [{ type: 'New', date: new Date() }]
+		status: [{ type: 'New', date: new Date() }],
+		reportsTo: 'ADMIN'
 	},
 	{
 		_id: '2',
@@ -160,7 +162,8 @@ const seedUsers: User[] = [
 		sex: 'Female',
 		address: '456 Elm St, City, Country',
 		currentStatus: 'New',
-		status: [{ type: 'New', date: new Date() }]
+		status: [{ type: 'New', date: new Date() }],
+		reportsTo: 'admin1'
 	},
 	{
 		_id: '3',
@@ -179,7 +182,8 @@ const seedUsers: User[] = [
 		contactNumber: '1122334455',
 		address: '789 Oak St, City, Country',
 		currentStatus: 'New',
-		status: [{ type: 'New', date: new Date() }]
+		status: [{ type: 'New', date: new Date() }],
+		reportsTo: 'ADMIN'
 	},
 	{
 		_id: '4',
@@ -197,7 +201,8 @@ const seedUsers: User[] = [
 		sex: 'Male',
 		address: '101 Pine St, City, Country',
 		currentStatus: 'New',
-		status: [{ type: 'New', date: new Date() }]
+		status: [{ type: 'New', date: new Date() }],
+		reportsTo: 'admin1'
 	}
 ];
 

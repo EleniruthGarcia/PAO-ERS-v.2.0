@@ -58,6 +58,11 @@
 			}
 		}),
 		table.column({
+			id: 'title',
+			accessor: (item) => item.titleOfTheCase,
+			header: 'Title'
+		}),
+		table.column({
 			id: 'nature',
 			accessor: (item) => item.natureOfTheCase,
 			header: 'Nature'
@@ -154,7 +159,7 @@
 							{#each row.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>
 									<Table.Cell {...attrs} class="[&:has([role=checkbox])]:pl-3">
-										{#if cell.id === 'user'}
+										{#if cell.id === 'title'}
 											<Button
 												class="text-left font-medium text-foreground"
 												variant="link"

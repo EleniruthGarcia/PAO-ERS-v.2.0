@@ -1,8 +1,9 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
-	import UserForm from '$lib/components/forms/UserForm.svelte';
+	import CaseForm from '$lib/components/forms/CaseForm.svelte';
 
 	export let data: PageServerData;
+	export let form;
 </script>
 
-<UserForm data={data.form} />
+<CaseForm data={data.form} />

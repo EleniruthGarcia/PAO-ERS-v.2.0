@@ -15,7 +15,7 @@ export const load: PageServerLoad = async (event) => {
 		redirect('/', { type: 'warning', message: 'You are already logged in!' }, event);
 
 	return {
-		form: await superValidate(zod(formSchema))
+		form: await superValidate(zod(formSchema), { errors: false })
 	};
 };
 
