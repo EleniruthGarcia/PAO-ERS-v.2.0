@@ -74,13 +74,13 @@
 				<span class="sr-only">Back</span>
 			</Button>
 			<h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-				{$formData.currentStatus === 'New' ? 'Add Client' : 'Update Client'}
+				{$formData.currentStatus === 'New' ? 'Add User' : 'Update User'}
 			</h1>
 			<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 				<Form.Button type="submit" size="sm">
-					{$formData.currentStatus === 'New' ? 'Add Client' : 'Update Client'}
+					{$formData.currentStatus === 'New' ? 'Add User' : 'Update User'}
 				</Form.Button>
 			</div>
 		</div>
@@ -299,7 +299,7 @@
 		<div class="flex items-center justify-center gap-2 md:hidden">
 			<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 			<Form.Button type="submit" size="sm"
-				>{$formData.currentStatus === 'New' ? 'Add Client' : 'Update Client'}</Form.Button
+				>{$formData.currentStatus === 'New' ? 'Add User' : 'Update User'}</Form.Button
 			>
 		</div>
 	</div>
