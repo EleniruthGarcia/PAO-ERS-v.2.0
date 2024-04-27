@@ -72,8 +72,12 @@ export const typeOfRelease = [
 	'Acquitted (After trial)',
 	'Acquitted (On appeal)',
 	'After serving the possible maximum of the prison term',
+	'Due to complete service of sentence (Case is terminated)',
+	'On account of preventive imprisonment equal to maximum imposable penalty',
+	'On recognizance after service of minimum sentence',
 	'On bail or on recognizance',
 	'On inquest assistance or representation',
+	'Due to provisional dismissal of case',
 	'On motion to dismiss or motion to quash',
 	'On pardon, executive clemency, or probation',
 	'On other grounds'

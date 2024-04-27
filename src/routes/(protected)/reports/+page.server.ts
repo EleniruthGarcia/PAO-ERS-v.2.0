@@ -45,158 +45,188 @@ export const actions = {
 
 		const outreaches = await db.outreaches.find().toArray();
 
-		const requests = await db.requests.aggregate([
-			{
-				$lookup: {
-					from: 'users',
-					localField: 'lawyer_id',
-					foreignField: '_id',
-					as: 'lawyer'
+		const requests = await db.requests
+			.aggregate([
+				{
+					$lookup: {
+						from: 'users',
+						localField: 'lawyer_id',
+						foreignField: '_id',
+						as: 'lawyer'
+					}
+				},
+				{
+					$addFields: {
+						lawyer: { $arrayElemAt: ['$lawyer', 0] }
+					}
+				},
+				// {
+				// 	$match: { 'lawyer._id': event.locals.user.role === 'Administrator' ? '' : event.locals.user.id }
+				// },
+				{
+					$lookup: {
+						from: 'clients',
+						localField: 'client_id',
+						foreignField: '_id',
+						as: 'client'
+					}
+				},
+				{
+					$unwind: '$client'
+				},
+				{
+					$lookup: {
+						from: 'clients',
+						localField: 'interviewee_id',
+						foreignField: '_id',
+						as: 'interviewee'
+					}
+				},
+				{
+					$lookup: {
+						from: 'cases',
+						localField: 'case_id',
+						foreignField: '_id',
+						as: 'case'
+					}
+				},
+				{
+					$lookup: {
+						from: 'branches',
+						localField: 'lawyer.branch_id',
+						foreignField: '_id',
+						as: 'branch'
+					}
+				},
+				{
+					$addFields: {
+						branch: { $arrayElemAt: ['$branch', 0] },
+						interviewee: { $arrayElemAt: ['$interviewee', 0] },
+						case: { $arrayElemAt: ['$case', 0] }
+					}
+				},
+				{
+					$project: {
+						client: '$client',
+						interviewee: '$interviewee',
+						case: '$case',
+						branch: '$branch',
+						request: '$$ROOT',
+						lawyer: '$lawyer',
+						monthYear: {
+							$dateToString: {
+								date: '$date',
+								format: '%B %Y',
+								timezone: '+08:00',
+								onNull: 'N/A'
+							}
+						},
+						region: '$branch.region',
+						districtProvince: {
+							$concat: ['$branch.district', ', ', '$branch.province']
+						},
+						district: '$branch.district',
+						province: '$branch.province',
+						controlNo: '$_id',
+						religion: { $ifNull: ['$client.religion', 'N/A'] },
+						citizenship: { $ifNull: ['$client.citizenship', 'N/A'] },
+						name: '$client.name',
+						age: {
+							$dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' }
+						},
+						address: '$client.address',
+						email: { $ifNull: ['$client.email', ''] },
+						individualMonthlyIncome: {
+							$toString: { $ifNull: ['$client.individualMonthlyIncome', 'N/A'] }
+						},
+						detainedSince: '$client.detainedSince',
+						civilStatus: { $ifNull: ['$client.civilStatus', 'N/A'] },
+						sex: '$client.sex',
+						educationalAttainment: '$client.educationalAttainment',
+						languageDialect: '$client.language',
+						contactNo: { $ifNull: ['$client.contactNumber', 'N/A'] },
+						spouse: { $ifNull: ['$client.spouse', ''] },
+						addressOfSpouse: { $ifNull: ['$client.addressOfSpouse', ''] },
+						spouseContactNo: { $ifNull: ['$client.spouseContactNumber', ''] },
+						placeOfDetention: '$client.detainedAt',
+						proofOfIndigency: { $ifNull: ['$client.proofOfIndigency', []] },
+						intervieweeName: '$interviewee.name',
+						intervieweeAddress: '$interviewee.address',
+						intervieweeAge: '$interviewee.age',
+						intervieweeSex: '$interviewee.sex',
+						intervieweeCivilStatus: '$interviewee.civilStatus',
+						intervieweeContactNo: { $ifNull: ['$interviewee.contactNumber', 'N/A'] },
+						intervieweeEmail: { $ifNull: ['$interviewee.email', ''] },
+						relationshipToClient: '$relationshipToClient',
+						natureOfRequest: '$natureOfRequest',
+						PDLStatus: '$client.detained',
+						natureOfTheCase: { $ifNull: ['$case.natureOfTheCase', ''] },
+						caseSpecs: { $ifNull: ['$case._id', ''] },
+						factsOfTheCase: { $ifNull: ['$case.factsOfTheCase', ''] },
+						clientClasses: { $ifNull: ['$client.classification', []] },
+						clientInvolvement: { $ifNull: ['$case.clientInvolvement', ''] },
+						adverseParty: { $ifNull: ['$case.adversePartyInvolvement', ''] },
+						adversePartyName: { $ifNull: ['$case.adversePartyName', 'N/A'] },
+						adversePartyAddress: { $ifNull: ['$case.adversePartyAddress', 'N/A'] },
+						natureOfOffence: { $ifNull: ['$case.natureOfOffence', ''] },
+						courtPendingStatus: { $ifNull: ['$case.status', ''] },
+						titleOfCaseDocketNum: {
+							$concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')']
+						},
+						court: { $ifNull: ['$case.court', ''] },
+						status: '$case.status',
+						titleOfCase: '$case.titleOfCase',
+						caseNo: '$case.docketNumber',
+						assistance: '$request.typeOfAssistance',
+						actionTaken: { $ifNull: ['$case.actionTaken', ''] },
+						CICL: {
+							$cond: [
+								{ $in: ['Child in Conflict with the Law', '$client.classification'] },
+								'X',
+								''
+							]
+						},
+						Women: { $cond: [{ $in: ['Women', '$client.classification'] }, 'X', ''] },
+						IG: { $ifNull: ['$client.indigenousPeople', ''] },
+						PWD: { $ifNull: ['$client.pwd', ''] },
+						UP: { $ifNull: ['$client.urbanPoor', ''] },
+						RP: { $ifNull: ['$client.ruralPoor', ''] },
+						Senior: { $cond: [{ $in: ['Senior Citizen', '$client.classification'] }, 'X', ''] },
+						// OFW: { $cond: [{ $in: ['OFW (Land-Based)', '$client.classification', 'OFW (Sea-Based)', '$client.classification'] }, 'X', ''] },
+						Judi: '',
+						Quasi: '',
+						NonJudi: ''
+					}
 				}
-			},
-			{
-				$addFields: {
-					lawyer: { $arrayElemAt: ['$lawyer', 0] },
-				}
-			},
-			// {
-			// 	$match: { 'lawyer._id': event.locals.user.role === 'Administrator' ? '' : event.locals.user.id }
-			// },
-			{
-				$lookup: {
-					from: 'clients',
-					localField: 'client_id',
-					foreignField: '_id',
-					as: 'client'
-				}
-			},
-			{
-				$unwind: '$client',
-			},
-			{
-				$lookup: {
-					from: 'clients',
-					localField: 'interviewee_id',
-					foreignField: '_id',
-					as: 'interviewee'
-				}
-			},
-			{
-				$lookup: {
-					from: 'cases',
-					localField: 'case_id',
-					foreignField: '_id',
-					as: 'case'
-				}
-			},
-			{
-				$lookup: {
-					from: 'branches',
-					localField: 'lawyer.branch_id',
-					foreignField: '_id',
-					as: 'branch'
-				}
-			},
-			{
-				$addFields: {
-					branch: { $arrayElemAt: ['$branch', 0] },
-					interviewee: { $arrayElemAt: ['$interviewee', 0] },
-					case: { $arrayElemAt: ['$case', 0] }
-				}
-			},
-			{
-				$project: {
-					monthYear: {
-						$dateToString: {
-							date: '$date',
-							format: '%B %Y',
-							timezone: '+08:00',
-							onNull: 'N/A'
-						}
-					},
-					region: '$branch.region',
-					districtProvince: {
-						$concat: ['$branch.district', ', ', '$branch.province']
-					},
-					district: '$branch.district',
-					province: '$branch.province',
-					controlNo: '$_id',
-					religion: { $ifNull: ['$client.religion', 'N/A'] },
-					citizenship: { $ifNull: ['$client.citizenship', 'N/A'] },
-					name: '$client.name',
-					age: { $dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' } },
-					address: '$client.address',
-					email: { $ifNull: ['$client.email', ''] },
-					individualMonthlyIncome: { $toString: { $ifNull: ['$client.individualMonthlyIncome', 'N/A'] } },
-					detainedSince: '$client.detainedSince',
-					civilStatus: { $ifNull: ['$client.civilStatus', 'N/A'] },
-					sex: '$client.sex',
-					educationalAttainment: '$client.educationalAttainment',
-					languageDialect: '$client.language',
-					contactNo: { $ifNull: ['$client.contactNumber', 'N/A'] },
-					spouse: { $ifNull: ['$client.spouse', ''] },
-					addressOfSpouse: { $ifNull: ['$client.addressOfSpouse', ''] },
-					spouseContactNo: { $ifNull: ['$client.spouseContactNumber', ''] },
-					placeOfDetention: '$client.detainedAt',
-					proofOfIndigency: { $ifNull: ['$client.proofOfIndigency', []] },
-					intervieweeName: '$interviewee.name',
-					intervieweeAddress: '$interviewee.address',
-					intervieweeAge: '$interviewee.age',
-					intervieweeSex: '$interviewee.sex',
-					intervieweeCivilStatus: '$interviewee.civilStatus',
-					intervieweeContactNo: { $ifNull: ['$interviewee.contactNumber', 'N/A'] },
-					intervieweeEmail: { $ifNull: ['$interviewee.email', ''] },
-					relationshipToClient: '$relationshipToClient',
-					natureOfRequest: '$natureOfRequest',
-					PDLStatus: '$client.detained',
-					natureOfTheCase: { $ifNull: ['$case.natureOfTheCase', ''] },
-					caseSpecs: { $ifNull: ['$case._id', ''] },
-					factsOfTheCase: { $ifNull: ['$case.factsOfTheCase', ''] },
-					clientClasses: { $ifNull: ['$client.classification', []] },
-					clientInvolvement: { $ifNull: ['$case.clientInvolvement', ''] },
-					adverseParty: { $ifNull: ['$case.adversePartyInvolvement', ''] },
-					adversePartyName: { $ifNull: ["$case.adversePartyName", "N/A"] },
-					adversePartyAddress: { $ifNull: ["$case.adversePartyAddress", "N/A"] },
-					natureOfOffence: { $ifNull: ['$case.natureOfOffence', ''] },
-					courtPendingStatus: { $ifNull: ['$case.status', ''] },
-					titleOfCaseDocketNum: { $concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')'] },
-					court: { $ifNull: ['$case.court', ''] },
-					status: '$case.status',
-					titleOfCase: '$case.titleOfCase',
-					caseNo: '$case.docketNumber',
-					assistance: '$request.typeOfAssistance',
-					actionTaken: { $ifNull: ['$case.actionTaken', ''] },
-					CICL: { $cond: [{ $in: ['Child in Conflict with the Law', '$client.classification'] }, 'X', ''] },
-					Women: { $cond: [{ $in: ['Women', '$client.classification'] }, 'X', ''] },
-					IG: { $ifNull: ['$client.indigenousPeople', ''] },
-					PWD: { $ifNull: ['$client.pwd', ''] },
-					UP: { $ifNull: ['$client.urbanPoor', ''] },
-					RP: { $ifNull: ['$client.ruralPoor', ''] },
-					Senior: { $cond: [{ $in: ['Senior Citizen', '$client.classification'] }, 'X', ''] },
-					// OFW: { $cond: [{ $in: ['OFW (Land-Based)', '$client.classification', 'OFW (Sea-Based)', '$client.classification'] }, 'X', ''] },
-					Judi: '',
-					Quasi: '',
-					NonJudi: ''
-				}
-			}
-		]).toArray();
+			])
+			.toArray();
 
 		const f11 = requests.filter((d) => d.natureOfRequest?.includes('Jail Visitation'));
 		const f12 = '';
-		const f13 = requests.filter((d) => d.client?.classification?.includes('Child in Conflict with the Law'));
+		const f13 = requests.filter((d) =>
+			d.client?.classification?.includes('Child in Conflict with the Law')
+		);
 		const f14 = '';
-		const f15 = requests.filter((d) => d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation'));
+		const f15 = requests.filter((d) =>
+			d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation')
+		);
 		const f16 = requests.filter((d) => d.client?.foreignNational?.contains('Taiwanese'));
-		const f18 = requests.filter((d) => d.client?.classification?.includes('OFW') && d.requests?.nature?.contains('Inquest Legal Assistance'));
+		const f18 = requests.filter(
+			(d) =>
+				d.client?.classification?.includes('OFW') &&
+				d.requests?.nature?.contains('Inquest Legal Assistance')
+		);
 		const f19 = {
 			criminal: requests.filter((d) => d.case?.natureOfTheCase?.contains('Criminal')),
 			civil: requests.filter((d) => d.case?.natureOfTheCase?.contains('Civil')),
 			administrative: requests.filter((d) => d.case?.natureOfTheCase?.contains('Administrative')),
 			prosecutor: requests.filter((d) => d.case?.natureOfTheCase?.contains('Administrative')),
-			labor: requests.filter((d) => d.case?.natureOfTheCase?.contains('Labor')),
+			labor: requests.filter((d) => d.case?.natureOfTheCase?.contains('Labor'))
 		};
 		const f20 = requests.filter((d) => d.client?.PWD?.contains(true));
-		const f21 = requests.filter((d) => d.request?.natureOfRequest?.includes('Administration of Oath'));
+		const f21 = requests.filter((d) =>
+			d.request?.natureOfRequest?.includes('Administration of Oath')
+		);
 		const f22 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
 
 		const f28 = {
@@ -211,25 +241,327 @@ export const actions = {
 					5: {
 						a: {
 							total: f13.length,
-							cr: f13.filter((d) => d.case?.pendingStatus?.includes('') && d.case?.natureOfTheCase?.includes('Criminal')).length,
+							cr: f13.filter(
+								(d) =>
+									d.case?.pendingStatus?.includes('') &&
+									d.case?.natureOfTheCase?.includes('Criminal')
+							).length,
 							cv: f13.filter((d) => d.case?.natureOfTheCase?.includes('Civil')).length,
 							ad1: f13.filter((d) => d.case?.natureOfTheCase?.includes('Administrative')).length,
 							ad2: f13.filter((d) => d.case?.natureOfTheCase?.includes('Prosecutor')).length,
-							ad3: f13.filter((d) => d.case?.natureOfTheCase?.includes('Labor')).length,
+							ad3: f13.filter((d) => d.case?.natureOfTheCase?.includes('Labor')).length
 						}
 					},
 					2: f13.filter((d) => d.case?.natureOfTheCase?.includes('Civil')).length,
-					3: requests.filter((d) => d.case?.natureOfTheCase?.includes('Others (PSA)')).length,
+					3: requests.filter((d) => d.case?.natureOfTheCase?.includes('Others (PSA)')).length
 				}
 			} // ${f28.i.a.5.a.cr}
 		};
 		const f29 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
-
-		const f38 = {
-
+		const f38 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
+		const f48 = {
+			mr1a1: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('On other grounds') &&
+					d.client?.age < 18
+			),
+			mr1a2: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('On other grounds') &&
+					d.client?.age >= 18 &&
+					d.client?.age <= 21
+			),
+			mr1a3: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('On other grounds') &&
+					d.client?.age >= 22 &&
+					d.client?.age <= 59
+			),
+			mr1a4: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('On other grounds') &&
+					d.client?.age >= 60
+			),
+			fr1a1: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('On other grounds') &&
+					d.client?.age < 18
+			),
+			fr1a2: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('On other grounds') &&
+					d.client?.age >= 18 &&
+					d.client?.age <= 21
+			),
+			fr1a3: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('On other grounds') &&
+					d.client?.age >= 22 &&
+					d.client?.age <= 59
+			),
+			fr1a4: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('On other grounds') &&
+					d.client?.age >= 60
+			),
+			mr2a1: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('On recognizance after service of minimum sentence') &&
+					d.client?.age < 18
+			),
+			mr2a2: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('On recognizance after service of minimum sentence') &&
+					d.client?.age >= 18 &&
+					d.client?.age <= 21
+			),
+			mr2a3: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('On recognizance after service of minimum sentence') &&
+					d.client?.age >= 22 &&
+					d.client?.age <= 59
+			),
+			mr2a4: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('On recognizance after service of minimum sentence') &&
+					d.client?.age >= 60
+			),
+			fr2a1: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('On recognizance after service of minimum sentence') &&
+					d.client?.age < 18
+			),
+			fr2a2: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('On recognizance after service of minimum sentence') &&
+					d.client?.age >= 18 &&
+					d.client?.age <= 21
+			),
+			fr2a3: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('On recognizance after service of minimum sentence') &&
+					d.client?.age >= 22 &&
+					d.client?.age <= 59
+			),
+			fr2a4: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('On recognizance after service of minimum sentence') &&
+					d.client?.age >= 60
+			),
+			mr3a1: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('Due to provisional dismissal of case') &&
+					d.client?.age < 18
+			),
+			mr3a2: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('Due to provisional dismissal of case') &&
+					d.client?.age >= 18 &&
+					d.client?.age <= 21
+			),
+			mr3a3: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('Due to provisional dismissal of case') &&
+					d.client?.age >= 22 &&
+					d.client?.age <= 59
+			),
+			mr3a4: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('Due to provisional dismissal of case') &&
+					d.client?.age >= 60
+			),
+			fr3a1: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('Due to provisional dismissal of case') &&
+					d.client?.age < 18
+			),
+			fr3a2: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('Due to provisional dismissal of case') &&
+					d.client?.age >= 18 &&
+					d.client?.age <= 21
+			),
+			fr3a3: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('Due to provisional dismissal of case') &&
+					d.client?.age >= 22 &&
+					d.client?.age <= 59
+			),
+			fr3a4: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('Due to provisional dismissal of case') &&
+					d.client?.age >= 60
+			),
+			mr4a1: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('On account of preventive imprisonment equal to maximum imposable penalty') &&
+					d.client?.age < 18
+			),
+			mr4a2: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('On account of preventive imprisonment equal to maximum imposable penalty') &&
+					d.client?.age >= 18 &&
+					d.client?.age <= 21
+			),
+			mr4a3: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('On account of preventive imprisonment equal to maximum imposable penalty') &&
+					d.client?.age >= 22 &&
+					d.client?.age <= 59
+			),
+			mr4a4: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('On account of preventive imprisonment equal to maximum imposable penalty') &&
+					d.client?.age >= 60
+			),
+			fr4a1: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('On account of preventive imprisonment equal to maximum imposable penalty') &&
+					d.client?.age < 18
+			),
+			fr4a2: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('On account of preventive imprisonment equal to maximum imposable penalty') &&
+					d.client?.age >= 18 &&
+					d.client?.age <= 21
+			),
+			fr4a3: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('On account of preventive imprisonment equal to maximum imposable penalty') &&
+					d.client?.age >= 22 &&
+					d.client?.age <= 59
+			),
+			fr4a4: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('On account of preventive imprisonment equal to maximum imposable penalty') &&
+					d.client?.age >= 60
+			),
+			mr5a1: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('Due to complete service of sentence (Case is terminated)') &&
+					d.client?.age < 18
+			),
+			mr5a2: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('Due to complete service of sentence (Case is terminated)') &&
+					d.client?.age >= 18 &&
+					d.client?.age <= 21
+			),
+			mr5a3: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('Due to complete service of sentence (Case is terminated)') &&
+					d.client?.age >= 22 &&
+					d.client?.age <= 59
+			),
+			mr5a4: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Male' &&
+					d.requests?.typeOfRelease?.contains('Due to complete service of sentence (Case is terminated)') &&
+					d.client?.age >= 60
+			),
+			fr5a1: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('Due to complete service of sentence (Case is terminated)') &&
+					d.client?.age < 18
+			),
+			fr5a2: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('Due to complete service of sentence (Case is terminated)') &&
+					d.client?.age >= 18 &&
+					d.client?.age <= 21
+			),
+			fr5a3: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('Due to complete service of sentence (Case is terminated)') &&
+					d.client?.age >= 22 &&
+					d.client?.age <= 59
+			),
+			fr5a4: requests.filter(
+				(d) =>
+					d.client?.detained?.contains(true) &&
+					d.client?.sex === 'Female' &&
+					d.requests?.typeOfRelease?.contains('Due to complete service of sentence (Case is terminated)') &&
+					d.client?.age >= 60
+			),
 		};
 
-		const f48 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
 		const f49 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
 		return {
 			form,
