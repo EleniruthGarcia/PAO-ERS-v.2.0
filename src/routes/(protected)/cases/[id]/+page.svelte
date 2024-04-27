@@ -23,7 +23,7 @@
 						<Button
 							variant="link"
 							class="p-0 text-lg text-foreground"
-							href="/clients/{data._case._id}"
+							href="/cases/{data._case._id}"
 						>
 							{data._case.titleOfTheCase || 'Untitled Case'}
 						</Button>
@@ -47,29 +47,29 @@
 						size="sm"
 						variant="outline"
 						class="h-7 gap-1 text-sm"
-						href="/clients/{data.client._id}/edit">Edit</Button
+						href="/cases/{data._case._id}/edit">Edit</Button
 					>
-					<Button size="sm" class="h-7 gap-1 text-sm" href="/clients/{data.client._id}/export"
+					<!-- <Button size="sm" class="h-7 gap-1 text-sm" href="/cases/{data._case._id}/export"
 						>Export</Button
 					>
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
 							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-								>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
+								>{data._case.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
 							>
 						</AlertDialog.Trigger>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
 								<AlertDialog.Title
-									>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
+									>{data._case.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Case</AlertDialog.Title
 								>
 								<AlertDialog.Description>
-									Are you absolutely sure? The client will be {data.client.status.at(-1)?.type ===
+									Are you absolutely sure? The case will be {data._case.status.at(-1)?.type ===
 									'Archived'
 										? 'restored'
-										: 'archived'} and will {data.client.status.at(-1)?.type === 'Archived'
+										: 'archived'} and will {data._case.status.at(-1)?.type === 'Archived'
 										? ''
-										: 'not'} show up in Active Clients. If you want the client to be permanently deleted,
+										: 'not'} show up in Active Cases. If you want the client to be permanently deleted,
 									please contact the administrator.
 								</AlertDialog.Description>
 							</AlertDialog.Header>
@@ -77,17 +77,17 @@
 								<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/clients/{data.client._id}/{data.client.status.at(-1)?.type === 'Archived'
+									action="/cases/{data._case._id}/{data._case.status.at(-1)?.type === 'Archived'
 										? 'restore'
 										: 'delete'}"
 								>
 									<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90">
-										{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+										{data._case.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Action>
 								</form>
 							</AlertDialog.Footer>
 						</AlertDialog.Content>
-					</AlertDialog.Root>
+					</AlertDialog.Root> -->
 				</div>
 				<div class="visible ml-auto flex items-center gap-1 sm:hidden">
 					<DropdownMenu.Root>
@@ -98,25 +98,25 @@
 							</Button>
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content align="end">
-							<DropdownMenu.Item href="/clients/{data.client._id}/edit">Edit</DropdownMenu.Item>
-							<DropdownMenu.Item href="/clients/{data.client._id}/export">Export</DropdownMenu.Item>
+							<DropdownMenu.Item href="/cases/{data._case._id}/edit">Edit</DropdownMenu.Item>
+							<DropdownMenu.Item href="/cases/{data._case._id}/export">Export</DropdownMenu.Item>
 							<DropdownMenu.Separator />
 							<AlertDialog.Root>
 								<AlertDialog.Trigger>
 									<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-										>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
+										>{data._case.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
 									>
 								</AlertDialog.Trigger>
 								<AlertDialog.Content>
 									<AlertDialog.Header>
 										<AlertDialog.Title
-											>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
+											>{data._case.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
 										>
 										<AlertDialog.Description>
-											Are you absolutely sure? The client will be {data.client.status.at(-1)
+											Are you absolutely sure? The client will be {data._case.status.at(-1)
 												?.type === 'Archived'
 												? 'restored'
-												: 'archived'} and will {data.client.status.at(-1)?.type === 'Archived'
+												: 'archived'} and will {data._case.status.at(-1)?.type === 'Archived'
 												? ''
 												: 'not'} show up in Active Clients. If you want the client to be permanently
 											deleted, please contact the administrator.
@@ -126,8 +126,7 @@
 										<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
 										<form
 											method="POST"
-											action="/clients/{data.client._id}/{data.client.status.at(-1)?.type ===
-											'Archived'
+											action="/cases/{data._case._id}/{data._case.status.at(-1)?.type === 'Archived'
 												? 'restore'
 												: 'delete'}"
 										>
@@ -135,7 +134,7 @@
 												type="submit"
 												class="bg-destructive hover:bg-destructive/90"
 											>
-												{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+												{data._case.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 											</AlertDialog.Action>
 										</form>
 									</AlertDialog.Footer>
@@ -147,107 +146,54 @@
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
 				<div class="grid gap-3">
-					<div class="font-semibold">Personal Information</div>
+					<div class="font-semibold">Case Information</div>
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Age </span>
-							<span>{data.client.age}</span>
+							<span class="text-muted-foreground"> Nature </span>
+							<span>{data._case.natureOfTheCase}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Sex </span>
-							<span>{data.client.sex}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Civil Status </span>
-							<span>{data.client.civilStatus}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Citizenship </span>
-							<span>{data.client.citizenship}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Language </span>
-							<span>{data.client.language}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Religion </span>
-							<span>{data.client.religion !== '' ? data.client.religion : 'N/A'}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Educational Attainment </span>
-							<span>{data.client.educationalAttainment}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Individual Monthly Income </span>
-							<span>{data.client.individualMonthlyIncome}</span>
+							<span class="text-muted-foreground"> Specification </span>
+							<span>{data._case.caseSpecs}</span>
 						</li>
 					</ul>
 				</div>
 				<Separator class="my-4" />
 				<div class="grid gap-3">
-					<div class="font-semibold">Contact Information</div>
+					<div class="font-semibold">Adverse Party's Information</div>
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground"> Name </span>
+							<span>{data._case.adversePartyName}</span>
+						</li>
+						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground"> Involvement </span>
+							<span>{data._case.adversePartyInvolvement}</span>
+						</li>
+						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Address </span>
-							<span>{data.client.address}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Email </span>
-							<span>{data.client.email}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Contact Number </span>
-							<span>{data.client.contactNumber}</span>
+							<span>{data._case.adversePartyAddress}</span>
 						</li>
 					</ul>
 				</div>
-				{#if data.client.civilStatus === 'Married'}
+				{#if data._case.pendingInCourt}
 					<Separator class="my-4" />
 					<div class="grid gap-3">
-						<div class="font-semibold">Spouse Information</div>
+						<div class="font-semibold">Court Information</div>
 						<ul class="grid gap-3">
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Name </span>
-								<span>{data.client.spouseName}</span>
+								<span class="text-muted-foreground"> Case Title </span>
+								<span>{data._case.titleOfTheCase}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Address </span>
-								<span>{data.client.spouseAddress}</span>
+								<span class="text-muted-foreground"> Docket No. </span>
+								<span>{data._case.docketNumber}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Email </span>
-								<span>{data.client.spouseEmail}</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Contact Number </span>
-								<span>{data.client.spouseContactNumber}</span>
+								<span class="text-muted-foreground"> Court </span>
+								<span>{data._case.court}</span>
 							</li>
 						</ul>
-					</div>
-				{/if}
-				{#if data.client.detained}
-					<Separator class="my-4" />
-					<div class="grid gap-3">
-						<div class="font-semibold">Detainee Information</div>
-						<ul class="grid gap-3">
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Place of Detention </span>
-								<span>{data.client.detainedAt}</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Detained Since </span>
-								<span>{data.client.detainedSince}</span>
-							</li>
-						</ul>
-					</div>
-				{/if}
-				{#if data.client.classification}
-					<Separator class="my-4" />
-					<div>
-						<div class="mb-3 font-semibold">Classifications</div>
-						{#each data.client.classification as classification}
-							<Badge class="m-1">{classification}</Badge>
-						{/each}
 					</div>
 				{/if}
 			</Card.Content>
@@ -262,31 +208,25 @@
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
 				<div class="grid gap-0.5">
-					<Card.Title class="text-md group flex items-center gap-2">Requests</Card.Title>
-					<Card.Description>All active requests are shown here.</Card.Description>
-				</div>
-				<div class="ml-auto flex items-center gap-1">
-					<Button size="sm" variant="outline" class="h-7 gap-2 text-sm" href="/requests/add"
-						><PlusCircled class="h-3.5 w-3.5" />
-						<span class="sr-only sm:not-sr-only">Add</span></Button
-					>
+					<Card.Title class="text-md group flex items-center gap-2">Case History</Card.Title>
+					<Card.Description>The history of case statuses are shown here.</Card.Description>
 				</div>
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
-				{#each data.requests as request, i}
+				{#each data._case.status as status, i}
 					<div class="grid gap-3">
 						<ul class="grid gap-3">
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Nature </span>
-								<span>{request.otherNature ? request.otherNature : request.nature}</span>
+								<span class="text-muted-foreground"> Type </span>
+								<span>{status.type}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Lawyer </span>
-								<span>{request.lawyer.name}</span>
+								<span class="text-muted-foreground"> Date </span>
+								<span>{status.date}</span>
 							</li>
 						</ul>
 					</div>
-					{#if data.requests.length - 1 !== i}
+					{#if data._case.status.length - 1 !== i}
 						<Separator class="my-4" />
 					{/if}
 				{/each}

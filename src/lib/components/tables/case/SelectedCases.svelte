@@ -29,7 +29,7 @@
 		<div class="grid gap-0.5">
 			<Card.Title class="group flex items-center gap-2 text-lg">
 				<Button variant="link" class="p-0 text-lg text-foreground" href="/cases/{_case._id}">
-					{_case.natureOfTheCase}
+					{_case.titleOfTheCase}
 				</Button>
 				{#if $selectedCases.length > 1}
 					<Button
