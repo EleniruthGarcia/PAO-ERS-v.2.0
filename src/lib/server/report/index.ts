@@ -34,7 +34,6 @@ export const generateReport = async (data: any) => {
 	template.substitute('F.034', { ...data, num: data.f34 ? data.f34.length : 0 });
 	template.substitute('F.35', { ...data, num: data.f35 ? data.f35.length : 0 });
 
-
 	template.substitute('F.038', { ...data, num: data.f38 ? data.f38.length : 0 });
 	template.substitute('F.048', { ...data, num: data.f48 ? data.f48.length : 0 });
 	template.substitute('F.049', { ...data, num: data.f49 ? data.f49.length : 0 });
@@ -43,5 +42,10 @@ export const generateReport = async (data: any) => {
 	template.substitute('F.051', { ...data, num: data.f51 ? data.f51.length : 0 });
 	template.substitute('F.052', { ...data, num: data.f52 ? data.f52.length : 0 });
 
-	return { name: `[${data.month}, ${data.year}] Report_${data.lawyer.name}.xlsx`, dataUri: 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + template.generate({ type: 'base64' }) };
+	return {
+		name: `[${data.month}, ${data.year}] Report_${data.lawyer.name}.xlsx`,
+		dataUri:
+			'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' +
+			template.generate({ type: 'base64' })
+	};
 };

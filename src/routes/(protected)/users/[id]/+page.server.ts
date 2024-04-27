@@ -16,8 +16,7 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	const user = await db.users.findOne({ _id: event.params.id });
-	if (!user)
-		redirect('/users', { type: 'warning', message: 'User not found!' }, event);
+	if (!user) redirect('/users', { type: 'warning', message: 'User not found!' }, event);
 
 	return {
 		breadcrumbs: [

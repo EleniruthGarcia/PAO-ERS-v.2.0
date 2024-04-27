@@ -20,7 +20,8 @@ export const load: PageServerLoad = async (event) => {
 	if (!request) redirect('/requests', { type: 'warning', message: 'Request not found!' }, event);
 
 	const client = await db.clients.find({ _id: { $in: request.client_id } }).toArray();
-	if (!client || client.length === 0) redirect('/requests', { type: 'warning', message: 'Client not found!' }, event);
+	if (!client || client.length === 0)
+		redirect('/requests', { type: 'warning', message: 'Client not found!' }, event);
 
 	return {
 		breadcrumbs: [
@@ -28,14 +29,18 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/requests', text: 'Requests' },
 			{
 				href: '/requets/' + event.params.id,
-				text: `${(request.otherNature || request.nature)} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et. al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
+				text: `${request.otherNature || request.nature} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et. al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
 			},
 			{ href: '/requests/' + event.params.id + '/edit', text: `Edit` }
 		],
-		form: await superValidate({
-			...request,
-			currentStatus: 'Updated',
-		}, zod(formSchema), { errors: false }),
+		form: await superValidate(
+			{
+				...request,
+				currentStatus: 'Updated'
+			},
+			zod(formSchema),
+			{ errors: false }
+		),
 		clients: await db.clients.find().toArray(),
 		lawyers: await db.users.find().toArray()
 	};
@@ -57,7 +62,8 @@ export const actions = {
 
 		form.data.status.push({ type: form.data.currentStatus, date: new Date() });
 
-		const request = await db.requests.updateOne({ _id: event.params.id },
+		const request = await db.requests.updateOne(
+			{ _id: event.params.id },
 			{
 				$set: form.data
 			}

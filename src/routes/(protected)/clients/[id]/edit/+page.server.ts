@@ -29,10 +29,14 @@ export const load: PageServerLoad = async (event) => {
 			},
 			{ href: '/clients/' + event.params.id + '/edit', text: `Edit` }
 		],
-		form: await superValidate({
-			...client,
-			currentStatus: 'Updated',
-		}, zod(formSchema), { errors: false }),
+		form: await superValidate(
+			{
+				...client,
+				currentStatus: 'Updated'
+			},
+			zod(formSchema),
+			{ errors: false }
+		),
 		client
 	};
 };
@@ -53,7 +57,8 @@ export const actions = {
 
 		form.data.status.push({ type: form.data.currentStatus, date: new Date() });
 
-		const client = await db.clients.updateOne({ _id: event.params.id },
+		const client = await db.clients.updateOne(
+			{ _id: event.params.id },
 			{
 				$set: form.data
 			}

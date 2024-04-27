@@ -18,7 +18,7 @@ export const actions = {
 			{ _id: event.params.id },
 			{
 				$set: {
-					currentStatus: 'Archived',
+					currentStatus: 'Archived'
 				},
 				$push: {
 					status: { type: 'Archived', date: new Date() }

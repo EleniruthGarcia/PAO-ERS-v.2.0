@@ -394,7 +394,9 @@
 		</div>
 		<div class="flex items-center justify-center gap-2 md:hidden">
 			<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
-			<Form.Button type="submit" size="sm">{$formData.currentStatus === 'New' ? 'Add Client' : 'Update Client'}</Form.Button>
+			<Form.Button type="submit" size="sm"
+				>{$formData.currentStatus === 'New' ? 'Add Client' : 'Update Client'}</Form.Button
+			>
 		</div>
 	</div>
 </form>

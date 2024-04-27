@@ -22,10 +22,14 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/', text: 'PAO-ERS' },
 			{ href: '/settings', text: 'Settings' }
 		],
-		form: await superValidate({
-			...event.locals.user,
-			currentStatus: 'Updated',
-		}, zod(formSchema), { errors: false }),
+		form: await superValidate(
+			{
+				...event.locals.user,
+				currentStatus: 'Updated'
+			},
+			zod(formSchema),
+			{ errors: false }
+		),
 		branches: await db.branches.find().toArray()
 	};
 };
@@ -45,7 +49,7 @@ export const actions = {
 		if (!form.valid) return fail(400, { form });
 
 		if (form.data.password !== form.data.confirmPassword)
-			return setError(form, '', 'Passwords do not match!')
+			return setError(form, '', 'Passwords do not match!');
 
 		const existingUser = await db.users.findOne({ username: form.data.username });
 		if (existingUser && existingUser._id !== event.locals.user.id)

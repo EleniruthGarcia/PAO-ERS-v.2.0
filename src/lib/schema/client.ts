@@ -49,7 +49,7 @@ export const educationalAttainment = [
 export const status = ['New', 'Updated', 'Archived', 'Restored'] as const;
 
 export const formSchema = z.object({
-	_id: z.string().min(1, "ID is required!"),
+	_id: z.string().min(1, 'ID is required!'),
 	name: z.string().min(1, 'Name is required.'),
 	firstName: z.string().min(1, 'First name is required.'),
 	middleName: z.string().optional(),

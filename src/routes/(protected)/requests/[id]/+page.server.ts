@@ -16,8 +16,7 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	const request = await db.requests.findOne({ _id: event.params.id });
-	if (!request)
-		redirect('/requests', { type: 'warning', message: 'Request not found!' }, event);
+	if (!request) redirect('/requests', { type: 'warning', message: 'Request not found!' }, event);
 
 	const client = await db.clients.find({ _id: { $in: request.client_id } }).toArray();
 	if (!client || client.length === 0)
@@ -29,7 +28,7 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/requets', text: 'Requests' },
 			{
 				href: '/requests/' + event.params.id,
-				text: `${(request.otherNature || request.nature)} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et. al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
+				text: `${request.otherNature || request.nature} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et. al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
 			}
 		],
 		request,

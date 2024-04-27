@@ -18,8 +18,7 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	const user = await db.users.findOne({ _id: event.params.id });
-	if (!user)
-		redirect('/users', { type: 'warning', message: 'User not found!' }, event);
+	if (!user) redirect('/users', { type: 'warning', message: 'User not found!' }, event);
 
 	return {
 		breadcrumbs: [
@@ -31,10 +30,14 @@ export const load: PageServerLoad = async (event) => {
 			},
 			{ href: '/users/' + event.params.id + '/edit', text: `Edit` }
 		],
-		form: await superValidate({
-			...user,
-			currentStatus: 'Updated',
-		}, zod(formSchema), { errors: false }),
+		form: await superValidate(
+			{
+				...user,
+				currentStatus: 'Updated'
+			},
+			zod(formSchema),
+			{ errors: false }
+		),
 		branches: await db.branches.find().toArray()
 	};
 };
@@ -54,7 +57,7 @@ export const actions = {
 		if (!form.valid) return fail(400, { form });
 
 		if (form.data.password !== form.data.confirmPassword)
-			return setError(form, '', 'Passwords do not match!')
+			return setError(form, '', 'Passwords do not match!');
 
 		const existingUser = await db.users.findOne({ username: form.data.username });
 		if (existingUser && existingUser._id !== form.data._id)

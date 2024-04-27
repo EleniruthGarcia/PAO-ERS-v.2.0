@@ -5,7 +5,11 @@ import { fail } from '@sveltejs/kit';
 
 export const actions = {
 	default: async (event) => {
-		if (!event.locals.user || event.locals.user.role !== 'Administrator' || event.params.id !== event.locals.user._id) {
+		if (
+			!event.locals.user ||
+			event.locals.user.role !== 'Administrator' ||
+			event.params.id !== event.locals.user._id
+		) {
 			event.cookies.set('redirect', event.url.pathname, { path: '/' });
 			redirect(
 				'/login',
@@ -18,7 +22,7 @@ export const actions = {
 			{ _id: event.params.id },
 			{
 				$set: {
-					currentStatus: 'Archived',
+					currentStatus: 'Archived'
 				},
 				$push: {
 					status: { type: 'Archived', date: new Date() }

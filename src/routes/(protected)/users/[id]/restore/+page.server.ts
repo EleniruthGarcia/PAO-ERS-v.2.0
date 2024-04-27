@@ -18,7 +18,7 @@ export const actions = {
 			{ _id: event.params.id },
 			{
 				$set: {
-					currentStatus: 'Restored',
+					currentStatus: 'Restored'
 				},
 				$push: {
 					status: { type: 'Restored', date: new Date() }
@@ -30,10 +30,6 @@ export const actions = {
 		if (user.matchedCount === 0) return fail(404);
 		if (user.modifiedCount === 0 && user.upsertedCount === 0) return fail(304);
 
-		redirect(
-			`/users/${event.params.id}`,
-			{ type: 'success', message: 'User restored!' },
-			event
-		);
+		redirect(`/users/${event.params.id}`, { type: 'success', message: 'User restored!' }, event);
 	}
 } satisfies Actions;

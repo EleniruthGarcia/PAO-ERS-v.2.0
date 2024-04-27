@@ -15,14 +15,18 @@ export const load: PageServerLoad = async (event) => {
 		);
 	}
 
-	const client = await db.clients.aggregate([
-		{
-			$match: { _id: event.params.id }
-		}, {
-			$addFields: {
-				age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+	const client = await db.clients
+		.aggregate([
+			{
+				$match: { _id: event.params.id }
+			},
+			{
+				$addFields: {
+					age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+				}
 			}
-		}]).next();
+		])
+		.next();
 
 	if (!client) {
 		redirect('/clients', { type: 'warning', message: 'Client not found!' }, event);
@@ -37,20 +41,26 @@ export const load: PageServerLoad = async (event) => {
 				text: client.name
 			}
 		],
-		requests: await db.requests.aggregate([{
-			$match: { client_id: event.params.id }
-		}, {
-			$lookup: {
-				from: 'users',
-				localField: 'lawyer_id',
-				foreignField: '_id',
-				as: 'lawyer'
-			}
-		}, {
-			$addFields: {
-				lawyer: { $arrayElemAt: ['$lawyer', 0] }
-			}
-		}]).toArray(),
+		requests: await db.requests
+			.aggregate([
+				{
+					$match: { client_id: event.params.id }
+				},
+				{
+					$lookup: {
+						from: 'users',
+						localField: 'lawyer_id',
+						foreignField: '_id',
+						as: 'lawyer'
+					}
+				},
+				{
+					$addFields: {
+						lawyer: { $arrayElemAt: ['$lawyer', 0] }
+					}
+				}
+			])
+			.toArray(),
 		client
 	};
 };

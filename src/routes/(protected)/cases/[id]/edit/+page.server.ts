@@ -29,12 +29,16 @@ export const load: PageServerLoad = async (event) => {
 			},
 			{ href: '/cases/' + event.params.id + '/edit', text: `Edit` }
 		],
-		form: await superValidate({
-			..._case,
-			currentStatus: _case.currentStatus === 'New' ? 'Pending' : _case.currentStatus,
-		}, zod(formSchema), { errors: false }),
+		form: await superValidate(
+			{
+				..._case,
+				currentStatus: _case.currentStatus === 'New' ? 'Pending' : _case.currentStatus
+			},
+			zod(formSchema),
+			{ errors: false }
+		),
 		requests: await db.requests.find().toArray(),
-		clients: await db.clients.find().toArray(),
+		clients: await db.clients.find().toArray()
 	};
 };
 

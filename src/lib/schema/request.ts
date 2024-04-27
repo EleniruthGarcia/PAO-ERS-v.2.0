@@ -16,7 +16,7 @@ export const otherNature = [
 	'Document/Pleadings Prepared',
 	'Assisted During Custodial Interrogation',
 	'Assisted During Inquest Investigation'
-]
+];
 
 export const relationshipToClient = [
 	'Client',

@@ -18,7 +18,7 @@ export const actions = {
 			{ _id: event.params.id },
 			{
 				$set: {
-					currentStatus: 'Restored',
+					currentStatus: 'Restored'
 				},
 				$push: {
 					status: { type: 'Restored', date: new Date() }
