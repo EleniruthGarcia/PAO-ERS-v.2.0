@@ -15,7 +15,65 @@ export const load: PageServerLoad = async (event) => {
 		);
 	}
 
-	const request = await db.requests.findOne({ _id: event.params.id });
+	const request = await db.requests.aggregate([
+		{
+			$match: { _id: event.params.id }
+		},
+		{
+			$lookup: {
+				from: 'users',
+				localField: 'lawyer_id',
+				foreignField: '_id',
+				as: 'lawyer'
+			}
+		},
+		{
+			$unwind: {
+				path: '$lawyer',
+				preserveNullAndEmptyArrays: true
+			}
+		},
+		// {
+		// 	$match: { lawyer_id: event.locals.user.role === 'Administrator' ? { $exists: true } : event.locals.user._id }
+		// },
+		{
+			$lookup: {
+				from: 'clients',
+				localField: 'interviewee_id',
+				foreignField: '_id',
+				as: 'interviewee'
+			}
+		},
+		{
+			$lookup: {
+				from: 'clients',
+				localField: 'client_id',
+				foreignField: '_id',
+				as: 'client'
+			}
+		},
+		{
+			$unwind: {
+				path: '$client',
+				preserveNullAndEmptyArrays: true
+			}
+		},
+		{
+			$lookup: {
+				from: 'cases',
+				localField: 'case_id',
+				foreignField: '_id',
+				as: 'case'
+			}
+		},
+		{
+			$addFields: {
+				'client.age': {
+					$dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' }
+				}
+			}
+		}
+	]).next();
 	if (!request) redirect('/requests', { type: 'warning', message: 'Request not found!' }, event);
 
 	const client = await db.clients.find({ _id: { $in: request.client_id } }).toArray();
@@ -31,9 +89,6 @@ export const load: PageServerLoad = async (event) => {
 				text: `${request.otherNature || request.nature} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et. al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
 			}
 		],
-		request,
-		client,
-		clients: await db.clients.find().toArray(),
-		lawyers: await db.users.find().toArray()
+		request
 	};
 };

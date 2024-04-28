@@ -39,7 +39,7 @@
 						on:click={() => (i > 0 ? i-- : (i = $selectedUsers.length - 1))}
 					>
 						<ChevronLeft class="h-3 w-3" />
-						<span class="sr-only">Previous Client</span>
+						<span class="sr-only">Previous User</span>
 					</Button>
 					<Button
 						size="icon"
@@ -48,7 +48,7 @@
 						on:click={() => (i < $selectedUsers.length - 1 ? i++ : (i = 0))}
 					>
 						<ChevronRight class="h-3 w-3" />
-						<span class="sr-only">Next Client</span>
+						<span class="sr-only">Next User</span>
 					</Button>
 				{/if}
 				<Button
@@ -58,13 +58,13 @@
 					on:click={() =>
 						navigator.clipboard
 							.writeText(user._id)
-							.then(() => toast(`Copied Client ID '${user._id}'!`))}
+							.then(() => toast(`Copied User ID '${user._id}'!`))}
 				>
 					<Copy class="h-3 w-3" />
-					<span class="sr-only">Copy Client ID</span>
+					<span class="sr-only">Copy User ID</span>
 				</Button>
 			</Card.Title>
-			<Card.Description>Date: November 23, 2023</Card.Description>
+			<Card.Description><Badge class="mr-2">{user.role}</Badge>{user.rank}</Card.Description>
 		</div>
 		<div class="ml-auto flex items-center gap-1">
 			<!-- <Button size="sm" variant="outline" class="h-8 gap-1">
@@ -123,10 +123,6 @@
 		<div class="grid gap-3">
 			<div class="font-semibold">Personal Information</div>
 			<ul class="grid gap-3">
-				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Rank </span>
-					<span>{user.rank}</span>
-				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
 					<span class="text-muted-foreground"> Age </span>
 					<span>{user.age}</span>

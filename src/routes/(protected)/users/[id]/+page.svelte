@@ -23,9 +23,9 @@
 						<Button
 							variant="link"
 							class="p-0 text-lg text-foreground"
-							href="/clients/{data._case._id}"
+							href="/users/{data.user._id}"
 						>
-							{data._case.titleOfTheCase || 'Untitled Case'}
+							{data.user.name}
 						</Button>
 						<Button
 							size="icon"
@@ -33,56 +33,55 @@
 							class="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
 							on:click={() =>
 								navigator.clipboard
-									.writeText(data._case._id)
-									.then(() => toast(`Copied data.client ID '${data._case._id}'!`))}
+									.writeText(data.user._id)
+									.then(() => toast(`Copied data.user ID '${data.user._id}'!`))}
 						>
 							<Copy class="h-3 w-3" />
-							<span class="sr-only">Copy Case ID</span>
+							<span class="sr-only">Copy User ID</span>
 						</Button>
 					</Card.Title>
-					<Card.Description>Date: November 23, 2023</Card.Description>
+					<Card.Description><Badge class="mr-2">{data.user.role}</Badge>{data.user.rank}</Card.Description>
 				</div>
 				<div class="invisible ml-auto flex items-center gap-1 sm:visible">
 					<Button
 						size="sm"
 						variant="outline"
 						class="h-7 gap-1 text-sm"
-						href="/clients/{data.client._id}/edit">Edit</Button
+						href="/users/{data.user._id}/edit">Edit</Button
 					>
-					<Button size="sm" class="h-7 gap-1 text-sm" href="/clients/{data.client._id}/export"
+					<!-- <Button size="sm" class="h-7 gap-1 text-sm" href="/users/{data.user._id}/export"
 						>Export</Button
-					>
+					> -->
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
 							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-								>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
+								>{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
 							>
 						</AlertDialog.Trigger>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
 								<AlertDialog.Title
-									>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
+									>{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} User</AlertDialog.Title
 								>
 								<AlertDialog.Description>
-									Are you absolutely sure? The client will be {data.client.status.at(-1)?.type ===
+									Are you absolutely sure? The user will be {data.user.status.at(-1)?.type ===
 									'Archived'
 										? 'restored'
-										: 'archived'} and will {data.client.status.at(-1)?.type === 'Archived'
+										: 'archived'} and will {data.user.status.at(-1)?.type === 'Archived'
 										? ''
-										: 'not'} show up in Active Clients. If you want the client to be permanently deleted,
-									please contact the administrator.
+										: 'not'} show up in Active Users.
 								</AlertDialog.Description>
 							</AlertDialog.Header>
 							<AlertDialog.Footer>
 								<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/clients/{data.client._id}/{data.client.status.at(-1)?.type === 'Archived'
+									action="/users/{data.user._id}/{data.user.status.at(-1)?.type === 'Archived'
 										? 'restore'
 										: 'delete'}"
 								>
 									<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90">
-										{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+										{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Action>
 								</form>
 							</AlertDialog.Footer>
@@ -98,25 +97,25 @@
 							</Button>
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content align="end">
-							<DropdownMenu.Item href="/clients/{data.client._id}/edit">Edit</DropdownMenu.Item>
-							<DropdownMenu.Item href="/clients/{data.client._id}/export">Export</DropdownMenu.Item>
+							<DropdownMenu.Item href="/users/{data.user._id}/edit">Edit</DropdownMenu.Item>
+							<DropdownMenu.Item href="/users/{data.user._id}/export">Export</DropdownMenu.Item>
 							<DropdownMenu.Separator />
 							<AlertDialog.Root>
 								<AlertDialog.Trigger>
 									<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-										>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
+										>{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
 									>
 								</AlertDialog.Trigger>
 								<AlertDialog.Content>
 									<AlertDialog.Header>
 										<AlertDialog.Title
-											>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
+											>{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
 										>
 										<AlertDialog.Description>
-											Are you absolutely sure? The client will be {data.client.status.at(-1)
+											Are you absolutely sure? The client will be {data.user.status.at(-1)
 												?.type === 'Archived'
 												? 'restored'
-												: 'archived'} and will {data.client.status.at(-1)?.type === 'Archived'
+												: 'archived'} and will {data.user.status.at(-1)?.type === 'Archived'
 												? ''
 												: 'not'} show up in Active Clients. If you want the client to be permanently
 											deleted, please contact the administrator.
@@ -126,7 +125,7 @@
 										<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
 										<form
 											method="POST"
-											action="/clients/{data.client._id}/{data.client.status.at(-1)?.type ===
+											action="/users/{data.user._id}/{data.user.status.at(-1)?.type ===
 											'Archived'
 												? 'restore'
 												: 'delete'}"
@@ -135,7 +134,7 @@
 												type="submit"
 												class="bg-destructive hover:bg-destructive/90"
 											>
-												{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+												{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 											</AlertDialog.Action>
 										</form>
 									</AlertDialog.Footer>
@@ -147,39 +146,25 @@
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
 				<div class="grid gap-3">
+					<div class="font-semibold">Account Information</div>
+					<ul class="grid gap-3">
+						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground"> Username </span>
+							<span>{data.user.username}</span>
+						</li>
+					</ul>
+				</div>
+				<Separator class="my-4" />
+				<div class="grid gap-3">
 					<div class="font-semibold">Personal Information</div>
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Age </span>
-							<span>{data.client.age}</span>
+							<span>{data.user.age}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Sex </span>
-							<span>{data.client.sex}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Civil Status </span>
-							<span>{data.client.civilStatus}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Citizenship </span>
-							<span>{data.client.citizenship}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Language </span>
-							<span>{data.client.language}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Religion </span>
-							<span>{data.client.religion !== '' ? data.client.religion : 'N/A'}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Educational Attainment </span>
-							<span>{data.client.educationalAttainment}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Individual Monthly Income </span>
-							<span>{data.client.individualMonthlyIncome}</span>
+							<span>{data.user.sex}</span>
 						</li>
 					</ul>
 				</div>
@@ -189,67 +174,18 @@
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Address </span>
-							<span>{data.client.address}</span>
+							<span>{data.user.address}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Email </span>
-							<span>{data.client.email}</span>
+							<span>{data.user.email}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Contact Number </span>
-							<span>{data.client.contactNumber}</span>
+							<span>{data.user.contactNumber}</span>
 						</li>
 					</ul>
 				</div>
-				{#if data.client.civilStatus === 'Married'}
-					<Separator class="my-4" />
-					<div class="grid gap-3">
-						<div class="font-semibold">Spouse Information</div>
-						<ul class="grid gap-3">
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Name </span>
-								<span>{data.client.spouseName}</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Address </span>
-								<span>{data.client.spouseAddress}</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Email </span>
-								<span>{data.client.spouseEmail}</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Contact Number </span>
-								<span>{data.client.spouseContactNumber}</span>
-							</li>
-						</ul>
-					</div>
-				{/if}
-				{#if data.client.detained}
-					<Separator class="my-4" />
-					<div class="grid gap-3">
-						<div class="font-semibold">Detainee Information</div>
-						<ul class="grid gap-3">
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Place of Detention </span>
-								<span>{data.client.detainedAt}</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Detained Since </span>
-								<span>{data.client.detainedSince}</span>
-							</li>
-						</ul>
-					</div>
-				{/if}
-				{#if data.client.classification}
-					<Separator class="my-4" />
-					<div>
-						<div class="mb-3 font-semibold">Classifications</div>
-						{#each data.client.classification as classification}
-							<Badge class="m-1">{classification}</Badge>
-						{/each}
-					</div>
-				{/if}
 			</Card.Content>
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
@@ -262,39 +198,15 @@
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
 				<div class="grid gap-0.5">
-					<Card.Title class="text-md group flex items-center gap-2">Requests</Card.Title>
-					<Card.Description>All active requests are shown here.</Card.Description>
-				</div>
-				<div class="ml-auto flex items-center gap-1">
-					<Button size="sm" variant="outline" class="h-7 gap-2 text-sm" href="/requests/add"
-						><PlusCircled class="h-3.5 w-3.5" />
-						<span class="sr-only sm:not-sr-only">Add</span></Button
-					>
+					<Card.Title class="text-md group flex items-center gap-2">Account</Card.Title>
+					<Card.Description>Account</Card.Description>
 				</div>
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
-				{#each data.requests as request, i}
-					<div class="grid gap-3">
-						<ul class="grid gap-3">
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Nature </span>
-								<span>{request.otherNature ? request.otherNature : request.nature}</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Lawyer </span>
-								<span>{request.lawyer.name}</span>
-							</li>
-						</ul>
-					</div>
-					{#if data.requests.length - 1 !== i}
-						<Separator class="my-4" />
-					{/if}
-				{/each}
+				
 			</Card.Content>
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
-				<div class="text-xs text-muted-foreground">
-					Updated <time dateTime="2023-11-23">November 23, 2023</time>
-				</div>
+				
 			</Card.Footer>
 		</Card.Root>
 	</div>
