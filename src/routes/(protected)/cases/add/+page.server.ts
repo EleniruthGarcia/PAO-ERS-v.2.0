@@ -34,7 +34,8 @@ export const load: PageServerLoad = async (event) => {
 			{ errors: false }
 		),
 		requests: await db.requests.find().toArray(),
-		clients: await db.clients.find().toArray()
+		clients: await db.clients.find().toArray(),
+		users: await db.users.find().toArray()
 	};
 };
 

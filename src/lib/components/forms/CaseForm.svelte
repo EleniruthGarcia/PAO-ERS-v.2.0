@@ -43,14 +43,29 @@
 		value: $formData.currentStatus
 	};
 	$: selectedRequest = {
-		label: $formData.request_id,
-		value: $formData.request_id
+		label: $formData._id,
+		value: $formData._id
+	};
+
+	$: $formData.currentStatus === 'Transferred to private lawyer, IBP, etc.'
+		? ($formData.transferredFrom = $formData.transferredFrom ?? $page.data.users[0]?._id)
+		: ($formData.transferredFrom = undefined);
+
+	$: selectedTransferredFrom = {
+		label:
+			$page.data.users.find((lawyer: any) => lawyer._id === $formData.transferredFrom)?.name ?? '',
+		value: $formData.transferredFrom
+	};
+
+	$: selectedTransferredTo = {
+		label:
+			$page.data.users.find((lawyer: any) => lawyer._id === $formData.transferredTo)?.name ?? '',
+		value: $formData.transferredTo
 	};
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
 	{#if $delayed}<Loading />{/if}
-	<input type="hidden" name="_id" bind:value={$formData._id} />
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
 		<div class="flex items-center gap-4">
 			<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>
@@ -112,13 +127,13 @@
 							</Form.Field>
 						</div>
 						<div class="grid grid-cols-2 items-start gap-3">
-							<Form.Field {form} name="request_id" class="grid gap-3">
+							<Form.Field {form} name="_id" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Control Number</Form.Label>
 									<Select.Root
 										selected={selectedRequest}
 										onSelectedChange={(s) => {
-											s && ($formData.request_id = s.value);
+											s && ($formData._id = s.value);
 										}}
 									>
 										<Select.Input name={attrs.name} />
@@ -276,6 +291,60 @@
 						</div>
 					</Card.Content>
 				</Card.Root>
+				{#if $formData.currentStatus === 'Transferred to private lawyer, IBP, etc.'}
+					<Card.Root>
+						<Card.Header>
+							<Card.Title>Transfer Information</Card.Title>
+							<Card.Description>Please fill out all necessary information.</Card.Description>
+						</Card.Header>
+						<Card.Content class="grid auto-rows-max items-start gap-3">
+							<Form.Field {form} name="transferredFrom" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Transferred From</Form.Label>
+									<Select.Root
+										selected={selectedTransferredFrom}
+										onSelectedChange={(s) => {
+											s && ($formData.transferredFrom = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each $page.data.users as lawyer}
+												<Select.Item bind:value={lawyer._id}>{lawyer.name}</Select.Item>
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="transferredTo" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Transferred To</Form.Label>
+									<Select.Root
+										selected={selectedTransferredTo}
+										onSelectedChange={(s) => {
+											s && ($formData.transferredTo = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each $page.data.users as lawyer}
+												<Select.Item bind:value={lawyer._id}>{lawyer.name}</Select.Item>
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</Card.Content>
+					</Card.Root>
+				{/if}
 				<Card.Root>
 					<Form.Fieldset {form} name="clientInvolvement" class="space-y-0">
 						<Card.Header>
