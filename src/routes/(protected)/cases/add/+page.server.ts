@@ -56,6 +56,11 @@ export const actions: Actions = {
 		const _case = await db.cases.insertOne(form.data);
 		if (!_case.acknowledged) return fail(500, { form });
 
+		if (form.data.transferredTo) {
+			const request = await db.requests.updateOne({ _id: form.data._id }, { $set: { lawyer_id: form.data.transferredTo } });
+			if (!request) return fail(500, { form });
+		}
+
 		redirect(
 			'/cases/' + _case.insertedId,
 			{ type: 'success', message: 'Case added successfully!' },

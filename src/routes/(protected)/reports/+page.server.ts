@@ -96,7 +96,7 @@ export const actions = {
 				{
 					$lookup: {
 						from: 'cases',
-						localField: 'case_id',
+						localField: '_id',
 						foreignField: '_id',
 						as: 'case'
 					}
@@ -114,6 +114,28 @@ export const actions = {
 						branch: { $arrayElemAt: ['$branch', 0] },
 						interviewee: { $arrayElemAt: ['$interviewee', 0] },
 						case: { $arrayElemAt: ['$case', 0] }
+					}
+				},
+				{
+					$lookup: {
+						from: 'users',
+						localField: 'case.transferredFrom',
+						foreignField: '_id',
+						as: 'case.transferredFrom'
+					}
+				},
+				{
+					$lookup: {
+						from: 'users',
+						localField: 'case.transferredTo',
+						foreignField: '_id',
+						as: 'case.transferredTo'
+					}
+				},
+				{
+					$addFields: {
+						'case.transferredFrom': { $arrayElemAt: ['$case.transferredFrom', 0] },
+						'case.transferredTo': { $arrayElemAt: ['$case.transferredTo', 0] }
 					}
 				},
 				{
@@ -250,22 +272,22 @@ export const actions = {
 		const f27 = '';
 
 		const f28 = {
-			acvt : requests.filter(
+			acvt: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Favorable Dispositions to Clients') && 
+					d.case?.terminated?.contains('Favorable Dispositions to Clients') &&
 					d.case?.natureOfTheCase?.contains('Criminal')
 			),
-			acrt : requests.filter(
+			acrt: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Favorable Dispositions to Clients') && 
+					d.case?.terminated?.contains('Favorable Dispositions to Clients') &&
 					d.case?.natureOfTheCase?.contains('Civil')
 			),
-			aadt : requests.filter(
+			aadt: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Favorable Dispositions to Clients') && 
+					d.case?.terminated?.contains('Favorable Dispositions to Clients') &&
 					d.case?.natureOfTheCase?.contains('Criminal')
 			),
 			adoc: requests.filter(
