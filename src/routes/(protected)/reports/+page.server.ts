@@ -257,49 +257,237 @@ export const actions = {
 		const f27 = '';
 
 		const f28 = {
-			a: { status.filter(
-				(s) => 
-					s.date.getMonth() > form.data.month).length > 0
-			},
-			acvt: requests.filter(
+			a_crp5a: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('On trial') &&
+					d.case?.natureOfTheCase?.contains('Criminal')
+			),
+			a_cvp5a: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('On trial') &&
+					d.case?.natureOfTheCase?.contains('Civil')
+			),
+			a_ad1p5a: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('On trial') &&
+					d.case?.natureOfTheCase?.contains('Administrative')
+			),
+			a_ad2p5a: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('On trial') &&
+					d.case?.natureOfTheCase?.contains("Prosecutor's office cases")
+			),
+			a_ad3p5a: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('On trial') &&
+					d.case?.natureOfTheCase?.contains('Labor')
+			),
+			a_crp5b: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('Submitted for decision/resolution') &&
+					d.case?.natureOfTheCase?.contains('Criminal')
+			),
+			a_cvp5b: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('Submitted for decision/resolution') &&
+					d.case?.natureOfTheCase?.contains('Civil')
+			),
+			a_ad1p5b: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('Submitted for decision/resolution') &&
+					d.case?.natureOfTheCase?.contains('Administrative')
+			),
+			a_ad2p5b: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('Submitted for decision/resolution') &&
+					d.case?.natureOfTheCase?.contains("Prosecutor's office cases")
+			),
+			a_ad3p5b: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('Submitted for decision/resolution') &&
+					d.case?.natureOfTheCase?.contains('Labor')
+			),
+			a_crp5c: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('Appealed case from MTC to RTC') &&
+					d.case?.natureOfTheCase?.contains('Criminal')
+			),
+			a_cvp5c: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('Appealed case from MTC to RTC') &&
+					d.case?.natureOfTheCase?.contains('Civil')
+			),
+			a_ad1p5c: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('Appealed case from MTC to RTC') &&
+					d.case?.natureOfTheCase?.contains('Administrative')
+			),
+			a_ad2p5c: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('Appealed case from MTC to RTC') &&
+					d.case?.natureOfTheCase?.contains("Prosecutor's office cases")
+			),
+			a_ad3p5c: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('Appealed case from MTC to RTC') &&
+					d.case?.natureOfTheCase?.contains('Labor')
+			),
+			a_crp5d: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('Cases referred to SACS') &&
+					d.case?.natureOfTheCase?.contains('Criminal')
+			),
+			a_cvp5d: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('Cases referred to SACS') &&
+					d.case?.natureOfTheCase?.contains('Civil')
+			),
+			a_ad1p5d: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('Cases referred to SACS') &&
+					d.case?.natureOfTheCase?.contains('Administrative')
+			),
+			a_ad2p5d: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('Cases referred to SACS') &&
+					d.case?.natureOfTheCase?.contains("Prosecutor's office cases")
+			),
+			a_ad3p5d: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.pending?.contains('Cases referred to SACS') &&
+					d.case?.natureOfTheCase?.contains('Labor')
+			),
+			a_cvft: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
 					d.case?.terminated?.contains('Favorable Dispositions to Clients') &&
 					d.case?.natureOfTheCase?.contains('Criminal')
 			),
-			acrt: requests.filter(
+			a_crft: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
 					d.case?.terminated?.contains('Favorable Dispositions to Clients') &&
 					d.case?.natureOfTheCase?.contains('Civil')
 			),
-			aadt: requests.filter(
+			a_ad1ft: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
 					d.case?.terminated?.contains('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.contains('Administrative')
+			),
+			a_ad2ft: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.terminated?.contains('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.contains("Prosecutor's office cases")
+			),
+			a_ad3ft: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.terminated?.contains('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.contains("Labor")
+			),
+			a_cvut: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.terminated?.contains('Unfavorable Dispositions to Clients') &&
 					d.case?.natureOfTheCase?.contains('Criminal')
 			),
-			adoc: requests.filter(
+			a_crut: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.terminated?.contains('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.contains('Civil')
+			),
+			a_ad1ut: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.terminated?.contains('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.contains('Administrative')
+			),
+			a_ad2ut: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.terminated?.contains('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.contains("Prosecutor's office cases")
+			),
+			a_ad3ut: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.terminated?.contains('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.contains("Labor")
+			),
+			a_cvot: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.terminated?.contains('Other dispositions') &&
+					d.case?.natureOfTheCase?.contains('Criminal')
+			),
+			a_crot: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.terminated?.contains('Other dispositions') &&
+					d.case?.natureOfTheCase?.contains('Civil')
+			),
+			a_ad1ot: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.terminated?.contains('Other dispositions') &&
+					d.case?.natureOfTheCase?.contains('Administrative')
+			),
+			a_ad2ot: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.terminated?.contains('Other dispositions') &&
+					d.case?.natureOfTheCase?.contains("Prosecutor's office cases")
+			),
+			a_ad3ot: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.terminated?.contains('Other dispositions') &&
+					d.case?.natureOfTheCase?.contains("Labor")
+			),
+			a_doc: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
 					d.request?.otherNature?.contains('Document/Pleadings Prepared')
 			),
-			aoath: requests.filter(
+			a_oath: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
 					d.request?.nature?.contains('Administration of Oath')
 			),
-			acoun: requests.filter(
+			a_coun: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
 					d.request?.nature?.contains('Legal Advice')
 			),
-			acust: requests.filter(
+			a_cust: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
 					d.request?.otherNature?.contains('Assisted During Custodial Interrogation')
 			),
-			ainqu: requests.filter(
+			a_inqu: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
 					d.request?.otherNature?.contains('Assisted During Inquest Investigation')
