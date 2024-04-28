@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 
-	import { PlusCircled, File, MixerHorizontal } from 'svelte-radix';
+	import { PlusCircled } from 'svelte-radix';
 
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as Tabs from '$lib/components/ui/tabs';
 
 	import Table from './data-table.svelte';
@@ -107,9 +106,7 @@
 		<Card.Root>
 			<Card.Header class="px-7">
 				<Card.Title>Archived Requests</Card.Title>
-				<Card.Description
-					>All archived requests are shown here.</Card.Description
-				>
+				<Card.Description>All archived requests are shown here.</Card.Description>
 			</Card.Header>
 			<Card.Content>
 				{#await $page.data.requests}

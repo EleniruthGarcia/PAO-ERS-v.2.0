@@ -28,7 +28,6 @@ export const adversePartyInvolvement = [
 
 export const status = [
 	'New',
-	'Ongoing',
 	'Pending',
 	'Terminated',
 	'Archived',
@@ -116,7 +115,7 @@ export const formSchema = z.object({
 		})
 	),
 	transferredTo: z.string().optional(),
-	transferredFrom: z.string().optional(),
+	transferredFrom: z.string().optional()
 });
 
 export type FormSchema = typeof formSchema;

@@ -39,7 +39,7 @@
 			<Command.Shortcut>⌘ ⇧ C</Command.Shortcut>
 		</Command.Item>
 	</Command.Group>
-	<Command.Group heading="Requets">
+	<Command.Group heading="Requests">
 		<Command.Item onSelect={searchRequest}>
 			<CardStack class="mr-2 h-4 w-4" />
 			<span>Search Requests...</span>

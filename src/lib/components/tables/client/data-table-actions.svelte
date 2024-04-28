@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { DotsHorizontal } from 'svelte-radix';
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
@@ -38,9 +37,9 @@
 			</AlertDialog.Description>
 		</AlertDialog.Header>
 		<AlertDialog.Footer>
-			<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-			<form action="/clients/{id}/{status === 'Archived' ? 'restore' : 'delete'}" method="POST">
-				<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90"
+			<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
+			<form action="/cases/{id}/{status === 'Archived' ? 'restore' : 'delete'}" method="POST">
+				<AlertDialog.Action type="submit" class="w-full bg-destructive hover:bg-destructive/90"
 					>{status === 'Archived' ? 'Restore' : 'Delete'}</AlertDialog.Action
 				>
 			</form>

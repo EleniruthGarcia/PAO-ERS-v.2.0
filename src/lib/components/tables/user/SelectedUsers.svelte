@@ -1,10 +1,7 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { ChevronLeft, ChevronRight, Copy, Person, DotsVertical } from 'svelte-radix';
+	import { ChevronLeft, ChevronRight, Copy, DotsVertical } from 'svelte-radix';
 
 	import { toast } from 'svelte-sonner';
-
-	import Loading from '$lib/components/Loading.svelte';
 
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import { Badge } from '$lib/components/ui/badge';
@@ -58,13 +55,13 @@
 					on:click={() =>
 						navigator.clipboard
 							.writeText(user._id)
-							.then(() => toast(`Copied User ID '${user._id}'!`))}
+							.then(() => toast(`Copied User ID '${user._id}'.`))}
 				>
 					<Copy class="h-3 w-3" />
 					<span class="sr-only">Copy User ID</span>
 				</Button>
 			</Card.Title>
-			<Card.Description><Badge class="mr-2">{user.role}</Badge>{user.rank}</Card.Description>
+			<Card.Description><Badge variant="outline" class="mr-2">{user.role}</Badge>{user.rank}</Card.Description>
 		</div>
 		<div class="ml-auto flex items-center gap-1">
 			<!-- <Button size="sm" variant="outline" class="h-8 gap-1">
@@ -92,9 +89,7 @@
 					<AlertDialog.Header>
 						<AlertDialog.Title>Delete user</AlertDialog.Title>
 						<AlertDialog.Description>
-							Are you absolutely sure? The user will be archived and will not show up in Active
-							users. If you want the client to be permanently deleted, please contact the
-							administrator.
+							Are you absolutely sure? The user will be archived.
 						</AlertDialog.Description>
 					</AlertDialog.Header>
 					<AlertDialog.Footer>
@@ -154,7 +149,7 @@
 	</Card.Content>
 	<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 		<div class="text-xs text-muted-foreground">
-			Updated <time dateTime="2023-11-23">November 23, 2023</time>
+			Updated <time>{user.status[user.status.length - 1].date.toLocaleString()}</time>
 		</div>
 		<Pagination.Root count={10} class="ml-auto mr-0 w-auto">
 			<Pagination.Content>
@@ -166,7 +161,7 @@
 						on:click={() => (i > 0 ? i-- : (i = $selectedUsers.length - 1))}
 					>
 						<ChevronLeft class="h-3.5 w-3.5" />
-						<span class="sr-only">Previous Client</span>
+						<span class="sr-only">Previous User</span>
 					</Button>
 				</Pagination.Item>
 				<Pagination.Item>
@@ -177,7 +172,7 @@
 						on:click={() => (i < $selectedUsers.length - 1 ? i++ : (i = 0))}
 					>
 						<ChevronRight class="h-3.5 w-3.5" />
-						<span class="sr-only">Next Client</span>
+						<span class="sr-only">Next User</span>
 					</Button>
 				</Pagination.Item>
 			</Pagination.Content>
