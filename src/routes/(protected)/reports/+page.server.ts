@@ -112,7 +112,7 @@ export const actions = {
 					$lookup: {
 						from: 'cases',
 						localField: '_id',
-						foreignField: '_id',
+						foreignField: 'controlNo',
 						as: 'case'
 					}
 				},
