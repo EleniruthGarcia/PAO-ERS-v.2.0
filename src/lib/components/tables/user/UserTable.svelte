@@ -62,7 +62,7 @@
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
 						>
 							<div class="flex flex-col items-center gap-1 text-center">
-								<h3 class="text-2xl font-bold tracking-tight">You have no users!</h3>
+								<h3 class="text-2xl font-bold tracking-tight">You have no users.</h3>
 								<p class="text-sm text-muted-foreground">
 									You can start using the system as soon as you add a new user.
 								</p>
@@ -91,7 +91,7 @@
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
 						>
 							<div class="flex flex-col items-center gap-1 text-center">
-								<h3 class="text-2xl font-bold tracking-tight">You have no new users!</h3>
+								<h3 class="text-2xl font-bold tracking-tight">You have no new users.</h3>
 								<p class="text-sm text-muted-foreground">
 									You can start using the system as soon as you add a new user.
 								</p>
@@ -107,7 +107,7 @@
 		<Card.Root>
 			<Card.Header class="px-7">
 				<Card.Title>Archived Users</Card.Title>
-				<Card.Description>All archived users added to the system are shown here.</Card.Description>
+				<Card.Description>All archived users are shown here.</Card.Description>
 			</Card.Header>
 			<Card.Content>
 				{#await $page.data.users}
@@ -120,7 +120,7 @@
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
 						>
 							<div class="flex flex-col items-center gap-1 text-center">
-								<h3 class="text-2xl font-bold tracking-tight">You have no archived users!</h3>
+								<h3 class="text-2xl font-bold tracking-tight">You have no archived users.</h3>
 								<p class="text-sm text-muted-foreground">You may view your archived users here.</p>
 								<Button class="mt-4" href="/users/add">Add User</Button>
 							</div>
