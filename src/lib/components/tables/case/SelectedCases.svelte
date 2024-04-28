@@ -61,7 +61,9 @@
 					<span class="sr-only">Copy Case ID</span>
 				</Button>
 			</Card.Title>
-			<Card.Description><Badge class="m-1">{_case.currentStatus}</Badge></Card.Description>
+			<Card.Description><Badge class="m-1" variant={_case.currentStatus === 'Terminated' ? 'destructive' : (_case.currentStatus === 'Withdrawn' || _case.currentStatus === 'Archived' ? 'outline' : 'secondary')}>
+				{_case.currentStatus}
+			  </Badge></Card.Description>
 		</div>
 		<div class="ml-auto flex items-center gap-1">
 			<!-- <Button size="sm" variant="outline" class="h-8 gap-1">
