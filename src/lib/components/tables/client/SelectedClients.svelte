@@ -1,10 +1,7 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { ChevronLeft, ChevronRight, Copy, Person, DotsVertical } from 'svelte-radix';
+	import { ChevronLeft, ChevronRight, Copy, DotsVertical } from 'svelte-radix';
 
 	import { toast } from 'svelte-sonner';
-
-	import Loading from '$lib/components/Loading.svelte';
 
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import { Badge } from '$lib/components/ui/badge';
@@ -58,13 +55,13 @@
 					on:click={() =>
 						navigator.clipboard
 							.writeText(client._id)
-							.then(() => toast(`Copied Client ID '${client._id}'!`))}
+							.then(() => toast(`Copied Client ID '${client._id}'.`))}
 				>
 					<Copy class="h-3 w-3" />
 					<span class="sr-only">Copy Client ID</span>
 				</Button>
 			</Card.Title>
-			<Card.Description>Date: November 23, 2023</Card.Description>
+			<Card.Description>ID: {client._id}</Card.Description>
 		</div>
 		<div class="ml-auto flex items-center gap-1">
 			<!-- <Button size="sm" variant="outline" class="h-8 gap-1">
@@ -98,10 +95,11 @@
 						</AlertDialog.Description>
 					</AlertDialog.Header>
 					<AlertDialog.Footer>
-						<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+						<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 						<form action="/clients/{client._id}/delete" method="POST">
-							<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90"
-								>Delete</AlertDialog.Action
+							<AlertDialog.Action
+								type="submit"
+								class="w-full bg-destructive hover:bg-destructive/90">Delete</AlertDialog.Action
 							>
 						</form>
 					</AlertDialog.Footer>
@@ -210,14 +208,14 @@
 			<div>
 				<div class="mb-3 font-semibold">Classifications</div>
 				{#each client.classification as classification}
-					<Badge class="m-1">{classification}</Badge>
+					<Badge class="mr-1">{classification}</Badge>
 				{/each}
 			</div>
 		{/if}
 	</Card.Content>
 	<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 		<div class="text-xs text-muted-foreground">
-			Updated <time dateTime="2023-11-23">November 23, 2023</time>
+			Updated <time>{client.status[client.status.length - 1].date.toLocaleString()}</time>
 		</div>
 		<Pagination.Root count={10} class="ml-auto mr-0 w-auto">
 			<Pagination.Content>

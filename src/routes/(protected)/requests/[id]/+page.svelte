@@ -40,7 +40,13 @@
 							<span class="sr-only">Copy Case ID</span>
 						</Button>
 					</Card.Title>
-					<Card.Description>{data.client.length > 1 ? (data.client.length > 2 ? `${data.client[0].lastName} et. al.` : `${data.client[0].lastName} and ${data.client[1].lastName}`) : data.client[0].name}</Card.Description>
+					<Card.Description
+						>{data.client.length > 1
+							? data.client.length > 2
+								? `${data.client[0].lastName} et. al.`
+								: `${data.client[0].lastName} and ${data.client[1].lastName}`
+							: data.client[0].name}</Card.Description
+					>
 				</div>
 				<div class="invisible ml-auto flex items-center gap-1 sm:visible">
 					<Button
@@ -77,7 +83,8 @@
 								<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/requests/{data.request._id}/{data.request.status.at(-1)?.type === 'Archived'
+									action="/requests/{data.request._id}/{data.request.status.at(-1)?.type ===
+									'Archived'
 										? 'restore'
 										: 'delete'}"
 								>
@@ -99,12 +106,16 @@
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content align="end">
 							<DropdownMenu.Item href="/requests/{data.request._id}/edit">Edit</DropdownMenu.Item>
-							<DropdownMenu.Item href="/requests/{data.request._id}/export">Export</DropdownMenu.Item>
+							<DropdownMenu.Item href="/requests/{data.request._id}/export"
+								>Export</DropdownMenu.Item
+							>
 							<DropdownMenu.Separator />
 							<AlertDialog.Root>
 								<AlertDialog.Trigger>
 									<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-										>{data.request.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
+										>{data.request.status.at(-1)?.type === 'Archived'
+											? 'Restore'
+											: 'Delete'}</Button
 									>
 								</AlertDialog.Trigger>
 								<AlertDialog.Content>
@@ -187,34 +198,34 @@
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
 				{#each data.client as client, i}
-				<div class="grid gap-3">
-					<ul class="grid gap-3">
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Name </span>
-							<span>{client.name}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Age </span>
-							<span>{client.age}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Sex </span>
-							<span>{client.sex}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Civil Status </span>
-							<span>{client.civilStatus}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Citizenship </span>
-							<span>{client.citizenship}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Language </span>
-							<span>{client.language}</span>
-						</li>
-					</ul>
-				</div>
+					<div class="grid gap-3">
+						<ul class="grid gap-3">
+							<li class="flex items-center justify-between gap-2 truncate">
+								<span class="text-muted-foreground"> Name </span>
+								<span>{client.name}</span>
+							</li>
+							<li class="flex items-center justify-between gap-2 truncate">
+								<span class="text-muted-foreground"> Age </span>
+								<span>{client.age}</span>
+							</li>
+							<li class="flex items-center justify-between gap-2 truncate">
+								<span class="text-muted-foreground"> Sex </span>
+								<span>{client.sex}</span>
+							</li>
+							<li class="flex items-center justify-between gap-2 truncate">
+								<span class="text-muted-foreground"> Civil Status </span>
+								<span>{client.civilStatus}</span>
+							</li>
+							<li class="flex items-center justify-between gap-2 truncate">
+								<span class="text-muted-foreground"> Citizenship </span>
+								<span>{client.citizenship}</span>
+							</li>
+							<li class="flex items-center justify-between gap-2 truncate">
+								<span class="text-muted-foreground"> Language </span>
+								<span>{client.language}</span>
+							</li>
+						</ul>
+					</div>
 					{#if data.client.length - 1 !== i}
 						<Separator class="my-4" />
 					{/if}

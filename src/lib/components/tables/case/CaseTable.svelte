@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 
-	import { PlusCircled, File, MixerHorizontal } from 'svelte-radix';
+	import { PlusCircled } from 'svelte-radix';
 
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as Tabs from '$lib/components/ui/tabs';
 
 	import Table from './data-table.svelte';
@@ -65,7 +64,7 @@
 							<div class="flex flex-col items-center gap-1 text-center">
 								<h3 class="text-2xl font-bold tracking-tight">You have no cases.</h3>
 								<p class="text-sm text-muted-foreground">
-									You can start using the system as soon as you add a new user.
+									You can start using the system as soon as you add a new case.
 								</p>
 								<Button class="mt-4" href="/cases/add">Add Case</Button>
 							</div>
@@ -149,7 +148,9 @@
 						>
 							<div class="flex flex-col items-center gap-1 text-center">
 								<h3 class="text-2xl font-bold tracking-tight">You have no terminated cases.</h3>
-								<p class="text-sm text-muted-foreground">You may view your terminated cases here.</p>
+								<p class="text-sm text-muted-foreground">
+									You may view your terminated cases here.
+								</p>
 								<Button class="mt-4" href="/cases/add">Add Case</Button>
 							</div>
 						</div>

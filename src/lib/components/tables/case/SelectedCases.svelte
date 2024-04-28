@@ -1,10 +1,7 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { ChevronLeft, ChevronRight, Copy, Person, DotsVertical } from 'svelte-radix';
+	import { ChevronLeft, ChevronRight, Copy, DotsVertical } from 'svelte-radix';
 
 	import { toast } from 'svelte-sonner';
-
-	import Loading from '$lib/components/Loading.svelte';
 
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import { Badge } from '$lib/components/ui/badge';
@@ -58,10 +55,10 @@
 					on:click={() =>
 						navigator.clipboard
 							.writeText(_case._id)
-							.then(() => toast(`Copied Client ID '${_case._id}'!`))}
+							.then(() => toast(`Copied Case ID '${_case._id}'.`))}
 				>
 					<Copy class="h-3 w-3" />
-					<span class="sr-only">Copy Client ID</span>
+					<span class="sr-only">Copy Case ID</span>
 				</Button>
 			</Card.Title>
 			<Card.Description><Badge class="m-1">{_case.currentStatus}</Badge></Card.Description>
@@ -81,7 +78,7 @@
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Content align="end">
 						<DropdownMenu.Item href="/cases/{_case._id}/edit">Edit</DropdownMenu.Item>
-						<DropdownMenu.Item href="/cases/{_case._id}/export">Export</DropdownMenu.Item>
+						<!-- <DropdownMenu.Item href="/cases/{_case._id}/export">Export</DropdownMenu.Item> -->
 						<DropdownMenu.Separator />
 						<AlertDialog.Trigger class="w-full">
 							<DropdownMenu.Item>Delete</DropdownMenu.Item>
@@ -92,16 +89,15 @@
 					<AlertDialog.Header>
 						<AlertDialog.Title>Delete Case</AlertDialog.Title>
 						<AlertDialog.Description>
-							Are you absolutely sure? The case will be archived and will not show up in Active
-							cases. If you want the client to be permanently deleted, please contact the
-							administrator.
+							Are you absolutely sure? The case will be archived.
 						</AlertDialog.Description>
 					</AlertDialog.Header>
 					<AlertDialog.Footer>
-						<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+						<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 						<form action="/cases/{_case._id}/delete" method="POST">
-							<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90"
-								>Delete</AlertDialog.Action
+							<AlertDialog.Action
+								type="submit"
+								class="w-full bg-destructive hover:bg-destructive/90">Delete</AlertDialog.Action
 							>
 						</form>
 					</AlertDialog.Footer>
@@ -164,7 +160,7 @@
 	</Card.Content>
 	<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 		<div class="text-xs text-muted-foreground">
-			Updated <time dateTime="2023-11-23">November 23, 2023</time>
+			Updated <time>{_case.status[_case.status.length - 1].date.toLocaleString()}</time>
 		</div>
 		<Pagination.Root count={10} class="ml-auto mr-0 w-auto">
 			<Pagination.Content>

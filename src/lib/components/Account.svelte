@@ -51,16 +51,23 @@
 				</div>
 			</Sheet.Header>
 			<div class="grid gap-1 py-2">
-				<Button variant="ghost" class="w-full items-start justify-start">My Account</Button>
-				<Separator />
-				<Button variant="ghost" class="w-full items-start justify-start">Settings</Button>
-				<Button variant="ghost" class="w-full items-start justify-start">Support</Button>
-				<Separator />
-				<form action="/logout" method="POST">
-					<Form.Button variant="ghost" class="w-full items-start justify-start" type="submit"
-						>Logout</Form.Button
+				<Sheet.Close asChild let:builder>
+					<!-- <Button variant="ghost" class="w-full items-start justify-start">My Account</Button>
+				<Separator /> -->
+					<Button
+						variant="ghost"
+						class="w-full items-start justify-start"
+						href="/settings"
+						builders={[builder]}>Settings</Button
 					>
-				</form>
+					<!-- <Button variant="ghost" class="w-full items-start justify-start" href="/" builders={[builder]}>Report Error</Button> -->
+					<Separator />
+					<form action="/logout" method="POST">
+						<Form.Button variant="ghost" class="w-full items-start justify-start" type="submit"
+							>Logout</Form.Button
+						>
+					</form>
+				</Sheet.Close>
 			</div>
 		</Sheet.Content>
 	</Sheet.Root>
