@@ -23,9 +23,9 @@
 						<Button
 							variant="link"
 							class="p-0 text-lg text-foreground"
-							href="/clients/{data._case._id}"
+							href="/requests/{data.request._id}"
 						>
-							{data._case.titleOfTheCase || 'Untitled Case'}
+							{data.request._id}
 						</Button>
 						<Button
 							size="icon"
@@ -33,8 +33,8 @@
 							class="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
 							on:click={() =>
 								navigator.clipboard
-									.writeText(data._case._id)
-									.then(() => toast(`Copied data.client ID '${data._case._id}'!`))}
+									.writeText(data.request._id)
+									.then(() => toast(`Copied data.client ID '${data.request._id}'!`))}
 						>
 							<Copy class="h-3 w-3" />
 							<span class="sr-only">Copy Case ID</span>
@@ -47,9 +47,9 @@
 						size="sm"
 						variant="outline"
 						class="h-7 gap-1 text-sm"
-						href="/clients/{data.client._id}/edit">Edit</Button
+						href="/requests/{data.client._id}/edit">Edit</Button
 					>
-					<Button size="sm" class="h-7 gap-1 text-sm" href="/clients/{data.client._id}/export"
+					<Button size="sm" class="h-7 gap-1 text-sm" href="/requests/{data.client._id}/export"
 						>Export</Button
 					>
 					<AlertDialog.Root>
@@ -77,7 +77,7 @@
 								<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/clients/{data.client._id}/{data.client.status.at(-1)?.type === 'Archived'
+									action="/requests/{data.client._id}/{data.client.status.at(-1)?.type === 'Archived'
 										? 'restore'
 										: 'delete'}"
 								>
@@ -98,8 +98,8 @@
 							</Button>
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content align="end">
-							<DropdownMenu.Item href="/clients/{data.client._id}/edit">Edit</DropdownMenu.Item>
-							<DropdownMenu.Item href="/clients/{data.client._id}/export">Export</DropdownMenu.Item>
+							<DropdownMenu.Item href="/requests/{data.client._id}/edit">Edit</DropdownMenu.Item>
+							<DropdownMenu.Item href="/requests/{data.client._id}/export">Export</DropdownMenu.Item>
 							<DropdownMenu.Separator />
 							<AlertDialog.Root>
 								<AlertDialog.Trigger>
@@ -126,7 +126,7 @@
 										<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
 										<form
 											method="POST"
-											action="/clients/{data.client._id}/{data.client.status.at(-1)?.type ===
+											action="/requests/{data.client._id}/{data.client.status.at(-1)?.type ===
 											'Archived'
 												? 'restore'
 												: 'delete'}"
@@ -151,23 +151,23 @@
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Age </span>
-							<span>{request.client.age}</span>
+							<span>{data.request.client.age}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Sex </span>
-							<span>{request.client.sex}</span>
+							<span>{data.request.client.sex}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Civil Status </span>
-							<span>{request.client.civilStatus}</span>
+							<span>{data.request.client.civilStatus}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Citizenship </span>
-							<span>{request.client.citizenship}</span>
+							<span>{data.request.client.citizenship}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Language </span>
-							<span>{request.client.language}</span>
+							<span>{data.request.client.language}</span>
 						</li>
 					</ul>
 				</div>
@@ -177,11 +177,11 @@
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Interviewee </span>
-							<span>{request.interviewee.name}</span>
+							<span>{data.request.interviewee.name}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Relationshipto Client </span>
-							<span>{request.relationshipToClient}</span>
+							<span>{data.request.relationshipToClient}</span>
 						</li>
 					</ul>
 				</div>
@@ -191,18 +191,18 @@
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Lawyer </span>
-							<span>{request.lawyer.name}</span>
+							<span>{data.request.lawyer.name}</span>
 						</li>
 					</ul>
 				</div>
 				<Separator class="my-4" />
 				<div>
 					<div class="font-semibold">Nature of Request</div>
-					{#each request.nature as nature}
+					{#each data.request.nature as nature}
 						<Badge class="m-1">{nature}</Badge>
 					{/each}
-					{#if request.otherNature != null}
-						{#each request.otherNature as nature}
+					{#if data.request.otherNature != null}
+						{#each data.request.otherNature as nature}
 							<Badge class="m-1">{nature}</Badge>
 						{/each}
 					{/if}
@@ -235,11 +235,11 @@
 						<ul class="grid gap-3">
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground"> Nature </span>
-								<span>{request.otherNature ? request.otherNature : request.nature}</span>
+								<span>{data.request.otherNature ? request.otherNature : request.nature}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground"> Lawyer </span>
-								<span>{request.lawyer.name}</span>
+								<span>{data.requests.lawyer.name}</span>
 							</li>
 						</ul>
 					</div>
