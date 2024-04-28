@@ -238,7 +238,24 @@ export const actions = {
 		const f27 = '';
 
 		const f28 = {
-			
+			acvt : requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.terminated?.contains('Favorable Dispositions to Clients') && 
+					d.case?.natureOfTheCase?.contains('Criminal')
+			),
+			acrt : requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.terminated?.contains('Favorable Dispositions to Clients') && 
+					d.case?.natureOfTheCase?.contains('Civil')
+			),
+			aadt : requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.terminated?.contains('Favorable Dispositions to Clients') && 
+					d.case?.natureOfTheCase?.contains('Criminal')
+			),
 			adoc: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
