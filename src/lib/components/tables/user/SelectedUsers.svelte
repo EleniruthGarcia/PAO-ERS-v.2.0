@@ -61,7 +61,9 @@
 					<span class="sr-only">Copy User ID</span>
 				</Button>
 			</Card.Title>
-			<Card.Description><Badge variant="outline" class="mr-2">{user.role}</Badge>{user.rank}</Card.Description>
+			<Card.Description
+				><Badge variant="outline" class="mr-2">{user.role}</Badge>{user.rank}</Card.Description
+			>
 		</div>
 		<div class="ml-auto flex items-center gap-1">
 			<!-- <Button size="sm" variant="outline" class="h-8 gap-1">
@@ -78,7 +80,7 @@
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Content align="end">
 						<DropdownMenu.Item href="/users/{user._id}/edit">Edit</DropdownMenu.Item>
-						<DropdownMenu.Item href="/users/{user._id}/export">Export</DropdownMenu.Item>
+						<!-- <DropdownMenu.Item href="/users/{user._id}/export">Export</DropdownMenu.Item> -->
 						<DropdownMenu.Separator />
 						<AlertDialog.Trigger class="w-full">
 							<DropdownMenu.Item>Delete</DropdownMenu.Item>

@@ -42,7 +42,7 @@
 							<span class="sr-only">Copy Client ID</span>
 						</Button>
 					</Card.Title>
-					<Card.Description>Date: November 23, 2023</Card.Description>
+					<Card.Description>ID: {data.client._id}</Card.Description>
 				</div>
 				<div class="invisible ml-auto flex items-center gap-1 sm:visible">
 					<Button
@@ -110,7 +110,7 @@
 								>
 								<DropdownMenu.Separator />
 								<DropdownMenu.Item>
-									<AlertDialog.Trigger>
+									<AlertDialog.Trigger class="w-full text-left">
 										{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Trigger>
 								</DropdownMenu.Item>
@@ -259,7 +259,9 @@
 			</Card.Content>
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
-					Updated <time dateTime="2023-11-23">November 23, 2023</time>
+					Updated <time
+						>{data.client.status[data.client.status.length - 1].date.toLocaleString()}</time
+					>
 				</div>
 			</Card.Footer>
 		</Card.Root>
@@ -297,11 +299,11 @@
 					{/if}
 				{/each}
 			</Card.Content>
-			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
+			<!-- <Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
-					Updated <time dateTime="2023-11-23">November 23, 2023</time>
+					Updated <time>{data.requests[0].status[data.requests.status.length - 1].date.toLocaleString()}</time>
 				</div>
-			</Card.Footer>
+			</Card.Footer> -->
 		</Card.Root>
 	</div>
 </main>

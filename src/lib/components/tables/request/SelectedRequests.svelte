@@ -82,7 +82,7 @@
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Content align="end">
 						<DropdownMenu.Item href="/requests/{request._id}/edit">Edit</DropdownMenu.Item>
-						<DropdownMenu.Item href="/requests/{request._id}/export">Export</DropdownMenu.Item>
+						<!-- <DropdownMenu.Item href="/requests/{request._id}/export">Export</DropdownMenu.Item> -->
 						<DropdownMenu.Separator />
 						<AlertDialog.Trigger class="w-full">
 							<DropdownMenu.Item>Delete</DropdownMenu.Item>
@@ -93,9 +93,8 @@
 					<AlertDialog.Header>
 						<AlertDialog.Title>Delete Request</AlertDialog.Title>
 						<AlertDialog.Description>
-							Are you absolutely sure? The request will be archived and will not show up in Active
-							Requests. If you want the client to be permanently deleted, please contact the
-							administrator.
+							Are you absolutely sure? The request will be
+							{request.status.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
 						</AlertDialog.Description>
 					</AlertDialog.Header>
 					<AlertDialog.Footer>

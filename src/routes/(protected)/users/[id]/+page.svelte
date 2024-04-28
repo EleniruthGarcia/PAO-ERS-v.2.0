@@ -14,8 +14,8 @@
 	export let data: PageServerData;
 </script>
 
-<main class="grid gap-4 md:grid-cols-2">
-	<div class="grid auto-rows-max items-start gap-4 md:gap-8">
+<main class="grid gap-4 md:grid-cols-5">
+	<div class="grid auto-rows-max items-start gap-4 md:col-span-3 md:gap-8">
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
 				<div class="grid gap-0.5">
@@ -70,20 +70,21 @@
 									Are you absolutely sure? The user will be {data.user.status.at(-1)?.type ===
 									'Archived'
 										? 'restored'
-										: 'archived'} and will {data.user.status.at(-1)?.type === 'Archived'
-										? ''
-										: 'not'} show up in Active Users.
+										: 'archived'}.
 								</AlertDialog.Description>
 							</AlertDialog.Header>
 							<AlertDialog.Footer>
-								<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
 									action="/users/{data.user._id}/{data.user.status.at(-1)?.type === 'Archived'
 										? 'restore'
 										: 'delete'}"
 								>
-									<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90">
+									<AlertDialog.Action
+										type="submit"
+										class="w-full bg-destructive hover:bg-destructive/90"
+									>
 										{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Action>
 								</form>
@@ -92,58 +93,57 @@
 					</AlertDialog.Root>
 				</div>
 				<div class="visible ml-auto flex items-center gap-1 sm:hidden">
-					<DropdownMenu.Root>
-						<DropdownMenu.Trigger asChild let:builder>
-							<Button builders={[builder]} size="icon" variant="outline" class="h-8 w-8">
-								<DotsVertical class="h-3.5 w-3.5" />
-								<span class="sr-only">More</span>
-							</Button>
-						</DropdownMenu.Trigger>
-						<DropdownMenu.Content align="end">
-							<DropdownMenu.Item href="/users/{data.user._id}/edit">Edit</DropdownMenu.Item>
-							<DropdownMenu.Item href="/users/{data.user._id}/export">Export</DropdownMenu.Item>
-							<DropdownMenu.Separator />
-							<AlertDialog.Root>
-								<AlertDialog.Trigger>
-									<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-										>{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
+					<AlertDialog.Root>
+						<DropdownMenu.Root>
+							<DropdownMenu.Trigger asChild let:builder>
+								<Button builders={[builder]} size="icon" variant="outline" class="h-8 w-8">
+									<DotsVertical class="h-3.5 w-3.5" />
+									<span class="sr-only">More</span>
+								</Button>
+							</DropdownMenu.Trigger>
+							<DropdownMenu.Content align="end">
+								<DropdownMenu.Item href="/users/{data.user._id}/edit">Edit</DropdownMenu.Item>
+								<DropdownMenu.Item href="/users/{data.user._id}/export">Export</DropdownMenu.Item>
+								<DropdownMenu.Separator />
+								<AlertDialog.Trigger class="w-full text-left">
+									<DropdownMenu.Item
+										>{data.user.status.at(-1)?.type === 'Archived'
+											? 'Restore'
+											: 'Delete'}</DropdownMenu.Item
 									>
 								</AlertDialog.Trigger>
-								<AlertDialog.Content>
-									<AlertDialog.Header>
-										<AlertDialog.Title
-											>{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
-										>
-										<AlertDialog.Description>
-											Are you absolutely sure? The client will be {data.user.status.at(-1)?.type ===
-											'Archived'
-												? 'restored'
-												: 'archived'} and will {data.user.status.at(-1)?.type === 'Archived'
-												? ''
-												: 'not'} show up in Active Clients. If you want the client to be permanently
-											deleted, please contact the administrator.
-										</AlertDialog.Description>
-									</AlertDialog.Header>
-									<AlertDialog.Footer>
-										<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-										<form
-											method="POST"
-											action="/users/{data.user._id}/{data.user.status.at(-1)?.type === 'Archived'
-												? 'restore'
-												: 'delete'}"
-										>
-											<AlertDialog.Action
-												type="submit"
-												class="bg-destructive hover:bg-destructive/90"
-											>
-												{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
-											</AlertDialog.Action>
-										</form>
-									</AlertDialog.Footer>
-								</AlertDialog.Content>
-							</AlertDialog.Root>
-						</DropdownMenu.Content>
-					</DropdownMenu.Root>
+							</DropdownMenu.Content>
+						</DropdownMenu.Root>
+						<AlertDialog.Content>
+							<AlertDialog.Header>
+								<AlertDialog.Title
+									>{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
+								>
+								<AlertDialog.Description>
+									Are you absolutely sure? The user will be {data.user.status.at(-1)?.type ===
+									'Archived'
+										? 'restored'
+										: 'archived'}.
+								</AlertDialog.Description>
+							</AlertDialog.Header>
+							<AlertDialog.Footer>
+								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
+								<form
+									method="POST"
+									action="/users/{data.user._id}/{data.user.status.at(-1)?.type === 'Archived'
+										? 'restore'
+										: 'delete'}"
+								>
+									<AlertDialog.Action
+										type="submit"
+										class="w-full bg-destructive hover:bg-destructive/90"
+									>
+										{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+									</AlertDialog.Action>
+								</form>
+							</AlertDialog.Footer>
+						</AlertDialog.Content>
+					</AlertDialog.Root>
 				</div>
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
@@ -191,21 +191,34 @@
 			</Card.Content>
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
-					Updated <time dateTime="2023-11-23">November 23, 2023</time>
+					Updated <time>{data.user.status[data.user.status.length - 1].date.toLocaleString()}</time>
 				</div>
 			</Card.Footer>
 		</Card.Root>
 	</div>
-	<div>
+	<div class="md:col-span-2">
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
 				<div class="grid gap-0.5">
-					<Card.Title class="text-md group flex items-center gap-2">Account</Card.Title>
-					<Card.Description>Account</Card.Description>
+					<Card.Title class="text-md group flex items-center gap-2">Office Information</Card.Title>
+					<Card.Description>The user's workplace information are shown here.</Card.Description>
 				</div>
 			</Card.Header>
-			<Card.Content class="p-6 text-sm"></Card.Content>
-			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3"></Card.Footer>
+			<Card.Content class="p-6 text-sm">
+				<div class="grid gap-3">
+					<ul class="grid gap-3">
+						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground"> Branch </span>
+							<span>{data.user.branch_id}</span>
+						</li>
+						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground"> Supervisor </span>
+							<span>{data.user.reportsTo}</span>
+						</li>
+					</ul>
+				</div>
+			</Card.Content>
+			<!-- <Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3"></Card.Footer> -->
 		</Card.Root>
 	</div>
 </main>

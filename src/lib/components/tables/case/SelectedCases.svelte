@@ -61,9 +61,18 @@
 					<span class="sr-only">Copy Case ID</span>
 				</Button>
 			</Card.Title>
-			<Card.Description><Badge class="m-1" variant={_case.currentStatus === 'Terminated' ? 'destructive' : (_case.currentStatus === 'Withdrawn' || _case.currentStatus === 'Archived' ? 'outline' : 'secondary')}>
-				{_case.currentStatus}
-			  </Badge></Card.Description>
+			<Card.Description>
+				<Badge
+					class="m-1"
+					variant={_case.currentStatus === 'Terminated'
+						? 'destructive'
+						: _case.currentStatus === 'Withdrawn' || _case.currentStatus === 'Archived'
+							? 'outline'
+							: 'secondary'}
+				>
+					{_case.currentStatus}
+				</Badge>
+			</Card.Description>
 		</div>
 		<div class="ml-auto flex items-center gap-1">
 			<!-- <Button size="sm" variant="outline" class="h-8 gap-1">
@@ -91,7 +100,8 @@
 					<AlertDialog.Header>
 						<AlertDialog.Title>Delete Case</AlertDialog.Title>
 						<AlertDialog.Description>
-							Are you absolutely sure? The case will be archived.
+							Are you absolutely sure? The case will be
+							{_case.status.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
 						</AlertDialog.Description>
 					</AlertDialog.Header>
 					<AlertDialog.Footer>
@@ -118,6 +128,10 @@
 				<li class="flex items-center justify-between gap-2 truncate">
 					<span class="text-muted-foreground"> Specification </span>
 					<span>{_case.caseSpecs}</span>
+				</li>
+				<li class="flex items-center justify-between gap-2 truncate">
+					<span class="text-muted-foreground"> Client Involvement </span>
+					<span>{_case.clientInvolvement}</span>
 				</li>
 			</ul>
 		</div>
