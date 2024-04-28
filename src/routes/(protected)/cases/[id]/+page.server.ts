@@ -16,12 +16,10 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	const _case = await db.cases.findOne({ _id: event.params.id });
-	if (!_case)
-		redirect('/cases', { type: 'warning', message: 'Case not found!' }, event);
+	if (!_case) redirect('/cases', { type: 'warning', message: 'Case not found!' }, event);
 
 	const request = await db.requests.findOne({ case_id: event.params.id });
-	if (!request)
-		redirect('/cases', { type: 'warning', message: 'Request not found!' }, event);
+	if (!request) redirect('/cases', { type: 'warning', message: 'Request not found!' }, event);
 
 	return {
 		breadcrumbs: [

@@ -2,7 +2,7 @@ import db from '$lib/server/database';
 import { redirect } from 'sveltekit-flash-message/server';
 import type { PageServerLoad, Actions } from './$types';
 import { superValidate } from 'sveltekit-superforms';
-import { formSchema } from '$lib/schema/client';
+import { formSchema } from '$lib/schema/request';
 import { zod } from 'sveltekit-superforms/adapters';
 import { fail } from '@sveltejs/kit';
 
@@ -16,28 +16,33 @@ export const load: PageServerLoad = async (event) => {
 		);
 	}
 
-	const client = await db.clients.findOne({ _id: event.params.id });
-	if (!client) redirect('/clients', { type: 'warning', message: 'Client not found!' }, event);
+	const request = await db.requests.findOne({ _id: event.params.id });
+	if (!request) redirect('/requests', { type: 'warning', message: 'Request not found!' }, event);
+
+	const client = await db.clients.find({ _id: { $in: request.client_id } }).toArray();
+	if (!client || client.length === 0)
+		redirect('/requests', { type: 'warning', message: 'Client not found!' }, event);
 
 	return {
 		breadcrumbs: [
 			{ href: '/', text: 'PAO-ERS' },
-			{ href: '/clients', text: 'Clients' },
+			{ href: '/requests', text: 'Requests' },
 			{
-				href: '/clients/' + event.params.id,
-				text: client.name
+				href: '/requets/' + event.params.id,
+				text: `${request.otherNature || request.nature} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et. al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
 			},
-			{ href: '/clients/' + event.params.id + '/edit', text: `Edit` }
+			{ href: '/requests/' + event.params.id + '/edit', text: `Edit` }
 		],
 		form: await superValidate(
 			{
-				...client,
+				...request,
 				currentStatus: 'Updated'
 			},
 			zod(formSchema),
 			{ errors: false }
 		),
-		client
+		clients: await db.clients.find().toArray(),
+		lawyers: await db.users.find().toArray()
 	};
 };
 
@@ -57,21 +62,21 @@ export const actions = {
 
 		form.data.status.push({ type: form.data.currentStatus, date: new Date() });
 
-		const client = await db.clients.updateOne(
+		const request = await db.requests.updateOne(
 			{ _id: event.params.id },
 			{
 				$set: form.data
 			}
 		);
 
-		if (!client || !client.acknowledged) return fail(500, { form });
-		if (client.matchedCount === 0) return fail(404, { form });
-		if (client.modifiedCount === 0 && client.upsertedCount === 0) return fail(304, { form });
+		if (!request || !request.acknowledged) return fail(500, { form });
+		if (request.matchedCount === 0) return fail(404, { form });
+		if (request.modifiedCount === 0 && request.upsertedCount === 0) return fail(304, { form });
 
 		redirect(
-			'/clients/' + form.data._id,
-			client.modifiedCount > 0 || client.upsertedCount > 0
-				? { type: 'success', message: 'Client updated!' }
+			'/requests/' + form.data._id,
+			request.modifiedCount > 0 || request.upsertedCount > 0
+				? { type: 'success', message: 'Request updated!' }
 				: { type: 'info', message: 'No changes made...' },
 			event
 		);

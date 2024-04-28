@@ -14,7 +14,10 @@ export const load: PageServerLoad = async (event) => {
 		event.cookies.set('redirect', event.url.pathname, { path: '/' });
 		redirect(
 			'/login',
-			{ type: 'warning', message: 'You must be logged in as an administrator to access this page!' },
+			{
+				type: 'warning',
+				message: 'You must be logged in as an administrator to access this page!'
+			},
 			event
 		);
 	}
@@ -44,7 +47,10 @@ export const actions: Actions = {
 			event.cookies.set('redirect', event.url.pathname, { path: '/' });
 			redirect(
 				'/login',
-				{ type: 'warning', message: 'You must be logged in as an administrator to access this page!' },
+				{
+					type: 'warning',
+					message: 'You must be logged in as an administrator to access this page!'
+				},
 				event
 			);
 		}
@@ -53,11 +59,10 @@ export const actions: Actions = {
 		if (!form.valid) return fail(400, { form });
 
 		if (form.data.password !== form.data.confirmPassword)
-			return setError(form, '', 'Passwords do not match!')
+			return setError(form, '', 'Passwords do not match!');
 
 		const existingUser = await db.users.findOne({ username: form.data.username });
-		if (existingUser)
-			return setError(form, '', 'Username already exists!');
+		if (existingUser) return setError(form, '', 'Username already exists!');
 
 		form.data.hashedPassword = await new Argon2id().hash(form.data.password);
 

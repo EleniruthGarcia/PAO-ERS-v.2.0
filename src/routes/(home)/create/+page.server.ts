@@ -9,7 +9,6 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms';
 
 export const load: PageServerLoad = async (event) => {
-
 	return {
 		form: await superValidate(
 			{
@@ -31,10 +30,6 @@ export const actions: Actions = {
 		const client = await db.clients.insertOne(form.data);
 		if (!client.acknowledged) return fail(500, { form });
 
-		redirect(
-			'/',
-			{ type: 'success', message: 'Client added successfully!' },
-			event
-		);
+		redirect('/', { type: 'success', message: 'Client added successfully!' }, event);
 	}
 };

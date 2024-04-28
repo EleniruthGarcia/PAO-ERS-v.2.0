@@ -5,7 +5,11 @@ import { fail } from '@sveltejs/kit';
 
 export const actions = {
 	default: async (event) => {
-		if (!event.locals.user) {
+		if (
+			!event.locals.user ||
+			event.locals.user.role !== 'Administrator' ||
+			event.params.id !== event.locals.user._id
+		) {
 			event.cookies.set('redirect', event.url.pathname, { path: '/' });
 			redirect(
 				'/login',
@@ -14,7 +18,7 @@ export const actions = {
 			);
 		}
 
-		const _case = await db.cases.updateOne(
+		const user = await db.users.updateOne(
 			{ _id: event.params.id },
 			{
 				$set: {
@@ -26,14 +30,14 @@ export const actions = {
 			}
 		);
 
-		if (!_case || !_case.acknowledged) return fail(500);
-		if (_case.matchedCount === 0) return fail(404);
-		if (_case.modifiedCount === 0 && _case.upsertedCount === 0) return fail(304);
+		if (!user || !user.acknowledged) return fail(500);
+		if (user.matchedCount === 0) return fail(404);
+		if (user.modifiedCount === 0 && user.upsertedCount === 0) return fail(304);
 
 		redirect(
-			'/cases',
-			_case.modifiedCount > 0 || _case.upsertedCount > 0
-				? { type: 'success', message: 'Case archived!' }
+			'/users',
+			user.modifiedCount > 0 || user.upsertedCount > 0
+				? { type: 'success', message: 'User archived!' }
 				: { type: 'info', message: 'No changes made...' },
 			event
 		);

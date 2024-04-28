@@ -108,7 +108,8 @@ const seedUsers: User[] = [
 		_id: 'ADMIN',
 		branch_id: '1',
 		username: 'admin',
-		hashedPassword: '$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
+		hashedPassword:
+			'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
 		role: 'Administrator',
 		rank: 'Administrative Staff',
 		name: 'John Doe Smith Jr',
@@ -129,7 +130,8 @@ const seedUsers: User[] = [
 		_id: '1',
 		branch_id: '1',
 		username: 'admin1',
-		hashedPassword: '$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
+		hashedPassword:
+			'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
 		role: 'Administrator',
 		rank: 'Chief Public Attorney',
 		name: 'John Doe Smith Jr',
@@ -150,7 +152,8 @@ const seedUsers: User[] = [
 		_id: '2',
 		branch_id: '1',
 		username: 'lawyer1',
-		hashedPassword: '$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
+		hashedPassword:
+			'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
 		role: 'Lawyer',
 		rank: 'Public Attorney V',
 		name: 'Jane Doe',
@@ -169,7 +172,8 @@ const seedUsers: User[] = [
 		_id: '3',
 		branch_id: '2',
 		username: 'staff1',
-		hashedPassword: '$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
+		hashedPassword:
+			'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
 		role: 'Staff',
 		rank: 'Administrative Staff',
 		name: 'Emily Anne Brown',
@@ -189,7 +193,8 @@ const seedUsers: User[] = [
 		_id: '4',
 		branch_id: '2',
 		username: 'lawyer2',
-		hashedPassword: '$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
+		hashedPassword:
+			'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
 		role: 'Lawyer',
 		rank: 'Public Attorney IV',
 		name: 'Michael Johnson',
@@ -354,6 +359,7 @@ const seedClients: Client[] = [
 const seedCases: Case[] = [
 	{
 		_id: '1',
+		request_id: '1',
 		natureOfTheCase: 'Civil',
 		caseSpecs: 'Property boundary dispute between neighbors',
 		clientInvolvement: ['Plaintiff'],
@@ -366,10 +372,11 @@ const seedCases: Case[] = [
 		docketNumber: '2024-123',
 		court: 'Regional Trial Court',
 		currentStatus: 'Pending',
-		status: [{ type: 'Pending', date: new Date() }],
+		status: [{ type: 'Pending', date: new Date() }]
 	},
 	{
 		_id: '2',
+		request_id: '2',
 		natureOfTheCase: 'Criminal',
 		caseSpecs: 'Accused of financial fraud',
 		clientInvolvement: ['Defendant'],
@@ -382,10 +389,11 @@ const seedCases: Case[] = [
 		docketNumber: '2023-456',
 		court: 'Municipal Trial Court',
 		currentStatus: 'Terminated',
-		status: [{ type: 'Terminated', date: new Date() }],
+		status: [{ type: 'Terminated', date: new Date() }]
 	},
 	{
 		_id: '3',
+		request_id: '3',
 		natureOfTheCase: 'Family',
 		caseSpecs: 'Divorce Petition',
 		clientInvolvement: ['Petitioner'],
@@ -402,6 +410,7 @@ const seedCases: Case[] = [
 	},
 	{
 		_id: '4',
+		request_id: '4',
 		natureOfTheCase: 'Criminal',
 		caseSpecs: 'Accused of financial fraud',
 		clientInvolvement: ['Defendant'],
@@ -414,7 +423,7 @@ const seedCases: Case[] = [
 		docketNumber: '2023-456',
 		court: 'Municipal Trial Court',
 		currentStatus: 'Terminated',
-		status: [{ type: 'Terminated', date: new Date() }],
+		status: [{ type: 'Terminated', date: new Date() }]
 	}
 ];
 

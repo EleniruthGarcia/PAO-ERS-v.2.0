@@ -14,28 +14,22 @@ export const actions = {
 			);
 		}
 
-		const _case = await db.cases.updateOne(
+		const user = await db.users.updateOne(
 			{ _id: event.params.id },
 			{
 				$set: {
-					currentStatus: 'Archived'
+					currentStatus: 'Restored'
 				},
 				$push: {
-					status: { type: 'Archived', date: new Date() }
+					status: { type: 'Restored', date: new Date() }
 				}
 			}
 		);
 
-		if (!_case || !_case.acknowledged) return fail(500);
-		if (_case.matchedCount === 0) return fail(404);
-		if (_case.modifiedCount === 0 && _case.upsertedCount === 0) return fail(304);
+		if (!user || !user.acknowledged) return fail(500);
+		if (user.matchedCount === 0) return fail(404);
+		if (user.modifiedCount === 0 && user.upsertedCount === 0) return fail(304);
 
-		redirect(
-			'/cases',
-			_case.modifiedCount > 0 || _case.upsertedCount > 0
-				? { type: 'success', message: 'Case archived!' }
-				: { type: 'info', message: 'No changes made...' },
-			event
-		);
+		redirect(`/users/${event.params.id}`, { type: 'success', message: 'User restored!' }, event);
 	}
 } satisfies Actions;

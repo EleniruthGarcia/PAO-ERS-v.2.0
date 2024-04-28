@@ -2,7 +2,6 @@
 	import { page } from '$app/stores';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import {
-		districtProvince,
 		nature,
 		typeOfAssistance,
 		typeOfRelease,
@@ -44,13 +43,15 @@
 	// 	empty: 'undefined'
 	// });
 
+	$: console.log($formData.otherNature);
 	let selectedClient: { label: string; value: string }[] = [];
-	$: idx = 0;
-	$: selectedClient[idx] = {
-		label:
-			$page.data.clients.find((client: any) => client._id === $formData.client_id[idx])?.name ?? '',
-		value: $formData.client_id[idx]
-	};
+	$: $formData.client_id.forEach((_, i) => {
+		selectedClient[i] = {
+			label:
+				$page.data.clients.find((client: any) => client._id === $formData.client_id[i])?.name ?? '',
+			value: $formData.client_id[i]
+		};
+	});
 
 	$: selectedLawyer = {
 		label: $page.data.lawyers.find((lawyer: any) => lawyer._id === $formData.lawyer_id)?.name ?? '',
@@ -183,7 +184,6 @@
 											<Select.Root
 												selected={selectedClient[i]}
 												onSelectedChange={(s) => {
-													idx = i;
 													s && ($formData.client_id[i] = s.value);
 												}}
 											>
@@ -395,7 +395,11 @@
 										<Form.Label>Others</Form.Label>
 										{#each $formData.otherNature ?? [] as _, i}
 											<div class="flex gap-2">
-												<Input {...attrs} />
+												<Input
+													{...attrs}
+													name="otherNature[{i}]"
+													bind:value={$formData.otherNature[i]}
+												/>
 												<Button
 													variant="destructive"
 													class="gap-2"

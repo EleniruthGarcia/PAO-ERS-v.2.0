@@ -14,9 +14,12 @@ export const actions = {
 			);
 		}
 
-		const _case = await db._case.updateOne(
+		const _case = await db.cases.updateOne(
 			{ _id: event.params.id },
 			{
+				$set: {
+					currentStatus: 'Restored'
+				},
 				$push: {
 					status: { type: 'Restored', date: new Date() }
 				}
@@ -27,10 +30,6 @@ export const actions = {
 		if (_case.matchedCount === 0) return fail(404);
 		if (_case.modifiedCount === 0 && _case.upsertedCount === 0) return fail(304);
 
-		redirect(
-			`/cases/${event.params.id}`,
-			{ type: 'success', message: 'Case resetored!' },
-			event
-		);
+		redirect(`/cases/${event.params.id}`, { type: 'success', message: 'Case restored!' }, event);
 	}
 } satisfies Actions;

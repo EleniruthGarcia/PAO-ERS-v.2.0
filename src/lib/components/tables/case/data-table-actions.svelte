@@ -6,6 +6,7 @@
 	import { Button } from '$lib/components/ui/button';
 
 	export let id: string;
+	export let status: string;
 </script>
 
 <AlertDialog.Root>
@@ -17,26 +18,26 @@
 			</Button>
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content align="end">
-			<DropdownMenu.Item href="/clients/{id}/edit">Edit</DropdownMenu.Item>
-			<DropdownMenu.Item href="/clients/{id}/export">Export</DropdownMenu.Item>
+			<DropdownMenu.Item href="/cases/{id}/edit">Edit</DropdownMenu.Item>
+			<!-- <DropdownMenu.Item href="/cases/{id}/export">Export</DropdownMenu.Item> -->
 			<DropdownMenu.Separator />
 			<AlertDialog.Trigger class="w-full">
-				<DropdownMenu.Item>Delete</DropdownMenu.Item>
+				<DropdownMenu.Item>{status === 'Archived' ? 'Restore' : 'Delete'}</DropdownMenu.Item>
 			</AlertDialog.Trigger>
 		</DropdownMenu.Content>
 	</DropdownMenu.Root>
 	<AlertDialog.Content>
 		<AlertDialog.Header>
-			<AlertDialog.Title>Delete User</AlertDialog.Title>
+			<AlertDialog.Title>{status === 'Archived' ? 'Restore' : 'Delete'} User</AlertDialog.Title>
 			<AlertDialog.Description>
-				Are you absolutely sure? The user will be archived and will be permanently deleted.
+				Are you absolutely sure? The user will be {status === 'Archived' ? 'restored' : 'archived'}.
 			</AlertDialog.Description>
 		</AlertDialog.Header>
 		<AlertDialog.Footer>
 			<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-			<form action="/clients/{id}/delete" method="POST">
+			<form action="/cases/{id}/{status === 'Archived' ? 'restore' : 'delete'}" method="POST">
 				<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90"
-					>Delete</AlertDialog.Action
+					>{status === 'Archived' ? 'Restore' : 'Delete'}</AlertDialog.Action
 				>
 			</form>
 		</AlertDialog.Footer>

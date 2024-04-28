@@ -25,9 +25,10 @@
 		validators: zodClient(formSchema)
 	});
 
-	const { form: formData, enhance, delayed, errors } = form;
+	const { form: formData, enhance, delayed, errors, message } = form;
 
 	$: $errors._errors && $errors._errors.map((error) => toast.error(error));
+	$: $message && toast.success($message);
 
 	const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
 		format: 'date',
@@ -67,6 +68,7 @@
 	<input type="hidden" name="_id" bind:value={$formData._id} />
 	<input type="hidden" name="name" bind:value={$formData.name} />
 	<input type="hidden" name="hashedPassword" bind:value={$formData.hashedPassword} />
+	<input type="hidden" name="currentStatus" bind:value={$formData.currentStatus} />
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
 		<div class="flex items-center gap-4">
 			<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>

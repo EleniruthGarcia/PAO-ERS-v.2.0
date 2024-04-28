@@ -22,12 +22,16 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/', text: 'PAO-ERS' },
 			{ href: '/reports', text: 'Reports' }
 		],
-		form: await superValidate({
-			month: Intl.DateTimeFormat('en', { month: 'long' }).format(new Date()),
-			year: new Date().getFullYear(),
-			notedBy: event.locals.user.reportsTo,
-			reports: []
-		}, zod(formSchema), { errors: false }),
+		form: await superValidate(
+			{
+				month: Intl.DateTimeFormat('en', { month: 'long' }).format(new Date()),
+				year: new Date().getFullYear(),
+				notedBy: event.locals.user.reportsTo,
+				reports: []
+			},
+			zod(formSchema),
+			{ errors: false }
+		),
 		lawyers: await db.users.find().toArray()
 	};
 };
@@ -188,7 +192,13 @@ export const actions = {
 						judge: { $ifNull: ['$case.actionTaken', ''] },
 						assistance: '$request.typeOfAssistance',
 						actionTaken: { $ifNull: ['$case.actionTaken', ''] },
-						CICL: { $cond: [{ $in: ['Child in Conflict with the Law', '$client.classification'] }, 'X', ''] },
+						CICL: {
+							$cond: [
+								{ $in: ['Child in Conflict with the Law', '$client.classification'] },
+								'X',
+								''
+							]
+						},
 						Women: { $cond: [{ $in: ['Women', '$client.classification'] }, 'X', ''] },
 						IG: { $cond: [{ $ifNull: ['$client.indigenousPeople', 'true'] }, '', 'X'] },
 						PWD: { $cond: [{ $ifNull: ['$client.pwd', 'true'] }, '', 'X'] },
@@ -223,7 +233,9 @@ export const actions = {
 			criminal: requests.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')),
 			civil: requests.filter((d) => d.case?.natureOfTheCase?.includes('Civil')),
 			administrative: requests.filter((d) => d.case?.natureOfTheCase?.includes('Administrative')),
-			prosecutor: requests.filter((d) => d.case?.natureOfTheCase?.includes('Prosecutor\'s office cases')),
+			prosecutor: requests.filter((d) =>
+				d.case?.natureOfTheCase?.includes("Prosecutor's office cases")
+			),
 			labor: requests.filter((d) => d.case?.natureOfTheCase?.includes('Labor'))
 		};
 		const f20 = requests.filter((d) => d.client?.PWD?.contains(true));
@@ -280,8 +292,7 @@ export const actions = {
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
 					d.request?.otherNature?.contains('Assisted During Inquest Investigation')
-			),
-
+			)
 		};
 		const f29 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
 		const f38 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
@@ -350,14 +361,18 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('On recognizance after service of minimum sentence') &&
+					d.requests?.typeOfRelease?.contains(
+						'On recognizance after service of minimum sentence'
+					) &&
 					d.client?.age < 18
 			),
 			mr2a2: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('On recognizance after service of minimum sentence') &&
+					d.requests?.typeOfRelease?.contains(
+						'On recognizance after service of minimum sentence'
+					) &&
 					d.client?.age >= 18 &&
 					d.client?.age <= 21
 			),
@@ -365,7 +380,9 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('On recognizance after service of minimum sentence') &&
+					d.requests?.typeOfRelease?.contains(
+						'On recognizance after service of minimum sentence'
+					) &&
 					d.client?.age >= 22 &&
 					d.client?.age <= 59
 			),
@@ -373,21 +390,27 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('On recognizance after service of minimum sentence') &&
+					d.requests?.typeOfRelease?.contains(
+						'On recognizance after service of minimum sentence'
+					) &&
 					d.client?.age >= 60
 			),
 			fr2a1: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('On recognizance after service of minimum sentence') &&
+					d.requests?.typeOfRelease?.contains(
+						'On recognizance after service of minimum sentence'
+					) &&
 					d.client?.age < 18
 			),
 			fr2a2: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('On recognizance after service of minimum sentence') &&
+					d.requests?.typeOfRelease?.contains(
+						'On recognizance after service of minimum sentence'
+					) &&
 					d.client?.age >= 18 &&
 					d.client?.age <= 21
 			),
@@ -395,7 +418,9 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('On recognizance after service of minimum sentence') &&
+					d.requests?.typeOfRelease?.contains(
+						'On recognizance after service of minimum sentence'
+					) &&
 					d.client?.age >= 22 &&
 					d.client?.age <= 59
 			),
@@ -403,7 +428,9 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('On recognizance after service of minimum sentence') &&
+					d.requests?.typeOfRelease?.contains(
+						'On recognizance after service of minimum sentence'
+					) &&
 					d.client?.age >= 60
 			),
 			mr3a1: requests.filter(
@@ -470,14 +497,18 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('On account of preventive imprisonment equal to maximum imposable penalty') &&
+					d.requests?.typeOfRelease?.contains(
+						'On account of preventive imprisonment equal to maximum imposable penalty'
+					) &&
 					d.client?.age < 18
 			),
 			mr4a2: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('On account of preventive imprisonment equal to maximum imposable penalty') &&
+					d.requests?.typeOfRelease?.contains(
+						'On account of preventive imprisonment equal to maximum imposable penalty'
+					) &&
 					d.client?.age >= 18 &&
 					d.client?.age <= 21
 			),
@@ -485,7 +516,9 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('On account of preventive imprisonment equal to maximum imposable penalty') &&
+					d.requests?.typeOfRelease?.contains(
+						'On account of preventive imprisonment equal to maximum imposable penalty'
+					) &&
 					d.client?.age >= 22 &&
 					d.client?.age <= 59
 			),
@@ -493,21 +526,27 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('On account of preventive imprisonment equal to maximum imposable penalty') &&
+					d.requests?.typeOfRelease?.contains(
+						'On account of preventive imprisonment equal to maximum imposable penalty'
+					) &&
 					d.client?.age >= 60
 			),
 			fr4a1: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('On account of preventive imprisonment equal to maximum imposable penalty') &&
+					d.requests?.typeOfRelease?.contains(
+						'On account of preventive imprisonment equal to maximum imposable penalty'
+					) &&
 					d.client?.age < 18
 			),
 			fr4a2: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('On account of preventive imprisonment equal to maximum imposable penalty') &&
+					d.requests?.typeOfRelease?.contains(
+						'On account of preventive imprisonment equal to maximum imposable penalty'
+					) &&
 					d.client?.age >= 18 &&
 					d.client?.age <= 21
 			),
@@ -515,7 +554,9 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('On account of preventive imprisonment equal to maximum imposable penalty') &&
+					d.requests?.typeOfRelease?.contains(
+						'On account of preventive imprisonment equal to maximum imposable penalty'
+					) &&
 					d.client?.age >= 22 &&
 					d.client?.age <= 59
 			),
@@ -523,21 +564,27 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('On account of preventive imprisonment equal to maximum imposable penalty') &&
+					d.requests?.typeOfRelease?.contains(
+						'On account of preventive imprisonment equal to maximum imposable penalty'
+					) &&
 					d.client?.age >= 60
 			),
 			mr5a1: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('Due to complete service of sentence (Case is terminated)') &&
+					d.requests?.typeOfRelease?.contains(
+						'Due to complete service of sentence (Case is terminated)'
+					) &&
 					d.client?.age < 18
 			),
 			mr5a2: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('Due to complete service of sentence (Case is terminated)') &&
+					d.requests?.typeOfRelease?.contains(
+						'Due to complete service of sentence (Case is terminated)'
+					) &&
 					d.client?.age >= 18 &&
 					d.client?.age <= 21
 			),
@@ -545,7 +592,9 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('Due to complete service of sentence (Case is terminated)') &&
+					d.requests?.typeOfRelease?.contains(
+						'Due to complete service of sentence (Case is terminated)'
+					) &&
 					d.client?.age >= 22 &&
 					d.client?.age <= 59
 			),
@@ -553,21 +602,27 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('Due to complete service of sentence (Case is terminated)') &&
+					d.requests?.typeOfRelease?.contains(
+						'Due to complete service of sentence (Case is terminated)'
+					) &&
 					d.client?.age >= 60
 			),
 			fr5a1: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('Due to complete service of sentence (Case is terminated)') &&
+					d.requests?.typeOfRelease?.contains(
+						'Due to complete service of sentence (Case is terminated)'
+					) &&
 					d.client?.age < 18
 			),
 			fr5a2: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('Due to complete service of sentence (Case is terminated)') &&
+					d.requests?.typeOfRelease?.contains(
+						'Due to complete service of sentence (Case is terminated)'
+					) &&
 					d.client?.age >= 18 &&
 					d.client?.age <= 21
 			),
@@ -575,7 +630,9 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('Due to complete service of sentence (Case is terminated)') &&
+					d.requests?.typeOfRelease?.contains(
+						'Due to complete service of sentence (Case is terminated)'
+					) &&
 					d.client?.age >= 22 &&
 					d.client?.age <= 59
 			),
@@ -583,9 +640,11 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('Due to complete service of sentence (Case is terminated)') &&
+					d.requests?.typeOfRelease?.contains(
+						'Due to complete service of sentence (Case is terminated)'
+					) &&
 					d.client?.age >= 60
-			),
+			)
 		};
 
 		const f49 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
