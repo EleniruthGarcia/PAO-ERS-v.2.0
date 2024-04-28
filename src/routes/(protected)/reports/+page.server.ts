@@ -36,6 +36,21 @@ export const load: PageServerLoad = async (event) => {
 	};
 };
 
+const monthMap = {
+	January: 0,
+	February: 1,
+	March: 2,
+	April: 3,
+	May: 4,
+	June: 5,
+	July: 6,
+	August: 7,
+	September: 8,
+	October: 9,
+	November: 10,
+	December: 11
+};
+
 export const actions = {
 	default: async (event) => {
 		if (!event.locals.user) {
@@ -138,6 +153,14 @@ export const actions = {
 						'case.transferredTo': { $arrayElemAt: ['$case.transferredTo', 0] }
 					}
 				},
+				// {
+				// 	$match: {
+				// 		$or: [
+				// 			{ 'request.status[-1].date': { $gte: new Date(form.data.year, monthMap[form.data.month], 1) } },
+				// 			{ 'case.status[-1].date': { $lt: new Date(form.data.year, monthMap[form.data.month] + 1, 1) } }
+				// 		]
+				// 	}
+				// },
 				{
 					$project: {
 						client: '$client',
@@ -215,7 +238,7 @@ export const actions = {
 						judge: { $ifNull: ['$case.actionTaken', ''] },
 						assistance: '$request.typeOfAssistance',
 						actionTaken: { $ifNull: ['$case.actionTaken', ''] },
-						CICL: { $cond: [{ $in: ['Child in Conflict with the Law', '$client.classification'] }, 'X', '']},
+						CICL: { $cond: [{ $in: ['Child in Conflict with the Law', '$client.classification'] }, 'X', ''] },
 						Women: { $cond: [{ $in: ['Women', '$client.classification'] }, 'X', ''] },
 						IG: { $cond: [{ $ifNull: ['$client.indigenousPeople', 'true'] }, '', 'X'] },
 						PWD: { $cond: [{ $ifNull: ['$client.pwd', 'true'] }, '', 'X'] },
