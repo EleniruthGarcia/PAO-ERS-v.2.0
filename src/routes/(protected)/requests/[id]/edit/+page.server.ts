@@ -28,7 +28,7 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/', text: 'PAO-ERS' },
 			{ href: '/requests', text: 'Requests' },
 			{
-				href: '/requets/' + event.params.id,
+				href: '/requests/' + event.params.id,
 				text: `${request.otherNature || request.nature} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et. al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
 			},
 			{ href: '/requests/' + event.params.id + '/edit', text: `Edit` }

@@ -25,7 +25,7 @@
 							class="p-0 text-lg text-foreground"
 							href="/requests/{data.request._id}"
 						>
-							{data.request._id}
+							{data.request.otherNature || data.request.nature}
 						</Button>
 						<Button
 							size="icon"
@@ -34,40 +34,40 @@
 							on:click={() =>
 								navigator.clipboard
 									.writeText(data.request._id)
-									.then(() => toast(`Copied data.client ID '${data.request._id}'!`))}
+									.then(() => toast(`Copied data.request ID '${data.request._id}'!`))}
 						>
 							<Copy class="h-3 w-3" />
 							<span class="sr-only">Copy Case ID</span>
 						</Button>
 					</Card.Title>
-					<Card.Description>Date: November 23, 2023</Card.Description>
+					<Card.Description>{data.client.length > 1 ? (data.client.length > 2 ? `${data.client[0].lastName} et. al.` : `${data.client[0].lastName} and ${data.client[1].lastName}`) : data.client[0].name}</Card.Description>
 				</div>
 				<div class="invisible ml-auto flex items-center gap-1 sm:visible">
 					<Button
 						size="sm"
 						variant="outline"
 						class="h-7 gap-1 text-sm"
-						href="/requests/{data.client._id}/edit">Edit</Button
+						href="/requests/{data.request._id}/edit">Edit</Button
 					>
-					<Button size="sm" class="h-7 gap-1 text-sm" href="/requests/{data.client._id}/export"
+					<Button size="sm" class="h-7 gap-1 text-sm" href="/requests/{data.request._id}/export"
 						>Export</Button
 					>
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
 							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-								>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
+								>{data.request.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
 							>
 						</AlertDialog.Trigger>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
 								<AlertDialog.Title
-									>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
+									>{data.request.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
 								>
 								<AlertDialog.Description>
-									Are you absolutely sure? The client will be {data.client.status.at(-1)?.type ===
+									Are you absolutely sure? The client will be {data.request.status.at(-1)?.type ===
 									'Archived'
 										? 'restored'
-										: 'archived'} and will {data.client.status.at(-1)?.type === 'Archived'
+										: 'archived'} and will {data.request.status.at(-1)?.type === 'Archived'
 										? ''
 										: 'not'} show up in Active Clients. If you want the client to be permanently deleted,
 									please contact the administrator.
@@ -77,12 +77,12 @@
 								<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/requests/{data.client._id}/{data.client.status.at(-1)?.type === 'Archived'
+									action="/requests/{data.request._id}/{data.request.status.at(-1)?.type === 'Archived'
 										? 'restore'
 										: 'delete'}"
 								>
 									<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90">
-										{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+										{data.request.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Action>
 								</form>
 							</AlertDialog.Footer>
@@ -98,25 +98,25 @@
 							</Button>
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content align="end">
-							<DropdownMenu.Item href="/requests/{data.client._id}/edit">Edit</DropdownMenu.Item>
-							<DropdownMenu.Item href="/requests/{data.client._id}/export">Export</DropdownMenu.Item>
+							<DropdownMenu.Item href="/requests/{data.request._id}/edit">Edit</DropdownMenu.Item>
+							<DropdownMenu.Item href="/requests/{data.request._id}/export">Export</DropdownMenu.Item>
 							<DropdownMenu.Separator />
 							<AlertDialog.Root>
 								<AlertDialog.Trigger>
 									<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-										>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
+										>{data.request.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
 									>
 								</AlertDialog.Trigger>
 								<AlertDialog.Content>
 									<AlertDialog.Header>
 										<AlertDialog.Title
-											>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
+											>{data.request.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
 										>
 										<AlertDialog.Description>
-											Are you absolutely sure? The client will be {data.client.status.at(-1)
+											Are you absolutely sure? The client will be {data.request.status.at(-1)
 												?.type === 'Archived'
 												? 'restored'
-												: 'archived'} and will {data.client.status.at(-1)?.type === 'Archived'
+												: 'archived'} and will {data.request.status.at(-1)?.type === 'Archived'
 												? ''
 												: 'not'} show up in Active Clients. If you want the client to be permanently
 											deleted, please contact the administrator.
@@ -126,7 +126,7 @@
 										<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
 										<form
 											method="POST"
-											action="/requests/{data.client._id}/{data.client.status.at(-1)?.type ===
+											action="/requests/{data.request._id}/{data.request.status.at(-1)?.type ===
 											'Archived'
 												? 'restore'
 												: 'delete'}"
@@ -135,7 +135,7 @@
 												type="submit"
 												class="bg-destructive hover:bg-destructive/90"
 											>
-												{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+												{data.request.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 											</AlertDialog.Action>
 										</form>
 									</AlertDialog.Footer>
@@ -147,32 +147,6 @@
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
 				<div class="grid gap-3">
-					<div class="font-semibold">Personal Information</div>
-					<ul class="grid gap-3">
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Age </span>
-							<span>{data.request.client.age}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Sex </span>
-							<span>{data.request.client.sex}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Civil Status </span>
-							<span>{data.request.client.civilStatus}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Citizenship </span>
-							<span>{data.request.client.citizenship}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Language </span>
-							<span>{data.request.client.language}</span>
-						</li>
-					</ul>
-				</div>
-				<Separator class="my-4" />
-				<div class="grid gap-3">
 					<div class="font-semibold">Interviewee Information</div>
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
@@ -180,7 +154,7 @@
 							<span>{data.request.interviewee.name}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Relationshipto Client </span>
+							<span class="text-muted-foreground"> Relationship to Client </span>
 							<span>{data.request.relationshipToClient}</span>
 						</li>
 					</ul>
@@ -195,18 +169,6 @@
 						</li>
 					</ul>
 				</div>
-				<Separator class="my-4" />
-				<div>
-					<div class="font-semibold">Nature of Request</div>
-					{#each data.request.nature as nature}
-						<Badge class="m-1">{nature}</Badge>
-					{/each}
-					{#if data.request.otherNature != null}
-						{#each data.request.otherNature as nature}
-							<Badge class="m-1">{nature}</Badge>
-						{/each}
-					{/if}
-				</div>
 			</Card.Content>
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
@@ -219,31 +181,41 @@
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
 				<div class="grid gap-0.5">
-					<Card.Title class="text-md group flex items-center gap-2">Requests</Card.Title>
-					<Card.Description>All active requests are shown here.</Card.Description>
-				</div>
-				<div class="ml-auto flex items-center gap-1">
-					<Button size="sm" variant="outline" class="h-7 gap-2 text-sm" href="/requests/add"
-						><PlusCircled class="h-3.5 w-3.5" />
-						<span class="sr-only sm:not-sr-only">Add</span></Button
-					>
+					<Card.Title class="text-md group flex items-center gap-2">Client List</Card.Title>
+					<Card.Description>All clients connected to this request are shown here.</Card.Description>
 				</div>
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
-				{#each data.requests as request, i}
-					<div class="grid gap-3">
-						<ul class="grid gap-3">
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Nature </span>
-								<span>{data.request.otherNature ? request.otherNature : request.nature}</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Lawyer </span>
-								<span>{data.requests.lawyer.name}</span>
-							</li>
-						</ul>
-					</div>
-					{#if data.requests.length - 1 !== i}
+				{#each data.client as client, i}
+				<div class="grid gap-3">
+					<ul class="grid gap-3">
+						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground"> Name </span>
+							<span>{client.name}</span>
+						</li>
+						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground"> Age </span>
+							<span>{client.age}</span>
+						</li>
+						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground"> Sex </span>
+							<span>{client.sex}</span>
+						</li>
+						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground"> Civil Status </span>
+							<span>{client.civilStatus}</span>
+						</li>
+						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground"> Citizenship </span>
+							<span>{client.citizenship}</span>
+						</li>
+						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground"> Language </span>
+							<span>{client.language}</span>
+						</li>
+					</ul>
+				</div>
+					{#if data.client.length - 1 !== i}
 						<Separator class="my-4" />
 					{/if}
 				{/each}
