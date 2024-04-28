@@ -4,16 +4,36 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			user: {
-				name: string;
-				role: string;
-			} | null;
+			user: import('lucia').User | null;
+			session: import('lucia').Session | null;
 		}
-		// interface PageData {}
+		interface PageData {
+			flash?: {
+				type:
+					| 'success'
+					| 'error'
+					| 'description'
+					| 'info'
+					| 'warning'
+					| 'error'
+					| 'action'
+					| 'promise'
+					| 'loading';
+				message: string;
+				description?: string;
+				action?: {
+					label: string;
+					onClick: (event: MouseEvent) => void;
+				};
+				promise?: PromiseT<T>;
+				loading?: string;
+				success?: string;
+				error?: string;
+			};
+		}
 		// interface PageState {}
 		// interface Platform {}
 	}
-	var prisma: import('@prisma/client').PrismaClient;
 }
 
 export {};

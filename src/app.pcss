@@ -2,63 +2,77 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Oath: 210 10% 98%
+Innocence: 30 5% 83%
+Truth: 150 28% 49%
+Equity: 193 34% 30%
+Verdict: 200 25% 29%
+Diligence: 235 22% 22%
+Scale: 16 72% 54% */
+
 @layer base {
 	:root {
-		--color-diligence: 44 46 69;
-		--color-verdict: 52 73 85;
-		--color-equity: 54 99 110;
-		--color-trust: 120 160 131;
-		--color-innocence: 216 212 210;
-		--color-oath: 248 250 252;
+		--background: 210 10% 98%;
+		--foreground: 235 22% 22%;
+		--card: 210 10% 98%;
+		--card-foreground: 235 22% 22%;
+		--popover: 210 10% 98%;
+		--popover-foreground: 235 22% 22%;
+		--primary: 136 15% 55%;
+		--primary-foreground: 235 22% 22%;
+		--secondary: 136 15% 75%;
+		--secondary-foreground: 240 5.9% 10%;
+		--muted: 240 4.8% 95.9%;
+		--muted-foreground: 235 22% 52%;
+		--accent: 136 15% 75%;
+		--accent-foreground: 240 5.9% 10%;
+		--destructive: 16 72% 54%;
+		--destructive-foreground: 235 22% 22%;
+		--border: 240 5.9% 90%;
+		--input: 240 5.9% 90%;
+		--ring: 136 15% 55%;
+		--radius: 0.5rem;
 	}
-
-	h1 {
-		font-size: 60px;
-	}
-
-	h2 {
-		font-size: 36px;
-	}
-
-	h3 {
-		font-size: 30px;
-	}
-
-	h4 {
-		font-size: 20px;
-	}
-
-	p {
-		font-size: 16px;
-	}
-
-	button {
-		background-color: rgb(var(--color-trust) / 1);
-		border-radius: 0.5rem;
-		padding: 0.5rem 1rem 0.5rem 1rem;
-		color: var(--color-diligence);
-		font-weight: bold;
-		font-size: 0.875rem;
-	}
-
-	::-webkit-scrollbar {
-		width: 6px;
-		padding-left: 4px;
-	}
-
-	::-webkit-scrollbar-thumb {
-		border-radius: 10px;
-		background-color: rgb(var(--color-verdict) / 1);
+	.dark {
+		--background: 230 23% 12%;
+		--foreground: 30 5% 83%;
+		--card: 235 22% 12%;
+		--card-foreground: 30 5% 83%;
+		--popover: 235 22% 7%;
+		--popover-foreground: 30 5% 83%;
+		--primary: 193 34% 30%;
+		--primary-foreground: 30 5% 83%;
+		--secondary: 235 22% 22%;
+		--secondary-foreground: 30 5% 83%;
+		--muted: 235 22% 7%;
+		--muted-foreground: 240 5% 64.9%;
+		--accent: 235 22% 7%;
+		--accent-foreground: 30 5% 83%;
+		--destructive: 16 72% 34%;
+		--destructive-foreground: 30 5% 83%;
+		--border: 240 3.7% 15.9%;
+		--input: 240 3.7% 15.9%;
+		--ring: 193 34% 30%;
 	}
 }
 
-@layer components {
-	.bg-witness {
-		background: linear-gradient(
-				to bottom right,
-				rgb(var(--color-oath) / 0.75),
-				rgb(var(--color-innocence) / 0.75)
-			),
-			linear-gradient(to bottom left, rgb(var(--color-oath)), rgb(var(--color-trust)));
+@layer base {
+	* {
+		@apply border-border;
+	}
+	body {
+		@apply bg-background text-foreground;
+	}
+	::-webkit-scrollbar {
+		position: absolute;
+		z-index: 10;
+		width: 8px;
+		border-left: 1px solid transparent;
+		padding: 1px;
+	}
+	::-webkit-scrollbar-thumb {
+		position: relative;
+		border-radius: 9999px;
+		background-color: #dddddd;
 	}
 }

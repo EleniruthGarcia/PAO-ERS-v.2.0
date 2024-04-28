@@ -1,0 +1,29 @@
+services:
+  app:
+    build:
+      context: .
+      args:
+        DATABASE_URL: ${DATABASE_URL}
+    restart: always
+    ports:
+      - ${APP_PORT}:3000
+    depends_on:
+      - database
+    environment:
+      ORIGIN: ${APP_ORIGIN}
+      DATABASE_URL: ${DATABASE_URL}
+  database:
+    image: mongo
+    restart: always
+    volumes:
+      - mongodb:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    ports:
+      - ${DB_PORT}:27017
+    environment:
+      MONGO_INITDB_DATABASE: ${DB_NAME}
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+
+volumes:
+  mongodb:

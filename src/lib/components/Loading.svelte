@@ -1,11 +1,9 @@
-<script lang="ts">
-	import Logo from '$lib/images/Logo.png';
-</script>
-
-<div class="flex flex-col gap-1 items-center justify-center p-6">
+<div
+	class="background-primary bg-blur fixed left-0 top-0 z-50 flex h-dvh w-screen flex-col items-center justify-center gap-1 bg-muted/90 p-6"
+>
 	<svg
 		aria-hidden="true"
-		class="fixed z-10 w-44 h-44 animate-spin text-oath fill-trust"
+		class="fixed z-10 h-44 w-44 animate-spin fill-primary text-secondary"
 		viewBox="0 0 100 101"
 		fill="none"
 		xmlns="http://www.w3.org/2000/svg"
@@ -19,5 +17,5 @@
 			fill="currentFill"
 		/>
 	</svg>
-	<img src={Logo} alt="PAO Logo" class=" z-0 w-36" />
+	<img src="/favicon.png" alt="PAO Logo" class="z-0 w-36" />
 </div>

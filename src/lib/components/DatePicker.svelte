@@ -1,47 +1,111 @@
 <script lang="ts">
-	export let name: string;
-	export let labelEng: string;
-	export let labelFil = '';
+	import { DatePicker } from 'bits-ui';
+	import { cn, flyAndScale } from '$lib/utils.js';
+	import { buttonVariants } from '$lib/components/ui/button/index.js';
+	import { CaretLeft, CaretRight, Calendar } from 'svelte-radix';
+	import { parseDate, type DateValue } from '@internationalized/date';
 
-	let focused = false;
-	let classList = 'w-36';
-	export { classList as class };
+	let valueString: string;
+	export { valueString as value };
+
+	let value: DateValue | undefined = valueString ? parseDate(valueString) : undefined;
+	$: valueString = value ? value.toString() : '';
 </script>
 
-<div class="{classList} relative text-diligence flex-auto">
-	<input
-		{name}
-		type={focused ? 'date' : 'text'}
-		on:focus={() => (focused = true)}
-		id={name}
-		class="w-full rounded block px-2 pb-0.5 placeholder-shown:pb-1 pt-4 font-bold bg-oath text-sm outline outline-2 outline-equity placeholder-shown:outline-0 appearance-none peer"
-		placeholder=" "
-		{...$$restProps}
-	/>
-	<label
-		for={name}
-		class="absolute bg-oath text-sm text-equity duration-300 transform -translate-y-2 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-equity peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-2 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 pointer-events-none"
-	>
-		<span class="font-bold"> {labelEng} </span>
-		{labelFil !== '' ? ` | ${labelFil}` : ''}
-	</label>
-</div>
-
-<!-- <div class="relative text-diligence {grow ? 'grow' : ''}">
-	<input
-		{name}
-		type={focused ? 'date' : 'text'}
-		on:focus={() => (focused = true)}
-		id={name}
-		class="{classList} rounded block px-2 pb-1 pt-4 font-bold bg-oath text-sm outline outline-2 outline-equity placeholder-shown:outline-0 appearance-none peer"
-		placeholder=" "
-		{...$$restProps}
-	/>
-	<label
-		for={name}
-		class="absolute bg-oath text-sm text-equity duration-300 transform -translate-y-2 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-equity peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-2 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 pointer-events-none"
-	>
-		<span class="font-bold"> {labelEng} </span>
-		{labelFil !== '' ? ` | ${labelFil}` : ''}
-	</label>
-</div> -->
+<DatePicker.Root weekdayFormat="short" fixedWeeks={true} bind:value>
+	<div class="flex w-full max-w-[232px] flex-col gap-1.5">
+		<DatePicker.Input
+			let:segments
+			class={cn(
+				buttonVariants({ variant: 'outline' }),
+				'w-auto justify-between text-left font-normal hover:bg-background',
+				!value && 'text-muted-foreground'
+			)}
+		>
+			<span>
+				{#each segments as { part, value }}
+					<div class="inline-block select-none">
+						{#if part === 'literal'}
+							<DatePicker.Segment {part} class="p-1 text-muted-foreground">
+								{value}
+							</DatePicker.Segment>
+						{:else}
+							<DatePicker.Segment
+								{part}
+								class="rounded-5px px-1 py-1 hover:bg-muted focus:bg-muted focus:text-foreground focus-visible:!ring-0 focus-visible:!ring-offset-0 aria-[valuetext=Empty]:text-muted-foreground"
+							>
+								{value}
+							</DatePicker.Segment>
+						{/if}
+					</div>
+				{/each}
+			</span>
+			<DatePicker.Trigger>
+				<Calendar class="size-4" />
+			</DatePicker.Trigger>
+		</DatePicker.Input>
+		<DatePicker.Content
+			sideOffset={6}
+			transition={flyAndScale}
+			transitionConfig={{ duration: 150, y: -8 }}
+			class="z-50"
+		>
+			<DatePicker.Calendar
+				class="border-dark-10 rounded-[15px] border bg-background p-[22px] shadow-popover"
+				let:months
+				let:weekdays
+			>
+				<DatePicker.Header class="flex items-center justify-between">
+					<DatePicker.PrevButton
+						class="rounded-9px active:scale-98 inline-flex size-10 items-center justify-center bg-background transition-all hover:bg-muted"
+					>
+						<CaretLeft class="size-6" />
+					</DatePicker.PrevButton>
+					<DatePicker.Heading class="text-[15px] font-medium" />
+					<DatePicker.NextButton
+						class="rounded-9px active:scale-98 inline-flex size-10 items-center justify-center bg-background transition-all hover:bg-muted"
+					>
+						<CaretRight class="size-6" />
+					</DatePicker.NextButton>
+				</DatePicker.Header>
+				<div class="flex flex-col space-y-4 pt-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+					{#each months as month}
+						<DatePicker.Grid class="w-full border-collapse select-none space-y-1">
+							<DatePicker.GridHead>
+								<DatePicker.GridRow class="mb-1 flex w-full justify-between">
+									{#each weekdays as day}
+										<DatePicker.HeadCell
+											class="w-10 rounded-md text-xs !font-normal text-muted-foreground"
+										>
+											<div>{day.slice(0, 2)}</div>
+										</DatePicker.HeadCell>
+									{/each}
+								</DatePicker.GridRow>
+							</DatePicker.GridHead>
+							<DatePicker.GridBody>
+								{#each month.weeks as weekDates}
+									<DatePicker.GridRow class="flex w-full">
+										{#each weekDates as date}
+											<DatePicker.Cell {date} class="relative size-10 !p-0 text-center text-sm">
+												<DatePicker.Day
+													{date}
+													month={month.value}
+													class="rounded-9px group relative inline-flex size-10 items-center justify-center whitespace-nowrap border border-transparent bg-transparent p-0 text-sm font-normal text-foreground transition-all hover:border-foreground data-[disabled]:pointer-events-none data-[outside-month]:pointer-events-none data-[selected]:bg-foreground data-[selected]:font-medium data-[disabled]:text-foreground/30 data-[selected]:text-background data-[unavailable]:text-muted-foreground data-[unavailable]:line-through"
+												>
+													<div
+														class="absolute top-[5px] hidden size-1 rounded-full bg-foreground transition-all group-data-[today]:block group-data-[selected]:bg-background"
+													/>
+													{date.day}
+												</DatePicker.Day>
+											</DatePicker.Cell>
+										{/each}
+									</DatePicker.GridRow>
+								{/each}
+							</DatePicker.GridBody>
+						</DatePicker.Grid>
+					{/each}
+				</div>
+			</DatePicker.Calendar>
+		</DatePicker.Content>
+	</div>
+</DatePicker.Root>

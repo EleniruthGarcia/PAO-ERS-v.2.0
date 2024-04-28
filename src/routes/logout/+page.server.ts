@@ -1,15 +1,19 @@
-import { redirect } from '@sveltejs/kit';
+import { lucia } from '$lib/server/auth';
+import { fail } from '@sveltejs/kit';
+import { redirect } from 'sveltekit-flash-message/server';
 import type { Actions } from './$types';
 
-export const actions = {
-	default: ({ cookies }) => {
-		// eat the cookie
-		cookies.set('session', '', {
-			path: '/',
-			expires: new Date(0)
+export const actions: Actions = {
+	default: async (event) => {
+		if (!event.locals.session) {
+			return fail(401);
+		}
+		await lucia.invalidateSession(event.locals.session.id);
+		const sessionCookie = lucia.createBlankSessionCookie();
+		event.cookies.set(sessionCookie.name, sessionCookie.value, {
+			path: '.',
+			...sessionCookie.attributes
 		});
-
-		// redirect the user
-		throw redirect(303, '/');
+		redirect('/', { type: 'success', message: 'You have been logged out!' }, event);
 	}
-} satisfies Actions;
+};

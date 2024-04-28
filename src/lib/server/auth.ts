@@ -1,21 +1,38 @@
-import prisma from '$lib/server/prisma';
-import type { RequestEvent } from '@sveltejs/kit';
+import { dev } from '$app/environment';
+import cron from 'node-cron';
 
-export const authenticateUser = async (event: RequestEvent) => {
-	const session = event.cookies.get('session');
-	if (!session) return null;
+import type { User } from '$lib/schema';
+import { users, sessions } from './database';
 
-	const user = await prisma.user.findUnique({
-		where: { userAuthToken: session },
-		select: {
-			username: true,
-			role: true
+import { Lucia, TimeSpan } from 'lucia';
+import { MongodbAdapter } from '@lucia-auth/adapter-mongodb';
+
+export const lucia = new Lucia(new MongodbAdapter(sessions, users), {
+	sessionCookie: {
+		attributes: {
+			secure: !dev,
+			sameSite: 'strict'
 		}
-	});
-	if (!user) return null;
+	},
+	sessionExpiresIn: new TimeSpan(1, 'd'),
+	getUserAttributes: (attributes) => {
+		return {
+			...attributes
+		};
+	}
+});
 
-	return {
-		name: user.username,
-		role: user.role
-	};
-};
+declare module 'lucia' {
+	interface Register {
+		Lucia: typeof lucia;
+		UserId: string;
+		DatabaseUserAttributes: User;
+	}
+}
+
+if (!process.env['VERCEL'])
+	cron
+		.schedule('0 0 * * *', async () => {
+			await lucia.deleteExpiredSessions();
+		})
+		.start();

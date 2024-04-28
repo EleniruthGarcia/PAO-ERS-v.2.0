@@ -1,22 +1,35 @@
-import { authenticateUser } from '$lib/server/auth';
-import { redirect, type Handle } from '@sveltejs/kit';
+import { lucia } from '$lib/server/auth';
+import type { Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
-	event.locals.user = await authenticateUser(event);
+	const sessionId = event.cookies.get(lucia.sessionCookieName);
 
-	if (
-		!event.locals.user &&
-		(event.url.pathname.startsWith('/cases') ||
-			event.url.pathname.startsWith('/clients') ||
-			event.url.pathname.startsWith('/lawyers') ||
-			event.url.pathname.startsWith('/reports') ||
-			event.url.pathname.startsWith('/settings'))
-	)
-		throw redirect(303, '/');
+	if (!sessionId) {
+		event.locals.user = null;
+		event.locals.session = null;
+		return resolve(event);
+	}
 
-	if (event.url.pathname.startsWith('/lawyers') && event.locals.user?.role !== 'admin')
-		throw redirect(303, '/');
+	const { session, user } = await lucia.validateSession(sessionId);
 
-	const response = await resolve(event);
-	return response;
+	if (session && session.fresh) {
+		const sessionCookie = lucia.createSessionCookie(session.id);
+		event.cookies.set(sessionCookie.name, sessionCookie.value, {
+			path: '.',
+			...sessionCookie.attributes
+		});
+	}
+
+	if (!session) {
+		const sessionCookie = lucia.createBlankSessionCookie();
+		event.cookies.set(sessionCookie.name, sessionCookie.value, {
+			path: '.',
+			...sessionCookie.attributes
+		});
+	}
+
+	event.locals.user = user;
+	event.locals.session = session;
+
+	return resolve(event);
 };
