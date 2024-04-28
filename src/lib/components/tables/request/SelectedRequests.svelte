@@ -1,10 +1,7 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { ChevronLeft, ChevronRight, Copy, Person, DotsVertical } from 'svelte-radix';
+	import { ChevronLeft, ChevronRight, Copy, DotsVertical } from 'svelte-radix';
 
 	import { toast } from 'svelte-sonner';
-
-	import Loading from '$lib/components/Loading.svelte';
 
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import { Badge } from '$lib/components/ui/badge';
@@ -31,7 +28,7 @@
 				<Button
 					variant="link"
 					class="p-0 text-lg text-foreground"
-					href="/clients/{request.client._id}"
+					href="/requests/{request.client._id}"
 				>
 					{request.client.name}
 				</Button>
@@ -43,7 +40,7 @@
 						on:click={() => (i > 0 ? i-- : (i = $selectedRequests.length - 1))}
 					>
 						<ChevronLeft class="h-3 w-3" />
-						<span class="sr-only">Previous Client</span>
+						<span class="sr-only">Previous Request</span>
 					</Button>
 					<Button
 						size="icon"
@@ -52,7 +49,7 @@
 						on:click={() => (i < $selectedRequests.length - 1 ? i++ : (i = 0))}
 					>
 						<ChevronRight class="h-3 w-3" />
-						<span class="sr-only">Next Client</span>
+						<span class="sr-only">Next Request</span>
 					</Button>
 				{/if}
 				<Button
@@ -62,13 +59,13 @@
 					on:click={() =>
 						navigator.clipboard
 							.writeText(request._id)
-							.then(() => toast(`Copied Client ID '${request._id}'!`))}
+							.then(() => toast(`Copied Request ID '${request._id}'.`))}
 				>
 					<Copy class="h-3 w-3" />
-					<span class="sr-only">Copy Client ID</span>
+					<span class="sr-only">Copy Request ID</span>
 				</Button>
 			</Card.Title>
-			<Card.Description>Date: November 23, 2023</Card.Description>
+			<Card.Description>ID: {request._id}</Card.Description>
 		</div>
 		<div class="ml-auto flex items-center gap-1">
 			<!-- <Button size="sm" variant="outline" class="h-8 gap-1">
@@ -148,7 +145,7 @@
 					<span>{request.interviewee.name}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Relationshipto Client </span>
+					<span class="text-muted-foreground"> Relationship to Client </span>
 					<span>{request.relationshipToClient}</span>
 				</li>
 			</ul>
@@ -165,20 +162,20 @@
 		</div>
 		<Separator class="my-4" />
 		<div>
-			<div class="font-semibold">Nature of Request</div>
+			<div class="mb-3 font-semibold">Nature of Request</div>
 			{#each request.nature as nature}
-				<Badge class="m-1">{nature}</Badge>
+				<Badge class="mr-1">{nature}</Badge>
 			{/each}
 			{#if request.otherNature != null}
 				{#each request.otherNature as nature}
-					<Badge class="m-1">{nature}</Badge>
+					<Badge class="mr-1">{nature}</Badge>
 				{/each}
 			{/if}
 		</div>
 	</Card.Content>
 	<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 		<div class="text-xs text-muted-foreground">
-			Updated <time dateTime="2023-11-23">November 23, 2023</time>
+			Updated <time>{request.status[request.status.length - 1].date.toLocaleString()}</time>
 		</div>
 		<Pagination.Root count={10} class="ml-auto mr-0 w-auto">
 			<Pagination.Content>
@@ -190,7 +187,7 @@
 						on:click={() => (i > 0 ? i-- : (i = $selectedRequests.length - 1))}
 					>
 						<ChevronLeft class="h-3.5 w-3.5" />
-						<span class="sr-only">Previous Client</span>
+						<span class="sr-only">Previous Request</span>
 					</Button>
 				</Pagination.Item>
 				<Pagination.Item>
@@ -201,7 +198,7 @@
 						on:click={() => (i < $selectedRequests.length - 1 ? i++ : (i = 0))}
 					>
 						<ChevronRight class="h-3.5 w-3.5" />
-						<span class="sr-only">Next Client</span>
+						<span class="sr-only">Next Request</span>
 					</Button>
 				</Pagination.Item>
 			</Pagination.Content>

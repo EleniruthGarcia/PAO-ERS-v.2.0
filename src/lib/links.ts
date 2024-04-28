@@ -30,7 +30,7 @@ const roles = {
 	],
 	Lawyer: ['dashboard', 'clients', 'requests', 'cases', 'reports', 'settings'],
 	Staff: ['dashboard', 'clients', 'requests', 'settings'],
-	Client: ['about', 'contact']
+	Client: []
 };
 
 export const visibleLinks = (user?: User) =>

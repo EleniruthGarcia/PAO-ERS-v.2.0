@@ -40,7 +40,10 @@
 							<span class="sr-only">Copy User ID</span>
 						</Button>
 					</Card.Title>
-					<Card.Description><Badge class="mr-2">{data.user.role}</Badge>{data.user.rank}</Card.Description>
+					<Card.Description
+						><Badge variant="outline" class="mr-2">{data.user.role}</Badge>{data.user
+							.rank}</Card.Description
+					>
 				</div>
 				<div class="invisible ml-auto flex items-center gap-1 sm:visible">
 					<Button
@@ -112,8 +115,8 @@
 											>{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
 										>
 										<AlertDialog.Description>
-											Are you absolutely sure? The client will be {data.user.status.at(-1)
-												?.type === 'Archived'
+											Are you absolutely sure? The client will be {data.user.status.at(-1)?.type ===
+											'Archived'
 												? 'restored'
 												: 'archived'} and will {data.user.status.at(-1)?.type === 'Archived'
 												? ''
@@ -125,8 +128,7 @@
 										<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
 										<form
 											method="POST"
-											action="/users/{data.user._id}/{data.user.status.at(-1)?.type ===
-											'Archived'
+											action="/users/{data.user._id}/{data.user.status.at(-1)?.type === 'Archived'
 												? 'restore'
 												: 'delete'}"
 										>
@@ -202,12 +204,8 @@
 					<Card.Description>Account</Card.Description>
 				</div>
 			</Card.Header>
-			<Card.Content class="p-6 text-sm">
-				
-			</Card.Content>
-			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
-				
-			</Card.Footer>
+			<Card.Content class="p-6 text-sm"></Card.Content>
+			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3"></Card.Footer>
 		</Card.Root>
 	</div>
 </main>

@@ -19,7 +19,7 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as Table from '$lib/components/ui/table';
 	import { Input } from '$lib/components/ui/input';
-	import { getContext } from 'svelte';
+	import { getContext, onDestroy, onMount } from 'svelte';
 
 	export let data: Document[];
 
@@ -99,6 +99,27 @@
 	let hidableCols = flatColumns
 		.filter((col) => col.id !== '_id' && col.id !== '')
 		.map((col) => col.id);
+
+	let smBreakpoint = 640;
+
+	function updateHiddenColumns() {
+		hideForId = Object.fromEntries(ids.map((id) => [id, true]));
+		if (window.innerWidth < smBreakpoint) {
+			hideForId = Object.fromEntries(ids.map((id) => [id, id === 'name' || id === '_id']));
+		}
+		$hiddenColumnIds = Object.entries(hideForId)
+			.filter(([, hide]) => !hide)
+			.map(([id]) => id);
+	}
+
+	onMount(() => {
+		updateHiddenColumns();
+		window.addEventListener('resize', updateHiddenColumns);
+	});
+
+	onDestroy(() => {
+		window.removeEventListener('resize', updateHiddenColumns);
+	});
 </script>
 
 <div>
