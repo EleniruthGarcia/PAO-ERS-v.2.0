@@ -43,8 +43,8 @@
 		value: $formData.currentStatus
 	};
 	$: selectedRequest = {
-		label: $formData._id,
-		value: $formData._id
+		label: $formData.controlNo,
+		value: $formData.controlNo
 	};
 
 	$: $formData.currentStatus === 'Transferred to private lawyer, IBP, etc.'
@@ -127,13 +127,13 @@
 							</Form.Field>
 						</div>
 						<div class="grid grid-cols-2 items-start gap-3">
-							<Form.Field {form} name="_id" class="grid gap-3">
+							<Form.Field {form} name="controlNo" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Control Number</Form.Label>
 									<Select.Root
 										selected={selectedRequest}
 										onSelectedChange={(s) => {
-											s && ($formData._id = s.value);
+											s && ($formData.controlNo = s.value);
 										}}
 									>
 										<Select.Input name={attrs.name} />
