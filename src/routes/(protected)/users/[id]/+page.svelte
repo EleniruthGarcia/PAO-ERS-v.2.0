@@ -103,7 +103,7 @@
 							</DropdownMenu.Trigger>
 							<DropdownMenu.Content align="end">
 								<DropdownMenu.Item href="/users/{data.user._id}/edit">Edit</DropdownMenu.Item>
-								<DropdownMenu.Item href="/users/{data.user._id}/export">Export</DropdownMenu.Item>
+								<!-- <DropdownMenu.Item href="/users/{data.user._id}/export">Export</DropdownMenu.Item> -->
 								<DropdownMenu.Separator />
 								<AlertDialog.Trigger class="w-full text-left">
 									<DropdownMenu.Item

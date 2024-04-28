@@ -91,7 +91,7 @@
 						<Card.Description>Please fill out all necessary information.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid grid-cols-2 items-start gap-3">
+						<div class="grid sm:grid-cols-2 items-start gap-3">
 							<Form.Field {form} name="natureOfTheCase" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Nature of the Case</Form.Label>
@@ -126,7 +126,7 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid grid-cols-2 items-start gap-3">
+						<div class="grid sm:grid-cols-2 items-start gap-3">
 							<Form.Field {form} name="_id" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Control Number</Form.Label>
@@ -172,15 +172,15 @@
 						<Card.Title>Adverse Party's Information</Card.Title>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid grid-cols-5 items-start gap-3">
-							<Form.Field {form} name="adversePartyName" class="col-span-2 grid gap-3">
+						<div class="grid sm:grid-cols-5 items-start gap-3">
+							<Form.Field {form} name="adversePartyName" class="sm:col-span-2 grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Adverse Party Name</Form.Label>
 									<Input {...attrs} bind:value={$formData.adversePartyName} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="adversePartyAddress" class="col-span-3 grid gap-3">
+							<Form.Field {form} name="adversePartyAddress" class="sm:col-span-3 grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Adverse Party Address</Form.Label>
 									<Input {...attrs} bind:value={$formData.adversePartyAddress} />
@@ -204,7 +204,7 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<div class="grid grid-cols-2 items-start gap-3">
+							<div class="grid sm:grid-cols-2 items-start gap-3">
 								<Form.Field {form} name="docketNumber" class="grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label>Docket Number</Form.Label>

@@ -219,8 +219,8 @@
 							<Form.FieldErrors />
 						</Form.Fieldset>
 						<Separator />
-						<div class="grid grid-cols-8 items-start gap-3">
-							<Form.Field {form} name="interviewee_id" class="col-span-5 grid gap-3">
+						<div class="grid sm:grid-cols-8 items-start gap-3">
+							<Form.Field {form} name="interviewee_id" class="sm:col-span-5 grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Interviewee</Form.Label>
 									<Select.Root
@@ -242,7 +242,7 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="relationshipToClient" class="col-span-3 grid gap-3">
+							<Form.Field {form} name="relationshipToClient" class="sm:col-span-3 grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Relation to Client</Form.Label>
 									<Select.Root
