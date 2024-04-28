@@ -65,6 +65,11 @@ export const actions = {
 		if (_case.matchedCount === 0) return fail(404, { form });
 		if (_case.modifiedCount === 0 && _case.upsertedCount === 0) return fail(304, { form });
 
+		if (form.data.transferredTo) {
+			const request = await db.requests.updateOne({ _id: form.data._id }, { $set: { lawyer_id: form.data.transferredTo } });
+			if (!request) return fail(500, { form });
+		}
+
 		redirect(
 			'/cases/' + form.data._id,
 			_case.modifiedCount > 0 || _case.upsertedCount > 0
