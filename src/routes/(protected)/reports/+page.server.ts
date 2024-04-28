@@ -280,6 +280,10 @@ export const actions = {
 		const f27 = '';
 
 		const f28 = {
+			a: { status.filter(
+				(s) => 
+					s.date.getMonth() > form.data.month).length > 0
+			},
 			acvt: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&

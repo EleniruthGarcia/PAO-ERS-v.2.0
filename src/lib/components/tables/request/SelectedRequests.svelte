@@ -148,7 +148,7 @@
 					<span>{request.interviewee.name}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Relationshipto Client </span>
+					<span class="text-muted-foreground"> Relationship to Client </span>
 					<span>{request.relationshipToClient}</span>
 				</li>
 			</ul>
@@ -167,11 +167,11 @@
 		<div>
 			<div class="font-semibold">Nature of Request</div>
 			{#each request.nature as nature}
-				<Badge class="m-1">{nature}</Badge>
+				<Badge class="my-2">{nature}</Badge>
 			{/each}
 			{#if request.otherNature != null}
 				{#each request.otherNature as nature}
-					<Badge class="m-1">{nature}</Badge>
+					<Badge class="my-2">{nature}</Badge>
 				{/each}
 			{/if}
 		</div>
