@@ -151,105 +151,62 @@
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Age </span>
-							<span>{data.client.age}</span>
+							<span>{request.client.age}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Sex </span>
-							<span>{data.client.sex}</span>
+							<span>{request.client.sex}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Civil Status </span>
-							<span>{data.client.civilStatus}</span>
+							<span>{request.client.civilStatus}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Citizenship </span>
-							<span>{data.client.citizenship}</span>
+							<span>{request.client.citizenship}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground"> Language </span>
-							<span>{data.client.language}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Religion </span>
-							<span>{data.client.religion !== '' ? data.client.religion : 'N/A'}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Educational Attainment </span>
-							<span>{data.client.educationalAttainment}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Individual Monthly Income </span>
-							<span>{data.client.individualMonthlyIncome}</span>
+							<span>{request.client.language}</span>
 						</li>
 					</ul>
 				</div>
 				<Separator class="my-4" />
 				<div class="grid gap-3">
-					<div class="font-semibold">Contact Information</div>
+					<div class="font-semibold">Interviewee Information</div>
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Address </span>
-							<span>{data.client.address}</span>
+							<span class="text-muted-foreground"> Interviewee </span>
+							<span>{request.interviewee.name}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Email </span>
-							<span>{data.client.email}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Contact Number </span>
-							<span>{data.client.contactNumber}</span>
+							<span class="text-muted-foreground"> Relationshipto Client </span>
+							<span>{request.relationshipToClient}</span>
 						</li>
 					</ul>
 				</div>
-				{#if data.client.civilStatus === 'Married'}
-					<Separator class="my-4" />
-					<div class="grid gap-3">
-						<div class="font-semibold">Spouse Information</div>
-						<ul class="grid gap-3">
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Name </span>
-								<span>{data.client.spouseName}</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Address </span>
-								<span>{data.client.spouseAddress}</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Email </span>
-								<span>{data.client.spouseEmail}</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Contact Number </span>
-								<span>{data.client.spouseContactNumber}</span>
-							</li>
-						</ul>
-					</div>
-				{/if}
-				{#if data.client.detained}
-					<Separator class="my-4" />
-					<div class="grid gap-3">
-						<div class="font-semibold">Detainee Information</div>
-						<ul class="grid gap-3">
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Place of Detention </span>
-								<span>{data.client.detainedAt}</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Detained Since </span>
-								<span>{data.client.detainedSince}</span>
-							</li>
-						</ul>
-					</div>
-				{/if}
-				{#if data.client.classification}
-					<Separator class="my-4" />
-					<div>
-						<div class="mb-3 font-semibold">Classifications</div>
-						{#each data.client.classification as classification}
-							<Badge class="m-1">{classification}</Badge>
+				<Separator class="my-4" />
+				<div class="grid gap-3">
+					<div class="font-semibold">Lawyer Information</div>
+					<ul class="grid gap-3">
+						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground"> Lawyer </span>
+							<span>{request.lawyer.name}</span>
+						</li>
+					</ul>
+				</div>
+				<Separator class="my-4" />
+				<div>
+					<div class="font-semibold">Nature of Request</div>
+					{#each request.nature as nature}
+						<Badge class="m-1">{nature}</Badge>
+					{/each}
+					{#if request.otherNature != null}
+						{#each request.otherNature as nature}
+							<Badge class="m-1">{nature}</Badge>
 						{/each}
-					</div>
-				{/if}
+					{/if}
+				</div>
 			</Card.Content>
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">

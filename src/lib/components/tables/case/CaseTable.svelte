@@ -18,6 +18,7 @@
 			<Tabs.Trigger value="all">All</Tabs.Trigger>
 			<Tabs.Trigger value="recents">Recents</Tabs.Trigger>
 			<Tabs.Trigger value="archived">Archived</Tabs.Trigger>
+			<Tabs.Trigger value="terminated">Terminated</Tabs.Trigger>
 		</Tabs.List>
 		<div class="ml-auto flex items-center gap-2">
 			<!-- <DropdownMenu.Root>
@@ -35,10 +36,10 @@
 					<DropdownMenu.CheckboxItem>Refunded</DropdownMenu.CheckboxItem>
 				</DropdownMenu.Content>
 			</DropdownMenu.Root> -->
-			<Button size="sm" variant="outline" class="h-7 gap-1 text-sm">
+			<!-- <Button size="sm" variant="outline" class="h-7 gap-1 text-sm">
 				<File class="h-3.5 w-3.5" />
 				<span class="sr-only sm:not-sr-only">Export</span>
-			</Button>
+			</Button> -->
 			<Button size="sm" class="h-7 gap-1 text-sm" href="/cases/add">
 				<PlusCircled class="h-3.5 w-3.5" />
 				<span class="sr-only sm:not-sr-only sm:whitespace-nowrap"> Add Case </span>
@@ -62,7 +63,7 @@
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
 						>
 							<div class="flex flex-col items-center gap-1 text-center">
-								<h3 class="text-2xl font-bold tracking-tight">You have no cases!</h3>
+								<h3 class="text-2xl font-bold tracking-tight">You have no cases.</h3>
 								<p class="text-sm text-muted-foreground">
 									You can start using the system as soon as you add a new user.
 								</p>
@@ -91,7 +92,7 @@
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
 						>
 							<div class="flex flex-col items-center gap-1 text-center">
-								<h3 class="text-2xl font-bold tracking-tight">You have no new cases!</h3>
+								<h3 class="text-2xl font-bold tracking-tight">You have no new cases.</h3>
 								<p class="text-sm text-muted-foreground">
 									You can start using the system as soon as you add a new case.
 								</p>
@@ -107,7 +108,7 @@
 		<Card.Root>
 			<Card.Header class="px-7">
 				<Card.Title>Archived Cases</Card.Title>
-				<Card.Description>Archived cases added to the system are shown here.</Card.Description>
+				<Card.Description>All archived cases are shown here.</Card.Description>
 			</Card.Header>
 			<Card.Content>
 				{#await $page.data.cases}
@@ -120,8 +121,35 @@
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
 						>
 							<div class="flex flex-col items-center gap-1 text-center">
-								<h3 class="text-2xl font-bold tracking-tight">You have no archived cases!</h3>
+								<h3 class="text-2xl font-bold tracking-tight">You have no archived cases.</h3>
 								<p class="text-sm text-muted-foreground">You may view your archived cases here.</p>
+								<Button class="mt-4" href="/cases/add">Add Case</Button>
+							</div>
+						</div>
+					{/if}
+				{/await}
+			</Card.Content>
+		</Card.Root>
+	</Tabs.Content>
+	<Tabs.Content value="terminated">
+		<Card.Root>
+			<Card.Header class="px-7">
+				<Card.Title>Terminated Cases</Card.Title>
+				<Card.Description>All terminated cases are shown here.</Card.Description>
+			</Card.Header>
+			<Card.Content>
+				{#await $page.data.cases}
+					<Loading />
+				{:then cases}
+					{#if cases.filter((c) => c.status.at(-1)?.type === 'Terminated').length > 0}
+						<Table data={cases.filter((c) => c.status.at(-1)?.type === 'Terminated')} />
+					{:else}
+						<div
+							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
+						>
+							<div class="flex flex-col items-center gap-1 text-center">
+								<h3 class="text-2xl font-bold tracking-tight">You have no terminated cases.</h3>
+								<p class="text-sm text-muted-foreground">You may view your terminated cases here.</p>
 								<Button class="mt-4" href="/cases/add">Add Case</Button>
 							</div>
 						</div>

@@ -85,7 +85,7 @@
 												}}
 											/>
 											<Form.Label class="text-sm font-normal">
-												{item}
+												<span class="font-bold">{item.substring(0, 4)}</span>{item.substring(4)}
 											</Form.Label><input
 												hidden
 												type="checkbox"
