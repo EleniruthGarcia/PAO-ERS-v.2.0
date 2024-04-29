@@ -1,6 +1,7 @@
 import z from 'zod';
 
 export const classification = [
+	'Agrarian Case Client',
 	'Beneficiary of Hernan Ruling (R.A. No. 10951)',
 	'Child Client',
 	'Child in Conflict with the Law',
