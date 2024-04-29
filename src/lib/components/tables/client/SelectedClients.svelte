@@ -163,7 +163,7 @@
 				</li>
 			</ul>
 		</div>
-		{#if client.civilStatus === 'Married'}
+		{#if client.civilStatus === 'Married' || client.civilStatus === 'Widowed'}
 			<Separator class="my-4" />
 			<div class="grid gap-3">
 				<div class="font-semibold">Spouse Information</div>
