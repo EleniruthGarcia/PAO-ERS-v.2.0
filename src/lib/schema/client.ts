@@ -55,11 +55,11 @@ export const formSchema = z.object({
 	middleName: z.string().optional(),
 	lastName: z.string().min(1, 'Last name is required.'),
 	nameSuffix: z.string().optional(),
-	dateOfBirth: z.date({
-		invalid_type_error: 'Date of birth is required.',
-		required_error: 'Date of birth is required.'
-	}),
-	// age: z.number({ invalid_type_error: 'Age is required.' }).positive().min(1, 'Age is required.'),
+	// dateOfBirth: z.date({
+	// 	invalid_type_error: 'Date of birth is required.',
+	// 	required_error: 'Date of birth is required.'
+	// }),
+	age: z.coerce.number({ invalid_type_error: 'Age is required.' }).positive().min(1, 'Age is required.'),
 	sex: z.enum(sex),
 	address: z.string().min(1, 'Address is required.'),
 	email: z.string().email().optional(),

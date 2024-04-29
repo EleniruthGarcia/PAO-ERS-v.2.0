@@ -135,10 +135,10 @@
 							</Form.Field>
 						</div>
 						<div class="grid items-start gap-3 sm:grid-cols-3">
-							<Form.Field {form} name="dateOfBirth" class="grid gap-3">
+							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Date of Birth</Form.Label>
-									<DatePicker bind:value={$proxyDateOfBirth} />
+									<Form.Label>Age</Form.Label>
+									<Input {...attrs} bind:value={$formData.age} type="number" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
