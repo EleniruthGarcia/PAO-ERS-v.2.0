@@ -427,12 +427,13 @@ const seedCases: Case[] = [
 	}
 ];
 
-for (const branch of seedBranches)
-	branches.updateOne({ _id: branch._id }, { $set: branch }, { upsert: true });
-for (const user of seedUsers) users.updateOne({ _id: user._id }, { $set: user }, { upsert: true });
-for (const request of seedRequests)
-	requests.updateOne({ _id: request._id }, { $set: request }, { upsert: true });
-for (const client of seedClients)
-	clients.updateOne({ _id: client._id }, { $set: client }, { upsert: true });
-for (const caseData of seedCases)
-	cases.updateOne({ _id: caseData._id }, { $set: caseData }, { upsert: true });
+users.updateOne({ _id: seedUsers[0]._id }, { $set: seedUsers[0] }, { upsert: true });
+// for (const branch of seedBranches)
+// 	branches.updateOne({ _id: branch._id }, { $set: branch }, { upsert: true });
+// for (const user of seedUsers) users.updateOne({ _id: user._id }, { $set: user }, { upsert: true });
+// for (const request of seedRequests)
+// 	requests.updateOne({ _id: request._id }, { $set: request }, { upsert: true });
+// for (const client of seedClients)
+// 	clients.updateOne({ _id: client._id }, { $set: client }, { upsert: true });
+// for (const caseData of seedCases)
+// 	cases.updateOne({ _id: caseData._id }, { $set: caseData }, { upsert: true });
