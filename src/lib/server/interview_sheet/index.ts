@@ -4,7 +4,7 @@ import { PDFDocument, rgb } from 'pdf-lib';
 import JSZip from 'jszip';
 
 export const generateInterviewSheet = async (data: any) => {
-	if (data.length === 0) return { name: '', blob: '', type: '', error: true };
+	if (data.length < 1) return { name: '', blob: '', type: '', error: true };
 	if (data.length > 1) {
 		const zip = new JSZip();
 
