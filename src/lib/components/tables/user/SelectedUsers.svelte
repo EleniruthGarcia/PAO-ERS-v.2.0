@@ -62,7 +62,7 @@
 				</Button>
 			</Card.Title>
 			<Card.Description
-				><Badge variant="outline" class="mr-2">{user.role}</Badge>{user.rank}</Card.Description
+				><Badge variant="outline" class="mr-2">{user.role}</Badge>{user.position}</Card.Description
 			>
 		</div>
 		<div class="ml-auto flex items-center gap-1">

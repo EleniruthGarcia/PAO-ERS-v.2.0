@@ -42,7 +42,7 @@
 					</Card.Title>
 					<Card.Description
 						><Badge variant="outline" class="mr-2">{data.user.role}</Badge>{data.user
-							.rank}</Card.Description
+							.position}</Card.Description
 					>
 				</div>
 				<div class="invisible ml-auto flex items-center gap-1 sm:visible">

@@ -65,7 +65,7 @@
 			header: 'Username'
 		}),
 		table.column({
-			accessor: (item) => item.rank,
+			accessor: (item) => item.position,
 			header: 'Rank'
 		}),
 		table.column({
