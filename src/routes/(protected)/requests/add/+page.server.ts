@@ -55,7 +55,8 @@ export const actions: Actions = {
 
 		const request = await db.requests.insertOne({
 			...form.data,
-			_id: `${branch?.region}:${branch?.district}:${new Date().getFullYear()}:${new Date().getMonth()}:${(await db.counters.findOneAndUpdate({ _id: 'requests', branch_id: branch?._id }, { $inc: { count: 1 } }, { upsert: true }))?.count}`
+			// _id: `${branch?.region}:${branch?.district}:${new Date().getFullYear()}:${new Date().getMonth()}:${(await db.counters.findOneAndUpdate({ _id: 'requests', branch_id: branch?._id }, { $inc: { count: 1 } }, { upsert: true }))?.count}`
+			_id: `${new Date().getFullYear()}:${new Date().getMonth()}:${(await db.counters.findOneAndUpdate({ _id: 'requests', branch_id: branch?._id }, { $inc: { count: 1 } }, { upsert: true }))?.count}`
 		});
 		if (!request.acknowledged) return fail(500, { form });
 
