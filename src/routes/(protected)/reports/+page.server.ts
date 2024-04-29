@@ -302,6 +302,33 @@ export const actions = {
 		const f27 = '';
 
 		const f28 = {
+			// a_crnc: r.status?.filter((s) => s.type === 'New' && 
+			// 		s.date?.getMonth() > form.data.month)?.length > 0,
+			a_crcc: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.natureOfTheCase?.contains('Criminal')
+			).map((d) => d.client?.filter(Boolean))?.length,
+			a_cvcc: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.natureOfTheCase?.contains('Civil')
+			).map((d) => d.client?.filter(Boolean))?.length,
+			a_ad1cc: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.natureOfTheCase?.contains('Administrative')
+			).map((d) => d.client?.filter(Boolean))?.length,
+			a_ad2cc: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.natureOfTheCase?.contains("Prosecutor's office cases")
+			).map((d) => d.client?.filter(Boolean))?.length,
+			a_ad3cc: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.natureOfTheCase?.contains('Labor')
+			).map((d) => d.client?.filter(Boolean))?.length,
 			a_crp5a: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&

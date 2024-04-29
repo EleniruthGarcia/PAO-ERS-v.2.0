@@ -79,6 +79,15 @@ export const pretrialAndOtherDispositions = [
 	'Maximum imposable penalty served'
 ] as const;
 
+export const hernanStatus = [
+	'Clients are already released by virtue of Petition filed',
+	'Petition is already filed',
+	'PAO is awaiting records from the court',
+	'Petition by PAO is not applicable (e.g. PDL was already released, deceased, has a private lawyer\, application is not favorable, etc.)',
+	'No. of cases which are already for filing of petition',
+	'Motion/ other remedies are filed/ undertaken'
+] as const;
+
 export const unfavorable = [
 	'Convicted as charged',
 	'Lost (civil, administrative & labor)',
