@@ -32,7 +32,7 @@ export const load: PageServerLoad = async (event) => {
 			zod(formSchema),
 			{ errors: false }
 		),
-		lawyers: await db.users.find({ role: 'Lawyer' }).toArray(),
+		lawyers: await db.users.find().toArray(),
 		clients: await db.clients.find().toArray()
 	};
 };
