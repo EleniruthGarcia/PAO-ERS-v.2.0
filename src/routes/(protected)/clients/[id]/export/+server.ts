@@ -110,7 +110,14 @@ export const GET: RequestHandler = async (event) => {
 					individualMonthlyIncome: {
 						$toString: { $ifNull: ['$client.individualMonthlyIncome', 'N/A'] }
 					},
-					detainedSince: '$client.detainedSince',
+					detainedSince: {
+						$dateToString: {
+							date: '$client.detainedSince',
+							format: '%B %d, %Y',
+							timezone: '+08:00',
+							onNull: 'N/A'
+						}
+					},
 					civilStatus: { $ifNull: ['$client.civilStatus', 'N/A'] },
 					sex: '$client.sex',
 					educationalAttainment: '$client.educationalAttainment',

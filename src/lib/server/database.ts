@@ -125,7 +125,7 @@ const seedUsers: User[] = [
 		hashedPassword:
 			'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
 		role: 'Administrator',
-		rank: 'Regional Public Attorney',
+		position: 'Regional Public Attorney',
 		name: 'Henry M. Francisco',
 		firstName: 'Henry',
 		middleName: 'M.',
@@ -146,7 +146,7 @@ const seedUsers: User[] = [
 		hashedPassword:
 			'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
 		role: 'Administrator',
-		rank: 'Administrative Officer III',
+		position: 'Administrative Officer',
 		name: 'Rodel V. Ramos',
 		firstName: 'Rodel',
 		middleName: 'V.',
@@ -167,7 +167,7 @@ const seedUsers: User[] = [
 	// 	hashedPassword:
 	// 		'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
 	// 	role: 'Administrator',
-	// 	rank: 'Administrative Officer III',
+	// 	position: 'Administrative Officer III',
 	// 	name: 'John Doe Smith Jr',
 	// 	firstName: 'John',
 	// 	middleName: 'Doe',
@@ -190,7 +190,7 @@ const seedUsers: User[] = [
 	// 	hashedPassword:
 	// 		'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
 	// 	role: 'Administrator',
-	// 	rank: 'Administrative Officer III',
+	// 	position: 'Administrative Officer III',
 	// 	name: 'John Doe Smith Jr',
 	// 	firstName: 'John',
 	// 	middleName: 'Doe',
@@ -213,7 +213,7 @@ const seedUsers: User[] = [
 	// 	hashedPassword:
 	// 		'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
 	// 	role: 'Lawyer',
-	// 	rank: 'Public Attorney I',
+	// 	position: 'Public Attorney I',
 	// 	name: 'Jane Doe',
 	// 	firstName: 'Jane',
 	// 	lastName: 'Doe',
@@ -234,7 +234,7 @@ const seedUsers: User[] = [
 	// 	hashedPassword:
 	// 		'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
 	// 	role: 'Staff',
-	// 	rank: 'Administrative Officer I',
+	// 	position: 'Administrative Officer I',
 	// 	name: 'Emily Anne Brown',
 	// 	firstName: 'Emily',
 	// 	middleName: 'Anne',
@@ -256,7 +256,7 @@ const seedUsers: User[] = [
 	// 	hashedPassword:
 	// 		'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
 	// 	role: 'Lawyer',
-	// 	rank: 'Public Attorney IV',
+	// 	position: 'Public Attorney IV',
 	// 	name: 'Michael Johnson',
 	// 	firstName: 'Michael',
 	// 	lastName: 'Johnson',

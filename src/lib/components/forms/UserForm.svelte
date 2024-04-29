@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { formSchema, sex, role, rank, type FormSchema } from '$lib/schema/user';
+	import { formSchema, sex, role, position, type FormSchema } from '$lib/schema/user';
 	import { type SuperValidated, type Infer, superForm, dateProxy } from 'sveltekit-superforms';
 	import type { Branch } from '$lib/server/database';
 
@@ -49,9 +49,9 @@
 		value: $formData.role
 	};
 
-	$: selectedRank = {
-		label: $formData.rank,
-		value: $formData.rank
+	$: selectedPosition = {
+		label: $formData.position,
+		value: $formData.position
 	};
 
 	$: selectedBranch = {
@@ -181,13 +181,13 @@
 							</Form.Field>
 						</div>
 						<div class="grid items-start gap-3 sm:grid-cols-3">
-							<Form.Field {form} name="rank" class="grid gap-3">
+							<Form.Field {form} name="position" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Rank</Form.Label>
+									<Form.Label>Position</Form.Label>
 									<Select.Root
-										selected={selectedRank}
+										selected={selectedPosition}
 										onSelectedChange={(s) => {
-											s && ($formData.rank = s.value);
+											s && ($formData.position = s.value);
 										}}
 									>
 										<Select.Input name={attrs.name} />
@@ -195,7 +195,7 @@
 											<Select.Value placeholder="" />
 										</Select.Trigger>
 										<Select.Content>
-											{#each rank as value}
+											{#each position as value}
 												<Select.Item {value} />
 											{/each}
 										</Select.Content>

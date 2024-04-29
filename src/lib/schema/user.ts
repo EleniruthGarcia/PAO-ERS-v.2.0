@@ -8,32 +8,16 @@ export const civilStatus = ['Single', 'Married', 'Separated', 'Widowed'] as cons
 
 export const status = ['New', 'Updated', 'Archived', 'Restored'] as const;
 
-export const rank = [
+export const position = [
 	'Regional Public Attorney',
 	'Assistant Regional Public Attorney',
 	'OIC - District Public Attorney',
 	'Review Division Head',
-	'Public Attorney I',
-	'Public Attorney II',
-	'Public Attorney III',
-	'Public Attorney IV',
-	'Public Attorney II/OIC - District Public Attorney',
-	'Public Attorney III/OIC - District Public Attorney',
-	'Public Attorney IV/Assistant Regional Public Attorney',
-	'Review Division Head/Public Attorney III',
-	'Administrative Officer I',
-	'Administrative Officer II',
-	'Administrative Officer III',
-	'Administrative Assistant I',
-	'Administrative Assistant II',
-	'Administrative Assistant III',
-	'Administrative Aide I',
-	'Administrative Aide II',
-	'Administrative Aide III',
-	'Administrative Aide IV',
-	'Administrative Aide V',
-	'Administrative Aide VI',
-	'Legal Assistant I',
+	'Public Attorney',
+	'Administrative Officer',
+	'Administrative Assistant',
+	'Administrative Aide',
+	'Legal Assistant',
 	'Intern'
 ] as const;
 
@@ -45,7 +29,7 @@ export const formSchema = z.object({
 	password: z.string().min(1, 'Password is required!'),
 	confirmPassword: z.string().min(1, 'Confirm password is required!'),
 	hashedPassword: z.string().min(1, 'Hashed password is required!'),
-	rank: z.enum(rank),
+	position: z.enum(position),
 	name: z.string().min(1, 'Name is required!'),
 	firstName: z.string().min(1, 'First name is required!'),
 	middleName: z.string().optional(),

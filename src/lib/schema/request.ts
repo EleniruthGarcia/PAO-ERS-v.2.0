@@ -19,7 +19,7 @@ export const otherNature = [
 ];
 
 export const relationshipToClient = [
-	'Client',
+	'Self',
 	'Parent',
 	'Sibling',
 	'Spouse',
