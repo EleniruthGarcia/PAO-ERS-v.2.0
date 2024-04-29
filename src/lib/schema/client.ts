@@ -65,7 +65,7 @@ export const formSchema = z.object({
 	email: z.string().email().optional(),
 	contactNumber: z
 		.string()
-		.regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number.')
+		// .regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number.')
 		.refine((value) => value !== '', {
 			message: 'Contact number is required.'
 		}),
@@ -91,7 +91,7 @@ export const formSchema = z.object({
 	spouseEmail: z.string().email().optional(),
 	spouseContactNumber: z
 		.string()
-		.regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number.')
+		// .regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number.')
 		.optional(),
 	classification: z.array(z.enum(classification)).optional(),
 	foreignNational: z.string().optional(),
