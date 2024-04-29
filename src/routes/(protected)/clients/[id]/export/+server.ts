@@ -85,14 +85,14 @@ export const GET: RequestHandler = async (event) => {
 			},
 			{
 				$project: {
-					monthYear: {
-						$dateToString: {
-							date: '$date',
-							format: '%B %Y',
-							timezone: '+08:00',
-							onNull: 'N/A'
-						}
-					},
+					// monthYear: {
+					// 	$dateToString: {
+					// 		date: '$date',
+					// 		format: '%B %Y',
+					// 		timezone: '+08:00',
+					// 		onNull: 'N/A'
+					// 	}
+					// },
 					region: '$branch.region',
 					districtProvince: {
 						$concat: ['$branch.district', ', ', '$branch.province']
@@ -190,7 +190,7 @@ export const GET: RequestHandler = async (event) => {
 
 		data = [
 			{
-				monthYear: `${form.data.month}, ${form.data.year}`,
+				// monthYear: `${form.data.month}, ${form.data.year}`,
 				region: branch.region,
 				districtProvince: `${branch.district}, ${branch.province}`,
 				district: branch.district,
