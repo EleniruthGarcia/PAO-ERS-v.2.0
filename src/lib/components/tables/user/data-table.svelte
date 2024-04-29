@@ -71,7 +71,8 @@
 		table.column({
 			accessor: ({ _id }) => _id,
 			header: '',
-			cell: ({ value }) => createRender(DataTableActions, { id: value ?? '' }),
+			cell: ({ value, row }) =>
+				createRender(DataTableActions, { id: value ?? '', status: row.original.currentStatus }),
 			plugins: {
 				filter: { exclude: true },
 				sort: { disable: true }

@@ -149,7 +149,7 @@
 							<Loading />
 						{:then users}
 							{#if users.filter((user) => user.status.at(-1).type !== 'Archived').length > 0}
-								<ClientTable
+								<UserTable
 									data={users.filter((user) => user.status.at(-1).type !== 'Archived')}
 								/>
 							{:else}

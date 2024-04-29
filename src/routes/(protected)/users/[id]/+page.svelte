@@ -196,7 +196,7 @@
 			</Card.Footer>
 		</Card.Root>
 	</div>
-	<div class="md:col-span-2">
+	<!-- <div class="md:col-span-2">
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
 				<div class="grid gap-0.5">
@@ -220,5 +220,5 @@
 			</Card.Content>
 			<!-- <Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3"></Card.Footer> -->
 		</Card.Root>
-	</div>
+	</div> -->
 </main>

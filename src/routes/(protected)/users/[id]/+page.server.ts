@@ -15,7 +15,16 @@ export const load: PageServerLoad = async (event) => {
 		);
 	}
 
-	const user = await db.users.findOne({ _id: event.params.id });
+	const user = await db.users.aggregate([
+		{
+			$match: { _id: event.params.id }
+		},
+		{
+			$addFields: {
+				age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+			}
+		}
+	]).next();
 	if (!user) redirect('/users', { type: 'warning', message: 'User not found!' }, event);
 
 	return {

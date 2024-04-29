@@ -8,7 +8,7 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import * as Sheet from '$lib/components/ui/sheet';
 
-	const { id, username, role } = $page.data.user ?? {};
+	const { id, username, name, role } = $page.data.user ?? {};
 
 	const initials = () => {
 		const n = username.split(' ');
@@ -41,7 +41,7 @@
 					</Avatar.Root>
 					<div class="grow">
 						<Sheet.Title>
-							{username}
+							{name}
 						</Sheet.Title>
 						<Sheet.Description>
 							<span class="text-xs text-muted-foreground">ID: {id}</span>

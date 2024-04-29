@@ -9,16 +9,31 @@ export const civilStatus = ['Single', 'Married', 'Separated', 'Widowed'] as cons
 export const status = ['New', 'Updated', 'Archived', 'Restored'] as const;
 
 export const rank = [
-	'Chief Public Attorney',
-	'Deputy Chief Public Attorney',
-	'Public Attorney V',
-	'Public Attorney IV',
-	'Public Attorney III',
-	'Public Attorney II',
+	'Regional Public Attorney',
+	'Assistant Regional Public Attorney',
+	'OIC - District Public Attorney',
+	'Review Division Head',
 	'Public Attorney I',
-	'Associate Public Attorney II',
-	'Associate Public Attorney I',
-	'Administrative Staff',
+	'Public Attorney II',
+	'Public Attorney III',
+	'Public Attorney IV',
+	'Public Attorney II/OIC - District Public Attorney',
+	'Public Attorney III/OIC - District Public Attorney',
+	'Public Attorney IV/Assistant Regional Public Attorney',
+	'Review Division Head/Public Attorney III',
+	'Administrative Officer I',
+	'Administrative Officer II',
+	'Administrative Officer III',
+	'Administrative Assistant I',
+	'Administrative Assistant II',
+	'Administrative Assistant III',
+	'Administrative Aide I',
+	'Administrative Aide II',
+	'Administrative Aide III',
+	'Administrative Aide IV',
+	'Administrative Aide V',
+	'Administrative Aide VI',
+	'Legal Assistant I',
 	'Intern'
 ] as const;
 
@@ -36,6 +51,7 @@ export const formSchema = z.object({
 	middleName: z.string().optional(),
 	lastName: z.string().min(1, 'Last name is required!'),
 	nameSuffix: z.string().optional(),
+	civilStatus: z.enum(civilStatus),
 	dateOfBirth: z.date({
 		invalid_type_error: 'Date of birth is required!',
 		required_error: 'Date of birth is required!'

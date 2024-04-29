@@ -238,20 +238,14 @@ export const actions = {
 						judge: { $ifNull: ['$case.actionTaken', ''] },
 						assistance: '$request.typeOfAssistance',
 						actionTaken: { $ifNull: ['$case.actionTaken', ''] },
-						CICL: {
-							$cond: [
-								{ $in: ['Child in Conflict with the Law', '$client.classification'] },
-								'X',
-								''
-							]
-						},
-						Women: { $cond: [{ $in: ['Women', '$client.classification'] }, 'X', ''] },
+						CICL: { $cond: [{ $in: ['$client.classification', ['Child in Conflict with the Law']] }, 'X', ''] },
+						Women: { $cond: [{ $in: ['$client.classification', ['Women']] }, 'X', ''] },
+						Senior: { $cond: [{ $in: ['$client.classification', ['Senior Citizen']] }, 'X', ''] },
+						OFW: { $cond: [{ $in: ['$client.classification', ['OFW (Land-Based)', 'OFW (Sea-Based)']] }, 'X', ''] },
 						IG: { $cond: [{ $ifNull: ['$client.indigenousPeople', 'true'] }, '', 'X'] },
 						PWD: { $cond: [{ $ifNull: ['$client.pwd', 'true'] }, '', 'X'] },
 						UP: { $cond: [{ $ifNull: ['$client.urbanPoor', 'true'] }, '', 'X'] },
 						RP: { $cond: [{ $ifNull: ['$client.ruralPoor', 'true'] }, '', 'X'] },
-						Senior: { $cond: [{ $in: ['Senior Citizen', '$client.classification'] }, 'X', ''] },
-						// OFW: { $cond: [{ $in: ['OFW (Land-Based)', '$client.classification', 'OFW (Sea-Based)', '$client.classification'] }, 'X', ''] },
 						Judi: { $cond: [{ $eq: ['$requests.nature', 'Representation'] }, 'X', ''] },
 						Quasi: {
 							$cond: [
@@ -261,6 +255,9 @@ export const actions = {
 							]
 						},
 						NonJudi: { $cond: [{ $eq: ['$requests.nature', 'Inquest Legal Assistance'] }, 'X', ''] }
+					}
+				}, {
+					$addFields: {
 					}
 				}
 			])
@@ -282,17 +279,17 @@ export const actions = {
 				d.requests?.nature?.contains('Inquest Legal Assistance')
 		);
 		const f19 = {
-			criminal: requests.filter((d) => d.case?.natureOfTheCase?.contains('Criminal')),
-			civil: requests.filter((d) => d.case?.natureOfTheCase?.contains('Civil')),
-			administrative: requests.filter((d) => d.case?.natureOfTheCase?.contains('Administrative')),
-			prosecutor: requests.filter((d) => d.case?.natureOfTheCase?.contains("Prosecutor's office cases")),
-			labor: requests.filter((d) => d.case?.natureOfTheCase?.contains('Labor'))
+			criminal: requests.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')),
+			civil: requests.filter((d) => d.case?.natureOfTheCase?.includes('Civil')),
+			administrative: requests.filter((d) => d.case?.natureOfTheCase?.includes('Administrative')),
+			prosecutor: requests.filter((d) => d.case?.natureOfTheCase?.includes("Prosecutor's office cases")),
+			labor: requests.filter((d) => d.case?.natureOfTheCase?.includes('Labor'))
 		};
 		const f20 = requests.filter((d) => d.client?.PWD?.contains(true));
 		const f21 = requests.filter((d) =>
-			d.request?.nature?.contains('Administration of Oath')
+			d.request?.nature?.includes('Administration of Oath')
 		);
-		const f22 = requests.filter((d) => d.request?.nature?.contains('Others (PSA)'));
+		const f22 = requests.filter((d) => d.request?.nature?.includes('Others (PSA)'));
 		const f23 = '';
 		const f24 = '';
 		const f25 = '';
@@ -542,14 +539,14 @@ export const actions = {
 		const f32 = requests.filter((d) => d.client?.detainedSince?.contains('') && d.requests?.nature?.contains('Representation in Court or Quasi-Judicial Bodies'));
 		const f33 = requests.filter((d) => d.case?.favorable?.contains(''));
 		const f34 = {
-			criminal: requests.filter((d) => d.case?.natureOfTheCase?.contains('Criminal')),
-			civil: requests.filter((d) => d.case?.natureOfTheCase?.contains('Civil')),
-			administrative: requests.filter((d) => d.case?.natureOfTheCase?.contains('Administrative')),
-			prosecutor: requests.filter((d) => d.case?.natureOfTheCase?.contains("Prosecutor's office cases")),
-			labor: requests.filter((d) => d.case?.natureOfTheCase?.contains('Labor'))
+			criminal: requests.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')),
+			civil: requests.filter((d) => d.case?.natureOfTheCase?.includes('Civil')),
+			administrative: requests.filter((d) => d.case?.natureOfTheCase?.includes('Administrative')),
+			prosecutor: requests.filter((d) => d.case?.natureOfTheCase?.includes("Prosecutor's office cases")),
+			labor: requests.filter((d) => d.case?.natureOfTheCase?.includes('Labor'))
 		};
 		const f35 = '';
-		const f38 = requests.filter((d) => d.request?.natureOfRequest?.contains('Others (PSA)'));
+		const f38 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
 
 		const f48 = {
 			mr1a1: requests.filter(
