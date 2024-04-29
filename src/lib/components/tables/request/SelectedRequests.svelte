@@ -94,7 +94,7 @@
 						<AlertDialog.Title>Delete Request</AlertDialog.Title>
 						<AlertDialog.Description>
 							Are you absolutely sure? The request will be
-							{request.status.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
+							{request.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
 						</AlertDialog.Description>
 					</AlertDialog.Header>
 					<AlertDialog.Footer>

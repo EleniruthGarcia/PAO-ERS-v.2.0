@@ -61,24 +61,24 @@
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
 							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-								>{data.request.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
+								>{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
 							>
 						</AlertDialog.Trigger>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
 								<AlertDialog.Title
-									>{data.request.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Request</AlertDialog.Title
+									>{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Request</AlertDialog.Title
 								>
 								<AlertDialog.Description>
 									Are you absolutely sure? The request will be
-									{data.request.status.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
+									{data.request.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
 								</AlertDialog.Description>
 							</AlertDialog.Header>
 							<AlertDialog.Footer>
 								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/requests/{data.request._id}/{data.request.status.at(-1)?.type ===
+									action="/requests/{data.request._id}/{data.request.status?.at(-1)?.type ===
 									'Archived'
 										? 'restore'
 										: 'delete'}"
@@ -87,7 +87,7 @@
 										type="submit"
 										class="w-full bg-destructive hover:bg-destructive/90"
 									>
-										{data.request.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+										{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Action>
 								</form>
 							</AlertDialog.Footer>
@@ -111,7 +111,7 @@
 								<DropdownMenu.Separator />
 								<AlertDialog.Trigger class="w-full text-left">
 									<DropdownMenu.Item
-										>{data.request.status.at(-1)?.type === 'Archived'
+										>{data.request.status?.at(-1)?.type === 'Archived'
 											? 'Restore'
 											: 'Delete'}</DropdownMenu.Item
 									>
@@ -121,18 +121,18 @@
 						<AlertDialog.Content>
 							<AlertDialog.Header>
 								<AlertDialog.Title
-									>{data.request.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Request</AlertDialog.Title
+									>{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Request</AlertDialog.Title
 								>
 								<AlertDialog.Description>
 									Are you absolutely sure? The request will be
-									{data.request.status.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
+									{data.request.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
 								</AlertDialog.Description>
 							</AlertDialog.Header>
 							<AlertDialog.Footer>
 								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/requests/{data.request._id}/{data.request.status.at(-1)?.type ===
+									action="/requests/{data.request._id}/{data.request.status?.at(-1)?.type ===
 									'Archived'
 										? 'restore'
 										: 'delete'}"
@@ -141,7 +141,7 @@
 										type="submit"
 										class="w-full bg-destructive hover:bg-destructive/90"
 									>
-										{data.request.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+										{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Action>
 								</form>
 							</AlertDialog.Footer>

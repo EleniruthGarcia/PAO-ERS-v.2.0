@@ -5,11 +5,7 @@ import { fail } from '@sveltejs/kit';
 
 export const actions = {
 	default: async (event) => {
-		if (
-			!event.locals.user ||
-			event.locals.user.role !== 'Administrator' ||
-			event.params.id !== event.locals.user._id
-		) {
+		if (!event.locals.user || event.locals.user.role !== 'Administrator') {
 			event.cookies.set('redirect', event.url.pathname, { path: '/' });
 			redirect(
 				'/login',
@@ -30,9 +26,7 @@ export const actions = {
 			}
 		);
 
-		if (!user || !user.acknowledged) return fail(500);
-		if (user.matchedCount === 0) return fail(404);
-		if (user.modifiedCount === 0 && user.upsertedCount === 0) return fail(304);
+		if (!user) return fail(500);
 
 		redirect(
 			'/users',

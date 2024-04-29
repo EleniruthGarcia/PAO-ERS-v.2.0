@@ -60,6 +60,7 @@
 	};
 
 	$: $formData.hashedPassword =
+		$formData.hashedPassword ||
 		'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4';
 </script>
 
@@ -94,7 +95,7 @@
 						<Card.Description>Please fill out all necessary information.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid sm:grid-cols-2 items-start gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="username" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Username</Form.Label>
@@ -125,7 +126,7 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid sm:grid-cols-2 items-start gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="password" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Password</Form.Label>
@@ -149,22 +150,22 @@
 						<Card.Description>Please fill out all necessary information.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid sm:grid-cols-7 items-start gap-3">
-							<Form.Field {form} name="firstName" class="sm:col-span-2 grid gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-7">
+							<Form.Field {form} name="firstName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label>Name</Form.Label>
 									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="middleName" class="sm:col-span-2 grid gap-3">
+							<Form.Field {form} name="middleName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 									<Input {...attrs} bind:value={$formData.middleName} placeholder="Middle Name" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="lastName" class="sm:col-span-2 grid gap-3">
+							<Form.Field {form} name="lastName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 									<Input {...attrs} bind:value={$formData.lastName} placeholder="Last Name" />
@@ -179,7 +180,7 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid sm:grid-cols-3 items-start gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-3">
 							<Form.Field {form} name="rank" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Rank</Form.Label>
@@ -239,8 +240,8 @@
 						<Card.Title>Contact Information</Card.Title>
 					</Card.Header>
 					<Card.Content>
-						<div class="grid sm:grid-cols-2 items-start gap-3">
-							<Form.Field {form} name="address" class="sm:col-span-2 grid gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-2">
+							<Form.Field {form} name="address" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label>Address</Form.Label>
 									<Input {...attrs} bind:value={$formData.address} />

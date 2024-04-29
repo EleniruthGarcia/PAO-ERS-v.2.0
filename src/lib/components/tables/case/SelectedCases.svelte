@@ -101,7 +101,7 @@
 						<AlertDialog.Title>Delete Case</AlertDialog.Title>
 						<AlertDialog.Description>
 							Are you absolutely sure? The case will be
-							{_case.status.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
+							{_case.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
 						</AlertDialog.Description>
 					</AlertDialog.Header>
 					<AlertDialog.Footer>

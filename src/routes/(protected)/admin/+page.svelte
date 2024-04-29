@@ -148,10 +148,8 @@
 						{#await $page.data.users}
 							<Loading />
 						{:then users}
-							{#if users.filter((user) => user.status.at(-1).type !== 'Archived').length > 0}
-								<ClientTable
-									data={users.filter((user) => user.status.at(-1).type !== 'Archived')}
-								/>
+							{#if users.filter((user) => user.status?.at(-1).type !== 'Archived').length > 0}
+								<UserTable data={users.filter((user) => user.status?.at(-1).type !== 'Archived')} />
 							{:else}
 								<div
 									class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -179,9 +177,9 @@
 						{#await $page.data.clients}
 							<Loading />
 						{:then clients}
-							{#if clients.filter((client) => client.status.at(-1).type !== 'Archived').length > 0}
+							{#if clients.filter((client) => client.status?.at(-1).type !== 'Archived').length > 0}
 								<ClientTable
-									data={clients.filter((client) => client.status.at(-1).type !== 'Archived')}
+									data={clients.filter((client) => client.status?.at(-1).type !== 'Archived')}
 								/>
 							{:else}
 								<div
@@ -210,9 +208,9 @@
 						{#await $page.data.requests}
 							<Loading />
 						{:then requests}
-							{#if requests.filter((request) => request.status.at(-1).type !== 'Archived').length > 0}
+							{#if requests.filter((request) => request.status?.at(-1).type !== 'Archived').length > 0}
 								<RequestTable
-									data={requests.filter((request) => request.status.at(-1).type !== 'Archived')}
+									data={requests.filter((request) => request.status?.at(-1).type !== 'Archived')}
 								/>
 							{:else}
 								<div
@@ -241,9 +239,9 @@
 						{#await $page.data.cases}
 							<Loading />
 						{:then cases}
-							{#if cases.filter((_case) => _case.status.at(-1).type !== 'Archived').length > 0}
+							{#if cases.filter((_case) => _case.status?.at(-1).type !== 'Archived').length > 0}
 								<CaseTable
-									data={cases.filter((_case) => _case.status.at(-1).type !== 'Archived')}
+									data={cases.filter((_case) => _case.status?.at(-1).type !== 'Archived')}
 								/>
 							{:else}
 								<div
@@ -265,7 +263,7 @@
 		</Tabs.Root>
 	</div>
 	<div>
-		{#if Object.entries($selectedClients).length > 0}
+		{#if Object.entries($selectedUsers).length > 0}
 			<SelectedUsers />
 		{:else if Object.entries($selectedClients).length > 0}
 			<SelectedClients />

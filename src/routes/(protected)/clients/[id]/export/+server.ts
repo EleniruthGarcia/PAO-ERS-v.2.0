@@ -14,18 +14,17 @@ export const GET: RequestHandler = async (event) => {
 	}
 
 	const branch = await db.branches.findOne({ _id: event.locals.user.branch_id });
-	const client = await db.clients
-		.aggregate([
-			{
-				$match: { _id: event.params.id }
-			},
-			{
-				$addFields: {
-					age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
-				}
+	const client = await db.clients.aggregate([
+		{
+			$match: { _id: event.params.id }
+		},
+		{
+			$addFields: {
+				age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
 			}
-		])
-		.next();
+		}
+	]).next();
+
 	const requests = await db.requests.find({ client_id: event.params.id }).toArray();
 
 	let data = await db.requests
@@ -104,7 +103,7 @@ export const GET: RequestHandler = async (event) => {
 					religion: { $ifNull: ['$client.religion', 'N/A'] },
 					citizenship: { $ifNull: ['$client.citizenship', 'N/A'] },
 					name: '$client.name',
-					age: '$client.age',
+					age: { $dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' } },
 					address: '$client.address',
 					email: { $ifNull: ['$client.email', ''] },
 					individualMonthlyIncome: {
@@ -123,11 +122,15 @@ export const GET: RequestHandler = async (event) => {
 					proofOfIndigency: { $ifNull: ['$client.proofOfIndigency', []] },
 					clientClasses: { $ifNull: ['$client.classification', []] },
 					PDLStatus: '$client.detained',
-					intervieweeName: '$interviewee.name',
-					intervieweeAddress: '$interviewee.address',
-					intervieweeAge: '$interviewee.age',
-					intervieweeSex: '$interviewee.sex',
-					intervieweeCivilStatus: '$interviewee.civilStatus',
+					intervieweeName: { $ifNull: ['$interviewee.name', '$client.name'] },
+					intervieweeAddress: { $ifNull: ['$interviewee.address', '$client.address'] },
+					intervieweeAge: {
+						$ifNull: ['$interviewee.age',
+							{ $dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' } }, 'N/A'
+						]
+					},
+					intervieweeSex: { $ifNull: ['$interviewee.sex', '$client.sex'] },
+					intervieweeCivilStatus: { $ifNull: ['$interviewee.civilStatus', '$client.civilStatus'] },
 					intervieweeContactNo: { $ifNull: ['$interviewee.contactNumber', 'N/A'] },
 					intervieweeEmail: { $ifNull: ['$interviewee.email', ''] },
 					relationshipToClient: '$relationshipToClient',
@@ -156,16 +159,18 @@ export const GET: RequestHandler = async (event) => {
 					natureOfOffence: { $ifNull: ['$case.natureOfOffence', ''] },
 					courtPendingStatus: { $ifNull: ['$case.status', ''] },
 					titleOfCaseDocketNum: {
-						$cond: [
-							{
-								$and: [
-									{ $eq: [{ $ifNull: ['$case.titleOfCase', ''] }, ''] },
-									{ $eq: [{ $ifNull: ['$case.docketNumber', ''] }, ''] }
-								]
-							},
-							'',
-							{ $concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')'] }
-						]
+						$ifNull: [{
+							$cond: [
+								{
+									$and: [
+										{ $eq: [{ $ifNull: ['$case.titleOfCase', ''] }, ''] },
+										{ $eq: [{ $ifNull: ['$case.docketNumber', ''] }, ''] }
+									]
+								},
+								'',
+								{ $concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')'] }
+							]
+						}, '']
 					},
 					courtBodyTribunal: { $ifNull: ['$case.courtBody', ''] }
 				}
@@ -224,8 +229,8 @@ export const GET: RequestHandler = async (event) => {
 				factsOfTheCase: '',
 				clientInvolvement: '',
 				adverseParty: '',
-				adversePartyName: 'N/A',
-				adversePartyAddress: 'N/A',
+				adversePartyName: '',
+				adversePartyAddress: '',
 				natureOfOffence: '',
 				courtPendingStatus: '',
 				titleOfCaseDocketNum: '',

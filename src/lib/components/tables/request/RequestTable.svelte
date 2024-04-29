@@ -54,8 +54,8 @@
 				{#await $page.data.requests}
 					<Loading />
 				{:then requests}
-					{#if requests.filter((r) => r.status.at(-1)?.type !== 'Archived').length > 0}
-						<Table data={requests.filter((r) => r.status.at(-1)?.type !== 'Archived')} />
+					{#if requests.filter((r) => r.status?.at(-1)?.type !== 'Archived').length > 0}
+						<Table data={requests.filter((r) => r.status?.at(-1)?.type !== 'Archived')} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -83,8 +83,8 @@
 				{#await $page.data.requests}
 					<Loading />
 				{:then requests}
-					{#if requests.filter((r) => r.status.at(-1)?.type === 'New').length > 0}
-						<Table data={requests.filter((r) => r.status.at(-1)?.type === 'New')} />
+					{#if requests.filter((r) => r.status?.at(-1)?.type === 'New').length > 0}
+						<Table data={requests.filter((r) => r.status?.at(-1)?.type === 'New')} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -112,8 +112,8 @@
 				{#await $page.data.requests}
 					<Loading />
 				{:then requests}
-					{#if requests.filter((r) => r.status.at(-1)?.type === 'Archived').length > 0}
-						<Table data={requests.filter((r) => r.status.at(-1)?.type === 'Archived')} />
+					{#if requests.filter((r) => r.status?.at(-1)?.type === 'Archived').length > 0}
+						<Table data={requests.filter((r) => r.status?.at(-1)?.type === 'Archived')} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
