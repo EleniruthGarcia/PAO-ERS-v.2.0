@@ -70,9 +70,8 @@ function addOrdinalSuffix(day: number): string {
 }
 async function addTextToPDF(data: any) {
 	const values = getFormattedDate();
-
+	const monthYear = getFormattedDate()[1] + ", " + getFormattedDate()[3]
 	const {
-		monthYear,
 
 		// branch data
 		region,
