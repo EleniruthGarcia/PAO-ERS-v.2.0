@@ -266,7 +266,7 @@ export const actions = {
 			])
 			.toArray();
 
-		const f11 = requests.filter((d) => d.requests?.natureOfRequest?.includes('Jail Visitation'));
+		const f11 = requests.filter((d) => d.requests?.nature?.contains('Jail Visitation'));
 		const f12 = '';
 		const f13 = requests.filter((d) =>
 			d.client?.classification?.includes('Child in Conflict with the Law')
@@ -275,26 +275,24 @@ export const actions = {
 		const f15 = requests.filter((d) =>
 			d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation')
 		);
-		const f16 = requests.filter((d) => d.client?.foreignNational?.includes('Taiwanese'));
+		const f16 = requests.filter((d) => d.client?.foreignNational?.contains('Taiwanese'));
 		const f18 = requests.filter(
 			(d) =>
 				d.client?.classification?.includes('OFW') &&
 				d.requests?.nature?.contains('Inquest Legal Assistance')
 		);
 		const f19 = {
-			criminal: requests.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')),
-			civil: requests.filter((d) => d.case?.natureOfTheCase?.includes('Civil')),
-			administrative: requests.filter((d) => d.case?.natureOfTheCase?.includes('Administrative')),
-			prosecutor: requests.filter((d) =>
-				d.case?.natureOfTheCase?.includes("Prosecutor's office cases")
-			),
-			labor: requests.filter((d) => d.case?.natureOfTheCase?.includes('Labor'))
+			criminal: requests.filter((d) => d.case?.natureOfTheCase?.contains('Criminal')),
+			civil: requests.filter((d) => d.case?.natureOfTheCase?.contains('Civil')),
+			administrative: requests.filter((d) => d.case?.natureOfTheCase?.contains('Administrative')),
+			prosecutor: requests.filter((d) => d.case?.natureOfTheCase?.contains("Prosecutor's office cases")),
+			labor: requests.filter((d) => d.case?.natureOfTheCase?.contains('Labor'))
 		};
 		const f20 = requests.filter((d) => d.client?.PWD?.contains(true));
 		const f21 = requests.filter((d) =>
-			d.request?.natureOfRequest?.includes('Administration of Oath')
+			d.request?.nature?.contains('Administration of Oath')
 		);
-		const f22 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
+		const f22 = requests.filter((d) => d.request?.nature?.contains('Others (PSA)'));
 		const f23 = '';
 		const f24 = '';
 		const f25 = '';
@@ -538,21 +536,21 @@ export const actions = {
 					d.request?.otherNature?.contains('Assisted During Inquest Investigation')
 			)
 		};
-		const f29 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
-		const f31 = requests.filter((d) => d.case?.favorable?.contains(''));
-		const f32 = requests.filter((d) => d.case?.favorable?.contains(''));
+		const f29 = requests.filter((d) => d.request?.nature?.includes('Others (PSA)'));
+
+		const f31 = requests.filter((d) => d.case?.terminated?.contains('Favorable Dispositions to Clients'));
+		const f32 = requests.filter((d) => d.client?.detainedSince?.contains('') && d.requests?.nature?.contains('Representation in Court or Quasi-Judicial Bodies'));
 		const f33 = requests.filter((d) => d.case?.favorable?.contains(''));
 		const f34 = {
-			criminal: requests.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')),
-			civil: requests.filter((d) => d.case?.natureOfTheCase?.includes('Civil')),
-			administrative: requests.filter((d) => d.case?.natureOfTheCase?.includes('Administrative')),
-			prosecutor: requests.filter((d) =>
-				d.case?.natureOfTheCase?.includes("Prosecutor's office cases")
-			),
-			labor: requests.filter((d) => d.case?.natureOfTheCase?.includes('Labor'))
+			criminal: requests.filter((d) => d.case?.natureOfTheCase?.contains('Criminal')),
+			civil: requests.filter((d) => d.case?.natureOfTheCase?.contains('Civil')),
+			administrative: requests.filter((d) => d.case?.natureOfTheCase?.contains('Administrative')),
+			prosecutor: requests.filter((d) => d.case?.natureOfTheCase?.contains("Prosecutor's office cases")),
+			labor: requests.filter((d) => d.case?.natureOfTheCase?.contains('Labor'))
 		};
-		const f35 = requests.filter((d) => d.case?.favorable?.contains(''));
-		const f38 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
+		const f35 = '';
+		const f38 = requests.filter((d) => d.request?.natureOfRequest?.contains('Others (PSA)'));
+
 		const f48 = {
 			mr1a1: requests.filter(
 				(d) =>
@@ -938,9 +936,16 @@ export const actions = {
 				f28,
 				f29,
 				f31,
+				f32,
+				f33,
+				f34,
+				f35: [...requests, ...outreaches],
 				f38,
 				f48,
-				f49
+				f49,
+				f50,
+				f51,
+				f52
 			})
 		};
 	}
