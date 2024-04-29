@@ -103,7 +103,8 @@ export const GET: RequestHandler = async (event) => {
 					religion: { $ifNull: ['$client.religion', 'N/A'] },
 					citizenship: { $ifNull: ['$client.citizenship', 'N/A'] },
 					name: '$client.name',
-					age: { $dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' } },
+					// age: { $dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' } },
+					age: '$client.age',
 					address: '$client.address',
 					email: { $ifNull: ['$client.email', ''] },
 					individualMonthlyIncome: {

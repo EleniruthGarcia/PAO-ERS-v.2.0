@@ -38,11 +38,11 @@
 
 	const { form: formData, enhance, delayed } = form;
 
-	// const proxyAge = intProxy(form, 'age', { initiallyEmptyIfZero: true });
-	const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
-		format: 'date',
-		empty: 'undefined'
-	});
+	const proxyAge = intProxy(form, 'age', { initiallyEmptyIfZero: true });
+	// const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
+	// 	format: 'date',
+	// 	empty: 'undefined'
+	// });
 	const proxyDetainedSince = dateProxy(form, 'detainedSince', {
 		format: 'date',
 		empty: 'undefined'
@@ -138,7 +138,7 @@
 							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Age</Form.Label>
-									<Input {...attrs} bind:value={$formData.age} type="number" />
+									<Input {...attrs} bind:value={$proxyAge} type="number" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
