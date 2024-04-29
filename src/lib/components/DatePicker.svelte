@@ -9,7 +9,7 @@
 	export { valueString as value };
 
 	let value: DateValue | undefined = valueString ? parseDate(valueString) : undefined;
-	$: valueString = value ? value.toString() : '';
+	$: value = valueString ? parseDate(valueString) : undefined;
 </script>
 
 <DatePicker.Root weekdayFormat="short" fixedWeeks={true} bind:value>
