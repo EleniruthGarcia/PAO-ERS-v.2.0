@@ -58,16 +58,16 @@
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
 							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-								>{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
+								>{data.user.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
 							>
 						</AlertDialog.Trigger>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
 								<AlertDialog.Title
-									>{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} User</AlertDialog.Title
+									>{data.user.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} User</AlertDialog.Title
 								>
 								<AlertDialog.Description>
-									Are you absolutely sure? The user will be {data.user.status.at(-1)?.type ===
+									Are you absolutely sure? The user will be {data.user.status?.at(-1)?.type ===
 									'Archived'
 										? 'restored'
 										: 'archived'}.
@@ -77,7 +77,7 @@
 								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/users/{data.user._id}/{data.user.status.at(-1)?.type === 'Archived'
+									action="/users/{data.user._id}/{data.user.status?.at(-1)?.type === 'Archived'
 										? 'restore'
 										: 'delete'}"
 								>
@@ -85,7 +85,7 @@
 										type="submit"
 										class="w-full bg-destructive hover:bg-destructive/90"
 									>
-										{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+										{data.user.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Action>
 								</form>
 							</AlertDialog.Footer>
@@ -107,7 +107,7 @@
 								<DropdownMenu.Separator />
 								<AlertDialog.Trigger class="w-full text-left">
 									<DropdownMenu.Item
-										>{data.user.status.at(-1)?.type === 'Archived'
+										>{data.user.status?.at(-1)?.type === 'Archived'
 											? 'Restore'
 											: 'Delete'}</DropdownMenu.Item
 									>
@@ -117,10 +117,10 @@
 						<AlertDialog.Content>
 							<AlertDialog.Header>
 								<AlertDialog.Title
-									>{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
+									>{data.user.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
 								>
 								<AlertDialog.Description>
-									Are you absolutely sure? The user will be {data.user.status.at(-1)?.type ===
+									Are you absolutely sure? The user will be {data.user.status?.at(-1)?.type ===
 									'Archived'
 										? 'restored'
 										: 'archived'}.
@@ -130,7 +130,7 @@
 								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/users/{data.user._id}/{data.user.status.at(-1)?.type === 'Archived'
+									action="/users/{data.user._id}/{data.user.status?.at(-1)?.type === 'Archived'
 										? 'restore'
 										: 'delete'}"
 								>
@@ -138,7 +138,7 @@
 										type="submit"
 										class="w-full bg-destructive hover:bg-destructive/90"
 									>
-										{data.user.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+										{data.user.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Action>
 								</form>
 							</AlertDialog.Footer>

@@ -57,19 +57,19 @@
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
 							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-								>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
+								>{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
 							>
 						</AlertDialog.Trigger>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
 								<AlertDialog.Title
-									>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
+									>{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
 								>
 								<AlertDialog.Description>
-									Are you absolutely sure? The client will be {data.client.status.at(-1)?.type ===
+									Are you absolutely sure? The client will be {data.client.status?.at(-1)?.type ===
 									'Archived'
 										? 'restored'
-										: 'archived'} and will {data.client.status.at(-1)?.type === 'Archived'
+										: 'archived'} and will {data.client.status?.at(-1)?.type === 'Archived'
 										? ''
 										: 'not'} show up in Active Clients. If you want the client to be permanently deleted,
 									please contact the administrator.
@@ -79,7 +79,8 @@
 								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/clients/{data.client._id}/{data.client.status.at(-1)?.type === 'Archived'
+									action="/clients/{data.client._id}/{data.client.status?.at(-1)?.type ===
+									'Archived'
 										? 'restore'
 										: 'delete'}"
 								>
@@ -87,7 +88,7 @@
 										type="submit"
 										class="w-full bg-destructive hover:bg-destructive/90"
 									>
-										{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+										{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Action>
 								</form>
 							</AlertDialog.Footer>
@@ -111,7 +112,7 @@
 								<DropdownMenu.Separator />
 								<DropdownMenu.Item>
 									<AlertDialog.Trigger class="w-full text-left">
-										{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+										{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Trigger>
 								</DropdownMenu.Item>
 							</DropdownMenu.Content>
@@ -119,13 +120,13 @@
 						<AlertDialog.Content>
 							<AlertDialog.Header>
 								<AlertDialog.Title
-									>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
+									>{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
 								>
 								<AlertDialog.Description>
-									Are you absolutely sure? The client will be {data.client.status.at(-1)?.type ===
+									Are you absolutely sure? The client will be {data.client.status?.at(-1)?.type ===
 									'Archived'
 										? 'restored'
-										: 'archived'} and will {data.client.status.at(-1)?.type === 'Archived'
+										: 'archived'} and will {data.client.status?.at(-1)?.type === 'Archived'
 										? ''
 										: 'not'} show up in Active Clients. If you want the client to be permanently deleted,
 									please contact the administrator.
@@ -135,7 +136,8 @@
 								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/clients/{data.client._id}/{data.client.status.at(-1)?.type === 'Archived'
+									action="/clients/{data.client._id}/{data.client.status?.at(-1)?.type ===
+									'Archived'
 										? 'restore'
 										: 'delete'}"
 								>
@@ -143,7 +145,7 @@
 										type="submit"
 										class="w-full bg-destructive hover:bg-destructive/90"
 									>
-										{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+										{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Action>
 								</form>
 							</AlertDialog.Footer>

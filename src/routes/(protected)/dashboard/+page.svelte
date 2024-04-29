@@ -139,9 +139,9 @@
 						{#await $page.data.clients}
 							<Loading />
 						{:then clients}
-							{#if clients.filter((client) => client.status.at(-1).type !== 'Archived').length > 0}
+							{#if clients.filter((client) => client.status?.at(-1).type !== 'Archived').length > 0}
 								<ClientTable
-									data={clients.filter((client) => client.status.at(-1).type !== 'Archived')}
+									data={clients.filter((client) => client.status?.at(-1).type !== 'Archived')}
 								/>
 							{:else}
 								<div
@@ -170,9 +170,9 @@
 						{#await $page.data.requests}
 							<Loading />
 						{:then requests}
-							{#if requests.filter((request) => request.status.at(-1).type !== 'Archived').length > 0}
+							{#if requests.filter((request) => request.status?.at(-1).type !== 'Archived').length > 0}
 								<RequestTable
-									data={requests.filter((request) => request.status.at(-1).type !== 'Archived')}
+									data={requests.filter((request) => request.status?.at(-1).type !== 'Archived')}
 								/>
 							{:else}
 								<div
@@ -201,9 +201,9 @@
 						{#await $page.data.cases}
 							<Loading />
 						{:then cases}
-							{#if cases.filter((_case) => _case.status.at(-1).type !== 'Archived').length > 0}
+							{#if cases.filter((_case) => _case.status?.at(-1).type !== 'Archived').length > 0}
 								<CaseTable
-									data={cases.filter((_case) => _case.status.at(-1).type !== 'Archived')}
+									data={cases.filter((_case) => _case.status?.at(-1).type !== 'Archived')}
 								/>
 							{:else}
 								<div
