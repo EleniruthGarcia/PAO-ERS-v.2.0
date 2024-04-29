@@ -30,19 +30,19 @@
 	$: $errors._errors && $errors._errors.map((error) => toast.error(error));
 	$: $message && toast.success($message);
 
-	const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
-		format: 'date',
-		empty: 'undefined'
-	});
+	// const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
+	// 	format: 'date',
+	// 	empty: 'undefined'
+	// });
 
 	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${
 		$formData.lastName
 	}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
 
-	$: selectedSex = {
-		label: $formData.sex,
-		value: $formData.sex
-	};
+	// $: selectedSex = {
+	// 	label: $formData.sex,
+	// 	value: $formData.sex
+	// };
 
 	$: selectedRole = {
 		label: $formData.role,
@@ -180,7 +180,7 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid items-start gap-3 sm:grid-cols-3">
+						<div class="grid items-start gap-3">
 							<Form.Field {form} name="position" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Position</Form.Label>
@@ -203,7 +203,7 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="dateOfBirth" class="grid gap-3">
+							<!-- <Form.Field {form} name="dateOfBirth" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Date of Birth</Form.Label>
 									<DatePicker bind:value={$proxyDateOfBirth} />
@@ -231,7 +231,7 @@
 									</Select.Root>
 								</Form.Control>
 								<Form.FieldErrors />
-							</Form.Field>
+							</Form.Field> -->
 						</div>
 					</Card.Content>
 				</Card.Root>

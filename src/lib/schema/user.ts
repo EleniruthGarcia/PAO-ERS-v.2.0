@@ -36,19 +36,19 @@ export const formSchema = z.object({
 	lastName: z.string().min(1, 'Last name is required!'),
 	nameSuffix: z.string().optional(),
 	civilStatus: z.enum(civilStatus),
-	dateOfBirth: z.date({
-		invalid_type_error: 'Date of birth is required!',
-		required_error: 'Date of birth is required!'
-	}),
-	sex: z.enum(sex),
-	address: z.string().min(1, 'Address is required!'),
-	email: z.string().email().optional(),
-	contactNumber: z
-		.string()
-		.regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number!')
-		.refine((value) => value !== '', {
-			message: 'Contact number is required!'
-		}),
+	// dateOfBirth: z.date({
+	// 	invalid_type_error: 'Date of birth is required!',
+	// 	required_error: 'Date of birth is required!'
+	// }),
+	// sex: z.enum(sex),
+	// address: z.string().min(1, 'Address is required!'),
+	// email: z.string().email().optional(),
+	// contactNumber: z
+	// 	.string()
+	// 	.regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number!')
+	// 	.refine((value) => value !== '', {
+	// 		message: 'Contact number is required!'
+	// 	}),
 	currentStatus: z.enum(status),
 	status: z.array(
 		z.object({
