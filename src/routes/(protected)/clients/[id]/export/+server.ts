@@ -20,7 +20,15 @@ export const GET: RequestHandler = async (event) => {
 		},
 		{
 			$addFields: {
-				// age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+				// age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } },
+				detainedSince: {
+					$dateToString: {
+						date: '$detainedSince',
+						format: '%B %d, %Y',
+						timezone: '+08:00',
+						onNull: 'N/A'
+					}
+				}
 			}
 		}
 	]).next();
@@ -245,6 +253,17 @@ export const GET: RequestHandler = async (event) => {
 				courtBodyTribunal: ''
 			}
 		];
+
+		const interviewSheet = await generateInterviewSheet(data);
+
+		return new Response(interviewSheet.blob, {
+			headers: {
+				'Content-Type': interviewSheet.type,
+				'Content-Disposition': `attachment; filename*=UTF-8''${encodeURIComponent(interviewSheet.name).
+					replace(/['()]/g, escape).
+					replace(/\*/g, '%2A').replace(/%(?:7C|60|5E)/g, unescape)}`
+			}
+		});
 	}
 
 	const interviewSheet = await generateInterviewSheet(data);
@@ -252,7 +271,10 @@ export const GET: RequestHandler = async (event) => {
 	return new Response(interviewSheet.blob, {
 		headers: {
 			'Content-Type': interviewSheet.type,
-			'Content-Disposition': `attachment; filename*=UTF-8''${interviewSheet.name}`
+			'Content-Disposition': `attachment; filename*=UTF-8''${encodeURIComponent(interviewSheet.name).
+				replace(/['()]/g, escape).
+				replace(/\*/g, '%2A').replace(/%(?:7C|60|5E)/g, unescape)
+				}`
 		}
 	});
 };
