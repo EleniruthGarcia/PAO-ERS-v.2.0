@@ -73,9 +73,9 @@ export const load: PageServerLoad = async (event) => {
 				},
 				{
 					$addFields: {
-						'client.age': {
-							$dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' }
-						}
+						// 'client.age': {
+						// 	$dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' }
+						// }
 					}
 				}
 			])

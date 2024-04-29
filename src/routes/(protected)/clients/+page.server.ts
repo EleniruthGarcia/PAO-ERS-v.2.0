@@ -19,11 +19,11 @@ export const load: PageServerLoad = async (event) => {
 		],
 		clients: db.clients
 			.aggregate([
-				{
-					$addFields: {
-						age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
-					}
-				}
+				// {
+				// $addFields: {
+				// 	age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+				// }
+				// }
 			])
 			.toArray()
 	};
