@@ -149,9 +149,7 @@
 							<Loading />
 						{:then users}
 							{#if users.filter((user) => user.status.at(-1).type !== 'Archived').length > 0}
-								<UserTable
-									data={users.filter((user) => user.status.at(-1).type !== 'Archived')}
-								/>
+								<UserTable data={users.filter((user) => user.status.at(-1).type !== 'Archived')} />
 							{:else}
 								<div
 									class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -265,7 +263,7 @@
 		</Tabs.Root>
 	</div>
 	<div>
-		{#if Object.entries($selectedClients).length > 0}
+		{#if Object.entries($selectedUsers).length > 0}
 			<SelectedUsers />
 		{:else if Object.entries($selectedClients).length > 0}
 			<SelectedClients />
