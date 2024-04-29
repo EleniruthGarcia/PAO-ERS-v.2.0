@@ -194,7 +194,7 @@
 										<Select.Trigger {...attrs}>
 											<Select.Value placeholder="" />
 										</Select.Trigger>
-										<Select.Content>
+										<Select.Content class="max-h-[200px] overflow-y-auto">
 											{#each position as value}
 												<Select.Item {value} />
 											{/each}
@@ -235,7 +235,7 @@
 						</div>
 					</Card.Content>
 				</Card.Root>
-				<Card.Root>
+				<!-- <Card.Root>
 					<Card.Header>
 						<Card.Title>Contact Information</Card.Title>
 					</Card.Header>
@@ -264,7 +264,7 @@
 							</Form.Field>
 						</div>
 					</Card.Content>
-				</Card.Root>
+				</Card.Root> -->
 			</div>
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
 				<Card.Root>
