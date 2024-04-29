@@ -20,7 +20,7 @@ export const GET: RequestHandler = async (event) => {
 		},
 		{
 			$addFields: {
-				age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+				// age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
 			}
 		}
 	]).next();
@@ -189,7 +189,7 @@ export const GET: RequestHandler = async (event) => {
 
 		data = [
 			{
-				monthYear: '',
+				monthYear: `${form.data.month}, ${form.data.year}`,
 				region: branch.region,
 				districtProvince: `${branch.district}, ${branch.province}`,
 				district: branch.district,
