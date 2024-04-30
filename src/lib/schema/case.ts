@@ -107,6 +107,11 @@ export const genderCaseSubject = [
 	'Sexual Harassment',
 ] as const;
 
+export const causeOfTermination = [
+	'MOA',
+	'AUQNA'
+] as const;
+
 export const formSchema = z.object({
 	_id: z.string().optional(),
 	natureOfTheCase: z.string(),
@@ -144,6 +149,7 @@ export const formSchema = z.object({
 		.transform((e) => (e === '' ? undefined : e))
 		.optional(),
 	judge: z.string().optional(),
+	causeOfTermination: z.enum(causeOfTermination).optional(),
 });
 
 export type FormSchema = typeof formSchema;

@@ -64,8 +64,37 @@ export const status = [
 ] as const;
 
 export const natureOfInstrument = [
-	'Affidavit',
-	'PSA'
+	'BENECO-Waiver',
+	'Cohabitation (PDL)',
+	'Cohabitation',
+	'Confirmation (PNP)',
+	'Consent (PMA)',
+	'Consent to Travel',
+	'Delayed Registration of Birth',
+	'Legitimation',
+	'Loss (ATM)',
+	'Loss (Books)',
+	'Loss (General)',
+	'Loss (Passport)',
+	'Loss (Plate Number)',
+	'Low Income (Both Parents)',
+	'Low Income (Single Parent/Widow/Guardian',
+	'No Pending Case',
+	'No/Low Income (Simple)',
+	'Non-employment (For petition for correction with LCP)',
+	'Omnibus Certification',
+	'Paternity & Filation',
+	'Singleness (PNP)',
+	'Supplemental (Blank Entry)',
+	'Supplmemental (Baby Boy, Baby Girl/Blank name',
+	'Sworn Attestation (Mother)',
+	"To use Father's Surname",
+	'Undertaking (BFP)',
+	'Undertaking (BWD - Far from Tapping point)',
+	'Undertaking (BWD - Not to Install Booster Pump)',
+	'Undertaking (BWD-Owner/ Not the Owner of the Lot)',
+	'Undertaking (CASHBOND)',
+	'Undertaking (TESDA)',
 ] as const;
 
 export const formSchema = z.object({

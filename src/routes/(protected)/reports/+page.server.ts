@@ -302,10 +302,10 @@ export const actions = {
 			
 			// (2) new cases for this month
 			// d.case?.natureOfTheCase?.contains('Criminal') &&
-			a_crnc:  requests.filter(
-				(d) =>
-					d.case?.natureOfTheCase?.contains('Criminal') &&
-					s.date?.getMonth() > form.data.month)?.length > 0,
+			// a_crnc:  requests.filter(
+			// 	(d) =>
+			// 		d.case?.natureOfTheCase?.contains('Criminal') &&
+			// 		s.date?.getMonth() > form.data.month)?.length > 0,
 			// (3) find the number of clients enclosed in these cases vvv, down here a_crcc
 			a_crcc: requests.filter(
 				(d) =>

@@ -236,7 +236,7 @@ async function addTextToPDF(data: any) {
 	});
 
 	firstPage.drawText(religion, {
-		x: 100,
+		x: 90,
 		y: 691,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -260,7 +260,7 @@ async function addTextToPDF(data: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(address, {
-		x: 100,
+		x: 800,
 		y: 663,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -314,6 +314,18 @@ async function addTextToPDF(data: any) {
 			height: 7,
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
+		});
+		firstPage.drawText("N/A", {
+			x: 100,
+			y: 607,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+		firstPage.drawText("N/A", {
+			x: 390,
+			y: 607,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
 		});
 	}
 	if (natureOfRequest === 'Legal Advice') {
@@ -628,7 +640,8 @@ async function addTextToPDF(data: any) {
 					borderColor: undefined // No border
 				});
 			}
-		} 
+		}
+	} 
 		if (pwd) {
 			// PWD
 			firstPage.drawRectangle({
@@ -645,9 +658,16 @@ async function addTextToPDF(data: any) {
 				size: 10,
 				color: rgb(0, 0, 0) // Black
 			});
-		} 
+		}  else {
+			firstPage.drawText("N/A", {
+				x: 485,
+				y: 402,
+				size: 10,
+				color: rgb(0, 0, 0) // Black
+			});
+		}
 		
-		if (indigenousPeople) {
+		if (foreignNational) {
 			// FOREIGN
 			firstPage.drawRectangle({
 				x: 366,
@@ -663,7 +683,14 @@ async function addTextToPDF(data: any) {
 				size: 10,
 				color: rgb(0, 0, 0) // Black
 			});
-		} 
+		}  else {
+			firstPage.drawText("N/A", {
+				x: 455,
+				y: 458,
+				size: 10,
+				color: rgb(0, 0, 0) // Black
+			});
+		}
 		
 		if (urbanPoor) {
 			// URBAN
@@ -681,7 +708,14 @@ async function addTextToPDF(data: any) {
 				size: 10,
 				color: rgb(0, 0, 0) // Black
 			});
-		} 
+		}  else {
+			firstPage.drawText("N/A", {
+				x: 425,
+				y: 444,
+				size: 10,
+				color: rgb(0, 0, 0) // Black
+			});
+		}
 		if (ruralPoor) {
 			// RURAL POOR
 			firstPage.drawRectangle({
@@ -698,7 +732,15 @@ async function addTextToPDF(data: any) {
 				size: 10,
 				color: rgb(0, 0, 0) // Black
 			});
-		} else if (typeof clientClass === 'object' && clientClass.hasOwnProperty('Indigenous People')) {
+		}  else {
+			firstPage.drawText("N/A", {
+				x: 425,
+				y: 430,
+				size: 10,
+				color: rgb(0, 0, 0) // Black
+			});
+		}
+		if (indigenousPeople) {
 			// INDIGENOUS
 			firstPage.drawRectangle({
 				x: 366,
@@ -708,14 +750,20 @@ async function addTextToPDF(data: any) {
 				color: rgb(0, 0, 0),
 				borderColor: undefined // No border
 			});
-			firstPage.drawText(clientClass['Indigenous People'], {
+			firstPage.drawText(indigenousPeople, {
+				x: 455,
+				y: 416,
+				size: 10,
+				color: rgb(0, 0, 0) // Black
+			});
+		} else {
+			firstPage.drawText("N/A", {
 				x: 455,
 				y: 416,
 				size: 10,
 				color: rgb(0, 0, 0) // Black
 			});
 		}
-	}
 
 	// PARTY/REP
 	firstPage.drawText(name, {

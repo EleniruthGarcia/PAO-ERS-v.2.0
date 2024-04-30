@@ -8,7 +8,10 @@
 		clientInvolvement,
 		adversePartyInvolvement,
 		status,
-		genderCaseSubject
+		genderCaseSubject,
+
+		causeOfTermination
+
 	} from '$lib/schema/case';
 	import {
 		type SuperValidated,
@@ -65,6 +68,10 @@
 	$: selectedRequest = {
 		label: $formData._id,
 		value: $formData._id
+	};
+	$: selectedCauseOfTermination = {
+		label: $formData.causeOfTermination,
+		value: $formData.causeOfTermination
 	};
 
 	$: $formData.currentStatus === 'Transferred to private lawyer, IBP, etc.'
@@ -391,6 +398,37 @@
 						</div>
 					</Card.Content>
 				</Card.Root>
+				{#if $formData.currentStatus === 'Terminated'}
+					<Card.Root>
+						<Card.Header>
+							<Card.Title>Terminated Case</Card.Title>
+						</Card.Header>
+						<Card.Content class="grid auto-rows-max items-start gap-3">
+							<Form.Field {form} name="causeOfTermination" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Cause of Termination</Form.Label>
+									<Select.Root
+										selected={selectedCauseOfTermination}
+										onSelectedChange={(s) => {
+											s && ($formData.causeOfTermination = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each causeOfTermination as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</Card.Content>
+					</Card.Root>
+				{/if}
 				{#if $formData.currentStatus === 'Transferred to private lawyer, IBP, etc.'}
 					<Card.Root>
 						<Card.Header>
