@@ -35,7 +35,10 @@ export const load: PageServerLoad = async (event) => {
 				...user,
 				currentStatus: 'Updated'
 			},
-			zod(formSchema),
+			zod(formSchema.partial({
+				password: true,
+				confirmPassword: true
+			})),
 			{ errors: false }
 		),
 		branches: await db.branches.find().toArray()
