@@ -517,7 +517,7 @@ async function addTextToPDF(data: any) {
 					color: rgb(0, 0, 0),
 					borderColor: undefined // No border
 				});
-			} else if (clientClass === 'Refugee/Evacuee') {
+			} else if (clientClass === 'Refugee or Evacuee') {
 				// REFUGEE
 				firstPage.drawRectangle({
 					x: 205,
@@ -557,7 +557,7 @@ async function addTextToPDF(data: any) {
 					color: rgb(0, 0, 0),
 					borderColor: undefined // No border
 				});
-			} else if (clientClass === 'OFW - Land-based') {
+			} else if (clientClass === 'OFW (Land-Based)') {
 				// OFW LAND BASE
 				firstPage.drawRectangle({
 					x: 34,
@@ -567,7 +567,7 @@ async function addTextToPDF(data: any) {
 					color: rgb(0, 0, 0),
 					borderColor: undefined // No border
 				});
-			} else if (clientClass === 'OFW - Sea-based') {
+			} else if (clientClass === 'OFW (Sea-Based)') {
 				// OFW SEA BASE
 				firstPage.drawRectangle({
 					x: 34,
@@ -617,7 +617,7 @@ async function addTextToPDF(data: any) {
 					color: rgb(0, 0, 0),
 					borderColor: undefined // No border
 				});
-			} else if (clientClass === 'Petitioner for Voluntary Rehabilatation (Drugs)') {
+			} else if (clientClass === 'Petitioner for Voluntary Rehabilitation (Drugs)') {
 				// DRUGS
 				firstPage.drawRectangle({
 					x: 366,
@@ -628,7 +628,8 @@ async function addTextToPDF(data: any) {
 					borderColor: undefined // No border
 				});
 			}
-		} else if (typeof clientClass === 'object' && clientClass.hasOwnProperty('PWD')) {
+		} 
+		if (pwd) {
 			// PWD
 			firstPage.drawRectangle({
 				x: 366,
@@ -638,13 +639,15 @@ async function addTextToPDF(data: any) {
 				color: rgb(0, 0, 0),
 				borderColor: undefined // No border
 			});
-			firstPage.drawText(clientClass['PWD'], {
+			firstPage.drawText(pwd, {
 				x: 473,
 				y: 402,
 				size: 10,
 				color: rgb(0, 0, 0) // Black
 			});
-		} else if (typeof clientClass === 'object' && clientClass.hasOwnProperty('Foreign National')) {
+		} 
+		
+		if (indigenousPeople) {
 			// FOREIGN
 			firstPage.drawRectangle({
 				x: 366,
@@ -654,13 +657,15 @@ async function addTextToPDF(data: any) {
 				color: rgb(0, 0, 0),
 				borderColor: undefined // No border
 			});
-			firstPage.drawText(clientClass['Foreign National'], {
+			firstPage.drawText(foreignNational, {
 				x: 456,
 				y: 458,
 				size: 10,
 				color: rgb(0, 0, 0) // Black
 			});
-		} else if (typeof clientClass === 'object' && clientClass.hasOwnProperty('Urban Poor')) {
+		} 
+		
+		if (urbanPoor) {
 			// URBAN
 			firstPage.drawRectangle({
 				x: 366,
@@ -670,13 +675,14 @@ async function addTextToPDF(data: any) {
 				color: rgb(0, 0, 0),
 				borderColor: undefined // No border
 			});
-			firstPage.drawText(clientClass['Urban Poor'], {
+			firstPage.drawText(urbanPoor, {
 				x: 430,
 				y: 444,
 				size: 10,
 				color: rgb(0, 0, 0) // Black
 			});
-		} else if (typeof clientClass === 'object' && clientClass.hasOwnProperty('Rural Poor')) {
+		} 
+		if (ruralPoor) {
 			// RURAL POOR
 			firstPage.drawRectangle({
 				x: 366,
@@ -686,7 +692,7 @@ async function addTextToPDF(data: any) {
 				color: rgb(0, 0, 0),
 				borderColor: undefined // No border
 			});
-			firstPage.drawText(clientClass['Rural Poor'], {
+			firstPage.drawText(ruralPoor, {
 				x: 430,
 				y: 430,
 				size: 10,
@@ -726,7 +732,7 @@ async function addTextToPDF(data: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 
-	if (civilStatus === 'Married' || civilStatus === 'Widow/Widower') {
+	if (civilStatus === 'Married') {
 		// Married or Widow/Widower
 		firstPage.drawText(spouse, {
 			x: 390,
@@ -767,6 +773,24 @@ async function addTextToPDF(data: any) {
 				color: rgb(0, 0, 0),
 				borderColor: undefined // No border
 			});
+			firstPage.drawText("N/A", {
+				x: 390,
+				y: 649,
+				size: 10,
+				color: rgb(0, 0, 0) // Black
+			});
+			firstPage.drawText("N/A", {
+				x: 390,
+				y: 635,
+				size: 10,
+				color: rgb(0, 0, 0) // Black
+			});
+			firstPage.drawText("N/A", {
+				x: 390,
+				y: 621,
+				size: 10,
+				color: rgb(0, 0, 0) // Black
+			});
 		}
 	} else {
 		// Single
@@ -778,6 +802,25 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
+		firstPage.drawText("N/A", {
+			x: 390,
+			y: 649,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+		firstPage.drawText("N/A", {
+			x: 390,
+			y: 635,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+		firstPage.drawText("N/A", {
+			x: 390,
+			y: 621,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+
 	}
 
 	firstPage.drawText(intervieweeName, {
