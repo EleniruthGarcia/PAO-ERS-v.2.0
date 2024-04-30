@@ -46,6 +46,11 @@ export const load: PageServerLoad = async (event) => {
 				}
 			},
 			{
+				$addFields: {
+					interviewee: { $arrayElemAt: ['$interviewee', 0] }
+				}
+			},
+			{
 				$lookup: {
 					from: 'clients',
 					localField: 'client_id',
@@ -69,16 +74,29 @@ export const load: PageServerLoad = async (event) => {
 			},
 			{
 				$addFields: {
-					'client.age': {
-						$dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' }
+					// 'client.age': {
+					// 	$dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' }
+					// },
+					'interviewee.age': {
+						$dateDiff: { startDate: '$interviewee.dateOfBirth', endDate: '$$NOW', unit: 'year' }
 					}
 				}
-			}
+			},
 		])
 		.next();
 	if (!request) redirect('/requests', { type: 'warning', message: 'Request not found!' }, event);
 
-	const client = await db.clients.find({ _id: { $in: request.client_id } }).toArray();
+	const client = await db.clients.aggregate([
+		{
+			$match: { _id: { $in: request.client_id } }
+		},
+		{
+			$addFields: {
+				age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+			}
+		}
+	]).toArray();
+
 	if (!client || client.length === 0)
 		redirect('/requests', { type: 'warning', message: 'Client not found!' }, event);
 

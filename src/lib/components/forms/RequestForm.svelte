@@ -7,7 +7,8 @@
 		typeOfRelease,
 		formSchema,
 		type FormSchema,
-		relationshipToClient
+		relationshipToClient,
+		natureOfInstrument
 	} from '$lib/schema/request';
 	import {
 		type SuperValidated,
@@ -96,6 +97,14 @@
 		$formData.client_id = [...$formData.client_id, ''];
 	}
 
+	function addInstrument() {
+		$formData.natureOfInstrument = [...$formData.natureOfInstrument, ''];
+	}
+
+	function removeInstrumentByIndex(index: number) {
+		$formData.natureOfInstrument = $formData.natureOfInstrument?.filter((_, i) => i !== index);
+	}
+
 	function removeNatureByIndex(index: number) {
 		$formData.otherNature = $formData.otherNature?.filter((_, i) => i !== index);
 	}
@@ -130,7 +139,7 @@
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Request Information</Card.Title>
-						<Card.Description>Please fill out all necessary information.</Card.Description>
+						<Card.Description>Please fill out all necessary information. Required fields are marked with <span class="text-destructive font-bold">*</span>.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
 						<!-- <div class="grid grid-cols-3 items-start gap-3">
@@ -176,7 +185,7 @@
 							</Form.Field>
 						</div> -->
 						<Form.Fieldset {form} name="client_id" class="grid gap-3">
-							<Form.Legend>Client</Form.Legend>
+							<Form.Legend>Client <span class="text-destructive font-bold">*</span></Form.Legend>
 							{#each $formData.client_id as _, i}
 								<Form.ElementField {form} name="client_id[{i}]">
 									<Form.Control let:attrs>
@@ -218,11 +227,11 @@
 							{/if}
 							<Form.FieldErrors />
 						</Form.Fieldset>
-						<Separator />
-						<div class="grid grid-cols-8 items-start gap-3">
-							<Form.Field {form} name="interviewee_id" class="col-span-5 grid gap-3">
+						<Separator class="my-4" />
+						<div class="grid items-start gap-3 sm:grid-cols-8">
+							<Form.Field {form} name="interviewee_id" class="grid gap-3 sm:col-span-5">
 								<Form.Control let:attrs>
-									<Form.Label>Interviewee</Form.Label>
+									<Form.Label>Interviewee <span class="text-destructive font-bold">*</span></Form.Label>
 									<Select.Root
 										selected={selectedInterviewee}
 										onSelectedChange={(s) => {
@@ -242,9 +251,9 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="relationshipToClient" class="col-span-3 grid gap-3">
+							<Form.Field {form} name="relationshipToClient" class="grid gap-3 sm:col-span-3">
 								<Form.Control let:attrs>
-									<Form.Label>Relation to Client</Form.Label>
+									<Form.Label>Relation to Client <span class="text-destructive font-bold">*</span></Form.Label>
 									<Select.Root
 										selected={selectedRelationshipToClient}
 										onSelectedChange={(s) => {
@@ -268,7 +277,7 @@
 						<Separator />
 						<Form.Field {form} name="lawyer_id" class="grid gap-3">
 							<Form.Control let:attrs>
-								<Form.Label>Lawyer</Form.Label>
+								<Form.Label>Lawyer <span class="text-destructive font-bold">*</span></Form.Label>
 								<Select.Root
 									selected={selectedLawyer}
 									onSelectedChange={(s) => {
@@ -290,36 +299,82 @@
 						</Form.Field>
 					</Card.Content>
 				</Card.Root>
-				{#if $formData.nature.includes('Inquest Legal Assistance') || $formData.nature.includes('Jail Visitation Release')}
+				{#if $formData.nature.includes('Administration of Oath')}
 					<Card.Root>
 						<Card.Header>
-							<Card.Title>Additonal Information</Card.Title>
+							<Card.Title>Administration of Oath</Card.Title>
+							<Card.Description
+								>Please provide additional information regarding the administration of oath.</Card.Description
+							>
 						</Card.Header>
 						<Card.Content class="grid auto-rows-max items-start gap-3">
-							{#if $formData.nature.includes('Inquest Legal Assistance')}
-								<Form.Field {form} name="typeOfAssistance" class="grid gap-3">
+							<Form.Fieldset {form} name="natureOfInstrument" class="grid gap-3">
+								<Form.Legend>Nature of Instrument</Form.Legend>
+								{#each $formData.natureOfInstrument as _, i}
+									<Form.ElementField {form} name="natureOfInstrument[{i}]">
+										<Form.Control let:attrs>
+											<div class="flex gap-2">
+												<Select.Root
+													selected={selectedClient[i]}
+													onSelectedChange={(s) => {
+														s && ($formData.natureOfInstrument[i] = s.value);
+													}}
+												>
+													<Select.Input
+														name="natureOfInstrument[{i}]"
+														bind:value={$formData.natureOfInstrument[i]}
+													/>
+													<Select.Trigger {...attrs}>
+														<Select.Value placeholder="" />
+													</Select.Trigger>
+													<Select.Content>
+														{#each $page.data.natureOfInstrument as nature}
+															<Select.Item bind:value={nature}>{nature}</Select.Item>
+														{/each}
+													</Select.Content>
+												</Select.Root>
+												<Button
+													variant="destructive"
+													class="gap-2"
+													on:click={() => removeInstrumentByIndex(i)}
+												>
+													<Trash class="h-3.5 w-3.5" />
+												</Button>
+											</div>
+										</Form.Control>
+									</Form.ElementField>
+								{/each}
+								{#if $page.data.clients.filter((n) => !$formData.natureOfInstrument.includes(n._id)).length > 0}
+									<Button variant="outline" class="gap-2" on:click={addInstrument}>
+										<PlusCircled class="h-3.5 w-3.5" />
+										<span>Add Nature of Instrument</span>
+									</Button>
+								{/if}
+								<Form.FieldErrors />
+							</Form.Fieldset>
+							{#if $formData.nature.includes('Administration of Oath')}
+								<Form.Field {form} name="witness" class="grid gap-3">
 									<Form.Control let:attrs>
-										<Form.Label>Type of Inquest Legal Assistance</Form.Label>
-										<Select.Root
-											selected={selectedTypeOfAssistance}
-											onSelectedChange={(s) => {
-												s && ($formData.typeOfAssistance = s.value);
-											}}
-										>
-											<Select.Input name={attrs.name} />
-											<Select.Trigger {...attrs}>
-												<Select.Value placeholder="" />
-											</Select.Trigger>
-											<Select.Content>
-												{#each typeOfAssistance as value}
-													<Select.Item {value} />
-												{/each}
-											</Select.Content>
-										</Select.Root>
+										<Form.Label>Witness</Form.Label>
+										<Input
+											{...attrs}
+											bind:value={$formData.witness}
+											placeholder="Please type all witnesses, separated by commas."
+										/>
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 							{/if}
+						</Card.Content>
+					</Card.Root>
+				{/if}
+				{#if $formData.nature.includes('Inquest Legal Assistance') || $formData.nature.includes('Jail Visitation Release')}
+					<Card.Root>
+						<Card.Header>
+							<Card.Title>Additonal Information</Card.Title>
+							<Card.Description>Please fill out all additional information.</Card.Description>
+						</Card.Header>
+						<Card.Content class="grid auto-rows-max items-start gap-3">
 							{#if $formData.nature.includes('Jail Visitation Release')}
 								<Form.Field {form} name="typeOfRelease" class="grid gap-3">
 									<Form.Control let:attrs>
@@ -344,6 +399,47 @@
 									<Form.FieldErrors />
 								</Form.Field>
 							{/if}
+							{#if $formData.nature.includes('Inquest Legal Assistance')}
+								<Form.Field {form} name="typeOfAssistance" class="grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>Type of Inquest Legal Assistance</Form.Label>
+										<Select.Root
+											selected={selectedTypeOfAssistance}
+											onSelectedChange={(s) => {
+												s && ($formData.typeOfAssistance = s.value);
+											}}
+										>
+											<Select.Input name={attrs.name} />
+											<Select.Trigger {...attrs}>
+												<Select.Value placeholder="" />
+											</Select.Trigger>
+											<Select.Content>
+												{#each typeOfAssistance as value}
+													<Select.Item {value} />
+												{/each}
+											</Select.Content>
+										</Select.Root>
+									</Form.Control>
+									<Form.FieldErrors />
+									<Form.Field
+										{form}
+										name="duringOffice"
+										class="flex w-fit flex-row items-center space-x-3 space-y-0 rounded-md border p-4"
+									>
+										<Form.Control let:attrs>
+											<Checkbox {...attrs} bind:checked={$formData.duringOffice} />
+											<div class="h-10 space-y-2 truncate leading-none">
+												<Form.Label>Off-Hours Inquest</Form.Label>
+												<Form.Description
+													>Check if inquest was done outisde office hours.</Form.Description
+												>
+											</div>
+											<input name={attrs.name} bind:value={$formData.duringOffice} hidden />
+										</Form.Control>
+										<Form.FieldErrors />
+									</Form.Field>
+								</Form.Field>
+							{/if}
 						</Card.Content>
 					</Card.Root>
 				{/if}
@@ -352,7 +448,7 @@
 				<Card.Root>
 					<Form.Fieldset {form} name="nature" class="space-y-0">
 						<Card.Header>
-							<Card.Title><Form.Legend>Nature of Request</Form.Legend></Card.Title>
+							<Card.Title><Form.Legend>Nature of Request <span class="text-destructive font-bold">*</span></Form.Legend></Card.Title>
 							<Card.Description
 								><Form.Description>Please select all the apply.</Form.Description></Card.Description
 							>

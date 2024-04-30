@@ -18,7 +18,7 @@
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content align="end">
 			<DropdownMenu.Item href="/requests/{id}/edit">Edit</DropdownMenu.Item>
-			<DropdownMenu.Item href="/requests/{id}/export">Export</DropdownMenu.Item>
+			<!-- <DropdownMenu.Item href="/requests/{id}/export">Export</DropdownMenu.Item> -->
 			<DropdownMenu.Separator />
 			<AlertDialog.Trigger class="w-full">
 				<DropdownMenu.Item>{status === 'Archived' ? 'Restore' : 'Delete'}</DropdownMenu.Item>
@@ -31,9 +31,7 @@
 			<AlertDialog.Description>
 				Are you absolutely sure? The request will be {status === 'Archived'
 					? 'restored'
-					: 'archived'}
-				and will {status === 'Archived' ? '' : 'not'}
-				show up in Active Requests.
+					: 'archived'}.
 			</AlertDialog.Description>
 		</AlertDialog.Header>
 		<AlertDialog.Footer>

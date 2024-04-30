@@ -11,8 +11,6 @@ const client = new MongoClient(DATABASE_URL, {
 	}
 });
 
-await client.connect();
-
 export const db = client.db();
 
 export const logs = db.collection<Log>('logs');
@@ -74,141 +72,202 @@ export interface Outreach {
 
 const seedBranches: Branch[] = [
 	{
-		_id: '1',
-		name: 'Branch A',
-		region: 'Region 1',
-		province: 'Province 1',
-		district: 'District 1'
+		_id: 'car',
+		name: 'Regional Office - CAR',
+		region: 'Cordillera Administrative Region',
+		province: 'Benguet',
+		district: 'Baguio City'
 	},
 	{
-		_id: '2',
-		name: 'Branch B',
-		region: 'Region 2',
-		province: 'Province 2',
-		district: 'District 2'
+		_id: 'baguio',
+		name: 'Baguio City District Office',
+		region: 'Cordillera Administrative Region',
+		province: 'Benguet',
+		district: 'Baguio City'
 	},
-	{
-		_id: '3',
-		name: 'Branch C',
-		region: 'Region 1',
-		province: 'Province 3',
-		district: 'District 3'
-	},
-	{
-		_id: '4',
-		name: 'Branch D',
-		region: 'Region 2',
-		province: 'Province 4',
-		district: 'District 4'
-	}
+	// {
+	// 	_id: '1',
+	// 	name: 'Branch A',
+	// 	region: 'Region 1',
+	// 	province: 'Province 1',
+	// 	district: 'District 1'
+	// },
+	// {
+	// 	_id: '2',
+	// 	name: 'Branch B',
+	// 	region: 'Region 2',
+	// 	province: 'Province 2',
+	// 	district: 'District 2'
+	// },
+	// {
+	// 	_id: '3',
+	// 	name: 'Branch C',
+	// 	region: 'Region 1',
+	// 	province: 'Province 3',
+	// 	district: 'District 3'
+	// },
+	// {
+	// 	_id: '4',
+	// 	name: 'Branch D',
+	// 	region: 'Region 2',
+	// 	province: 'Province 4',
+	// 	district: 'District 4'
+	// }
 ];
 
 const seedUsers: User[] = [
 	{
-		_id: 'ADMIN',
-		branch_id: '1',
-		username: 'admin',
+		_id: 'hmfrancisco',
+		branch_id: 'car',
+		username: 'hmfrancisco',
 		hashedPassword:
 			'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
 		role: 'Administrator',
-		rank: 'Administrative Staff',
-		name: 'John Doe Smith Jr',
-		firstName: 'John',
-		middleName: 'Doe',
-		lastName: 'Smith',
-		nameSuffix: 'Jr',
-		dateOfBirth: new Date('1989-01-01'),
-		sex: 'Male',
-		email: 'john.doe@example.com',
-		contactNumber: '1234567890',
-		address: '123 Main St, City, Country',
-		currentStatus: 'New',
-		status: [{ type: 'New', date: new Date() }],
-		reportsTo: 'ADMIN'
-	},
-	{
-		_id: '1',
-		branch_id: '1',
-		username: 'admin1',
-		hashedPassword:
-			'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
-		role: 'Administrator',
-		rank: 'Chief Public Attorney',
-		name: 'John Doe Smith Jr',
-		firstName: 'John',
-		middleName: 'Doe',
-		lastName: 'Smith',
-		nameSuffix: 'Jr',
-		dateOfBirth: new Date('1989-01-01'),
-		sex: 'Male',
-		email: 'john.doe@example.com',
-		contactNumber: '1234567890',
-		address: '123 Main St, City, Country',
-		currentStatus: 'New',
-		status: [{ type: 'New', date: new Date() }],
-		reportsTo: 'ADMIN'
-	},
-	{
-		_id: '2',
-		branch_id: '1',
-		username: 'lawyer1',
-		hashedPassword:
-			'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
-		role: 'Lawyer',
-		rank: 'Public Attorney V',
-		name: 'Jane Doe',
-		firstName: 'Jane',
-		lastName: 'Doe',
-		email: 'jane.doe@example.com',
-		contactNumber: '9876543210',
-		dateOfBirth: new Date('1994-01-01'),
-		sex: 'Female',
-		address: '456 Elm St, City, Country',
-		currentStatus: 'New',
-		status: [{ type: 'New', date: new Date() }],
-		reportsTo: 'admin1'
-	},
-	{
-		_id: '3',
-		branch_id: '2',
-		username: 'staff1',
-		hashedPassword:
-			'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
-		role: 'Staff',
-		rank: 'Administrative Staff',
-		name: 'Emily Anne Brown',
-		firstName: 'Emily',
-		middleName: 'Anne',
-		lastName: 'Brown',
-		dateOfBirth: new Date('1964-01-01'),
-		sex: 'Female',
-		email: 'emily.brown@example.com',
-		contactNumber: '1122334455',
-		address: '789 Oak St, City, Country',
-		currentStatus: 'New',
-		status: [{ type: 'New', date: new Date() }],
-		reportsTo: 'ADMIN'
-	},
-	{
-		_id: '4',
-		branch_id: '2',
-		username: 'lawyer2',
-		hashedPassword:
-			'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
-		role: 'Lawyer',
-		rank: 'Public Attorney IV',
-		name: 'Michael Johnson',
-		firstName: 'Michael',
-		lastName: 'Johnson',
-		email: 'michael.johnson@example.com',
-		contactNumber: '5544332211',
+		position: 'Regional Public Attorney',
+		name: 'Henry M. Francisco',
+		firstName: 'Henry',
+		middleName: 'M.',
+		lastName: 'Francisco',
+		civilStatus: 'Married',
 		dateOfBirth: new Date('1984-01-01'),
 		sex: 'Male',
-		address: '101 Pine St, City, Country',
+		contactNumber: '1234567890',
+		address: '123 Main St, City, Country',
 		currentStatus: 'New',
 		status: [{ type: 'New', date: new Date() }],
-		reportsTo: 'admin1'
-	}
+		reportsTo: 'hmfrancisco'
+	},
+	{
+		_id: 'rvramos',
+		branch_id: 'car',
+		username: 'rvramos',
+		hashedPassword:
+			'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
+		role: 'Administrator',
+		position: 'Administrative Officer',
+		name: 'Rodel V. Ramos',
+		firstName: 'Rodel',
+		middleName: 'V.',
+		lastName: 'Ramos',
+		civilStatus: 'Married',
+		dateOfBirth: new Date('1989-01-01'),
+		sex: 'Male',
+		contactNumber: '1234567890',
+		address: '123 Main St, City, Country',
+		currentStatus: 'New',
+		status: [{ type: 'New', date: new Date() }],
+		reportsTo: 'hmfrancisco'
+	},
+	// {
+	// 	_id: 'ADMIN',
+	// 	branch_id: '1',
+	// 	username: 'admin',
+	// 	hashedPassword:
+	// 		'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
+	// 	role: 'Administrator',
+	// 	position: 'Administrative Officer III',
+	// 	name: 'John Doe Smith Jr',
+	// 	firstName: 'John',
+	// 	middleName: 'Doe',
+	// 	lastName: 'Smith',
+	// 	nameSuffix: 'Jr',
+	// 	civilStatus: 'Married',
+	// 	dateOfBirth: new Date('1989-01-01'),
+	// 	sex: 'Male',
+	// 	email: 'john.doe@example.com',
+	// 	contactNumber: '1234567890',
+	// 	address: '123 Main St, City, Country',
+	// 	currentStatus: 'New',
+	// 	status: [{ type: 'New', date: new Date() }],
+	// 	reportsTo: 'ADMIN'
+	// },
+	// {
+	// 	_id: '1',
+	// 	branch_id: '1',
+	// 	username: 'admin1',
+	// 	hashedPassword:
+	// 		'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
+	// 	role: 'Administrator',
+	// 	position: 'Administrative Officer III',
+	// 	name: 'John Doe Smith Jr',
+	// 	firstName: 'John',
+	// 	middleName: 'Doe',
+	// 	lastName: 'Smith',
+	// 	nameSuffix: 'Jr',
+	// 	civilStatus: 'Married',
+	// 	dateOfBirth: new Date('1989-01-01'),
+	// 	sex: 'Male',
+	// 	email: 'john.doe@example.com',
+	// 	contactNumber: '1234567890',
+	// 	address: '123 Main St, City, Country',
+	// 	currentStatus: 'New',
+	// 	status: [{ type: 'New', date: new Date() }],
+	// 	reportsTo: 'ADMIN'
+	// },
+	// {
+	// 	_id: '2',
+	// 	branch_id: '1',
+	// 	username: 'lawyer1',
+	// 	hashedPassword:
+	// 		'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
+	// 	role: 'Lawyer',
+	// 	position: 'Public Attorney I',
+	// 	name: 'Jane Doe',
+	// 	firstName: 'Jane',
+	// 	lastName: 'Doe',
+	// 	email: 'jane.doe@example.com',
+	// 	contactNumber: '9876543210',
+	// 	civilStatus: 'Single',
+	// 	dateOfBirth: new Date('1994-01-01'),
+	// 	sex: 'Female',
+	// 	address: '456 Elm St, City, Country',
+	// 	currentStatus: 'New',
+	// 	status: [{ type: 'New', date: new Date() }],
+	// 	reportsTo: 'admin1'
+	// },
+	// {
+	// 	_id: '3',
+	// 	branch_id: '2',
+	// 	username: 'staff1',
+	// 	hashedPassword:
+	// 		'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
+	// 	role: 'Staff',
+	// 	position: 'Administrative Officer I',
+	// 	name: 'Emily Anne Brown',
+	// 	firstName: 'Emily',
+	// 	middleName: 'Anne',
+	// 	lastName: 'Brown',
+	// 	civilStatus: 'Widowed',
+	// 	dateOfBirth: new Date('1964-01-01'),
+	// 	sex: 'Female',
+	// 	email: 'emily.brown@example.com',
+	// 	contactNumber: '1122334455',
+	// 	address: '789 Oak St, City, Country',
+	// 	currentStatus: 'New',
+	// 	status: [{ type: 'New', date: new Date() }],
+	// 	reportsTo: 'ADMIN'
+	// },
+	// {
+	// 	_id: '4',
+	// 	branch_id: '2',
+	// 	username: 'lawyer2',
+	// 	hashedPassword:
+	// 		'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4',
+	// 	role: 'Lawyer',
+	// 	position: 'Public Attorney IV',
+	// 	name: 'Michael Johnson',
+	// 	firstName: 'Michael',
+	// 	lastName: 'Johnson',
+	// 	email: 'michael.johnson@example.com',
+	// 	contactNumber: '5544332211',
+	// 	civilStatus: 'Widowed',
+	// 	dateOfBirth: new Date('1984-01-01'),
+	// 	sex: 'Male',
+	// 	address: '101 Pine St, City, Country',
+	// 	currentStatus: 'New',
+	// 	status: [{ type: 'New', date: new Date() }],
+	// 	reportsTo: 'admin1'
+	// }
 ];
 
 const seedRequests: Request[] = [
@@ -427,10 +486,10 @@ const seedCases: Case[] = [
 	}
 ];
 
-users.updateOne({ _id: seedUsers[0]._id }, { $set: seedUsers[0] }, { upsert: true });
-// for (const branch of seedBranches)
-// 	branches.updateOne({ _id: branch._id }, { $set: branch }, { upsert: true });
-// for (const user of seedUsers) users.updateOne({ _id: user._id }, { $set: user }, { upsert: true });
+
+for (const branch of seedBranches)
+	branches.updateOne({ _id: branch._id }, { $set: branch }, { upsert: true });
+for (const user of seedUsers) users.updateOne({ _id: user._id }, { $set: user }, { upsert: true });
 // for (const request of seedRequests)
 // 	requests.updateOne({ _id: request._id }, { $set: request }, { upsert: true });
 // for (const client of seedClients)

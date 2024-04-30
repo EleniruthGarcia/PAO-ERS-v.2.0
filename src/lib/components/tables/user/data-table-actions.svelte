@@ -5,6 +5,7 @@
 	import { Button } from '$lib/components/ui/button';
 
 	export let id: string;
+	export let status: string;
 </script>
 
 <AlertDialog.Root>
@@ -20,7 +21,7 @@
 			<!-- <DropdownMenu.Item href="/users/{id}/export">Export</DropdownMenu.Item>
 			<DropdownMenu.Separator /> -->
 			<AlertDialog.Trigger class="w-full">
-				<DropdownMenu.Item>Delete</DropdownMenu.Item>
+				<DropdownMenu.Item>{status === 'Archived' ? 'Restore' : 'Delete'}</DropdownMenu.Item>
 			</AlertDialog.Trigger>
 		</DropdownMenu.Content>
 	</DropdownMenu.Root>
@@ -33,7 +34,7 @@
 		</AlertDialog.Header>
 		<AlertDialog.Footer>
 			<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
-			<form action="/cases/{id}/{status === 'Archived' ? 'restore' : 'delete'}" method="POST">
+			<form action="/users/{id}/{status === 'Archived' ? 'restore' : 'delete'}" method="POST">
 				<AlertDialog.Action type="submit" class="w-full bg-destructive hover:bg-destructive/90"
 					>{status === 'Archived' ? 'Restore' : 'Delete'}</AlertDialog.Action
 				>

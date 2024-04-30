@@ -17,7 +17,15 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/', text: 'PAO-ERS' },
 			{ href: '/dashboard', text: 'Dashboard' }
 		],
-		clients: db.clients.find().toArray(),
+		clients: db.clients.aggregate([
+			{
+				$addFields: {
+					age: {
+						$dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' }
+					}
+				}
+			}
+		]).toArray(),
 		requests: db.requests
 			.aggregate([
 				{
@@ -68,11 +76,11 @@ export const load: PageServerLoad = async (event) => {
 					}
 				},
 				{
-					$addFields: {
-						'client.age': {
-							$dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' }
-						}
-					}
+					// $addFields: {
+					// 	'client.age': {
+					// 		$dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' }
+					// 	}
+					// }
 				}
 			])
 			.toArray(),

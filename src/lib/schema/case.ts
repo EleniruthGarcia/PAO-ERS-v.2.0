@@ -79,6 +79,15 @@ export const pretrialAndOtherDispositions = [
 	'Maximum imposable penalty served'
 ] as const;
 
+export const hernanStatus = [
+	'Clients are already released by virtue of Petition filed',
+	'Petition is already filed',
+	'PAO is awaiting records from the court',
+	'Petition by PAO is not applicable (e.g. PDL was already released, deceased, has a private lawyer\, application is not favorable, etc.)',
+	'No. of cases which are already for filing of petition',
+	'Motion/ other remedies are filed/ undertaken'
+] as const;
+
 export const unfavorable = [
 	'Convicted as charged',
 	'Lost (civil, administrative & labor)',
@@ -89,6 +98,18 @@ export const unfavorable = [
 export const unfavorableCriminalPreliminary = [
 	'Dismissed (complainant)',
 	'Dismissed (respondent (Filed in Court)'
+] as const;
+
+export const genderCaseSubject = [
+	'VAWC',
+	'Rape',
+	'Acts of Lasciviousness',
+	'Sexual Harassment',
+] as const;
+
+export const causeOfTermination = [
+	'MOA',
+	'AUQNA'
 ] as const;
 
 export const formSchema = z.object({
@@ -115,8 +136,22 @@ export const formSchema = z.object({
 			date: z.date()
 		})
 	),
+	actionTaken: z.string(),
 	transferredTo: z.string().optional(),
-	transferredFrom: z.string().optional()
+	transferredFrom: z.string().optional(),
+	genderCaseSubject: z.enum(genderCaseSubject).optional(),
+	dateOfBirth: z
+		.date()
+		.or(z.literal(''))
+		.transform((e) => (e === '' ? undefined : e))
+		.optional(),
+	dateOfCommission: z
+		.date()
+		.or(z.literal(''))
+		.transform((e) => (e === '' ? undefined : e))
+		.optional(),
+	judge: z.string().optional(),
+	causeOfTermination: z.enum(causeOfTermination).optional(),
 });
 
 export type FormSchema = typeof formSchema;

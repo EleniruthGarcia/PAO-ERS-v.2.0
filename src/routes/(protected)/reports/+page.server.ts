@@ -187,10 +187,8 @@ export const actions = {
 						religion: { $ifNull: ['$client.religion', 'N/A'] },
 						citizenship: { $ifNull: ['$client.citizenship', 'N/A'] },
 						name: '$client.name',
-						birthday: '$client.dateOfBirth',
-						age: {
-							$dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' }
-						},
+						birthday: { $ifNull: ['$case.dateOfBirth', ''] },
+						age: '$client.age',
 						address: '$client.address',
 						email: { $ifNull: ['$client.email', ''] },
 						individualMonthlyIncome: {
@@ -238,31 +236,45 @@ export const actions = {
 						judge: { $ifNull: ['$case.actionTaken', ''] },
 						assistance: '$request.typeOfAssistance',
 						actionTaken: { $ifNull: ['$case.actionTaken', ''] },
-						CICL: { $cond: [{ $in: ['Child in Conflict with the Law', '$client.classification'] }, 'X', ''] },
-						Women: { $cond: [{ $in: ['Women', '$client.classification'] }, 'X', ''] },
+						CICL: { $cond: [{ $in: ['$client.classification', ['Child in Conflict with the Law']] }, 'X', ''] },
+						Women: { $cond: [{ $in: ['$client.classification', ['Women']] }, 'X', ''] },
+						Senior: { $cond: [{ $in: ['$client.classification', ['Senior Citizen']] }, 'X', ''] },
+						OFW: { $cond: [{ $in: ['$client.classification', ['OFW (Land-Based)', 'OFW (Sea-Based)']] }, 'X', ''] },
 						IG: { $cond: [{ $ifNull: ['$client.indigenousPeople', 'true'] }, '', 'X'] },
 						PWD: { $cond: [{ $ifNull: ['$client.pwd', 'true'] }, '', 'X'] },
 						UP: { $cond: [{ $ifNull: ['$client.urbanPoor', 'true'] }, '', 'X'] },
 						RP: { $cond: [{ $ifNull: ['$client.ruralPoor', 'true'] }, '', 'X'] },
-						Senior: { $cond: [{ $in: ['Senior Citizen', '$client.classification'] }, 'X', ''] },
-						// OFW: { $cond: [{ $in: ['OFW (Land-Based)', '$client.classification', 'OFW (Sea-Based)', '$client.classification'] }, 'X', ''] },
-						Judi: { $cond: [{ $eq: ['$requests.nature', 'Representation'] }, 'X', ''] },
-						Quasi: { $cond: [{ $eq: ['$requests.nature', 'Representation in Court or Quasi-Judicial Bodies'] }, 'X', ''] },
-						NonJudi: { $cond: [{ $eq: ['$requests.nature', 'Inquest Legal Assistance'] }, 'X', ''] }
+						Judi: { $cond: [{ $in: ['$requests.nature', ['Representation', '']] }, 'X', ''] },
+						Quasi: { $cond: [{ $in: ['$requests.nature', ['Representation in Court or Quasi-Judicial Bodies']] }, 'X', ''] },
+						NonJudi: { $cond: [{ $in: ['$requests.nature', ['Legal Advice', 'Administration of Oath', 'Outreach', 'Inquest Legal Assistance', 'Mediation or Conciliation']] }, 'X', ''] },
+						genderCase: { $ifNull: ['$case.genderCaseSubject', []] },
+						typePWD: { $ifNull: ['$client.pwd', []] },
+						termination: { $ifNull: ['$case.causeOfTermination', ''] },
+						dateCommission: { $ifNull: ['$case.dateOfCommission', ''] },
+						natureOfInstrument: { $ifNull: ['$request.natureOfInstrument', []] }
+					}
+				}, {
+					$addFields: {
 					}
 				}
 			])
 			.toArray();
 
-		const f11 = requests.filter((d) => d.requests?.natureOfRequest?.includes('Jail Visitation'));
+		const f11 = requests.filter((d) => d.requests?.nature?.contains('Jail Visitation'));
 		const f12 = '';
-		const f13 = requests.filter((d) => d.client?.classification?.includes('Child in Conflict with the Law'));
+		const f13 = requests.filter((d) =>
+			d.client?.classification?.includes('Child in Conflict with the Law')
+		);
 		const f14 = '';
 		const f15 = requests.filter((d) =>
 			d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation')
 		);
-		const f16 = requests.filter((d) => d.client?.foreignNational?.includes('Taiwanese'));
-		const f18 = requests.filter((d) => d.client?.classification?.includes('OFW') && d.requests?.nature?.contains('Inquest Legal Assistance'));
+		const f16 = requests.filter((d) => d.client?.foreignNational?.contains('Taiwanese'));
+		const f18 = requests.filter(
+			(d) =>
+				d.client?.classification?.includes('OFW') &&
+				d.requests?.nature?.contains('Inquest Legal Assistance')
+		);
 		const f19 = {
 			criminal: requests.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')),
 			civil: requests.filter((d) => d.case?.natureOfTheCase?.includes('Civil')),
@@ -271,15 +283,58 @@ export const actions = {
 			labor: requests.filter((d) => d.case?.natureOfTheCase?.includes('Labor'))
 		};
 		const f20 = requests.filter((d) => d.client?.PWD?.contains(true));
-		const f21 = requests.filter((d) => d.request?.natureOfRequest?.includes('Administration of Oath'));
-		const f22 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
-		const f23 = '';
-		const f24 = '';
-		const f25 = '';
+		const f21 = requests.filter((d) =>
+			d.request?.nature?.includes('Administration of Oath')
+		);
+		const f22 = requests.filter((d) => d.request?.nature?.includes('Others (PSA)'));
+		const f23 = requests.filter((d) =>
+			d.client?.classification?.includes('Denied or Disqualified')
+		);
+		const f24 = requests.filter((d) =>
+			d.client?.classification?.includes('Beneficiary of Hernan Ruling (R.A. No. 10951)')
+		);
+		const f25 = requests.filter((d) =>
+			d.case?.genderCaseSubject?.includes('')
+		);
 		const f26 = '';
 		const f27 = '';
 
 		const f28 = {
+			// (1) prev active cases from previous month
+			// d.case?.natureOfTheCase?.contains('Criminal') &&
+			
+			// (2) new cases for this month
+			// d.case?.natureOfTheCase?.contains('Criminal') &&
+			// a_crnc:  requests.filter(
+			// 	(d) =>
+			// 		d.case?.natureOfTheCase?.contains('Criminal') &&
+			// 		s.date?.getMonth() > form.data.month)?.length > 0,
+			// (3) find the number of clients enclosed in these cases vvv, down here a_crcc
+			a_crcc: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.natureOfTheCase?.contains('Criminal')
+			).map((d) => d.client?.filter(Boolean))?.length,
+			a_cvcc: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.natureOfTheCase?.contains('Civil')
+			).map((d) => d.client?.filter(Boolean))?.length,
+			a_ad1cc: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.natureOfTheCase?.contains('Administrative')
+			).map((d) => d.client?.filter(Boolean))?.length,
+			a_ad2cc: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.natureOfTheCase?.contains("Prosecutor's office cases")
+			).map((d) => d.client?.filter(Boolean))?.length,
+			a_ad3cc: requests.filter(
+				(d) =>
+					d.client?.classification?.includes('Child in Conflict with the Law') &&
+					d.case?.natureOfTheCase?.contains('Labor')
+			).map((d) => d.client?.filter(Boolean))?.length,
 			a_crp5a: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
@@ -428,7 +483,7 @@ export const actions = {
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
 					d.case?.terminated?.contains('Favorable Dispositions to Clients') &&
-					d.case?.natureOfTheCase?.contains("Labor")
+					d.case?.natureOfTheCase?.contains('Labor')
 			),
 			a_cvut: requests.filter(
 				(d) =>
@@ -458,7 +513,7 @@ export const actions = {
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
 					d.case?.terminated?.contains('Unfavorable Dispositions to Clients') &&
-					d.case?.natureOfTheCase?.contains("Labor")
+					d.case?.natureOfTheCase?.contains('Labor')
 			),
 			a_cvot: requests.filter(
 				(d) =>
@@ -488,7 +543,7 @@ export const actions = {
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
 					d.case?.terminated?.contains('Other dispositions') &&
-					d.case?.natureOfTheCase?.contains("Labor")
+					d.case?.natureOfTheCase?.contains('Labor')
 			),
 			a_doc: requests.filter(
 				(d) =>
@@ -516,9 +571,10 @@ export const actions = {
 					d.request?.otherNature?.contains('Assisted During Inquest Investigation')
 			)
 		};
-		const f29 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
-		const f31 = requests.filter((d) => d.case?.favorable?.contains(''));
-		const f32 = requests.filter((d) => d.case?.favorable?.contains(''));
+		const f29 = requests.filter((d) => d.request?.nature?.includes('Others (PSA)'));
+
+		const f31 = requests.filter((d) => d.case?.terminated?.contains('Favorable Dispositions to Clients'));
+		const f32 = requests.filter((d) => d.client?.detainedSince?.contains('') && d.requests?.nature?.contains('Representation in Court or Quasi-Judicial Bodies'));
 		const f33 = requests.filter((d) => d.case?.favorable?.contains(''));
 		const f34 = {
 			criminal: requests.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')),
@@ -527,8 +583,9 @@ export const actions = {
 			prosecutor: requests.filter((d) => d.case?.natureOfTheCase?.includes("Prosecutor's office cases")),
 			labor: requests.filter((d) => d.case?.natureOfTheCase?.includes('Labor'))
 		};
-		const f35 = requests.filter((d) => d.case?.favorable?.contains(''));
+		const f35 = '';
 		const f38 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
+
 		const f48 = {
 			mr1a1: requests.filter(
 				(d) =>
@@ -880,10 +937,10 @@ export const actions = {
 			)
 		};
 
-		const f49 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
+		const f49 = requests.filter((d) => d.request?.nature?.includes('Others (PSA)'));
 
 		const f50 = '';
-		const f51 = '';
+		const f51 = requests.filter((d) => d.request?.nature?.includes('Home Visitation'));
 		const f52 = '';
 
 		return {
@@ -914,9 +971,16 @@ export const actions = {
 				f28,
 				f29,
 				f31,
+				f32,
+				f33,
+				f34,
+				f35: [...requests, ...outreaches],
 				f38,
 				f48,
-				f49
+				f49,
+				f50,
+				f51,
+				f52
 			})
 		};
 	}

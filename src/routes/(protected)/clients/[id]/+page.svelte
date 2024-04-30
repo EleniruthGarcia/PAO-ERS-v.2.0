@@ -42,7 +42,7 @@
 							<span class="sr-only">Copy Client ID</span>
 						</Button>
 					</Card.Title>
-					<Card.Description>Date: November 23, 2023</Card.Description>
+					<Card.Description>ID: {data.client._id}</Card.Description>
 				</div>
 				<div class="invisible ml-auto flex items-center gap-1 sm:visible">
 					<Button
@@ -57,19 +57,19 @@
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
 							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-								>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
+								>{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
 							>
 						</AlertDialog.Trigger>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
 								<AlertDialog.Title
-									>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
+									>{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
 								>
 								<AlertDialog.Description>
-									Are you absolutely sure? The client will be {data.client.status.at(-1)?.type ===
+									Are you absolutely sure? The client will be {data.client.status?.at(-1)?.type ===
 									'Archived'
 										? 'restored'
-										: 'archived'} and will {data.client.status.at(-1)?.type === 'Archived'
+										: 'archived'} and will {data.client.status?.at(-1)?.type === 'Archived'
 										? ''
 										: 'not'} show up in Active Clients. If you want the client to be permanently deleted,
 									please contact the administrator.
@@ -79,7 +79,8 @@
 								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/clients/{data.client._id}/{data.client.status.at(-1)?.type === 'Archived'
+									action="/clients/{data.client._id}/{data.client.status?.at(-1)?.type ===
+									'Archived'
 										? 'restore'
 										: 'delete'}"
 								>
@@ -87,7 +88,7 @@
 										type="submit"
 										class="w-full bg-destructive hover:bg-destructive/90"
 									>
-										{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+										{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Action>
 								</form>
 							</AlertDialog.Footer>
@@ -110,8 +111,8 @@
 								>
 								<DropdownMenu.Separator />
 								<DropdownMenu.Item>
-									<AlertDialog.Trigger>
-										{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+									<AlertDialog.Trigger class="w-full text-left">
+										{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Trigger>
 								</DropdownMenu.Item>
 							</DropdownMenu.Content>
@@ -119,13 +120,13 @@
 						<AlertDialog.Content>
 							<AlertDialog.Header>
 								<AlertDialog.Title
-									>{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
+									>{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
 								>
 								<AlertDialog.Description>
-									Are you absolutely sure? The client will be {data.client.status.at(-1)?.type ===
+									Are you absolutely sure? The client will be {data.client.status?.at(-1)?.type ===
 									'Archived'
 										? 'restored'
-										: 'archived'} and will {data.client.status.at(-1)?.type === 'Archived'
+										: 'archived'} and will {data.client.status?.at(-1)?.type === 'Archived'
 										? ''
 										: 'not'} show up in Active Clients. If you want the client to be permanently deleted,
 									please contact the administrator.
@@ -135,7 +136,8 @@
 								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/clients/{data.client._id}/{data.client.status.at(-1)?.type === 'Archived'
+									action="/clients/{data.client._id}/{data.client.status?.at(-1)?.type ===
+									'Archived'
 										? 'restore'
 										: 'delete'}"
 								>
@@ -143,7 +145,7 @@
 										type="submit"
 										class="w-full bg-destructive hover:bg-destructive/90"
 									>
-										{data.client.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+										{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Action>
 								</form>
 							</AlertDialog.Footer>
@@ -207,7 +209,7 @@
 						</li>
 					</ul>
 				</div>
-				{#if data.client.civilStatus === 'Married'}
+				{#if data.client.civilStatus === 'Married' || data.client.civilStatus === 'Widowed'}
 					<Separator class="my-4" />
 					<div class="grid gap-3">
 						<div class="font-semibold">Spouse Information</div>
@@ -259,7 +261,9 @@
 			</Card.Content>
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
-					Updated <time dateTime="2023-11-23">November 23, 2023</time>
+					Updated <time
+						>{data.client.status[data.client.status.length - 1].date.toLocaleString()}</time
+					>
 				</div>
 			</Card.Footer>
 		</Card.Root>
@@ -297,11 +301,11 @@
 					{/if}
 				{/each}
 			</Card.Content>
-			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
+			<!-- <Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
-					Updated <time dateTime="2023-11-23">November 23, 2023</time>
+					Updated <time>{data.requests[0].status[data.requests.status.length - 1].date.toLocaleString()}</time>
 				</div>
-			</Card.Footer>
+			</Card.Footer> -->
 		</Card.Root>
 	</div>
 </main>

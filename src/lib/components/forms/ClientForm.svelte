@@ -5,6 +5,7 @@
 		classification,
 		educationalAttainment,
 		formSchema,
+		pwd,
 		sex,
 		type FormSchema
 	} from '$lib/schema/client';
@@ -16,7 +17,7 @@
 		intProxy
 	} from 'sveltekit-superforms';
 
-	import { ChevronLeft } from 'svelte-radix';
+	import { CaretSort, Check, ChevronLeft } from 'svelte-radix';
 
 	import Loading from '$lib/components/Loading.svelte';
 
@@ -28,6 +29,9 @@
 	import * as Select from '$lib/components/ui/select';
 
 	import DatePicker from '$lib/components/DatePicker.svelte';
+	import { Combobox } from 'bits-ui';
+	import { flyAndScale } from '$lib/utils';
+	import Separator from '../ui/separator/separator.svelte';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -38,11 +42,11 @@
 
 	const { form: formData, enhance, delayed } = form;
 
-	// const proxyAge = intProxy(form, 'age', { initiallyEmptyIfZero: true });
-	const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
-		format: 'date',
-		empty: 'undefined'
-	});
+	const proxyAge = intProxy(form, 'age', { initiallyEmptyIfZero: true });
+	// const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
+	// 	format: 'date',
+	// 	empty: 'undefined'
+	// });
 	const proxyDetainedSince = dateProxy(form, 'detainedSince', {
 		format: 'date',
 		empty: 'undefined'
@@ -73,6 +77,8 @@
 		label: $formData.educationalAttainment,
 		value: $formData.educationalAttainment
 	};
+
+	$: filteredPWD = pwd.filter((v) => v.toLowerCase().includes($formData.pwd?.toLowerCase() ?? ''));
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
@@ -101,50 +107,50 @@
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Personal Information</Card.Title>
-						<Card.Description>Please fill out all necessary information.</Card.Description>
+						<Card.Description>Please fill out all necessary information. Required fields are marked with <span class="text-destructive font-bold">*</span>.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid grid-cols-7 items-start gap-3">
-							<Form.Field {form} name="firstName" class="col-span-2 grid gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-7">
+							<Form.Field {form} name="firstName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>Name</Form.Label>
+									<Form.Label>Name <span class="text-destructive font-bold">*</span></Form.Label>
 									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="middleName" class="col-span-2 grid gap-3">
+							<Form.Field {form} name="middleName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>&nbsp;</Form.Label>
+									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 									<Input {...attrs} bind:value={$formData.middleName} placeholder="Middle Name" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="lastName" class="col-span-2 grid gap-3">
+							<Form.Field {form} name="lastName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>&nbsp;</Form.Label>
+									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 									<Input {...attrs} bind:value={$formData.lastName} placeholder="Last Name" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>&nbsp;</Form.Label>
+									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 									<Input {...attrs} bind:value={$formData.nameSuffix} placeholder="Suffix" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid grid-cols-3 items-start gap-3">
-							<Form.Field {form} name="dateOfBirth" class="grid gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-3">
+							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Date of Birth</Form.Label>
-									<DatePicker bind:value={$proxyDateOfBirth} />
+									<Form.Label>Age <span class="text-destructive font-bold">*</span></Form.Label>
+									<Input {...attrs} bind:value={$proxyAge} type="number" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="sex" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Sex</Form.Label>
+									<Form.Label>Sex <span class="text-destructive font-bold">*</span></Form.Label>
 									<Select.Root
 										selected={selectedSex}
 										onSelectedChange={(s) => {
@@ -166,7 +172,7 @@
 							</Form.Field>
 							<Form.Field {form} name="civilStatus" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Civil Status</Form.Label>
+									<Form.Label>Civil Status <span class="text-destructive font-bold">*</span></Form.Label>
 									<Select.Root
 										selected={selectedCivilStatus}
 										onSelectedChange={(s) => {
@@ -187,7 +193,7 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid grid-cols-3 items-start gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-3">
 							<Form.Field {form} name="citizenship" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Citizenship</Form.Label>
@@ -210,10 +216,10 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid grid-cols-2 items-start gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="educationalAttainment" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Education</Form.Label>
+									<Form.Label>Education <span class="text-destructive font-bold">*</span></Form.Label>
 									<Select.Root
 										selected={selectedEducationalAttainment}
 										onSelectedChange={(s) => {
@@ -236,7 +242,7 @@
 							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Monthly Income</Form.Label>
-									<Input {...attrs} bind:value={$formData.individualMonthlyIncome} type="number" />
+									<Input {...attrs} bind:value={$formData.individualMonthlyIncome} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -263,18 +269,18 @@
 						<Card.Title>Contact Information</Card.Title>
 					</Card.Header>
 					<Card.Content>
-						<div class="grid grid-cols-2 items-start gap-3">
-							<Form.Field {form} name="address" class="col-span-2 grid gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-2">
+							<Form.Field {form} name="address" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>Address</Form.Label>
+									<Form.Label>Address <span class="text-destructive font-bold">*</span></Form.Label>
 									<Input {...attrs} bind:value={$formData.address} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="contactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Contact Number</Form.Label>
-									<Input {...attrs} bind:value={$formData.contactNumber} type="tel" />
+									<Form.Label>Contact Number <span class="text-destructive font-bold">*</span></Form.Label>
+									<Input {...attrs} bind:value={$formData.contactNumber} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -294,8 +300,8 @@
 							<Card.Title>Spouse Information</Card.Title>
 						</Card.Header>
 						<Card.Content>
-							<div class="grid grid-cols-7 items-start gap-3">
-								<Form.Field {form} name="spouseFirstName" class="col-span-2 grid gap-3">
+							<div class="grid items-start gap-3 sm:grid-cols-7">
+								<Form.Field {form} name="spouseFirstName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label>Name</Form.Label>
 										<Input
@@ -306,9 +312,9 @@
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
-								<Form.Field {form} name="spouseMiddleName" class="col-span-2 grid gap-3">
+								<Form.Field {form} name="spouseMiddleName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
-										<Form.Label>&nbsp;</Form.Label>
+										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseMiddleName}
@@ -317,9 +323,9 @@
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
-								<Form.Field {form} name="spouseLastName" class="col-span-2 grid gap-3">
+								<Form.Field {form} name="spouseLastName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
-										<Form.Label>&nbsp;</Form.Label>
+										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseLastName}
@@ -330,7 +336,7 @@
 								</Form.Field>
 								<Form.Field {form} name="spouseNameSuffix" class="grid gap-3">
 									<Form.Control let:attrs>
-										<Form.Label>&nbsp;</Form.Label>
+										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseNameSuffix}
@@ -347,18 +353,18 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<div class="grid grid-cols-2 items-start gap-3">
+							<div class="grid items-start gap-3 sm:grid-cols-2">
+								<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>Contact Number</Form.Label>
+										<Input {...attrs} bind:value={$formData.spouseContactNumber} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
 								<Form.Field {form} name="spouseEmail" class="grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label>Email</Form.Label>
 										<Input {...attrs} bind:value={$formData.spouseEmail} />
-									</Form.Control>
-									<Form.FieldErrors />
-								</Form.Field>
-								<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
-									<Form.Control let:attrs>
-										<Form.Label>Contact Number</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseContactNumber} type="tel" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
@@ -372,15 +378,15 @@
 							<Card.Title>Detainee Information</Card.Title>
 						</Card.Header>
 						<Card.Content>
-							<div class="grid grid-cols-8 items-start gap-3">
-								<Form.Field {form} name="detainedAt" class="col-span-5 grid gap-3">
+							<div class="grid items-start gap-3 sm:grid-cols-8">
+								<Form.Field {form} name="detainedAt" class="grid gap-3 sm:col-span-5">
 									<Form.Control let:attrs>
 										<Form.Label>Place of Detention</Form.Label>
 										<Input {...attrs} bind:value={$formData.detainedAt} />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
-								<Form.Field {form} name="detainedSince" class="col-span-3 grid gap-3">
+								<Form.Field {form} name="detainedSince" class="grid gap-3 sm:col-span-3">
 									<Form.Control let:attrs>
 										<Form.Label>Detained Since</Form.Label>
 										<DatePicker bind:value={$proxyDetainedSince} />
@@ -396,7 +402,7 @@
 				<Card.Root>
 					<Form.Fieldset {form} name="classification" class="space-y-0">
 						<Card.Header>
-							<Card.Title><Form.Legend>Client Classification</Form.Legend></Card.Title>
+							<Card.Title><Form.Legend>Client Classification <span class="text-destructive font-bold">*</span></Form.Legend></Card.Title>
 							<Card.Description
 								><Form.Description>Please select all the apply.</Form.Description></Card.Description
 							>
@@ -453,31 +459,66 @@
 								</Form.Control>
 								<Form.FieldErrors class="col-span-2" />
 							</Form.Field>
-							<Form.Field {form} name="pwd" class="grid grid-cols-2 items-center">
-								<Form.Control let:attrs>
-									<Form.Label>Person with Disability</Form.Label>
-									<Input {...attrs} bind:value={$formData.pwd} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
 							<Form.Field {form} name="indigenousPeople" class="grid grid-cols-2 items-center">
 								<Form.Control let:attrs>
 									<Form.Label>Indigenous People</Form.Label>
 									<Input {...attrs} bind:value={$formData.indigenousPeople} />
 								</Form.Control>
-								<Form.FieldErrors />
+								<Form.FieldErrors class="col-span-2" />
 							</Form.Field>
 							<Form.Field {form} name="urbanPoor" class="grid grid-cols-2 items-center">
 								<Form.Control let:attrs>
 									<Form.Label>Urban Poor</Form.Label>
 									<Input {...attrs} bind:value={$formData.urbanPoor} />
 								</Form.Control>
-								<Form.FieldErrors />
+								<Form.FieldErrors class="col-span-2" />
 							</Form.Field>
 							<Form.Field {form} name="ruralPoor" class="grid grid-cols-2 items-center">
 								<Form.Control let:attrs>
 									<Form.Label>Rural Poor</Form.Label>
 									<Input {...attrs} bind:value={$formData.ruralPoor} />
+								</Form.Control>
+								<Form.FieldErrors class="col-span-2" />
+							</Form.Field>
+							<Separator class="my-4" />
+							<Form.Field {form} name="pwd" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Person with Disability</Form.Label>
+									<Combobox.Root items={filteredPWD} bind:inputValue={$formData.pwd}>
+										<div class="relative">
+											<Combobox.Input
+												class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+												placeholder="Please type disability or select from options."
+											/>
+											<CaretSort class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50" />
+										</div>
+
+										<Combobox.Content
+											class="relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
+											transition={flyAndScale}
+											sideOffset={8}
+										>
+											{#each filteredPWD as value}
+												<Combobox.Item
+													class="elative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
+													{value}
+												>
+													{value}
+													<Combobox.ItemIndicator
+														class="absolute right-3 flex h-3.5 w-3.5 items-center justify-center"
+														asChild={false}
+													>
+														<Check class="h-4 w-4" />
+													</Combobox.ItemIndicator>
+												</Combobox.Item>
+											{:else}
+												<span class="block px-5 py-2 text-sm text-muted-foreground">
+													No results found.
+												</span>
+											{/each}
+										</Combobox.Content>
+										<Combobox.HiddenInput name={attrs.name} />
+									</Combobox.Root>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>

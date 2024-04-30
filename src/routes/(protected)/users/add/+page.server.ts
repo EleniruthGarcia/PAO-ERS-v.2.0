@@ -31,7 +31,6 @@ export const load: PageServerLoad = async (event) => {
 		branches: await db.branches.find().toArray(),
 		form: await superValidate(
 			{
-				_id: 'USER-' + Date.now().toString(36).toUpperCase(),
 				currentStatus: 'New',
 				status: [{ type: 'New', date: new Date() }]
 			},
@@ -64,6 +63,7 @@ export const actions: Actions = {
 		const existingUser = await db.users.findOne({ username: form.data.username });
 		if (existingUser) return setError(form, '', 'Username already exists!');
 
+		form.data._id = String(await db.users.countDocuments() + 1);
 		form.data.hashedPassword = await new Argon2id().hash(form.data.password);
 
 		const formData: any = form.data;
@@ -71,7 +71,7 @@ export const actions: Actions = {
 		delete formData.confirmPassword;
 
 		const user = await db.users.insertOne(formData);
-		if (!user.acknowledged) return fail(500, { form });
+		if (!user) return fail(500, { form });
 
 		redirect(
 			'/users/' + formData.username,

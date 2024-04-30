@@ -55,41 +55,39 @@
 						class="h-7 gap-1 text-sm"
 						href="/requests/{data.request._id}/edit">Edit</Button
 					>
-					<Button size="sm" class="h-7 gap-1 text-sm" href="/requests/{data.request._id}/export"
+					<!-- <Button size="sm" class="h-7 gap-1 text-sm" href="/requests/{data.request._id}/export"
 						>Export</Button
-					>
+					> -->
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
 							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-								>{data.request.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
+								>{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
 							>
 						</AlertDialog.Trigger>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
 								<AlertDialog.Title
-									>{data.request.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
+									>{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Request</AlertDialog.Title
 								>
 								<AlertDialog.Description>
-									Are you absolutely sure? The client will be {data.request.status.at(-1)?.type ===
-									'Archived'
-										? 'restored'
-										: 'archived'} and will {data.request.status.at(-1)?.type === 'Archived'
-										? ''
-										: 'not'} show up in Active Clients. If you want the client to be permanently deleted,
-									please contact the administrator.
+									Are you absolutely sure? The request will be
+									{data.request.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
 								</AlertDialog.Description>
 							</AlertDialog.Header>
 							<AlertDialog.Footer>
-								<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/requests/{data.request._id}/{data.request.status.at(-1)?.type ===
+									action="/requests/{data.request._id}/{data.request.status?.at(-1)?.type ===
 									'Archived'
 										? 'restore'
 										: 'delete'}"
 								>
-									<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90">
-										{data.request.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+									<AlertDialog.Action
+										type="submit"
+										class="w-full bg-destructive hover:bg-destructive/90"
+									>
+										{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Action>
 								</form>
 							</AlertDialog.Footer>
@@ -97,63 +95,58 @@
 					</AlertDialog.Root>
 				</div>
 				<div class="visible ml-auto flex items-center gap-1 sm:hidden">
-					<DropdownMenu.Root>
-						<DropdownMenu.Trigger asChild let:builder>
-							<Button builders={[builder]} size="icon" variant="outline" class="h-8 w-8">
-								<DotsVertical class="h-3.5 w-3.5" />
-								<span class="sr-only">More</span>
-							</Button>
-						</DropdownMenu.Trigger>
-						<DropdownMenu.Content align="end">
-							<DropdownMenu.Item href="/requests/{data.request._id}/edit">Edit</DropdownMenu.Item>
-							<DropdownMenu.Item href="/requests/{data.request._id}/export"
+					<AlertDialog.Root>
+						<DropdownMenu.Root>
+							<DropdownMenu.Trigger asChild let:builder>
+								<Button builders={[builder]} size="icon" variant="outline" class="h-8 w-8">
+									<DotsVertical class="h-3.5 w-3.5" />
+									<span class="sr-only">More</span>
+								</Button>
+							</DropdownMenu.Trigger>
+							<DropdownMenu.Content align="end">
+								<DropdownMenu.Item href="/requests/{data.request._id}/edit">Edit</DropdownMenu.Item>
+								<!-- <DropdownMenu.Item href="/requests/{data.request._id}/export"
 								>Export</DropdownMenu.Item
-							>
-							<DropdownMenu.Separator />
-							<AlertDialog.Root>
-								<AlertDialog.Trigger>
-									<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-										>{data.request.status.at(-1)?.type === 'Archived'
+							> -->
+								<DropdownMenu.Separator />
+								<AlertDialog.Trigger class="w-full text-left">
+									<DropdownMenu.Item
+										>{data.request.status?.at(-1)?.type === 'Archived'
 											? 'Restore'
-											: 'Delete'}</Button
+											: 'Delete'}</DropdownMenu.Item
 									>
 								</AlertDialog.Trigger>
-								<AlertDialog.Content>
-									<AlertDialog.Header>
-										<AlertDialog.Title
-											>{data.request.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
-										>
-										<AlertDialog.Description>
-											Are you absolutely sure? The client will be {data.request.status.at(-1)
-												?.type === 'Archived'
-												? 'restored'
-												: 'archived'} and will {data.request.status.at(-1)?.type === 'Archived'
-												? ''
-												: 'not'} show up in Active Clients. If you want the client to be permanently
-											deleted, please contact the administrator.
-										</AlertDialog.Description>
-									</AlertDialog.Header>
-									<AlertDialog.Footer>
-										<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-										<form
-											method="POST"
-											action="/requests/{data.request._id}/{data.request.status.at(-1)?.type ===
-											'Archived'
-												? 'restore'
-												: 'delete'}"
-										>
-											<AlertDialog.Action
-												type="submit"
-												class="bg-destructive hover:bg-destructive/90"
-											>
-												{data.request.status.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
-											</AlertDialog.Action>
-										</form>
-									</AlertDialog.Footer>
-								</AlertDialog.Content>
-							</AlertDialog.Root>
-						</DropdownMenu.Content>
-					</DropdownMenu.Root>
+							</DropdownMenu.Content>
+						</DropdownMenu.Root>
+						<AlertDialog.Content>
+							<AlertDialog.Header>
+								<AlertDialog.Title
+									>{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Request</AlertDialog.Title
+								>
+								<AlertDialog.Description>
+									Are you absolutely sure? The request will be
+									{data.request.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
+								</AlertDialog.Description>
+							</AlertDialog.Header>
+							<AlertDialog.Footer>
+								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
+								<form
+									method="POST"
+									action="/requests/{data.request._id}/{data.request.status?.at(-1)?.type ===
+									'Archived'
+										? 'restore'
+										: 'delete'}"
+								>
+									<AlertDialog.Action
+										type="submit"
+										class="w-full bg-destructive hover:bg-destructive/90"
+									>
+										{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+									</AlertDialog.Action>
+								</form>
+							</AlertDialog.Footer>
+						</AlertDialog.Content>
+					</AlertDialog.Root>
 				</div>
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
@@ -183,7 +176,9 @@
 			</Card.Content>
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
-					Updated <time dateTime="2023-11-23">November 23, 2023</time>
+					Updated <time
+						>{data.request.status[data.request.status.length - 1].date.toLocaleString()}</time
+					>
 				</div>
 			</Card.Footer>
 		</Card.Root>
@@ -216,14 +211,6 @@
 								<span class="text-muted-foreground"> Civil Status </span>
 								<span>{client.civilStatus}</span>
 							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Citizenship </span>
-								<span>{client.citizenship}</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Language </span>
-								<span>{client.language}</span>
-							</li>
 						</ul>
 					</div>
 					{#if data.client.length - 1 !== i}
@@ -231,11 +218,11 @@
 					{/if}
 				{/each}
 			</Card.Content>
-			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
+			<!-- <Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
 					Updated <time dateTime="2023-11-23">November 23, 2023</time>
 				</div>
-			</Card.Footer>
+			</Card.Footer> -->
 		</Card.Root>
 	</div>
 </main>

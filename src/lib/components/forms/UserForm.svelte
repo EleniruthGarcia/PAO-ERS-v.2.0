@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { formSchema, sex, role, rank, type FormSchema } from '$lib/schema/user';
+	import { formSchema, sex, role, position, type FormSchema } from '$lib/schema/user';
 	import { type SuperValidated, type Infer, superForm, dateProxy } from 'sveltekit-superforms';
 	import type { Branch } from '$lib/server/database';
 
@@ -30,28 +30,28 @@
 	$: $errors._errors && $errors._errors.map((error) => toast.error(error));
 	$: $message && toast.success($message);
 
-	const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
-		format: 'date',
-		empty: 'undefined'
-	});
+	// const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
+	// 	format: 'date',
+	// 	empty: 'undefined'
+	// });
 
 	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${
 		$formData.lastName
 	}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
 
-	$: selectedSex = {
-		label: $formData.sex,
-		value: $formData.sex
-	};
+	// $: selectedSex = {
+	// 	label: $formData.sex,
+	// 	value: $formData.sex
+	// };
 
 	$: selectedRole = {
 		label: $formData.role,
 		value: $formData.role
 	};
 
-	$: selectedRank = {
-		label: $formData.rank,
-		value: $formData.rank
+	$: selectedPosition = {
+		label: $formData.position,
+		value: $formData.position
 	};
 
 	$: selectedBranch = {
@@ -60,6 +60,7 @@
 	};
 
 	$: $formData.hashedPassword =
+		$formData.hashedPassword ||
 		'$argon2id$v=19$m=19456,t=2,p=1$9pRcWSi/VmNeYOQ/JA7Mhg$GOHloucwALRVHbF7OKv1J8YMTfF0SePJU1XG20e4Nf4';
 </script>
 
@@ -91,20 +92,20 @@
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Account Information</Card.Title>
-						<Card.Description>Please fill out all necessary information.</Card.Description>
+						<Card.Description>Please fill out all necessary information. Required fields are marked with <span class="text-destructive font-bold">*</span>.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid grid-cols-4 items-start gap-3">
-							<Form.Field {form} name="username" class="col-span-2 grid gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-2">
+							<Form.Field {form} name="username" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Username</Form.Label>
+									<Form.Label>Username <span class="text-destructive font-bold">*</span></Form.Label>
 									<Input {...attrs} bind:value={$formData.username} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="role" class="col-span-2 grid gap-3">
+							<Form.Field {form} name="role" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Role</Form.Label>
+									<Form.Label>Role <span class="text-destructive font-bold">*</span></Form.Label>
 									<Select.Root
 										selected={selectedRole}
 										onSelectedChange={(s) => {
@@ -125,17 +126,17 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid grid-cols-4 items-start gap-3">
-							<Form.Field {form} name="password" class="col-span-2 grid gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-2">
+							<Form.Field {form} name="password" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Password</Form.Label>
+									<Form.Label>Password <span class="text-destructive font-bold">*</span></Form.Label>
 									<Input {...attrs} type="password" bind:value={$formData.password} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="confirmPassword" class="col-span-2 grid gap-3">
+							<Form.Field {form} name="confirmPassword" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Confirm Password</Form.Label>
+									<Form.Label>Confirm Password <span class="text-destructive font-bold">*</span></Form.Label>
 									<Input {...attrs} type="password" bind:value={$formData.confirmPassword} />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -149,52 +150,52 @@
 						<Card.Description>Please fill out all necessary information.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid grid-cols-7 items-start gap-3">
-							<Form.Field {form} name="firstName" class="col-span-2 grid gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-7">
+							<Form.Field {form} name="firstName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>Name</Form.Label>
+									<Form.Label>Name <span class="text-destructive font-bold">*</span></Form.Label>
 									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="middleName" class="col-span-2 grid gap-3">
+							<Form.Field {form} name="middleName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>&nbsp;</Form.Label>
+									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 									<Input {...attrs} bind:value={$formData.middleName} placeholder="Middle Name" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="lastName" class="col-span-2 grid gap-3">
+							<Form.Field {form} name="lastName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>&nbsp;</Form.Label>
+									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 									<Input {...attrs} bind:value={$formData.lastName} placeholder="Last Name" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>&nbsp;</Form.Label>
+									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 									<Input {...attrs} bind:value={$formData.nameSuffix} placeholder="Suffix" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid grid-cols-3 items-start gap-3">
-							<Form.Field {form} name="rank" class="grid gap-3">
+						<div class="grid items-start gap-3">
+							<Form.Field {form} name="position" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Rank</Form.Label>
+									<Form.Label>Position <span class="text-destructive font-bold">*</span></Form.Label>
 									<Select.Root
-										selected={selectedRank}
+										selected={selectedPosition}
 										onSelectedChange={(s) => {
-											s && ($formData.rank = s.value);
+											s && ($formData.position = s.value);
 										}}
 									>
 										<Select.Input name={attrs.name} />
 										<Select.Trigger {...attrs}>
 											<Select.Value placeholder="" />
 										</Select.Trigger>
-										<Select.Content>
-											{#each rank as value}
+										<Select.Content class="max-h-[200px] overflow-y-auto">
+											{#each position as value}
 												<Select.Item {value} />
 											{/each}
 										</Select.Content>
@@ -202,7 +203,7 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="dateOfBirth" class="grid gap-3">
+							<!-- <Form.Field {form} name="dateOfBirth" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Date of Birth</Form.Label>
 									<DatePicker bind:value={$proxyDateOfBirth} />
@@ -230,17 +231,17 @@
 									</Select.Root>
 								</Form.Control>
 								<Form.FieldErrors />
-							</Form.Field>
+							</Form.Field> -->
 						</div>
 					</Card.Content>
 				</Card.Root>
-				<Card.Root>
+				<!-- <Card.Root>
 					<Card.Header>
 						<Card.Title>Contact Information</Card.Title>
 					</Card.Header>
 					<Card.Content>
-						<div class="grid grid-cols-2 items-start gap-3">
-							<Form.Field {form} name="address" class="col-span-2 grid gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-2">
+							<Form.Field {form} name="address" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label>Address</Form.Label>
 									<Input {...attrs} bind:value={$formData.address} />
@@ -263,7 +264,7 @@
 							</Form.Field>
 						</div>
 					</Card.Content>
-				</Card.Root>
+				</Card.Root> -->
 			</div>
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
 				<Card.Root>
@@ -274,7 +275,7 @@
 					<Card.Content>
 						<Form.Field {form} name="branch_id" class="grid gap-3">
 							<Form.Control let:attrs>
-								<Form.Label>Branch</Form.Label>
+								<Form.Label>Branch <span class="text-destructive font-bold">*</span></Form.Label>
 								<Select.Root
 									selected={selectedBranch}
 									onSelectedChange={(s) => {

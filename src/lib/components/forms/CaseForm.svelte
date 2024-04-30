@@ -7,11 +7,21 @@
 		type FormSchema,
 		clientInvolvement,
 		adversePartyInvolvement,
-		status
-	} from '$lib/schema/case';
-	import { type SuperValidated, type Infer, superForm, stringProxy } from 'sveltekit-superforms';
+		status,
+		genderCaseSubject,
 
-	import { ChevronLeft, PlusCircled, Trash } from 'svelte-radix';
+		causeOfTermination
+
+	} from '$lib/schema/case';
+	import {
+		type SuperValidated,
+		type Infer,
+		superForm,
+		stringProxy,
+		dateProxy
+	} from 'sveltekit-superforms';
+
+	import { CaretSort, Check, ChevronDown, ChevronLeft, PlusCircled, Trash } from 'svelte-radix';
 
 	import Loading from '$lib/components/Loading.svelte';
 
@@ -23,6 +33,10 @@
 	import * as Select from '$lib/components/ui/select';
 
 	import { Textarea } from '$lib/components/ui/textarea';
+	import { Combobox } from 'bits-ui';
+	import { flyAndScale } from '$lib/utils';
+	import DatePicker from '../DatePicker.svelte';
+	import Separator from '../ui/separator/separator.svelte';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -32,6 +46,16 @@
 	});
 
 	const { form: formData, enhance, delayed } = form;
+
+	const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
+		format: 'date',
+		empty: 'undefined'
+	});
+
+	const proxyDateOfCommission = dateProxy(form, 'dateOfCommission', {
+		format: 'date',
+		empty: 'undefined'
+	});
 
 	$: console.log(selectedRequest);
 	$: selectedNatureOfTheCase = {
@@ -45,6 +69,10 @@
 	$: selectedRequest = {
 		label: $formData.controlNo,
 		value: $formData.controlNo
+	};
+	$: selectedCauseOfTermination = {
+		label: $formData.causeOfTermination,
+		value: $formData.causeOfTermination
 	};
 
 	$: $formData.currentStatus === 'Transferred to private lawyer, IBP, etc.'
@@ -91,10 +119,10 @@
 						<Card.Description>Please fill out all necessary information.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid grid-cols-2 items-start gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="natureOfTheCase" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Nature of the Case</Form.Label>
+									<Form.Label>Nature of the Case <span class="text-destructive font-bold">*</span></Form.Label>
 									<Select.Root
 										selected={selectedNatureOfTheCase}
 										onSelectedChange={(s) => {
@@ -116,12 +144,8 @@
 							</Form.Field>
 							<Form.Field {form} name="caseSpecs" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Case Specification</Form.Label>
-									<Input
-										{...attrs}
-										bind:value={$formData.caseSpecs}
-										placeholder="Case Specification"
-									/>
+									<Form.Label>Case Specification <span class="text-destructive font-bold">*</span></Form.Label>
+									<Input {...attrs} bind:value={$formData.caseSpecs} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -129,7 +153,7 @@
 						<div class="grid grid-cols-2 items-start gap-3">
 							<Form.Field {form} name="controlNo" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Control Number</Form.Label>
+									<Form.Label>Control Number <span class="text-destructive font-bold">*</span></Form.Label>
 									<Select.Root
 										selected={selectedRequest}
 										onSelectedChange={(s) => {
@@ -172,17 +196,17 @@
 						<Card.Title>Adverse Party's Information</Card.Title>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid grid-cols-5 items-start gap-3">
-							<Form.Field {form} name="adversePartyName" class="col-span-2 grid gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-5">
+							<Form.Field {form} name="adversePartyName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>Adverse Party Name</Form.Label>
+									<Form.Label>Adverse Party Name <span class="text-destructive font-bold">*</span></Form.Label>
 									<Input {...attrs} bind:value={$formData.adversePartyName} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="adversePartyAddress" class="col-span-3 grid gap-3">
+							<Form.Field {form} name="adversePartyAddress" class="grid gap-3 sm:col-span-3">
 								<Form.Control let:attrs>
-									<Form.Label>Adverse Party Address</Form.Label>
+									<Form.Label>Adverse Party Address <span class="text-destructive font-bold">*</span></Form.Label>
 									<Input {...attrs} bind:value={$formData.adversePartyAddress} />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -204,7 +228,7 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<div class="grid grid-cols-2 items-start gap-3">
+							<div class="grid items-start gap-3 sm:grid-cols-2">
 								<Form.Field {form} name="docketNumber" class="grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label>Docket Number</Form.Label>
@@ -257,18 +281,100 @@
 						</Form.Field>
 					</Card.Content>
 				</Card.Root>
+				<Card.Root>
+					<Card.Header>
+						<Card.Title>Gender-Related Case Information</Card.Title>
+						<Card.Description
+							>This is necessary only for gender-related cases. It may be left blank otherwise.</Card.Description
+						>
+					</Card.Header>
+					<Card.Content class="grid auto-rows-max items-start gap-3">
+						<Form.Field {form} name="genderCaseSubject" class="grid gap-3">
+							<Form.Control let:attrs>
+								<Form.Label>Subject of the Case</Form.Label>
+								<Combobox.Root items={genderCaseSubject}>
+									<div class="relative">
+										<Combobox.Input
+											class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+											placeholder="Please type subject or select from options."
+										/>
+										<CaretSort class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50" />
+									</div>
+
+									<Combobox.Content
+										class="relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
+										transition={flyAndScale}
+										sideOffset={8}
+									>
+										{#each genderCaseSubject as value}
+											<Combobox.Item
+												class="elative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
+												{value}
+											>
+												{value}
+												<Combobox.ItemIndicator
+													class="absolute right-3 flex h-3.5 w-3.5 items-center justify-center"
+													asChild={false}
+												>
+													<Check class="h-4 w-4" />
+												</Combobox.ItemIndicator>
+											</Combobox.Item>
+										{:else}
+											<span class="block px-5 py-2 text-sm text-muted-foreground">
+												No results found.
+											</span>
+										{/each}
+									</Combobox.Content>
+									<Combobox.HiddenInput name="hiddenSubject" />
+								</Combobox.Root>
+							</Form.Control>
+							<Form.FieldErrors />
+						</Form.Field>
+					</Card.Content>
+				</Card.Root>
+				<Card.Root>
+					<Card.Header>
+						<Card.Title>CICL Case Information</Card.Title>
+						<Card.Description
+							>This is necessary only for CICL cases. It may be left blank otherwise.</Card.Description
+						>
+					</Card.Header>
+					<Card.Content class="grid auto-rows-max items-start gap-3">
+						<Form.Field {form} name="judge" class="grid gap-3">
+							<Form.Control let:attrs>
+								<Form.Label>Judge or Investigating Prosecutor</Form.Label>
+								<Input {...attrs} bind:value={$formData.judge} />
+							</Form.Control>
+							<Form.FieldErrors />
+						</Form.Field>
+						<div class="grid items-start gap-3 sm:grid-cols-2">
+							<Form.Field {form} name="dateOfBirth" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Date of Birth</Form.Label>
+									<DatePicker bind:value={$proxyDateOfBirth} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="dateOfCommission" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Date of Commission of Crime</Form.Label>
+									<DatePicker bind:value={$proxyDateOfCommission} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</div>
+					</Card.Content>
+				</Card.Root>
 			</div>
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
 				<Card.Root>
 					<Card.Header>
-						<Card.Title>Case Status</Card.Title>
-						<Card.Description>Please fill out all necessary information.</Card.Description>
+						<Card.Title>Case Status <span class="text-destructive font-bold">*</span></Card.Title>
+						<Card.Description>Please select the latest case status.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid items-start gap-3">
 							<Form.Field {form} name="currentStatus" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Case Status</Form.Label>
 									<Select.Root
 										selected={selectedCurrentStatus}
 										onSelectedChange={(s) => {
@@ -288,9 +394,47 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-						</div>
+						<Separator class="my-4"/>
+						<Form.Field {form} name="actionTaken" class="grid gap-3">
+							<Form.Control let:attrs>
+								<Form.Label>Action Taken <span class="text-destructive font-bold">*</span></Form.Label>
+								<Input {...attrs} bind:value={$formData.actionTaken} />
+							</Form.Control>
+							<Form.FieldErrors />
+						</Form.Field>
 					</Card.Content>
 				</Card.Root>
+				{#if $formData.currentStatus === 'Terminated'}
+					<Card.Root>
+						<Card.Header>
+							<Card.Title>Terminated Case</Card.Title>
+						</Card.Header>
+						<Card.Content class="grid auto-rows-max items-start gap-3">
+							<Form.Field {form} name="causeOfTermination" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Cause of Termination</Form.Label>
+									<Select.Root
+										selected={selectedCauseOfTermination}
+										onSelectedChange={(s) => {
+											s && ($formData.causeOfTermination = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each causeOfTermination as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</Card.Content>
+					</Card.Root>
+				{/if}
 				{#if $formData.currentStatus === 'Transferred to private lawyer, IBP, etc.'}
 					<Card.Root>
 						<Card.Header>
@@ -348,10 +492,7 @@
 				<Card.Root>
 					<Form.Fieldset {form} name="clientInvolvement" class="space-y-0">
 						<Card.Header>
-							<Card.Title><Form.Legend>Client's Case Involvement</Form.Legend></Card.Title>
-							<Card.Description
-								><Form.Description>Please select all the apply.</Form.Description></Card.Description
-							>
+							<Card.Title><Form.Legend>Client's Case Involvement <span class="text-destructive font-bold">*</span></Form.Legend></Card.Title>
 						</Card.Header>
 						<Card.Content>
 							<div class="space-y-2">
@@ -395,10 +536,7 @@
 				<Card.Root>
 					<Form.Fieldset {form} name="adversePartyInvolvement" class="space-y-0">
 						<Card.Header>
-							<Card.Title><Form.Legend>Adverse Party's Case Involvement</Form.Legend></Card.Title>
-							<Card.Description
-								><Form.Description>Please select all the apply.</Form.Description></Card.Description
-							>
+							<Card.Title><Form.Legend>Adverse Party's Case Involvement <span class="text-destructive font-bold">*</span></Form.Legend></Card.Title>
 						</Card.Header>
 						<Card.Content>
 							<div class="space-y-2">

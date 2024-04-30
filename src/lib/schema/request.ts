@@ -2,6 +2,8 @@ import z from 'zod';
 
 export const nature = [
 	'Administration of Oath',
+	'Barangay Outreach',
+	'Home Visitation',
 	'Inquest Legal Assistance',
 	'Jail Visitation Release',
 	'Legal Advice',
@@ -19,7 +21,7 @@ export const otherNature = [
 ];
 
 export const relationshipToClient = [
-	'Client',
+	'Self',
 	'Parent',
 	'Sibling',
 	'Spouse',
@@ -62,6 +64,40 @@ export const status = [
 	'Restored'
 ] as const;
 
+export const natureOfInstrument = [
+	'BENECO-Waiver',
+	'Cohabitation (PDL)',
+	'Cohabitation',
+	'Confirmation (PNP)',
+	'Consent (PMA)',
+	'Consent to Travel',
+	'Delayed Registration of Birth',
+	'Legitimation',
+	'Loss (ATM)',
+	'Loss (Books)',
+	'Loss (General)',
+	'Loss (Passport)',
+	'Loss (Plate Number)',
+	'Low Income (Both Parents)',
+	'Low Income (Single Parent/Widow/Guardian',
+	'No Pending Case',
+	'No/Low Income (Simple)',
+	'Non-employment (For petition for correction with LCP)',
+	'Omnibus Certification',
+	'Paternity & Filation',
+	'Singleness (PNP)',
+	'Supplemental (Blank Entry)',
+	'Supplmemental (Baby Boy, Baby Girl/Blank name',
+	'Sworn Attestation (Mother)',
+	"To use Father's Surname",
+	'Undertaking (BFP)',
+	'Undertaking (BWD - Far from Tapping point)',
+	'Undertaking (BWD - Not to Install Booster Pump)',
+	'Undertaking (BWD-Owner/ Not the Owner of the Lot)',
+	'Undertaking (CASHBOND)',
+	'Undertaking (TESDA)',
+] as const;
+
 export const formSchema = z.object({
 	_id: z.string(),
 	client_id: z.array(z.string()).min(1, 'Client is required.'),
@@ -79,7 +115,10 @@ export const formSchema = z.object({
 			type: z.enum(status),
 			date: z.date()
 		})
-	)
+	),
+	natureOfInstrument: z.array(z.enum(natureOfInstrument)),
+	witness: z.string().optional(),
+	duringOffice: z.boolean().default(false),
 });
 
 export type FormSchema = typeof formSchema;

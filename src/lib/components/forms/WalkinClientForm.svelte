@@ -38,10 +38,11 @@
 
 	const { form: formData, enhance, delayed } = form;
 
-	const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
-		format: 'date',
-		empty: 'undefined'
-	});
+	const proxyAge = intProxy(form, 'age', { initiallyEmptyIfZero: true });
+	// const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
+	// 	format: 'date',
+	// 	empty: 'undefined'
+	// });
 	const proxyDetainedSince = dateProxy(form, 'detainedSince', {
 		format: 'date',
 		empty: 'undefined'
@@ -103,41 +104,41 @@
 						<Card.Description>Please fill out all necessary information.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid grid-cols-7 items-start gap-3">
-							<Form.Field {form} name="firstName" class="col-span-2 grid gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-7">
+							<Form.Field {form} name="firstName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label>Name</Form.Label>
 									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="middleName" class="col-span-2 grid gap-3">
+							<Form.Field {form} name="middleName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>&nbsp;</Form.Label>
+									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 									<Input {...attrs} bind:value={$formData.middleName} placeholder="Middle Name" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="lastName" class="col-span-2 grid gap-3">
+							<Form.Field {form} name="lastName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>&nbsp;</Form.Label>
+									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 									<Input {...attrs} bind:value={$formData.lastName} placeholder="Last Name" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>&nbsp;</Form.Label>
+									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 									<Input {...attrs} bind:value={$formData.nameSuffix} placeholder="Suffix" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid grid-cols-3 items-start gap-3">
-							<Form.Field {form} name="dateOfBirth" class="grid gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-3">
+							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Date of Birth</Form.Label>
-									<DatePicker bind:value={$proxyDateOfBirth} />
+									<Form.Label>Age</Form.Label>
+									<Input {...attrs} bind:value={$proxyAge} type="number" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -186,7 +187,7 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid grid-cols-3 items-start gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-3">
 							<Form.Field {form} name="citizenship" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Citizenship</Form.Label>
@@ -209,7 +210,7 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid grid-cols-2 items-start gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="educationalAttainment" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Education</Form.Label>
@@ -235,7 +236,7 @@
 							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Monthly Income</Form.Label>
-									<Input {...attrs} bind:value={$formData.individualMonthlyIncome} type="number" />
+									<Input {...attrs} bind:value={$formData.individualMonthlyIncome} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -262,8 +263,8 @@
 						<Card.Title>Contact Information</Card.Title>
 					</Card.Header>
 					<Card.Content>
-						<div class="grid grid-cols-2 items-start gap-3">
-							<Form.Field {form} name="address" class="col-span-2 grid gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-2">
+							<Form.Field {form} name="address" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label>Address</Form.Label>
 									<Input {...attrs} bind:value={$formData.address} />
@@ -273,7 +274,7 @@
 							<Form.Field {form} name="contactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Contact Number</Form.Label>
-									<Input {...attrs} bind:value={$formData.contactNumber} type="tel" />
+									<Input {...attrs} bind:value={$formData.contactNumber} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -287,14 +288,14 @@
 						</div>
 					</Card.Content>
 				</Card.Root>
-				{#if $formData.civilStatus === 'Married'}
+				{#if $formData.civilStatus === 'Married' || $formData.civilStatus === 'Widowed'}
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Spouse Information</Card.Title>
 						</Card.Header>
 						<Card.Content>
-							<div class="grid grid-cols-7 items-start gap-3">
-								<Form.Field {form} name="spouseFirstName" class="col-span-2 grid gap-3">
+							<div class="grid items-start gap-3 sm:grid-cols-7">
+								<Form.Field {form} name="spouseFirstName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label>Name</Form.Label>
 										<Input
@@ -305,9 +306,9 @@
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
-								<Form.Field {form} name="spouseMiddleName" class="col-span-2 grid gap-3">
+								<Form.Field {form} name="spouseMiddleName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
-										<Form.Label>&nbsp;</Form.Label>
+										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseMiddleName}
@@ -316,9 +317,9 @@
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
-								<Form.Field {form} name="spouseLastName" class="col-span-2 grid gap-3">
+								<Form.Field {form} name="spouseLastName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
-										<Form.Label>&nbsp;</Form.Label>
+										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseLastName}
@@ -329,7 +330,7 @@
 								</Form.Field>
 								<Form.Field {form} name="spouseNameSuffix" class="grid gap-3">
 									<Form.Control let:attrs>
-										<Form.Label>&nbsp;</Form.Label>
+										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseNameSuffix}
@@ -346,18 +347,18 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<div class="grid grid-cols-2 items-start gap-3">
+							<div class="grid items-start gap-3 sm:grid-cols-2">
+								<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>Contact Number</Form.Label>
+										<Input {...attrs} bind:value={$formData.spouseContactNumber} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
 								<Form.Field {form} name="spouseEmail" class="grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label>Email</Form.Label>
 										<Input {...attrs} bind:value={$formData.spouseEmail} />
-									</Form.Control>
-									<Form.FieldErrors />
-								</Form.Field>
-								<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
-									<Form.Control let:attrs>
-										<Form.Label>Contact Number</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseContactNumber} type="tel" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
@@ -371,15 +372,15 @@
 							<Card.Title>Detainee Information</Card.Title>
 						</Card.Header>
 						<Card.Content>
-							<div class="grid grid-cols-8 items-start gap-3">
-								<Form.Field {form} name="detainedAt" class="col-span-5 grid gap-3">
+							<div class="grid items-start gap-3 sm:grid-cols-8">
+								<Form.Field {form} name="detainedAt" class="grid gap-3 sm:col-span-5">
 									<Form.Control let:attrs>
 										<Form.Label>Place of Detention</Form.Label>
 										<Input {...attrs} bind:value={$formData.detainedAt} />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
-								<Form.Field {form} name="detainedSince" class="col-span-3 grid gap-3">
+								<Form.Field {form} name="detainedSince" class="grid gap-3 sm:col-span-3">
 									<Form.Control let:attrs>
 										<Form.Label>Detained Since</Form.Label>
 										<DatePicker bind:value={$proxyDetainedSince} />

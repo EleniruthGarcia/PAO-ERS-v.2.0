@@ -14,18 +14,25 @@ export const GET: RequestHandler = async (event) => {
 	}
 
 	const branch = await db.branches.findOne({ _id: event.locals.user.branch_id });
-	const client = await db.clients
-		.aggregate([
-			{
-				$match: { _id: event.params.id }
-			},
-			{
-				$addFields: {
-					age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+	const client = await db.clients.aggregate([
+		{
+			$match: { _id: event.params.id }
+		},
+		{
+			$addFields: {
+				// age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } },
+				detainedSince: {
+					$dateToString: {
+						date: '$detainedSince',
+						format: '%B %d, %Y',
+						timezone: '+08:00',
+						onNull: 'N/A'
+					}
 				}
 			}
-		])
-		.next();
+		}
+	]).next();
+
 	const requests = await db.requests.find({ client_id: event.params.id }).toArray();
 
 	let data = await db.requests
@@ -86,14 +93,14 @@ export const GET: RequestHandler = async (event) => {
 			},
 			{
 				$project: {
-					monthYear: {
-						$dateToString: {
-							date: '$date',
-							format: '%B %Y',
-							timezone: '+08:00',
-							onNull: 'N/A'
-						}
-					},
+					// monthYear: {
+					// 	$dateToString: {
+					// 		date: '$date',
+					// 		format: '%B %Y',
+					// 		timezone: '+08:00',
+					// 		onNull: 'N/A'
+					// 	}
+					// },
 					region: '$branch.region',
 					districtProvince: {
 						$concat: ['$branch.district', ', ', '$branch.province']
@@ -104,13 +111,21 @@ export const GET: RequestHandler = async (event) => {
 					religion: { $ifNull: ['$client.religion', 'N/A'] },
 					citizenship: { $ifNull: ['$client.citizenship', 'N/A'] },
 					name: '$client.name',
+					// age: { $dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' } },
 					age: '$client.age',
 					address: '$client.address',
 					email: { $ifNull: ['$client.email', ''] },
 					individualMonthlyIncome: {
 						$toString: { $ifNull: ['$client.individualMonthlyIncome', 'N/A'] }
 					},
-					detainedSince: '$client.detainedSince',
+					detainedSince: {
+						$dateToString: {
+							date: '$client.detainedSince',
+							format: '%B %d, %Y',
+							timezone: '+08:00',
+							onNull: 'N/A'
+						}
+					},
 					civilStatus: { $ifNull: ['$client.civilStatus', 'N/A'] },
 					sex: '$client.sex',
 					educationalAttainment: '$client.educationalAttainment',
@@ -123,11 +138,15 @@ export const GET: RequestHandler = async (event) => {
 					proofOfIndigency: { $ifNull: ['$client.proofOfIndigency', []] },
 					clientClasses: { $ifNull: ['$client.classification', []] },
 					PDLStatus: '$client.detained',
-					intervieweeName: '$interviewee.name',
-					intervieweeAddress: '$interviewee.address',
-					intervieweeAge: '$interviewee.age',
-					intervieweeSex: '$interviewee.sex',
-					intervieweeCivilStatus: '$interviewee.civilStatus',
+					intervieweeName: { $ifNull: ['$interviewee.name', '$client.name'] },
+					intervieweeAddress: { $ifNull: ['$interviewee.address', '$client.address'] },
+					intervieweeAge: {
+						$ifNull: ['$interviewee.age',
+							{ $dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' } }, 'N/A'
+						]
+					},
+					intervieweeSex: { $ifNull: ['$interviewee.sex', '$client.sex'] },
+					intervieweeCivilStatus: { $ifNull: ['$interviewee.civilStatus', '$client.civilStatus'] },
 					intervieweeContactNo: { $ifNull: ['$interviewee.contactNumber', 'N/A'] },
 					intervieweeEmail: { $ifNull: ['$interviewee.email', ''] },
 					relationshipToClient: '$relationshipToClient',
@@ -156,16 +175,18 @@ export const GET: RequestHandler = async (event) => {
 					natureOfOffence: { $ifNull: ['$case.natureOfOffence', ''] },
 					courtPendingStatus: { $ifNull: ['$case.status', ''] },
 					titleOfCaseDocketNum: {
-						$cond: [
-							{
-								$and: [
-									{ $eq: [{ $ifNull: ['$case.titleOfCase', ''] }, ''] },
-									{ $eq: [{ $ifNull: ['$case.docketNumber', ''] }, ''] }
-								]
-							},
-							'',
-							{ $concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')'] }
-						]
+						$ifNull: [{
+							$cond: [
+								{
+									$and: [
+										{ $eq: [{ $ifNull: ['$case.titleOfCase', ''] }, ''] },
+										{ $eq: [{ $ifNull: ['$case.docketNumber', ''] }, ''] }
+									]
+								},
+								'',
+								{ $concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')'] }
+							]
+						}, '']
 					},
 					courtBodyTribunal: { $ifNull: ['$case.courtBody', ''] }
 				}
@@ -184,7 +205,7 @@ export const GET: RequestHandler = async (event) => {
 
 		data = [
 			{
-				monthYear: '',
+				// monthYear: `${form.data.month}, ${form.data.year}`,
 				region: branch.region,
 				districtProvince: `${branch.district}, ${branch.province}`,
 				district: branch.district,
@@ -224,14 +245,25 @@ export const GET: RequestHandler = async (event) => {
 				factsOfTheCase: '',
 				clientInvolvement: '',
 				adverseParty: '',
-				adversePartyName: 'N/A',
-				adversePartyAddress: 'N/A',
+				adversePartyName: '',
+				adversePartyAddress: '',
 				natureOfOffence: '',
 				courtPendingStatus: '',
 				titleOfCaseDocketNum: '',
 				courtBodyTribunal: ''
 			}
 		];
+
+		const interviewSheet = await generateInterviewSheet(data);
+
+		return new Response(interviewSheet.blob, {
+			headers: {
+				'Content-Type': interviewSheet.type,
+				'Content-Disposition': `attachment; filename*=UTF-8''${encodeURIComponent(interviewSheet.name).
+					replace(/['()]/g, escape).
+					replace(/\*/g, '%2A').replace(/%(?:7C|60|5E)/g, unescape)}`
+			}
+		});
 	}
 
 	const interviewSheet = await generateInterviewSheet(data);
@@ -239,7 +271,10 @@ export const GET: RequestHandler = async (event) => {
 	return new Response(interviewSheet.blob, {
 		headers: {
 			'Content-Type': interviewSheet.type,
-			'Content-Disposition': `attachment; filename*=UTF-8''${interviewSheet.name}`
+			'Content-Disposition': `attachment; filename*=UTF-8''${encodeURIComponent(interviewSheet.name).
+				replace(/['()]/g, escape).
+				replace(/\*/g, '%2A').replace(/%(?:7C|60|5E)/g, unescape)
+				}`
 		}
 	});
 };
