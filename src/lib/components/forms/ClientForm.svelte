@@ -288,7 +288,7 @@
 						</div>
 					</Card.Content>
 				</Card.Root>
-				{#if $formData.civilStatus === 'Married' || $formData.civilStatus === 'Widowed'}
+				{#if $formData.civilStatus === 'Married'}
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Spouse Information</Card.Title>
