@@ -111,7 +111,9 @@ export const formSchema = z.object({
 		.optional(),
 	classification: z.array(z.enum(classification)).optional(),
 	foreignNational: z.string().optional(),
-	pwd: z.enum(pwd).optional(),
+	pwd: z.enum(pwd, {
+		errorMap: (e) => ({ message: 'Invalid PWD type.' })
+	}).optional(),
 	indigenousPeople: z.string().optional(),
 	urbanPoor: z.string().optional(),
 	ruralPoor: z.string().optional(),
@@ -123,7 +125,7 @@ export const formSchema = z.object({
 		})
 	),
 	proofOfIndigency: z.array(z.enum(proofOfIndigency).or(z.object({ Others: z.string() }))),
-	
+
 });
 
 export type FormSchema = typeof formSchema;
