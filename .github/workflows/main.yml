@@ -22,8 +22,5 @@ jobs:
           ssh-keyscan -t rsa ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} "cd ${{ secrets.REPO_PATH }} && git pull origin main"
           echo "Successfully pulled repo."
-      
-      - name: Run Deployment
-        run: |
           docker compose up database -d
           docker compose up -d
