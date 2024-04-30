@@ -3,7 +3,7 @@ import { MongoClient, ServerApiVersion } from 'mongodb';
 
 import type { User, Client, Request, Case } from '$lib/schema';
 
-const client = new MongoClient(process.env['DATABASE_URL']!, {
+const client = new MongoClient(process.env['DATABASE_URL'] ?? 'mongodb://localhost:27017/pao', {
 	serverApi: {
 		version: ServerApiVersion.v1,
 		strict: !dev
