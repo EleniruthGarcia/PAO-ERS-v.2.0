@@ -80,7 +80,10 @@ export const formSchema = z.object({
 			type: z.enum(status),
 			date: z.date()
 		})
-	)
+	),
+	natureOfInstrument: z.string().optional(),
+	witness: z.string().optional(),
+	duringOffice: z.boolean().default(false),
 });
 
 export type FormSchema = typeof formSchema;
