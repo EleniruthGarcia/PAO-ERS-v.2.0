@@ -23,7 +23,7 @@
 						<Button
 							variant="link"
 							class="p-0 text-lg text-foreground"
-							href="/users/{data.user._id}"
+							href="/users/{data.user.username}"
 						>
 							{data.user.name}
 						</Button>
@@ -50,9 +50,9 @@
 						size="sm"
 						variant="outline"
 						class="h-7 gap-1 text-sm"
-						href="/users/{data.user._id}/edit">Edit</Button
+						href="/users/{data.user.username}/edit">Edit</Button
 					>
-					<!-- <Button size="sm" class="h-7 gap-1 text-sm" href="/users/{data.user._id}/export"
+					<!-- <Button size="sm" class="h-7 gap-1 text-sm" href="/users/{data.user.username}/export"
 						>Export</Button
 					> -->
 					<AlertDialog.Root>
@@ -77,7 +77,7 @@
 								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/users/{data.user._id}/{data.user.status?.at(-1)?.type === 'Archived'
+									action="/users/{data.user.username}/{data.user.status?.at(-1)?.type === 'Archived'
 										? 'restore'
 										: 'delete'}"
 								>
@@ -102,8 +102,8 @@
 								</Button>
 							</DropdownMenu.Trigger>
 							<DropdownMenu.Content align="end">
-								<DropdownMenu.Item href="/users/{data.user._id}/edit">Edit</DropdownMenu.Item>
-								<!-- <DropdownMenu.Item href="/users/{data.user._id}/export">Export</DropdownMenu.Item> -->
+								<DropdownMenu.Item href="/users/{data.user.username}/edit">Edit</DropdownMenu.Item>
+								<!-- <DropdownMenu.Item href="/users/{data.user.username}/export">Export</DropdownMenu.Item> -->
 								<DropdownMenu.Separator />
 								<AlertDialog.Trigger class="w-full text-left">
 									<DropdownMenu.Item
@@ -130,7 +130,7 @@
 								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/users/{data.user._id}/{data.user.status?.at(-1)?.type === 'Archived'
+									action="/users/{data.user.username}/{data.user.status?.at(-1)?.type === 'Archived'
 										? 'restore'
 										: 'delete'}"
 								>

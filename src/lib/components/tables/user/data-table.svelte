@@ -72,7 +72,10 @@
 			accessor: ({ _id }) => _id,
 			header: '',
 			cell: ({ value, row }) =>
-				createRender(DataTableActions, { id: value ?? '', status: row.original.currentStatus }),
+				createRender(DataTableActions, {
+					id: row.original.username,
+					status: row.original.currentStatus
+				}),
 			plugins: {
 				filter: { exclude: true },
 				sort: { disable: true }
@@ -178,7 +181,7 @@
 											<Button
 												class="text-left font-medium text-foreground"
 												variant="link"
-												href="/users/{row.original._id}"
+												href="/users/{row.original.username}"
 											>
 												<Render of={cell.render()} />
 											</Button>

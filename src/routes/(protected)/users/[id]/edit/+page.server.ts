@@ -66,18 +66,18 @@ export const actions = {
 		form.data.hashedPassword = await new Argon2id().hash(form.data.password);
 
 		const formData: any = form.data;
-		const _id = formData._id;
 		delete formData.password;
 		delete formData.confirmPassword;
 		formData.status.push({ type: formData.currentStatus, date: new Date() });
-		const user = await db.users.updateOne({ _id }, { $set: formData });
+
+		let user = await db.users.updateOne({ _id: form.data._id }, { $set: formData });
 
 		if (!user || !user.acknowledged) return fail(500, { form });
 		if (user.matchedCount === 0) return fail(404, { form });
 		if (user.modifiedCount === 0 && user.upsertedCount === 0) return fail(304, { form });
 
 		redirect(
-			'/users/' + form.data._id,
+			'/users/' + form.data.username,
 			user.modifiedCount > 0 || user.upsertedCount > 0
 				? { type: 'success', message: 'User updated!' }
 				: { type: 'info', message: 'No changes made...' },
