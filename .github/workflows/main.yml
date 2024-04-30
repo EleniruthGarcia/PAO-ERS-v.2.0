@@ -1,24 +1,16 @@
-
 on:
   push:
     branches:
-      - shadcn-svelte
+      - master
   workflow_dispatch:
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Configure SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-
-      - name: Git Pull
+      - name: Deploy to server
         run: |
-          cd ${{ github.workspace }}
-          ssh-keyscan -t rsa ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} "cd ${{ secrets.REPO_PATH }} && git pull origin shadcn-svelte && docker compose up database -d && docker compose up -d"
+          cd ..
+          git pull origin master
+          docker compose up database -d
+          docker compose up -d
           echo "Successfully deployed server"
