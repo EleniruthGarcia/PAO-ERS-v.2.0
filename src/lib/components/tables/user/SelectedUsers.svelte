@@ -25,7 +25,7 @@
 	<Card.Header class="flex flex-row items-start bg-muted/50">
 		<div class="grid gap-0.5">
 			<Card.Title class="group flex items-center gap-2 text-lg">
-				<Button variant="link" class="p-0 text-lg text-foreground" href="/users/{user._id}">
+				<Button variant="link" class="p-0 text-lg text-foreground" href="/users/{user.username}">
 					{user.name}
 				</Button>
 				{#if $selectedUsers.length > 1}
@@ -79,8 +79,8 @@
 						</Button>
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Content align="end">
-						<DropdownMenu.Item href="/users/{user._id}/edit">Edit</DropdownMenu.Item>
-						<!-- <DropdownMenu.Item href="/users/{user._id}/export">Export</DropdownMenu.Item> -->
+						<DropdownMenu.Item href="/users/{user.username}/edit">Edit</DropdownMenu.Item>
+						<!-- <DropdownMenu.Item href="/users/{user.username}/export">Export</DropdownMenu.Item> -->
 						<DropdownMenu.Separator />
 						<AlertDialog.Trigger class="w-full">
 							<DropdownMenu.Item>Delete</DropdownMenu.Item>
@@ -96,7 +96,7 @@
 					</AlertDialog.Header>
 					<AlertDialog.Footer>
 						<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-						<form action="/users/{user._id}/delete" method="POST">
+						<form action="/users/{user.username}/delete" method="POST">
 							<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90"
 								>Delete</AlertDialog.Action
 							>
@@ -114,9 +114,17 @@
 					<span class="text-muted-foreground"> Username </span>
 					<span>{user.username}</span>
 				</li>
+				<li class="flex items-center justify-between gap-2 truncate">
+					<span class="text-muted-foreground"> Rank </span>
+					<span>{user.position}</span>
+				</li>
+				<li class="flex items-center justify-between gap-2 truncate">
+					<span class="text-muted-foreground"> Branch </span>
+					<span>{user.branch_id}</span>
+				</li>
 			</ul>
 		</div>
-		<Separator class="my-4" />
+		<!-- <Separator class="my-4" />
 		<div class="grid gap-3">
 			<div class="font-semibold">Personal Information</div>
 			<ul class="grid gap-3">
@@ -147,7 +155,7 @@
 					<span>{user.contactNumber}</span>
 				</li>
 			</ul>
-		</div>
+		</div> -->
 	</Card.Content>
 	<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 		<div class="text-xs text-muted-foreground">

@@ -63,7 +63,7 @@ export const actions: Actions = {
 		const existingUser = await db.users.findOne({ username: form.data.username });
 		if (existingUser) return setError(form, '', 'Username already exists!');
 
-		form.data._id = form.data.username;
+		form.data._id = String(await db.users.countDocuments() + 1);
 		form.data.hashedPassword = await new Argon2id().hash(form.data.password);
 
 		const formData: any = form.data;

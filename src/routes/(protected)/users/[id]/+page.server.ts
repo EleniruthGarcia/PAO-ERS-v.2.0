@@ -32,7 +32,7 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/', text: 'PAO-ERS' },
 			{ href: '/users', text: 'Users' },
 			{
-				href: '/users/' + event.params.id,
+				href: '/users/' + event.params.username,
 				text: user.name
 			}
 		],

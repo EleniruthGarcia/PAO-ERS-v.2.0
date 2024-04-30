@@ -100,6 +100,13 @@ export const unfavorableCriminalPreliminary = [
 	'Dismissed (respondent (Filed in Court)'
 ] as const;
 
+export const genderCaseSubject = [
+	'VAWC',
+	'Rape',
+	'Acts of Lasciviousness',
+	'Sexual Harassment',
+] as const;
+
 export const formSchema = z.object({
 	_id: z.string().optional(),
 	natureOfTheCase: z.string(),
@@ -124,7 +131,19 @@ export const formSchema = z.object({
 		})
 	),
 	transferredTo: z.string().optional(),
-	transferredFrom: z.string().optional()
+	transferredFrom: z.string().optional(),
+	genderCaseSubject: z.enum(genderCaseSubject).optional(),
+	dateOfBirth: z
+		.date()
+		.or(z.literal(''))
+		.transform((e) => (e === '' ? undefined : e))
+		.optional(),
+	dateOfCommission: z
+		.date()
+		.or(z.literal(''))
+		.transform((e) => (e === '' ? undefined : e))
+		.optional(),
+	judge: z.string().optional(),
 });
 
 export type FormSchema = typeof formSchema;

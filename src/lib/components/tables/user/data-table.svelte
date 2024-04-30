@@ -72,7 +72,10 @@
 			accessor: ({ _id }) => _id,
 			header: '',
 			cell: ({ value, row }) =>
-				createRender(DataTableActions, { id: value ?? '', status: row.original.currentStatus }),
+				createRender(DataTableActions, {
+					id: row.original.username,
+					status: row.original.currentStatus
+				}),
 			plugins: {
 				filter: { exclude: true },
 				sort: { disable: true }
@@ -174,17 +177,7 @@
 							{#each row.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>
 									<Table.Cell {...attrs} class="[&:has([role=checkbox])]:pl-3">
-										{#if cell.id === 'user'}
-											<Button
-												class="text-left font-medium text-foreground"
-												variant="link"
-												href="/users/{row.original._id}"
-											>
-												<Render of={cell.render()} />
-											</Button>
-										{:else}
-											<Render of={cell.render()} />
-										{/if}
+										<Render of={cell.render()} />
 									</Table.Cell>
 								</Subscribe>
 							{/each}
