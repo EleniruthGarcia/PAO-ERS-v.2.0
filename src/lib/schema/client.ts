@@ -77,7 +77,7 @@ export const formSchema = z.object({
 		message: 'Age must be a positive number.'
 	}),
 	sex: z.enum(sex),
-	address: z.string().min(1, 'Address is required.'),
+	address: z.string().min(1, 'Address is required.').max(40,'Maximum Characters must be less than 40.'),
 	email: z.string().email().optional(),
 	contactNumber: z
 		.string()

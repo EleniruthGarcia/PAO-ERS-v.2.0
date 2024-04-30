@@ -236,7 +236,7 @@ async function addTextToPDF(data: any) {
 	});
 
 	firstPage.drawText(religion, {
-		x: 100,
+		x: 90,
 		y: 691,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -260,7 +260,7 @@ async function addTextToPDF(data: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(address, {
-		x: 100,
+		x: 800,
 		y: 663,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -314,6 +314,18 @@ async function addTextToPDF(data: any) {
 			height: 7,
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
+		});
+		firstPage.drawText("N/A", {
+			x: 100,
+			y: 607,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+		firstPage.drawText("N/A", {
+			x: 390,
+			y: 607,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
 		});
 	}
 	if (natureOfRequest === 'Legal Advice') {
@@ -698,7 +710,7 @@ async function addTextToPDF(data: any) {
 			});
 		}  else {
 			firstPage.drawText("N/A", {
-				x: 455,
+				x: 425,
 				y: 444,
 				size: 10,
 				color: rgb(0, 0, 0) // Black
@@ -722,7 +734,7 @@ async function addTextToPDF(data: any) {
 			});
 		}  else {
 			firstPage.drawText("N/A", {
-				x: 455,
+				x: 425,
 				y: 430,
 				size: 10,
 				color: rgb(0, 0, 0) // Black
