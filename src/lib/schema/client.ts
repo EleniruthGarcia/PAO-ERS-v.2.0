@@ -5,6 +5,7 @@ export const classification = [
 	'Beneficiary of Hernan Ruling (R.A. No. 10951)',
 	'Child Client',
 	'Child in Conflict with the Law',
+	'Denied or Disqualified',
 	'Drug-Related Duty',
 	'FRs and FVEs',
 	'Law Enforcer',
@@ -112,7 +113,8 @@ export const formSchema = z.object({
 			date: z.date()
 		})
 	),
-	proofOfIndigency: z.array(z.enum(proofOfIndigency).or(z.object({ Others: z.string() })))
+	proofOfIndigency: z.array(z.enum(proofOfIndigency).or(z.object({ Others: z.string() }))),
+	
 });
 
 export type FormSchema = typeof formSchema;
