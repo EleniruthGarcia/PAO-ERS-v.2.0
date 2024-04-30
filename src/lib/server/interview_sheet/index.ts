@@ -628,7 +628,9 @@ async function addTextToPDF(data: any) {
 					borderColor: undefined // No border
 				});
 			}
-		} else if (typeof clientClass === 'object' && clientClass.hasOwnProperty('PWD')) {
+		} 
+
+		if (typeof clientClass === 'object' && clientClass.hasOwnProperty('PWD')) {
 			// PWD
 			firstPage.drawRectangle({
 				x: 366,
