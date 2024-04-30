@@ -70,7 +70,7 @@ export const actions = {
 		delete formData.password;
 		delete formData.confirmPassword;
 		formData.status.push({ type: formData.currentStatus, date: new Date() });
-		const user = await db.users.updateOne({ _id: event.locals.user.id }, { $set: formData });
+		const user = await db.users.updateOne({ _id: form.data._id }, { $set: formData });
 
 		if (!user || !user.acknowledged) return fail(500, { form });
 		if (user.matchedCount === 0) return fail(404, { form });
