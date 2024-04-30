@@ -187,10 +187,8 @@ export const actions = {
 						religion: { $ifNull: ['$client.religion', 'N/A'] },
 						citizenship: { $ifNull: ['$client.citizenship', 'N/A'] },
 						name: '$client.name',
-						birthday: '$client.dateOfBirth',
-						age: {
-							$dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' }
-						},
+						birthday: { $ifNull: ['$case.dateOfBirth', ''] },
+						age: {$client.age},
 						address: '$client.address',
 						email: { $ifNull: ['$client.email', ''] },
 						individualMonthlyIncome: {
@@ -246,15 +244,14 @@ export const actions = {
 						PWD: { $cond: [{ $ifNull: ['$client.pwd', 'true'] }, '', 'X'] },
 						UP: { $cond: [{ $ifNull: ['$client.urbanPoor', 'true'] }, '', 'X'] },
 						RP: { $cond: [{ $ifNull: ['$client.ruralPoor', 'true'] }, '', 'X'] },
-						Judi: { $cond: [{ $eq: ['$requests.nature', 'Representation'] }, 'X', ''] },
-						Quasi: {
-							$cond: [
-								{ $eq: ['$requests.nature', 'Representation in Court or Quasi-Judicial Bodies'] },
-								'X',
-								''
-							]
-						},
-						NonJudi: { $cond: [{ $eq: ['$requests.nature', 'Inquest Legal Assistance'] }, 'X', ''] }
+						Judi: { $cond: [{ $in: ['$requests.nature', ['Representation', '']] }, 'X', ''] },
+						Quasi: { $cond: [{ $in: ['$requests.nature', ['Representation in Court or Quasi-Judicial Bodies']] }, 'X', ''] },
+						NonJudi: { $cond: [{ $in: ['$requests.nature', ['Legal Advice', 'Administration of Oath', 'Outreach', 'Inquest Legal Assistance', 'Mediation or Conciliation']] }, 'X', ''] },
+						genderCase: { $ifNull: ['$case.genderCaseSubject', []] },
+						typePWD: { $ifNull: ['$client.pwd', []] },
+						termination: { $ifNull: ['$case.causeOfTermination', ''] },
+						dateCommission: { $ifNull: ['$case.dateOfCommission', ''] },
+						natureOfInstrument: { $ifNull: ['$request.natureOfInstrument', []] }
 					}
 				}, {
 					$addFields: {
@@ -290,9 +287,15 @@ export const actions = {
 			d.request?.nature?.includes('Administration of Oath')
 		);
 		const f22 = requests.filter((d) => d.request?.nature?.includes('Others (PSA)'));
-		const f23 = '';
-		const f24 = '';
-		const f25 = '';
+		const f23 = requests.filter((d) =>
+			d.client?.classification?.includes('Denied or Disqualified')
+		);
+		const f24 = requests.filter((d) =>
+			d.client?.classification?.includes('Beneficiary of Hernan Ruling (R.A. No. 10951)')
+		);
+		const f25 = requests.filter((d) =>
+			d.case?.genderCaseSubject?.includes('')
+		);
 		const f26 = '';
 		const f27 = '';
 
@@ -934,10 +937,10 @@ export const actions = {
 			)
 		};
 
-		const f49 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
+		const f49 = requests.filter((d) => d.request?.nature?.includes('Others (PSA)'));
 
 		const f50 = '';
-		const f51 = '';
+		const f51 = requests.filter((d) => d.request?.nature?.includes('Home Visitation'));
 		const f52 = '';
 
 		return {
