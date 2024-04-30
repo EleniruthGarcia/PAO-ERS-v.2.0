@@ -70,8 +70,8 @@ export const GET: RequestHandler = async (event) => {
 			{
 				$lookup: {
 					from: 'cases',
-					localField: 'case_id',
-					foreignField: '_id',
+					localField: '_id',
+					foreignField: 'controlNo',
 					as: 'case'
 				}
 			},
