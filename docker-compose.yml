@@ -4,7 +4,7 @@ services:
       context: .
       args:
         DATABASE_URL: ${DATABASE_URL}
-    restart: always
+    restart: unless-stopped
     ports:
       - 80:80
       - 443:443
@@ -18,7 +18,7 @@ services:
       PORT_HEADER: x-forwarded-port
   database:
     image: mongo
-    restart: always
+    restart: unless-stopped
     volumes:
       - mongodb:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
