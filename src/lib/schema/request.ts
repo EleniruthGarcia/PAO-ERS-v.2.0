@@ -2,6 +2,7 @@ import z from 'zod';
 
 export const nature = [
 	'Administration of Oath',
+	'Barangay Outreach',
 	'Home Visitation',
 	'Inquest Legal Assistance',
 	'Jail Visitation Release',

@@ -36,6 +36,7 @@
 	import { Combobox } from 'bits-ui';
 	import { flyAndScale } from '$lib/utils';
 	import DatePicker from '../DatePicker.svelte';
+	import Separator from '../ui/separator/separator.svelte';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -372,7 +373,6 @@
 						<Card.Description>Please select the latest case status.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-						<div class="grid items-start gap-3">
 							<Form.Field {form} name="currentStatus" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Select.Root
@@ -394,7 +394,14 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-						</div>
+						<Separator class="my-4"/>
+						<Form.Field {form} name="actionTaken" class="grid gap-3">
+							<Form.Control let:attrs>
+								<Form.Label>Action Taken <span class="text-destructive font-bold">*</span></Form.Label>
+								<Input {...attrs} bind:value={$formData.actionTaken} />
+							</Form.Control>
+							<Form.FieldErrors />
+						</Form.Field>
 					</Card.Content>
 				</Card.Root>
 				{#if $formData.currentStatus === 'Terminated'}
