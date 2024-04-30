@@ -227,7 +227,7 @@
 							{/if}
 							<Form.FieldErrors />
 						</Form.Fieldset>
-						<Separator />
+						<Separator class="my-4" />
 						<div class="grid items-start gap-3 sm:grid-cols-8">
 							<Form.Field {form} name="interviewee_id" class="grid gap-3 sm:col-span-5">
 								<Form.Control let:attrs>

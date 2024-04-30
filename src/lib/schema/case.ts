@@ -135,6 +135,7 @@ export const formSchema = z.object({
 			date: z.date()
 		})
 	),
+	actionTaken: z.string(),
 	transferredTo: z.string().optional(),
 	transferredFrom: z.string().optional(),
 	genderCaseSubject: z.enum(genderCaseSubject).optional(),
