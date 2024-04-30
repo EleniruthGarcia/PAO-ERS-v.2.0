@@ -121,7 +121,7 @@
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="natureOfTheCase" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Nature of the Case</Form.Label>
+									<Form.Label>Nature of the Case <span class="text-destructive font-bold">*</span></Form.Label>
 									<Select.Root
 										selected={selectedNatureOfTheCase}
 										onSelectedChange={(s) => {
@@ -143,7 +143,7 @@
 							</Form.Field>
 							<Form.Field {form} name="caseSpecs" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Case Specification</Form.Label>
+									<Form.Label>Case Specification <span class="text-destructive font-bold">*</span></Form.Label>
 									<Input {...attrs} bind:value={$formData.caseSpecs} />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -152,7 +152,7 @@
 						<div class="grid items-start gap-3">
 							<Form.Field {form} name="_id" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Control Number</Form.Label>
+									<Form.Label>Control Number <span class="text-destructive font-bold">*</span></Form.Label>
 									<Select.Root
 										selected={selectedRequest}
 										onSelectedChange={(s) => {
@@ -198,14 +198,14 @@
 						<div class="grid items-start gap-3 sm:grid-cols-5">
 							<Form.Field {form} name="adversePartyName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>Adverse Party Name</Form.Label>
+									<Form.Label>Adverse Party Name <span class="text-destructive font-bold">*</span></Form.Label>
 									<Input {...attrs} bind:value={$formData.adversePartyName} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="adversePartyAddress" class="grid gap-3 sm:col-span-3">
 								<Form.Control let:attrs>
-									<Form.Label>Adverse Party Address</Form.Label>
+									<Form.Label>Adverse Party Address <span class="text-destructive font-bold">*</span></Form.Label>
 									<Input {...attrs} bind:value={$formData.adversePartyAddress} />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -368,14 +368,13 @@
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
 				<Card.Root>
 					<Card.Header>
-						<Card.Title>Case Status</Card.Title>
-						<Card.Description>Please fill out all necessary information.</Card.Description>
+						<Card.Title>Case Status <span class="text-destructive font-bold">*</span></Card.Title>
+						<Card.Description>Please select the latest case status.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
 						<div class="grid items-start gap-3">
 							<Form.Field {form} name="currentStatus" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Case Status</Form.Label>
 									<Select.Root
 										selected={selectedCurrentStatus}
 										onSelectedChange={(s) => {
@@ -486,10 +485,7 @@
 				<Card.Root>
 					<Form.Fieldset {form} name="clientInvolvement" class="space-y-0">
 						<Card.Header>
-							<Card.Title><Form.Legend>Client's Case Involvement</Form.Legend></Card.Title>
-							<Card.Description
-								><Form.Description>Please select all the apply.</Form.Description></Card.Description
-							>
+							<Card.Title><Form.Legend>Client's Case Involvement <span class="text-destructive font-bold">*</span></Form.Legend></Card.Title>
 						</Card.Header>
 						<Card.Content>
 							<div class="space-y-2">
@@ -533,10 +529,7 @@
 				<Card.Root>
 					<Form.Fieldset {form} name="adversePartyInvolvement" class="space-y-0">
 						<Card.Header>
-							<Card.Title><Form.Legend>Adverse Party's Case Involvement</Form.Legend></Card.Title>
-							<Card.Description
-								><Form.Description>Please select all the apply.</Form.Description></Card.Description
-							>
+							<Card.Title><Form.Legend>Adverse Party's Case Involvement <span class="text-destructive font-bold">*</span></Form.Legend></Card.Title>
 						</Card.Header>
 						<Card.Content>
 							<div class="space-y-2">

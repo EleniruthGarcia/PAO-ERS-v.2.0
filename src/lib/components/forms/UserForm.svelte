@@ -92,20 +92,20 @@
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Account Information</Card.Title>
-						<Card.Description>Please fill out all necessary information.</Card.Description>
+						<Card.Description>Please fill out all necessary information. Required fields are marked with <span class="text-destructive font-bold">*</span>.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="username" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Username</Form.Label>
+									<Form.Label>Username <span class="text-destructive font-bold">*</span></Form.Label>
 									<Input {...attrs} bind:value={$formData.username} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="role" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Role</Form.Label>
+									<Form.Label>Role <span class="text-destructive font-bold">*</span></Form.Label>
 									<Select.Root
 										selected={selectedRole}
 										onSelectedChange={(s) => {
@@ -129,14 +129,14 @@
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="password" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Password</Form.Label>
+									<Form.Label>Password <span class="text-destructive font-bold">*</span></Form.Label>
 									<Input {...attrs} type="password" bind:value={$formData.password} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="confirmPassword" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Confirm Password</Form.Label>
+									<Form.Label>Confirm Password <span class="text-destructive font-bold">*</span></Form.Label>
 									<Input {...attrs} type="password" bind:value={$formData.confirmPassword} />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -153,7 +153,7 @@
 						<div class="grid items-start gap-3 sm:grid-cols-7">
 							<Form.Field {form} name="firstName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>Name</Form.Label>
+									<Form.Label>Name <span class="text-destructive font-bold">*</span></Form.Label>
 									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -183,7 +183,7 @@
 						<div class="grid items-start gap-3">
 							<Form.Field {form} name="position" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Position</Form.Label>
+									<Form.Label>Position <span class="text-destructive font-bold">*</span></Form.Label>
 									<Select.Root
 										selected={selectedPosition}
 										onSelectedChange={(s) => {
@@ -275,7 +275,7 @@
 					<Card.Content>
 						<Form.Field {form} name="branch_id" class="grid gap-3">
 							<Form.Control let:attrs>
-								<Form.Label>Branch</Form.Label>
+								<Form.Label>Branch <span class="text-destructive font-bold">*</span></Form.Label>
 								<Select.Root
 									selected={selectedBranch}
 									onSelectedChange={(s) => {
