@@ -188,7 +188,7 @@ export const actions = {
 						citizenship: { $ifNull: ['$client.citizenship', 'N/A'] },
 						name: '$client.name',
 						birthday: { $ifNull: ['$case.dateOfBirth', ''] },
-						age: {$client.age},
+						age: '$client.age',
 						address: '$client.address',
 						email: { $ifNull: ['$client.email', ''] },
 						individualMonthlyIncome: {
