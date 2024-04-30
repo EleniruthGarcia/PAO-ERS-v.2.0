@@ -297,8 +297,16 @@ export const actions = {
 		const f27 = '';
 
 		const f28 = {
-			// a_crnc: r.status?.filter((s) => s.type === 'New' && 
-			// 		s.date?.getMonth() > form.data.month)?.length > 0,
+			// (1) prev active cases from previous month
+			// d.case?.natureOfTheCase?.contains('Criminal') &&
+			
+			// (2) new cases for this month
+			// d.case?.natureOfTheCase?.contains('Criminal') &&
+			a_crnc:  requests.filter(
+				(d) =>
+					d.case?.natureOfTheCase?.contains('Criminal') &&
+					s.date?.getMonth() > form.data.month)?.length > 0,
+			// (3) find the number of clients enclosed in these cases vvv, down here a_crcc
 			a_crcc: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&

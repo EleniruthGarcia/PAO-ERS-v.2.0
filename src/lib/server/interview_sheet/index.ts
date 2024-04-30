@@ -120,7 +120,12 @@ async function addTextToPDF(data: any) {
 		// client class
 		clientClasses,
 		clientInvolvement,
-
+		foreignNational,
+		pwd,
+		indigenousPeople,
+		urbanPoor,
+		ruralPoor,
+		
 		adverseParty,
 		adversePartyName,
 		adversePartyAddress,
