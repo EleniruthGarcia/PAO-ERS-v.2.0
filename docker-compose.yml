@@ -11,9 +11,6 @@ services:
     environment:
       ORIGIN: ${APP_ORIGIN}
       DATABASE_URL: ${DATABASE_URL}
-      PROTOCOL_HEADER: x-forwarded-proto
-      HOST_HEADER: x-forwarded-host
-      PORT_HEADER: x-forwarded-port
   database:
     image: mongo
     restart: unless-stopped
