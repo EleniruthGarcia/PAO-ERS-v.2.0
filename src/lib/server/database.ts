@@ -11,8 +11,6 @@ const client = new MongoClient(DATABASE_URL, {
 	}
 });
 
-await client.connect();
-
 export const db = client.db();
 
 export const logs = db.collection<Log>('logs');
