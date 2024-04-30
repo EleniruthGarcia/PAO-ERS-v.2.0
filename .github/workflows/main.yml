@@ -20,7 +20,5 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           ssh-keyscan -t rsa ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} "cd ${{ secrets.REPO_PATH }} && git pull origin main"
-          echo "Successfully pulled repo."
-          docker compose up database -d
-          docker compose up -d
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} "cd ${{ secrets.REPO_PATH }} && git pull origin main && docker compose up database -d && docker compose up -d"
+          echo "Successfully deployed server"
