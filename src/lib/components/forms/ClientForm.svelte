@@ -278,7 +278,7 @@
 							<Form.Field {form} name="contactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Contact Number</Form.Label>
-									<Input {...attrs} bind:value={$formData.contactNumber} type="tel" />
+									<Input {...attrs} bind:value={$formData.contactNumber} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -352,17 +352,17 @@
 								<Form.FieldErrors />
 							</Form.Field>
 							<div class="grid items-start gap-3 sm:grid-cols-2">
+								<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>Contact Number</Form.Label>
+										<Input {...attrs} bind:value={$formData.spouseContactNumber} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
 								<Form.Field {form} name="spouseEmail" class="grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label>Email</Form.Label>
 										<Input {...attrs} bind:value={$formData.spouseEmail} />
-									</Form.Control>
-									<Form.FieldErrors />
-								</Form.Field>
-								<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
-									<Form.Control let:attrs>
-										<Form.Label>Contact Number</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseContactNumber} type="tel" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
@@ -490,7 +490,7 @@
 											/>
 											<CaretSort class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50" />
 										</div>
-	
+
 										<Combobox.Content
 											class="relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
 											transition={flyAndScale}

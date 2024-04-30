@@ -274,7 +274,7 @@
 							<Form.Field {form} name="contactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Contact Number</Form.Label>
-									<Input {...attrs} bind:value={$formData.contactNumber} type="tel" />
+									<Input {...attrs} bind:value={$formData.contactNumber} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -348,17 +348,17 @@
 								<Form.FieldErrors />
 							</Form.Field>
 							<div class="grid items-start gap-3 sm:grid-cols-2">
+								<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>Contact Number</Form.Label>
+										<Input {...attrs} bind:value={$formData.spouseContactNumber} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
 								<Form.Field {form} name="spouseEmail" class="grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label>Email</Form.Label>
 										<Input {...attrs} bind:value={$formData.spouseEmail} />
-									</Form.Control>
-									<Form.FieldErrors />
-								</Form.Field>
-								<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
-									<Form.Control let:attrs>
-										<Form.Label>Contact Number</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseContactNumber} type="tel" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
