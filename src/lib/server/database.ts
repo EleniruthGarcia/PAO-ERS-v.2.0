@@ -486,9 +486,9 @@ const seedCases: Case[] = [
 ];
 
 
-for (const branch of seedBranches)
-	branches.updateOne({ _id: branch._id }, { $set: branch }, { upsert: true });
-for (const user of seedUsers) users.updateOne({ _id: user._id }, { $set: user }, { upsert: true });
+// for (const branch of seedBranches)
+// 	branches.updateOne({ _id: branch._id }, { $set: branch }, { upsert: true });
+// for (const user of seedUsers) users.updateOne({ _id: user._id }, { $set: user }, { upsert: true });
 // for (const request of seedRequests)
 // 	requests.updateOne({ _id: request._id }, { $set: request }, { upsert: true });
 // for (const client of seedClients)
