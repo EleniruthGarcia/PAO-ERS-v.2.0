@@ -5,12 +5,13 @@ export const classification = [
 	'Beneficiary of Hernan Ruling (R.A. No. 10951)',
 	'Child Client',
 	'Child in Conflict with the Law',
+	'Denied or Disqualified',
 	'Drug-Related Duty',
-	'FRs and FVEs',
+	'Former Rebels (FRs) and Former Violent Extremists (FVEs)',
 	'Law Enforcer',
 	'OFW (Land-Based)',
 	'OFW (Sea-Based)',
-	'Petitioner for Voluntary Rehabilitation',
+	'Petitioner for Voluntary Rehabilitation (Drugs)',
 	'Refugee or Evacuee',
 	'Senior Citizen',
 	'Special Legal Services (R.A. No. 9406 and MOAs)',
@@ -30,7 +31,7 @@ export const proofOfIndigency = [
 	'Certification from DSWD'
 ] as const;
 
-export const civilStatus = ['Single', 'Married', 'Separated', 'Widowed'] as const;
+export const civilStatus = ['Single', 'Married', 'Widowed'] as const;
 
 export const educationalAttainment = [
 	'No Formal Schooling',
@@ -112,7 +113,8 @@ export const formSchema = z.object({
 			date: z.date()
 		})
 	),
-	proofOfIndigency: z.array(z.enum(proofOfIndigency).or(z.object({ Others: z.string() })))
+	proofOfIndigency: z.array(z.enum(proofOfIndigency).or(z.object({ Others: z.string() }))),
+	
 });
 
 export type FormSchema = typeof formSchema;

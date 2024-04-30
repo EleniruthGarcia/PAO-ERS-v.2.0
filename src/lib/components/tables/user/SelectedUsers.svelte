@@ -114,9 +114,17 @@
 					<span class="text-muted-foreground"> Username </span>
 					<span>{user.username}</span>
 				</li>
+				<li class="flex items-center justify-between gap-2 truncate">
+					<span class="text-muted-foreground"> Rank </span>
+					<span>{user.position}</span>
+				</li>
+				<li class="flex items-center justify-between gap-2 truncate">
+					<span class="text-muted-foreground"> Branch </span>
+					<span>{user.branch_id}</span>
+				</li>
 			</ul>
 		</div>
-		<Separator class="my-4" />
+		<!-- <Separator class="my-4" />
 		<div class="grid gap-3">
 			<div class="font-semibold">Personal Information</div>
 			<ul class="grid gap-3">
@@ -147,7 +155,7 @@
 					<span>{user.contactNumber}</span>
 				</li>
 			</ul>
-		</div>
+		</div> -->
 	</Card.Content>
 	<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 		<div class="text-xs text-muted-foreground">
