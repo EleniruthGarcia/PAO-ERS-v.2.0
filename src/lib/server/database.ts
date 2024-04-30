@@ -1,10 +1,9 @@
 import { dev } from '$app/environment';
-import { DATABASE_URL } from '$env/static/private';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
 import type { User, Client, Request, Case } from '$lib/schema';
 
-const client = new MongoClient(DATABASE_URL, {
+const client = new MongoClient(process.env['DATABASE_URL']!, {
 	serverApi: {
 		version: ServerApiVersion.v1,
 		strict: !dev
