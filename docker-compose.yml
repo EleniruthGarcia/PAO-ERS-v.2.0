@@ -2,8 +2,6 @@ services:
   app:
     build:
       context: .
-      args:
-        DATABASE_URL: ${DATABASE_URL}
     restart: unless-stopped
     ports:
       - 80:80
