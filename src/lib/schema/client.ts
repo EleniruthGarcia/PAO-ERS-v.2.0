@@ -23,6 +23,15 @@ export const classification = [
 	'Woman Client'
 ] as const;
 
+export const pwd = [
+	'Intellectual',
+	'Vision',
+	'Hearing',
+	'Speech',
+	'Psychiatric or Mental Illness',
+	'Acquired Disability'
+] as const;
+
 export const sex = ['Male', 'Female'] as const;
 
 export const proofOfIndigency = [
@@ -102,7 +111,7 @@ export const formSchema = z.object({
 		.optional(),
 	classification: z.array(z.enum(classification)).optional(),
 	foreignNational: z.string().optional(),
-	pwd: z.string().optional(),
+	pwd: z.enum(pwd).optional(),
 	indigenousPeople: z.string().optional(),
 	urbanPoor: z.string().optional(),
 	ruralPoor: z.string().optional(),

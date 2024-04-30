@@ -63,6 +63,11 @@ export const status = [
 	'Restored'
 ] as const;
 
+export const natureOfInstrument = [
+	'Affidavit',
+	'PSA'
+] as const;
+
 export const formSchema = z.object({
 	_id: z.string(),
 	client_id: z.array(z.string()).min(1, 'Client is required.'),
@@ -81,7 +86,7 @@ export const formSchema = z.object({
 			date: z.date()
 		})
 	),
-	natureOfInstrument: z.string().optional(),
+	natureOfInstrument: z.array(z.enum(natureOfInstrument)),
 	witness: z.string().optional(),
 	duringOffice: z.boolean().default(false),
 });

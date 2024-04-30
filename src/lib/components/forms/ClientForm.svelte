@@ -5,6 +5,7 @@
 		classification,
 		educationalAttainment,
 		formSchema,
+		pwd,
 		sex,
 		type FormSchema
 	} from '$lib/schema/client';
@@ -16,7 +17,7 @@
 		intProxy
 	} from 'sveltekit-superforms';
 
-	import { ChevronLeft } from 'svelte-radix';
+	import { CaretSort, Check, ChevronLeft } from 'svelte-radix';
 
 	import Loading from '$lib/components/Loading.svelte';
 
@@ -28,6 +29,9 @@
 	import * as Select from '$lib/components/ui/select';
 
 	import DatePicker from '$lib/components/DatePicker.svelte';
+	import { Combobox } from 'bits-ui';
+	import { flyAndScale } from '$lib/utils';
+	import Separator from '../ui/separator/separator.svelte';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -274,7 +278,7 @@
 							<Form.Field {form} name="contactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Contact Number</Form.Label>
-									<Input {...attrs} bind:value={$formData.contactNumber} type="tel" />
+									<Input {...attrs} bind:value={$formData.contactNumber} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -288,7 +292,7 @@
 						</div>
 					</Card.Content>
 				</Card.Root>
-				{#if $formData.civilStatus === 'Married' || $formData.civilStatus === 'Widowed'}
+				{#if $formData.civilStatus === 'Married'}
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Spouse Information</Card.Title>
@@ -348,17 +352,17 @@
 								<Form.FieldErrors />
 							</Form.Field>
 							<div class="grid items-start gap-3 sm:grid-cols-2">
+								<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>Contact Number</Form.Label>
+										<Input {...attrs} bind:value={$formData.spouseContactNumber} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
 								<Form.Field {form} name="spouseEmail" class="grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label>Email</Form.Label>
 										<Input {...attrs} bind:value={$formData.spouseEmail} />
-									</Form.Control>
-									<Form.FieldErrors />
-								</Form.Field>
-								<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
-									<Form.Control let:attrs>
-										<Form.Label>Contact Number</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseContactNumber} type="tel" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
@@ -453,13 +457,6 @@
 								</Form.Control>
 								<Form.FieldErrors class="col-span-2" />
 							</Form.Field>
-							<Form.Field {form} name="pwd" class="grid grid-cols-2 items-center">
-								<Form.Control let:attrs>
-									<Form.Label>Person with Disability</Form.Label>
-									<Input {...attrs} bind:value={$formData.pwd} />
-								</Form.Control>
-								<Form.FieldErrors class="col-span-2" />
-							</Form.Field>
 							<Form.Field {form} name="indigenousPeople" class="grid grid-cols-2 items-center">
 								<Form.Control let:attrs>
 									<Form.Label>Indigenous People</Form.Label>
@@ -480,6 +477,48 @@
 									<Input {...attrs} bind:value={$formData.ruralPoor} />
 								</Form.Control>
 								<Form.FieldErrors class="col-span-2" />
+							</Form.Field>
+							<Separator class="my-4" />
+							<Form.Field {form} name="pwd" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Person with Disability</Form.Label>
+									<Combobox.Root items={pwd}>
+										<div class="relative">
+											<Combobox.Input
+												class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+												placeholder="Please type disability or select from options."
+											/>
+											<CaretSort class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50" />
+										</div>
+
+										<Combobox.Content
+											class="relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
+											transition={flyAndScale}
+											sideOffset={8}
+										>
+											{#each pwd as value}
+												<Combobox.Item
+													class="elative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
+													{value}
+												>
+													{value}
+													<Combobox.ItemIndicator
+														class="absolute right-3 flex h-3.5 w-3.5 items-center justify-center"
+														asChild={false}
+													>
+														<Check class="h-4 w-4" />
+													</Combobox.ItemIndicator>
+												</Combobox.Item>
+											{:else}
+												<span class="block px-5 py-2 text-sm text-muted-foreground">
+													No results found.
+												</span>
+											{/each}
+										</Combobox.Content>
+										<Combobox.HiddenInput name="hiddenDisability" />
+									</Combobox.Root>
+								</Form.Control>
+								<Form.FieldErrors />
 							</Form.Field>
 						</Card.Content>
 					</Form.Fieldset>
