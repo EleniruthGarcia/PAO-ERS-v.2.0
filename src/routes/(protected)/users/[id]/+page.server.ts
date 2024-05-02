@@ -17,7 +17,7 @@ export const load: PageServerLoad = async (event) => {
 
 	const user = await db.users.aggregate([
 		{
-			$match: { _id: event.params.id }
+			$match: { username: event.params.id }
 		},
 		{
 			$addFields: {

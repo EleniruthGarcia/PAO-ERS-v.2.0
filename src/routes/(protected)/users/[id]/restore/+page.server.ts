@@ -15,7 +15,7 @@ export const actions = {
 		}
 
 		const user = await db.users.updateOne(
-			{ _id: event.params.id },
+			{ username: event.params.id },
 			{
 				$set: {
 					currentStatus: 'Restored'
