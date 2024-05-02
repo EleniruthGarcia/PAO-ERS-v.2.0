@@ -1,13 +1,14 @@
 services:
   app:
-    build:
-      context: .
+    image: d4n13lxd4v1d/pao-ers
     restart: unless-stopped
     ports:
       - 80:80
       - 443:443
     depends_on:
       - database
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
     environment:
       ORIGIN: ${APP_ORIGIN}
       DATABASE_URL: ${DATABASE_URL}
@@ -25,8 +26,11 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
   watchtower:
     image: containrrr/watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      WATCHTOWER_LABEL_ENABLE: 1
+      DOCKER_HOST: tcp://localhost:2375
+    # volumes:
+    #   - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
   mongodb:
