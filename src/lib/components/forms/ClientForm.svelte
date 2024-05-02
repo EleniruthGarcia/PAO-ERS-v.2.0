@@ -92,14 +92,12 @@
 				<span class="sr-only">Back</span>
 			</Button>
 			<h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-				{$formData.currentStatus === 'New' ? 'Add Client' : 'Update Client'}
+				Submit
 			</h1>
 			<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
-				<Form.Button type="submit" size="sm">
-					{$formData.currentStatus === 'New' ? 'Add Client' : 'Update Client'}
-				</Form.Button>
+				<Form.Button type="submit" size="sm">Submit</Form.Button>
 			</div>
 		</div>
 		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-5 lg:gap-8">
@@ -107,13 +105,17 @@
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Personal Information</Card.Title>
-						<Card.Description>Please fill out all necessary information. Required fields are marked with <span class="text-destructive font-bold">*</span>.</Card.Description>
+						<Card.Description
+							>Please fill out all necessary information. Required fields are marked with <span
+								class="font-bold text-destructive">*</span
+							>.</Card.Description
+						>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
 						<div class="grid items-start gap-3 sm:grid-cols-7">
 							<Form.Field {form} name="firstName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>Name <span class="text-destructive font-bold">*</span></Form.Label>
+									<Form.Label>Name <span class="font-bold text-destructive">*</span></Form.Label>
 									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -143,14 +145,14 @@
 						<div class="grid items-start gap-3 sm:grid-cols-3">
 							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Age <span class="text-destructive font-bold">*</span></Form.Label>
+									<Form.Label>Age <span class="font-bold text-destructive">*</span></Form.Label>
 									<Input {...attrs} bind:value={$proxyAge} type="number" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="sex" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Sex <span class="text-destructive font-bold">*</span></Form.Label>
+									<Form.Label>Sex <span class="font-bold text-destructive">*</span></Form.Label>
 									<Select.Root
 										selected={selectedSex}
 										onSelectedChange={(s) => {
@@ -172,7 +174,9 @@
 							</Form.Field>
 							<Form.Field {form} name="civilStatus" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Civil Status <span class="text-destructive font-bold">*</span></Form.Label>
+									<Form.Label
+										>Civil Status <span class="font-bold text-destructive">*</span></Form.Label
+									>
 									<Select.Root
 										selected={selectedCivilStatus}
 										onSelectedChange={(s) => {
@@ -219,7 +223,9 @@
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="educationalAttainment" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Education <span class="text-destructive font-bold">*</span></Form.Label>
+									<Form.Label
+										>Education <span class="font-bold text-destructive">*</span></Form.Label
+									>
 									<Select.Root
 										selected={selectedEducationalAttainment}
 										onSelectedChange={(s) => {
@@ -272,14 +278,16 @@
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="address" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>Address <span class="text-destructive font-bold">*</span></Form.Label>
+									<Form.Label>Address <span class="font-bold text-destructive">*</span></Form.Label>
 									<Input {...attrs} bind:value={$formData.address} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="contactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Contact Number <span class="text-destructive font-bold">*</span></Form.Label>
+									<Form.Label
+										>Contact Number <span class="font-bold text-destructive">*</span></Form.Label
+									>
 									<Input {...attrs} bind:value={$formData.contactNumber} />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -402,7 +410,12 @@
 				<Card.Root>
 					<Form.Fieldset {form} name="classification" class="space-y-0">
 						<Card.Header>
-							<Card.Title><Form.Legend>Client Classification <span class="text-destructive font-bold">*</span></Form.Legend></Card.Title>
+							<Card.Title
+								><Form.Legend
+									>Client Classification <span class="font-bold text-destructive">*</span
+									></Form.Legend
+								></Card.Title
+							>
 							<Card.Description
 								><Form.Description>Please select all the apply.</Form.Description></Card.Description
 							>
@@ -529,9 +542,7 @@
 		</div>
 		<div class="flex items-center justify-center gap-2 md:hidden">
 			<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
-			<Form.Button type="submit" size="sm"
-				>{$formData.currentStatus === 'New' ? 'Add Client' : 'Update Client'}</Form.Button
-			>
+			<Form.Button type="submit" size="sm">Submit</Form.Button>
 		</div>
 	</div>
 </form>

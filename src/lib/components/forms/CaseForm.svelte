@@ -9,9 +9,7 @@
 		adversePartyInvolvement,
 		status,
 		genderCaseSubject,
-
 		causeOfTermination
-
 	} from '$lib/schema/case';
 	import {
 		type SuperValidated,
@@ -101,14 +99,12 @@
 				<span class="sr-only">Back</span>
 			</Button>
 			<h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-				{$formData.currentStatus === 'New' ? 'Add Case' : 'Update Case'}
+				Submit
 			</h1>
 			<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
-				<Form.Button type="submit" size="sm"
-					>{$formData.currentStatus === 'New' ? 'Add Case' : 'Update Case'}</Form.Button
-				>
+				<Form.Button type="submit" size="sm">Submit</Form.Button>
 			</div>
 		</div>
 		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-5 lg:gap-8">
@@ -122,7 +118,10 @@
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="natureOfTheCase" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Nature of the Case <span class="text-destructive font-bold">*</span></Form.Label>
+									<Form.Label
+										>Nature of the Case <span class="font-bold text-destructive">*</span
+										></Form.Label
+									>
 									<Select.Root
 										selected={selectedNatureOfTheCase}
 										onSelectedChange={(s) => {
@@ -144,7 +143,10 @@
 							</Form.Field>
 							<Form.Field {form} name="caseSpecs" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Case Specification <span class="text-destructive font-bold">*</span></Form.Label>
+									<Form.Label
+										>Case Specification <span class="font-bold text-destructive">*</span
+										></Form.Label
+									>
 									<Input {...attrs} bind:value={$formData.caseSpecs} />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -153,7 +155,9 @@
 						<div class="grid grid-cols-2 items-start gap-3">
 							<Form.Field {form} name="controlNo" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Control Number <span class="text-destructive font-bold">*</span></Form.Label>
+									<Form.Label
+										>Control Number <span class="font-bold text-destructive">*</span></Form.Label
+									>
 									<Select.Root
 										selected={selectedRequest}
 										onSelectedChange={(s) => {
@@ -199,14 +203,20 @@
 						<div class="grid items-start gap-3 sm:grid-cols-5">
 							<Form.Field {form} name="adversePartyName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>Adverse Party Name <span class="text-destructive font-bold">*</span></Form.Label>
+									<Form.Label
+										>Adverse Party Name <span class="font-bold text-destructive">*</span
+										></Form.Label
+									>
 									<Input {...attrs} bind:value={$formData.adversePartyName} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="adversePartyAddress" class="grid gap-3 sm:col-span-3">
 								<Form.Control let:attrs>
-									<Form.Label>Adverse Party Address <span class="text-destructive font-bold">*</span></Form.Label>
+									<Form.Label
+										>Adverse Party Address <span class="font-bold text-destructive">*</span
+										></Form.Label
+									>
 									<Input {...attrs} bind:value={$formData.adversePartyAddress} />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -369,35 +379,37 @@
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
 				<Card.Root>
 					<Card.Header>
-						<Card.Title>Case Status <span class="text-destructive font-bold">*</span></Card.Title>
+						<Card.Title>Case Status <span class="font-bold text-destructive">*</span></Card.Title>
 						<Card.Description>Please select the latest case status.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
-							<Form.Field {form} name="currentStatus" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Select.Root
-										selected={selectedCurrentStatus}
-										onSelectedChange={(s) => {
-											s && ($formData.currentStatus = s.value);
-										}}
-									>
-										<Select.Input name={attrs.name} />
-										<Select.Trigger {...attrs}>
-											<Select.Value placeholder="" />
-										</Select.Trigger>
-										<Select.Content>
-											{#each status as value}
-												<Select.Item {value} />
-											{/each}
-										</Select.Content>
-									</Select.Root>
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-						<Separator class="my-4"/>
+						<Form.Field {form} name="currentStatus" class="grid gap-3">
+							<Form.Control let:attrs>
+								<Select.Root
+									selected={selectedCurrentStatus}
+									onSelectedChange={(s) => {
+										s && ($formData.currentStatus = s.value);
+									}}
+								>
+									<Select.Input name={attrs.name} />
+									<Select.Trigger {...attrs}>
+										<Select.Value placeholder="" />
+									</Select.Trigger>
+									<Select.Content>
+										{#each status as value}
+											<Select.Item {value} />
+										{/each}
+									</Select.Content>
+								</Select.Root>
+							</Form.Control>
+							<Form.FieldErrors />
+						</Form.Field>
+						<Separator class="my-4" />
 						<Form.Field {form} name="actionTaken" class="grid gap-3">
 							<Form.Control let:attrs>
-								<Form.Label>Action Taken <span class="text-destructive font-bold">*</span></Form.Label>
+								<Form.Label
+									>Action Taken <span class="font-bold text-destructive">*</span></Form.Label
+								>
 								<Input {...attrs} bind:value={$formData.actionTaken} />
 							</Form.Control>
 							<Form.FieldErrors />
@@ -492,7 +504,12 @@
 				<Card.Root>
 					<Form.Fieldset {form} name="clientInvolvement" class="space-y-0">
 						<Card.Header>
-							<Card.Title><Form.Legend>Client's Case Involvement <span class="text-destructive font-bold">*</span></Form.Legend></Card.Title>
+							<Card.Title
+								><Form.Legend
+									>Client's Case Involvement <span class="font-bold text-destructive">*</span
+									></Form.Legend
+								></Card.Title
+							>
 						</Card.Header>
 						<Card.Content>
 							<div class="space-y-2">
@@ -536,7 +553,12 @@
 				<Card.Root>
 					<Form.Fieldset {form} name="adversePartyInvolvement" class="space-y-0">
 						<Card.Header>
-							<Card.Title><Form.Legend>Adverse Party's Case Involvement <span class="text-destructive font-bold">*</span></Form.Legend></Card.Title>
+							<Card.Title
+								><Form.Legend
+									>Adverse Party's Case Involvement <span class="font-bold text-destructive">*</span
+									></Form.Legend
+								></Card.Title
+							>
 						</Card.Header>
 						<Card.Content>
 							<div class="space-y-2">
@@ -579,9 +601,7 @@
 			</div>
 			<div class="flex items-center justify-center gap-2 md:hidden">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
-				<Form.Button type="submit" size="sm"
-					>{$formData.currentStatus === 'New' ? 'Add Case' : 'Update Case'}</Form.Button
-				>
+				<Form.Button type="submit" size="sm">Submit</Form.Button>
 			</div>
 		</div>
 	</div>

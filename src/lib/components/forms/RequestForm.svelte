@@ -124,14 +124,12 @@
 				<span class="sr-only">Back</span>
 			</Button>
 			<h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-				{$formData.currentStatus === 'New' ? 'Add Request' : 'Update Request'}
+				Submit
 			</h1>
 			<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
-				<Form.Button type="submit" size="sm"
-					>{$formData.currentStatus === 'New' ? 'Add Request' : 'Update Request'}</Form.Button
-				>
+				<Form.Button type="submit" size="sm">Submit</Form.Button>
 			</div>
 		</div>
 		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-5 lg:gap-8">
@@ -139,7 +137,11 @@
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Request Information</Card.Title>
-						<Card.Description>Please fill out all necessary information. Required fields are marked with <span class="text-destructive font-bold">*</span>.</Card.Description>
+						<Card.Description
+							>Please fill out all necessary information. Required fields are marked with <span
+								class="font-bold text-destructive">*</span
+							>.</Card.Description
+						>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
 						<!-- <div class="grid grid-cols-3 items-start gap-3">
@@ -185,7 +187,7 @@
 							</Form.Field>
 						</div> -->
 						<Form.Fieldset {form} name="client_id" class="grid gap-3">
-							<Form.Legend>Client <span class="text-destructive font-bold">*</span></Form.Legend>
+							<Form.Legend>Client <span class="font-bold text-destructive">*</span></Form.Legend>
 							{#each $formData.client_id as _, i}
 								<Form.ElementField {form} name="client_id[{i}]">
 									<Form.Control let:attrs>
@@ -231,7 +233,9 @@
 						<div class="grid items-start gap-3 sm:grid-cols-8">
 							<Form.Field {form} name="interviewee_id" class="grid gap-3 sm:col-span-5">
 								<Form.Control let:attrs>
-									<Form.Label>Interviewee <span class="text-destructive font-bold">*</span></Form.Label>
+									<Form.Label
+										>Interviewee <span class="font-bold text-destructive">*</span></Form.Label
+									>
 									<Select.Root
 										selected={selectedInterviewee}
 										onSelectedChange={(s) => {
@@ -253,7 +257,10 @@
 							</Form.Field>
 							<Form.Field {form} name="relationshipToClient" class="grid gap-3 sm:col-span-3">
 								<Form.Control let:attrs>
-									<Form.Label>Relation to Client <span class="text-destructive font-bold">*</span></Form.Label>
+									<Form.Label
+										>Relation to Client <span class="font-bold text-destructive">*</span
+										></Form.Label
+									>
 									<Select.Root
 										selected={selectedRelationshipToClient}
 										onSelectedChange={(s) => {
@@ -277,7 +284,7 @@
 						<Separator />
 						<Form.Field {form} name="lawyer_id" class="grid gap-3">
 							<Form.Control let:attrs>
-								<Form.Label>Lawyer <span class="text-destructive font-bold">*</span></Form.Label>
+								<Form.Label>Lawyer <span class="font-bold text-destructive">*</span></Form.Label>
 								<Select.Root
 									selected={selectedLawyer}
 									onSelectedChange={(s) => {
@@ -448,7 +455,11 @@
 				<Card.Root>
 					<Form.Fieldset {form} name="nature" class="space-y-0">
 						<Card.Header>
-							<Card.Title><Form.Legend>Nature of Request <span class="text-destructive font-bold">*</span></Form.Legend></Card.Title>
+							<Card.Title
+								><Form.Legend
+									>Nature of Request <span class="font-bold text-destructive">*</span></Form.Legend
+								></Card.Title
+							>
 							<Card.Description
 								><Form.Description>Please select all the apply.</Form.Description></Card.Description
 							>
@@ -519,9 +530,7 @@
 			</div>
 			<div class="flex items-center justify-center gap-2 md:hidden">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
-				<Form.Button type="submit" size="sm"
-					>{$formData.currentStatus === 'New' ? 'Add Request' : 'Update Request'}</Form.Button
-				>
+				<Form.Button type="submit" size="sm">Submit</Form.Button>
 			</div>
 		</div>
 	</div>
