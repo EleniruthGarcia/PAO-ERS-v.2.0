@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../app.pcss';
+	import { onMount } from 'svelte';
 	import { ModeWatcher } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner';
 
@@ -7,8 +8,6 @@
 	import { toast } from 'svelte-sonner';
 	import { getFlash } from 'sveltekit-flash-message';
 
-	import { onMount } from 'svelte';
-	import * as Command from '$lib/components/ui/command/index.js';
 	import { Commands } from '$lib/components/commands';
 	import { onNavigate } from '$app/navigation';
 
@@ -68,12 +67,22 @@
 	}
 
 	let open = false;
+	let value = '';
+	let pages = ['Home'];
 
 	onMount(() => {
 		function handleKeydown(e: KeyboardEvent) {
-			if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+			if (e.key === 'Enter') {
+				value = '';
+			}
+			if ((e.key === 'k' || e.key === 'K') && (e.metaKey || e.ctrlKey)) {
 				e.preventDefault();
 				open = !open;
+			}
+			if (e.key === 'Backspace' && value === '' && open) {
+				e.preventDefault();
+				if (pages.length === 1) open = !open;
+				else pages = pages.slice(0, -1);
 			}
 		}
 
@@ -108,10 +117,7 @@
 <Toaster richColors closeButton />
 <slot />
 
-<Command.Dialog bind:open>
-	<Command.Input placeholder="Type a command or search..." />
-	<Commands />
-</Command.Dialog>
+<Commands bind:open bind:value bind:pages />
 
 <style>
 	@keyframes fade-in {

@@ -1,3 +1,4 @@
+import db from '$lib/server/database';
 import { loadFlash } from 'sveltekit-flash-message/server';
 
 export const load = loadFlash(async (event) => {
@@ -5,7 +6,11 @@ export const load = loadFlash(async (event) => {
 		return {
 			user: {
 				...event.locals.user
-			}
+			},
+			allUsers: await db.users.find().toArray(),
+			allClients: await db.clients.find().toArray(),
+			allRequests: await db.requests.find().toArray(),
+			allCases: await db.cases.find().toArray(),
 		};
 	}
 });
