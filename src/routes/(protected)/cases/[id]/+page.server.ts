@@ -1,9 +1,6 @@
 import db from '$lib/server/database';
-import { generateInterviewSheet } from '$lib/server/interview_sheet';
-
-import { fail } from '@sveltejs/kit';
 import { redirect } from 'sveltekit-flash-message/server';
-import type { PageServerLoad, Actions } from './$types';
+import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {

@@ -209,13 +209,17 @@
 			variant="outline"
 			size="sm"
 			on:click={() => ($pageIndex = $pageIndex - 1)}
-			disabled={!$hasPreviousPage}>Previous</Button
+			disabled={!$hasPreviousPage}
 		>
+			Previous
+		</Button>
 		<Button
 			variant="outline"
 			size="sm"
 			disabled={!$hasNextPage}
-			on:click={() => ($pageIndex = $pageIndex + 1)}>Next</Button
+			on:click={() => ($pageIndex = $pageIndex + 1)}
 		>
+			Next
+		</Button>
 	</div>
 </div>

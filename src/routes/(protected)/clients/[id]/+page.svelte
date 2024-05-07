@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { save } from '$lib/utils';
-	import { enhance } from '$app/forms';
 	import type { PageServerData } from './$types';
 	import { Copy, PlusCircled, DotsVertical } from 'svelte-radix';
 
@@ -49,22 +47,24 @@
 						size="sm"
 						variant="outline"
 						class="h-7 gap-1 text-sm"
-						href="/clients/{data.client._id}/edit">Edit</Button
+						href="/clients/{data.client._id}/edit"
 					>
-					<Button size="sm" class="h-7 gap-1 text-sm" href="/clients/{data.client._id}/export"
-						>Export</Button
-					>
+						Edit
+					</Button>
+					<Button size="sm" class="h-7 gap-1 text-sm" href="/clients/{data.client._id}/export">
+						Export
+					</Button>
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
-							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-								>{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
-							>
+							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm">
+								{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+							</Button>
 						</AlertDialog.Trigger>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
-								<AlertDialog.Title
-									>{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
-								>
+								<AlertDialog.Title>
+									{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client
+								</AlertDialog.Title>
 								<AlertDialog.Description>
 									Are you absolutely sure? The client will be {data.client.status?.at(-1)?.type ===
 									'Archived'
@@ -106,9 +106,9 @@
 							</DropdownMenu.Trigger>
 							<DropdownMenu.Content align="end">
 								<DropdownMenu.Item href="/clients/{data.client._id}/edit">Edit</DropdownMenu.Item>
-								<DropdownMenu.Item href="/clients/{data.client._id}/export"
-									>Export</DropdownMenu.Item
-								>
+								<DropdownMenu.Item href="/clients/{data.client._id}/export">
+									Export
+								</DropdownMenu.Item>
 								<DropdownMenu.Separator />
 								<DropdownMenu.Item>
 									<AlertDialog.Trigger class="w-full text-left">
@@ -119,9 +119,9 @@
 						</DropdownMenu.Root>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
-								<AlertDialog.Title
-									>{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
-								>
+								<AlertDialog.Title>
+									{data.client.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client
+								</AlertDialog.Title>
 								<AlertDialog.Description>
 									Are you absolutely sure? The client will be {data.client.status?.at(-1)?.type ===
 									'Archived'
@@ -158,35 +158,35 @@
 					<div class="font-semibold">Personal Information</div>
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Age </span>
+							<span class="text-muted-foreground">Age</span>
 							<span>{data.client.age}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Sex </span>
+							<span class="text-muted-foreground">Sex</span>
 							<span>{data.client.sex}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Civil Status </span>
+							<span class="text-muted-foreground">Civil Status</span>
 							<span>{data.client.civilStatus}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Citizenship </span>
+							<span class="text-muted-foreground">Citizenship</span>
 							<span>{data.client.citizenship}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Language </span>
+							<span class="text-muted-foreground">Language</span>
 							<span>{data.client.language}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Religion </span>
+							<span class="text-muted-foreground">Religion</span>
 							<span>{data.client.religion !== '' ? data.client.religion : 'N/A'}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Educational Attainment </span>
+							<span class="text-muted-foreground">Educational Attainment</span>
 							<span>{data.client.educationalAttainment}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Individual Monthly Income </span>
+							<span class="text-muted-foreground">Individual Monthly Income</span>
 							<span>{data.client.individualMonthlyIncome}</span>
 						</li>
 					</ul>
@@ -196,15 +196,15 @@
 					<div class="font-semibold">Contact Information</div>
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Address </span>
+							<span class="text-muted-foreground">Address</span>
 							<span>{data.client.address}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Email </span>
+							<span class="text-muted-foreground">Email</span>
 							<span>{data.client.email}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Contact Number </span>
+							<span class="text-muted-foreground">Contact Number</span>
 							<span>{data.client.contactNumber}</span>
 						</li>
 					</ul>
@@ -215,19 +215,19 @@
 						<div class="font-semibold">Spouse Information</div>
 						<ul class="grid gap-3">
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Name </span>
+								<span class="text-muted-foreground">Name</span>
 								<span>{data.client.spouseName}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Address </span>
+								<span class="text-muted-foreground">Address</span>
 								<span>{data.client.spouseAddress}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Email </span>
+								<span class="text-muted-foreground">Email</span>
 								<span>{data.client.spouseEmail}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Contact Number </span>
+								<span class="text-muted-foreground">Contact Number</span>
 								<span>{data.client.spouseContactNumber}</span>
 							</li>
 						</ul>
@@ -239,11 +239,11 @@
 						<div class="font-semibold">Detainee Information</div>
 						<ul class="grid gap-3">
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Place of Detention </span>
+								<span class="text-muted-foreground">Place of Detention</span>
 								<span>{data.client.detainedAt}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Detained Since </span>
+								<span class="text-muted-foreground">Detained Since</span>
 								<span>{data.client.detainedSince}</span>
 							</li>
 						</ul>
@@ -261,9 +261,9 @@
 			</Card.Content>
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
-					Updated <time
-						>{data.client.status[data.client.status.length - 1].date.toLocaleString()}</time
-					>
+					Updated <time>
+						{data.client.status[data.client.status.length - 1].date.toLocaleString()}
+					</time>
 				</div>
 			</Card.Footer>
 		</Card.Root>
@@ -276,10 +276,10 @@
 					<Card.Description>All active requests are shown here.</Card.Description>
 				</div>
 				<div class="ml-auto flex items-center gap-1">
-					<Button size="sm" variant="outline" class="h-7 gap-2 text-sm" href="/requests/add"
-						><PlusCircled class="h-3.5 w-3.5" />
-						<span class="sr-only sm:not-sr-only">Add</span></Button
-					>
+					<Button size="sm" variant="outline" class="h-7 gap-2 text-sm" href="/requests/add">
+						<PlusCircled class="h-3.5 w-3.5" />
+						<span class="sr-only sm:not-sr-only">Add</span>
+					</Button>
 				</div>
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
@@ -287,11 +287,11 @@
 					<div class="grid gap-3">
 						<ul class="grid gap-3">
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Nature </span>
+								<span class="text-muted-foreground">Nature</span>
 								<span>{request.otherNature ? request.otherNature : request.nature}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Lawyer </span>
+								<span class="text-muted-foreground">Lawyer</span>
 								<span>{request.lawyer.name}</span>
 							</li>
 						</ul>

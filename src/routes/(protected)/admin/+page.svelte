@@ -3,7 +3,7 @@
 	import type { PageServerData } from './$types';
 	import { page } from '$app/stores';
 
-	import { PlusCircled, File } from 'svelte-radix';
+	import { PlusCircled } from 'svelte-radix';
 
 	import Loading from '$lib/components/Loading.svelte';
 	import { Table as UserTable, SelectedUsers } from '$lib/components/tables/user';

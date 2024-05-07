@@ -4,7 +4,7 @@ import { redirect } from 'sveltekit-flash-message/server';
 
 import db from '$lib/server/database';
 
-import { formSchema, type User } from '$lib/schema/user';
+import { formSchema } from '$lib/schema/user';
 import { zod } from 'sveltekit-superforms/adapters';
 import { setError, superValidate } from 'sveltekit-superforms';
 import { Argon2id } from 'oslo/password';
@@ -63,7 +63,7 @@ export const actions: Actions = {
 		const existingUser = await db.users.findOne({ username: form.data.username });
 		if (existingUser) return setError(form, '', 'Username already exists!');
 
-		form.data._id = String(await db.users.countDocuments() + 1);
+		form.data._id = String((await db.users.countDocuments()) + 1);
 		form.data.hashedPassword = await new Argon2id().hash(form.data.password);
 
 		const formData: any = form.data;

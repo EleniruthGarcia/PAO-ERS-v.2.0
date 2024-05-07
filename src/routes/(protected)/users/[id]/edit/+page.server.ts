@@ -1,7 +1,7 @@
 import db from '$lib/server/database';
 import { redirect } from 'sveltekit-flash-message/server';
 import type { PageServerLoad, Actions } from './$types';
-import { message, setError, superValidate } from 'sveltekit-superforms';
+import { setError, superValidate } from 'sveltekit-superforms';
 import { formSchema } from '$lib/schema/user';
 import { zod } from 'sveltekit-superforms/adapters';
 import { fail } from '@sveltejs/kit';
@@ -17,16 +17,18 @@ export const load: PageServerLoad = async (event) => {
 		);
 	}
 
-	const user = await db.users.aggregate([
-		{
-			$match: { username: event.params.id }
-		},
-		{
-			$addFields: {
-				age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+	const user = await db.users
+		.aggregate([
+			{
+				$match: { username: event.params.id }
+			},
+			{
+				$addFields: {
+					age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+				}
 			}
-		}
-	]).next();
+		])
+		.next();
 	if (!user) redirect('/users', { type: 'warning', message: 'User not found!' }, event);
 
 	return {
@@ -79,7 +81,7 @@ export const actions = {
 		delete formData.confirmPassword;
 		formData.status.push({ type: formData.currentStatus, date: new Date() });
 
-		let user = await db.users.updateOne({ _id: form.data._id }, { $set: formData });
+		const user = await db.users.updateOne({ _id: form.data._id }, { $set: formData });
 
 		if (!user || !user.acknowledged) return fail(500, { form });
 		if (user.matchedCount === 0) return fail(404, { form });

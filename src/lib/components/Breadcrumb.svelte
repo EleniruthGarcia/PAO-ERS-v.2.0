@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { browser } from '$app/environment';
 
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
@@ -32,7 +31,7 @@
 								<Breadcrumb.Ellipsis class="h-4 w-4" />
 							</DropdownMenu.Trigger>
 							<DropdownMenu.Content align="start">
-								{#each $page.data.breadcrumbs.slice(1, -1) as { text, href }, i}
+								{#each $page.data.breadcrumbs.slice(1, -1) as { text, href }, _}
 									<DropdownMenu.Item href={href ? href : '#'}>
 										{text}
 									</DropdownMenu.Item>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
-	import { Copy, PlusCircled, DotsVertical } from 'svelte-radix';
+	import { Copy, DotsVertical } from 'svelte-radix';
 
 	import { toast } from 'svelte-sonner';
 
@@ -40,32 +40,33 @@
 							<span class="sr-only">Copy User ID</span>
 						</Button>
 					</Card.Title>
-					<Card.Description
-						><Badge variant="outline" class="mr-2">{data.user.role}</Badge>{data.user
-							.position}</Card.Description
-					>
+					<Card.Description>
+						<Badge variant="outline" class="mr-2">{data.user.role}</Badge>{data.user.position}
+					</Card.Description>
 				</div>
 				<div class="invisible ml-auto flex items-center gap-1 sm:visible">
 					<Button
 						size="sm"
 						variant="outline"
 						class="h-7 gap-1 text-sm"
-						href="/users/{data.user.username}/edit">Edit</Button
+						href="/users/{data.user.username}/edit"
 					>
+						Edit
+					</Button>
 					<!-- <Button size="sm" class="h-7 gap-1 text-sm" href="/users/{data.user.username}/export"
 						>Export</Button
 					> -->
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
-							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-								>{data.user.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
-							>
+							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm">
+								{data.user.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+							</Button>
 						</AlertDialog.Trigger>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
-								<AlertDialog.Title
-									>{data.user.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} User</AlertDialog.Title
-								>
+								<AlertDialog.Title>
+									{data.user.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} User
+								</AlertDialog.Title>
 								<AlertDialog.Description>
 									Are you absolutely sure? The user will be {data.user.status?.at(-1)?.type ===
 									'Archived'
@@ -106,19 +107,17 @@
 								<!-- <DropdownMenu.Item href="/users/{data.user.username}/export">Export</DropdownMenu.Item> -->
 								<DropdownMenu.Separator />
 								<AlertDialog.Trigger class="w-full text-left">
-									<DropdownMenu.Item
-										>{data.user.status?.at(-1)?.type === 'Archived'
-											? 'Restore'
-											: 'Delete'}</DropdownMenu.Item
-									>
+									<DropdownMenu.Item>
+										{data.user.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+									</DropdownMenu.Item>
 								</AlertDialog.Trigger>
 							</DropdownMenu.Content>
 						</DropdownMenu.Root>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
-								<AlertDialog.Title
-									>{data.user.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client</AlertDialog.Title
-								>
+								<AlertDialog.Title>
+									{data.user.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Client
+								</AlertDialog.Title>
 								<AlertDialog.Description>
 									Are you absolutely sure? The user will be {data.user.status?.at(-1)?.type ===
 									'Archived'
@@ -151,7 +150,7 @@
 					<div class="font-semibold">Account Information</div>
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Username </span>
+							<span class="text-muted-foreground">Username</span>
 							<span>{data.user.username}</span>
 						</li>
 					</ul>
@@ -161,11 +160,11 @@
 					<div class="font-semibold">Personal Information</div>
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Age </span>
+							<span class="text-muted-foreground">Age</span>
 							<span>{data.user.age}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Sex </span>
+							<span class="text-muted-foreground">Sex</span>
 							<span>{data.user.sex}</span>
 						</li>
 					</ul>
@@ -175,15 +174,15 @@
 					<div class="font-semibold">Contact Information</div>
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Address </span>
+							<span class="text-muted-foreground">Address</span>
 							<span>{data.user.address}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Email </span>
+							<span class="text-muted-foreground">Email</span>
 							<span>{data.user.email}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Contact Number </span>
+							<span class="text-muted-foreground">Contact Number</span>
 							<span>{data.user.contactNumber}</span>
 						</li>
 					</ul>

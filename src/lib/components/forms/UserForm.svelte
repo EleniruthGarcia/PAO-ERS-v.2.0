@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { formSchema, sex, role, position, type FormSchema } from '$lib/schema/user';
-	import { type SuperValidated, type Infer, superForm, dateProxy } from 'sveltekit-superforms';
+	import { formSchema, role, position, type FormSchema } from '$lib/schema/user';
+	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import type { Branch } from '$lib/server/database';
 
 	import { ChevronLeft } from 'svelte-radix';
@@ -15,7 +15,6 @@
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
 
-	import DatePicker from '$lib/components/DatePicker.svelte';
 	import { toast } from 'svelte-sonner';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
@@ -77,7 +76,7 @@
 				<span class="sr-only">Back</span>
 			</Button>
 			<h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-				Submit
+				{$formData.currentStatus === 'New' ? 'Add User' : 'Update User'}
 			</h1>
 			<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
@@ -90,25 +89,31 @@
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Account Information</Card.Title>
-						<Card.Description
-							>Please fill out all necessary information. Required fields are marked with <span
-								class="font-bold text-destructive">*</span
-							>.</Card.Description
-						>
+						<Card.Description>
+							Please fill out all necessary information. Required fields are marked with <span
+								class="font-bold text-destructive"
+							>
+								*
+							</span>
+							.
+						</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="username" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Username <span class="font-bold text-destructive">*</span></Form.Label
-									>
+									<Form.Label>
+										Username <span class="font-bold text-destructive">*</span>
+									</Form.Label>
 									<Input {...attrs} bind:value={$formData.username} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="role" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Role <span class="font-bold text-destructive">*</span></Form.Label>
+									<Form.Label>
+										Role <span class="font-bold text-destructive">*</span>
+									</Form.Label>
 									<Select.Root
 										selected={selectedRole}
 										onSelectedChange={(s) => {
@@ -132,17 +137,18 @@
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="password" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Password <span class="font-bold text-destructive">*</span></Form.Label
-									>
+									<Form.Label>
+										Password <span class="font-bold text-destructive">*</span>
+									</Form.Label>
 									<Input {...attrs} type="password" bind:value={$formData.password} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="confirmPassword" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label
-										>Confirm Password <span class="font-bold text-destructive">*</span></Form.Label
-									>
+									<Form.Label>
+										Confirm Password <span class="font-bold text-destructive">*</span>
+									</Form.Label>
 									<Input {...attrs} type="password" bind:value={$formData.confirmPassword} />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -159,7 +165,9 @@
 						<div class="grid items-start gap-3 sm:grid-cols-7">
 							<Form.Field {form} name="firstName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>Name <span class="font-bold text-destructive">*</span></Form.Label>
+									<Form.Label>
+										Name <span class="font-bold text-destructive">*</span>
+									</Form.Label>
 									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -189,8 +197,9 @@
 						<div class="grid items-start gap-3">
 							<Form.Field {form} name="position" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Position <span class="font-bold text-destructive">*</span></Form.Label
-									>
+									<Form.Label>
+										Position <span class="font-bold text-destructive">*</span>
+									</Form.Label>
 									<Select.Root
 										selected={selectedPosition}
 										onSelectedChange={(s) => {
@@ -282,7 +291,9 @@
 					<Card.Content>
 						<Form.Field {form} name="branch_id" class="grid gap-3">
 							<Form.Control let:attrs>
-								<Form.Label>Branch <span class="font-bold text-destructive">*</span></Form.Label>
+								<Form.Label>
+									Branch <span class="font-bold text-destructive">*</span>
+								</Form.Label>
 								<Select.Root
 									selected={selectedBranch}
 									onSelectedChange={(s) => {

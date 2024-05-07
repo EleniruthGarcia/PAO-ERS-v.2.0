@@ -61,9 +61,9 @@
 					<span class="sr-only">Copy User ID</span>
 				</Button>
 			</Card.Title>
-			<Card.Description
-				><Badge variant="outline" class="mr-2">{user.role}</Badge>{user.position}</Card.Description
-			>
+			<Card.Description>
+				<Badge variant="outline" class="mr-2">{user.role}</Badge>{user.position}
+			</Card.Description>
 		</div>
 		<div class="ml-auto flex items-center gap-1">
 			<!-- <Button size="sm" variant="outline" class="h-8 gap-1">
@@ -97,9 +97,9 @@
 					<AlertDialog.Footer>
 						<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
 						<form action="/users/{user.username}/delete" method="POST">
-							<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90"
-								>Delete</AlertDialog.Action
-							>
+							<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90">
+								Delete
+							</AlertDialog.Action>
 						</form>
 					</AlertDialog.Footer>
 				</AlertDialog.Content>
@@ -111,15 +111,15 @@
 			<div class="font-semibold">Account Information</div>
 			<ul class="grid gap-3">
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Username </span>
+					<span class="text-muted-foreground">Username</span>
 					<span>{user.username}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Rank </span>
+					<span class="text-muted-foreground">Rank</span>
 					<span>{user.position}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Branch </span>
+					<span class="text-muted-foreground">Branch</span>
 					<span>{user.branch_id}</span>
 				</li>
 			</ul>

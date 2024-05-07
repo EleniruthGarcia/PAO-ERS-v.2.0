@@ -58,14 +58,16 @@
 						variant="ghost"
 						class="w-full items-start justify-start"
 						href="/settings"
-						builders={[builder]}>Settings</Button
+						builders={[builder]}
 					>
+						Settings
+					</Button>
 					<!-- <Button variant="ghost" class="w-full items-start justify-start" href="/" builders={[builder]}>Report Error</Button> -->
 					<Separator />
 					<form action="/logout" method="POST">
-						<Form.Button variant="ghost" class="w-full items-start justify-start" type="submit"
-							>Logout</Form.Button
-						>
+						<Form.Button variant="ghost" class="w-full items-start justify-start" type="submit">
+							Logout
+						</Form.Button>
 					</form>
 				</Sheet.Close>
 			</div>

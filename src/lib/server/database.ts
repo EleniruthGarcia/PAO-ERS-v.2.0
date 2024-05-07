@@ -83,7 +83,7 @@ const seedBranches: Branch[] = [
 		region: 'Cordillera Administrative Region',
 		province: 'Benguet',
 		district: 'Baguio City'
-	},
+	}
 	// {
 	// 	_id: '1',
 	// 	name: 'Branch A',
@@ -156,7 +156,7 @@ const seedUsers: User[] = [
 		currentStatus: 'New',
 		status: [{ type: 'New', date: new Date() }],
 		reportsTo: 'hmfrancisco'
-	},
+	}
 	// {
 	// 	_id: 'ADMIN',
 	// 	branch_id: '1',
@@ -484,7 +484,6 @@ const seedCases: Case[] = [
 		status: [{ type: 'Terminated', date: new Date() }]
 	}
 ];
-
 
 // for (const branch of seedBranches)
 // 	branches.updateOne({ _id: branch._id }, { $set: branch }, { upsert: true });

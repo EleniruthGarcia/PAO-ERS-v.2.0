@@ -1,9 +1,6 @@
 import db from '$lib/server/database';
-import { generateInterviewSheet } from '$lib/server/interview_sheet';
-
-import { fail } from '@sveltejs/kit';
 import { redirect } from 'sveltekit-flash-message/server';
-import type { PageServerLoad, Actions } from './$types';
+import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {
@@ -15,16 +12,18 @@ export const load: PageServerLoad = async (event) => {
 		);
 	}
 
-	const user = await db.users.aggregate([
-		{
-			$match: { username: event.params.id }
-		},
-		{
-			$addFields: {
-				age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+	const user = await db.users
+		.aggregate([
+			{
+				$match: { username: event.params.id }
+			},
+			{
+				$addFields: {
+					age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+				}
 			}
-		}
-	]).next();
+		])
+		.next();
 	if (!user) redirect('/users', { type: 'warning', message: 'User not found!' }, event);
 
 	return {

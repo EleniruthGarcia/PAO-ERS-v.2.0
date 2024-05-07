@@ -1,13 +1,9 @@
 <script lang="ts">
 	import clsx from 'clsx';
-	import type { PageServerData } from './$types';
-
 	import { CaseTable, SelectedCases } from '$lib/components/tables/case';
 
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
-
-	export let data: PageServerData;
 
 	const selectedCases = writable({});
 	setContext('selectedCases', selectedCases);

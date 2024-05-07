@@ -72,8 +72,8 @@
 								{#each reports as item}
 									{@const checked = $formData.reports?.includes(item) ?? false}
 									<div class="flex flex-row items-start space-x-3">
-										<Form.Control let:attrs
-											><Checkbox
+										<Form.Control let:attrs>
+											<Checkbox
 												{...attrs}
 												{checked}
 												onCheckedChange={(v) => {
@@ -85,14 +85,10 @@
 												}}
 											/>
 											<Form.Label class="text-sm font-normal">
-												<span class="font-bold">{item.substring(0, 4)}</span>{item.substring(4)}
-											</Form.Label><input
-												hidden
-												type="checkbox"
-												name={attrs.name}
-												value={item}
-												{checked}
-											/>
+												<span class="font-bold">{item.substring(0, 4)}</span>
+												{item.substring(4)}
+											</Form.Label>
+											<input hidden type="checkbox" name={attrs.name} value={item} {checked} />
 										</Form.Control>
 									</div>
 								{/each}

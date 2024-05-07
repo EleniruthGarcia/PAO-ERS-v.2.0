@@ -26,7 +26,7 @@ export const load: PageServerLoad = async (event) => {
 		],
 		form: await superValidate(
 			{
-				_id: String(await db.clients.countDocuments() + 1),
+				_id: String((await db.clients.countDocuments()) + 1),
 				currentStatus: 'New',
 				status: [{ type: 'New', date: new Date() }]
 			},

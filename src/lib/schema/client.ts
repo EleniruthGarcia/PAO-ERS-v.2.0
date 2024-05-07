@@ -70,14 +70,19 @@ export const formSchema = z.object({
 	// 	invalid_type_error: 'Date of birth is required.',
 	// 	required_error: 'Date of birth is required.'
 	// }),
-	age: z.number({
-		invalid_type_error: 'Age is required.',
-		required_error: 'Age is required.'
-	}).positive({
-		message: 'Age must be a positive number.'
-	}),
+	age: z
+		.number({
+			invalid_type_error: 'Age is required.',
+			required_error: 'Age is required.'
+		})
+		.positive({
+			message: 'Age must be a positive number.'
+		}),
 	sex: z.enum(sex),
-	address: z.string().min(1, 'Address is required.').max(40,'Maximum Characters must be less than 40.'),
+	address: z
+		.string()
+		.min(1, 'Address is required.')
+		.max(40, 'Maximum Characters must be less than 40.'),
 	email: z.string().email().optional(),
 	contactNumber: z
 		.string()
@@ -111,9 +116,11 @@ export const formSchema = z.object({
 		.optional(),
 	classification: z.array(z.enum(classification)).optional(),
 	foreignNational: z.string().optional(),
-	pwd: z.enum(pwd, {
-		errorMap: (e) => ({ message: 'Invalid PWD type.' })
-	}).optional(),
+	pwd: z
+		.enum(pwd, {
+			errorMap: (e) => ({ message: 'Invalid PWD type.' })
+		})
+		.optional(),
 	indigenousPeople: z.string().optional(),
 	urbanPoor: z.string().optional(),
 	ruralPoor: z.string().optional(),
@@ -124,8 +131,7 @@ export const formSchema = z.object({
 			date: z.date()
 		})
 	),
-	proofOfIndigency: z.array(z.enum(proofOfIndigency).or(z.object({ Others: z.string() }))),
-
+	proofOfIndigency: z.array(z.enum(proofOfIndigency).or(z.object({ Others: z.string() })))
 });
 
 export type FormSchema = typeof formSchema;

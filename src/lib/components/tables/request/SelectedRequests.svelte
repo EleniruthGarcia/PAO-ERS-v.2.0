@@ -100,9 +100,9 @@
 					<AlertDialog.Footer>
 						<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
 						<form action="/requests/{request._id}/delete" method="POST">
-							<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90"
-								>Delete</AlertDialog.Action
-							>
+							<AlertDialog.Action type="submit" class="bg-destructive hover:bg-destructive/90">
+								Delete
+							</AlertDialog.Action>
 						</form>
 					</AlertDialog.Footer>
 				</AlertDialog.Content>
@@ -114,23 +114,23 @@
 			<div class="font-semibold">Personal Information</div>
 			<ul class="grid gap-3">
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Age </span>
+					<span class="text-muted-foreground">Age</span>
 					<span>{request.client.age}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Sex </span>
+					<span class="text-muted-foreground">Sex</span>
 					<span>{request.client.sex}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Civil Status </span>
+					<span class="text-muted-foreground">Civil Status</span>
 					<span>{request.client.civilStatus}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Citizenship </span>
+					<span class="text-muted-foreground">Citizenship</span>
 					<span>{request.client.citizenship}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Language </span>
+					<span class="text-muted-foreground">Language</span>
 					<span>{request.client.language}</span>
 				</li>
 			</ul>
@@ -140,11 +140,11 @@
 			<div class="font-semibold">Interviewee Information</div>
 			<ul class="grid gap-3">
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Interviewee </span>
+					<span class="text-muted-foreground">Interviewee</span>
 					<span>{request.interviewee.name}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Relationship to Client </span>
+					<span class="text-muted-foreground">Relationship to Client</span>
 					<span>{request.relationshipToClient}</span>
 				</li>
 			</ul>
@@ -154,7 +154,7 @@
 			<div class="font-semibold">Lawyer Information</div>
 			<ul class="grid gap-3">
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Lawyer </span>
+					<span class="text-muted-foreground">Lawyer</span>
 					<span>{request.lawyer.name}</span>
 				</li>
 			</ul>

@@ -70,9 +70,8 @@ function addOrdinalSuffix(day: number): string {
 }
 async function addTextToPDF(data: any) {
 	const values = getFormattedDate();
-	const monthYear = getFormattedDate()[1] + ", " + getFormattedDate()[3]
+	const monthYear = getFormattedDate()[1] + ', ' + getFormattedDate()[3];
 	const {
-
 		// branch data
 		region,
 		districtProvince,
@@ -125,7 +124,7 @@ async function addTextToPDF(data: any) {
 		indigenousPeople,
 		urbanPoor,
 		ruralPoor,
-		
+
 		adverseParty,
 		adversePartyName,
 		adversePartyAddress,
@@ -315,13 +314,13 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-		firstPage.drawText("N/A", {
+		firstPage.drawText('N/A', {
 			x: 100,
 			y: 607,
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
-		firstPage.drawText("N/A", {
+		firstPage.drawText('N/A', {
 			x: 390,
 			y: 607,
 			size: 10,
@@ -641,129 +640,129 @@ async function addTextToPDF(data: any) {
 				});
 			}
 		}
-	} 
-		if (pwd) {
-			// PWD
-			firstPage.drawRectangle({
-				x: 366,
-				y: 402,
-				width: 7,
-				height: 7,
-				color: rgb(0, 0, 0),
-				borderColor: undefined // No border
-			});
-			firstPage.drawText(pwd, {
-				x: 473,
-				y: 402,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-		}  else {
-			firstPage.drawText("N/A", {
-				x: 485,
-				y: 402,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-		}
-		
-		if (foreignNational) {
-			// FOREIGN
-			firstPage.drawRectangle({
-				x: 366,
-				y: 458,
-				width: 7,
-				height: 7,
-				color: rgb(0, 0, 0),
-				borderColor: undefined // No border
-			});
-			firstPage.drawText(foreignNational, {
-				x: 456,
-				y: 458,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-		}  else {
-			firstPage.drawText("N/A", {
-				x: 455,
-				y: 458,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-		}
-		
-		if (urbanPoor) {
-			// URBAN
-			firstPage.drawRectangle({
-				x: 366,
-				y: 444,
-				width: 7,
-				height: 7,
-				color: rgb(0, 0, 0),
-				borderColor: undefined // No border
-			});
-			firstPage.drawText(urbanPoor, {
-				x: 430,
-				y: 444,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-		}  else {
-			firstPage.drawText("N/A", {
-				x: 425,
-				y: 444,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-		}
-		if (ruralPoor) {
-			// RURAL POOR
-			firstPage.drawRectangle({
-				x: 366,
-				y: 430,
-				width: 7,
-				height: 7,
-				color: rgb(0, 0, 0),
-				borderColor: undefined // No border
-			});
-			firstPage.drawText(ruralPoor, {
-				x: 430,
-				y: 430,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-		}  else {
-			firstPage.drawText("N/A", {
-				x: 425,
-				y: 430,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-		}
-		if (indigenousPeople) {
-			// INDIGENOUS
-			firstPage.drawRectangle({
-				x: 366,
-				y: 416,
-				width: 7,
-				height: 7,
-				color: rgb(0, 0, 0),
-				borderColor: undefined // No border
-			});
-			firstPage.drawText(indigenousPeople, {
-				x: 455,
-				y: 416,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-		} else {
-			firstPage.drawText("N/A", {
-				x: 455,
-				y: 416,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-		}
+	}
+	if (pwd) {
+		// PWD
+		firstPage.drawRectangle({
+			x: 366,
+			y: 402,
+			width: 7,
+			height: 7,
+			color: rgb(0, 0, 0),
+			borderColor: undefined // No border
+		});
+		firstPage.drawText(pwd, {
+			x: 473,
+			y: 402,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	} else {
+		firstPage.drawText('N/A', {
+			x: 485,
+			y: 402,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	}
+
+	if (foreignNational) {
+		// FOREIGN
+		firstPage.drawRectangle({
+			x: 366,
+			y: 458,
+			width: 7,
+			height: 7,
+			color: rgb(0, 0, 0),
+			borderColor: undefined // No border
+		});
+		firstPage.drawText(foreignNational, {
+			x: 456,
+			y: 458,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	} else {
+		firstPage.drawText('N/A', {
+			x: 455,
+			y: 458,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	}
+
+	if (urbanPoor) {
+		// URBAN
+		firstPage.drawRectangle({
+			x: 366,
+			y: 444,
+			width: 7,
+			height: 7,
+			color: rgb(0, 0, 0),
+			borderColor: undefined // No border
+		});
+		firstPage.drawText(urbanPoor, {
+			x: 430,
+			y: 444,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	} else {
+		firstPage.drawText('N/A', {
+			x: 425,
+			y: 444,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	}
+	if (ruralPoor) {
+		// RURAL POOR
+		firstPage.drawRectangle({
+			x: 366,
+			y: 430,
+			width: 7,
+			height: 7,
+			color: rgb(0, 0, 0),
+			borderColor: undefined // No border
+		});
+		firstPage.drawText(ruralPoor, {
+			x: 430,
+			y: 430,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	} else {
+		firstPage.drawText('N/A', {
+			x: 425,
+			y: 430,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	}
+	if (indigenousPeople) {
+		// INDIGENOUS
+		firstPage.drawRectangle({
+			x: 366,
+			y: 416,
+			width: 7,
+			height: 7,
+			color: rgb(0, 0, 0),
+			borderColor: undefined // No border
+		});
+		firstPage.drawText(indigenousPeople, {
+			x: 455,
+			y: 416,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	} else {
+		firstPage.drawText('N/A', {
+			x: 455,
+			y: 416,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	}
 
 	// PARTY/REP
 	firstPage.drawText(name, {
@@ -821,19 +820,19 @@ async function addTextToPDF(data: any) {
 				color: rgb(0, 0, 0),
 				borderColor: undefined // No border
 			});
-			firstPage.drawText("N/A", {
+			firstPage.drawText('N/A', {
 				x: 390,
 				y: 649,
 				size: 10,
 				color: rgb(0, 0, 0) // Black
 			});
-			firstPage.drawText("N/A", {
+			firstPage.drawText('N/A', {
 				x: 390,
 				y: 635,
 				size: 10,
 				color: rgb(0, 0, 0) // Black
 			});
-			firstPage.drawText("N/A", {
+			firstPage.drawText('N/A', {
 				x: 390,
 				y: 621,
 				size: 10,
@@ -850,25 +849,24 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-		firstPage.drawText("N/A", {
+		firstPage.drawText('N/A', {
 			x: 390,
 			y: 649,
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
-		firstPage.drawText("N/A", {
+		firstPage.drawText('N/A', {
 			x: 390,
 			y: 635,
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
-		firstPage.drawText("N/A", {
+		firstPage.drawText('N/A', {
 			x: 390,
 			y: 621,
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
-
 	}
 
 	firstPage.drawText(intervieweeName, {

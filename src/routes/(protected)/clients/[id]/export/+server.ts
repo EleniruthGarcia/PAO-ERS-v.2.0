@@ -14,24 +14,26 @@ export const GET: RequestHandler = async (event) => {
 	}
 
 	const branch = await db.branches.findOne({ _id: event.locals.user.branch_id });
-	const client = await db.clients.aggregate([
-		{
-			$match: { _id: event.params.id }
-		},
-		{
-			$addFields: {
-				// age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } },
-				detainedSince: {
-					$dateToString: {
-						date: '$detainedSince',
-						format: '%B %d, %Y',
-						timezone: '+08:00',
-						onNull: 'N/A'
+	const client = await db.clients
+		.aggregate([
+			{
+				$match: { _id: event.params.id }
+			},
+			{
+				$addFields: {
+					// age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } },
+					detainedSince: {
+						$dateToString: {
+							date: '$detainedSince',
+							format: '%B %d, %Y',
+							timezone: '+08:00',
+							onNull: 'N/A'
+						}
 					}
 				}
 			}
-		}
-	]).next();
+		])
+		.next();
 
 	const requests = await db.requests.find({ client_id: event.params.id }).toArray();
 
@@ -141,8 +143,10 @@ export const GET: RequestHandler = async (event) => {
 					intervieweeName: { $ifNull: ['$interviewee.name', '$client.name'] },
 					intervieweeAddress: { $ifNull: ['$interviewee.address', '$client.address'] },
 					intervieweeAge: {
-						$ifNull: ['$interviewee.age',
-							{ $dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' } }, 'N/A'
+						$ifNull: [
+							'$interviewee.age',
+							{ $dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' } },
+							'N/A'
 						]
 					},
 					intervieweeSex: { $ifNull: ['$interviewee.sex', '$client.sex'] },
@@ -175,18 +179,21 @@ export const GET: RequestHandler = async (event) => {
 					natureOfOffence: { $ifNull: ['$case.natureOfOffence', ''] },
 					courtPendingStatus: { $ifNull: ['$case.status', ''] },
 					titleOfCaseDocketNum: {
-						$ifNull: [{
-							$cond: [
-								{
-									$and: [
-										{ $eq: [{ $ifNull: ['$case.titleOfCase', ''] }, ''] },
-										{ $eq: [{ $ifNull: ['$case.docketNumber', ''] }, ''] }
-									]
-								},
-								'',
-								{ $concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')'] }
-							]
-						}, '']
+						$ifNull: [
+							{
+								$cond: [
+									{
+										$and: [
+											{ $eq: [{ $ifNull: ['$case.titleOfCase', ''] }, ''] },
+											{ $eq: [{ $ifNull: ['$case.docketNumber', ''] }, ''] }
+										]
+									},
+									'',
+									{ $concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')'] }
+								]
+							},
+							''
+						]
 					},
 					courtBodyTribunal: { $ifNull: ['$case.courtBody', ''] }
 				}
@@ -259,9 +266,12 @@ export const GET: RequestHandler = async (event) => {
 		return new Response(interviewSheet.blob, {
 			headers: {
 				'Content-Type': interviewSheet.type,
-				'Content-Disposition': `attachment; filename*=UTF-8''${encodeURIComponent(interviewSheet.name).
-					replace(/['()]/g, escape).
-					replace(/\*/g, '%2A').replace(/%(?:7C|60|5E)/g, unescape)}`
+				'Content-Disposition': `attachment; filename*=UTF-8''${encodeURIComponent(
+					interviewSheet.name
+				)
+					.replace(/['()]/g, escape)
+					.replace(/\*/g, '%2A')
+					.replace(/%(?:7C|60|5E)/g, unescape)}`
 			}
 		});
 	}
@@ -271,10 +281,10 @@ export const GET: RequestHandler = async (event) => {
 	return new Response(interviewSheet.blob, {
 		headers: {
 			'Content-Type': interviewSheet.type,
-			'Content-Disposition': `attachment; filename*=UTF-8''${encodeURIComponent(interviewSheet.name).
-				replace(/['()]/g, escape).
-				replace(/\*/g, '%2A').replace(/%(?:7C|60|5E)/g, unescape)
-				}`
+			'Content-Disposition': `attachment; filename*=UTF-8''${encodeURIComponent(interviewSheet.name)
+				.replace(/['()]/g, escape)
+				.replace(/\*/g, '%2A')
+				.replace(/%(?:7C|60|5E)/g, unescape)}`
 		}
 	});
 };

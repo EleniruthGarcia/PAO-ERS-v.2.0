@@ -1,28 +1,14 @@
 <script lang="ts">
-	import clsx from 'clsx';
-	import type { PageServerData } from './$types';
-	import { page } from '$app/stores';
+	import { SelectedClients } from '$lib/components/tables/client';
 
-	import { PlusCircled, File } from 'svelte-radix';
-
-	import Loading from '$lib/components/Loading.svelte';
-	import { Table as ClientTable, SelectedClients } from '$lib/components/tables/client';
-
-	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import NightToggle from '$lib/components/NightToggle.svelte';
-	import { Progress } from '$lib/components/ui/progress';
 	import { Separator } from '$lib/components/ui/separator';
-	import * as Tabs from '$lib/components/ui/tabs';
 
 	import * as Avatar from '$lib/components/ui/avatar';
 
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
-	import { Description } from 'formsnap';
-
-	export let data: PageServerData;
 
 	const selectedClients = writable({});
 	setContext('selectedClients', selectedClients);
@@ -128,32 +114,35 @@
 				</p>
 				<ul class="list-disc">
 					<li>
-						<strong>Form generation and secure database:</strong> The PAO-ERS should be able to generate
-						forms, read, and store client inputs to be transmitted to the database. On top of this, the
-						system should be able to safely and securely store the client data and should be resistant
-						to data leaks.
+						<strong>Form generation and secure database:</strong>
+						The PAO-ERS should be able to generate forms, read, and store client inputs to be transmitted
+						to the database. On top of this, the system should be able to safely and securely store the
+						client data and should be resistant to data leaks.
 					</li>
 					<li>
-						<strong>Software compatibility with the hardware:</strong> The system should be able to run
-						on the hardware or devices of the clients. This is important to avoid future expenditures
-						on equipment and to ensure fast integration of the software into the current system.
+						<strong>Software compatibility with the hardware:</strong>
+						The system should be able to run on the hardware or devices of the clients. This is important
+						to avoid future expenditures on equipment and to ensure fast integration of the software
+						into the current system.
 					</li>
 					<li>
-						<strong>Account systems:</strong> The system should also have account systems that show each
-						user their respective analytics on their accounts. The account systems should also include
-						a log-in system to ensure a more secure environment for client data.
+						<strong>Account systems:</strong>
+						The system should also have account systems that show each user their respective analytics
+						on their accounts. The account systems should also include a log-in system to ensure a more
+						secure environment for client data.
 					</li>
 					<li>
-						<strong>Fast report generation:</strong> The system should also be able to instantaneously
-						generate reports needed by the users monthly. These reports will be automatically downloaded
-						to the computer or device with a click of a button.
+						<strong>Fast report generation:</strong>
+						The system should also be able to instantaneously generate reports needed by the users monthly.
+						These reports will be automatically downloaded to the computer or device with a click of
+						a button.
 					</li>
 					<li>
-						<strong>System manual and documentation:</strong> The system should come with an instruction
-						manual on how to use the system to properly notify and educate the users on the features
-						of the system. This is to ensure proper and immediate migration from the current system to
-						the digitized PAO-ERS. The documentation is important in case of future updates or improvements
-						of the system.
+						<strong>System manual and documentation:</strong>
+						The system should come with an instruction manual on how to use the system to properly notify
+						and educate the users on the features of the system. This is to ensure proper and immediate
+						migration from the current system to the digitized PAO-ERS. The documentation is important
+						in case of future updates or improvements of the system.
 					</li>
 				</ul>
 			</Card.Content>
@@ -162,31 +151,34 @@
 			<Card.Header>
 				<Card.Title>Maintenance Services</Card.Title>
 			</Card.Header>
-			<Card.Content class="grid auto-rows-max items-start justify-center gap-3 px-12 pb-12 md:px-24"
-				><p>
+			<Card.Content
+				class="grid auto-rows-max items-start justify-center gap-3 px-12 pb-12 md:px-24"
+			>
+				<p>
 					The developers agree to provide the following maintenance services, until the graduation
 					of the developers:
 				</p>
 				<ul class="list-disc">
 					<li>
-						<strong>Error Correction:</strong> The developers will make reasonable efforts to identify
-						and fix bugs and errors that may arise in the system's operation, ensuring its functionality
-						within intended parameters.
+						<strong>Error Correction:</strong>
+						The developers will make reasonable efforts to identify and fix bugs and errors that may
+						arise in the system's operation, ensuring its functionality within intended parameters.
 					</li>
 					<li>
-						<strong>Longevity of Service:</strong> The developers will perform routine maintenance tasks
-						to ensure the system's continued operation and prevent potential issues that could affect
-						its lifespan.
+						<strong>Longevity of Service:</strong>
+						The developers will perform routine maintenance tasks to ensure the system's continued operation
+						and prevent potential issues that could affect its lifespan.
 					</li>
 				</ul>
 				<Separator />
 				<p>
-					<strong>Scaling:</strong> The developers' commitment to provide free maintenance services is
-					limited to the current scope and functionality of the system. Any future requests to scale
-					the system's operations, add new features, or modify existing functionalities will be subject
-					to the developers' availability, resources, and mutual agreement with PAO Cordillera Administrative
-					Region (CAR). The developers are not obligated to fulfill such requests but will engage in
-					good faith discussions with PAO CAR regarding feasibility and potential costs.
+					<strong>Scaling:</strong>
+					The developers' commitment to provide free maintenance services is limited to the current scope
+					and functionality of the system. Any future requests to scale the system's operations, add
+					new features, or modify existing functionalities will be subject to the developers' availability,
+					resources, and mutual agreement with PAO Cordillera Administrative Region (CAR). The developers
+					are not obligated to fulfill such requests but will engage in good faith discussions with PAO
+					CAR regarding feasibility and potential costs.
 				</p>
 			</Card.Content>
 		</Card.Root>
@@ -203,31 +195,31 @@
 			<Card.Content class="grid auto-rows-max items-start justify-center gap-3 px-24 pb-12">
 				<div class="grid gap-3 pb-4 sm:grid-cols-2 lg:grid-cols-5">
 					<div class="border-1 grid rounded-md border p-4">
-						<div class="mb-2 h-32 w-full border border-2 bg-[#F9FAFA]"></div>
+						<div class="mb-2 h-32 w-full border-2 bg-[#F9FAFA]"></div>
 						<span class="font-bold">Oath</span>
 						<span class="text-sm">#F9FAFA</span>
 						<span class="text-xs text-muted-foreground">RGB(249, 250, 250)</span>
 					</div>
 					<div class="border-1 grid rounded-md border p-4">
-						<div class="mb-2 h-32 w-full border border-2 bg-[#F4F4F5]"></div>
+						<div class="mb-2 h-32 w-full border-2 bg-[#F4F4F5]"></div>
 						<span class="font-bold">Innocence</span>
 						<span class="text-sm">#F4F4F5</span>
 						<span class="text-xs text-muted-foreground">RGB(244, 245, 245)</span>
 					</div>
 					<div class="border-1 grid rounded-md border p-4">
-						<div class="mb-2 h-32 w-full border border-2 bg-[#7B9D84]"></div>
+						<div class="mb-2 h-32 w-full border-2 bg-[#7B9D84]"></div>
 						<span class="font-bold">Trust</span>
 						<span class="text-sm">#7B9D84</span>
 						<span class="text-xs text-muted-foreground">RGB(123, 157, 132)</span>
 					</div>
 					<div class="border-1 grid rounded-md border p-4">
-						<div class="mb-2 h-32 w-full border border-2 bg-[#325B67]"></div>
+						<div class="mb-2 h-32 w-full border-2 bg-[#325B67]"></div>
 						<span class="font-bold">Equity</span>
 						<span class="text-sm">#325B67</span>
 						<span class="text-xs text-muted-foreground">RGB(50, 91, 103)</span>
 					</div>
 					<div class="border-1 grid rounded-md border p-4">
-						<div class="mb-2 h-32 w-full border border-2 bg-[#2C2E44]"></div>
+						<div class="mb-2 h-32 w-full border-2 bg-[#2C2E44]"></div>
 						<span class="font-bold">Diligence</span>
 						<span class="text-sm">#2C2E44</span>
 						<span class="text-xs text-muted-foreground">RGB(44, 46, 48)</span>
@@ -236,60 +228,60 @@
 				<div class="invisible grid grid-cols-11 gap-3 sm:visible">
 					<span class="col-span-2 text-xs">Background</span>
 					<div class="col-span-3 flex lg:gap-4">
-						<div class="h-6 w-6 border border-2 bg-background"></div>
-						<div class="h-6 w-6 border border-2 bg-background/90"></div>
-						<div class="h-6 w-6 border border-2 bg-background/80"></div>
-						<div class="h-6 w-6 border border-2 bg-background/70"></div>
-						<div class="h-6 w-6 border border-2 bg-background/60"></div>
-						<div class="h-6 w-6 border border-2 bg-background/50"></div>
+						<div class="h-6 w-6 border-2 bg-background"></div>
+						<div class="h-6 w-6 border-2 bg-background/90"></div>
+						<div class="h-6 w-6 border-2 bg-background/80"></div>
+						<div class="h-6 w-6 border-2 bg-background/70"></div>
+						<div class="h-6 w-6 border-2 bg-background/60"></div>
+						<div class="h-6 w-6 border-2 bg-background/50"></div>
 					</div>
 					<div></div>
 					<span class="col-span-2 text-xs">Foreground</span>
 					<div class="col-span-3 flex lg:gap-4">
-						<div class="h-6 w-6 border border-2 bg-foreground"></div>
-						<div class="h-6 w-6 border border-2 bg-foreground/90"></div>
-						<div class="h-6 w-6 border border-2 bg-foreground/80"></div>
-						<div class="h-6 w-6 border border-2 bg-foreground/70"></div>
-						<div class="h-6 w-6 border border-2 bg-foreground/60"></div>
-						<div class="h-6 w-6 border border-2 bg-foreground/50"></div>
+						<div class="h-6 w-6 border-2 bg-foreground"></div>
+						<div class="h-6 w-6 border-2 bg-foreground/90"></div>
+						<div class="h-6 w-6 border-2 bg-foreground/80"></div>
+						<div class="h-6 w-6 border-2 bg-foreground/70"></div>
+						<div class="h-6 w-6 border-2 bg-foreground/60"></div>
+						<div class="h-6 w-6 border-2 bg-foreground/50"></div>
 					</div>
 					<span class="col-span-2 text-xs">Primary</span>
 					<div class="col-span-3 flex lg:gap-4">
-						<div class="h-6 w-6 border border-2 bg-primary"></div>
-						<div class="h-6 w-6 border border-2 bg-primary/90"></div>
-						<div class="h-6 w-6 border border-2 bg-primary/80"></div>
-						<div class="h-6 w-6 border border-2 bg-primary/70"></div>
-						<div class="h-6 w-6 border border-2 bg-primary/60"></div>
-						<div class="h-6 w-6 border border-2 bg-primary/50"></div>
+						<div class="h-6 w-6 border-2 bg-primary"></div>
+						<div class="h-6 w-6 border-2 bg-primary/90"></div>
+						<div class="h-6 w-6 border-2 bg-primary/80"></div>
+						<div class="h-6 w-6 border-2 bg-primary/70"></div>
+						<div class="h-6 w-6 border-2 bg-primary/60"></div>
+						<div class="h-6 w-6 border-2 bg-primary/50"></div>
 					</div>
 					<div></div>
 					<span class="col-span-2 text-xs">Secondary</span>
 					<div class="col-span-3 flex lg:gap-4">
-						<div class="h-6 w-6 border border-2 bg-secondary"></div>
-						<div class="h-6 w-6 border border-2 bg-secondary/90"></div>
-						<div class="h-6 w-6 border border-2 bg-secondary/80"></div>
-						<div class="h-6 w-6 border border-2 bg-secondary/70"></div>
-						<div class="h-6 w-6 border border-2 bg-secondary/60"></div>
-						<div class="h-6 w-6 border border-2 bg-secondary/50"></div>
+						<div class="h-6 w-6 border-2 bg-secondary"></div>
+						<div class="h-6 w-6 border-2 bg-secondary/90"></div>
+						<div class="h-6 w-6 border-2 bg-secondary/80"></div>
+						<div class="h-6 w-6 border-2 bg-secondary/70"></div>
+						<div class="h-6 w-6 border-2 bg-secondary/60"></div>
+						<div class="h-6 w-6 border-2 bg-secondary/50"></div>
 					</div>
 					<span class="col-span-2 text-xs">Muted</span>
 					<div class="col-span-3 flex lg:gap-4">
-						<div class="h-6 w-6 border border-2 bg-muted"></div>
-						<div class="h-6 w-6 border border-2 bg-muted/90"></div>
-						<div class="h-6 w-6 border border-2 bg-muted/80"></div>
-						<div class="h-6 w-6 border border-2 bg-muted/70"></div>
-						<div class="h-6 w-6 border border-2 bg-muted/60"></div>
-						<div class="h-6 w-6 border border-2 bg-muted/50"></div>
+						<div class="h-6 w-6 border-2 bg-muted"></div>
+						<div class="h-6 w-6 border-2 bg-muted/90"></div>
+						<div class="h-6 w-6 border-2 bg-muted/80"></div>
+						<div class="h-6 w-6 border-2 bg-muted/70"></div>
+						<div class="h-6 w-6 border-2 bg-muted/60"></div>
+						<div class="h-6 w-6 border-2 bg-muted/50"></div>
 					</div>
 					<div></div>
 					<span class="col-span-2 text-xs">Destructive</span>
 					<div class="col-span-3 flex lg:gap-4">
-						<div class="h-6 w-6 border border-2 bg-destructive"></div>
-						<div class="h-6 w-6 border border-2 bg-destructive/90"></div>
-						<div class="h-6 w-6 border border-2 bg-destructive/80"></div>
-						<div class="h-6 w-6 border border-2 bg-destructive/70"></div>
-						<div class="h-6 w-6 border border-2 bg-destructive/60"></div>
-						<div class="h-6 w-6 border border-2 bg-destructive/50"></div>
+						<div class="h-6 w-6 border-2 bg-destructive"></div>
+						<div class="h-6 w-6 border-2 bg-destructive/90"></div>
+						<div class="h-6 w-6 border-2 bg-destructive/80"></div>
+						<div class="h-6 w-6 border-2 bg-destructive/70"></div>
+						<div class="h-6 w-6 border-2 bg-destructive/60"></div>
+						<div class="h-6 w-6 border-2 bg-destructive/50"></div>
 					</div>
 				</div>
 			</Card.Content>

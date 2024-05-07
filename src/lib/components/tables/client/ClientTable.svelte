@@ -40,7 +40,7 @@
 			</Button> -->
 			<Button size="sm" class="h-7 gap-1 text-sm" href="/clients/add">
 				<PlusCircled class="h-3.5 w-3.5" />
-				<span class="sr-only sm:not-sr-only sm:whitespace-nowrap"> Add Client </span>
+				<span class="sr-only sm:not-sr-only sm:whitespace-nowrap">Add Client</span>
 			</Button>
 		</div>
 	</div>
@@ -106,10 +106,10 @@
 		<Card.Root>
 			<Card.Header class="px-7">
 				<Card.Title>Archived Clients</Card.Title>
-				<Card.Description
-					>Clients archived from the system are shown here. For permanent deletion, please contact
-					administrator.</Card.Description
-				>
+				<Card.Description>
+					Clients archived from the system are shown here. For permanent deletion, please contact
+					administrator.
+				</Card.Description>
 			</Card.Header>
 			<Card.Content>
 				{#await $page.data.clients}

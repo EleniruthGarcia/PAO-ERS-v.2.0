@@ -99,8 +99,10 @@
 						<form action="/clients/{client._id}/delete" method="POST">
 							<AlertDialog.Action
 								type="submit"
-								class="w-full bg-destructive hover:bg-destructive/90">Delete</AlertDialog.Action
+								class="w-full bg-destructive hover:bg-destructive/90"
 							>
+								Delete
+							</AlertDialog.Action>
 						</form>
 					</AlertDialog.Footer>
 				</AlertDialog.Content>
@@ -112,35 +114,35 @@
 			<div class="font-semibold">Personal Information</div>
 			<ul class="grid gap-3">
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Age </span>
+					<span class="text-muted-foreground">Age</span>
 					<span>{client.age}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Sex </span>
+					<span class="text-muted-foreground">Sex</span>
 					<span>{client.sex}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Civil Status </span>
+					<span class="text-muted-foreground">Civil Status</span>
 					<span>{client.civilStatus}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Citizenship </span>
+					<span class="text-muted-foreground">Citizenship</span>
 					<span>{client.citizenship}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Language </span>
+					<span class="text-muted-foreground">Language</span>
 					<span>{client.language}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Religion </span>
+					<span class="text-muted-foreground">Religion</span>
 					<span>{client.religion !== '' ? client.religion : 'N/A'}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Educational Attainment </span>
+					<span class="text-muted-foreground">Educational Attainment</span>
 					<span>{client.educationalAttainment}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Individual Monthly Income </span>
+					<span class="text-muted-foreground">Individual Monthly Income</span>
 					<span>{client.individualMonthlyIncome}</span>
 				</li>
 			</ul>
@@ -150,15 +152,15 @@
 			<div class="font-semibold">Contact Information</div>
 			<ul class="grid gap-3">
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Address </span>
+					<span class="text-muted-foreground">Address</span>
 					<span>{client.address}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Email </span>
+					<span class="text-muted-foreground">Email</span>
 					<span>{client.email}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Contact Number </span>
+					<span class="text-muted-foreground">Contact Number</span>
 					<span>{client.contactNumber}</span>
 				</li>
 			</ul>
@@ -169,19 +171,19 @@
 				<div class="font-semibold">Spouse Information</div>
 				<ul class="grid gap-3">
 					<li class="flex items-center justify-between gap-2 truncate">
-						<span class="text-muted-foreground"> Name </span>
+						<span class="text-muted-foreground">Name</span>
 						<span>{client.spouseName}</span>
 					</li>
 					<li class="flex items-center justify-between gap-2 truncate">
-						<span class="text-muted-foreground"> Address </span>
+						<span class="text-muted-foreground">Address</span>
 						<span>{client.spouseAddress}</span>
 					</li>
 					<li class="flex items-center justify-between gap-2 truncate">
-						<span class="text-muted-foreground"> Email </span>
+						<span class="text-muted-foreground">Email</span>
 						<span>{client.spouseEmail}</span>
 					</li>
 					<li class="flex items-center justify-between gap-2 truncate">
-						<span class="text-muted-foreground"> Contact Number </span>
+						<span class="text-muted-foreground">Contact Number</span>
 						<span>{client.spouseContactNumber}</span>
 					</li>
 				</ul>
@@ -193,11 +195,11 @@
 				<div class="font-semibold">Detainee Information</div>
 				<ul class="grid gap-3">
 					<li class="flex items-center justify-between gap-2 truncate">
-						<span class="text-muted-foreground"> Place of Detention </span>
+						<span class="text-muted-foreground">Place of Detention</span>
 						<span>{client.detainedAt}</span>
 					</li>
 					<li class="flex items-center justify-between gap-2 truncate">
-						<span class="text-muted-foreground"> Detained Since </span>
+						<span class="text-muted-foreground">Detained Since</span>
 						<span>{client.detainedSince}</span>
 					</li>
 				</ul>

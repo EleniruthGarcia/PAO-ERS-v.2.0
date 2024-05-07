@@ -95,7 +95,7 @@ export const natureOfInstrument = [
 	'Undertaking (BWD - Not to Install Booster Pump)',
 	'Undertaking (BWD-Owner/ Not the Owner of the Lot)',
 	'Undertaking (CASHBOND)',
-	'Undertaking (TESDA)',
+	'Undertaking (TESDA)'
 ] as const;
 
 export const formSchema = z.object({
@@ -118,7 +118,7 @@ export const formSchema = z.object({
 	),
 	natureOfInstrument: z.array(z.enum(natureOfInstrument)),
 	witness: z.string().optional(),
-	duringOffice: z.boolean().default(false),
+	duringOffice: z.boolean().default(false)
 });
 
 export type FormSchema = typeof formSchema;

@@ -1,9 +1,6 @@
 import db from '$lib/server/database';
-import { generateInterviewSheet } from '$lib/server/interview_sheet';
-
-import { fail } from '@sveltejs/kit';
 import { redirect } from 'sveltekit-flash-message/server';
-import type { PageServerLoad, Actions } from './$types';
+import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {
@@ -81,21 +78,23 @@ export const load: PageServerLoad = async (event) => {
 						$dateDiff: { startDate: '$interviewee.dateOfBirth', endDate: '$$NOW', unit: 'year' }
 					}
 				}
-			},
+			}
 		])
 		.next();
 	if (!request) redirect('/requests', { type: 'warning', message: 'Request not found!' }, event);
 
-	const client = await db.clients.aggregate([
-		{
-			$match: { _id: { $in: request.client_id } }
-		},
-		{
-			$addFields: {
-				age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+	const client = await db.clients
+		.aggregate([
+			{
+				$match: { _id: { $in: request.client_id } }
+			},
+			{
+				$addFields: {
+					age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
+				}
 			}
-		}
-	]).toArray();
+		])
+		.toArray();
 
 	if (!client || client.length === 0)
 		redirect('/requests', { type: 'warning', message: 'Client not found!' }, event);

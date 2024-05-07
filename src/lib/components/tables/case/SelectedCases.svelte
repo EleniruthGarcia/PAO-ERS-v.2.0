@@ -109,8 +109,10 @@
 						<form action="/cases/{_case._id}/delete" method="POST">
 							<AlertDialog.Action
 								type="submit"
-								class="w-full bg-destructive hover:bg-destructive/90">Delete</AlertDialog.Action
+								class="w-full bg-destructive hover:bg-destructive/90"
 							>
+								Delete
+							</AlertDialog.Action>
 						</form>
 					</AlertDialog.Footer>
 				</AlertDialog.Content>
@@ -122,15 +124,15 @@
 			<div class="font-semibold">Case Information</div>
 			<ul class="grid gap-3">
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Nature </span>
+					<span class="text-muted-foreground">Nature</span>
 					<span>{_case.natureOfTheCase}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Specification </span>
+					<span class="text-muted-foreground">Specification</span>
 					<span>{_case.caseSpecs}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Client Involvement </span>
+					<span class="text-muted-foreground">Client Involvement</span>
 					<span>{_case.clientInvolvement}</span>
 				</li>
 			</ul>
@@ -140,15 +142,15 @@
 			<div class="font-semibold">Adverse Party's Information</div>
 			<ul class="grid gap-3">
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Name </span>
+					<span class="text-muted-foreground">Name</span>
 					<span>{_case.adversePartyName}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Involvement </span>
+					<span class="text-muted-foreground">Involvement</span>
 					<span>{_case.adversePartyInvolvement}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground"> Address </span>
+					<span class="text-muted-foreground">Address</span>
 					<span>{_case.adversePartyAddress}</span>
 				</li>
 			</ul>
@@ -159,15 +161,15 @@
 				<div class="font-semibold">Court Information</div>
 				<ul class="grid gap-3">
 					<li class="flex items-center justify-between gap-2 truncate">
-						<span class="text-muted-foreground"> Case Title </span>
+						<span class="text-muted-foreground">Case Title</span>
 						<span>{_case.titleOfTheCase}</span>
 					</li>
 					<li class="flex items-center justify-between gap-2 truncate">
-						<span class="text-muted-foreground"> Docket No. </span>
+						<span class="text-muted-foreground">Docket No.</span>
 						<span>{_case.docketNumber}</span>
 					</li>
 					<li class="flex items-center justify-between gap-2 truncate">
-						<span class="text-muted-foreground"> Court </span>
+						<span class="text-muted-foreground">Court</span>
 						<span>{_case.court}</span>
 					</li>
 				</ul>

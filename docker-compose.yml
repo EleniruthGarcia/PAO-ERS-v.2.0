@@ -8,7 +8,7 @@ services:
     depends_on:
       - database
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - 'com.centurylinklabs.watchtower.enable=true'
     environment:
       ORIGIN: ${APP_ORIGIN}
       DATABASE_URL: ${DATABASE_URL}
@@ -29,7 +29,7 @@ services:
     restart: unless-stopped
     environment:
       WATCHTOWER_LABEL_ENABLE: 1
-      WATCHTOWER_SCHEDULE: "* * * * *"
+      WATCHTOWER_SCHEDULE: '* * * * *'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 

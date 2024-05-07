@@ -30,14 +30,19 @@
 			<Form.Field {form} name="username" class="grid gap-2">
 				<Form.Control let:attrs>
 					<Form.Label>Username</Form.Label>
-					<Input {...attrs} bind:value={$formData.username} />
+					<Input {...attrs} bind:value={$formData.username} autocomplete="username" />
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
 			<Form.Field {form} name="password" class="gap=2 grid">
 				<Form.Control let:attrs>
 					<Form.Label>Password</Form.Label>
-					<Input type="password" {...attrs} bind:value={$formData.password} />
+					<Input
+						type="password"
+						{...attrs}
+						bind:value={$formData.password}
+						autocomplete="current-password"
+					/>
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>

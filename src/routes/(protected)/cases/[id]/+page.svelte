@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
-	import { Copy, PlusCircled, DotsVertical } from 'svelte-radix';
+	import { Copy, DotsVertical } from 'svelte-radix';
 
 	import { toast } from 'svelte-sonner';
 
@@ -60,22 +60,24 @@
 						size="sm"
 						variant="outline"
 						class="h-7 gap-1 text-sm"
-						href="/cases/{data._case._id}/edit">Edit</Button
+						href="/cases/{data._case._id}/edit"
 					>
+						Edit
+					</Button>
 					<!-- <Button size="sm" class="h-7 gap-1 text-sm" href="/cases/{data._case._id}/export"
 						>Export</Button
 					> -->
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
-							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-								>{data._case.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
-							>
+							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm">
+								{data._case.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+							</Button>
 						</AlertDialog.Trigger>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
-								<AlertDialog.Title
-									>{data._case.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Case</AlertDialog.Title
-								>
+								<AlertDialog.Title>
+									{data._case.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Case
+								</AlertDialog.Title>
 								<AlertDialog.Description>
 									Are you absolutely sure? The case will be
 									{data._case.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
@@ -131,8 +133,10 @@
 								<form action="/cases/{data._case._id}/delete" method="POST">
 									<AlertDialog.Action
 										type="submit"
-										class="w-full bg-destructive hover:bg-destructive/90">Delete</AlertDialog.Action
+										class="w-full bg-destructive hover:bg-destructive/90"
 									>
+										Delete
+									</AlertDialog.Action>
 								</form>
 							</AlertDialog.Footer>
 						</AlertDialog.Content>
@@ -144,15 +148,15 @@
 					<div class="font-semibold">Case Information</div>
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Nature </span>
+							<span class="text-muted-foreground">Nature</span>
 							<span>{data._case.natureOfTheCase}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Specification </span>
+							<span class="text-muted-foreground">Specification</span>
 							<span>{data._case.caseSpecs}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Client Involvement </span>
+							<span class="text-muted-foreground">Client Involvement</span>
 							<span>{data._case.clientInvolvement}</span>
 						</li>
 					</ul>
@@ -162,15 +166,15 @@
 					<div class="font-semibold">Adverse Party's Information</div>
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Name </span>
+							<span class="text-muted-foreground">Name</span>
 							<span>{data._case.adversePartyName}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Involvement </span>
+							<span class="text-muted-foreground">Involvement</span>
 							<span>{data._case.adversePartyInvolvement}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Address </span>
+							<span class="text-muted-foreground">Address</span>
 							<span>{data._case.adversePartyAddress}</span>
 						</li>
 					</ul>
@@ -181,15 +185,15 @@
 						<div class="font-semibold">Court Information</div>
 						<ul class="grid gap-3">
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Case Title </span>
+								<span class="text-muted-foreground">Case Title</span>
 								<span>{data._case.titleOfTheCase}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Docket No. </span>
+								<span class="text-muted-foreground">Docket No.</span>
 								<span>{data._case.docketNumber}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Court </span>
+								<span class="text-muted-foreground">Court</span>
 								<span>{data._case.court}</span>
 							</li>
 						</ul>
@@ -198,18 +202,18 @@
 			</Card.Content>
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
-					Updated <time
-						>{data._case.status[data._case.status.length - 1].date.toLocaleString()}</time
-					>
+					Updated <time>
+						{data._case.status[data._case.status.length - 1].date.toLocaleString()}
+					</time>
 				</div>
 			</Card.Footer>
 		</Card.Root>
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
 				<div class="grid gap-0.5">
-					<Card.Title class="text-md group flex items-center gap-2"
-						>Additional Information</Card.Title
-					>
+					<Card.Title class="text-md group flex items-center gap-2">
+						Additional Information
+					</Card.Title>
 					<Card.Description>Details about the case are shown here.</Card.Description>
 				</div>
 			</Card.Header>
@@ -239,11 +243,11 @@
 					<div class="grid gap-3">
 						<ul class="grid gap-3">
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Type </span>
+								<span class="text-muted-foreground">Type</span>
 								<span>{status.type}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Date </span>
+								<span class="text-muted-foreground">Date</span>
 								<span>{status.date}</span>
 							</li>
 						</ul>

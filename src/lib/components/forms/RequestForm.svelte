@@ -7,16 +7,9 @@
 		typeOfRelease,
 		formSchema,
 		type FormSchema,
-		relationshipToClient,
-		natureOfInstrument
+		relationshipToClient
 	} from '$lib/schema/request';
-	import {
-		type SuperValidated,
-		type Infer,
-		superForm,
-		dateProxy,
-		intProxy
-	} from 'sveltekit-superforms';
+	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 
 	import { ChevronLeft, PlusCircled, Trash } from 'svelte-radix';
 
@@ -124,7 +117,7 @@
 				<span class="sr-only">Back</span>
 			</Button>
 			<h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-				Submit
+				{$formData.currentStatus === 'New' ? 'Add Request' : 'Update Request'}
 			</h1>
 			<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
@@ -137,11 +130,14 @@
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Request Information</Card.Title>
-						<Card.Description
-							>Please fill out all necessary information. Required fields are marked with <span
-								class="font-bold text-destructive">*</span
-							>.</Card.Description
-						>
+						<Card.Description>
+							Please fill out all necessary information. Required fields are marked with <span
+								class="font-bold text-destructive"
+							>
+								*
+							</span>
+							.
+						</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
 						<!-- <div class="grid grid-cols-3 items-start gap-3">
@@ -187,7 +183,9 @@
 							</Form.Field>
 						</div> -->
 						<Form.Fieldset {form} name="client_id" class="grid gap-3">
-							<Form.Legend>Client <span class="font-bold text-destructive">*</span></Form.Legend>
+							<Form.Legend>
+								Client <span class="font-bold text-destructive">*</span>
+							</Form.Legend>
 							{#each $formData.client_id as _, i}
 								<Form.ElementField {form} name="client_id[{i}]">
 									<Form.Control let:attrs>
@@ -233,9 +231,9 @@
 						<div class="grid items-start gap-3 sm:grid-cols-8">
 							<Form.Field {form} name="interviewee_id" class="grid gap-3 sm:col-span-5">
 								<Form.Control let:attrs>
-									<Form.Label
-										>Interviewee <span class="font-bold text-destructive">*</span></Form.Label
-									>
+									<Form.Label>
+										Interviewee <span class="font-bold text-destructive">*</span>
+									</Form.Label>
 									<Select.Root
 										selected={selectedInterviewee}
 										onSelectedChange={(s) => {
@@ -257,10 +255,9 @@
 							</Form.Field>
 							<Form.Field {form} name="relationshipToClient" class="grid gap-3 sm:col-span-3">
 								<Form.Control let:attrs>
-									<Form.Label
-										>Relation to Client <span class="font-bold text-destructive">*</span
-										></Form.Label
-									>
+									<Form.Label>
+										Relation to Client <span class="font-bold text-destructive">*</span>
+									</Form.Label>
 									<Select.Root
 										selected={selectedRelationshipToClient}
 										onSelectedChange={(s) => {
@@ -284,7 +281,9 @@
 						<Separator />
 						<Form.Field {form} name="lawyer_id" class="grid gap-3">
 							<Form.Control let:attrs>
-								<Form.Label>Lawyer <span class="font-bold text-destructive">*</span></Form.Label>
+								<Form.Label>
+									Lawyer <span class="font-bold text-destructive">*</span>
+								</Form.Label>
 								<Select.Root
 									selected={selectedLawyer}
 									onSelectedChange={(s) => {
@@ -310,9 +309,9 @@
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Administration of Oath</Card.Title>
-							<Card.Description
-								>Please provide additional information regarding the administration of oath.</Card.Description
-							>
+							<Card.Description>
+								Please provide additional information regarding the administration of oath.
+							</Card.Description>
 						</Card.Header>
 						<Card.Content class="grid auto-rows-max items-start gap-3">
 							<Form.Fieldset {form} name="natureOfInstrument" class="grid gap-3">
@@ -437,9 +436,9 @@
 											<Checkbox {...attrs} bind:checked={$formData.duringOffice} />
 											<div class="h-10 space-y-2 truncate leading-none">
 												<Form.Label>Off-Hours Inquest</Form.Label>
-												<Form.Description
-													>Check if inquest was done outisde office hours.</Form.Description
-												>
+												<Form.Description>
+													Check if inquest was done outisde office hours.
+												</Form.Description>
 											</div>
 											<input name={attrs.name} bind:value={$formData.duringOffice} hidden />
 										</Form.Control>
@@ -455,22 +454,22 @@
 				<Card.Root>
 					<Form.Fieldset {form} name="nature" class="space-y-0">
 						<Card.Header>
-							<Card.Title
-								><Form.Legend
-									>Nature of Request <span class="font-bold text-destructive">*</span></Form.Legend
-								></Card.Title
-							>
-							<Card.Description
-								><Form.Description>Please select all the apply.</Form.Description></Card.Description
-							>
+							<Card.Title>
+								<Form.Legend>
+									Nature of Request <span class="font-bold text-destructive">*</span>
+								</Form.Legend>
+							</Card.Title>
+							<Card.Description>
+								<Form.Description>Please select all the apply.</Form.Description>
+							</Card.Description>
 						</Card.Header>
 						<Card.Content>
 							<div class="space-y-2">
 								{#each nature as item}
 									{@const checked = $formData.nature?.includes(item) ?? false}
 									<div class="flex flex-row items-start space-x-3">
-										<Form.Control let:attrs
-											><Checkbox
+										<Form.Control let:attrs>
+											<Checkbox
 												{...attrs}
 												{checked}
 												onCheckedChange={(v) => {
@@ -483,13 +482,8 @@
 											/>
 											<Form.Label class="text-sm font-normal">
 												{item}
-											</Form.Label><input
-												hidden
-												type="checkbox"
-												name={attrs.name}
-												value={item}
-												{checked}
-											/>
+											</Form.Label>
+											<input hidden type="checkbox" name={attrs.name} value={item} {checked} />
 										</Form.Control>
 									</div>
 								{/each}

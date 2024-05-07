@@ -83,7 +83,7 @@ export const hernanStatus = [
 	'Clients are already released by virtue of Petition filed',
 	'Petition is already filed',
 	'PAO is awaiting records from the court',
-	'Petition by PAO is not applicable (e.g. PDL was already released, deceased, has a private lawyer\, application is not favorable, etc.)',
+	'Petition by PAO is not applicable (e.g. PDL was already released, deceased, has a private lawyer, application is not favorable, etc.)',
 	'No. of cases which are already for filing of petition',
 	'Motion/ other remedies are filed/ undertaken'
 ] as const;
@@ -104,13 +104,10 @@ export const genderCaseSubject = [
 	'VAWC',
 	'Rape',
 	'Acts of Lasciviousness',
-	'Sexual Harassment',
+	'Sexual Harassment'
 ] as const;
 
-export const causeOfTermination = [
-	'MOA',
-	'AUQNA'
-] as const;
+export const causeOfTermination = ['MOA', 'AUQNA'] as const;
 
 export const formSchema = z.object({
 	_id: z.string().optional(),
@@ -151,7 +148,7 @@ export const formSchema = z.object({
 		.transform((e) => (e === '' ? undefined : e))
 		.optional(),
 	judge: z.string().optional(),
-	causeOfTermination: z.enum(causeOfTermination).optional(),
+	causeOfTermination: z.enum(causeOfTermination).optional()
 });
 
 export type FormSchema = typeof formSchema;

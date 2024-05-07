@@ -23,8 +23,8 @@
 	</a>
 
 	{#if notificationCount > 0}
-		<Badge class="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
-			>{notificationCount}</Badge
-		>
+		<Badge class="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+			{notificationCount}
+		</Badge>
 	{/if}
 </main>

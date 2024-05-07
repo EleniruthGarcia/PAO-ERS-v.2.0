@@ -1,11 +1,10 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
-	import { Copy, PlusCircled, DotsVertical } from 'svelte-radix';
+	import { Copy, DotsVertical } from 'svelte-radix';
 
 	import { toast } from 'svelte-sonner';
 
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
-	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
@@ -40,35 +39,37 @@
 							<span class="sr-only">Copy Case ID</span>
 						</Button>
 					</Card.Title>
-					<Card.Description
-						>{data.client.length > 1
+					<Card.Description>
+						{data.client.length > 1
 							? data.client.length > 2
 								? `${data.client[0].lastName} et. al.`
 								: `${data.client[0].lastName} and ${data.client[1].lastName}`
-							: data.client[0].name}</Card.Description
-					>
+							: data.client[0].name}
+					</Card.Description>
 				</div>
 				<div class="invisible ml-auto flex items-center gap-1 sm:visible">
 					<Button
 						size="sm"
 						variant="outline"
 						class="h-7 gap-1 text-sm"
-						href="/requests/{data.request._id}/edit">Edit</Button
+						href="/requests/{data.request._id}/edit"
 					>
+						Edit
+					</Button>
 					<!-- <Button size="sm" class="h-7 gap-1 text-sm" href="/requests/{data.request._id}/export"
 						>Export</Button
 					> -->
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
-							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm"
-								>{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}</Button
-							>
+							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm">
+								{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+							</Button>
 						</AlertDialog.Trigger>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
-								<AlertDialog.Title
-									>{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Request</AlertDialog.Title
-								>
+								<AlertDialog.Title>
+									{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Request
+								</AlertDialog.Title>
 								<AlertDialog.Description>
 									Are you absolutely sure? The request will be
 									{data.request.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
@@ -110,19 +111,17 @@
 							> -->
 								<DropdownMenu.Separator />
 								<AlertDialog.Trigger class="w-full text-left">
-									<DropdownMenu.Item
-										>{data.request.status?.at(-1)?.type === 'Archived'
-											? 'Restore'
-											: 'Delete'}</DropdownMenu.Item
-									>
+									<DropdownMenu.Item>
+										{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+									</DropdownMenu.Item>
 								</AlertDialog.Trigger>
 							</DropdownMenu.Content>
 						</DropdownMenu.Root>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
-								<AlertDialog.Title
-									>{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Request</AlertDialog.Title
-								>
+								<AlertDialog.Title>
+									{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Request
+								</AlertDialog.Title>
 								<AlertDialog.Description>
 									Are you absolutely sure? The request will be
 									{data.request.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
@@ -154,11 +153,11 @@
 					<div class="font-semibold">Interviewee Information</div>
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Interviewee </span>
+							<span class="text-muted-foreground">Interviewee</span>
 							<span>{data.request.interviewee.name}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Relationship to Client </span>
+							<span class="text-muted-foreground">Relationship to Client</span>
 							<span>{data.request.relationshipToClient}</span>
 						</li>
 					</ul>
@@ -168,7 +167,7 @@
 					<div class="font-semibold">Lawyer Information</div>
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Lawyer </span>
+							<span class="text-muted-foreground">Lawyer</span>
 							<span>{data.request.lawyer.name}</span>
 						</li>
 					</ul>
@@ -176,9 +175,9 @@
 			</Card.Content>
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
-					Updated <time
-						>{data.request.status[data.request.status.length - 1].date.toLocaleString()}</time
-					>
+					Updated <time>
+						{data.request.status[data.request.status.length - 1].date.toLocaleString()}
+					</time>
 				</div>
 			</Card.Footer>
 		</Card.Root>
@@ -196,19 +195,19 @@
 					<div class="grid gap-3">
 						<ul class="grid gap-3">
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Name </span>
+								<span class="text-muted-foreground">Name</span>
 								<span>{client.name}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Age </span>
+								<span class="text-muted-foreground">Age</span>
 								<span>{client.age}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Sex </span>
+								<span class="text-muted-foreground">Sex</span>
 								<span>{client.sex}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground"> Civil Status </span>
+								<span class="text-muted-foreground">Civil Status</span>
 								<span>{client.civilStatus}</span>
 							</li>
 						</ul>

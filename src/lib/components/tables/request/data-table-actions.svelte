@@ -37,9 +37,9 @@
 		<AlertDialog.Footer>
 			<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 			<form action="/cases/{id}/{status === 'Archived' ? 'restore' : 'delete'}" method="POST">
-				<AlertDialog.Action type="submit" class="w-full bg-destructive hover:bg-destructive/90"
-					>{status === 'Archived' ? 'Restore' : 'Delete'}</AlertDialog.Action
-				>
+				<AlertDialog.Action type="submit" class="w-full bg-destructive hover:bg-destructive/90">
+					{status === 'Archived' ? 'Restore' : 'Delete'}
+				</AlertDialog.Action>
 			</form>
 		</AlertDialog.Footer>
 	</AlertDialog.Content>
