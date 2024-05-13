@@ -295,7 +295,7 @@ export const actions = {
 			])
 			.toArray();
 
-		const f11 = requests.filter((d) => d.requests?.nature?.contains('Jail Visitation'));
+		const f11 = requests.filter((d) => d.requests?.nature?.includes('Jail Visitation'));
 		const f12 = '';
 		const f13 = requests.filter((d) =>
 			d.client?.classification?.includes('Child in Conflict with the Law')
@@ -304,11 +304,12 @@ export const actions = {
 		const f15 = requests.filter((d) =>
 			d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation')
 		);
-		const f16 = requests.filter((d) => d.client?.foreignNational?.contains('Taiwanese'));
+		const f16 = '';
+		// requests.filter((d) => d.client?.foreignNational?.contains('Taiwanese'));
 		const f18 = requests.filter(
 			(d) =>
 				d.client?.classification?.includes('OFW') &&
-				d.requests?.nature?.contains('Inquest Legal Assistance')
+				d.requests?.nature?.includes('Inquest Legal Assistance')
 		);
 		const f19 = {
 			criminal: requests.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')),
@@ -319,7 +320,7 @@ export const actions = {
 			),
 			labor: requests.filter((d) => d.case?.natureOfTheCase?.includes('Labor'))
 		};
-		const f20 = requests.filter((d) => d.client?.PWD?.contains(true));
+		const f20 = requests.filter((d) => d.client?.PWD?.includes(true));
 		const f21 = requests.filter((d) => d.request?.nature?.includes('Administration of Oath'));
 		const f22 = requests.filter((d) => d.request?.nature?.includes('Others (PSA)'));
 		const f23 = requests.filter((d) =>
@@ -334,297 +335,297 @@ export const actions = {
 
 		const f28 = {
 			// (1) prev active cases from previous month
-			// d.case?.natureOfTheCase?.contains('Criminal') &&
+			// d.case?.natureOfTheCase?.includes('Criminal') &&
 
 			// (2) new cases for this month
-			// d.case?.natureOfTheCase?.contains('Criminal') &&
+			// d.case?.natureOfTheCase?.includes('Criminal') &&
 			// a_crnc:  requests.filter(
 			// 	(d) =>
-			// 		d.case?.natureOfTheCase?.contains('Criminal') &&
+			// 		d.case?.natureOfTheCase?.includes('Criminal') &&
 			// 		s.date?.getMonth() > form.data.month)?.length > 0,
 			// (3) find the number of clients enclosed in these cases vvv, down here a_crcc
 			a_crcc: requests
 				.filter(
 					(d) =>
 						d.client?.classification?.includes('Child in Conflict with the Law') &&
-						d.case?.natureOfTheCase?.contains('Criminal')
+						d.case?.natureOfTheCase?.includes('Criminal')
 				)
 				.map((d) => d.client?.filter(Boolean))?.length,
 			a_cvcc: requests
 				.filter(
 					(d) =>
 						d.client?.classification?.includes('Child in Conflict with the Law') &&
-						d.case?.natureOfTheCase?.contains('Civil')
+						d.case?.natureOfTheCase?.includes('Civil')
 				)
 				.map((d) => d.client?.filter(Boolean))?.length,
 			a_ad1cc: requests
 				.filter(
 					(d) =>
 						d.client?.classification?.includes('Child in Conflict with the Law') &&
-						d.case?.natureOfTheCase?.contains('Administrative')
+						d.case?.natureOfTheCase?.includes('Administrative')
 				)
 				.map((d) => d.client?.filter(Boolean))?.length,
 			a_ad2cc: requests
 				.filter(
 					(d) =>
 						d.client?.classification?.includes('Child in Conflict with the Law') &&
-						d.case?.natureOfTheCase?.contains("Prosecutor's office cases")
+						d.case?.natureOfTheCase?.includes("Prosecutor's office cases")
 				)
 				.map((d) => d.client?.filter(Boolean))?.length,
 			a_ad3cc: requests
 				.filter(
 					(d) =>
 						d.client?.classification?.includes('Child in Conflict with the Law') &&
-						d.case?.natureOfTheCase?.contains('Labor')
+						d.case?.natureOfTheCase?.includes('Labor')
 				)
 				.map((d) => d.client?.filter(Boolean))?.length,
 			a_crp5a: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('On trial') &&
-					d.case?.natureOfTheCase?.contains('Criminal')
+					d.case?.pending?.includes('On trial') &&
+					d.case?.natureOfTheCase?.includes('Criminal')
 			),
 			a_cvp5a: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('On trial') &&
-					d.case?.natureOfTheCase?.contains('Civil')
+					d.case?.pending?.includes('On trial') &&
+					d.case?.natureOfTheCase?.includes('Civil')
 			),
 			a_ad1p5a: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('On trial') &&
-					d.case?.natureOfTheCase?.contains('Administrative')
+					d.case?.pending?.includes('On trial') &&
+					d.case?.natureOfTheCase?.includes('Administrative')
 			),
 			a_ad2p5a: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('On trial') &&
-					d.case?.natureOfTheCase?.contains("Prosecutor's office cases")
+					d.case?.pending?.includes('On trial') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases")
 			),
 			a_ad3p5a: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('On trial') &&
-					d.case?.natureOfTheCase?.contains('Labor')
+					d.case?.pending?.includes('On trial') &&
+					d.case?.natureOfTheCase?.includes('Labor')
 			),
 			a_crp5b: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('Submitted for decision/resolution') &&
-					d.case?.natureOfTheCase?.contains('Criminal')
+					d.case?.pending?.includes('Submitted for decision/resolution') &&
+					d.case?.natureOfTheCase?.includes('Criminal')
 			),
 			a_cvp5b: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('Submitted for decision/resolution') &&
-					d.case?.natureOfTheCase?.contains('Civil')
+					d.case?.pending?.includes('Submitted for decision/resolution') &&
+					d.case?.natureOfTheCase?.includes('Civil')
 			),
 			a_ad1p5b: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('Submitted for decision/resolution') &&
-					d.case?.natureOfTheCase?.contains('Administrative')
+					d.case?.pending?.includes('Submitted for decision/resolution') &&
+					d.case?.natureOfTheCase?.includes('Administrative')
 			),
 			a_ad2p5b: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('Submitted for decision/resolution') &&
-					d.case?.natureOfTheCase?.contains("Prosecutor's office cases")
+					d.case?.pending?.includes('Submitted for decision/resolution') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases")
 			),
 			a_ad3p5b: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('Submitted for decision/resolution') &&
-					d.case?.natureOfTheCase?.contains('Labor')
+					d.case?.pending?.includes('Submitted for decision/resolution') &&
+					d.case?.natureOfTheCase?.includes('Labor')
 			),
 			a_crp5c: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('Appealed case from MTC to RTC') &&
-					d.case?.natureOfTheCase?.contains('Criminal')
+					d.case?.pending?.includes('Appealed case from MTC to RTC') &&
+					d.case?.natureOfTheCase?.includes('Criminal')
 			),
 			a_cvp5c: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('Appealed case from MTC to RTC') &&
-					d.case?.natureOfTheCase?.contains('Civil')
+					d.case?.pending?.includes('Appealed case from MTC to RTC') &&
+					d.case?.natureOfTheCase?.includes('Civil')
 			),
 			a_ad1p5c: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('Appealed case from MTC to RTC') &&
-					d.case?.natureOfTheCase?.contains('Administrative')
+					d.case?.pending?.includes('Appealed case from MTC to RTC') &&
+					d.case?.natureOfTheCase?.includes('Administrative')
 			),
 			a_ad2p5c: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('Appealed case from MTC to RTC') &&
-					d.case?.natureOfTheCase?.contains("Prosecutor's office cases")
+					d.case?.pending?.includes('Appealed case from MTC to RTC') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases")
 			),
 			a_ad3p5c: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('Appealed case from MTC to RTC') &&
-					d.case?.natureOfTheCase?.contains('Labor')
+					d.case?.pending?.includes('Appealed case from MTC to RTC') &&
+					d.case?.natureOfTheCase?.includes('Labor')
 			),
 			a_crp5d: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('Cases referred to SACS') &&
-					d.case?.natureOfTheCase?.contains('Criminal')
+					d.case?.pending?.includes('Cases referred to SACS') &&
+					d.case?.natureOfTheCase?.includes('Criminal')
 			),
 			a_cvp5d: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('Cases referred to SACS') &&
-					d.case?.natureOfTheCase?.contains('Civil')
+					d.case?.pending?.includes('Cases referred to SACS') &&
+					d.case?.natureOfTheCase?.includes('Civil')
 			),
 			a_ad1p5d: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('Cases referred to SACS') &&
-					d.case?.natureOfTheCase?.contains('Administrative')
+					d.case?.pending?.includes('Cases referred to SACS') &&
+					d.case?.natureOfTheCase?.includes('Administrative')
 			),
 			a_ad2p5d: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('Cases referred to SACS') &&
-					d.case?.natureOfTheCase?.contains("Prosecutor's office cases")
+					d.case?.pending?.includes('Cases referred to SACS') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases")
 			),
 			a_ad3p5d: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.pending?.contains('Cases referred to SACS') &&
-					d.case?.natureOfTheCase?.contains('Labor')
+					d.case?.pending?.includes('Cases referred to SACS') &&
+					d.case?.natureOfTheCase?.includes('Labor')
 			),
 			a_cvft: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Favorable Dispositions to Clients') &&
-					d.case?.natureOfTheCase?.contains('Criminal')
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal')
 			),
 			a_crft: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Favorable Dispositions to Clients') &&
-					d.case?.natureOfTheCase?.contains('Civil')
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil')
 			),
 			a_ad1ft: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Favorable Dispositions to Clients') &&
-					d.case?.natureOfTheCase?.contains('Administrative')
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative')
 			),
 			a_ad2ft: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Favorable Dispositions to Clients') &&
-					d.case?.natureOfTheCase?.contains("Prosecutor's office cases")
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases")
 			),
 			a_ad3ft: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Favorable Dispositions to Clients') &&
-					d.case?.natureOfTheCase?.contains('Labor')
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor')
 			),
 			a_cvut: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Unfavorable Dispositions to Clients') &&
-					d.case?.natureOfTheCase?.contains('Criminal')
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal')
 			),
 			a_crut: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Unfavorable Dispositions to Clients') &&
-					d.case?.natureOfTheCase?.contains('Civil')
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil')
 			),
 			a_ad1ut: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Unfavorable Dispositions to Clients') &&
-					d.case?.natureOfTheCase?.contains('Administrative')
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative')
 			),
 			a_ad2ut: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Unfavorable Dispositions to Clients') &&
-					d.case?.natureOfTheCase?.contains("Prosecutor's office cases")
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases")
 			),
 			a_ad3ut: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Unfavorable Dispositions to Clients') &&
-					d.case?.natureOfTheCase?.contains('Labor')
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor')
 			),
 			a_cvot: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Other dispositions') &&
-					d.case?.natureOfTheCase?.contains('Criminal')
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes('Criminal')
 			),
 			a_crot: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Other dispositions') &&
-					d.case?.natureOfTheCase?.contains('Civil')
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes('Civil')
 			),
 			a_ad1ot: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Other dispositions') &&
-					d.case?.natureOfTheCase?.contains('Administrative')
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes('Administrative')
 			),
 			a_ad2ot: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Other dispositions') &&
-					d.case?.natureOfTheCase?.contains("Prosecutor's office cases")
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases")
 			),
 			a_ad3ot: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.case?.terminated?.contains('Other dispositions') &&
-					d.case?.natureOfTheCase?.contains('Labor')
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes('Labor')
 			),
 			a_doc: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.request?.otherNature?.contains('Document/Pleadings Prepared')
+					d.request?.otherNature?.includes('Document/Pleadings Prepared')
 			),
 			a_oath: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.request?.nature?.contains('Administration of Oath')
+					d.request?.nature?.includes('Administration of Oath')
 			),
 			a_coun: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.request?.nature?.contains('Legal Advice')
+					d.request?.nature?.includes('Legal Advice')
 			),
 			a_cust: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.request?.otherNature?.contains('Assisted During Custodial Interrogation')
+					d.request?.otherNature?.includes('Assisted During Custodial Interrogation')
 			),
 			a_inqu: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.request?.otherNature?.contains('Assisted During Inquest Investigation')
+					d.request?.otherNature?.includes('Assisted During Inquest Investigation')
 			)
 		};
 		const f29 = requests.filter((d) => d.request?.nature?.includes('Others (PSA)'));
 
 		const f31 = requests.filter((d) =>
-			d.case?.terminated?.contains('Favorable Dispositions to Clients')
+			d.case?.terminated?.includes('Favorable Dispositions to Clients')
 		);
 		const f32 = requests.filter(
 			(d) =>
-				d.client?.detainedSince?.contains('') &&
-				d.requests?.nature?.contains('Representation in Court or Quasi-Judicial Bodies')
+				// d.client?.detainedSince?.contains('') &&
+				d.requests?.nature?.includes('Representation in Court or Quasi-Judicial Bodies')
 		);
-		const f33 = requests.filter((d) => d.case?.favorable?.contains(''));
+		const f33 = requests.filter((d) => d.case?.favorable?.includes(''));
 		const f34 = {
 			criminal: requests.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')),
 			civil: requests.filter((d) => d.case?.natureOfTheCase?.includes('Civil')),
@@ -642,14 +643,14 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('On other grounds') &&
+					d.requests?.typeOfRelease?.includes('On other grounds') &&
 					d.client?.age < 18
 			),
 			mr1a2: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('On other grounds') &&
+					d.requests?.typeOfRelease?.includes('On other grounds') &&
 					d.client?.age >= 18 &&
 					d.client?.age <= 21
 			),
@@ -657,7 +658,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('On other grounds') &&
+					d.requests?.typeOfRelease?.includes('On other grounds') &&
 					d.client?.age >= 22 &&
 					d.client?.age <= 59
 			),
@@ -665,21 +666,21 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('On other grounds') &&
+					d.requests?.typeOfRelease?.includes('On other grounds') &&
 					d.client?.age >= 60
 			),
 			fr1a1: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('On other grounds') &&
+					d.requests?.typeOfRelease?.includes('On other grounds') &&
 					d.client?.age < 18
 			),
 			fr1a2: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('On other grounds') &&
+					d.requests?.typeOfRelease?.includes('On other grounds') &&
 					d.client?.age >= 18 &&
 					d.client?.age <= 21
 			),
@@ -687,7 +688,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('On other grounds') &&
+					d.requests?.typeOfRelease?.includes('On other grounds') &&
 					d.client?.age >= 22 &&
 					d.client?.age <= 59
 			),
@@ -695,14 +696,14 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('On other grounds') &&
+					d.requests?.typeOfRelease?.includes('On other grounds') &&
 					d.client?.age >= 60
 			),
 			mr2a1: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'On recognizance after service of minimum sentence'
 					) &&
 					d.client?.age < 18
@@ -711,7 +712,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'On recognizance after service of minimum sentence'
 					) &&
 					d.client?.age >= 18 &&
@@ -721,7 +722,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'On recognizance after service of minimum sentence'
 					) &&
 					d.client?.age >= 22 &&
@@ -731,7 +732,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'On recognizance after service of minimum sentence'
 					) &&
 					d.client?.age >= 60
@@ -740,7 +741,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'On recognizance after service of minimum sentence'
 					) &&
 					d.client?.age < 18
@@ -749,7 +750,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'On recognizance after service of minimum sentence'
 					) &&
 					d.client?.age >= 18 &&
@@ -759,7 +760,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'On recognizance after service of minimum sentence'
 					) &&
 					d.client?.age >= 22 &&
@@ -769,7 +770,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'On recognizance after service of minimum sentence'
 					) &&
 					d.client?.age >= 60
@@ -778,14 +779,14 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('Due to provisional dismissal of case') &&
+					d.requests?.typeOfRelease?.includes('Due to provisional dismissal of case') &&
 					d.client?.age < 18
 			),
 			mr3a2: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('Due to provisional dismissal of case') &&
+					d.requests?.typeOfRelease?.includes('Due to provisional dismissal of case') &&
 					d.client?.age >= 18 &&
 					d.client?.age <= 21
 			),
@@ -793,7 +794,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('Due to provisional dismissal of case') &&
+					d.requests?.typeOfRelease?.includes('Due to provisional dismissal of case') &&
 					d.client?.age >= 22 &&
 					d.client?.age <= 59
 			),
@@ -801,21 +802,21 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains('Due to provisional dismissal of case') &&
+					d.requests?.typeOfRelease?.includes('Due to provisional dismissal of case') &&
 					d.client?.age >= 60
 			),
 			fr3a1: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('Due to provisional dismissal of case') &&
+					d.requests?.typeOfRelease?.includes('Due to provisional dismissal of case') &&
 					d.client?.age < 18
 			),
 			fr3a2: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('Due to provisional dismissal of case') &&
+					d.requests?.typeOfRelease?.includes('Due to provisional dismissal of case') &&
 					d.client?.age >= 18 &&
 					d.client?.age <= 21
 			),
@@ -823,7 +824,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('Due to provisional dismissal of case') &&
+					d.requests?.typeOfRelease?.includes('Due to provisional dismissal of case') &&
 					d.client?.age >= 22 &&
 					d.client?.age <= 59
 			),
@@ -831,14 +832,14 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains('Due to provisional dismissal of case') &&
+					d.requests?.typeOfRelease?.includes('Due to provisional dismissal of case') &&
 					d.client?.age >= 60
 			),
 			mr4a1: requests.filter(
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'On account of preventive imprisonment equal to maximum imposable penalty'
 					) &&
 					d.client?.age < 18
@@ -847,7 +848,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'On account of preventive imprisonment equal to maximum imposable penalty'
 					) &&
 					d.client?.age >= 18 &&
@@ -857,7 +858,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'On account of preventive imprisonment equal to maximum imposable penalty'
 					) &&
 					d.client?.age >= 22 &&
@@ -867,7 +868,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'On account of preventive imprisonment equal to maximum imposable penalty'
 					) &&
 					d.client?.age >= 60
@@ -876,7 +877,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'On account of preventive imprisonment equal to maximum imposable penalty'
 					) &&
 					d.client?.age < 18
@@ -885,7 +886,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'On account of preventive imprisonment equal to maximum imposable penalty'
 					) &&
 					d.client?.age >= 18 &&
@@ -895,7 +896,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'On account of preventive imprisonment equal to maximum imposable penalty'
 					) &&
 					d.client?.age >= 22 &&
@@ -905,7 +906,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'On account of preventive imprisonment equal to maximum imposable penalty'
 					) &&
 					d.client?.age >= 60
@@ -914,7 +915,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'Due to complete service of sentence (Case is terminated)'
 					) &&
 					d.client?.age < 18
@@ -923,7 +924,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'Due to complete service of sentence (Case is terminated)'
 					) &&
 					d.client?.age >= 18 &&
@@ -933,7 +934,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'Due to complete service of sentence (Case is terminated)'
 					) &&
 					d.client?.age >= 22 &&
@@ -943,7 +944,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Male' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'Due to complete service of sentence (Case is terminated)'
 					) &&
 					d.client?.age >= 60
@@ -952,7 +953,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'Due to complete service of sentence (Case is terminated)'
 					) &&
 					d.client?.age < 18
@@ -961,7 +962,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'Due to complete service of sentence (Case is terminated)'
 					) &&
 					d.client?.age >= 18 &&
@@ -971,7 +972,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'Due to complete service of sentence (Case is terminated)'
 					) &&
 					d.client?.age >= 22 &&
@@ -981,7 +982,7 @@ export const actions = {
 				(d) =>
 					d.client?.detained &&
 					d.client?.sex === 'Female' &&
-					d.requests?.typeOfRelease?.contains(
+					d.requests?.typeOfRelease?.includes(
 						'Due to complete service of sentence (Case is terminated)'
 					) &&
 					d.client?.age >= 60
