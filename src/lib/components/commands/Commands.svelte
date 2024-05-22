@@ -44,49 +44,51 @@
 	{#if pages.at(-1) === 'Home'}
 		<Command.List>
 			<Command.Empty>No results found.</Command.Empty>
-			<Command.Group heading="Clients">
-				<Command.Item
-					onSelect={() => {
-						pages = [...pages, 'Clients'];
-						value = '';
-					}}
-				>
-					<Person class="mr-2 h-4 w-4" />
-					<span>Search Clients...</span>
-					<Command.Shortcut>⇧ C</Command.Shortcut>
-				</Command.Item>
-				<Command.Item onSelect={() => (window.location.href = '/clients/add')}>
-					<Plus class="mr-2 h-4 w-4" />
-					<span>Create New Client...</span>
-					<Command.Shortcut>⌘ ⇧ C</Command.Shortcut>
-				</Command.Item>
-			</Command.Group>
-			<Command.Group heading="Requests">
-				<Command.Item onSelect={() => (pages = [...pages, 'Requests'])}>
-					<CardStack class="mr-2 h-4 w-4" />
-					<span>Search Requests...</span>
-					<Command.Shortcut>⇧ R</Command.Shortcut>
-				</Command.Item>
-				<Command.Item onSelect={() => (window.location.href = '/requests/add')}>
-					<Plus class="mr-2 h-4 w-4" />
-					<span>Create New Request...</span>
-					<Command.Shortcut>⌘ ⇧ R</Command.Shortcut>
-				</Command.Item>
-			</Command.Group>
-			<Command.Group heading="Reports">
-				<Command.Item>
-					<FileText class="mr-2 h-4 w-4" />
-					<span>Generate Report...</span>
-					<Command.Shortcut>⌘ R</Command.Shortcut>
-				</Command.Item>
-			</Command.Group>
-			<Command.Group heading="Settings">
-				<Command.Item onSelect={() => (window.location.href = '/settings')}>
-					<Gear class="mr-2 h-4 w-4" />
-					<span>Open Settings</span>
-					<Command.Shortcut>⌘ ,</Command.Shortcut>
-				</Command.Item>
-			</Command.Group>
+			{#if $page.data.user}
+				<Command.Group heading="Clients">
+					<Command.Item
+						onSelect={() => {
+							pages = [...pages, 'Clients'];
+							value = '';
+						}}
+					>
+						<Person class="mr-2 h-4 w-4" />
+						<span>Search Clients...</span>
+						<Command.Shortcut>⇧ C</Command.Shortcut>
+					</Command.Item>
+					<Command.Item onSelect={() => (window.location.href = '/clients/add')}>
+						<Plus class="mr-2 h-4 w-4" />
+						<span>Create New Client...</span>
+						<Command.Shortcut>⌘ ⇧ C</Command.Shortcut>
+					</Command.Item>
+				</Command.Group>
+				<Command.Group heading="Requests">
+					<Command.Item onSelect={() => (pages = [...pages, 'Requests'])}>
+						<CardStack class="mr-2 h-4 w-4" />
+						<span>Search Requests...</span>
+						<Command.Shortcut>⇧ R</Command.Shortcut>
+					</Command.Item>
+					<Command.Item onSelect={() => (window.location.href = '/requests/add')}>
+						<Plus class="mr-2 h-4 w-4" />
+						<span>Create New Request...</span>
+						<Command.Shortcut>⌘ ⇧ R</Command.Shortcut>
+					</Command.Item>
+				</Command.Group>
+				<Command.Group heading="Reports">
+					<Command.Item>
+						<FileText class="mr-2 h-4 w-4" />
+						<span>Generate Report...</span>
+						<Command.Shortcut>⌘ R</Command.Shortcut>
+					</Command.Item>
+				</Command.Group>
+				<Command.Group heading="Settings">
+					<Command.Item onSelect={() => (window.location.href = '/settings')}>
+						<Gear class="mr-2 h-4 w-4" />
+						<span>Open Settings</span>
+						<Command.Shortcut>⌘ ,</Command.Shortcut>
+					</Command.Item>
+				</Command.Group>
+			{/if}
 			<Command.Group heading="Help">
 				<Command.Item>
 					<FileText class="mr-2 h-4 w-4" />
