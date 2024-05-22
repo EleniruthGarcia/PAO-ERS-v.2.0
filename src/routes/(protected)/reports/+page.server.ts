@@ -55,7 +55,7 @@ export const actions = {
 		const notedBy = await db.users.findOne({ _id: form.data.notedBy });
 
 		const outreaches = await db.outreaches.find().toArray();
-		const requests = await db.requests
+		let requests = await db.requests
 			.aggregate([
 				{
 					$lookup: {
@@ -137,14 +137,6 @@ export const actions = {
 						'case.transferredTo': { $arrayElemAt: ['$case.transferredTo', 0] }
 					}
 				},
-				// {
-				// 	$match: {
-				// 		$or: [
-				// 			{ 'request.status[-1].date': { $gte: new Date(form.data.year, monthMap[form.data.month], 1) } },
-				// 			{ 'case.status[-1].date': { $lt: new Date(form.data.year, monthMap[form.data.month] + 1, 1) } }
-				// 		]
-				// 	}
-				// },
 				{
 					$project: {
 						client: '$client',
@@ -317,6 +309,116 @@ export const actions = {
 		const f26 = '';
 		const f27 = '';
 
+		const f29 = requests.filter((d) => d.request?.nature?.includes('Others (PSA)'));
+
+		const f31 = requests.filter((d) =>
+			d.case?.terminated?.includes('Favorable Dispositions to Clients')
+		);
+		const f32 = requests.filter(
+			(d) =>
+				// d.client?.detainedSince?.contains('') &&
+				d.requests?.nature?.includes('Representation in Court or Quasi-Judicial Bodies')
+		);
+		const f33 = requests.filter((d) => d.case?.favorable?.includes(''));
+		const f34 = {
+			criminal: requests.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')),
+			civil: requests.filter((d) => d.case?.natureOfTheCase?.includes('Civil')),
+			administrative: requests.filter((d) => d.case?.natureOfTheCase?.includes('Administrative')),
+			prosecutor: requests.filter((d) =>
+				d.case?.natureOfTheCase?.includes("Prosecutor's office cases")
+			),
+			labor: requests.filter((d) => d.case?.natureOfTheCase?.includes('Labor'))
+		};
+		const f35 = '';
+		const f38 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
+
+		const f49 = requests.filter((d) => d.request?.nature?.includes('Others (PSA)'));
+
+		const f50 = '';
+		const f51 = requests.filter((d) => d.request?.nature?.includes('Home Visitation'));
+		const f52 = '';
+
+		requests = await db.requests
+			.aggregate([
+				{
+					$lookup: {
+						from: 'users',
+						localField: 'lawyer_id',
+						foreignField: '_id',
+						as: 'lawyer'
+					}
+				},
+				{
+					$addFields: {
+						lawyer: { $arrayElemAt: ['$lawyer', 0] }
+					}
+				},
+				// {
+				// 	$match: { 'lawyer._id': event.locals.user.role === 'Administrator' ? '' : event.locals.user.id }
+				// },
+				{
+					$lookup: {
+						from: 'clients',
+						localField: 'client_id',
+						foreignField: '_id',
+						as: 'client'
+					}
+				},
+				{
+					$lookup: {
+						from: 'clients',
+						localField: 'interviewee_id',
+						foreignField: '_id',
+						as: 'interviewee'
+					}
+				},
+				{
+					$lookup: {
+						from: 'cases',
+						localField: '_id',
+						foreignField: 'controlNo',
+						as: 'case'
+					}
+				},
+				{
+					$lookup: {
+						from: 'branches',
+						localField: 'lawyer.branch_id',
+						foreignField: '_id',
+						as: 'branch'
+					}
+				},
+				{
+					$addFields: {
+						branch: { $arrayElemAt: ['$branch', 0] },
+						interviewee: { $arrayElemAt: ['$interviewee', 0] },
+						case: { $arrayElemAt: ['$case', 0] }
+					}
+				},
+				{
+					$lookup: {
+						from: 'users',
+						localField: 'case.transferredFrom',
+						foreignField: '_id',
+						as: 'case.transferredFrom'
+					}
+				},
+				{
+					$lookup: {
+						from: 'users',
+						localField: 'case.transferredTo',
+						foreignField: '_id',
+						as: 'case.transferredTo'
+					}
+				},
+				{
+					$addFields: {
+						'case.transferredFrom': { $arrayElemAt: ['$case.transferredFrom', 0] },
+						'case.transferredTo': { $arrayElemAt: ['$case.transferredTo', 0] }
+					}
+				}
+			]).toArray();
+
 		const prevActiveCasesFromPreviousMonth = requests.filter(
 			(d) => d.case?.status?.filter(
 				(s: any) =>
@@ -334,6 +436,11 @@ export const actions = {
 					s.date?.getFullYear() === form.data.year
 			).length > 0
 		);
+
+		console.log(
+			requests.filter((d: any) => d.case?.natureOfTheCase === 'Criminal' && d.client?.filter((c: any) => c.classification?.includes('Child in Conflict with the Law'))).length,
+			requests.filter((d: any) => d.case?.natureOfTheCase === 'Criminal' && d.client?.filter((c: any) => c.classification?.includes('Child in Conflict with the Law'))).map((d: any) => d.client.length).reduce((a: any, b: any) => a + b, 0)
+		)
 
 		const f28 = {
 			// (1) prev active cases from previous month
@@ -612,28 +719,6 @@ export const actions = {
 					d.request?.otherNature?.includes('Assisted During Inquest Investigation')
 			)
 		};
-		const f29 = requests.filter((d) => d.request?.nature?.includes('Others (PSA)'));
-
-		const f31 = requests.filter((d) =>
-			d.case?.terminated?.includes('Favorable Dispositions to Clients')
-		);
-		const f32 = requests.filter(
-			(d) =>
-				// d.client?.detainedSince?.contains('') &&
-				d.requests?.nature?.includes('Representation in Court or Quasi-Judicial Bodies')
-		);
-		const f33 = requests.filter((d) => d.case?.favorable?.includes(''));
-		const f34 = {
-			criminal: requests.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')),
-			civil: requests.filter((d) => d.case?.natureOfTheCase?.includes('Civil')),
-			administrative: requests.filter((d) => d.case?.natureOfTheCase?.includes('Administrative')),
-			prosecutor: requests.filter((d) =>
-				d.case?.natureOfTheCase?.includes("Prosecutor's office cases")
-			),
-			labor: requests.filter((d) => d.case?.natureOfTheCase?.includes('Labor'))
-		};
-		const f35 = '';
-		const f38 = requests.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
 
 		const f48 = {
 			mr1a1: requests.filter(
@@ -986,11 +1071,6 @@ export const actions = {
 			)
 		};
 
-		const f49 = requests.filter((d) => d.request?.nature?.includes('Others (PSA)'));
-
-		const f50 = '';
-		const f51 = requests.filter((d) => d.request?.nature?.includes('Home Visitation'));
-		const f52 = '';
 
 		return {
 			form,
