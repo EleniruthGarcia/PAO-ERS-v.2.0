@@ -438,8 +438,23 @@ export const actions = {
 		);
 
 		console.log(
-			requests.filter((d: any) => d.case?.natureOfTheCase === 'Criminal' && d.client?.filter((c: any) => c.classification?.includes('Child in Conflict with the Law'))).length,
-			requests.filter((d: any) => d.case?.natureOfTheCase === 'Criminal' && d.client?.filter((c: any) => c.classification?.includes('Child in Conflict with the Law'))).map((d: any) => d.client.length).reduce((a: any, b: any) => a + b, 0)
+			'CICL',
+
+			'\n\tNew Case:', newCasesForThisMonth.filter((d: any) =>
+				d.case?.natureOfTheCase === 'Criminal' && d.client?.filter((c: any) => c.classification?.includes('Child in Conflict with the Law'))
+			).length,
+
+			'\n\t# of Clients Involved sa New Case', newCasesForThisMonth.filter((d: any) =>
+				d.case?.natureOfTheCase === 'Criminal' && d.client?.filter((c: any) => c.classification?.includes('Child in Conflict with the Law'))
+			).map((d: any) => d.client.length).reduce((a: any, b: any) => a + b, 0),
+
+			'\n\tPending Case:', prevActiveCasesFromPreviousMonth.filter((d: any) =>
+				d.case?.natureOfTheCase === 'Criminal' && d.client?.filter((c: any) => c.classification?.includes('Child in Conflict with the Law'))
+			).length,
+
+			'\n\t# of Clients Involved sa Pending Case', prevActiveCasesFromPreviousMonth.filter((d: any) =>
+				d.case?.natureOfTheCase === 'Criminal' && d.client?.filter((c: any) => c.classification?.includes('Child in Conflict with the Law'))
+			).map((d: any) => d.client.length).reduce((a: any, b: any) => a + b, 0),
 		)
 
 		const f28 = {
