@@ -2,7 +2,7 @@ import db from '$lib/server/database';
 import { redirect } from 'sveltekit-flash-message/server';
 import type { PageServerLoad, Actions } from './$types';
 import { generateReport } from '$lib/server/report';
-import { formSchema } from '$lib/schema/report';
+import { formSchema, months } from '$lib/schema/report';
 import { superValidate } from 'sveltekit-superforms';
 import { fail } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
@@ -24,7 +24,7 @@ export const load: PageServerLoad = async (event) => {
 		],
 		form: await superValidate(
 			{
-				month: Intl.DateTimeFormat('en', { month: 'long' }).format(new Date()),
+				month: months[new Date().getMonth()],
 				year: new Date().getFullYear(),
 				notedBy: event.locals.user.reportsTo,
 				reports: []
@@ -34,21 +34,6 @@ export const load: PageServerLoad = async (event) => {
 		),
 		lawyers: await db.users.find().toArray()
 	};
-};
-
-const monthMap = {
-	January: 0,
-	February: 1,
-	March: 2,
-	April: 3,
-	May: 4,
-	June: 5,
-	July: 6,
-	August: 7,
-	September: 8,
-	October: 9,
-	November: 10,
-	December: 11
 };
 
 export const actions = {
@@ -70,7 +55,6 @@ export const actions = {
 		const notedBy = await db.users.findOne({ _id: form.data.notedBy });
 
 		const outreaches = await db.outreaches.find().toArray();
-
 		const requests = await db.requests
 			.aggregate([
 				{
@@ -333,6 +317,24 @@ export const actions = {
 		const f26 = '';
 		const f27 = '';
 
+		const prevActiveCasesFromPreviousMonth = requests.filter(
+			(d) => d.case?.status?.filter(
+				(s: any) =>
+					s.type === 'Active' &&
+					(s.date?.getMonth() + 1 < 12
+						? (months[s.date?.getMonth() + 1] === form.data.month && s.date?.getFullYear() === form.data.year)
+						: (s.date?.getMonth() === 11 && s.date?.getFullYear() === form.data.year - 1))
+			).length > 0
+		);
+
+		const newCasesForThisMonth = requests.filter(
+			(d: any) => d.case?.status?.filter(
+				(s: any) =>
+					s.type === "New" && months[s.date?.getMonth()] === form.data.month &&
+					s.date?.getFullYear() === form.data.year
+			).length > 0
+		);
+
 		const f28 = {
 			// (1) prev active cases from previous month
 			// d.case?.natureOfTheCase?.includes('Criminal') &&
@@ -349,36 +351,31 @@ export const actions = {
 					(d) =>
 						d.client?.classification?.includes('Child in Conflict with the Law') &&
 						d.case?.natureOfTheCase?.includes('Criminal')
-				)
-				.map((d) => d.client?.filter(Boolean))?.length,
+				)?.length,
 			a_cvcc: requests
 				.filter(
 					(d) =>
 						d.client?.classification?.includes('Child in Conflict with the Law') &&
 						d.case?.natureOfTheCase?.includes('Civil')
-				)
-				.map((d) => d.client?.filter(Boolean))?.length,
+				)?.length,
 			a_ad1cc: requests
 				.filter(
 					(d) =>
 						d.client?.classification?.includes('Child in Conflict with the Law') &&
 						d.case?.natureOfTheCase?.includes('Administrative')
-				)
-				.map((d) => d.client?.filter(Boolean))?.length,
+				)?.length,
 			a_ad2cc: requests
 				.filter(
 					(d) =>
 						d.client?.classification?.includes('Child in Conflict with the Law') &&
 						d.case?.natureOfTheCase?.includes("Prosecutor's office cases")
-				)
-				.map((d) => d.client?.filter(Boolean))?.length,
+				)?.length,
 			a_ad3cc: requests
 				.filter(
 					(d) =>
 						d.client?.classification?.includes('Child in Conflict with the Law') &&
 						d.case?.natureOfTheCase?.includes('Labor')
-				)
-				.map((d) => d.client?.filter(Boolean))?.length,
+				)?.length,
 			a_crp5a: requests.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
