@@ -123,7 +123,7 @@
 	<meta property="og:image" content={$page.url.origin + '/favicon.png'} />
 
 	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="mobile-wep-app-capable" content="yes" />s
+	<meta name="mobile-wep-app-capable" content="yes" />
 </svelte:head>
 
 <ModeWatcher />
