@@ -13,7 +13,6 @@ const links = {
 	settings: { href: '/settings', icon: Gear, label: 'Settings' },
 	presentation: { href: '/presentation', icon: Laptop, label: 'Presentation' },
 	about: { href: '/about', icon: Home, label: 'About' },
-	services: { href: '/services', icon: Home, label: 'Services' },
 	contact: { href: '/contact', icon: Home, label: 'Contact' }
 };
 
