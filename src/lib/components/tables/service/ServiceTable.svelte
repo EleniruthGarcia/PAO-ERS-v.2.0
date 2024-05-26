@@ -40,7 +40,7 @@
 			</Button> -->
 			<Button size="sm" class="h-7 gap-1 text-sm" href="/services/add">
 				<PlusCircled class="h-3.5 w-3.5" />
-				<span class="sr-only sm:not-sr-only sm:whitespace-nowrap">Add Request</span>
+				<span class="sr-only sm:not-sr-only sm:whitespace-nowrap">Add Service</span>
 			</Button>
 		</div>
 	</div>
@@ -63,9 +63,9 @@
 							<div class="flex flex-col items-center gap-1 text-center">
 								<h3 class="text-2xl font-bold tracking-tight">You have no services.</h3>
 								<p class="text-sm text-muted-foreground">
-									You can start rendering services as soon as you add a new request.
+									You can start rendering services as soon as you add a new service.
 								</p>
-								<Button class="mt-4" href="/services/add">Add Request</Button>
+								<Button class="mt-4" href="/services/add">Add Service</Button>
 							</div>
 						</div>
 					{/if}
@@ -92,9 +92,9 @@
 							<div class="flex flex-col items-center gap-1 text-center">
 								<h3 class="text-2xl font-bold tracking-tight">You have no new services.</h3>
 								<p class="text-sm text-muted-foreground">
-									You can start rendering services as soon as you add a new request.
+									You can start rendering services as soon as you add a new service.
 								</p>
-								<Button class="mt-4" href="/services/add">Add Request</Button>
+								<Button class="mt-4" href="/services/add">Add Service</Button>
 							</div>
 						</div>
 					{/if}
@@ -123,7 +123,7 @@
 								<p class="text-sm text-muted-foreground">
 									You may view your archived services here.
 								</p>
-								<Button class="mt-4" href="/services/add">Add Request</Button>
+								<Button class="mt-4" href="/services/add">Add Service</Button>
 							</div>
 						</div>
 					{/if}

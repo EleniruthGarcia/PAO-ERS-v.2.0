@@ -94,7 +94,17 @@
 </script>
 
 <svelte:head>
+	<meta charset="utf-8" />
 	<title>PAO-ERS</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="theme-color" content="#000000" />
+
+	<link rel="icon" type="image/png" href="/favicon.png" />
+	<link rel="apple-touch-icon" href="/favicon-192x192.png" />
+
+	<link rel="mask-icon" href="/favicon.png" color="#5bbad5" />
+	<link rel="manifest" href="/manifest.json" />
 
 	<meta name="twitter:title" content="PAO-ERS" />
 	<meta name="twitter:description" content="Public Attorney's Office - Electronic Records System" />
@@ -111,6 +121,9 @@
 	/>
 	<meta property="og:url" content={$page.url.origin} />
 	<meta property="og:image" content={$page.url.origin + '/favicon.png'} />
+
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="mobile-wep-app-capable" content="yes" />
 </svelte:head>
 
 <ModeWatcher />

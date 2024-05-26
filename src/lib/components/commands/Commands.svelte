@@ -70,7 +70,7 @@
 					</Command.Item>
 					<Command.Item onSelect={() => (window.location.href = '/services/add')}>
 						<Plus class="mr-2 h-4 w-4" />
-						<span>Create New Request...</span>
+						<span>Create New Service...</span>
 						<Command.Shortcut>⌘ ⇧ R</Command.Shortcut>
 					</Command.Item>
 				</Command.Group>
@@ -121,12 +121,12 @@
 	{/if}
 	{#if pages.at(-1) === 'Services'}
 		<Command.List>
-			<Command.Empty>No request found.</Command.Empty>
+			<Command.Empty>No service found.</Command.Empty>
 			<Command.Group heading="Services">
-				{#each services as request}
-					<Command.Item onSelect={() => (window.location.href = `/clients/${request._id}`)}>
+				{#each services as service}
+					<Command.Item onSelect={() => (window.location.href = `/clients/${service._id}`)}>
 						<CardStack class="mr-2 h-4 w-4" />
-						<span>{request.otherNature ?? request.nature}</span>
+						<span>{service.otherNature ?? service.nature}</span>
 					</Command.Item>
 				{/each}
 			</Command.Group>

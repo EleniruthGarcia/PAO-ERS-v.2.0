@@ -1,9 +1,9 @@
 import db from '$lib/server/database';
 import { redirect } from 'sveltekit-flash-message/server';
-import type { RequestHandler } from './$types';
+import type { ServiceHandler } from './$types';
 import { generateInterviewSheet } from '$lib/server/interview_sheet';
 
-export const GET: RequestHandler = async (event) => {
+export const GET: ServiceHandler = async (event) => {
 	if (!event.locals.user) {
 		event.cookies.set('redirect', event.url.pathname, { path: '/' });
 		redirect(
@@ -154,7 +154,7 @@ export const GET: RequestHandler = async (event) => {
 					intervieweeContactNo: { $ifNull: ['$interviewee.contactNumber', 'N/A'] },
 					intervieweeEmail: { $ifNull: ['$interviewee.email', ''] },
 					relationshipToClient: '$relationshipToClient',
-					natureOfRequest: '$natureOfRequest',
+					natureOfService: '$natureOfService',
 					natureOfTheCase: { $ifNull: ['$case.natureOfTheCase', ''] },
 					caseSpecs: { $ifNull: ['$case._id', ''] },
 					factsOfTheCase: { $ifNull: ['$case.factsOfTheCase', ''] },
@@ -246,7 +246,7 @@ export const GET: RequestHandler = async (event) => {
 				intervieweeContactNo: '',
 				intervieweeEmail: '',
 				relationshipToClient: '',
-				natureOfRequest: '',
+				natureOfService: '',
 				natureOfTheCase: '',
 				caseSpecs: '',
 				factsOfTheCase: '',

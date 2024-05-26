@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
-	import RequestForm from '$lib/components/forms/RequestForm.svelte';
+	import ServiceForm from '$lib/components/forms/ServiceForm.svelte';
 
 	export let data: PageServerData;
 </script>
 
-<RequestForm data={data.form} />
+<ServiceForm data={data.form} />

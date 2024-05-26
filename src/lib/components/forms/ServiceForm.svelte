@@ -8,7 +8,7 @@
 		formSchema,
 		type FormSchema,
 		relationshipToClient
-	} from '$lib/schema/request';
+	} from '$lib/schema/service';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 
 	import { ChevronLeft, PlusCircled, Trash } from 'svelte-radix';
@@ -117,7 +117,7 @@
 				<span class="sr-only">Back</span>
 			</Button>
 			<h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-				{$formData.currentStatus === 'New' ? 'Add Request' : 'Update Request'}
+				{$formData.currentStatus === 'New' ? 'Add Service' : 'Update Service'}
 			</h1>
 			<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
@@ -129,7 +129,7 @@
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
 				<Card.Root>
 					<Card.Header>
-						<Card.Title>Request Information</Card.Title>
+						<Card.Title>Service Information</Card.Title>
 						<Card.Description>
 							Please fill out all necessary information. Required fields are marked with <span
 								class="font-bold text-destructive"
@@ -456,7 +456,7 @@
 						<Card.Header>
 							<Card.Title>
 								<Form.Legend>
-									Nature of Request <span class="font-bold text-destructive">*</span>
+									Nature of Service <span class="font-bold text-destructive">*</span>
 								</Form.Legend>
 							</Card.Title>
 							<Card.Description>

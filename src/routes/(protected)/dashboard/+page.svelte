@@ -7,7 +7,7 @@
 
 	import Loading from '$lib/components/Loading.svelte';
 	import { Table as ClientTable, SelectedClients } from '$lib/components/tables/client';
-	import { Table as RequestTable, SelectedRequests } from '$lib/components/tables/request';
+	import { Table as ServiceTable, SelectedServices } from '$lib/components/tables/service';
 	import { Table as CaseTable, SelectedCases } from '$lib/components/tables/case';
 
 	import { Button } from '$lib/components/ui/button';
@@ -24,8 +24,8 @@
 	const selectedClients = writable({});
 	setContext('selectedClients', selectedClients);
 
-	const selectedRequests = writable({});
-	setContext('selectedRequests', selectedRequests);
+	const selectedServices = writable({});
+	setContext('selectedServices', selectedServices);
 
 	const selectedCases = writable({});
 	setContext('selectedCases', selectedCases);
@@ -35,7 +35,7 @@
 	class={clsx(
 		'grid gap-4',
 		(Object.entries($selectedClients).length > 0 ||
-			Object.entries($selectedRequests).length > 0 ||
+			Object.entries($selectedServices).length > 0 ||
 			Object.entries($selectedCases).length > 0) &&
 			'lg:grid-cols-3 xl:grid-cols-3'
 	)}
@@ -59,7 +59,7 @@
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content align="end">
 							<DropdownMenu.Item href="/clients/add">Client</DropdownMenu.Item>
-							<DropdownMenu.Item href="/services/add">Request</DropdownMenu.Item>
+							<DropdownMenu.Item href="/services/add">Service</DropdownMenu.Item>
 							<DropdownMenu.Item href="/cases/add">Case</DropdownMenu.Item>
 						</DropdownMenu.Content>
 					</DropdownMenu.Root>
@@ -123,7 +123,7 @@
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content align="end">
 							<DropdownMenu.Item href="/clients/add">Client</DropdownMenu.Item>
-							<DropdownMenu.Item href="/services/add">Request</DropdownMenu.Item>
+							<DropdownMenu.Item href="/services/add">Service</DropdownMenu.Item>
 							<DropdownMenu.Item href="/cases/add">Case</DropdownMenu.Item>
 						</DropdownMenu.Content>
 					</DropdownMenu.Root>
@@ -170,9 +170,9 @@
 						{#await $page.data.services}
 							<Loading />
 						{:then services}
-							{#if services.filter((request) => request.status?.at(-1).type !== 'Archived').length > 0}
-								<RequestTable
-									data={services.filter((request) => request.status?.at(-1).type !== 'Archived')}
+							{#if services.filter((service) => service.status?.at(-1).type !== 'Archived').length > 0}
+								<ServiceTable
+									data={services.filter((service) => service.status?.at(-1).type !== 'Archived')}
 								/>
 							{:else}
 								<div
@@ -183,7 +183,7 @@
 										<p class="text-sm text-muted-foreground">
 											You can start rendering services as soon as you add a new client.
 										</p>
-										<Button class="mt-4" href="/services/add">Add Request</Button>
+										<Button class="mt-4" href="/services/add">Add Service</Button>
 									</div>
 								</div>
 							{/if}
@@ -227,8 +227,8 @@
 	<div>
 		{#if Object.entries($selectedClients).length > 0}
 			<SelectedClients />
-		{:else if Object.entries($selectedRequests).length > 0}
-			<SelectedRequests />
+		{:else if Object.entries($selectedServices).length > 0}
+			<SelectedServices />
 		{:else if Object.entries($selectedCases).length > 0}
 			<SelectedCases />
 		{/if}
