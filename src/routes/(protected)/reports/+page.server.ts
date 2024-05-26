@@ -307,7 +307,7 @@ export const actions = {
 		);
 		const f25 = requests.filter((d) => d.case?.genderCaseSubject?.includes(''));
 		const f26 = '';
-		const f27 = '';
+		const f27 = requests.filter((d) => d.case?.natureOfTheCase?.includes('Appealed'));
 
 		const f29 = requests.filter((d) => d.request?.nature?.includes('Others (PSA)'));
 
