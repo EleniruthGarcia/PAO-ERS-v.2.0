@@ -103,6 +103,7 @@
 	<link rel="icon" type="image/png" href="/favicon.png" />
 	<link rel="apple-touch-icon" href="/favicon-192x192.png" />
 
+	<link rel="mask-icon" href="/favicon.png" color="#5bbad5" />
 	<link rel="manifest" href="/manifest.json" />
 
 	<meta name="twitter:title" content="PAO-ERS" />
