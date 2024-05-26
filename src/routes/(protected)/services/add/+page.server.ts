@@ -21,8 +21,8 @@ export const load: PageServerLoad = async (event) => {
 	return {
 		breadcrumbs: [
 			{ href: '/', text: 'PAO-ERS' },
-			{ href: '/requests', text: 'Requests' },
-			{ href: '/requests/add', text: 'Add Request' }
+			{ href: '/services', text: 'Services' },
+			{ href: '/services/add', text: 'Add Request' }
 		],
 		form: await superValidate(
 			{
@@ -53,15 +53,15 @@ export const actions: Actions = {
 
 		const branch = await db.branches.findOne({ _id: event.locals.user.branch_id });
 
-		const request = await db.requests.insertOne({
+		const request = await db.services.insertOne({
 			...form.data,
-			// _id: `${branch?.region}:${branch?.district}:${new Date().getFullYear()}:${new Date().getMonth()}:${(await db.counters.findOneAndUpdate({ _id: 'requests', branch_id: branch?._id }, { $inc: { count: 1 } }, { upsert: true }))?.count}`
-			_id: `${new Date().getFullYear()}:${String(new Date().getMonth()).padStart(2, '0')}:${String((await db.counters.findOneAndUpdate({ _id: 'requests', branch_id: branch?._id }, { $inc: { count: 1 } }, { upsert: true }))?.count ?? 0).padStart(6, '0')}`
+			// _id: `${branch?.region}:${branch?.district}:${new Date().getFullYear()}:${new Date().getMonth()}:${(await db.counters.findOneAndUpdate({ _id: 'services', branch_id: branch?._id }, { $inc: { count: 1 } }, { upsert: true }))?.count}`
+			_id: `${new Date().getFullYear()}:${String(new Date().getMonth()).padStart(2, '0')}:${String((await db.counters.findOneAndUpdate({ _id: 'services', branch_id: branch?._id }, { $inc: { count: 1 } }, { upsert: true }))?.count ?? 0).padStart(6, '0')}`
 		});
 		if (!request.acknowledged) return fail(500, { form });
 
 		redirect(
-			'/requests/' + request.insertedId,
+			'/services/' + request.insertedId,
 			{ type: 'success', message: 'Request added successfully!' },
 			event
 		);

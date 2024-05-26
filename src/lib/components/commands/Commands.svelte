@@ -20,7 +20,7 @@
 	export let pages = ['Home'];
 
 	let clients = $page.data.allClients ?? [];
-	let requests = $page.data.allRequests ?? [];
+	let services = $page.data.allServices ?? [];
 </script>
 
 <Command.Dialog bind:open>
@@ -62,13 +62,13 @@
 						<Command.Shortcut>⌘ ⇧ C</Command.Shortcut>
 					</Command.Item>
 				</Command.Group>
-				<Command.Group heading="Requests">
-					<Command.Item onSelect={() => (pages = [...pages, 'Requests'])}>
+				<Command.Group heading="Services">
+					<Command.Item onSelect={() => (pages = [...pages, 'Services'])}>
 						<CardStack class="mr-2 h-4 w-4" />
-						<span>Search Requests...</span>
+						<span>Search Services...</span>
 						<Command.Shortcut>⇧ R</Command.Shortcut>
 					</Command.Item>
-					<Command.Item onSelect={() => (window.location.href = '/requests/add')}>
+					<Command.Item onSelect={() => (window.location.href = '/services/add')}>
 						<Plus class="mr-2 h-4 w-4" />
 						<span>Create New Request...</span>
 						<Command.Shortcut>⌘ ⇧ R</Command.Shortcut>
@@ -119,11 +119,11 @@
 			</Command.Group>
 		</Command.List>
 	{/if}
-	{#if pages.at(-1) === 'Requests'}
+	{#if pages.at(-1) === 'Services'}
 		<Command.List>
 			<Command.Empty>No request found.</Command.Empty>
-			<Command.Group heading="Requests">
-				{#each requests as request}
+			<Command.Group heading="Services">
+				{#each services as request}
 					<Command.Item onSelect={() => (window.location.href = `/clients/${request._id}`)}>
 						<CardStack class="mr-2 h-4 w-4" />
 						<span>{request.otherNature ?? request.nature}</span>

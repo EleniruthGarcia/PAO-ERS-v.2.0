@@ -174,10 +174,10 @@
 				<p>
 					<strong>Scaling:</strong>
 					The developers' commitment to provide free maintenance services is limited to the current scope
-					and functionality of the system. Any future requests to scale the system's operations, add
+					and functionality of the system. Any future services to scale the system's operations, add
 					new features, or modify existing functionalities will be subject to the developers' availability,
 					resources, and mutual agreement with PAO Cordillera Administrative Region (CAR). The developers
-					are not obligated to fulfill such requests but will engage in good faith discussions with PAO
+					are not obligated to fulfill such services but will engage in good faith discussions with PAO
 					CAR regarding feasibility and potential costs.
 				</p>
 			</Card.Content>

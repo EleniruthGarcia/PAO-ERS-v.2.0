@@ -12,7 +12,7 @@ export const load: PageServerLoad = async (event) => {
 		);
 	}
 
-	const request = await db.requests
+	const request = await db.services
 		.aggregate([
 			{
 				$match: { _id: event.params.id }
@@ -81,7 +81,7 @@ export const load: PageServerLoad = async (event) => {
 			}
 		])
 		.next();
-	if (!request) redirect('/requests', { type: 'warning', message: 'Request not found!' }, event);
+	if (!request) redirect('/services', { type: 'warning', message: 'Request not found!' }, event);
 
 	const client = await db.clients
 		.aggregate([
@@ -97,14 +97,14 @@ export const load: PageServerLoad = async (event) => {
 		.toArray();
 
 	if (!client || client.length === 0)
-		redirect('/requests', { type: 'warning', message: 'Client not found!' }, event);
+		redirect('/services', { type: 'warning', message: 'Client not found!' }, event);
 
 	return {
 		breadcrumbs: [
 			{ href: '/', text: 'PAO-ERS' },
-			{ href: '/requests', text: 'Requests' },
+			{ href: '/services', text: 'Services' },
 			{
-				href: '/requests/' + event.params.id,
+				href: '/services/' + event.params.id,
 				text: `${request.otherNature || request.nature} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et. al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
 			}
 		],

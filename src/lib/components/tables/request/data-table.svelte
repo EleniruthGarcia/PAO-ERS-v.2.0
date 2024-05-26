@@ -59,9 +59,9 @@
 			}
 		}),
 		table.column({
-			id: 'client',
-			accessor: (item) => item.client.name,
-			header: 'Client'
+			id: 'title',
+			accessor: (item) => item.title,
+			header: 'Title'
 		}),
 		table.column({
 			accessor: (item) => (item.otherNature ? item.otherNature : item.nature),
@@ -186,11 +186,11 @@
 							{#each row.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>
 									<Table.Cell {...attrs} class="[&:has([role=checkbox])]:pl-3">
-										{#if cell.id === 'client'}
+										{#if cell.id === 'title'}
 											<Button
 												class="text-left font-medium text-foreground"
 												variant="link"
-												href="/requests/{row.original._id}"
+												href="/services/{row.original._id}"
 											>
 												<Render of={cell.render()} />
 											</Button>

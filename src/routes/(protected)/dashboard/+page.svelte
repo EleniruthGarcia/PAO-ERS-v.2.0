@@ -46,7 +46,7 @@
 				<Card.Header class="pb-3">
 					<Card.Title>Your Dashboard</Card.Title>
 					<Card.Description class="max-w-lg text-balance leading-relaxed">
-						Welcome to your dashboard! Here, you can view all your clients, requests, and cases.
+						Welcome to your dashboard! Here, you can view all your clients, services, and cases.
 					</Card.Description>
 				</Card.Header>
 				<Card.Footer>
@@ -59,7 +59,7 @@
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content align="end">
 							<DropdownMenu.Item href="/clients/add">Client</DropdownMenu.Item>
-							<DropdownMenu.Item href="/requests/add">Request</DropdownMenu.Item>
+							<DropdownMenu.Item href="/services/add">Request</DropdownMenu.Item>
 							<DropdownMenu.Item href="/cases/add">Case</DropdownMenu.Item>
 						</DropdownMenu.Content>
 					</DropdownMenu.Root>
@@ -85,13 +85,13 @@
 			</Card.Root>
 			<Card.Root>
 				<Card.Header class="pb-2">
-					<Card.Description>Active Requests</Card.Description>
-					{#await data.requests}
+					<Card.Description>Active Services</Card.Description>
+					{#await data.services}
 						<Loading />
-					{:then requests}
-						<Card.Title class="text-3xl">{requests.length}</Card.Title>
+					{:then services}
+						<Card.Title class="text-3xl">{services.length}</Card.Title>
 					{:catch error}
-						<Card.Title class="text-3xl">No requests found!</Card.Title>
+						<Card.Title class="text-3xl">No services found!</Card.Title>
 					{/await}
 				</Card.Header>
 				<Card.Content>
@@ -106,7 +106,7 @@
 			<div class="flex items-center">
 				<Tabs.List>
 					<Tabs.Trigger value="clients">Clients</Tabs.Trigger>
-					<Tabs.Trigger value="requests">Requests</Tabs.Trigger>
+					<Tabs.Trigger value="services">Services</Tabs.Trigger>
 					<Tabs.Trigger value="cases">Cases</Tabs.Trigger>
 				</Tabs.List>
 				<div class="ml-auto flex items-center gap-2">
@@ -123,7 +123,7 @@
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content align="end">
 							<DropdownMenu.Item href="/clients/add">Client</DropdownMenu.Item>
-							<DropdownMenu.Item href="/requests/add">Request</DropdownMenu.Item>
+							<DropdownMenu.Item href="/services/add">Request</DropdownMenu.Item>
 							<DropdownMenu.Item href="/cases/add">Case</DropdownMenu.Item>
 						</DropdownMenu.Content>
 					</DropdownMenu.Root>
@@ -160,30 +160,30 @@
 					</Card.Content>
 				</Card.Root>
 			</Tabs.Content>
-			<Tabs.Content value="requests">
+			<Tabs.Content value="services">
 				<Card.Root>
 					<Card.Header class="px-7">
-						<Card.Title>Requests</Card.Title>
-						<Card.Description>All requests added to the system.</Card.Description>
+						<Card.Title>Services</Card.Title>
+						<Card.Description>All services added to the system.</Card.Description>
 					</Card.Header>
 					<Card.Content>
-						{#await $page.data.requests}
+						{#await $page.data.services}
 							<Loading />
-						{:then requests}
-							{#if requests.filter((request) => request.status?.at(-1).type !== 'Archived').length > 0}
+						{:then services}
+							{#if services.filter((request) => request.status?.at(-1).type !== 'Archived').length > 0}
 								<RequestTable
-									data={requests.filter((request) => request.status?.at(-1).type !== 'Archived')}
+									data={services.filter((request) => request.status?.at(-1).type !== 'Archived')}
 								/>
 							{:else}
 								<div
 									class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
 								>
 									<div class="flex flex-col items-center gap-1 text-center">
-										<h3 class="text-2xl font-bold tracking-tight">You have no requests!</h3>
+										<h3 class="text-2xl font-bold tracking-tight">You have no services!</h3>
 										<p class="text-sm text-muted-foreground">
 											You can start rendering services as soon as you add a new client.
 										</p>
-										<Button class="mt-4" href="/requests/add">Add Request</Button>
+										<Button class="mt-4" href="/services/add">Add Request</Button>
 									</div>
 								</div>
 							{/if}

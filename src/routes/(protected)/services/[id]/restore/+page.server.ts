@@ -14,14 +14,14 @@ export const actions = {
 			);
 		}
 
-		const request = await db.requests.updateOne(
+		const request = await db.services.updateOne(
 			{ _id: event.params.id },
 			{
 				$set: {
-					currentStatus: 'Archived'
+					currentStatus: 'Restored'
 				},
 				$push: {
-					status: { type: 'Archived', date: new Date() }
+					status: { type: 'Restored', date: new Date() }
 				}
 			}
 		);
@@ -31,10 +31,8 @@ export const actions = {
 		if (request.modifiedCount === 0 && request.upsertedCount === 0) return fail(304);
 
 		redirect(
-			'/requests',
-			request.modifiedCount > 0 || request.upsertedCount > 0
-				? { type: 'success', message: 'Request archived!' }
-				: { type: 'info', message: 'No changes made...' },
+			`/services/${event.params.id}`,
+			{ type: 'success', message: 'Request restored!' },
 			event
 		);
 	}

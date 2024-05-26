@@ -37,7 +37,7 @@ export const load: PageServerLoad = async (event) => {
 			zod(formSchema),
 			{ errors: false }
 		),
-		requests: await db.requests.find().toArray(),
+		services: await db.services.find().toArray(),
 		clients: await db.clients.find().toArray(),
 		users: await db.users.find().toArray()
 	};
@@ -66,7 +66,7 @@ export const actions = {
 		if (_case.modifiedCount === 0 && _case.upsertedCount === 0) return fail(304, { form });
 
 		if (form.data.transferredTo) {
-			const request = await db.requests.updateOne(
+			const request = await db.services.updateOne(
 				{ _id: form.data._id },
 				{ $set: { lawyer_id: form.data.transferredTo } }
 			);

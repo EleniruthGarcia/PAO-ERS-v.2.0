@@ -22,7 +22,7 @@
 						<Button
 							variant="link"
 							class="p-0 text-lg text-foreground"
-							href="/requests/{data.request._id}"
+							href="/services/{data.request._id}"
 						>
 							{data.request.otherNature || data.request.nature}
 						</Button>
@@ -52,11 +52,11 @@
 						size="sm"
 						variant="outline"
 						class="h-7 gap-1 text-sm"
-						href="/requests/{data.request._id}/edit"
+						href="/services/{data.request._id}/edit"
 					>
 						Edit
 					</Button>
-					<!-- <Button size="sm" class="h-7 gap-1 text-sm" href="/requests/{data.request._id}/export"
+					<!-- <Button size="sm" class="h-7 gap-1 text-sm" href="/services/{data.request._id}/export"
 						>Export</Button
 					> -->
 					<AlertDialog.Root>
@@ -79,7 +79,7 @@
 								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/requests/{data.request._id}/{data.request.status?.at(-1)?.type ===
+									action="/services/{data.request._id}/{data.request.status?.at(-1)?.type ===
 									'Archived'
 										? 'restore'
 										: 'delete'}"
@@ -105,8 +105,8 @@
 								</Button>
 							</DropdownMenu.Trigger>
 							<DropdownMenu.Content align="end">
-								<DropdownMenu.Item href="/requests/{data.request._id}/edit">Edit</DropdownMenu.Item>
-								<!-- <DropdownMenu.Item href="/requests/{data.request._id}/export"
+								<DropdownMenu.Item href="/services/{data.request._id}/edit">Edit</DropdownMenu.Item>
+								<!-- <DropdownMenu.Item href="/services/{data.request._id}/export"
 								>Export</DropdownMenu.Item
 							> -->
 								<DropdownMenu.Separator />
@@ -131,7 +131,7 @@
 								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/requests/{data.request._id}/{data.request.status?.at(-1)?.type ===
+									action="/services/{data.request._id}/{data.request.status?.at(-1)?.type ===
 									'Archived'
 										? 'restore'
 										: 'delete'}"

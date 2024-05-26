@@ -38,7 +38,7 @@ export const load: PageServerLoad = async (event) => {
 				text: client.name
 			}
 		],
-		requests: await db.requests
+		services: await db.services
 			.aggregate([
 				{
 					$match: { client_id: event.params.id }
