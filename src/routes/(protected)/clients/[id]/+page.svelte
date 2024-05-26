@@ -272,38 +272,38 @@
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
 				<div class="grid gap-0.5">
-					<Card.Title class="text-md group flex items-center gap-2">Requests</Card.Title>
-					<Card.Description>All active requests are shown here.</Card.Description>
+					<Card.Title class="text-md group flex items-center gap-2">Services</Card.Title>
+					<Card.Description>All active services are shown here.</Card.Description>
 				</div>
 				<div class="ml-auto flex items-center gap-1">
-					<Button size="sm" variant="outline" class="h-7 gap-2 text-sm" href="/requests/add">
+					<Button size="sm" variant="outline" class="h-7 gap-2 text-sm" href="/services/add">
 						<PlusCircled class="h-3.5 w-3.5" />
 						<span class="sr-only sm:not-sr-only">Add</span>
 					</Button>
 				</div>
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
-				{#each data.requests as request, i}
+				{#each data.services as service, i}
 					<div class="grid gap-3">
 						<ul class="grid gap-3">
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Nature</span>
-								<span>{request.otherNature ? request.otherNature : request.nature}</span>
+								<span>{service.otherNature ? service.otherNature : service.nature}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Lawyer</span>
-								<span>{request.lawyer.name}</span>
+								<span>{service.lawyer.name}</span>
 							</li>
 						</ul>
 					</div>
-					{#if data.requests.length - 1 !== i}
+					{#if data.services.length - 1 !== i}
 						<Separator class="my-4" />
 					{/if}
 				{/each}
 			</Card.Content>
 			<!-- <Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
-					Updated <time>{data.requests[0].status[data.requests.status.length - 1].date.toLocaleString()}</time>
+					Updated <time>{data.services[0].status[data.services.status.length - 1].date.toLocaleString()}</time>
 				</div>
 			</Card.Footer> -->
 		</Card.Root>

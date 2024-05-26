@@ -2,7 +2,7 @@ import db from '$lib/server/database';
 import { redirect } from 'sveltekit-flash-message/server';
 import type { PageServerLoad, Actions } from './$types';
 import { superValidate } from 'sveltekit-superforms';
-import { formSchema } from '$lib/schema/request';
+import { formSchema } from '$lib/schema/service';
 import { zod } from 'sveltekit-superforms/adapters';
 import { fail } from '@sveltejs/kit';
 
@@ -16,26 +16,26 @@ export const load: PageServerLoad = async (event) => {
 		);
 	}
 
-	const request = await db.requests.findOne({ _id: event.params.id });
-	if (!request) redirect('/requests', { type: 'warning', message: 'Request not found!' }, event);
+	const service = await db.services.findOne({ _id: event.params.id });
+	if (!service) redirect('/services', { type: 'warning', message: 'Service not found!' }, event);
 
-	const client = await db.clients.find({ _id: { $in: request.client_id } }).toArray();
+	const client = await db.clients.find({ _id: { $in: service.client_id } }).toArray();
 	if (!client || client.length === 0)
-		redirect('/requests', { type: 'warning', message: 'Client not found!' }, event);
+		redirect('/services', { type: 'warning', message: 'Client not found!' }, event);
 
 	return {
 		breadcrumbs: [
 			{ href: '/', text: 'PAO-ERS' },
-			{ href: '/requests', text: 'Requests' },
+			{ href: '/services', text: 'Services' },
 			{
-				href: '/requests/' + event.params.id,
-				text: `${request.otherNature || request.nature} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et. al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
+				href: '/services/' + event.params.id,
+				text: `${service.otherNature || service.nature} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et. al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
 			},
-			{ href: '/requests/' + event.params.id + '/edit', text: `Edit` }
+			{ href: '/services/' + event.params.id + '/edit', text: `Edit` }
 		],
 		form: await superValidate(
 			{
-				...request,
+				...service,
 				currentStatus: 'Updated'
 			},
 			zod(formSchema),
@@ -62,21 +62,21 @@ export const actions = {
 
 		form.data.status.push({ type: form.data.currentStatus, date: new Date() });
 
-		const request = await db.requests.updateOne(
+		const service = await db.services.updateOne(
 			{ _id: event.params.id },
 			{
 				$set: form.data
 			}
 		);
 
-		if (!request || !request.acknowledged) return fail(500, { form });
-		if (request.matchedCount === 0) return fail(404, { form });
-		if (request.modifiedCount === 0 && request.upsertedCount === 0) return fail(304, { form });
+		if (!service || !service.acknowledged) return fail(500, { form });
+		if (service.matchedCount === 0) return fail(404, { form });
+		if (service.modifiedCount === 0 && service.upsertedCount === 0) return fail(304, { form });
 
 		redirect(
-			'/requests/' + form.data._id,
-			request.modifiedCount > 0 || request.upsertedCount > 0
-				? { type: 'success', message: 'Request updated!' }
+			'/services/' + form.data._id,
+			service.modifiedCount > 0 || service.upsertedCount > 0
+				? { type: 'success', message: 'Service updated!' }
 				: { type: 'info', message: 'No changes made...' },
 			event
 		);

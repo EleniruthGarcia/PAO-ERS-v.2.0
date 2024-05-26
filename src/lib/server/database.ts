@@ -1,7 +1,7 @@
 import { dev } from '$app/environment';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
-import type { User, Client, Request, Case } from '$lib/schema';
+import type { User, Client, Service, Case } from '$lib/schema';
 
 const client = new MongoClient(process.env['DATABASE_URL'] ?? 'mongodb://localhost:27017/pao', {
 	serverApi: {
@@ -20,11 +20,11 @@ export const sessions = db.collection<Session>('sessions');
 export const counters = db.collection<Counter>('counters');
 
 export const clients = db.collection<Client>('clients');
-export const requests = db.collection<Request>('requests');
+export const services = db.collection<Service>('services');
 export const cases = db.collection<Case>('cases');
 export const outreaches = db.collection<Outreach>('outreaches');
 
-export default { users, sessions, counters, branches, clients, requests, cases, logs, outreaches };
+export default { users, sessions, counters, branches, clients, services, cases, logs, outreaches };
 
 interface Counter {
 	_id: string;
@@ -269,7 +269,7 @@ const seedUsers: User[] = [
 	// }
 ];
 
-const seedRequests: Request[] = [
+const seedRequests: Service[] = [
 	{
 		_id: '1',
 		client_id: ['1', '2'],
@@ -488,8 +488,8 @@ const seedCases: Case[] = [
 // for (const branch of seedBranches)
 // 	branches.updateOne({ _id: branch._id }, { $set: branch }, { upsert: true });
 // for (const user of seedUsers) users.updateOne({ _id: user._id }, { $set: user }, { upsert: true });
-// for (const request of seedRequests)
-// 	requests.updateOne({ _id: request._id }, { $set: request }, { upsert: true });
+// for (const service of seedRequests)
+// 	services.updateOne({ _id: service._id }, { $set: service }, { upsert: true });
 // for (const client of seedClients)
 // 	clients.updateOne({ _id: client._id }, { $set: client }, { upsert: true });
 // for (const caseData of seedCases)

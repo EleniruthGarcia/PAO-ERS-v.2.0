@@ -163,8 +163,8 @@
 											<Select.Value placeholder="" />
 										</Select.Trigger>
 										<Select.Content>
-											{#each $page.data.requests as request}
-												<Select.Item value={request._id} />
+											{#each $page.data.services as service}
+												<Select.Item value={service._id} />
 											{/each}
 										</Select.Content>
 									</Select.Root>

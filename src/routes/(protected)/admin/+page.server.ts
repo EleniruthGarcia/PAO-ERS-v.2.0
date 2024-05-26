@@ -22,7 +22,7 @@ export const load: PageServerLoad = async (event) => {
 		],
 		cases: db.cases.find().toArray(),
 		clients: db.clients.find().toArray(),
-		requests: db.requests
+		services: db.services
 			.aggregate([
 				{
 					$lookup: {
@@ -55,12 +55,6 @@ export const load: PageServerLoad = async (event) => {
 						localField: 'client_id',
 						foreignField: '_id',
 						as: 'client'
-					}
-				},
-				{
-					$unwind: {
-						path: '$client',
-						preserveNullAndEmptyArrays: true
 					}
 				},
 				{

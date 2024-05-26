@@ -4,7 +4,7 @@ import { redirect } from 'sveltekit-flash-message/server';
 
 import db from '$lib/server/database';
 
-import { formSchema } from '$lib/schema/request';
+import { formSchema } from '$lib/schema/service';
 import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms';
 
@@ -21,8 +21,8 @@ export const load: PageServerLoad = async (event) => {
 	return {
 		breadcrumbs: [
 			{ href: '/', text: 'PAO-ERS' },
-			{ href: '/requests', text: 'Requests' },
-			{ href: '/requests/add', text: 'Add Request' }
+			{ href: '/services', text: 'Services' },
+			{ href: '/services/add', text: 'Add Service' }
 		],
 		form: await superValidate(
 			{
@@ -53,16 +53,16 @@ export const actions: Actions = {
 
 		const branch = await db.branches.findOne({ _id: event.locals.user.branch_id });
 
-		const request = await db.requests.insertOne({
+		const service = await db.services.insertOne({
 			...form.data,
-			// _id: `${branch?.region}:${branch?.district}:${new Date().getFullYear()}:${new Date().getMonth()}:${(await db.counters.findOneAndUpdate({ _id: 'requests', branch_id: branch?._id }, { $inc: { count: 1 } }, { upsert: true }))?.count}`
-			_id: `${new Date().getFullYear()}:${String(new Date().getMonth()).padStart(2, '0')}:${String((await db.counters.findOneAndUpdate({ _id: 'requests', branch_id: branch?._id }, { $inc: { count: 1 } }, { upsert: true }))?.count ?? 0).padStart(6, '0')}`
+			// _id: `${branch?.region}:${branch?.district}:${new Date().getFullYear()}:${new Date().getMonth()}:${(await db.counters.findOneAndUpdate({ _id: 'services', branch_id: branch?._id }, { $inc: { count: 1 } }, { upsert: true }))?.count}`
+			_id: `${new Date().getFullYear()}:${String(new Date().getMonth()).padStart(2, '0')}:${String((await db.counters.findOneAndUpdate({ _id: 'services', branch_id: branch?._id }, { $inc: { count: 1 } }, { upsert: true }))?.count ?? 0).padStart(6, '0')}`
 		});
-		if (!request.acknowledged) return fail(500, { form });
+		if (!service.acknowledged) return fail(500, { form });
 
 		redirect(
-			'/requests/' + request.insertedId,
-			{ type: 'success', message: 'Request added successfully!' },
+			'/services/' + service.insertedId,
+			{ type: 'success', message: 'Service added successfully!' },
 			event
 		);
 	}

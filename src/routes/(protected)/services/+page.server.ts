@@ -15,9 +15,9 @@ export const load: PageServerLoad = async (event) => {
 	return {
 		breadcrumbs: [
 			{ href: '/', text: 'PAO-ERS' },
-			{ href: '/requests', text: 'Requests' }
+			{ href: '/services', text: 'Services' }
 		],
-		requests: db.requests
+		services: db.services
 			.aggregate([
 				{
 					$lookup: {
@@ -53,24 +53,11 @@ export const load: PageServerLoad = async (event) => {
 					}
 				},
 				{
-					$unwind: {
-						path: '$client',
-						preserveNullAndEmptyArrays: true
-					}
-				},
-				{
 					$lookup: {
 						from: 'cases',
 						localField: 'case_id',
 						foreignField: '_id',
 						as: 'case'
-					}
-				},
-				{
-					$addFields: {
-						// 'client.age': {
-						// 	$dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' }
-						// }
 					}
 				}
 			])

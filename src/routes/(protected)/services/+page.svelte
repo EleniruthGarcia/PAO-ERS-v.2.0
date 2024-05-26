@@ -1,6 +1,6 @@
 <script lang="ts">
 	import clsx from 'clsx';
-	import { RequestTable, SelectedRequests } from '$lib/components/tables/request';
+	import { RequestTable, SelectedRequests } from '$lib/components/tables/service';
 
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';

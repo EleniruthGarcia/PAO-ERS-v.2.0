@@ -35,9 +35,9 @@ export const GET: RequestHandler = async (event) => {
 		])
 		.next();
 
-	const requests = await db.requests.find({ client_id: event.params.id }).toArray();
+	const services = await db.services.find({ client_id: event.params.id }).toArray();
 
-	let data = await db.requests
+	let data = await db.services
 		.aggregate([
 			{
 				$lookup: {

@@ -22,9 +22,9 @@
 						<Button
 							variant="link"
 							class="p-0 text-lg text-foreground"
-							href="/requests/{data.request._id}"
+							href="/services/{data.service._id}"
 						>
-							{data.request.otherNature || data.request.nature}
+							{data.service.otherNature || data.service.nature}
 						</Button>
 						<Button
 							size="icon"
@@ -32,8 +32,8 @@
 							class="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
 							on:click={() =>
 								navigator.clipboard
-									.writeText(data.request._id)
-									.then(() => toast(`Copied data.request ID '${data.request._id}'!`))}
+									.writeText(data.service._id)
+									.then(() => toast(`Copied data.service ID '${data.service._id}'!`))}
 						>
 							<Copy class="h-3 w-3" />
 							<span class="sr-only">Copy Case ID</span>
@@ -52,34 +52,34 @@
 						size="sm"
 						variant="outline"
 						class="h-7 gap-1 text-sm"
-						href="/requests/{data.request._id}/edit"
+						href="/services/{data.service._id}/edit"
 					>
 						Edit
 					</Button>
-					<!-- <Button size="sm" class="h-7 gap-1 text-sm" href="/requests/{data.request._id}/export"
+					<!-- <Button size="sm" class="h-7 gap-1 text-sm" href="/services/{data.service._id}/export"
 						>Export</Button
 					> -->
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
 							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm">
-								{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+								{data.service.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 							</Button>
 						</AlertDialog.Trigger>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
 								<AlertDialog.Title>
-									{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Request
+									{data.service.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Service
 								</AlertDialog.Title>
 								<AlertDialog.Description>
-									Are you absolutely sure? The request will be
-									{data.request.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
+									Are you absolutely sure? The service will be
+									{data.service.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
 								</AlertDialog.Description>
 							</AlertDialog.Header>
 							<AlertDialog.Footer>
 								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/requests/{data.request._id}/{data.request.status?.at(-1)?.type ===
+									action="/services/{data.service._id}/{data.service.status?.at(-1)?.type ===
 									'Archived'
 										? 'restore'
 										: 'delete'}"
@@ -88,7 +88,7 @@
 										type="submit"
 										class="w-full bg-destructive hover:bg-destructive/90"
 									>
-										{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+										{data.service.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Action>
 								</form>
 							</AlertDialog.Footer>
@@ -105,14 +105,14 @@
 								</Button>
 							</DropdownMenu.Trigger>
 							<DropdownMenu.Content align="end">
-								<DropdownMenu.Item href="/requests/{data.request._id}/edit">Edit</DropdownMenu.Item>
-								<!-- <DropdownMenu.Item href="/requests/{data.request._id}/export"
+								<DropdownMenu.Item href="/services/{data.service._id}/edit">Edit</DropdownMenu.Item>
+								<!-- <DropdownMenu.Item href="/services/{data.service._id}/export"
 								>Export</DropdownMenu.Item
 							> -->
 								<DropdownMenu.Separator />
 								<AlertDialog.Trigger class="w-full text-left">
 									<DropdownMenu.Item>
-										{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+										{data.service.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</DropdownMenu.Item>
 								</AlertDialog.Trigger>
 							</DropdownMenu.Content>
@@ -120,18 +120,18 @@
 						<AlertDialog.Content>
 							<AlertDialog.Header>
 								<AlertDialog.Title>
-									{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Request
+									{data.service.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Service
 								</AlertDialog.Title>
 								<AlertDialog.Description>
-									Are you absolutely sure? The request will be
-									{data.request.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
+									Are you absolutely sure? The service will be
+									{data.service.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
 								</AlertDialog.Description>
 							</AlertDialog.Header>
 							<AlertDialog.Footer>
 								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/requests/{data.request._id}/{data.request.status?.at(-1)?.type ===
+									action="/services/{data.service._id}/{data.service.status?.at(-1)?.type ===
 									'Archived'
 										? 'restore'
 										: 'delete'}"
@@ -140,7 +140,7 @@
 										type="submit"
 										class="w-full bg-destructive hover:bg-destructive/90"
 									>
-										{data.request.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+										{data.service.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Action>
 								</form>
 							</AlertDialog.Footer>
@@ -154,11 +154,11 @@
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Interviewee</span>
-							<span>{data.request.interviewee.name}</span>
+							<span>{data.service.interviewee.name}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Relationship to Client</span>
-							<span>{data.request.relationshipToClient}</span>
+							<span>{data.service.relationshipToClient}</span>
 						</li>
 					</ul>
 				</div>
@@ -168,7 +168,7 @@
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Lawyer</span>
-							<span>{data.request.lawyer.name}</span>
+							<span>{data.service.lawyer.name}</span>
 						</li>
 					</ul>
 				</div>
@@ -176,7 +176,7 @@
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
 					Updated <time>
-						{data.request.status[data.request.status.length - 1].date.toLocaleString()}
+						{data.service.status[data.service.status.length - 1].date.toLocaleString()}
 					</time>
 				</div>
 			</Card.Footer>
@@ -187,7 +187,7 @@
 			<Card.Header class="flex flex-row items-start bg-muted/50">
 				<div class="grid gap-0.5">
 					<Card.Title class="text-md group flex items-center gap-2">Client List</Card.Title>
-					<Card.Description>All clients connected to this request are shown here.</Card.Description>
+					<Card.Description>All clients connected to this service are shown here.</Card.Description>
 				</div>
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">

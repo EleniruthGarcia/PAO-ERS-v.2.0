@@ -7,13 +7,12 @@ const links = {
 	dashboard: { href: '/dashboard', icon: Home, label: 'Dashboard' },
 	users: { href: '/users', icon: IdCard, label: 'Users' },
 	clients: { href: '/clients', icon: Person, label: 'Clients' },
-	requests: { href: '/requests', icon: CardStack, label: 'Requests' },
+	services: { href: '/services', icon: CardStack, label: 'Services' },
 	cases: { href: '/cases', icon: Backpack, label: 'Cases' },
 	reports: { href: '/reports', icon: FileText, label: 'Reports' },
 	settings: { href: '/settings', icon: Gear, label: 'Settings' },
 	presentation: { href: '/presentation', icon: Laptop, label: 'Presentation' },
 	about: { href: '/about', icon: Home, label: 'About' },
-	services: { href: '/services', icon: Home, label: 'Services' },
 	contact: { href: '/contact', icon: Home, label: 'Contact' }
 };
 
@@ -22,14 +21,14 @@ const roles = {
 		'admin',
 		'users',
 		'clients',
-		'requests',
+		'services',
 		'cases',
 		'reports',
 		'settings'
 		// 'presentation'
 	],
-	Lawyer: ['dashboard', 'clients', 'requests', 'cases', 'reports', 'settings'],
-	Staff: ['dashboard', 'clients', 'requests', 'settings'],
+	Lawyer: ['dashboard', 'clients', 'services', 'cases', 'reports', 'settings'],
+	Staff: ['dashboard', 'clients', 'services', 'settings'],
 	Client: []
 };
 

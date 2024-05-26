@@ -12,7 +12,7 @@ export const load: PageServerLoad = async (event) => {
 		);
 	}
 
-	const request = await db.requests
+	const service = await db.services
 		.aggregate([
 			{
 				$match: { _id: event.params.id }
@@ -81,12 +81,12 @@ export const load: PageServerLoad = async (event) => {
 			}
 		])
 		.next();
-	if (!request) redirect('/requests', { type: 'warning', message: 'Request not found!' }, event);
+	if (!service) redirect('/services', { type: 'warning', message: 'Service not found!' }, event);
 
 	const client = await db.clients
 		.aggregate([
 			{
-				$match: { _id: { $in: request.client_id } }
+				$match: { _id: { $in: service.client_id } }
 			},
 			{
 				$addFields: {
@@ -97,18 +97,18 @@ export const load: PageServerLoad = async (event) => {
 		.toArray();
 
 	if (!client || client.length === 0)
-		redirect('/requests', { type: 'warning', message: 'Client not found!' }, event);
+		redirect('/services', { type: 'warning', message: 'Client not found!' }, event);
 
 	return {
 		breadcrumbs: [
 			{ href: '/', text: 'PAO-ERS' },
-			{ href: '/requests', text: 'Requests' },
+			{ href: '/services', text: 'Services' },
 			{
-				href: '/requests/' + event.params.id,
-				text: `${request.otherNature || request.nature} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et. al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
+				href: '/services/' + event.params.id,
+				text: `${service.otherNature || service.nature} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et. al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
 			}
 		],
 		client,
-		request
+		service
 	};
 };

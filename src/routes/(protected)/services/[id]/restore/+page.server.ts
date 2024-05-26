@@ -14,7 +14,7 @@ export const actions = {
 			);
 		}
 
-		const request = await db.requests.updateOne(
+		const service = await db.services.updateOne(
 			{ _id: event.params.id },
 			{
 				$set: {
@@ -26,13 +26,13 @@ export const actions = {
 			}
 		);
 
-		if (!request || !request.acknowledged) return fail(500);
-		if (request.matchedCount === 0) return fail(404);
-		if (request.modifiedCount === 0 && request.upsertedCount === 0) return fail(304);
+		if (!service || !service.acknowledged) return fail(500);
+		if (service.matchedCount === 0) return fail(404);
+		if (service.modifiedCount === 0 && service.upsertedCount === 0) return fail(304);
 
 		redirect(
-			`/requests/${event.params.id}`,
-			{ type: 'success', message: 'Request restored!' },
+			`/services/${event.params.id}`,
+			{ type: 'success', message: 'Service restored!' },
 			event
 		);
 	}

@@ -17,8 +17,8 @@
 			</Button>
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content align="end">
-			<DropdownMenu.Item href="/requests/{id}/edit">Edit</DropdownMenu.Item>
-			<!-- <DropdownMenu.Item href="/requests/{id}/export">Export</DropdownMenu.Item> -->
+			<DropdownMenu.Item href="/services/{id}/edit">Edit</DropdownMenu.Item>
+			<!-- <DropdownMenu.Item href="/services/{id}/export">Export</DropdownMenu.Item> -->
 			<DropdownMenu.Separator />
 			<AlertDialog.Trigger class="w-full">
 				<DropdownMenu.Item>{status === 'Archived' ? 'Restore' : 'Delete'}</DropdownMenu.Item>
@@ -27,9 +27,9 @@
 	</DropdownMenu.Root>
 	<AlertDialog.Content>
 		<AlertDialog.Header>
-			<AlertDialog.Title>{status === 'Archived' ? 'Restore' : 'Delete'} Request</AlertDialog.Title>
+			<AlertDialog.Title>{status === 'Archived' ? 'Restore' : 'Delete'} Service</AlertDialog.Title>
 			<AlertDialog.Description>
-				Are you absolutely sure? The request will be {status === 'Archived'
+				Are you absolutely sure? The service will be {status === 'Archived'
 					? 'restored'
 					: 'archived'}.
 			</AlertDialog.Description>
