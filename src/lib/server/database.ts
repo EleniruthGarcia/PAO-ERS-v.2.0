@@ -269,7 +269,7 @@ const seedUsers: User[] = [
 	// }
 ];
 
-const seedRequests: Service[] = [
+const seedServices: Service[] = [
 	{
 		_id: '1',
 		client_id: ['1', '2'],
@@ -488,7 +488,7 @@ const seedCases: Case[] = [
 // for (const branch of seedBranches)
 // 	branches.updateOne({ _id: branch._id }, { $set: branch }, { upsert: true });
 // for (const user of seedUsers) users.updateOne({ _id: user._id }, { $set: user }, { upsert: true });
-// for (const service of seedRequests)
+// for (const service of seedServices)
 // 	services.updateOne({ _id: service._id }, { $set: service }, { upsert: true });
 // for (const client of seedClients)
 // 	clients.updateOne({ _id: client._id }, { $set: client }, { upsert: true });

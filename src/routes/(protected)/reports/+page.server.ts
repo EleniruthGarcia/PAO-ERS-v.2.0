@@ -189,7 +189,7 @@ export const actions = {
 						intervieweeContactNo: { $ifNull: ['$interviewee.contactNumber', 'N/A'] },
 						intervieweeEmail: { $ifNull: ['$interviewee.email', ''] },
 						relationshipToClient: '$relationshipToClient',
-						natureOfRequest: '$natureOfRequest',
+						natureOfService: '$natureOfService',
 						PDLStatus: '$client.detained',
 						natureOfTheCase: { $ifNull: ['$case.natureOfTheCase', ''] },
 						caseSpecs: { $ifNull: ['$case._id', ''] },
@@ -330,7 +330,7 @@ export const actions = {
 			labor: services.filter((d) => d.case?.natureOfTheCase?.includes('Labor'))
 		};
 		const f35 = '';
-		const f38 = services.filter((d) => d.service?.natureOfRequest?.includes('Others (PSA)'));
+		const f38 = services.filter((d) => d.service?.natureOfService?.includes('Others (PSA)'));
 
 		const f49 = services.filter((d) => d.service?.nature?.includes('Others (PSA)'));
 
@@ -735,7 +735,7 @@ export const actions = {
 			)
 		};
 
-		const quarterlyRequests = services.filter(
+		const quarterlyServices = services.filter(
 			(d) =>
 				d.date?.getMonth() + 1 >= 1 &&
 				d.date?.getMonth() + 1 <= 3 &&

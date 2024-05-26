@@ -12,13 +12,13 @@
 	import { Separator } from '$lib/components/ui/separator';
 
 	import type { Writable } from 'svelte/store';
-	import type { RequestWithJoins } from '$lib/schema';
+	import type { ServiceWithJoins } from '$lib/schema';
 	import { getContext } from 'svelte';
 
-	const selectedRequests = getContext<Writable<RequestWithJoins[]>>('selectedRequests');
+	const selectedServices = getContext<Writable<ServiceWithJoins[]>>('selectedServices');
 
 	$: i = 0;
-	$: service = $selectedRequests[i];
+	$: service = $selectedServices[i];
 </script>
 
 <Card.Root class="overflow-hidden">
@@ -32,12 +32,12 @@
 				>
 					{service.client.name}
 				</Button>
-				{#if $selectedRequests.length > 1}
+				{#if $selectedServices.length > 1}
 					<Button
 						size="icon"
 						variant="outline"
 						class="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
-						on:click={() => (i > 0 ? i-- : (i = $selectedRequests.length - 1))}
+						on:click={() => (i > 0 ? i-- : (i = $selectedServices.length - 1))}
 					>
 						<ChevronLeft class="h-3 w-3" />
 						<span class="sr-only">Previous Service</span>
@@ -46,7 +46,7 @@
 						size="icon"
 						variant="outline"
 						class="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
-						on:click={() => (i < $selectedRequests.length - 1 ? i++ : (i = 0))}
+						on:click={() => (i < $selectedServices.length - 1 ? i++ : (i = 0))}
 					>
 						<ChevronRight class="h-3 w-3" />
 						<span class="sr-only">Next Service</span>
@@ -183,7 +183,7 @@
 						size="icon"
 						variant="outline"
 						class="h-6 w-6"
-						on:click={() => (i > 0 ? i-- : (i = $selectedRequests.length - 1))}
+						on:click={() => (i > 0 ? i-- : (i = $selectedServices.length - 1))}
 					>
 						<ChevronLeft class="h-3.5 w-3.5" />
 						<span class="sr-only">Previous Service</span>
@@ -194,7 +194,7 @@
 						size="icon"
 						variant="outline"
 						class="h-6 w-6"
-						on:click={() => (i < $selectedRequests.length - 1 ? i++ : (i = 0))}
+						on:click={() => (i < $selectedServices.length - 1 ? i++ : (i = 0))}
 					>
 						<ChevronRight class="h-3.5 w-3.5" />
 						<span class="sr-only">Next Service</span>

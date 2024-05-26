@@ -20,9 +20,9 @@
 	import * as Table from '$lib/components/ui/table';
 	import { Input } from '$lib/components/ui/input';
 	import { getContext, onDestroy, onMount } from 'svelte';
-	import type { RequestWithJoins } from '$lib/schema';
+	import type { ServiceWithJoins } from '$lib/schema';
 
-	export let data: RequestWithJoins[];
+	export let data: ServiceWithJoins[];
 
 	const table = createTable(readable(data), {
 		page: addPagination(),
@@ -99,7 +99,7 @@
 	let { filterValue } = pluginStates.filter;
 	let { selectedDataIds } = pluginStates.select;
 
-	const selectedData = getContext<Writable<RequestWithJoins[]>>('selectedRequests');
+	const selectedData = getContext<Writable<ServiceWithJoins[]>>('selectedServices');
 	$: selectedData.set(data.filter((_, i) => $selectedDataIds[i]));
 
 	export const ids = flatColumns.map((col) => col.id);

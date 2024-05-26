@@ -110,8 +110,8 @@ async function addTextToPDF(data: any) {
 		intervieweeEmail,
 
 		// nature of service
-		natureOfRequest,
-		otherNatureOfRequest,
+		natureOfService,
+		otherNatureOfService,
 		PDLStatus, // from client.detained
 		natureOfTheCase,
 		caseSpecs,
@@ -327,7 +327,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	}
-	if (natureOfRequest === 'Legal Advice') {
+	if (natureOfService === 'Legal Advice') {
 		// legal advice
 		firstPage.drawRectangle({
 			x: 34,
@@ -337,7 +337,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-	} else if (natureOfRequest === 'Legal Documentation') {
+	} else if (natureOfService === 'Legal Documentation') {
 		// legal documentation
 		firstPage.drawRectangle({
 			x: 203,
@@ -347,7 +347,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-	} else if (natureOfRequest === 'Representation in Court/Quasi-Judicial Bodies') {
+	} else if (natureOfService === 'Representation in Court/Quasi-Judicial Bodies') {
 		// rep in court
 		firstPage.drawRectangle({
 			x: 335,
@@ -357,7 +357,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-	} else if (natureOfRequest === 'Inquest Legal Assistance') {
+	} else if (natureOfService === 'Inquest Legal Assistance') {
 		// inquest legal assist
 		firstPage.drawRectangle({
 			x: 34,
@@ -367,7 +367,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-	} else if (natureOfRequest === 'Mediation/Conciliation') {
+	} else if (natureOfService === 'Mediation/Conciliation') {
 		// mediation
 		firstPage.drawRectangle({
 			x: 203,
@@ -377,7 +377,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-	} else if (natureOfRequest === 'Administration of Oath') {
+	} else if (natureOfService === 'Administration of Oath') {
 		// admin of oath
 		firstPage.drawRectangle({
 			x: 335,
@@ -387,7 +387,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-	} else if (natureOfRequest === 'Others') {
+	} else if (natureOfService === 'Others') {
 		// others
 		firstPage.drawRectangle({
 			x: 34,
@@ -397,7 +397,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-		firstPage.drawText(otherNatureOfRequest, {
+		firstPage.drawText(otherNatureOfService, {
 			x: 80,
 			y: 748,
 			size: 10,

@@ -58,7 +58,7 @@
 		label: $formData.currentStatus,
 		value: $formData.currentStatus
 	};
-	$: selectedRequest = {
+	$: selectedService = {
 		label: $formData.controlNo,
 		value: $formData.controlNo
 	};
@@ -153,7 +153,7 @@
 										Control Number <span class="font-bold text-destructive">*</span>
 									</Form.Label>
 									<Select.Root
-										selected={selectedRequest}
+										selected={selectedService}
 										onSelectedChange={(s) => {
 											s && ($formData.controlNo = s.value);
 										}}
