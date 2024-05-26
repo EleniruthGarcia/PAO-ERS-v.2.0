@@ -5,6 +5,7 @@ export const classification = [
 	'Beneficiary of Hernan Ruling (R.A. No. 10951)',
 	'Child Client',
 	'Child in Conflict with the Law',
+	'Comprehensive Danngerous Drugs Act of 2002 (R.A. 9165)',
 	'Denied or Disqualified',
 	'Drug-Related Duty',
 	'Former Rebels (FRs) and Former Violent Extremists (FVEs)',
@@ -12,6 +13,7 @@ export const classification = [
 	'OFW (Land-Based)',
 	'OFW (Sea-Based)',
 	'Petitioner for Voluntary Rehabilitation (Drugs)',
+	'Rape Victim',
 	'Refugee or Evacuee',
 	'Senior Citizen',
 	'Special Legal Services (R.A. No. 9406 and MOAs)',
@@ -20,7 +22,9 @@ export const classification = [
 	'Victim of Terrorism (R.A. No. 9372)',
 	'Victim of Torture (R.A. No. 9745)',
 	'Victim of Trafficking (R.A. No. 9208)',
-	'Woman Client'
+	'Woman Client',
+	'Woman Client (Non-VAWC Victim)'
+	
 ] as const;
 
 export const pwd = [
