@@ -57,11 +57,11 @@ export const actions: Actions = {
 		if (!_case.acknowledged) return fail(500, { form });
 
 		if (form.data.transferredTo) {
-			const request = await db.services.updateOne(
+			const service = await db.services.updateOne(
 				{ _id: form.data._id },
 				{ $set: { lawyer_id: form.data.transferredTo } }
 			);
-			if (!request) return fail(500, { form });
+			if (!service) return fail(500, { form });
 		}
 
 		redirect(

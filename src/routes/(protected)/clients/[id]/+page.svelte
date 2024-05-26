@@ -283,16 +283,16 @@
 				</div>
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
-				{#each data.services as request, i}
+				{#each data.services as service, i}
 					<div class="grid gap-3">
 						<ul class="grid gap-3">
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Nature</span>
-								<span>{request.otherNature ? request.otherNature : request.nature}</span>
+								<span>{service.otherNature ? service.otherNature : service.nature}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Lawyer</span>
-								<span>{request.lawyer.name}</span>
+								<span>{service.lawyer.name}</span>
 							</li>
 						</ul>
 					</div>

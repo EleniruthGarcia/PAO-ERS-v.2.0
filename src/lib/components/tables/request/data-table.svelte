@@ -65,7 +65,7 @@
 		}),
 		table.column({
 			accessor: (item) => (item.otherNature ? item.otherNature : item.nature),
-			header: 'Nature of Request'
+			header: 'Nature of Service'
 		}),
 		table.column({
 			accessor: (item) => item.currentStatus,

@@ -105,7 +105,7 @@ export const formSchema = z.object({
 	case_id: z.array(z.string()).optional(),
 	interviewee_id: z.string().min(1, 'Interviewee is required.'),
 	relationshipToClient: z.enum(relationshipToClient),
-	nature: z.array(z.enum(nature)).min(1, 'Nature of Request is required.'),
+	nature: z.array(z.enum(nature)).min(1, 'Nature of Service is required.'),
 	otherNature: z.array(z.string()).optional(),
 	typeOfAssistance: z.enum(typeOfAssistance).optional(),
 	typeOfRelease: z.enum(typeOfRelease).optional(),
@@ -122,4 +122,4 @@ export const formSchema = z.object({
 });
 
 export type FormSchema = typeof formSchema;
-export type Request = z.infer<typeof formSchema>;
+export type Service = z.infer<typeof formSchema>;

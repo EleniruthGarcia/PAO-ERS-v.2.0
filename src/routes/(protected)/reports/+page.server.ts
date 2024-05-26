@@ -143,7 +143,7 @@ export const actions = {
 						interviewee: '$interviewee',
 						case: '$case',
 						branch: '$branch',
-						request: '$$ROOT',
+						service: '$$ROOT',
 						lawyer: '$lawyer',
 						monthYear: {
 							$dateToString: {
@@ -210,7 +210,7 @@ export const actions = {
 						titleOfCase: '$case.titleOfCase',
 						caseNo: '$case.docketNumber',
 						judge: { $ifNull: ['$case.actionTaken', ''] },
-						assistance: '$request.typeOfAssistance',
+						assistance: '$service.typeOfAssistance',
 						actionTaken: { $ifNull: ['$case.actionTaken', ''] },
 						CICL: {
 							$cond: [
@@ -262,7 +262,7 @@ export const actions = {
 						typePWD: { $ifNull: ['$client.pwd', []] },
 						termination: { $ifNull: ['$case.causeOfTermination', ''] },
 						dateCommission: { $ifNull: ['$case.dateOfCommission', ''] },
-						natureOfInstrument: { $ifNull: ['$request.natureOfInstrument', []] }
+						natureOfInstrument: { $ifNull: ['$service.natureOfInstrument', []] }
 					}
 				},
 				{
@@ -297,8 +297,8 @@ export const actions = {
 			labor: services.filter((d) => d.case?.natureOfTheCase?.includes('Labor'))
 		};
 		const f20 = services.filter((d) => d.client?.PWD?.includes(true));
-		const f21 = services.filter((d) => d.request?.nature?.includes('Administration of Oath'));
-		const f22 = services.filter((d) => d.request?.nature?.includes('Others (PSA)'));
+		const f21 = services.filter((d) => d.service?.nature?.includes('Administration of Oath'));
+		const f22 = services.filter((d) => d.service?.nature?.includes('Others (PSA)'));
 		const f23 = services.filter((d) =>
 			d.client?.classification?.includes('Denied or Disqualified')
 		);
@@ -309,7 +309,7 @@ export const actions = {
 		const f26 = '';
 		const f27 = '';
 
-		const f29 = services.filter((d) => d.request?.nature?.includes('Others (PSA)'));
+		const f29 = services.filter((d) => d.service?.nature?.includes('Others (PSA)'));
 
 		const f31 = services.filter((d) =>
 			d.case?.terminated?.includes('Favorable Dispositions to Clients')
@@ -330,12 +330,12 @@ export const actions = {
 			labor: services.filter((d) => d.case?.natureOfTheCase?.includes('Labor'))
 		};
 		const f35 = '';
-		const f38 = services.filter((d) => d.request?.natureOfRequest?.includes('Others (PSA)'));
+		const f38 = services.filter((d) => d.service?.natureOfRequest?.includes('Others (PSA)'));
 
-		const f49 = services.filter((d) => d.request?.nature?.includes('Others (PSA)'));
+		const f49 = services.filter((d) => d.service?.nature?.includes('Others (PSA)'));
 
 		const f50 = '';
-		const f51 = services.filter((d) => d.request?.nature?.includes('Home Visitation'));
+		const f51 = services.filter((d) => d.service?.nature?.includes('Home Visitation'));
 		const f52 = '';
 
 		services = await db.services
@@ -711,27 +711,27 @@ export const actions = {
 			a_doc: services.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.request?.otherNature?.includes('Document/Pleadings Prepared')
+					d.service?.otherNature?.includes('Document/Pleadings Prepared')
 			),
 			a_oath: services.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.request?.nature?.includes('Administration of Oath')
+					d.service?.nature?.includes('Administration of Oath')
 			),
 			a_coun: services.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.request?.nature?.includes('Legal Advice')
+					d.service?.nature?.includes('Legal Advice')
 			),
 			a_cust: services.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.request?.otherNature?.includes('Assisted During Custodial Interrogation')
+					d.service?.otherNature?.includes('Assisted During Custodial Interrogation')
 			),
 			a_inqu: services.filter(
 				(d) =>
 					d.client?.classification?.includes('Child in Conflict with the Law') &&
-					d.request?.otherNature?.includes('Assisted During Inquest Investigation')
+					d.service?.otherNature?.includes('Assisted During Inquest Investigation')
 			)
 		};
 

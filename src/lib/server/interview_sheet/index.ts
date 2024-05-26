@@ -109,7 +109,7 @@ async function addTextToPDF(data: any) {
 		intervieweeContactNo,
 		intervieweeEmail,
 
-		// nature of request
+		// nature of service
 		natureOfRequest,
 		otherNatureOfRequest,
 		PDLStatus, // from client.detained

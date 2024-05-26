@@ -27,9 +27,9 @@
 	</DropdownMenu.Root>
 	<AlertDialog.Content>
 		<AlertDialog.Header>
-			<AlertDialog.Title>{status === 'Archived' ? 'Restore' : 'Delete'} Request</AlertDialog.Title>
+			<AlertDialog.Title>{status === 'Archived' ? 'Restore' : 'Delete'} Service</AlertDialog.Title>
 			<AlertDialog.Description>
-				Are you absolutely sure? The request will be {status === 'Archived'
+				Are you absolutely sure? The service will be {status === 'Archived'
 					? 'restored'
 					: 'archived'}.
 			</AlertDialog.Description>

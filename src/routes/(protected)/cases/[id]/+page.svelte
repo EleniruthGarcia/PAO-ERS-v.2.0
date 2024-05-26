@@ -52,7 +52,7 @@
 						>
 							{data._case.currentStatus}
 						</Badge>
-						{data.request._id}
+						{data.service._id}
 					</Card.Description>
 				</div>
 				<div class="invisible ml-auto flex items-center gap-1 sm:visible">
