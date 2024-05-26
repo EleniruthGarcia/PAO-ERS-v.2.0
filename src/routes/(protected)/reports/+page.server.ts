@@ -307,7 +307,7 @@ export const actions = {
 		);
 		const f25 = services.filter((d) => d.case?.genderCaseSubject?.includes(''));
 		const f26 = '';
-		const f27 = requests.filter((d) => d.case?.natureOfTheCase?.includes('Appealed'));
+		const f27 = services.filter((d) => d.case?.natureOfTheCase?.includes('Appealed'));
 
 		const f29 = services.filter((d) => d.service?.nature?.includes('Others (PSA)'));
 
