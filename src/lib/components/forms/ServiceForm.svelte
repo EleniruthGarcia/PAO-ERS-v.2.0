@@ -182,6 +182,13 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div> -->
+						<Form.Field {form} name="title" class="grid gap-3">
+							<Form.Control let:attrs>
+								<Form.Label>Title <span class="font-bold text-destructive">*</span></Form.Label>
+								<Input {...attrs} bind:value={$formData.title} />
+							</Form.Control>
+							<Form.FieldErrors />
+						</Form.Field>
 						<Form.Fieldset {form} name="client_id" class="grid gap-3">
 							<Form.Legend>
 								Client <span class="font-bold text-destructive">*</span>
