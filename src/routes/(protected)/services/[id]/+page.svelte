@@ -9,6 +9,7 @@
 	import * as Card from '$lib/components/ui/card';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Separator } from '$lib/components/ui/separator';
+	import { Badge } from '$lib/components/ui/badge';
 
 	export let data: PageServerData;
 </script>
@@ -40,6 +41,7 @@
 						</Button>
 					</Card.Title>
 					<Card.Description>
+						<Badge variant="outline" class="mr-2">{data.service.typeOfService}</Badge>
 						{data.client.length > 1
 							? data.client.length > 2
 								? `${data.client[0].lastName} et. al.`

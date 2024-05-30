@@ -276,7 +276,7 @@ export const actions = {
 		const f12 = '';
 		const f13 = services.filter((d) =>
 			d.client?.classification?.includes('Child in Conflict with the Law')
-		);
+		).map((item, index) => ({ index, ...item }));
 		const f14 = '';
 		const f15 = services.filter((d) =>
 			d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation')
@@ -317,8 +317,8 @@ export const actions = {
 		);
 		const f32 = services.filter(
 			(d) =>
-			// d.client?.detainedSince?.contains('') &&
-			d.services?.nature?.includes('Representation in Court or Quasi-Judicial Bodies')
+				// d.client?.detainedSince?.contains('') &&
+				d.services?.nature?.includes('Representation in Court or Quasi-Judicial Bodies')
 		);
 		const f33 = services.filter((d) => d.case?.favorable?.includes(''));
 		const f34 = {
@@ -428,7 +428,7 @@ export const actions = {
 						s.type !== 'Terminated' &&
 						(s.date?.getMonth() + 1 < 12
 							? months[s.date?.getMonth() + 1] === form.data.month &&
-								s.date?.getFullYear() === form.data.year
+							s.date?.getFullYear() === form.data.year
 							: s.date?.getMonth() === 11 && s.date?.getFullYear() === form.data.year - 1)
 				).length > 0
 		);

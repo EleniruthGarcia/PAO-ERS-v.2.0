@@ -7,6 +7,8 @@
 	import NavLink from '$lib/components/NavLink.svelte';
 	import NightToggle from '$lib/components/NightToggle.svelte';
 	import Search from '$lib/components/Search.svelte';
+	import { ChatBubble } from 'svelte-radix';
+	import { Button } from './ui/button';
 
 	const links = visibleLinks($page.data.user);
 </script>
@@ -29,6 +31,14 @@
 	<div class="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
 		<Search />
 		<NightToggle />
+		<Button
+			variant="link"
+			size="icon"
+			class="border border-input bg-background text-foreground shadow-sm hover:bg-accent hover:text-accent-foreground"
+			href="https://docs.google.com/forms/d/e/1FAIpQLSeQgGCDW9ThhDKuLG9zJ1r0NKleHuZRcsYeOh19YXl7Hem5ww/viewform"
+		>
+			<ChatBubble class="h-4 w-4" />
+		</Button>
 		<Account />
 	</div>
 </header>

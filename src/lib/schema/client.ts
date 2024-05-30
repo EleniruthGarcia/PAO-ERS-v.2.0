@@ -9,7 +9,6 @@ export const classification = [
 	'Denied or Disqualified',
 	'Drug-Related Duty',
 	'Former Rebels (FRs) and Former Violent Extremists (FVEs)',
-	'Law Enforcer',
 	'OFW (Land-Based)',
 	'OFW (Sea-Based)',
 	'Petitioner for Voluntary Rehabilitation (Drugs)',
@@ -125,13 +124,12 @@ export const formSchema = z.object({
 		// .regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number.')
 		.optional(),
 	classification: z.array(z.enum(classification)).optional(),
+	lawEnforcer: z.string().optional(),
 	foreignNational: z.string().optional(),
 	pwd: z.union([
-		z.literal(''),
-		z.enum(pwd, {
-			errorMap: (e) => ({ message: 'Invalid PWD type.' })
-		}).optional()]
-	).transform((e) => (e === '' ? undefined : e)),
+		z.enum(pwd).optional(),
+		z.string().optional()
+	]).transform((e) => (e === '' ? undefined : e)),
 	indigenousPeople: z.string().optional(),
 	urbanPoor: z.string().optional(),
 	ruralPoor: z.string().optional(),

@@ -7,7 +7,8 @@
 		typeOfRelease,
 		formSchema,
 		type FormSchema,
-		relationshipToClient
+		relationshipToClient,
+		typeOfService
 	} from '$lib/schema/service';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 
@@ -22,6 +23,7 @@
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
 	import { Separator } from '$lib/components/ui/separator';
+	import * as RadioGroup from '$lib/components/ui/radio-group';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -37,7 +39,6 @@
 	// 	empty: 'undefined'
 	// });
 
-	$: console.log($formData.otherNature);
 	let selectedClient: { label: string; value: string }[] = [];
 	$: $formData.client_id.forEach((_, i) => {
 		selectedClient[i] = {
@@ -182,13 +183,6 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div> -->
-						<Form.Field {form} name="title" class="grid gap-3">
-							<Form.Control let:attrs>
-								<Form.Label>Title <span class="font-bold text-destructive">*</span></Form.Label>
-								<Input {...attrs} bind:value={$formData.title} />
-							</Form.Control>
-							<Form.FieldErrors />
-						</Form.Field>
 						<Form.Fieldset {form} name="client_id" class="grid gap-3">
 							<Form.Legend>
 								Client <span class="font-bold text-destructive">*</span>
@@ -525,6 +519,38 @@
 									<Form.FieldErrors />
 								</Form.Field>
 							{/if}
+						</Card.Content>
+					</Form.Fieldset>
+				</Card.Root>
+				<Card.Root>
+					<Form.Fieldset {form} name="typeOfService" class="space-y-0">
+						<Card.Header>
+							<Card.Title>
+								<Form.Legend>
+									Type of Service <span class="font-bold text-destructive">*</span>
+								</Form.Legend>
+							</Card.Title>
+							<!-- <Card.Description>
+								<Form.Description>Please select all the apply.</Form.Description>
+							</Card.Description> -->
+						</Card.Header>
+						<Card.Content>
+							<div class="space-y-2">
+								<RadioGroup.Root bind:value={$formData.typeOfService}>
+									{#each typeOfService as item}
+										<div class="flex flex-row items-start space-x-3">
+											<Form.Control let:attrs>
+												<RadioGroup.Item {...attrs} value={item} />
+												<Form.Label class="text-sm font-normal">
+													{item}
+												</Form.Label>
+											</Form.Control>
+										</div>
+									{/each}
+									<RadioGroup.Input name="typeOfService" />
+								</RadioGroup.Root>
+								<Form.FieldErrors />
+							</div>
 						</Card.Content>
 					</Form.Fieldset>
 				</Card.Root>

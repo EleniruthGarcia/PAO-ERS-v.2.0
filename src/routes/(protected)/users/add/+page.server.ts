@@ -28,6 +28,7 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/users', text: 'Users' },
 			{ href: '/users/add', text: 'Add User' }
 		],
+		users: await db.users.find().toArray(),
 		branches: await db.branches.find().toArray(),
 		form: await superValidate(
 			{

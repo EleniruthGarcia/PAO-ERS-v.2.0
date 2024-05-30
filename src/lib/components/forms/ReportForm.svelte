@@ -59,7 +59,7 @@
 				<Form.Button type="submit" size="sm">Generate Report</Form.Button>
 			</div>
 		</div>
-		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-5 lg:gap-8">
+		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-8 lg:gap-8">
 			<!-- <div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
 				<Card.Root>
 					<Form.Fieldset {form} name="reports" class="space-y-0">
@@ -175,6 +175,45 @@
 							</Form.Control>
 							<Form.FieldErrors />
 						</Form.Field>
+					</Card.Content>
+				</Card.Root>
+			</div>
+			<div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
+				<Card.Root>
+					<Card.Header>
+						<Card.Title>Disclaimer</Card.Title>
+						<Card.Description>All reports can be edited. Some aspects of the report require manual input from the user, these are indicated as light purple cells.</Card.Description>
+					</Card.Header>
+					<Card.Content class="mx-4 text-sm">
+						<ul class="list-disc">
+							<li>
+								<strong>F29 (Individual Performance Report)</strong>
+								<ul class="list-[circle] ml-4">
+									<li>Inmates served/released</li>
+									<li>Conducted jail visits</li>
+									<li>Jail/detention units visited</li>
+									<li>Barangay legal outreach</li>
+									<li>Beneficiaries</li>
+									<li>Legal aid information</li>
+									<li>Scheduled hearings</li>
+									<li>Postponement</li>
+								</ul>
+							</li>
+							<li>
+								<strong>F48 (Age and Sex Disaggregated Report on Released PDLs)</strong>
+								<ul class="list-[circle] ml-4">
+									<li>Other legal reasons for release, if any</li>
+								</ul>
+							</li>
+							<li>
+								<strong>F49 (Consolidated Report On Legal Assistance Rendered To Former Rebels (FRs) And Former Violent Extremists (FVEs))</strong>
+								<ul class="list-[circle] ml-4">
+									<li>Usual cases</li>
+									<li>Remarks</li>
+									<li>Legal outreach activities</li>
+								</ul>
+							</li>
+						</ul>
 					</Card.Content>
 				</Card.Root>
 			</div>

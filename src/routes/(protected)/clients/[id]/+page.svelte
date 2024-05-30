@@ -272,6 +272,12 @@
 									<span>{data.client.indigenousPeople}</span>
 								</li>
 							{/if}
+							{#if data.client.lawEnforcer}
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Enforcer Rank</span>
+									<span>{data.client.lawEnforcer}</span>
+								</li>
+							{/if}
 							{#if data.client.urbanPoor}
 								<li class="flex items-center justify-between gap-2 truncate">
 									<span class="text-muted-foreground">Urban Poor</span>
