@@ -59,7 +59,7 @@
 		value: $formData.currentStatus
 	};
 	$: selectedService = {
-		label: $formData.controlNo,
+		label: $page.data.services.find((service) => service._id === $formData.controlNo)?.title ?? '',
 		value: $formData.controlNo
 	};
 	$: selectedCauseOfTermination = {
@@ -172,7 +172,9 @@
 										</Select.Trigger>
 										<Select.Content>
 											{#each $page.data.services as service}
-												<Select.Item value={service._id} />
+												<Select.Item value={service._id}>
+													[{service._id}] {service.title}
+												</Select.Item>
 											{/each}
 										</Select.Content>
 									</Select.Root>
