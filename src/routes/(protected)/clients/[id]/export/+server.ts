@@ -155,7 +155,7 @@ export const GET: ServiceHandler = async (event) => {
 					intervieweeContactNo: { $ifNull: ['$interviewee.contactNumber', 'N/A'] },
 					intervieweeEmail: { $ifNull: ['$interviewee.email', ''] },
 					relationshipToClient: '$relationshipToClient',
-					natureOfService: '$natureOfService',
+					natureOfService: '$nature',
 					natureOfTheCase: { $ifNull: ['$case.natureOfTheCase', ''] },
 					caseSpecs: { $ifNull: ['$case._id', ''] },
 					factsOfTheCase: { $ifNull: ['$case.factsOfTheCase', ''] },
