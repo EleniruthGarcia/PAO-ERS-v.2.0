@@ -274,21 +274,12 @@ async function addTextToPDF(data: any) {
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
-	if (email) {
 	firstPage.drawText(email ?? 'N/A' ?? 'N/A', {
 		x: 80,
 		y: 649,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
-	}); }
-	else {
-		firstPage.drawText("N/A" ?? 'N/A' ?? 'N/A', {
-			x: 80,
-			y: 649,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
-		});
-	}
+	});
 	firstPage.drawText(individualMonthlyIncome ?? 'N/A' ?? 'N/A', {
 		x: 150,
 		y: 635,
