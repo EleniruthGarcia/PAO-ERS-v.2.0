@@ -139,6 +139,7 @@ export const GET: ServiceHandler = async (event) => {
 					placeOfDetention: '$client.detainedAt',
 					proofOfIndigency: { $ifNull: ['$client.proofOfIndigency', []] },
 					clientClasses: { $ifNull: ['$client.classification', []] },
+					foreignNational : '$client.foreignNational',
 					PDLStatus: '$client.detained',
 					intervieweeName: { $ifNull: ['$interviewee.name', '$client.name'] },
 					intervieweeAddress: { $ifNull: ['$interviewee.address', '$client.address'] },
@@ -237,6 +238,7 @@ export const GET: ServiceHandler = async (event) => {
 				placeOfDetention: client?.detainedAt,
 				proofOfIndigency: client?.proofOfIndigency || [],
 				clientClasses: client?.classification || [],
+				foreignNational: client?.foreignNational,
 				PDLStatus: client?.detained,
 				intervieweeName: '',
 				intervieweeAddress: '',
@@ -257,7 +259,7 @@ export const GET: ServiceHandler = async (event) => {
 				natureOfOffence: '',
 				courtPendingStatus: '',
 				titleOfCaseDocketNum: '',
-				courtBodyTribunal: ''
+				courtBodyTribunal: '',
 			}
 		];
 
