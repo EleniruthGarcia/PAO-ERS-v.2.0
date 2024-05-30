@@ -60,7 +60,7 @@
 			</div>
 		</div>
 		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-5 lg:gap-8">
-			<div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
+			<!-- <div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
 				<Card.Root>
 					<Form.Fieldset {form} name="reports" class="space-y-0">
 						<Card.Header>
@@ -97,11 +97,11 @@
 						</Card.Content>
 					</Form.Fieldset>
 				</Card.Root>
-			</div>
-			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+			</div> -->
+			<div class="grid auto-rows-max items-start gap-4 lg:col-span-5 lg:gap-8">
 				<Card.Root>
 					<Card.Header>
-						<Card.Title>Additional Information</Card.Title>
+						<Card.Title>Report Information</Card.Title>
 						<Card.Description>Please provide all necessary details.</Card.Description>
 					</Card.Header>
 					<Card.Content>
