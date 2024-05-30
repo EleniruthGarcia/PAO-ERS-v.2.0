@@ -24,7 +24,7 @@ export const classification = [
 	'Victim of Trafficking (R.A. No. 9208)',
 	'Woman Client',
 	'Woman Client (Non-VAWC Victim)'
-	
+
 ] as const;
 
 export const pwd = [
@@ -113,7 +113,10 @@ export const formSchema = z.object({
 	spouseLastName: z.string().optional(),
 	spouseNameSuffix: z.string().optional(),
 	spouseAddress: z.string().optional(),
-	spouseEmail: z.string().email().optional(),
+	spouseEmail: z.union([
+		z.literal(''),
+		z.string().email().optional()]
+	).transform((e) => (e === '' ? undefined : e)),
 	spouseContactNumber: z
 		.string()
 		// .regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number.')
