@@ -13,6 +13,12 @@ export const nature = [
 	'Others'
 ] as const;
 
+
+export const typeOfService = [
+	'Judicial',
+	'Quasi-Judicial',
+	'Non-Judicial'
+] as const;
 // other nature of cases possible
 export const otherNature = [
 	'Document/Pleadings Prepared',
