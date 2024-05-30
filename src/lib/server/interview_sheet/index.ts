@@ -259,7 +259,7 @@ async function addTextToPDF(data: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(address ?? 'N/A' ?? 'N/A', {
-		x: 800,
+		x: 80,
 		y: 663,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -271,7 +271,7 @@ async function addTextToPDF(data: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(email ?? 'N/A' ?? 'N/A', {
-		x: 100,
+		x: 80,
 		y: 649,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
