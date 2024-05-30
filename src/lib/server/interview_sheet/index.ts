@@ -421,7 +421,16 @@ async function addTextToPDF(data: any) {
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
-	} else if (natureOfTheCase === 'Administrative') {
+	} else {
+		firstPage.drawText('N/A' ?? 'N/A' ?? 'N/A', {
+			x: 85,
+			y: 504,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	}
+	
+	if (natureOfTheCase === 'Administrative') {
 		// ADMINISTRATIVE
 		firstPage.drawRectangle({
 			x: 34,
@@ -437,7 +446,16 @@ async function addTextToPDF(data: any) {
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
-	} else if (natureOfTheCase === 'Appealed') {
+	} else {
+		firstPage.drawText('N/A' ?? 'N/A' ?? 'N/A', {
+			x: 105,
+			y: 490,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	}
+	
+	if (natureOfTheCase === 'Appealed') {
 		// APPEALED
 		firstPage.drawRectangle({
 			x: 206,
@@ -453,7 +471,18 @@ async function addTextToPDF(data: any) {
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
-	} else if (natureOfTheCase === 'Civil') {
+	} else {
+		firstPage.drawText('N/A' ?? 'N/A' ?? 'N/A', {
+			x: 265,
+			y: 490,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	}
+	
+	
+	
+	if (natureOfTheCase === 'Civil') {
 		// CIVIL
 		firstPage.drawRectangle({
 			x: 206,
@@ -469,7 +498,16 @@ async function addTextToPDF(data: any) {
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
-	} else if (natureOfTheCase === 'Labor') {
+	} else {
+		firstPage.drawText('N/A' ?? 'N/A' ?? 'N/A', {
+			x: 265,
+			y: 504,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	} 
+	
+	if (natureOfTheCase === 'Labor') {
 		// LABOR
 		firstPage.drawRectangle({
 			x: 370,
@@ -480,6 +518,13 @@ async function addTextToPDF(data: any) {
 			borderColor: undefined // No border
 		});
 		firstPage.drawText(caseSpecs ?? 'N/A' ?? 'N/A', {
+			x: 420,
+			y: 504,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	} else {
+		firstPage.drawText('N/A' ?? 'N/A' ?? 'N/A', {
 			x: 420,
 			y: 504,
 			size: 10,
