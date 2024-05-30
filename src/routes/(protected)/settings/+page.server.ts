@@ -30,7 +30,8 @@ export const load: PageServerLoad = async (event) => {
 			zod(formSchema),
 			{ errors: false }
 		),
-		branches: await db.branches.find().toArray()
+		branches: await db.branches.find().toArray(),
+		users: await db.users.find().toArray()
 	};
 };
 
