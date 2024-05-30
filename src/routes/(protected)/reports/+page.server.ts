@@ -25,6 +25,7 @@ export const load: PageServerLoad = async (event) => {
 		form: await superValidate(
 			{
 				month: months[new Date().getMonth()],
+				day: new Date().getDate(),
 				year: new Date().getFullYear(),
 				notedBy: event.locals.user.reportsTo,
 				reports: []
@@ -232,37 +233,83 @@ export const actions = {
 						PWD: { $cond: [{ $ifNull: ['$client.pwd', 'true'] }, '', 'X'] },
 						UP: { $cond: [{ $ifNull: ['$client.urbanPoor', 'true'] }, '', 'X'] },
 						RP: { $cond: [{ $ifNull: ['$client.ruralPoor', 'true'] }, '', 'X'] },
-						Judi: { $cond: [{ $in: ['$services.nature', ['Representation', '']] }, 'X', ''] },
+						Judi: {
+							$cond: [
+								{ $in: ['$service.typeOfService', ['Judicial']] },
+								'X',
+								''
+							]
+						},
 						Quasi: {
 							$cond: [
-								{ $in: ['$services.nature', ['Representation in Court or Quasi-Judicial Bodies']] },
+								{ $in: ['$service.typeOfService', ['Quasi-Judicial']] },
 								'X',
 								''
 							]
 						},
 						NonJudi: {
 							$cond: [
-								{
-									$in: [
-										'$services.nature',
-										[
-											'Legal Advice',
-											'Administration of Oath',
-											'Outreach',
-											'Inquest Legal Assistance',
-											'Mediation or Conciliation'
-										]
-									]
-								},
+								{ $in: ['$service.typeOfService', ['Non-Judicial']] },
 								'X',
 								''
 							]
 						},
 						genderCase: { $ifNull: ['$case.genderCaseSubject', []] },
 						typePWD: { $ifNull: ['$client.pwd', []] },
+						intellectual: {
+							$cond: [
+								{ $in: ['$client.pwd', ['Intellectual']] },
+								'X',
+								''
+							]
+						},
+						vision: {
+							$cond: [
+								{ $in: ['$client.pwd', ['Vision']] },
+								'X',
+								''
+							]
+						},
+						hearing: {
+							$cond: [
+								{ $in: ['$client.pwd', ['Hearing']] },
+								'X',
+								''
+							]
+						},
+						speech: {
+							$cond: [
+								{ $in: ['$client.pwd', ['Speech']] },
+								'X',
+								''
+							]
+						},
+						mental: {
+							$cond: [
+								{ $in: ['$client.pwd', ['Psychiatric or Mental Illness']] },
+								'X',
+								''
+							]
+						},
+						acquired: {
+							$cond: [
+								{ $in: ['$client.pwd', ['Acquired Disability']] },
+								'X',
+								''
+							]
+						},
+						othersPWD: {
+							$cond: [
+								{ $in: ['$client.pwd', ['Others']] },
+								'X',
+								''
+							]
+						},
 						termination: { $ifNull: ['$case.causeOfTermination', ''] },
 						dateCommission: { $ifNull: ['$case.dateOfCommission', ''] },
-						natureOfInstrument: { $ifNull: ['$service.natureOfInstrument', []] }
+						natureOfInstrument: { $ifNull: ['$service.natureOfInstrument', []] },
+						typeOfService: { $ifNull: ['$service.typeOfService', []] },
+						position: { $ifNull: ['$client.lawEnforcer', ''] }
 					}
 				},
 				{
@@ -281,8 +328,7 @@ export const actions = {
 		const f15 = services.filter((d) =>
 			d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation')
 		);
-		const f16 = '';
-		// services.filter((d) => d.client?.foreignNational?.contains('Taiwanese'));
+		const f16 = services.filter((d) => d.client?.foreignNational?.contains('Taiwanese'));
 		const f18 = services.filter(
 			(d) =>
 				d.client?.classification?.includes('OFW') &&
@@ -8012,6 +8058,7 @@ export const actions = {
 				...branch,
 				lawyer,
 				quarter,
+				day: form.data.day,
 				month: form.data.month,
 				year: form.data.year,
 				notedBy,

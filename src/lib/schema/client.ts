@@ -23,7 +23,6 @@ export const classification = [
 	'Victim of Trafficking (R.A. No. 9208)',
 	'Woman Client',
 	'Woman Client (Non-VAWC Victim)'
-
 ] as const;
 
 export const pwd = [
@@ -32,7 +31,8 @@ export const pwd = [
 	'Hearing',
 	'Speech',
 	'Psychiatric or Mental Illness',
-	'Acquired Disability'
+	'Acquired Disability',
+	'Others'
 ] as const;
 
 export const sex = ['Male', 'Female'] as const;

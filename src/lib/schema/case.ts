@@ -86,6 +86,7 @@ export const hernanStatus = [
 	'PAO is awaiting records from the court',
 	'Petition by PAO is not applicable (e.g. PDL was already released, deceased, has a private lawyer, application is not favorable, etc.)',
 	'No. of cases which are already for filing of petition',
+	'Client benefitted through reduced penalty by virtue of petition filed',
 	'Motion/ other remedies are filed/ undertaken'
 ] as const;
 
@@ -107,6 +108,8 @@ export const genderCaseSubject = [
 	'Acts of Lasciviousness',
 	'Sexual Harassment'
 ] as const;
+
+
 
 export const causeOfTermination = ['MOA', 'AUQNA'] as const;
 
