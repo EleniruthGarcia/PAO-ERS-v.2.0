@@ -59,7 +59,7 @@
 				<Form.Button type="submit" size="sm">Generate Report</Form.Button>
 			</div>
 		</div>
-		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-5 lg:gap-8">
+		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-8 lg:gap-8">
 			<!-- <div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
 				<Card.Root>
 					<Form.Fieldset {form} name="reports" class="space-y-0">
@@ -175,6 +175,26 @@
 							</Form.Control>
 							<Form.FieldErrors />
 						</Form.Field>
+					</Card.Content>
+				</Card.Root>
+			</div>
+			<div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
+				<Card.Root>
+					<Card.Header>
+						<Card.Title>Disclaimer</Card.Title>
+						<Card.Description>All reports can be edited after download. Some reports require manual input from the user.</Card.Description>
+					</Card.Header>
+					<Card.Content class="mx-4 text-sm">
+						<ul class="list-disc">
+							<li>
+								<strong>F48</strong>
+								(Age and Sex Disaggregated Report on Released PDLs) - Please input other legal reasons for release, if any.
+							</li>
+							<li>
+								<strong>F49</strong>
+								(Consolidated Report On Legal Assistance Rendered To Former Rebels (FRs) And Former Violent Extremists (FVEs)) - Please provide info on usual cases, remarks and legal outreach activities.
+							</li>
+						</ul>
 					</Card.Content>
 				</Card.Root>
 			</div>

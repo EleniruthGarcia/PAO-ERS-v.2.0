@@ -34,10 +34,10 @@
 		<Button
 			variant="link"
 			size="icon"
-			class="border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground"
+			class="border border-input bg-background text-foreground shadow-sm hover:bg-accent hover:text-accent-foreground"
 			href="https://docs.google.com/forms/d/e/1FAIpQLSeQgGCDW9ThhDKuLG9zJ1r0NKleHuZRcsYeOh19YXl7Hem5ww/viewform"
 		>
-			<LinkBreak1 class="h-4 w-4" />
+			<ChatBubble class="h-4 w-4" />
 		</Button>
 		<Account />
 	</div>
