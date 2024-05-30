@@ -833,7 +833,7 @@ async function addTextToPDF(data: any) {
 
 	// PARTY/REP
 	firstPage.drawText(name ?? 'N/A', {
-		x: 240,
+		x: 280,
 		y: 365,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -854,7 +854,7 @@ async function addTextToPDF(data: any) {
 		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
-	firstPage.drawText(spouseContactNo ?? 'N/A', {
+	firstPage.drawText(contactPartner ?? 'N/A', {
 		x: 390,
 		y: 621,
 		size: 10,
@@ -888,27 +888,8 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-		// firstPage.drawText("N/A" ?? 'N/A', {
-		// 	x: 340,
-		// 	y: 649,
-		// 	size: 10,
-		// 	color: rgb(0, 0, 0) // Black
-		// });
-		// firstPage.drawText('N/A' ?? 'N/A', {
-		// 	x: 390,
-		// 	y: 635,
-		// 	size: 10,
-		// 	color: rgb(0, 0, 0) // Black
-		// });
-		// firstPage.drawText('N/A' ?? 'N/A', {
-		// 	x: 390,
-		// 	y: 621,
-		// 	size: 10,
-		// 	color: rgb(0, 0, 0) // Black
-		// });
 	}
 	if (civilStatus === 'Widow/Widower') {
-		// Widow/Widower
 		firstPage.drawRectangle({
 			x: 469,
 			y: 294,
