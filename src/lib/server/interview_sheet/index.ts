@@ -845,36 +845,37 @@ async function addTextToPDF(data: any) {
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
-
+	const addressPartner = addressOfSpouse ? addressOfSpouse : "N/A";
+	const contactPartner = spouseContactNo ? spouseContactNo : "N/A";
+	const partner1 = spouse ? spouse : "N/A";
+	firstPage.drawText(addressPartner ?? 'N/A', {
+		x: 380,
+		y: 635,
+		size: 8,
+		color: rgb(0, 0, 0) // Black
+	});
+	firstPage.drawText(spouseContactNo ?? 'N/A', {
+		x: 390,
+		y: 621,
+		size: 10,
+		color: rgb(0, 0, 0) // Black
+	});
+	firstPage.drawText(partner1 ?? 'N/A', {
+		x: 340,
+		y: 649,
+		size: 10,
+		color: rgb(0, 0, 0) // Black
+	});
 	if (civilStatus === 'Married') {
-		firstPage.drawText(spouse ?? 'N/A', {
-			x: 340,
-			y: 649,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
+		// Married
+		firstPage.drawRectangle({
+			x: 298,
+			y: 294,
+			width: 5,
+			height: 5,
+			color: rgb(0, 0, 0),
+			borderColor: undefined // No border
 		});
-		firstPage.drawText(addressOfSpouse ?? 'N/A', {
-			x: 380,
-			y: 635,
-			size: 8,
-			color: rgb(0, 0, 0) // Black
-		});
-		firstPage.drawText(spouseContactNo ?? 'N/A', {
-			x: 390,
-			y: 621,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
-		});
-
-			// Married
-			firstPage.drawRectangle({
-				x: 298,
-				y: 294,
-				width: 5,
-				height: 5,
-				color: rgb(0, 0, 0),
-				borderColor: undefined // No border
-			});
 
 	} 
 	if (civilStatus === 'Single') {
@@ -887,24 +888,24 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-		firstPage.drawText("N/A" ?? 'N/A', {
-			x: 340,
-			y: 649,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
-		});
-		firstPage.drawText('N/A' ?? 'N/A', {
-			x: 390,
-			y: 635,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
-		});
-		firstPage.drawText('N/A' ?? 'N/A', {
-			x: 390,
-			y: 621,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
-		});
+		// firstPage.drawText("N/A" ?? 'N/A', {
+		// 	x: 340,
+		// 	y: 649,
+		// 	size: 10,
+		// 	color: rgb(0, 0, 0) // Black
+		// });
+		// firstPage.drawText('N/A' ?? 'N/A', {
+		// 	x: 390,
+		// 	y: 635,
+		// 	size: 10,
+		// 	color: rgb(0, 0, 0) // Black
+		// });
+		// firstPage.drawText('N/A' ?? 'N/A', {
+		// 	x: 390,
+		// 	y: 621,
+		// 	size: 10,
+		// 	color: rgb(0, 0, 0) // Black
+		// });
 	}
 	if (civilStatus === 'Widow/Widower') {
 		// Widow/Widower
@@ -915,25 +916,6 @@ async function addTextToPDF(data: any) {
 			height: 5,
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
-		});
-		
-		firstPage.drawText('N/A' ?? 'N/A', {
-			x: 390,
-			y: 649,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
-		});
-		firstPage.drawText('N/A' ?? 'N/A', {
-			x: 390,
-			y: 635,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
-		});
-		firstPage.drawText('N/A' ?? 'N/A', {
-			x: 390,
-			y: 621,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
 		});
 	}
 
