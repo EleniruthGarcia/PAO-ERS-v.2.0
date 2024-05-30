@@ -132,7 +132,7 @@ async function addTextToPDF(data: any) {
 		pendingInCourt,
 		titleOfTheCase,
 		docketNumber,
-		court
+		courtBodyTribunal
 	} = data;
 
 	// Load existing PDF
@@ -1256,8 +1256,8 @@ async function addTextToPDF(data: any) {
 	}
 	var adversePartyMaxLength = 60;
 	var yCoordinate = 295;
-	for (let i = 0; i < court?.length; i += adversePartyMaxLength) {
-		const textChunk = court.substring(i, i + adversePartyMaxLength);
+	for (let i = 0; i < courtBodyTribunal?.length; i += adversePartyMaxLength) {
+		const textChunk = courtBodyTribunal.substring(i, i + adversePartyMaxLength);
 		secondPage.drawText(textChunk ?? 'N/A', {
 			x: 130,
 			y: yCoordinate,
