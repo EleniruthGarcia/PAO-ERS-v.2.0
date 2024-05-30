@@ -127,11 +127,9 @@ export const formSchema = z.object({
 	lawEnforcer: z.string().optional(),
 	foreignNational: z.string().optional(),
 	pwd: z.union([
-		z.literal(''),
-		z.enum(pwd, {
-			errorMap: (e) => ({ message: 'Invalid PWD type.' })
-		}).optional()]
-	).transform((e) => (e === '' ? undefined : e)),
+		z.enum(pwd).optional(),
+		z.string().optional()
+	]).transform((e) => (e === '' ? undefined : e)),
 	indigenousPeople: z.string().optional(),
 	urbanPoor: z.string().optional(),
 	ruralPoor: z.string().optional(),

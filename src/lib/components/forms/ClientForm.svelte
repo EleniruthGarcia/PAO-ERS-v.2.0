@@ -78,9 +78,12 @@
 		value: $formData.educationalAttainment
 	};
 
-	$: inputPWD = '';
-	$: $formData.pwd = pwd.includes(inputPWD) ? inputPWD : undefined;
-	$: filteredPWD = pwd.filter((v) => v.toLowerCase().includes($formData.pwd?.toLowerCase() ?? ''));
+	$: touchedPWD = false;
+
+	$: filteredPWD =
+		$formData.pwd && touchedPWD
+			? pwd.filter((v) => v.toLowerCase().includes($formData.pwd?.toLowerCase() ?? ''))
+			: pwd;
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
@@ -511,7 +514,11 @@
 							<Form.Field {form} name="pwd" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Person with Disability</Form.Label>
-									<Combobox.Root items={filteredPWD} bind:inputValue={inputPWD}>
+									<Combobox.Root
+										items={filteredPWD}
+										bind:inputValue={$formData.pwd}
+										bind:touchedInput={touchedPWD}
+									>
 										<div class="relative">
 											<Combobox.Input
 												class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
@@ -544,7 +551,7 @@
 												</span>
 											{/each}
 										</Combobox.Content>
-										<Combobox.HiddenInput name={attrs.name} />
+										<Combobox.HiddenInput name="pwd" />
 									</Combobox.Root>
 								</Form.Control>
 								<Form.FieldErrors />
