@@ -825,12 +825,12 @@ async function addTextToPDF(data: any) {
 	}
 
 	// PARTY/REP
-	firstPage.drawText(name ?? 'N/A', {
-		x: 280,
-		y: 365,
-		size: 10,
-		color: rgb(0, 0, 0) // Black
-	});
+	// firstPage.drawText(name ?? 'N/A', {
+	// 	x: 280,
+	// 	y: 365,
+	// 	size: 10,
+	// 	color: rgb(0, 0, 0) // Black
+	// });
 
 	firstPage.drawText(civilStatus ?? 'N/A', {
 		x: 473,
@@ -838,9 +838,17 @@ async function addTextToPDF(data: any) {
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
-	const addressPartner = addressOfSpouse ? addressOfSpouse : "N/A";
-	const contactPartner = spouseContactNo ? spouseContactNo : "N/A";
-	const partner1 = spouse ? spouse : "N/A";
+	const addressPartner = addressOfSpouse ? addressOfSpouse : "N/AA";
+	const contactPartner = spouseContactNo ? spouseContactNo : "N/AC";
+	const partner1 = spouse ? spouse : "N/A1";
+	const partner = spouse ? spouse : "N/A2";
+
+	firstPage.drawText(partner ?? 'N/ASP', {
+		x: 345,
+		y: 294,
+		size: 10,
+		color: rgb(0, 0, 0) // Black
+	});
 	firstPage.drawText(addressPartner ?? 'N/A', {
 		x: 380,
 		y: 635,
@@ -959,13 +967,6 @@ async function addTextToPDF(data: any) {
 	});
 	firstPage.drawText(name ?? 'N/A', {
 		x: 50,
-		y: 294,
-		size: 10,
-		color: rgb(0, 0, 0) // Black
-	});
-	const partner = spouse ? spouse : "N/A";
-	firstPage.drawText(partner ?? 'N/ASP', {
-		x: 345,
 		y: 294,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
