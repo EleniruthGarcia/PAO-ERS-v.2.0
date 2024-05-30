@@ -125,14 +125,14 @@ async function addTextToPDF(data: any) {
 		urbanPoor,
 		ruralPoor,
 
-		adverseParty,
+		adversePartyInvolvement,
 		adversePartyName,
 		adversePartyAddress,
-		factsOfTheCase,
-		natureOfOffence,
-		courtPendingStatus,
-		titleOfCaseDocketNum,
-		courtBodyTribunal
+		causeOfActionOrNatureOfOffence,
+		pendingInCourt,
+		titleOfTheCase,
+		docketNumber,
+		court
 	} = data;
 
 	// Load existing PDF
@@ -140,7 +140,11 @@ async function addTextToPDF(data: any) {
 	const pdfDoc = await PDFDocument.load(pdfBytes);
 	// Get the first page of the PDF
 	const firstPage = pdfDoc.getPages()[0];
-
+	if(titleOfTheCase) {
+	var titleOfCaseDocketNum = titleOfTheCase + " " + docketNumber
+	} else {
+		var titleOfCaseDocketNum = "N/A"
+	}
 	// Add text to the first page
 	firstPage.drawText(controlNo ?? 'N/A' ?? 'N/A', {
 		x: 90,
@@ -259,7 +263,7 @@ async function addTextToPDF(data: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(address ?? 'N/A' ?? 'N/A', {
-		x: 800,
+		x: 80,
 		y: 663,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -271,7 +275,7 @@ async function addTextToPDF(data: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(email ?? 'N/A' ?? 'N/A', {
-		x: 100,
+		x: 80,
 		y: 649,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -835,7 +839,7 @@ async function addTextToPDF(data: any) {
 		firstPage.drawText(addressOfSpouse ?? 'N/A' ?? 'N/A', {
 			x: 390,
 			y: 635,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 		firstPage.drawText(spouseContactNo ?? 'N/A' ?? 'N/A', {
@@ -1088,7 +1092,7 @@ async function addTextToPDF(data: any) {
 			});
 		}
 	}
-	for (const item of adverseParty) {
+	for (const item of adversePartyInvolvement) {
 		if (typeof item === 'string') {
 			switch (item) {
 				case 'Plaintiff/Complainant':
@@ -1169,14 +1173,14 @@ async function addTextToPDF(data: any) {
 			});
 		}
 	}
-	if (courtPendingStatus === 'Yes') {
+	if (pendingInCourt === 'Yes') {
 		secondPage.drawText('X' ?? 'N/A', {
 			x: 322,
 			y: 358,
 			size: 12,
 			color: rgb(1, 1, 1) // Black
 		});
-	} else if (courtPendingStatus === 'No') {
+	} else if (pendingInCourt === 'No') {
 		secondPage.drawText('X' ?? 'N/A', {
 			x: 357,
 			y: 358,
@@ -1211,8 +1215,8 @@ async function addTextToPDF(data: any) {
 	}
 	var adversePartyMaxLength = 100;
 	var yCoordinate = 798;
-	for (let i = 0; i < factsOfTheCase.length; i += adversePartyMaxLength) {
-		const textChunk = factsOfTheCase.substring(i, i + adversePartyMaxLength);
+	for (let i = 0; i < causeOfActionOrNatureOfOffence.length; i += adversePartyMaxLength) {
+		const textChunk = causeOfActionOrNatureOfOffence.substring(i, i + adversePartyMaxLength);
 		secondPage.drawText(textChunk ?? 'N/A', {
 			x: 50,
 			y: yCoordinate,
@@ -1223,16 +1227,16 @@ async function addTextToPDF(data: any) {
 	}
 	var adversePartyMaxLength = 100;
 	var yCoordinate = 492;
-	for (let i = 0; i < natureOfOffence.length; i += adversePartyMaxLength) {
-		const textChunk = natureOfOffence.substring(i, i + adversePartyMaxLength);
-		secondPage.drawText(textChunk ?? 'N/A', {
-			x: 50,
-			y: yCoordinate,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
-		});
-		yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
-	}
+	// for (let i = 0; i < natureOfOffence.length; i += adversePartyMaxLength) {
+	// 	const textChunk = natureOfOffence.substring(i, i + adversePartyMaxLength);
+	// 	secondPage.drawText(textChunk ?? 'N/A', {
+	// 		x: 50,
+	// 		y: yCoordinate,
+	// 		size: 10,
+	// 		color: rgb(0, 0, 0) // Black
+	// 	});
+	// 	yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
+	// }
 	var adversePartyMaxLength = 60;
 	var yCoordinate = 344;
 	for (let i = 0; i < titleOfCaseDocketNum.length; i += adversePartyMaxLength) {
@@ -1247,8 +1251,8 @@ async function addTextToPDF(data: any) {
 	}
 	var adversePartyMaxLength = 60;
 	var yCoordinate = 295;
-	for (let i = 0; i < courtBodyTribunal.length; i += adversePartyMaxLength) {
-		const textChunk = courtBodyTribunal.substring(i, i + adversePartyMaxLength);
+	for (let i = 0; i < court.length; i += adversePartyMaxLength) {
+		const textChunk = court.substring(i, i + adversePartyMaxLength);
 		secondPage.drawText(textChunk ?? 'N/A', {
 			x: 130,
 			y: yCoordinate,
