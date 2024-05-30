@@ -54,6 +54,7 @@ export const formSchema = z.object({
 		required_error: 'Month is required.',
 		invalid_type_error: 'Invalid month!'
 	}),
+	day: z.number().min(1, 'Day is required.'),
 	// month: z.enum(months, {
 	// 	required_error: 'Month is required!'
 	// }),

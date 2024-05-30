@@ -171,15 +171,27 @@
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Citizenship</span>
-							<span>{data.client.citizenship !== '' && data.client.citizenship ? data.client.citizenship : 'N/A'}</span>
+							<span
+								>{data.client.citizenship !== '' && data.client.citizenship
+									? data.client.citizenship
+									: 'N/A'}</span
+							>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Language</span>
-							<span>{data.client.language !== '' && data.client.language ? data.client.language : 'N/A'}</span>
+							<span
+								>{data.client.language !== '' && data.client.language
+									? data.client.language
+									: 'N/A'}</span
+							>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Religion</span>
-							<span>{data.client.religion !== '' && data.client.religion ? data.client.religion : 'N/A'}</span>
+							<span
+								>{data.client.religion !== '' && data.client.religion
+									? data.client.religion
+									: 'N/A'}</span
+							>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Educational Attainment</span>
@@ -187,7 +199,11 @@
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Individual Monthly Income</span>
-							<span>{data.client.individualMonthlyIncome !== '' && data.client.individualMonthlyIncome ? data.client.individualMonthlyIncome : 'N/A'}</span>
+							<span
+								>{data.client.individualMonthlyIncome !== '' && data.client.individualMonthlyIncome
+									? data.client.individualMonthlyIncome
+									: 'N/A'}</span
+							>
 						</li>
 					</ul>
 				</div>
@@ -201,7 +217,9 @@
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Email</span>
-							<span>{data.client.email !== '' && data.client.email ? data.client.email : 'N/A'}</span>
+							<span
+								>{data.client.email !== '' && data.client.email ? data.client.email : 'N/A'}</span
+							>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Contact Number</span>
@@ -224,7 +242,7 @@
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Email</span>
-								<span>{data.client.spouseEmail}</span>
+								<span>{data.client.spouseEmail ?? 'N/A'}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Contact Number</span>

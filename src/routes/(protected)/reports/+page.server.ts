@@ -25,6 +25,7 @@ export const load: PageServerLoad = async (event) => {
 		form: await superValidate(
 			{
 				month: months[new Date().getMonth()],
+				day: new Date().getDate(),
 				year: new Date().getFullYear(),
 				notedBy: event.locals.user.reportsTo,
 				reports: []
@@ -8012,6 +8013,7 @@ export const actions = {
 				...branch,
 				lawyer,
 				quarter,
+				day: form.data.day,
 				month: form.data.month,
 				year: form.data.year,
 				notedBy,

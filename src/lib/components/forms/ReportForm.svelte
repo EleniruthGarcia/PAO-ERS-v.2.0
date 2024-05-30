@@ -105,7 +105,7 @@
 						<Card.Description>Please provide all necessary details.</Card.Description>
 					</Card.Header>
 					<Card.Content>
-						<div class="grid grid-cols-2 items-start gap-3">
+						<div class="grid grid-cols-3 items-start gap-3">
 							<Form.Field {form} name="month" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Month</Form.Label>
@@ -125,6 +125,13 @@
 											{/each}
 										</Select.Content>
 									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="day" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Day</Form.Label>
+									<Input {...attrs} type="number" min="1" max="31" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -182,13 +189,16 @@
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Disclaimer</Card.Title>
-						<Card.Description>All reports can be edited. Some aspects of the report require manual input from the user, these are indicated as light purple cells.</Card.Description>
+						<Card.Description
+							>All reports can be edited. Some aspects of the report require manual input from the
+							user, these are indicated as light purple cells.</Card.Description
+						>
 					</Card.Header>
 					<Card.Content class="mx-4 text-sm">
 						<ul class="list-disc">
 							<li>
 								<strong>F29 (Individual Performance Report)</strong>
-								<ul class="list-[circle] ml-4">
+								<ul class="ml-4 list-[circle]">
 									<li>Inmates served/released</li>
 									<li>Conducted jail visits</li>
 									<li>Jail/detention units visited</li>
@@ -201,13 +211,16 @@
 							</li>
 							<li>
 								<strong>F48 (Age and Sex Disaggregated Report on Released PDLs)</strong>
-								<ul class="list-[circle] ml-4">
+								<ul class="ml-4 list-[circle]">
 									<li>Other legal reasons for release, if any</li>
 								</ul>
 							</li>
 							<li>
-								<strong>F49 (Consolidated Report On Legal Assistance Rendered To Former Rebels (FRs) And Former Violent Extremists (FVEs))</strong>
-								<ul class="list-[circle] ml-4">
+								<strong
+									>F49 (Consolidated Report On Legal Assistance Rendered To Former Rebels (FRs) And
+									Former Violent Extremists (FVEs))</strong
+								>
+								<ul class="ml-4 list-[circle]">
 									<li>Usual cases</li>
 									<li>Remarks</li>
 									<li>Legal outreach activities</li>
