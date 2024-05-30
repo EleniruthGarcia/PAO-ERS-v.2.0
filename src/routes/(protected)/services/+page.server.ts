@@ -45,6 +45,11 @@ export const load: PageServerLoad = async (event) => {
 					}
 				},
 				{
+					$addFields: {
+						interviewee: { $arrayElemAt: ['$interviewee', 0] }
+					}
+				},
+				{
 					$lookup: {
 						from: 'clients',
 						localField: 'client_id',

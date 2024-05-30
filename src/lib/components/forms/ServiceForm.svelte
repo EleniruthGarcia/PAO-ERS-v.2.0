@@ -58,23 +58,23 @@
 		};
 	});
 
-	$: $formData.title =
-		[...$formData.nature, ...($formData.otherNature ?? [])].length > 0
-			? [...$formData.nature, ...($formData.otherNature ?? [])].join(', ') +
-				' - ' +
-				(function (x) {
-					switch (x.length) {
-						case 0:
-							return 'No client selected.';
-						case 1:
-							return x[0].name;
-						case 2:
-							return x.map((c) => c.lastName).join(' and ');
-						default:
-							return x[0].lastName + ', et al.';
-					}
-				})($formData.client_id.map((id) => $page.data.clients.find((c) => c._id === id)))
-			: undefined;
+	// $: $formData.title =
+	// 	[...($formData.nature ?? []), ...($formData.otherNature ?? [])].length > 0
+	// 		? [...($formData.nature ?? []), ...($formData.otherNature ?? [])].join(', ') +
+	// 			' - ' +
+	// 			(function (x) {
+	// 				switch (x.length) {
+	// 					case 0:
+	// 						return 'No client selected.';
+	// 					case 1:
+	// 						return x[0].name;
+	// 					case 2:
+	// 						return x.map((c) => c.lastName).join(' and ');
+	// 					default:
+	// 						return x[0].lastName + ', et al.';
+	// 				}
+	// 			})($formData.client_id.map((id) => $page.data.clients.find((c) => c._id === id)))
+	// 		: undefined;
 
 	$: selectedLawyer = {
 		label: $page.data.lawyers.find((lawyer: any) => lawyer._id === $formData.lawyer_id)?.name ?? '',
@@ -454,13 +454,11 @@
 													<Select.Trigger {...attrs}>
 														<Select.Value placeholder="" />
 													</Select.Trigger>
-													{#if $page.data.clients.filter((c) => !$formData.client_id.includes(c._id)).length > 0}
-														<Select.Content>
-															{#each $page.data.clients.filter((c) => !$formData.client_id.includes(c._id)) as client}
-																<Select.Item bind:value={client._id}>{client.name}</Select.Item>
-															{/each}
-														</Select.Content>
-													{/if}
+													<Select.Content>
+														{#each $page.data.clients.filter((c) => !$formData.client_id.includes(c._id)) as client}
+															<Select.Item bind:value={client._id}>{client.name}</Select.Item>
+														{/each}
+													</Select.Content>
 												</Select.Root>
 												<Button
 													variant="destructive"
