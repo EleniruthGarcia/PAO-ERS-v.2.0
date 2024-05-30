@@ -8,7 +8,7 @@
 	import { Button } from '$lib/components/ui/button';
 
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
-	import { ChatBubble, LinkBreak1 } from 'svelte-radix';
+	import { ChatBubble } from 'svelte-radix';
 </script>
 
 <div class="flex min-h-dvh w-full bg-muted/40">
@@ -25,7 +25,7 @@
 				<Button
 					variant="link"
 					size="icon"
-					class="border border-input text-foreground bg-background shadow-sm hover:bg-accent hover:text-accent-foreground"
+					class="border border-input bg-background text-foreground shadow-sm hover:bg-accent hover:text-accent-foreground"
 					href="https://docs.google.com/forms/d/e/1FAIpQLSeQgGCDW9ThhDKuLG9zJ1r0NKleHuZRcsYeOh19YXl7Hem5ww/viewform"
 				>
 					<ChatBubble class="h-4 w-4" />

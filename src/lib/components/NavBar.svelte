@@ -7,7 +7,7 @@
 	import NavLink from '$lib/components/NavLink.svelte';
 	import NightToggle from '$lib/components/NightToggle.svelte';
 	import Search from '$lib/components/Search.svelte';
-	import { LinkBreak1 } from 'svelte-radix';
+	import { ChatBubble } from 'svelte-radix';
 	import { Button } from './ui/button';
 
 	const links = visibleLinks($page.data.user);
