@@ -109,7 +109,7 @@ export const formSchema = z.object({
 		.or(z.literal(''))
 		.transform((e) => (e === '' ? undefined : e))
 		.optional(),
-	spouseName: z.string().optional(),
+	spouse: z.string().optional(),
 	spouseFirstName: z.string().optional(),
 	spouseMiddleName: z.string().optional(),
 	spouseLastName: z.string().optional(),

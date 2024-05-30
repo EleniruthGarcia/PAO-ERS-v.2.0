@@ -833,7 +833,7 @@ async function addTextToPDF(data: any) {
 
 	// PARTY/REP
 	firstPage.drawText(name ?? 'N/A', {
-		x: 200,
+		x: 180,
 		y: 365,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -887,6 +887,7 @@ async function addTextToPDF(data: any) {
 				color: rgb(0, 0, 0),
 				borderColor: undefined // No border
 			});
+			
 			firstPage.drawText('N/A' ?? 'N/A', {
 				x: 390,
 				y: 649,
@@ -915,6 +916,12 @@ async function addTextToPDF(data: any) {
 			height: 5,
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
+		});
+		firstPage.drawText("N/A" ?? 'N/A', {
+			x: 340,
+			y: 649,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
 		});
 		firstPage.drawText('N/A' ?? 'N/A', {
 			x: 390,
@@ -1018,7 +1025,8 @@ async function addTextToPDF(data: any) {
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
-	firstPage.drawText(individualMonthlyIncome?.toString() ?? 'N/A', {
+	const MonthlyIncome1 = individualMonthlyIncome ? individualMonthlyIncome : "N/A";
+	firstPage.drawText(MonthlyIncome1?.toString() ?? 'N/A', {
 		x: 230,
 		y: 246,
 		size: 10,
