@@ -833,7 +833,7 @@ async function addTextToPDF(data: any) {
 
 	// PARTY/REP
 	firstPage.drawText(name ?? 'N/A', {
-		x: 200,
+		x: 240,
 		y: 365,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -889,12 +889,6 @@ async function addTextToPDF(data: any) {
 		});
 		firstPage.drawText("N/A" ?? 'N/A', {
 			x: 340,
-			y: 649,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
-		});
-		firstPage.drawText('N/A' ?? 'N/A', {
-			x: 390,
 			y: 649,
 			size: 10,
 			color: rgb(0, 0, 0) // Black
@@ -1008,12 +1002,13 @@ async function addTextToPDF(data: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(name ?? 'N/A', {
-		x: 100,
+		x: 70,
 		y: 294,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
-	firstPage.drawText(spouse ?? 'N/A', {
+	const partner = spouse ? spouse : "N/A";
+	firstPage.drawText(partner ?? 'N/A', {
 		x: 320,
 		y: 294,
 		size: 10,
