@@ -836,13 +836,13 @@ async function addTextToPDF(data: any) {
 	if (civilStatus === 'Married') {
 		// Married or Widow/Widower
 		firstPage.drawText(spouse ?? 'N/A', {
-			x: 390,
+			x: 340,
 			y: 649,
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
 		firstPage.drawText(addressOfSpouse ?? 'N/A', {
-			x: 390,
+			x: 380,
 			y: 635,
 			size: 8,
 			color: rgb(0, 0, 0) // Black
@@ -949,7 +949,7 @@ async function addTextToPDF(data: any) {
 	});
 
 	firstPage.drawText(intervieweeAddress ?? 'N/A', {
-		x: 73,
+		x: 78,
 		y: 559,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -1133,8 +1133,7 @@ async function addTextToPDF(data: any) {
 			}
 		}
 	}
-	for (const item of proofOfIndigency) {
-		if (item === 'Income Tax Return') {
+	if (proofOfIndigency.includes('Income Tax Return')) {
 			secondPage.drawRectangle({
 				x: 33,
 				y: 229,
@@ -1143,7 +1142,8 @@ async function addTextToPDF(data: any) {
 				color: rgb(0, 0, 0),
 				borderColor: undefined // No border
 			});
-		} else if (item === 'Certification from Barangay') {
+		} 
+		if (proofOfIndigency.includes('Certification from Barangay')) {
 			secondPage.drawRectangle({
 				x: 144,
 				y: 229,
@@ -1152,7 +1152,7 @@ async function addTextToPDF(data: any) {
 				color: rgb(0, 0, 0),
 				borderColor: undefined // No border
 			});
-		} else if (item === 'Certification from DSWD') {
+		if (proofOfIndigency.includes('Certification from DSWD')) {
 			secondPage.drawRectangle({
 				x: 295,
 				y: 229,
@@ -1161,22 +1161,24 @@ async function addTextToPDF(data: any) {
 				color: rgb(0, 0, 0),
 				borderColor: undefined // No border
 			});
-		} else if (typeof item === 'object' && item.hasOwnProperty('Others')) {
-			secondPage.drawRectangle({
-				x: 415,
-				y: 229,
-				width: 7,
-				height: 7,
-				color: rgb(0, 0, 0),
-				borderColor: undefined // No border
-			});
-			secondPage.drawText(item['Others'] ?? 'N/A', {
-				x: 425,
-				y: 217,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-		}
+		} 
+		
+		// else if (typeof item === 'object' && item.hasOwnProperty('Others')) {
+		// 	secondPage.drawRectangle({
+		// 		x: 415,
+		// 		y: 229,
+		// 		width: 7,
+		// 		height: 7,
+		// 		color: rgb(0, 0, 0),
+		// 		borderColor: undefined // No border
+		// 	});
+		// 	secondPage.drawText(item['Others'] ?? 'N/A', {
+		// 		x: 425,
+		// 		y: 217,
+		// 		size: 10,
+		// 		color: rgb(0, 0, 0) // Black
+		// 	});
+		// }
 	}
 	if (pendingInCourt === 'Yes') {
 		secondPage.drawText('X' ?? 'N/A', {
