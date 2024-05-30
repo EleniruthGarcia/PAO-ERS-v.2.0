@@ -277,20 +277,13 @@ async function addTextToPDF(data: any) {
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
-	if (email) {
-	firstPage.drawText(email ?? 'N/A', {
+	const clientEmail = email ? email : "N/A";
+	firstPage.drawText(clientEmail ?? 'N/A', {
 		x: 80,
 		y: 649,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
-	}); } else {
-		firstPage.drawText('N/A' ?? 'N/A', {
-			x: 80,
-			y: 649,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
-		}); 
-	}
+	}); 
 	const MonthlyIncome = individualMonthlyIncome ? individualMonthlyIncome : "N/A";
 	firstPage.drawText(MonthlyIncome ?? 'N/A', {
 		x: 150,
@@ -965,14 +958,14 @@ async function addTextToPDF(data: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(name ?? 'N/A', {
-		x: 70,
+		x: 50,
 		y: 294,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
 	const partner = spouse ? spouse : "N/A";
-	firstPage.drawText(partner ?? 'N/A', {
-		x: 320,
+	firstPage.drawText(partner ?? 'N/ASP', {
+		x: 345,
 		y: 294,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
