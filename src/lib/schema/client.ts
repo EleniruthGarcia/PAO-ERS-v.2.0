@@ -87,7 +87,10 @@ export const formSchema = z.object({
 		.string()
 		.min(1, 'Address is required.')
 		.max(40, 'Maximum Characters must be less than 40.'),
-	email: z.string().email().optional(),
+	email: z.union([
+		z.literal(''),
+		z.string().email().optional()]
+	).transform((e) => (e === '' ? undefined : e)),
 	contactNumber: z
 		.string()
 		// .regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number.')
