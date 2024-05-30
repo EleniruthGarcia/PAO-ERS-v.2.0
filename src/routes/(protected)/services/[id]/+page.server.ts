@@ -56,27 +56,11 @@ export const load: PageServerLoad = async (event) => {
 				}
 			},
 			{
-				$unwind: {
-					path: '$client',
-					preserveNullAndEmptyArrays: true
-				}
-			},
-			{
 				$lookup: {
 					from: 'cases',
 					localField: 'case_id',
 					foreignField: '_id',
 					as: 'case'
-				}
-			},
-			{
-				$addFields: {
-					// 'client.age': {
-					// 	$dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' }
-					// },
-					'interviewee.age': {
-						$dateDiff: { startDate: '$interviewee.dateOfBirth', endDate: '$$NOW', unit: 'year' }
-					}
 				}
 			}
 		])
@@ -88,11 +72,6 @@ export const load: PageServerLoad = async (event) => {
 			{
 				$match: { _id: { $in: service.client_id } }
 			},
-			{
-				$addFields: {
-					age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } }
-				}
-			}
 		])
 		.toArray();
 
