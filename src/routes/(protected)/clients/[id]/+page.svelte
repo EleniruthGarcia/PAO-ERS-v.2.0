@@ -209,7 +209,7 @@
 						</li>
 					</ul>
 				</div>
-				{#if data.client.civilStatus === 'Married' || data.client.civilStatus === 'Widowed'}
+				{#if data.client.civilStatus === 'Married'}
 					<Separator class="my-4" />
 					<div class="grid gap-3">
 						<div class="font-semibold">Spouse Information</div>
@@ -256,6 +256,44 @@
 						{#each data.client.classification as classification}
 							<Badge class="m-1">{classification}</Badge>
 						{/each}
+					</div>
+				{/if}
+				{#if data.client.foreignNational || data.client.pwd || data.client.indigenousPeople || data.client.urbanPoor || data.client.ruralPoor }
+					<Separator class="my-4" />
+					<div class="grid gap-3">
+						<div class="font-semibold">Special Classifications</div>
+						<ul class="grid gap-3">
+							{#if data.client.foreignNational}
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Foreign Nationality</span>
+									<span>{data.client.foreignNational}</span>
+								</li>
+							{/if}
+							{#if data.client.pwd}
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Disability</span>
+									<span>{data.client.pwd}</span>
+								</li>
+							{/if}
+							{#if data.client.indigenousPeople}
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Indigenous Group</span>
+									<span>{data.client.indigenousPeople}</span>
+								</li>
+							{/if}
+							{#if data.client.urbanPoor}
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Urban Poor</span>
+									<span>{data.client.urbanPoor}</span>
+								</li>
+							{/if}
+							{#if data.client.ruralPoor}
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Rural Poor</span>
+									<span>{data.client.ruralPoor}</span>
+								</li>
+							{/if}
+						</ul>
 					</div>
 				{/if}
 			</Card.Content>
