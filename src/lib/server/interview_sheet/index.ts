@@ -119,6 +119,7 @@ async function addTextToPDF(data: any) {
 		// client class
 		clientClasses,
 		clientInvolvement,
+		lawEnforcer,
 		foreignNational,
 		pwd,
 		indigenousPeople,
@@ -592,16 +593,6 @@ async function addTextToPDF(data: any) {
 					color: rgb(0, 0, 0),
 					borderColor: undefined // No border
 				});
-			} else if (clientClass === 'Law Enforcer') {
-				// LAW ENFORCER
-				firstPage.drawRectangle({
-					x: 34,
-					y: 430,
-					width: 7,
-					height: 7,
-					color: rgb(0, 0, 0),
-					borderColor: undefined // No border
-				});
 			} else if (clientClass === 'Drug-Related Duty') {
 				// DRUG DUTY
 				firstPage.drawRectangle({
@@ -695,6 +686,17 @@ async function addTextToPDF(data: any) {
 			}
 		}
 	}
+	if (lawEnforcer) {
+			// LAW ENFORCER
+			firstPage.drawRectangle({
+				x: 34,
+				y: 430,
+				width: 7,
+				height: 7,
+				color: rgb(0, 0, 0),
+				borderColor: undefined // No border
+			});
+	} 
 	if (pwd) {
 		// PWD
 		firstPage.drawRectangle({
@@ -986,7 +988,7 @@ async function addTextToPDF(data: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(spouse ?? 'N/A', {
-		x: 350,
+		x: 340,
 		y: 294,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
