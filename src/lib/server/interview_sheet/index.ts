@@ -140,11 +140,7 @@ async function addTextToPDF(data: any) {
 	const pdfDoc = await PDFDocument.load(pdfBytes);
 	// Get the first page of the PDF
 	const firstPage = pdfDoc.getPages()[0];
-	if(titleOfTheCase) {
-	var titleOfCaseDocketNum = titleOfTheCase + " " + docketNumber
-	} else {
-		var titleOfCaseDocketNum = "N/A"
-	}
+	let titleOfCaseDocketNum: string = titleOfTheCase ? titleOfTheCase + " " + docketNumber : "N/A";
 	// Add text to the first page
 	firstPage.drawText(controlNo ?? 'N/A' ?? 'N/A', {
 		x: 90,
