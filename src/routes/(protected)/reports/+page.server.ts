@@ -8002,12 +8002,15 @@ export const actions = {
 			)
 		};
 
-		
+		const quarters = ['1st', '2nd', '3rd', '4th'];
+		const quarter = quarters[Math.floor(months.indexOf(form.data.month) / 3)];
+
 		return {
 			form,
 			report: await generateReport({
 				...branch,
 				lawyer,
+				quarter,
 				month: form.data.month,
 				year: form.data.year,
 				notedBy,
