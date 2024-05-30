@@ -146,7 +146,7 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid grid-cols-2 items-start gap-3">
+						<div class="grid lg:grid-cols-2 items-start gap-3">
 							<Form.Field {form} name="controlNo" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>
