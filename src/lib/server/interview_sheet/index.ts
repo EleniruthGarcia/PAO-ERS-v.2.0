@@ -238,8 +238,8 @@ async function addTextToPDF(data: any) {
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
-
-	firstPage.drawText(religion ?? 'N/A', {
+	const religionTxt = religion ? religion : "N/A";
+	firstPage.drawText(religionTxt ?? 'N/A', {
 		x: 90,
 		y: 691,
 		size: 10,
@@ -251,13 +251,15 @@ async function addTextToPDF(data: any) {
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
-	firstPage.drawText(citizenship ?? 'N/A', {
+	const citizen = citizenship ? citizenship : "N/A";
+	firstPage.drawText(citizen ?? 'N/A', {
 		x: 100,
 		y: 677,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
-	firstPage.drawText(languageDialect ?? 'N/A', {
+	const language = languageDialect ? languageDialect : "N/A";
+	firstPage.drawText(language ?? 'N/A', {
 		x: 390,
 		y: 677,
 		size: 10,
@@ -1005,7 +1007,7 @@ async function addTextToPDF(data: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(spouse ?? 'N/A', {
-		x: 340,
+		x: 320,
 		y: 294,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
