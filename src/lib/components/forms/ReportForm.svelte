@@ -182,17 +182,36 @@
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Disclaimer</Card.Title>
-						<Card.Description>All reports can be edited after download. Some reports require manual input from the user.</Card.Description>
+						<Card.Description>All reports can be edited. Some aspects of the report require manual input from the user, these are indicated as light purple cells.</Card.Description>
 					</Card.Header>
 					<Card.Content class="mx-4 text-sm">
 						<ul class="list-disc">
 							<li>
-								<strong>F48</strong>
-								(Age and Sex Disaggregated Report on Released PDLs) - Please input other legal reasons for release, if any.
+								<strong>F29 (Individual Performance Report)</strong>
+								<ul class="list-[circle] ml-4">
+									<li>Inmates served/released</li>
+									<li>Conducted jail visits</li>
+									<li>Jail/detention units visited</li>
+									<li>Barangay legal outreach</li>
+									<li>Beneficiaries</li>
+									<li>Legal aid information</li>
+									<li>Scheduled hearings</li>
+									<li>Postponement</li>
+								</ul>
 							</li>
 							<li>
-								<strong>F49</strong>
-								(Consolidated Report On Legal Assistance Rendered To Former Rebels (FRs) And Former Violent Extremists (FVEs)) - Please provide info on usual cases, remarks and legal outreach activities.
+								<strong>F48 (Age and Sex Disaggregated Report on Released PDLs)</strong>
+								<ul class="list-[circle] ml-4">
+									<li>Other legal reasons for release, if any</li>
+								</ul>
+							</li>
+							<li>
+								<strong>F49 (Consolidated Report On Legal Assistance Rendered To Former Rebels (FRs) And Former Violent Extremists (FVEs))</strong>
+								<ul class="list-[circle] ml-4">
+									<li>Usual cases</li>
+									<li>Remarks</li>
+									<li>Legal outreach activities</li>
+								</ul>
 							</li>
 						</ul>
 					</Card.Content>
