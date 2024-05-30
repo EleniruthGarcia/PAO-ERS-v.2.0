@@ -121,6 +121,12 @@ export const formSchema = z.object({
 		required_error: 'Type of Service is required.'
 	}),
 	currentStatus: z.enum(status),
+	beneficiary: z.array(z.object({
+		name: z.string(),
+		address: z.string(),
+		gender: z.string(),
+		age: z.number().int(),
+		ethnicity: z.string()})),
 	status: z.array(
 		z.object({
 			type: z.enum(status),

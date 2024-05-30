@@ -13,7 +13,7 @@
 	} from '$lib/schema/service';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 
-	import { ChevronLeft, PlusCircled, Trash } from 'svelte-radix';
+	import { ChevronLeft, PlusCircled, Trash, Cross1 } from 'svelte-radix';
 
 	import Loading from '$lib/components/Loading.svelte';
 
@@ -25,6 +25,7 @@
 	import * as Select from '$lib/components/ui/select';
 	import { Separator } from '$lib/components/ui/separator';
 	import * as RadioGroup from '$lib/components/ui/radio-group';
+	import { sex } from '$lib/schema/client';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -116,6 +117,14 @@
 
 	function addClient() {
 		$formData.client_id = [...$formData.client_id, ''];
+	}
+
+	function removeBeneficiaryByIndex(index: number) {
+		$formData.beneficiary = $formData.beneficiary.filter((_, i) => i !== index);
+	}
+
+	function addBeneficiary() {
+		$formData.beneficiary = [...$formData.beneficiary, ''];
 	}
 
 	function addInstrument() {
@@ -261,7 +270,103 @@
 			</div>
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
 				{#if $formData.nature.includes('Barangay Outreach')}
-					Barangay Outreach!
+					<Card.Root>
+						<Card.Header>
+							<Card.Title>Beneficiary Information</Card.Title>
+							<Card.Description>
+								Please fill out all necessary information. Required fields are marked with <span
+									class="font-bold text-destructive"
+								>
+									*
+								</span>
+								.
+							</Card.Description>
+						</Card.Header>
+						<Card.Content class="grid auto-rows-max items-start gap-3">
+							<Form.Fieldset {form} name="beneficiary" class="grid gap-3">
+								{#each $formData.beneficiary as _, i}
+									{#if i != 0}
+										<Separator class="my-4" />
+									{/if}
+									<Form.ElementField {form} name="beneficiary[{i}]">
+										<Form.Field {form} name="beneficiary" class="grid gap-3">
+											<Form.Control let:attrs>
+												<Form.Label class="flex justify-between items-end">
+													Name <span class="font-bold text-destructive">&nbsp;*</span>
+													<Button
+														variant="ghost"
+														class="ml-auto h-6 rounded-md px-2 text-xs"
+														on:click={() => removeBeneficiaryByIndex(i)}
+													>
+														<Cross1 class="h-3 w-3" />
+													</Button>
+												</Form.Label>
+												<Input {...attrs} bind:value={$formData.beneficiary.name} />
+											</Form.Control>
+											<Form.FieldErrors />
+										</Form.Field>
+										<div class="grid items-start gap-3 sm:grid-cols-3">
+											<Form.Field {form} name="beneficiary.age" class="grid gap-3">
+												<Form.Control let:attrs>
+													<Form.Label>
+														Age <span class="font-bold text-destructive">*</span>
+													</Form.Label>
+													<Input {...attrs} type="number" />
+												</Form.Control>
+												<Form.FieldErrors />
+											</Form.Field>
+											<Form.Field {form} name="beneficiary.sex" class="grid gap-3">
+												<Form.Control let:attrs>
+													<Form.Label>
+														Sex <span class="font-bold text-destructive">*</span>
+													</Form.Label>
+													<Select.Root
+														onSelectedChange={(s) => {
+															s && ($formData.sex = s.value);
+														}}
+													>
+														<Select.Input name={attrs.name} />
+														<Select.Trigger {...attrs}>
+															<Select.Value placeholder="" />
+														</Select.Trigger>
+														<Select.Content>
+															{#each sex as value}
+																<Select.Item {value} />
+															{/each}
+														</Select.Content>
+													</Select.Root>
+												</Form.Control>
+												<Form.FieldErrors />
+											</Form.Field>
+											<Form.Field {form} name="beneficiary.ethnicity" class="grid gap-3">
+												<Form.Control let:attrs>
+													<Form.Label>
+														Ethnicity <span class="font-bold text-destructive">*</span>
+													</Form.Label>
+													<Input {...attrs} bind:value={$formData.beneficiary.ethnicity} />
+												</Form.Control>
+												<Form.FieldErrors />
+											</Form.Field>
+										</div>
+										<Form.Field {form} name="beneficiary.address" class="grid gap-3">
+											<Form.Control let:attrs>
+												<Form.Label>
+													Address <span class="font-bold text-destructive">*</span>
+												</Form.Label>
+												<Input {...attrs} bind:value={$formData.beneficiary.address} />
+											</Form.Control>
+											<Form.FieldErrors />
+										</Form.Field>
+									</Form.ElementField>
+								{/each}
+								<Button variant="outline" class="gap-2" on:click={addBeneficiary}>
+									<PlusCircled class="h-3.5 w-3.5" />
+									<span>Add Beneficiary</span>
+								</Button>
+								<Form.FieldErrors />
+							</Form.Fieldset>
+						</Card.Content>
+					</Card.Root>
 				{/if}
 				{#if $formData.nature.includes('Home Visitation')}
 					Home Visitation!
