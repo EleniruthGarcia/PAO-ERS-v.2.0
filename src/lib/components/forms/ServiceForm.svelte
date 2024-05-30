@@ -8,7 +8,8 @@
 		formSchema,
 		type FormSchema,
 		relationshipToClient,
-		typeOfService
+		typeOfService,
+		natureOfInstrument
 	} from '$lib/schema/service';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 
@@ -47,6 +48,32 @@
 			value: $formData.client_id[i]
 		};
 	});
+
+	let selectedNatureOfInstrument: { label: string; value: string }[] = [];
+	$: $formData.natureOfInstrument?.forEach((_, i) => {
+		selectedNatureOfInstrument[i] = {
+			label: natureOfInstrument.find((n) => n === $formData.natureOfInstrument[i]) ?? '',
+			value: $formData.natureOfInstrument[i]
+		};
+	});
+
+	$: $formData.title =
+		[...$formData.nature, ...($formData.otherNature ?? [])].length > 0
+			? [...$formData.nature, ...($formData.otherNature ?? [])].join(', ') +
+				' - ' +
+				(function (x) {
+					switch (x.length) {
+						case 0:
+							return 'No client selected.';
+						case 1:
+							return x[0].name;
+						case 2:
+							return x.map((c) => c.lastName).join(' and ');
+						default:
+							return x[0].lastName + ', et al.';
+					}
+				})($formData.client_id.map((id) => $page.data.clients.find((c) => c._id === id)))
+			: undefined;
 
 	$: selectedLawyer = {
 		label: $page.data.lawyers.find((lawyer: any) => lawyer._id === $formData.lawyer_id)?.name ?? '',
@@ -111,6 +138,7 @@
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
 	{#if $delayed}<Loading />{/if}
 	<input type="hidden" name="_id" bind:value={$formData._id} />
+	<input type="hidden" name="title" bind:value={$formData.title} />
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
 		<div class="flex items-center gap-4">
 			<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>
@@ -183,6 +211,12 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div> -->
+						<Form.Field {form} name="title" class="grid gap-3">
+							<Form.Control let:attrs>
+								<Form.Label>Title</Form.Label>
+								<Input {...attrs} name={attrs.name} bind:value={$formData.title} />
+							</Form.Control>
+						</Form.Field>
 						<Form.Fieldset {form} name="client_id" class="grid gap-3">
 							<Form.Legend>
 								Client <span class="font-bold text-destructive">*</span>
@@ -220,7 +254,7 @@
 									</Form.Control>
 								</Form.ElementField>
 							{/each}
-							{#if $page.data.clients.filter((c) => !$formData.client_id.includes(c._id)).length > 0}
+							{#if $page.data.clients.length > $formData.client_id.length}
 								<Button variant="outline" class="gap-2" on:click={addClient}>
 									<PlusCircled class="h-3.5 w-3.5" />
 									<span>Add Client</span>
@@ -322,7 +356,7 @@
 										<Form.Control let:attrs>
 											<div class="flex gap-2">
 												<Select.Root
-													selected={selectedClient[i]}
+													selected={selectedNatureOfInstrument[i]}
 													onSelectedChange={(s) => {
 														s && ($formData.natureOfInstrument[i] = s.value);
 													}}
@@ -334,8 +368,8 @@
 													<Select.Trigger {...attrs}>
 														<Select.Value placeholder="" />
 													</Select.Trigger>
-													<Select.Content>
-														{#each $page.data.natureOfInstrument as nature}
+													<Select.Content class="max-h-[200px] overflow-y-auto">
+														{#each natureOfInstrument.filter((n) => !$formData.natureOfInstrument.includes(n)) as nature}
 															<Select.Item bind:value={nature}>{nature}</Select.Item>
 														{/each}
 													</Select.Content>
@@ -351,7 +385,7 @@
 										</Form.Control>
 									</Form.ElementField>
 								{/each}
-								{#if $page.data.clients.filter((n) => !$formData.natureOfInstrument.includes(n._id)).length > 0}
+								{#if natureOfInstrument.length > $formData.natureOfInstrument.length}
 									<Button variant="outline" class="gap-2" on:click={addInstrument}>
 										<PlusCircled class="h-3.5 w-3.5" />
 										<span>Add Nature of Instrument</span>
@@ -359,19 +393,17 @@
 								{/if}
 								<Form.FieldErrors />
 							</Form.Fieldset>
-							{#if $formData.nature.includes('Administration of Oath')}
-								<Form.Field {form} name="witness" class="grid gap-3">
-									<Form.Control let:attrs>
-										<Form.Label>Witness</Form.Label>
-										<Input
-											{...attrs}
-											bind:value={$formData.witness}
-											placeholder="Please type all witnesses, separated by commas."
-										/>
-									</Form.Control>
-									<Form.FieldErrors />
-								</Form.Field>
-							{/if}
+							<Form.Field {form} name="witness" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Witness</Form.Label>
+									<Input
+										{...attrs}
+										bind:value={$formData.witness}
+										placeholder="Please type all witnesses, separated by commas."
+									/>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
 						</Card.Content>
 					</Card.Root>
 				{/if}
