@@ -833,7 +833,7 @@ async function addTextToPDF(data: any) {
 
 	// PARTY/REP
 	firstPage.drawText(name ?? 'N/A', {
-		x: 180,
+		x: 200,
 		y: 365,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -867,7 +867,6 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 
-		if (civilStatus === 'Married') {
 			// Married
 			firstPage.drawRectangle({
 				x: 298,
@@ -877,37 +876,9 @@ async function addTextToPDF(data: any) {
 				color: rgb(0, 0, 0),
 				borderColor: undefined // No border
 			});
-		} else if (civilStatus === 'Widow/Widower') {
-			// Widow/Widower
-			firstPage.drawRectangle({
-				x: 469,
-				y: 294,
-				width: 5,
-				height: 5,
-				color: rgb(0, 0, 0),
-				borderColor: undefined // No border
-			});
-			
-			firstPage.drawText('N/A' ?? 'N/A', {
-				x: 390,
-				y: 649,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-			firstPage.drawText('N/A' ?? 'N/A', {
-				x: 390,
-				y: 635,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-			firstPage.drawText('N/A' ?? 'N/A', {
-				x: 390,
-				y: 621,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-		}
-	} else {
+
+	} 
+	if (civilStatus === 'Single') {
 		// Single
 		firstPage.drawRectangle({
 			x: 265,
@@ -923,6 +894,36 @@ async function addTextToPDF(data: any) {
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
+		firstPage.drawText('N/A' ?? 'N/A', {
+			x: 390,
+			y: 649,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+		firstPage.drawText('N/A' ?? 'N/A', {
+			x: 390,
+			y: 635,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+		firstPage.drawText('N/A' ?? 'N/A', {
+			x: 390,
+			y: 621,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	}
+	if (civilStatus === 'Widow/Widower') {
+		// Widow/Widower
+		firstPage.drawRectangle({
+			x: 469,
+			y: 294,
+			width: 5,
+			height: 5,
+			color: rgb(0, 0, 0),
+			borderColor: undefined // No border
+		});
+		
 		firstPage.drawText('N/A' ?? 'N/A', {
 			x: 390,
 			y: 649,
