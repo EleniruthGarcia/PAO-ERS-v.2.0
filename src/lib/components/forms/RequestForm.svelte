@@ -2,15 +2,8 @@
 	import { page } from '$app/stores';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import {
-		nature,
-		typeOfAssistance,
-		typeOfRelease,
-		formSchema,
-		type FormSchema,
-		relationshipToClient,
-		typeOfService,
-		natureOfInstrument
-	} from '$lib/schema/service';
+
+	} from '$lib/schema/request';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 
 	import { ChevronLeft, PlusCircled, Trash } from 'svelte-radix';
@@ -39,100 +32,6 @@
 	// 	format: 'date',
 	// 	empty: 'undefined'
 	// });
-
-	let selectedClient: { label: string; value: string }[] = [];
-	$: $formData.client_id.forEach((_, i) => {
-		selectedClient[i] = {
-			label:
-				$page.data.clients.find((client: any) => client._id === $formData.client_id[i])?.name ?? '',
-			value: $formData.client_id[i]
-		};
-	});
-
-	let selectedNatureOfInstrument: { label: string; value: string }[] = [];
-	$: $formData.natureOfInstrument?.forEach((_, i) => {
-		selectedNatureOfInstrument[i] = {
-			label: natureOfInstrument.find((n) => n === $formData.natureOfInstrument[i]) ?? '',
-			value: $formData.natureOfInstrument[i]
-		};
-	});
-
-	$: $formData.title =
-		[...$formData.nature, ...($formData.otherNature ?? [])].length > 0
-			? [...$formData.nature, ...($formData.otherNature ?? [])].join(', ') +
-				' - ' +
-				(function (x) {
-					switch (x.length) {
-						case 0:
-							return 'No client selected.';
-						case 1:
-							return x[0].name;
-						case 2:
-							return x.map((c) => c.lastName).join(' and ');
-						default:
-							return x[0].lastName + ', et al.';
-					}
-				})($formData.client_id.map((id) => $page.data.clients.find((c) => c._id === id)))
-			: undefined;
-
-	$: selectedLawyer = {
-		label: $page.data.lawyers.find((lawyer: any) => lawyer._id === $formData.lawyer_id)?.name ?? '',
-		value: $formData.lawyer_id
-	};
-
-	$: selectedInterviewee = {
-		label:
-			$page.data.clients.find((client: any) => client._id === $formData.interviewee_id)?.name ?? '',
-		value: $formData.interviewee_id
-	};
-
-	$: selectedRelationshipToClient = {
-		label: $formData.relationshipToClient,
-		value: $formData.relationshipToClient
-	};
-
-	// $: selectDistrictProvince = {
-	// 	label: $formData.districtProvince,
-	// 	value: $formData.districtProvince
-	// };
-
-	$: selectedTypeOfAssistance = $formData.typeOfAssistance
-		? {
-				label: $formData.typeOfAssistance,
-				value: $formData.typeOfAssistance
-			}
-		: undefined;
-
-	$: selectedTypeOfRelease = $formData.typeOfRelease
-		? {
-				label: $formData.typeOfRelease,
-				value: $formData.typeOfRelease
-			}
-		: undefined;
-
-	function removeClientByIndex(index: number) {
-		$formData.client_id = $formData.client_id.filter((_, i) => i !== index);
-	}
-
-	function addClient() {
-		$formData.client_id = [...$formData.client_id, ''];
-	}
-
-	function addInstrument() {
-		$formData.natureOfInstrument = [...$formData.natureOfInstrument, ''];
-	}
-
-	function removeInstrumentByIndex(index: number) {
-		$formData.natureOfInstrument = $formData.natureOfInstrument?.filter((_, i) => i !== index);
-	}
-
-	function removeNatureByIndex(index: number) {
-		$formData.otherNature = $formData.otherNature?.filter((_, i) => i !== index);
-	}
-
-	function addNature() {
-		$formData.otherNature = [...($formData.otherNature ?? []), ''];
-	}
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
@@ -155,110 +54,6 @@
 			</div>
 		</div>
 		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-5 lg:gap-8">
-			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-				<Card.Root>
-					<Form.Fieldset {form} name="nature" class="space-y-0">
-						<Card.Header>
-							<Card.Title>
-								<Form.Legend>
-									Nature of Service <span class="font-bold text-destructive">*</span>
-								</Form.Legend>
-							</Card.Title>
-							<Card.Description>
-								<Form.Description>Please select all the apply.</Form.Description>
-							</Card.Description>
-						</Card.Header>
-						<Card.Content>
-							<div class="space-y-2">
-								{#each nature as item}
-									{@const checked = $formData.nature?.includes(item) ?? false}
-									<div class="flex flex-row items-start space-x-3">
-										<Form.Control let:attrs>
-											<Checkbox
-												{...attrs}
-												{checked}
-												onCheckedChange={(v) => {
-													if (v) {
-														$formData.nature = [...($formData.nature ?? []), item];
-													} else {
-														$formData.nature = $formData.nature?.filter((v) => v !== item);
-													}
-												}}
-											/>
-											<Form.Label class="text-sm font-normal">
-												{item}
-											</Form.Label>
-											<input hidden type="checkbox" name={attrs.name} value={item} {checked} />
-										</Form.Control>
-									</div>
-								{/each}
-								<Form.FieldErrors />
-							</div>
-							{#if $formData.nature.includes('Others')}
-								<Separator class="my-4" />
-								<Form.Field {form} name="otherNature" class="grid gap-3">
-									<Form.Control let:attrs>
-										<Form.Label>Others</Form.Label>
-										{#each $formData.otherNature ?? [] as _, i}
-											<div class="flex gap-2">
-												<Input
-													{...attrs}
-													name="otherNature[{i}]"
-													bind:value={$formData.otherNature[i]}
-												/>
-												<Button
-													variant="destructive"
-													class="gap-2"
-													on:click={() => removeNatureByIndex(i)}
-												>
-													<Trash class="h-3.5 w-3.5" />
-												</Button>
-											</div>
-										{/each}
-									</Form.Control>
-									<Button variant="outline" class="gap-2" on:click={addNature}>
-										<PlusCircled class="h-3.5 w-3.5" />
-										<span>Add Nature</span>
-									</Button>
-									<Form.FieldErrors />
-								</Form.Field>
-							{/if}
-						</Card.Content>
-					</Form.Fieldset>
-				</Card.Root>
-				<Card.Root>
-					<Form.Fieldset {form} name="typeOfService" class="space-y-0">
-						<Card.Header>
-							<Card.Title>
-								<Form.Legend>
-									Type of Service <span class="font-bold text-destructive">*</span>
-								</Form.Legend>
-							</Card.Title>
-							<!-- <Card.Description>
-								<Form.Description>Please select all the apply.</Form.Description>
-							</Card.Description> -->
-						</Card.Header>
-						<Card.Content>
-							<div class="space-y-2">
-								<RadioGroup.Root bind:value={$formData.typeOfService}>
-									{#each typeOfService as item}
-										<div class="flex flex-row items-start space-x-3">
-											<Form.Control let:attrs>
-												<RadioGroup.Item {...attrs} value={item} />
-												<Form.Label class="text-sm font-normal">
-													{item}
-												</Form.Label>
-											</Form.Control>
-										</div>
-									{/each}
-									<RadioGroup.Input name="typeOfService" />
-								</RadioGroup.Root>
-								<Form.FieldErrors />
-							</div>
-						</Card.Content>
-					</Form.Fieldset>
-				</Card.Root>
-			</div>
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
 				<Card.Root>
 					<Card.Header>
@@ -586,6 +381,110 @@
 						</Card.Content>
 					</Card.Root>
 				{/if}
+			</div>
+			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+				<Card.Root>
+					<Form.Fieldset {form} name="nature" class="space-y-0">
+						<Card.Header>
+							<Card.Title>
+								<Form.Legend>
+									Nature of Service <span class="font-bold text-destructive">*</span>
+								</Form.Legend>
+							</Card.Title>
+							<Card.Description>
+								<Form.Description>Please select all the apply.</Form.Description>
+							</Card.Description>
+						</Card.Header>
+						<Card.Content>
+							<div class="space-y-2">
+								{#each nature as item}
+									{@const checked = $formData.nature?.includes(item) ?? false}
+									<div class="flex flex-row items-start space-x-3">
+										<Form.Control let:attrs>
+											<Checkbox
+												{...attrs}
+												{checked}
+												onCheckedChange={(v) => {
+													if (v) {
+														$formData.nature = [...($formData.nature ?? []), item];
+													} else {
+														$formData.nature = $formData.nature?.filter((v) => v !== item);
+													}
+												}}
+											/>
+											<Form.Label class="text-sm font-normal">
+												{item}
+											</Form.Label>
+											<input hidden type="checkbox" name={attrs.name} value={item} {checked} />
+										</Form.Control>
+									</div>
+								{/each}
+								<Form.FieldErrors />
+							</div>
+							{#if $formData.nature.includes('Others')}
+								<Separator class="my-4" />
+								<Form.Field {form} name="otherNature" class="grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>Others</Form.Label>
+										{#each $formData.otherNature ?? [] as _, i}
+											<div class="flex gap-2">
+												<Input
+													{...attrs}
+													name="otherNature[{i}]"
+													bind:value={$formData.otherNature[i]}
+												/>
+												<Button
+													variant="destructive"
+													class="gap-2"
+													on:click={() => removeNatureByIndex(i)}
+												>
+													<Trash class="h-3.5 w-3.5" />
+												</Button>
+											</div>
+										{/each}
+									</Form.Control>
+									<Button variant="outline" class="gap-2" on:click={addNature}>
+										<PlusCircled class="h-3.5 w-3.5" />
+										<span>Add Nature</span>
+									</Button>
+									<Form.FieldErrors />
+								</Form.Field>
+							{/if}
+						</Card.Content>
+					</Form.Fieldset>
+				</Card.Root>
+				<Card.Root>
+					<Form.Fieldset {form} name="typeOfService" class="space-y-0">
+						<Card.Header>
+							<Card.Title>
+								<Form.Legend>
+									Type of Service <span class="font-bold text-destructive">*</span>
+								</Form.Legend>
+							</Card.Title>
+							<!-- <Card.Description>
+								<Form.Description>Please select all the apply.</Form.Description>
+							</Card.Description> -->
+						</Card.Header>
+						<Card.Content>
+							<div class="space-y-2">
+								<RadioGroup.Root bind:value={$formData.typeOfService}>
+									{#each typeOfService as item}
+										<div class="flex flex-row items-start space-x-3">
+											<Form.Control let:attrs>
+												<RadioGroup.Item {...attrs} value={item} />
+												<Form.Label class="text-sm font-normal">
+													{item}
+												</Form.Label>
+											</Form.Control>
+										</div>
+									{/each}
+									<RadioGroup.Input name="typeOfService" />
+								</RadioGroup.Root>
+								<Form.FieldErrors />
+							</div>
+						</Card.Content>
+					</Form.Fieldset>
+				</Card.Root>
 			</div>
 			<div class="flex items-center justify-center gap-2 md:hidden">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
