@@ -289,7 +289,8 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		}); 
 	}
-	firstPage.drawText(individualMonthlyIncome ?? 'N/A', {
+	const MonthlyIncome = individualMonthlyIncome ? individualMonthlyIncome : "N/A";
+	firstPage.drawText(MonthlyIncome ?? 'N/A', {
 		x: 150,
 		y: 635,
 		size: 10,
@@ -976,12 +977,20 @@ async function addTextToPDF(data: any) {
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
+	if (intervieweeEmail) {
 	firstPage.drawText(intervieweeEmail ?? 'N/A', {
 		x: 320,
 		y: 545,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
-	});
+	}); } else {
+		firstPage.drawText("N/A" ?? 'N/A', {
+			x: 320,
+			y: 545,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	}
 
 	firstPage.drawText(districtProvince ?? 'N/A', {
 		x: 25,
