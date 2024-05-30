@@ -847,7 +847,6 @@ async function addTextToPDF(data: any) {
 	});
 
 	if (civilStatus === 'Married') {
-		// Married or Widow/Widower
 		firstPage.drawText(spouse ?? 'N/A', {
 			x: 340,
 			y: 649,
