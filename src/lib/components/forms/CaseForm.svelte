@@ -84,6 +84,14 @@
 			'',
 		value: $formData.transferredTo
 	};
+
+	$: touchedGenderCaseSubject = false;
+	$: filteredGenderCaseSubject =
+		$formData.genderCaseSubject && touchedGenderCaseSubject
+			? genderCaseSubject.filter((v) =>
+					v.toLowerCase().includes($formData.genderCaseSubject?.toLowerCase() ?? '')
+				)
+			: genderCaseSubject;
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
@@ -146,7 +154,7 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid lg:grid-cols-2 items-start gap-3">
+						<div class="grid items-start gap-3 lg:grid-cols-2">
 							<Form.Field {form} name="controlNo" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>
@@ -294,7 +302,11 @@
 						<Form.Field {form} name="genderCaseSubject" class="grid gap-3">
 							<Form.Control let:attrs>
 								<Form.Label>Subject of the Case</Form.Label>
-								<Combobox.Root items={genderCaseSubject}>
+								<Combobox.Root
+									items={filteredGenderCaseSubject}
+									bind:inputValue={$formData.genderCaseSubject}
+									bind:touchedInput={touchedGenderCaseSubject}
+								>
 									<div class="relative">
 										<Combobox.Input
 											class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
@@ -308,7 +320,7 @@
 										transition={flyAndScale}
 										sideOffset={8}
 									>
-										{#each genderCaseSubject as value}
+										{#each filteredGenderCaseSubject as value}
 											<Combobox.Item
 												class="elative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
 												{value}
@@ -327,7 +339,7 @@
 											</span>
 										{/each}
 									</Combobox.Content>
-									<Combobox.HiddenInput name="hiddenSubject" />
+									<Combobox.HiddenInput name="genderCaseSubject" />
 								</Combobox.Root>
 							</Form.Control>
 							<Form.FieldErrors />
