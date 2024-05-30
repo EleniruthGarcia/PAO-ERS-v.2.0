@@ -489,6 +489,13 @@
 								</Form.Control>
 								<Form.FieldErrors class="col-span-2" />
 							</Form.Field>
+							<Form.Field {form} name="lawEnforcer" class="grid grid-cols-2 items-center">
+								<Form.Control let:attrs>
+									<Form.Label>Law Enforcer</Form.Label>
+									<Input {...attrs} bind:value={$formData.lawEnforcer} />
+								</Form.Control>
+								<Form.FieldErrors class="col-span-2" />
+							</Form.Field>
 							<Form.Field {form} name="urbanPoor" class="grid grid-cols-2 items-center">
 								<Form.Control let:attrs>
 									<Form.Label>Urban Poor</Form.Label>
