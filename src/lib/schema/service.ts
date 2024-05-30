@@ -117,7 +117,9 @@ export const formSchema = z.object({
 	otherNature: z.array(z.string()).optional(),
 	typeOfAssistance: z.enum(typeOfAssistance).optional(),
 	typeOfRelease: z.enum(typeOfRelease).optional(),
-	typeOfService: z.enum(typeOfService),
+	typeOfService: z.enum(typeOfService, {
+		required_error: 'Type of Service is required.'
+	}),
 	currentStatus: z.enum(status),
 	status: z.array(
 		z.object({

@@ -2,6 +2,8 @@ import z from 'zod';
 
 export const role = ['Administrator', 'Lawyer', 'Staff'] as const;
 
+export const rank = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'] as const;
+
 export const sex = ['Male', 'Female'] as const;
 
 export const civilStatus = ['Single', 'Married', 'Separated', 'Widowed'] as const;
@@ -30,6 +32,7 @@ export const formSchema = z.object({
 	confirmPassword: z.string().min(1, 'Confirm password is required!'),
 	hashedPassword: z.string().min(1, 'Hashed password is required!'),
 	position: z.enum(position),
+	rank: z.string().min(1, 'Rank is required!'),
 	name: z.string().min(1, 'Name is required!'),
 	firstName: z.string().min(1, 'First name is required!'),
 	middleName: z.string().optional(),

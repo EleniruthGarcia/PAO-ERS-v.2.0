@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { formSchema, role, position, type FormSchema, type User } from '$lib/schema/user';
+	import { formSchema, role, rank, position, type FormSchema, type User } from '$lib/schema/user';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import type { Branch } from '$lib/server/database';
 
@@ -46,6 +46,11 @@
 	$: selectedRole = {
 		label: $formData.role,
 		value: $formData.role
+	};
+
+	$: selectedRank = {
+		label: $formData.rank,
+		value: $formData.rank
 	};
 
 	$: selectedPosition = {
@@ -199,8 +204,8 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid items-start gap-3">
-							<Form.Field {form} name="position" class="grid gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-7">
+							<Form.Field {form} name="position" class="col-span-5 grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>
 										Position <span class="font-bold text-destructive">*</span>
@@ -217,6 +222,30 @@
 										</Select.Trigger>
 										<Select.Content class="max-h-[200px] overflow-y-auto">
 											{#each position as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="rank" class="col-span-2 grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>
+										Rank <span class="font-bold text-destructive">*</span>
+									</Form.Label>
+									<Select.Root
+										selected={selectedRank}
+										onSelectedChange={(s) => {
+											s && ($formData.rank = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content class="max-h-[200px] overflow-y-auto">
+											{#each rank as value}
 												<Select.Item {value} />
 											{/each}
 										</Select.Content>
