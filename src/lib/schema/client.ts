@@ -43,7 +43,7 @@ export const proofOfIndigency = [
 	'Certification from DSWD'
 ] as const;
 
-export const civilStatus = ['Single', 'Married', 'Widowed'] as const;
+export const civilStatus = ['Single', 'Married', 'Widow/Widower'] as const;
 
 export const educationalAttainment = [
 	'No Formal Schooling',
@@ -114,12 +114,12 @@ export const formSchema = z.object({
 	spouseMiddleName: z.string().optional(),
 	spouseLastName: z.string().optional(),
 	spouseNameSuffix: z.string().optional(),
-	spouseAddress: z.string().optional(),
+	addressOfSpouse: z.string().optional(),
 	spouseEmail: z.union([
 		z.literal(''),
 		z.string().email().optional()]
 	).transform((e) => (e === '' ? undefined : e)),
-	spouseContactNumber: z
+	spouseContactNo: z
 		.string()
 		// .regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number.')
 		.optional(),
