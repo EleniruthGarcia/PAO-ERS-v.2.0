@@ -65,7 +65,7 @@
 					<span class="sr-only">Copy Service ID</span>
 				</Button>
 			</Card.Title>
-			<Card.Description>ID: {service._id}</Card.Description>
+			<Card.Description><Badge variant="outline" class="mr-2">{service.typeOfService}</Badge> ID: {service._id}</Card.Description>
 		</div>
 		<div class="ml-auto flex items-center gap-1">
 			<!-- <Button size="sm" variant="outline" class="h-8 gap-1">
@@ -110,32 +110,6 @@
 		</div>
 	</Card.Header>
 	<Card.Content class="p-6 text-sm">
-		<div class="grid gap-3">
-			<div class="font-semibold">Personal Information</div>
-			<ul class="grid gap-3">
-				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground">Age</span>
-					<span>{service.client.age}</span>
-				</li>
-				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground">Sex</span>
-					<span>{service.client.sex}</span>
-				</li>
-				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground">Civil Status</span>
-					<span>{service.client.civilStatus}</span>
-				</li>
-				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground">Citizenship</span>
-					<span>{service.client.citizenship}</span>
-				</li>
-				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground">Language</span>
-					<span>{service.client.language}</span>
-				</li>
-			</ul>
-		</div>
-		<Separator class="my-4" />
 		<div class="grid gap-3">
 			<div class="font-semibold">Interviewee Information</div>
 			<ul class="grid gap-3">

@@ -7,7 +7,10 @@
 		typeOfRelease,
 		formSchema,
 		type FormSchema,
-		relationshipToClient
+		relationshipToClient,
+
+		typeOfService
+
 	} from '$lib/schema/service';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 
@@ -525,6 +528,47 @@
 									<Form.FieldErrors />
 								</Form.Field>
 							{/if}
+						</Card.Content>
+					</Form.Fieldset>
+				</Card.Root>
+				<Card.Root>
+					<Form.Fieldset {form} name="nature" class="space-y-0">
+						<Card.Header>
+							<Card.Title>
+								<Form.Legend>
+									Type of Service <span class="font-bold text-destructive">*</span>
+								</Form.Legend>
+							</Card.Title>
+							<!-- <Card.Description>
+								<Form.Description>Please select all the apply.</Form.Description>
+							</Card.Description> -->
+						</Card.Header>
+						<Card.Content>
+							<div class="space-y-2">
+								{#each typeOfService as item}
+									{@const checked = $formData.typeOfService?.includes(item) ?? false}
+									<div class="flex flex-row items-start space-x-3">
+										<Form.Control let:attrs>
+											<Checkbox
+												{...attrs}
+												{checked}
+												onCheckedChange={(v) => {
+													if (v) {
+														$formData.typeOfService = [...($formData.typeOfService ?? []), item];
+													} else {
+														$formData.typeOfService = $formData.typeOfService?.filter((v) => v !== item);
+													}
+												}}
+											/>
+											<Form.Label class="text-sm font-normal">
+												{item}
+											</Form.Label>
+											<input hidden type="checkbox" name={attrs.name} value={item} {checked} />
+										</Form.Control>
+									</div>
+								{/each}
+								<Form.FieldErrors />
+							</div>
 						</Card.Content>
 					</Form.Fieldset>
 				</Card.Root>
