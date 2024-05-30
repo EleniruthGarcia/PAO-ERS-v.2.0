@@ -259,7 +259,7 @@ async function addTextToPDF(data: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(address, {
-		x: 800,
+		x: 75,
 		y: 663,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -421,7 +421,22 @@ async function addTextToPDF(data: any) {
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
-	} else if (natureOfTheCase === 'Administrative') {
+	} else {
+		firstPage.drawText("N/A", {
+			x: 85,
+			y: 504,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	}
+	
+	
+	
+	
+	
+	
+	
+	 if (natureOfTheCase === 'Administrative') {
 		// ADMINISTRATIVE
 		firstPage.drawRectangle({
 			x: 34,
@@ -437,7 +452,18 @@ async function addTextToPDF(data: any) {
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
-	} else if (natureOfTheCase === 'Appealed') {
+	}  else {
+		firstPage.drawText("N/A", {
+			x: 85,
+			y: 504,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	}
+	
+	
+	
+	if (natureOfTheCase === 'Appealed') {
 		// APPEALED
 		firstPage.drawRectangle({
 			x: 206,
@@ -453,7 +479,18 @@ async function addTextToPDF(data: any) {
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
-	} else if (natureOfTheCase === 'Civil') {
+	}  else {
+		firstPage.drawText("N/A", {
+			x: 265,
+			y: 490,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	}
+	
+	
+	
+	if (natureOfTheCase === 'Civil') {
 		// CIVIL
 		firstPage.drawRectangle({
 			x: 206,
@@ -469,7 +506,17 @@ async function addTextToPDF(data: any) {
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
-	} else if (natureOfTheCase === 'Labor') {
+	}  else {
+		firstPage.drawText("N/A", {
+			x: 265,
+			y: 504,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	}
+	
+	
+	if (natureOfTheCase === 'Labor') {
 		// LABOR
 		firstPage.drawRectangle({
 			x: 370,
@@ -485,7 +532,16 @@ async function addTextToPDF(data: any) {
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
+	} else {
+		firstPage.drawText("N/A", {
+			x: 420,
+			y: 504,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
 	}
+	
+	
 
 	for (const clientClass of clientClasses) {
 		if (typeof clientClass === 'string') {
@@ -658,7 +714,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A', {
+		firstPage.drawText(pwd, {
 			x: 485,
 			y: 402,
 			size: 10,
@@ -683,7 +739,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A', {
+		firstPage.drawText(foreignNational, {
 			x: 455,
 			y: 458,
 			size: 10,
