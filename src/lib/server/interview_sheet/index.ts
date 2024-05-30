@@ -405,6 +405,14 @@ async function addTextToPDF(data: any) {
 		});
 	}
 
+
+	firstPage.drawText(otherNatureOfService, {
+		x: 80,
+		y: 748,
+		size: 10,
+		color: rgb(0, 0, 0) // Black
+	});
+
 	if (natureOfTheCase === 'Criminal') {
 		// CRIMINAL
 		firstPage.drawRectangle({
@@ -982,7 +990,7 @@ async function addTextToPDF(data: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(name, {
-		x: 100,
+		x: 90,
 		y: 294,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
