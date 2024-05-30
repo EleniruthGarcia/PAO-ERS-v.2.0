@@ -131,7 +131,7 @@
 							<Form.Field {form} name="day" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Day</Form.Label>
-									<Input {...attrs} type="number" min="1" max="31" />
+									<Input {...attrs} type="number" bind:value={$formData.day} min="1" max="31" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
