@@ -171,15 +171,15 @@
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Citizenship</span>
-							<span>{data.client.citizenship}</span>
+							<span>{data.client.citizenship !== '' && data.client.citizenship ? data.client.citizenship : 'N/A'}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Language</span>
-							<span>{data.client.language}</span>
+							<span>{data.client.language !== '' && data.client.language ? data.client.language : 'N/A'}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Religion</span>
-							<span>{data.client.religion !== '' ? data.client.religion : 'N/A'}</span>
+							<span>{data.client.religion !== '' && data.client.religion ? data.client.religion : 'N/A'}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Educational Attainment</span>
@@ -187,7 +187,7 @@
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Individual Monthly Income</span>
-							<span>{data.client.individualMonthlyIncome}</span>
+							<span>{data.client.individualMonthlyIncome !== '' && data.client.individualMonthlyIncome ? data.client.individualMonthlyIncome : 'N/A'}</span>
 						</li>
 					</ul>
 				</div>
@@ -201,7 +201,7 @@
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Email</span>
-							<span>{data.client.email}</span>
+							<span>{data.client.email !== '' && data.client.email ? data.client.email : 'N/A'}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Contact Number</span>
@@ -209,7 +209,7 @@
 						</li>
 					</ul>
 				</div>
-				{#if data.client.civilStatus === 'Married' || data.client.civilStatus === 'Widowed'}
+				{#if data.client.civilStatus === 'Married'}
 					<Separator class="my-4" />
 					<div class="grid gap-3">
 						<div class="font-semibold">Spouse Information</div>
@@ -246,6 +246,44 @@
 								<span class="text-muted-foreground">Detained Since</span>
 								<span>{data.client.detainedSince}</span>
 							</li>
+						</ul>
+					</div>
+				{/if}
+				{#if data.client.foreignNational || data.client.pwd || data.client.indigenousPeople || data.client.urbanPoor || data.client.ruralPoor}
+					<Separator class="my-4" />
+					<div class="grid gap-3">
+						<div class="font-semibold">Special Classifications</div>
+						<ul class="grid gap-3">
+							{#if data.client.foreignNational}
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Foreign Nationality</span>
+									<span>{data.client.foreignNational}</span>
+								</li>
+							{/if}
+							{#if data.client.pwd}
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Disability</span>
+									<span>{data.client.pwd}</span>
+								</li>
+							{/if}
+							{#if data.client.indigenousPeople}
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Indigenous Group</span>
+									<span>{data.client.indigenousPeople}</span>
+								</li>
+							{/if}
+							{#if data.client.urbanPoor}
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Urban Poor</span>
+									<span>{data.client.urbanPoor}</span>
+								</li>
+							{/if}
+							{#if data.client.ruralPoor}
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Rural Poor</span>
+									<span>{data.client.ruralPoor}</span>
+								</li>
+							{/if}
 						</ul>
 					</div>
 				{/if}
