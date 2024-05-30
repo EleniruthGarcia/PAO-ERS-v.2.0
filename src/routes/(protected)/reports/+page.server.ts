@@ -271,6 +271,7 @@ export const actions = {
 			])
 			.toArray();
 
+		const f10 = '';
 		const f11 = services.filter((d) => d.services?.nature?.includes('Jail Visitation'));
 		const f12 = '';
 		const f13 = services.filter((d) =>
@@ -334,7 +335,7 @@ export const actions = {
 
 		const f49 = services.filter((d) => d.service?.nature?.includes('Others (PSA)'));
 
-		const f50 = '';
+		const f50 = services.filter((d) => d.service?.nature?.includes('Outreach'));;
 		const f51 = services.filter((d) => d.service?.nature?.includes('Home Visitation'));
 		const f52 = '';
 
