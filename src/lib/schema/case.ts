@@ -9,6 +9,7 @@ export const natureOfTheCase = [
 	'Labor'
 ] as const;
 
+
 export const clientInvolvement = [
 	'Accused',
 	'Complainant',
