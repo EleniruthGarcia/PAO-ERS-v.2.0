@@ -119,6 +119,7 @@ async function addTextToPDF(data: any) {
 		// client class
 		clientClasses,
 		clientInvolvement,
+		lawEnforcer,
 		foreignNational,
 		pwd,
 		indigenousPeople,
@@ -132,7 +133,7 @@ async function addTextToPDF(data: any) {
 		pendingInCourt,
 		titleOfTheCase,
 		docketNumber,
-		court
+		courtBodyTribunal
 	} = data;
 
 	// Load existing PDF
@@ -237,8 +238,8 @@ async function addTextToPDF(data: any) {
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
-
-	firstPage.drawText(religion ?? 'N/A', {
+	const religionTxt = religion ? religion : "N/A";
+	firstPage.drawText(religionTxt ?? 'N/A', {
 		x: 90,
 		y: 691,
 		size: 10,
@@ -250,13 +251,15 @@ async function addTextToPDF(data: any) {
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
-	firstPage.drawText(citizenship ?? 'N/A', {
+	const citizen = citizenship ? citizenship : "N/A";
+	firstPage.drawText(citizen ?? 'N/A', {
 		x: 100,
 		y: 677,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
-	firstPage.drawText(languageDialect ?? 'N/A', {
+	const language = languageDialect ? languageDialect : "N/A";
+	firstPage.drawText(language ?? 'N/A', {
 		x: 390,
 		y: 677,
 		size: 10,
@@ -274,13 +277,15 @@ async function addTextToPDF(data: any) {
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
-	firstPage.drawText(email ?? 'N/A', {
+	const clientEmail = email ? email : "N/A";
+	firstPage.drawText(clientEmail ?? 'N/A', {
 		x: 80,
 		y: 649,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
-	});
-	firstPage.drawText(individualMonthlyIncome ?? 'N/A', {
+	}); 
+	const MonthlyIncome = individualMonthlyIncome ? individualMonthlyIncome : "N/A";
+	firstPage.drawText(MonthlyIncome ?? 'N/A', {
 		x: 150,
 		y: 635,
 		size: 10,
@@ -324,14 +329,15 @@ async function addTextToPDF(data: any) {
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
-		firstPage.drawText('N/A' ?? 'N/A', {
-			x: 390,
-			y: 607,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
-		});
+		// firstPage.drawText('N/A' ?? 'N/A', {
+		// 	x: 390,
+		// 	y: 607,
+		// 	size: 10,
+		// 	color: rgb(0, 0, 0) // Black
+		// });
 	}
-	if (natureOfService === 'Legal Advice') {
+
+	if (natureOfService.includes('Legal Advice')) {
 		// legal advice
 		firstPage.drawRectangle({
 			x: 34,
@@ -341,7 +347,8 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-	} else if (natureOfService === 'Legal Documentation') {
+	} 
+	 if (natureOfService.includes('Legal Documentation')) {
 		// legal documentation
 		firstPage.drawRectangle({
 			x: 203,
@@ -351,7 +358,8 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-	} else if (natureOfService === 'Representation in Court/Quasi-Judicial Bodies') {
+	} 
+	 if (natureOfService.includes('Representation in Court/Quasi-Judicial Bodies')) {
 		// rep in court
 		firstPage.drawRectangle({
 			x: 335,
@@ -361,7 +369,8 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-	} else if (natureOfService === 'Inquest Legal Assistance') {
+	} 
+	 if (natureOfService.includes('Inquest Legal Assistance')) {
 		// inquest legal assist
 		firstPage.drawRectangle({
 			x: 34,
@@ -371,7 +380,8 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-	} else if (natureOfService === 'Mediation/Conciliation') {
+	} 
+ if (natureOfService.includes('Mediation/Conciliation')) {
 		// mediation
 		firstPage.drawRectangle({
 			x: 203,
@@ -381,7 +391,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-	} else if (natureOfService === 'Administration of Oath') {
+	}  if (natureOfService.includes('Administration of Oath')) {
 		// admin of oath
 		firstPage.drawRectangle({
 			x: 335,
@@ -391,7 +401,8 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-	} else if (natureOfService === 'Others') {
+	} 
+	 if (natureOfService.includes('Others')) {
 		// others
 		firstPage.drawRectangle({
 			x: 34,
@@ -407,8 +418,7 @@ async function addTextToPDF(data: any) {
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
-	}
-
+}
 	if (natureOfTheCase === 'Criminal') {
 		// CRIMINAL
 		firstPage.drawRectangle({
@@ -587,16 +597,6 @@ async function addTextToPDF(data: any) {
 					color: rgb(0, 0, 0),
 					borderColor: undefined // No border
 				});
-			} else if (clientClass === 'Law Enforcer') {
-				// LAW ENFORCER
-				firstPage.drawRectangle({
-					x: 34,
-					y: 430,
-					width: 7,
-					height: 7,
-					color: rgb(0, 0, 0),
-					borderColor: undefined // No border
-				});
 			} else if (clientClass === 'Drug-Related Duty') {
 				// DRUG DUTY
 				firstPage.drawRectangle({
@@ -690,6 +690,17 @@ async function addTextToPDF(data: any) {
 			}
 		}
 	}
+	if (lawEnforcer) {
+			// LAW ENFORCER
+			firstPage.drawRectangle({
+				x: 34,
+				y: 430,
+				width: 7,
+				height: 7,
+				color: rgb(0, 0, 0),
+				borderColor: undefined // No border
+			});
+	} 
 	if (pwd) {
 		// PWD
 		firstPage.drawRectangle({
@@ -814,12 +825,12 @@ async function addTextToPDF(data: any) {
 	}
 
 	// PARTY/REP
-	firstPage.drawText(name ?? 'N/A', {
-		x: 200,
-		y: 365,
-		size: 10,
-		color: rgb(0, 0, 0) // Black
-	});
+	// firstPage.drawText(name ?? 'N/A', {
+	// 	x: 280,
+	// 	y: 365,
+	// 	size: 10,
+	// 	color: rgb(0, 0, 0) // Black
+	// });
 
 	firstPage.drawText(civilStatus ?? 'N/A', {
 		x: 473,
@@ -827,68 +838,48 @@ async function addTextToPDF(data: any) {
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
+	const addressPartner = addressOfSpouse ? addressOfSpouse : "N/AA";
+	const contactPartner = spouseContactNo ? spouseContactNo : "N/AC";
+	const partner1 = spouse ? spouse : "N/A1";
+	const partner = spouse ? spouse : "N/A2";
 
+	// firstPage.drawText(partner ?? 'N/ASP', {
+	// 	x: 345,
+	// 	y: 294,
+	// 	size: 10,
+	// 	color: rgb(0, 0, 0) // Black
+	// });
+	// firstPage.drawText(addressPartner ?? 'N/A', {
+	// 	x: 380,
+	// 	y: 635,
+	// 	size: 8,
+	// 	color: rgb(0, 0, 0) // Black
+	// });
+	// firstPage.drawText(contactPartner ?? 'N/A', {
+	// 	x: 390,
+	// 	y: 621,
+	// 	size: 10,
+	// 	color: rgb(0, 0, 0) // Black
+	// });
+	// firstPage.drawText(partner1 ?? 'N/A', {
+	// 	x: 340,
+	// 	y: 649,
+	// 	size: 10,
+	// 	color: rgb(0, 0, 0) // Black
+	// });
 	if (civilStatus === 'Married') {
-		// Married or Widow/Widower
-		firstPage.drawText(spouse ?? 'N/A', {
-			x: 390,
-			y: 649,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
-		});
-		firstPage.drawText(addressOfSpouse ?? 'N/A', {
-			x: 390,
-			y: 635,
-			size: 8,
-			color: rgb(0, 0, 0) // Black
-		});
-		firstPage.drawText(spouseContactNo ?? 'N/A', {
-			x: 390,
-			y: 621,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
+		// Married
+		firstPage.drawRectangle({
+			x: 298,
+			y: 294,
+			width: 5,
+			height: 5,
+			color: rgb(0, 0, 0),
+			borderColor: undefined // No border
 		});
 
-		if (civilStatus === 'Married') {
-			// Married
-			firstPage.drawRectangle({
-				x: 298,
-				y: 294,
-				width: 5,
-				height: 5,
-				color: rgb(0, 0, 0),
-				borderColor: undefined // No border
-			});
-		} else if (civilStatus === 'Widow/Widower') {
-			// Widow/Widower
-			firstPage.drawRectangle({
-				x: 469,
-				y: 294,
-				width: 5,
-				height: 5,
-				color: rgb(0, 0, 0),
-				borderColor: undefined // No border
-			});
-			firstPage.drawText('N/A' ?? 'N/A', {
-				x: 390,
-				y: 649,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-			firstPage.drawText('N/A' ?? 'N/A', {
-				x: 390,
-				y: 635,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-			firstPage.drawText('N/A' ?? 'N/A', {
-				x: 390,
-				y: 621,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-		}
-	} else {
+	} 
+	if (civilStatus === 'Single') {
 		// Single
 		firstPage.drawRectangle({
 			x: 265,
@@ -898,23 +889,15 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-		firstPage.drawText('N/A' ?? 'N/A', {
-			x: 390,
-			y: 649,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
-		});
-		firstPage.drawText('N/A' ?? 'N/A', {
-			x: 390,
-			y: 635,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
-		});
-		firstPage.drawText('N/A' ?? 'N/A', {
-			x: 390,
-			y: 621,
-			size: 10,
-			color: rgb(0, 0, 0) // Black
+	}
+	if (civilStatus === 'Widow/Widower') {
+		firstPage.drawRectangle({
+			x: 469,
+			y: 294,
+			width: 5,
+			height: 5,
+			color: rgb(0, 0, 0),
+			borderColor: undefined // No border
 		});
 	}
 
@@ -944,7 +927,7 @@ async function addTextToPDF(data: any) {
 	});
 
 	firstPage.drawText(intervieweeAddress ?? 'N/A', {
-		x: 73,
+		x: 78,
 		y: 559,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -961,12 +944,20 @@ async function addTextToPDF(data: any) {
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
+	if (intervieweeEmail) {
 	firstPage.drawText(intervieweeEmail ?? 'N/A', {
 		x: 320,
 		y: 545,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
-	});
+	}); } else {
+		firstPage.drawText("N/A" ?? 'N/A', {
+			x: 320,
+			y: 545,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+	}
 
 	firstPage.drawText(districtProvince ?? 'N/A', {
 		x: 25,
@@ -975,13 +966,7 @@ async function addTextToPDF(data: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(name ?? 'N/A', {
-		x: 100,
-		y: 294,
-		size: 10,
-		color: rgb(0, 0, 0) // Black
-	});
-	firstPage.drawText(spouse ?? 'N/A', {
-		x: 350,
+		x: 40,
 		y: 294,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -992,7 +977,8 @@ async function addTextToPDF(data: any) {
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
-	firstPage.drawText(individualMonthlyIncome?.toString() ?? 'N/A', {
+	const MonthlyIncome1 = individualMonthlyIncome ? individualMonthlyIncome : "N/A";
+	firstPage.drawText(MonthlyIncome1?.toString() ?? 'N/A', {
 		x: 230,
 		y: 246,
 		size: 10,
@@ -1128,8 +1114,7 @@ async function addTextToPDF(data: any) {
 			}
 		}
 	}
-	for (const item of proofOfIndigency) {
-		if (item === 'Income Tax Return') {
+	if (proofOfIndigency.includes('Income Tax Return')) {
 			secondPage.drawRectangle({
 				x: 33,
 				y: 229,
@@ -1138,7 +1123,8 @@ async function addTextToPDF(data: any) {
 				color: rgb(0, 0, 0),
 				borderColor: undefined // No border
 			});
-		} else if (item === 'Certification from Barangay') {
+		} 
+		if (proofOfIndigency.includes('Certification from Barangay')) {
 			secondPage.drawRectangle({
 				x: 144,
 				y: 229,
@@ -1147,7 +1133,7 @@ async function addTextToPDF(data: any) {
 				color: rgb(0, 0, 0),
 				borderColor: undefined // No border
 			});
-		} else if (item === 'Certification from DSWD') {
+		if (proofOfIndigency.includes('Certification from DSWD')) {
 			secondPage.drawRectangle({
 				x: 295,
 				y: 229,
@@ -1156,22 +1142,24 @@ async function addTextToPDF(data: any) {
 				color: rgb(0, 0, 0),
 				borderColor: undefined // No border
 			});
-		} else if (typeof item === 'object' && item.hasOwnProperty('Others')) {
-			secondPage.drawRectangle({
-				x: 415,
-				y: 229,
-				width: 7,
-				height: 7,
-				color: rgb(0, 0, 0),
-				borderColor: undefined // No border
-			});
-			secondPage.drawText(item['Others'] ?? 'N/A', {
-				x: 425,
-				y: 217,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-		}
+		} 
+		
+		// else if (typeof item === 'object' && item.hasOwnProperty('Others')) {
+		// 	secondPage.drawRectangle({
+		// 		x: 415,
+		// 		y: 229,
+		// 		width: 7,
+		// 		height: 7,
+		// 		color: rgb(0, 0, 0),
+		// 		borderColor: undefined // No border
+		// 	});
+		// 	secondPage.drawText(item['Others'] ?? 'N/A', {
+		// 		x: 425,
+		// 		y: 217,
+		// 		size: 10,
+		// 		color: rgb(0, 0, 0) // Black
+		// 	});
+		// }
 	}
 	if (pendingInCourt === 'Yes') {
 		secondPage.drawText('X' ?? 'N/A', {
@@ -1251,8 +1239,8 @@ async function addTextToPDF(data: any) {
 	}
 	var adversePartyMaxLength = 60;
 	var yCoordinate = 295;
-	for (let i = 0; i < court?.length; i += adversePartyMaxLength) {
-		const textChunk = court.substring(i, i + adversePartyMaxLength);
+	for (let i = 0; i < courtBodyTribunal?.length; i += adversePartyMaxLength) {
+		const textChunk = courtBodyTribunal.substring(i, i + adversePartyMaxLength);
 		secondPage.drawText(textChunk ?? 'N/A', {
 			x: 130,
 			y: yCoordinate,
