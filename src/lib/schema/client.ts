@@ -140,7 +140,10 @@ export const formSchema = z.object({
 			date: z.date()
 		})
 	),
-	proofOfIndigency: z.array(z.enum(proofOfIndigency).or(z.object({ Others: z.string() })))
+	proofOfIndigency: z.union([
+		z.enum(proofOfIndigency).optional(),
+		z.string().optional()
+	]).transform((e) => (e === '' ? undefined : e))
 });
 
 export type FormSchema = typeof formSchema;
