@@ -8,6 +8,7 @@ export const nature = [
 	'Jail Visitation Release',
 	'Legal Advice',
 	'Legal Documentation',
+	'Limited Services',
 	'Mediation or Conciliation',
 	'Representation in Court or Quasi-Judicial Bodies',
 	'Others'
@@ -111,6 +112,7 @@ export const formSchema = z.object({
 	client_id: z.array(z.string()).min(1, 'Client is required.'),
 	lawyer_id: z.string().min(1, 'Lawyer is required.'),
 	case_id: z.array(z.string()).optional(),
+	limitedCases: z.array(z.string()),
 	interviewee_id: z.string().min(1, 'Interviewee is required.'),
 	relationshipToClient: z.enum(relationshipToClient),
 	nature: z.array(z.enum(nature)).min(1, 'Nature of Service is required.'),

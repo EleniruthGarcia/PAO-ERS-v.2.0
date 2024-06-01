@@ -128,6 +128,14 @@
 		$formData.client_id = [...$formData.client_id, ''];
 	}
 
+	function removeCaseByIndex(index: number) {
+		$formData.limitedCases = $formData.limitedCases.filter((_, i) => i !== index);
+	}
+
+	function addCase() {
+		$formData.limitedCases = [...$formData.limitedCases, ''];
+	}
+
 	function removeBeneficiaryByIndex(index: number) {
 		$formData.beneficiary = $formData.beneficiary.filter((_, i) => i !== index);
 	}
@@ -302,9 +310,9 @@
 							</Card.Description>
 						</Card.Header>
 						<Card.Content class="grid auto-rows-max items-start gap-3">
-							<div class="flex space-between">
+							<div class="space-between flex">
 								<p class="text-sm">Number of Beneficiaries</p>
-								<div class="flex gap-4 ml-auto">
+								<div class="ml-auto flex gap-4">
 									<Button
 										variant="outline"
 										size="icon"
@@ -314,7 +322,7 @@
 									>
 										<Minus class="h-3 w-3" />
 									</Button>
-									<p class="font-bold w-6 text-center">{bnfNo}</p>
+									<p class="w-6 text-center font-bold">{bnfNo}</p>
 									<Button
 										variant="outline"
 										size="icon"
@@ -409,13 +417,92 @@
 						</Card.Content>
 					</Card.Root>
 				{/if}
-				<!-- {#if $formData.nature.includes('Home Visitation')}
-					Home Visitation!
-				{/if} -->
+				{#if $formData.nature.includes('Limited Services')}
+					<Card.Root>
+						<Card.Header>
+							<Card.Title>Limited Services Information</Card.Title>
+							<Card.Description>
+								Please fill out all necessary information. Required fields are marked with <span
+									class="font-bold text-destructive"
+								>
+									*
+								</span>
+								.
+							</Card.Description>
+						</Card.Header>
+						<Card.Content class="grid auto-rows-max items-start gap-3">
+							<Form.Field {form} name="client_id" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Client <span class="font-bold text-destructive">*</span></Form.Label>
+									<Select.Root
+										selected={selectedClient[0]}
+										onSelectedChange={(s) => {
+											s && ($formData.client_id[0] = s.value);
+										}}
+									>
+										<Select.Input name="client_id" bind:value={$formData.client_id} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each $page.data.clients.filter((c) => !$formData.client_id.includes(c._id)) as client}
+												<Select.Item bind:value={client._id}>{client.name}</Select.Item>
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Fieldset {form} name="client_id" class="grid gap-3">
+								<Form.Legend>
+									Cases <span class="font-bold text-destructive">*</span>
+								</Form.Legend>
+								{#each $formData.limitedCases as _, i}
+									<Form.ElementField {form} name="limitedCases[{i}]">
+										<Form.Control let:attrs>
+											<div class="flex gap-2">
+												<Select.Root
+													selected={limitedCases[i]}
+													onSelectedChange={(s) => {
+														s && ($formData.limitedCases[i] = s.value);
+													}}
+												>
+													<Select.Input name="limitedCases[{i}]" bind:value={$formData.limitedCases[i]} />
+													<Select.Trigger {...attrs}>
+														<Select.Value placeholder="" />
+													</Select.Trigger>
+													<Select.Content>
+														{#each $page.data.cases.filter((c) => !$formData.limitedCases.includes(c._id)) as _case}
+															<Select.Item bind:value={_case._id}>{_case._id}</Select.Item>
+														{/each}
+													</Select.Content>
+												</Select.Root>
+												<Button
+													variant="destructive"
+													class="gap-2"
+													on:click={() => removeCaseByIndex(i)}
+												>
+													<Trash class="h-3.5 w-3.5" />
+												</Button>
+											</div>
+										</Form.Control>
+									</Form.ElementField>
+								{/each}
+								{#if $page.data.clients.length > $formData.client_id.length}
+									<Button variant="outline" class="gap-2" on:click={addCase}>
+										<PlusCircled class="h-3.5 w-3.5" />
+										<span>Add Case</span>
+									</Button>
+								{/if}
+								<Form.FieldErrors />
+							</Form.Fieldset>
+						</Card.Content>
+					</Card.Root>
+				{/if}
 				{#if $formData.nature.includes('Jail Visitation Release')}
 					<Card.Root>
 						<Card.Header>
-							<Card.Title>Service Information</Card.Title>
+							<Card.Title>Jail Visitation Information</Card.Title>
 							<Card.Description>
 								Please fill out all necessary information. Required fields are marked with <span
 									class="font-bold text-destructive"
@@ -491,7 +578,7 @@
 						</Card.Content>
 					</Card.Root>
 				{/if}
-				{#if $formData.nature.includes('Administration of Oath')|| $formData.nature.includes('Home Visitation')  || $formData.nature.includes('Inquest Legal Assistance') || $formData.nature.includes('Legal Advice') || $formData.nature.includes('Legal Documentation') || $formData.nature.includes('Mediation or Conciliation') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies') || $formData.nature.includes('Others')}
+				{#if $formData.nature.includes('Administration of Oath') || $formData.nature.includes('Home Visitation') || $formData.nature.includes('Inquest Legal Assistance') || $formData.nature.includes('Legal Advice') || $formData.nature.includes('Legal Documentation') || $formData.nature.includes('Mediation or Conciliation') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies') || $formData.nature.includes('Others')}
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Service Information</Card.Title>
