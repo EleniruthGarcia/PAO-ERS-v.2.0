@@ -329,12 +329,12 @@ async function addTextToPDF(data: any) {
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
-		// firstPage.drawText('N/A' ?? 'N/A', {
-		// 	x: 390,
-		// 	y: 607,
-		// 	size: 10,
-		// 	color: rgb(0, 0, 0) // Black
-		// });
+		firstPage.drawText('N/A' ?? 'N/A', {
+			x: 390,
+			y: 607,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
 	}
 
 	if (natureOfService.includes('Legal Advice')) {
@@ -826,7 +826,7 @@ async function addTextToPDF(data: any) {
 
 	// PARTY/REP
 	firstPage.drawText(name ?? 'N/A', {
-		x: 280,
+		x: 205,
 		y: 365,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -844,7 +844,7 @@ async function addTextToPDF(data: any) {
 	const partner = spouse ? spouse : "N/A2";
 
 	firstPage.drawText(partner ?? 'N/ASP', {
-		x: 345,
+		x: 350,
 		y: 294,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -966,7 +966,7 @@ async function addTextToPDF(data: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(name ?? 'N/A', {
-		x: 80,
+		x: 70,
 		y: 294,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
