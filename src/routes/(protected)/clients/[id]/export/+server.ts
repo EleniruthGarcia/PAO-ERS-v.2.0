@@ -169,6 +169,7 @@ export const GET: ServiceHandler = async (event) => {
 					adversePartyInvolvement: { $ifNull: ['$case.adversePartyInvolvement', ''] },
 					adversePartyName: { $ifNull: ['$case.adversePartyName', 'N/A'] },
 					adversePartyAddress: { $ifNull: ['$case.adversePartyAddress', 'N/A'] },
+					pendingInCourt: { $ifNull:['$case.pendingInCourt', ''] },
 					// adversePartyName: {
 					// 	$reduce: {
 					// 		input: '$case.adversePartyName',
@@ -272,6 +273,7 @@ export const GET: ServiceHandler = async (event) => {
 				courtPendingStatus: '',
 				titleOfCaseDocketNum: '',
 				courtBodyTribunal: '',
+				pendingInCourt: '',
 			}
 		];
 

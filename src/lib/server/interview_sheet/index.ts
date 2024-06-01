@@ -391,7 +391,8 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-	}  if (natureOfService.includes('Administration of Oath')) {
+	}  
+	if (natureOfService.includes('Administration of Oath')) {
 		// admin of oath
 		firstPage.drawRectangle({
 			x: 335,
@@ -1081,7 +1082,7 @@ async function addTextToPDF(data: any) {
 	for (const item of adversePartyInvolvement ?? []) {
 		if (typeof item === 'string') {
 			switch (item) {
-				case 'Plaintiff/Complainant':
+				case 'Plaintiff or Complainant':
 					secondPage.drawRectangle({
 						x: 67,
 						y: 871,
@@ -1091,7 +1092,7 @@ async function addTextToPDF(data: any) {
 						borderColor: undefined // No border
 					});
 					break;
-				case 'Defendant/Respondent/Accused':
+				case 'Defendant, Respondent, or Accused':
 					secondPage.drawRectangle({
 						x: 67,
 						y: 858,
@@ -1101,7 +1102,7 @@ async function addTextToPDF(data: any) {
 						borderColor: undefined // No border
 					});
 					break;
-				case 'Oppositor/Others':
+				case 'Oppositor or Others':
 					secondPage.drawRectangle({
 						x: 293,
 						y: 871,
