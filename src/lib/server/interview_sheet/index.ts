@@ -129,10 +129,10 @@ async function addTextToPDF(data: any) {
 		adversePartyInvolvement,
 		adversePartyName,
 		adversePartyAddress,
+		factsOfTheCase,
 		causeOfActionOrNatureOfOffence,
 		pendingInCourt,
-		titleOfTheCase,
-		docketNumber,
+		titleOfCaseDocketNum,
 		courtBodyTribunal
 	} = data;
 
@@ -141,11 +141,7 @@ async function addTextToPDF(data: any) {
 	const pdfDoc = await PDFDocument.load(pdfBytes);
 	// Get the first page of the PDF
 	const firstPage = pdfDoc.getPages()[0];
-	if (titleOfTheCase) {
-		var titleOfCaseDocketNum = titleOfTheCase + " " + docketNumber
-	} else {
-		var titleOfCaseDocketNum = "N/A"
-	}
+
 	// Add text to the first page
 	firstPage.drawText(controlNo ?? 'N/A', {
 		x: 90,
@@ -1204,8 +1200,8 @@ async function addTextToPDF(data: any) {
 	}
 	var adversePartyMaxLength = 100;
 	var yCoordinate = 798;
-	for (let i = 0; i < causeOfActionOrNatureOfOffence?.length; i += adversePartyMaxLength) {
-		const textChunk = causeOfActionOrNatureOfOffence.substring(i, i + adversePartyMaxLength);
+	for (let i = 0; i < factsOfTheCase?.length; i += adversePartyMaxLength) {
+		const textChunk = factsOfTheCase.substring(i, i + adversePartyMaxLength);
 		secondPage.drawText(textChunk ?? 'N/A', {
 			x: 50,
 			y: yCoordinate,
@@ -1216,16 +1212,16 @@ async function addTextToPDF(data: any) {
 	}
 	var adversePartyMaxLength = 100;
 	var yCoordinate = 492;
-	// for (let i = 0; i < natureOfOffence.length; i += adversePartyMaxLength) {
-	// 	const textChunk = natureOfOffence.substring(i, i + adversePartyMaxLength);
-	// 	secondPage.drawText(textChunk ?? 'N/A', {
-	// 		x: 50,
-	// 		y: yCoordinate,
-	// 		size: 10,
-	// 		color: rgb(0, 0, 0) // Black
-	// 	});
-	// 	yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
-	// }
+	for (let i = 0; i < causeOfActionOrNatureOfOffence.length; i += adversePartyMaxLength) {
+		const textChunk = causeOfActionOrNatureOfOffence.substring(i, i + adversePartyMaxLength);
+		secondPage.drawText(textChunk ?? 'N/A', {
+			x: 50,
+			y: yCoordinate,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
+		yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
+	}
 	var adversePartyMaxLength = 60;
 	var yCoordinate = 344;
 	for (let i = 0; i < titleOfCaseDocketNum?.length; i += adversePartyMaxLength) {
@@ -1240,8 +1236,9 @@ async function addTextToPDF(data: any) {
 	}
 	var adversePartyMaxLength = 60;
 	var yCoordinate = 295;
-	for (let i = 0; i < courtBodyTribunal?.length; i += adversePartyMaxLength) {
-		const textChunk = courtBodyTribunal.substring(i, i + adversePartyMaxLength);
+	const judiciary = courtBodyTribunal ? courtBodyTribunal : "N/A";
+	for (let i = 0; i < judiciary?.length; i += adversePartyMaxLength) {
+		const textChunk = judiciary.substring(i, i + adversePartyMaxLength);
 		secondPage.drawText(textChunk ?? 'N/A', {
 			x: 130,
 			y: yCoordinate,
