@@ -331,7 +331,7 @@ export const actions = {
 		const f15 = services.filter((d) =>
 			d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation')
 		);
-		const f16 = services.filter((d) => d.client?.foreignNational?.contains('Taiwanese'));
+		const f16 = services.filter((d) => d.client?.foreignNational?.includes('Taiwanese'));
 		const f18 = services.filter(
 			(d) =>
 				d.client?.classification?.includes('OFW') &&
