@@ -13,7 +13,7 @@
 	} from '$lib/schema/service';
 	import { type SuperValidated, type Infer, superForm, dateProxy } from 'sveltekit-superforms';
 
-	import { ChevronLeft, PlusCircled, Trash, Cross1 } from 'svelte-radix';
+	import { ChevronLeft, PlusCircled, Trash, Cross1, Minus, Plus } from 'svelte-radix';
 
 	import Loading from '$lib/components/Loading.svelte';
 
@@ -57,7 +57,7 @@
 		};
 	});
 
-	let selectedCase: { label: string; value: string } = "";
+	let selectedCase: { label: string; value: string } = '';
 
 	let selectedNatureOfInstrument: { label: string; value: string }[] = [];
 	$: $formData.natureOfInstrument?.forEach((_, i) => {
@@ -150,6 +150,16 @@
 
 	function addNature() {
 		$formData.otherNature = [...($formData.otherNature ?? []), ''];
+	}
+
+	let bnfNo = 0;
+	function addBnf(adjustment: number) {
+		if (adjustment > 0) {
+			addBeneficiary();
+		} else {
+			removeBeneficiaryByIndex(0);
+		}
+		bnfNo = Math.max(0, Math.min(50, bnfNo + adjustment));
 	}
 </script>
 
@@ -292,11 +302,33 @@
 							</Card.Description>
 						</Card.Header>
 						<Card.Content class="grid auto-rows-max items-start gap-3">
+							<div class="flex space-between">
+								<p class="text-sm">Number of Beneficiaries</p>
+								<div class="flex gap-4 ml-auto">
+									<Button
+										variant="outline"
+										size="icon"
+										class="h-6 w-6 shrink-0 rounded-md"
+										on:click={() => addBnf(-1)}
+										disabled={bnfNo == 0}
+									>
+										<Minus class="h-3 w-3" />
+									</Button>
+									<p class="font-bold w-6 text-center">{bnfNo}</p>
+									<Button
+										variant="outline"
+										size="icon"
+										class="h-6 w-6 shrink-0 rounded-md"
+										on:click={() => addBnf(1)}
+										disabled={bnfNo >= 50}
+									>
+										<Plus class="h-3 w-3" />
+									</Button>
+								</div>
+							</div>
 							<Form.Fieldset {form} name="beneficiary" class="grid gap-3">
 								{#each $formData.beneficiary as _, i}
-									{#if i != 0}
-										<Separator class="my-4" />
-									{/if}
+									<Separator class="my-4" />
 									<Form.ElementField {form} name="beneficiary[{i}]">
 										<Form.Field {form} name="beneficiary" class="grid gap-3">
 											<Form.Control let:attrs>
@@ -368,7 +400,7 @@
 										</Form.Field>
 									</Form.ElementField>
 								{/each}
-								<Button variant="outline" class="gap-2" on:click={addBeneficiary}>
+								<Button variant="outline" class="gap-2" on:click={() => addBnf(1)}>
 									<PlusCircled class="h-3.5 w-3.5" />
 									<span>Add Beneficiary</span>
 								</Button>
@@ -377,9 +409,9 @@
 						</Card.Content>
 					</Card.Root>
 				{/if}
-				{#if $formData.nature.includes('Home Visitation')}
+				<!-- {#if $formData.nature.includes('Home Visitation')}
 					Home Visitation!
-				{/if}
+				{/if} -->
 				{#if $formData.nature.includes('Jail Visitation Release')}
 					<Card.Root>
 						<Card.Header>
@@ -440,7 +472,10 @@
 							</Form.Field>
 							<Form.Field {form} name="dateOfVisit" class="grid gap-3 sm:col-span-3">
 								<Form.Control let:attrs>
-									<Form.Label>Date of Visitation <span class="font-bold text-destructive">*</span></Form.Label>
+									<Form.Label
+										>Date of Visitation <span class="font-bold text-destructive">*</span
+										></Form.Label
+									>
 									<DatePicker bind:value={$proxyDateOfVisit} />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -456,7 +491,7 @@
 						</Card.Content>
 					</Card.Root>
 				{/if}
-				{#if $formData.nature.includes('Administration of Oath') || $formData.nature.includes('Inquest Legal Assistance') || $formData.nature.includes('Legal Advice') || $formData.nature.includes('Legal Documentation') || $formData.nature.includes('Mediation or Conciliation') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies') || $formData.nature.includes('Others')}
+				{#if $formData.nature.includes('Administration of Oath')|| $formData.nature.includes('Home Visitation')  || $formData.nature.includes('Inquest Legal Assistance') || $formData.nature.includes('Legal Advice') || $formData.nature.includes('Legal Documentation') || $formData.nature.includes('Mediation or Conciliation') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies') || $formData.nature.includes('Others')}
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Service Information</Card.Title>
