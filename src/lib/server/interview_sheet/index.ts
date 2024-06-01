@@ -838,10 +838,10 @@ async function addTextToPDF(data: any) {
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
-	const addressPartner = addressOfSpouse ? addressOfSpouse : "N/AA";
-	const contactPartner = spouseContactNo ? spouseContactNo : "N/AC";
-	const partner1 = spouse ? spouse : "N/A1";
-	const partner = spouse ? spouse : "N/A2";
+	const addressPartner = addressOfSpouse ? addressOfSpouse : "N/A";
+	const contactPartner = spouseContactNo ? spouseContactNo : "N/A";
+	const partner1 = spouse ? spouse : "N/A";
+	const partner = spouse ? spouse : "N/A";
 
 	firstPage.drawText(partner ?? 'N/ASP', {
 		x: 350,
