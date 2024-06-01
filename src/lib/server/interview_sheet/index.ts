@@ -329,12 +329,12 @@ async function addTextToPDF(data: any) {
 			size: 10,
 			color: rgb(0, 0, 0) // Black
 		});
-		// firstPage.drawText('N/A' ?? 'N/A', {
-		// 	x: 390,
-		// 	y: 607,
-		// 	size: 10,
-		// 	color: rgb(0, 0, 0) // Black
-		// });
+		firstPage.drawText('N/A' ?? 'N/A', {
+			x: 390,
+			y: 607,
+			size: 10,
+			color: rgb(0, 0, 0) // Black
+		});
 	}
 
 	if (natureOfService.includes('Legal Advice')) {
@@ -391,7 +391,8 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-	}  if (natureOfService.includes('Administration of Oath')) {
+	}  
+	if (natureOfService.includes('Administration of Oath')) {
 		// admin of oath
 		firstPage.drawRectangle({
 			x: 335,
@@ -825,12 +826,12 @@ async function addTextToPDF(data: any) {
 	}
 
 	// PARTY/REP
-	// firstPage.drawText(name ?? 'N/A', {
-	// 	x: 280,
-	// 	y: 365,
-	// 	size: 10,
-	// 	color: rgb(0, 0, 0) // Black
-	// });
+	firstPage.drawText(name ?? 'N/A', {
+		x: 205,
+		y: 365,
+		size: 10,
+		color: rgb(0, 0, 0) // Black
+	});
 
 	firstPage.drawText(civilStatus ?? 'N/A', {
 		x: 473,
@@ -838,35 +839,35 @@ async function addTextToPDF(data: any) {
 		size: 10,
 		color: rgb(0, 0, 0) // Black
 	});
-	const addressPartner = addressOfSpouse ? addressOfSpouse : "N/AA";
-	const contactPartner = spouseContactNo ? spouseContactNo : "N/AC";
-	const partner1 = spouse ? spouse : "N/A1";
-	const partner = spouse ? spouse : "N/A2";
+	const addressPartner = addressOfSpouse ? addressOfSpouse : "N/A";
+	const contactPartner = spouseContactNo ? spouseContactNo : "N/A";
+	const partner1 = spouse ? spouse : "N/A";
+	const partner = spouse ? spouse : "N/A";
 
-	// firstPage.drawText(partner ?? 'N/ASP', {
-	// 	x: 345,
-	// 	y: 294,
-	// 	size: 10,
-	// 	color: rgb(0, 0, 0) // Black
-	// });
-	// firstPage.drawText(addressPartner ?? 'N/A', {
-	// 	x: 380,
-	// 	y: 635,
-	// 	size: 8,
-	// 	color: rgb(0, 0, 0) // Black
-	// });
-	// firstPage.drawText(contactPartner ?? 'N/A', {
-	// 	x: 390,
-	// 	y: 621,
-	// 	size: 10,
-	// 	color: rgb(0, 0, 0) // Black
-	// });
-	// firstPage.drawText(partner1 ?? 'N/A', {
-	// 	x: 340,
-	// 	y: 649,
-	// 	size: 10,
-	// 	color: rgb(0, 0, 0) // Black
-	// });
+	firstPage.drawText(partner ?? 'N/ASP', {
+		x: 350,
+		y: 294,
+		size: 10,
+		color: rgb(0, 0, 0) // Black
+	});
+	firstPage.drawText(addressPartner ?? 'N/A', {
+		x: 380,
+		y: 635,
+		size: 8,
+		color: rgb(0, 0, 0) // Black
+	});
+	firstPage.drawText(contactPartner ?? 'N/A', {
+		x: 390,
+		y: 621,
+		size: 10,
+		color: rgb(0, 0, 0) // Black
+	});
+	firstPage.drawText(partner1 ?? 'N/A', {
+		x: 340,
+		y: 649,
+		size: 10,
+		color: rgb(0, 0, 0) // Black
+	});
 	if (civilStatus === 'Married') {
 		// Married
 		firstPage.drawRectangle({
@@ -966,7 +967,7 @@ async function addTextToPDF(data: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(name ?? 'N/A', {
-		x: 40,
+		x: 70,
 		y: 294,
 		size: 10,
 		color: rgb(0, 0, 0) // Black
@@ -1081,7 +1082,7 @@ async function addTextToPDF(data: any) {
 	for (const item of adversePartyInvolvement ?? []) {
 		if (typeof item === 'string') {
 			switch (item) {
-				case 'Plaintiff/Complainant':
+				case 'Plaintiff or Complainant':
 					secondPage.drawRectangle({
 						x: 67,
 						y: 871,
@@ -1091,7 +1092,7 @@ async function addTextToPDF(data: any) {
 						borderColor: undefined // No border
 					});
 					break;
-				case 'Defendant/Respondent/Accused':
+				case 'Defendant, Respondent, or Accused':
 					secondPage.drawRectangle({
 						x: 67,
 						y: 858,
@@ -1101,7 +1102,7 @@ async function addTextToPDF(data: any) {
 						borderColor: undefined // No border
 					});
 					break;
-				case 'Oppositor/Others':
+				case 'Oppositor or Others':
 					secondPage.drawRectangle({
 						x: 293,
 						y: 871,
