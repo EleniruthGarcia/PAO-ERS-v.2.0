@@ -11,7 +11,7 @@
 		typeOfService,
 		natureOfInstrument
 	} from '$lib/schema/service';
-	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
+	import { type SuperValidated, type Infer, superForm, dateProxy } from 'sveltekit-superforms';
 
 	import { ChevronLeft, PlusCircled, Trash, Cross1 } from 'svelte-radix';
 
@@ -20,12 +20,14 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Checkbox } from '$lib/components/ui/checkbox';
+	import DatePicker from '$lib/components/DatePicker.svelte';
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
 	import { Separator } from '$lib/components/ui/separator';
 	import * as RadioGroup from '$lib/components/ui/radio-group';
 	import { sex } from '$lib/schema/client';
+	import Textarea from '../ui/textarea/textarea.svelte';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -41,6 +43,11 @@
 	// 	empty: 'undefined'
 	// });
 
+	const proxyDateOfVisit = dateProxy(form, 'dateOfVisit', {
+		format: 'date',
+		empty: 'undefined'
+	});
+
 	let selectedClient: { label: string; value: string }[] = [];
 	$: $formData.client_id.forEach((_, i) => {
 		selectedClient[i] = {
@@ -49,6 +56,8 @@
 			value: $formData.client_id[i]
 		};
 	});
+
+	let selectedCase: { label: string; value: string } = "";
 
 	let selectedNatureOfInstrument: { label: string; value: string }[] = [];
 	$: $formData.natureOfInstrument?.forEach((_, i) => {
@@ -291,7 +300,7 @@
 									<Form.ElementField {form} name="beneficiary[{i}]">
 										<Form.Field {form} name="beneficiary" class="grid gap-3">
 											<Form.Control let:attrs>
-												<Form.Label class="flex justify-between items-end">
+												<Form.Label class="flex items-end justify-between">
 													Name <span class="font-bold text-destructive">&nbsp;*</span>
 													<Button
 														variant="ghost"
@@ -372,7 +381,80 @@
 					Home Visitation!
 				{/if}
 				{#if $formData.nature.includes('Jail Visitation Release')}
-					Jail Visitation Release!
+					<Card.Root>
+						<Card.Header>
+							<Card.Title>Service Information</Card.Title>
+							<Card.Description>
+								Please fill out all necessary information. Required fields are marked with <span
+									class="font-bold text-destructive"
+								>
+									*
+								</span>
+								.
+							</Card.Description>
+						</Card.Header>
+						<Card.Content class="grid auto-rows-max items-start gap-3 sm:grid-cols-8">
+							<Form.Field {form} name="client_id" class="grid gap-3 sm:col-span-8">
+								<Form.Control let:attrs>
+									<Form.Label>Client <span class="font-bold text-destructive">*</span></Form.Label>
+									<Select.Root
+										selected={selectedClient[0]}
+										onSelectedChange={(s) => {
+											s && ($formData.client_id[0] = s.value);
+										}}
+									>
+										<Select.Input name="client_id" bind:value={$formData.client_id} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each $page.data.clients.filter((c) => !$formData.client_id.includes(c._id)) as client}
+												<Select.Item bind:value={client._id}>{client.name}</Select.Item>
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="case_id" class="grid gap-3 sm:col-span-5">
+								<Form.Control let:attrs>
+									<Form.Label>Case <span class="font-bold text-destructive">*</span></Form.Label>
+									<Select.Root
+										selected={selectedCase}
+										onSelectedChange={(s) => {
+											s && ($formData.case_id = s.value);
+										}}
+									>
+										<Select.Input name="case_id" bind:value={$formData.case_id} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each $page.data.cases.filter((c) => !$formData.case_id.includes(c._id)) as _case}
+												<Select.Item bind:value={_case._id}>{_case.name}</Select.Item>
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="dateOfVisit" class="grid gap-3 sm:col-span-3">
+								<Form.Control let:attrs>
+									<Form.Label>Date of Visitation <span class="font-bold text-destructive">*</span></Form.Label>
+									<DatePicker bind:value={$proxyDateOfVisit} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Separator class="my-4 sm:col-span-8" />
+							<Form.Field {form} name="recommendation" class="grid gap-3 sm:col-span-8">
+								<Form.Control let:attrs>
+									<Form.Label>Recommendation</Form.Label>
+									<Textarea {...attrs} bind:value={$formData.recommendation} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</Card.Content>
+					</Card.Root>
 				{/if}
 				{#if $formData.nature.includes('Administration of Oath') || $formData.nature.includes('Inquest Legal Assistance') || $formData.nature.includes('Legal Advice') || $formData.nature.includes('Legal Documentation') || $formData.nature.includes('Mediation or Conciliation') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies') || $formData.nature.includes('Others')}
 					<Card.Root>

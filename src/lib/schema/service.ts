@@ -127,6 +127,12 @@ export const formSchema = z.object({
 		gender: z.string(),
 		age: z.number().int(),
 		ethnicity: z.string()})),
+	dateOfVisit: z
+		.date()
+		.or(z.literal(''))
+		.transform((e) => (e === '' ? undefined : e))
+		.optional(),
+	recommendation: z.string().optional(),
 	status: z.array(
 		z.object({
 			type: z.enum(status),
