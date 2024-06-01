@@ -549,6 +549,23 @@
 								{/each}
 								<Form.FieldErrors />
 							</div>
+							{#if $formData.clientInvolvement.includes('Others')}
+								<Separator class="my-4" />
+								<Form.Field {form} name="otherInvolvement" class="grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>Other Involvement</Form.Label>
+											<div class="flex gap-2">
+												<Input
+													{...attrs}
+													name="otherInvolvement"
+													placeholder="Please input specific involvement here."
+													bind:value={$formData.otherInvolvement}
+												/>
+											</div>
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
+							{/if}
 						</Card.Content>
 					</Form.Fieldset>
 				</Card.Root>
