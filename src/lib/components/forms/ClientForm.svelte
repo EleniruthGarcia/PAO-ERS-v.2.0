@@ -5,6 +5,7 @@
 		classification,
 		educationalAttainment,
 		formSchema,
+		proofOfIndigency,
 		pwd,
 		sex,
 		type FormSchema
@@ -77,6 +78,12 @@
 		label: $formData.educationalAttainment,
 		value: $formData.educationalAttainment
 	};
+
+	$: touchedProof = false;
+	$: filteredProof =
+		$formData.proofOfIndigency && touchedProof
+			? proofOfIndigency.filter((v) => v.toLowerCase().includes($formData.proofOfIndigency?.toLowerCase() ?? ''))
+			: proofOfIndigency;
 
 	$: touchedPWD = false;
 	$: filteredPWD =
@@ -266,21 +273,68 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<Form.Field
-							{form}
-							name="detained"
-							class="flex w-fit flex-row items-center space-x-3 space-y-0 rounded-md border p-4"
-						>
-							<Form.Control let:attrs>
-								<Checkbox {...attrs} bind:checked={$formData.detained} />
-								<div class="h-10 space-y-2 truncate leading-none">
-									<Form.Label>Detained</Form.Label>
-									<Form.Description>Check if the client is detained.</Form.Description>
-								</div>
-								<input name={attrs.name} bind:value={$formData.detained} hidden />
-							</Form.Control>
-							<Form.FieldErrors />
-						</Form.Field>
+						<div class="grid items-start gap-3 sm:grid-cols-2">
+							<Form.Field {form} name="proofOfIndigency" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Proof of Indigency</Form.Label>
+									<Combobox.Root
+										items={filteredProof}
+										bind:inputValue={$formData.proofOfIndigency}
+										bind:touchedInput={touchedProof}
+									>
+										<div class="relative">
+											<Combobox.Input
+												class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+												placeholder="Please type or select."
+											/>
+											<CaretSort class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50" />
+										</div>
+
+										<Combobox.Content
+											class="relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
+											transition={flyAndScale}
+											sideOffset={8}
+										>
+											{#each filteredProof as value}
+												<Combobox.Item
+													class="elative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
+													{value}
+												>
+													{value}
+													<Combobox.ItemIndicator
+														class="absolute right-3 flex h-3.5 w-3.5 items-center justify-center"
+														asChild={false}
+													>
+														<Check class="h-4 w-4" />
+													</Combobox.ItemIndicator>
+												</Combobox.Item>
+											{:else}
+												<span class="block px-5 py-2 text-sm text-muted-foreground">
+													No results found.
+												</span>
+											{/each}
+										</Combobox.Content>
+										<Combobox.HiddenInput name="proofOfIndigency" />
+									</Combobox.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field
+								{form}
+								name="detained"
+								class="flex w-fit flex-row items-center space-x-3 space-y-0 rounded-md border p-4"
+							>
+								<Form.Control let:attrs>
+									<Checkbox {...attrs} bind:checked={$formData.detained} />
+									<div class="h-10 space-y-2 truncate leading-none">
+										<Form.Label>Detained</Form.Label>
+										<Form.Description>Check if the client is detained.</Form.Description>
+									</div>
+									<input name={attrs.name} bind:value={$formData.detained} hidden />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</div>
 					</Card.Content>
 				</Card.Root>
 				<Card.Root>

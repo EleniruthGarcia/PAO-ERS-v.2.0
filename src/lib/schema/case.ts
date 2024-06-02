@@ -122,6 +122,7 @@ export const formSchema = z.object({
 	adversePartyInvolvement: z
 		.array(z.enum(adversePartyInvolvement))
 		.min(1, 'Adverse Party Involvement is required.'),
+	otherInvolvement: z.array(z.string()).optional(),
 	adversePartyName: z.string().min(1, 'Adverse Party Name is required.'),
 	adversePartyAddress: z.string().min(1, 'Adverse Party Address is required.'),
 	factsOfTheCase: z.string().optional(),
