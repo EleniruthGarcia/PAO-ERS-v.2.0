@@ -120,6 +120,11 @@
 			}
 		: undefined;
 
+	$: selectedSex = {
+		label: $formData.limitedSex,
+		value: $formData.limitedSex
+	};
+
 	function removeClientByIndex(index: number) {
 		$formData.client_id = $formData.client_id.filter((_, i) => i !== index);
 	}
@@ -431,28 +436,39 @@
 							</Card.Description>
 						</Card.Header>
 						<Card.Content class="grid auto-rows-max items-start gap-3">
-							<Form.Field {form} name="client_id" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Client <span class="font-bold text-destructive">*</span></Form.Label>
-									<Select.Root
-										selected={selectedClient[0]}
-										onSelectedChange={(s) => {
-											s && ($formData.client_id[0] = s.value);
-										}}
-									>
-										<Select.Input name="client_id" bind:value={$formData.client_id} />
-										<Select.Trigger {...attrs}>
-											<Select.Value placeholder="" />
-										</Select.Trigger>
-										<Select.Content>
-											{#each $page.data.clients.filter((c) => !$formData.client_id.includes(c._id)) as client}
-												<Select.Item bind:value={client._id}>{client.name}</Select.Item>
-											{/each}
-										</Select.Content>
-									</Select.Root>
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
+							<div class="grid gap-3 sm:grid-cols-7">
+								<Form.Field {form} name="client_id" class="grid gap-3 sm:col-span-5">
+									<Form.Control let:attrs>
+										<Form.Label>Name <span class="font-bold text-destructive">*</span></Form.Label>
+										<Input {...attrs} bind:value={$formData.limitedName} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
+								<Form.Field {form} name="limitedSex" class="grid gap-3 sm:col-span-2">
+									<Form.Control let:attrs>
+										<Form.Label>
+											Sex <span class="font-bold text-destructive">*</span>
+										</Form.Label>
+										<Select.Root
+											selected={selectedSex}
+											onSelectedChange={(s) => {
+												s && ($formData.limitedSex = s.value);
+											}}
+										>
+											<Select.Input name={attrs.name} />
+											<Select.Trigger {...attrs}>
+												<Select.Value placeholder="" />
+											</Select.Trigger>
+											<Select.Content>
+												{#each sex as value}
+													<Select.Item {value} />
+												{/each}
+											</Select.Content>
+										</Select.Root>
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
+							</div>
 							<Form.Fieldset {form} name="client_id" class="grid gap-3">
 								<Form.Legend>
 									Cases <span class="font-bold text-destructive">*</span>
@@ -467,7 +483,10 @@
 														s && ($formData.limitedCases[i] = s.value);
 													}}
 												>
-													<Select.Input name="limitedCases[{i}]" bind:value={$formData.limitedCases[i]} />
+													<Select.Input
+														name="limitedCases[{i}]"
+														bind:value={$formData.limitedCases[i]}
+													/>
 													<Select.Trigger {...attrs}>
 														<Select.Value placeholder="" />
 													</Select.Trigger>
