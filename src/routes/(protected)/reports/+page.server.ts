@@ -421,7 +421,8 @@ export const actions = {
 				{
 					$addFields: {
 						'case.transferredFrom': { $arrayElemAt: ['$case.transferredFrom', 0] },
-						'case.transferredTo': { $arrayElemAt: ['$case.transferredTo', 0] }
+						'case.transferredTo': { $arrayElemAt: ['$case.transferredTo', 0] },
+						'service': '$$ROOT'
 					}
 				}
 			])
@@ -434,7 +435,7 @@ export const actions = {
 						s.type !== 'Terminated' &&
 						(s.date?.getMonth() + 1 < 12
 							? months[s.date?.getMonth() + 1] === form.data.month &&
-								s.date?.getFullYear() === form.data.year
+							s.date?.getFullYear() === form.data.year
 							: s.date?.getMonth() === 11 && s.date?.getFullYear() === form.data.year - 1)
 				).length > 0
 		);
@@ -459,47 +460,25 @@ export const actions = {
 				).length > 0
 		);
 
-		console.log(
-			'CICL',
-
-			'\n\tNew Case:',
-			newCasesForThisMonth.filter(
-				(d: any) =>
-					d.case?.natureOfTheCase === 'Criminal' &&
-					d.client?.filter((c: any) => c.classification?.includes('Child in Conflict with the Law'))
-			).length,
-
-			'\n\t# of Clients Involved sa New Case',
-			newCasesForThisMonth
-				.filter(
-					(d: any) =>
-						d.case?.natureOfTheCase === 'Criminal' &&
-						d.client?.filter((c: any) =>
-							c.classification?.includes('Child in Conflict with the Law')
-						)
-				)
-				.map((d: any) => d.client.length)
-				.reduce((a: any, b: any) => a + b, 0),
-
-			'\n\tPending Case:',
-			pendingCasesFromPreviousMonth.filter(
-				(d: any) =>
-					d.case?.natureOfTheCase === 'Criminal' &&
-					d.client?.filter((c: any) => c.classification?.includes('Child in Conflict with the Law'))
-			).length,
-
-			'\n\t# of Clients Involved sa Pending Case',
-			pendingCasesFromPreviousMonth
-				.filter(
-					(d: any) =>
-						d.case?.natureOfTheCase === 'Criminal' &&
-						d.client?.filter((c: any) =>
-							c.classification?.includes('Child in Conflict with the Law')
-						)
-				)
-				.map((d: any) => d.client.length)
-				.reduce((a: any, b: any) => a + b, 0)
+		const monthlyClients = (month: number) => services.filter(
+			(d: any) =>
+				d.case?.status?.filter(
+					(s: any) =>
+						s.type === 'New' &&
+						s.date?.getMonth() === month &&
+						s.date?.getFullYear() === form.data.year
+				).length > 0
 		);
+
+		// (1) No. of clients for month of january, judicial type of service, client class is "Petitioner for Voluntary Rehabilitation (Drugs)"(
+		const q1 = monthlyClients(0).filter(
+			(d: any) =>
+				d.service?.typeOfService === 'Judicial' &&
+				d.client?.filter((c: any) => c.classification?.includes('Petitioner for Voluntary Rehabilitation (Drugs)'))
+		).reduce((length, d) => length + d.service?.client_id?.length, 0);
+
+		// (2) count the number of clients assisted in january in F35
+		const q2 = monthlyClients(0).reduce((length, d) => length + d.service?.client_id?.length, 0);
 
 		const f28 = {
 			// Pending cases from previous months
@@ -9467,34 +9446,34 @@ export const actions = {
 				)
 				.map((d: any) => d.client.length)
 				.reduce((a: any, b: any) => a + b, 0),
-				// quasi
-				jmacpen: pendingCasesFromPreviousMonth.filter(
-					(d: any) =>
-						d.case?.nature === 'Mediation or Conciliation'
-				).length,
-				jmaccas: newCasesForThisMonth.filter(
-					(d: any) =>
-						d.case?.nature === 'Mediation or Conciliation'
-				).length,
-				jmaccascl: newCasesForThisMonth.filter(
-					(d: any) =>
-						d.case?.nature === 'Mediation or Conciliation'
-				)
+			// quasi
+			jmacpen: pendingCasesFromPreviousMonth.filter(
+				(d: any) =>
+					d.case?.nature === 'Mediation or Conciliation'
+			).length,
+			jmaccas: newCasesForThisMonth.filter(
+				(d: any) =>
+					d.case?.nature === 'Mediation or Conciliation'
+			).length,
+			jmaccascl: newCasesForThisMonth.filter(
+				(d: any) =>
+					d.case?.nature === 'Mediation or Conciliation'
+			)
 				.map((d: any) => d.client.length)
 				.reduce((a: any, b: any) => a + b, 0),
-				jmacfpao: newCasesForThisMonth.filter(
-					(d: any) =>
-						d.case?.nature === 'Mediation or Conciliation' && 
-						d.case?.transferredFrom
-				).length,
-				jmacfpaocl: newCasesForThisMonth.filter(
-					(d: any) =>
-						d.case?.nature === 'Mediation or Conciliation' &&
-				)
+			jmacfpao: newCasesForThisMonth.filter(
+				(d: any) =>
+					d.case?.nature === 'Mediation or Conciliation' &&
+					d.case?.transferredFrom
+			).length,
+			jmacfpaocl: newCasesForThisMonth.filter(
+				(d: any) =>
+					d.case?.nature === 'Mediation or Conciliation'
+			)
 				.map((d: any) => d.client.length)
 				.reduce((a: any, b: any) => a + b, 0),
 
-				
+
 
 		};
 
