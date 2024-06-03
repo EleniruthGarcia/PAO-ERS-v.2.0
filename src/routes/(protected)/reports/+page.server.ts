@@ -284,7 +284,7 @@ export const actions = {
 
 		const f10 = services.filter((d) => d.services?.nature?.includes('Barangay Outreach'));;
 		const f11 = services.filter((d) => d.services?.nature?.includes('Jail Visitation'));
-		const f12 = '';
+		const f12 = services.filter((d) => d.client?.classification?.includes('Victim'));;
 		const f13 = services
 			.filter((d) => d.client?.classification?.includes('Child in Conflict with the Law'))
 			.map((item, index) => ({ index, ...item }));
@@ -292,12 +292,12 @@ export const actions = {
 		const f15 = services.filter((d) =>
 			d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation')
 		);
-		const f16 = services.filter((d) => d.client?.foreignNational?.includes('Taiwanese'));
+		const f16 = services.filter((d) => d.client?.foreignNational?.includes('Taiwanese')).map((item, index) => ({ index, ...item }));
 		const f18 = services.filter(
 			(d) =>
 				d.client?.classification?.includes('OFW') &&
 				d.services?.nature?.includes('Inquest Legal Assistance')
-		);
+		).map((item, index) => ({ index, ...item }));
 		const f19 = {
 			criminal: services.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')),
 			civil: services.filter((d) => d.case?.natureOfTheCase?.includes('Civil')),
@@ -309,14 +309,14 @@ export const actions = {
 		};
 		const f20 = services.filter((d) => d.client?.PWD?.includes(true));
 		const f21 = services.filter((d) => d.service?.nature?.includes('Administration of Oath'));
-		const f22 = services.filter((d) => d.service?.nature?.includes('Others (PSA)'));
+		const f22 = services.filter((d) => d.service?.nature?.includes('Others (PSA)')).map((item, index) => ({ index, ...item }));
 		const f23 = services.filter((d) =>
 			d.client?.classification?.includes('Denied or Disqualified')
 		);
 		const f24 = services.filter((d) =>
 			d.client?.classification?.includes('Beneficiary of Hernan Ruling (R.A. No. 10951)')
-		);
-		const f25 = services.filter((d) => d.case?.genderCaseSubject?.includes(''));
+		).map((item, index) => ({ index, ...item }));
+		const f25 = services.filter((d) => d.case?.genderCaseSubject?.includes('')).map((item, index) => ({ index, ...item }));
 		const f26 = '';
 		const f27 = services.filter((d) => d.case?.natureOfTheCase?.includes('Appealed'));
 
@@ -326,8 +326,8 @@ export const actions = {
 		const f32 = services.filter((d) =>
 			// d.client?.detainedSince?.contains('') &&
 			d.services?.nature?.includes('Representation in Court or Quasi-Judicial Bodies')
-		);
-		const f33 = services.filter((d) => d.case?.favorable?.includes(''));
+		).map((item, index) => ({ index, ...item }));
+		const f33 = services.filter((d) => d.case?.favorable?.includes('')).map((item, index) => ({ index, ...item }));
 		const f34 = {
 			criminal: services.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')),
 			civil: services.filter((d) => d.case?.natureOfTheCase?.includes('Civil')),
@@ -9857,28 +9857,28 @@ export const actions = {
 				assignedCourts: new Set(services.map((d) => d.case?.court).filter(Boolean)),
 				f10: outreaches,
 				f11,
-				f12: f12.map((item, index) => ({index, ...item})),
-				f13: f13.map((item, index) => ({index, ...item})),
-				f14: f14.map((item, index) => ({index, ...item})),
+				f12,
+				f13,
+				f14,
 				f15,
-				f16: f16.map((item, index) => ({index, ...item})),
+				f16,
 				f17: [...services, ...outreaches],
-				f18: f18.map((item, index) => ({index, ...item})),
-				f19: f19.map((item, index) => ({index, ...item})),
+				f18,
+				f19,
 				f20,
 				f21,
-				f22: f22.map((item, index) => ({index, ...item})),
+				f22,
 				f23,
-				f24: f24.map((item, index) => ({index, ...item})),
-				f25: f25.map((item, index) => ({index, ...item})),
+				f24,
+				f25,
 				f26,
 				f27,
 				f28,
 				f29,
 				f31,
-				f32: f32.map((item, index) => ({index, ...item})),
-				f33: f33.map((item, index) => ({index, ...item})),
-				f34: f34.map((item, index) => ({index, ...item})),
+				f32,
+				f33,
+				f34,
 				f35: [...services, ...outreaches],
 				f38,
 				f48,
@@ -9890,3 +9890,5 @@ export const actions = {
 		};
 	}
 } satisfies Actions;
+
+//12,13,14,16,18,19,22,24,25,32,33,34
