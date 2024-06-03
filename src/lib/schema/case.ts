@@ -53,11 +53,6 @@ export const terminated = [
 	'Cases considered closed and terminated',
 ] as const;
 
-export const terminationMediaCon = [
-	'Disputes settled (compromised agreement)',
-	'Disputes closed without settlement'
-] as const
-
 export const favorable = [
 	'Acquitted',
 	'Dismissed with prejudice',

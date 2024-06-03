@@ -10,7 +10,10 @@
 		relationshipToClient,
 		typeOfService,
 		natureOfInstrument,
-		legalAdviceMode
+		legalAdviceMode,
+
+		terminationMediaCon
+
 	} from '$lib/schema/service';
 	import { type SuperValidated, type Infer, superForm, dateProxy } from 'sveltekit-superforms';
 
@@ -129,6 +132,11 @@
 	$: selectedLegalAdviceMode = {
 		label: $formData.legalAdviceMode,
 		value: $formData.legalAdviceMode
+	};
+
+	$: selectedTerminationMediaCon = {
+		label: $formData.terminationMediaCon,
+		value: $formData.terminationMediaCon
 	};
 
 	function removeClientByIndex(index: number) {
@@ -298,6 +306,41 @@
 										</Select.Trigger>
 										<Select.Content>
 											{#each legalAdviceMode as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</Card.Content>
+					</Card.Root>
+				{/if}
+				{#if $formData.nature.includes('Mediation or Conciliation')}
+					<Card.Root>
+						<Card.Header>
+							<Card.Title class="text-sm">
+								Termination Condition <span class="font-bold text-destructive">*</span>
+							</Card.Title>
+							<!-- <Card.Description>
+								<Form.Description>Please select all the apply.</Form.Description>
+							</Card.Description> -->
+						</Card.Header>
+						<Card.Content>
+							<Form.Field {form} name="terminationMediaCon" class="grid gap-3 sm:col-span-3">
+								<Form.Control let:attrs>
+									<Select.Root
+										selected={selectedTerminationMediaCon}
+										onSelectedChange={(s) => {
+											s && ($formData.terminationMediaCon = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each terminationMediaCon as value}
 												<Select.Item {value} />
 											{/each}
 										</Select.Content>

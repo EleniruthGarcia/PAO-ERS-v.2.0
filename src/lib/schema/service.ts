@@ -113,6 +113,11 @@ export const natureOfInstrument = [
 	'Undertaking (TESDA)'
 ] as const;
 
+export const terminationMediaCon = [
+	'Disputes settled (compromised agreement)',
+	'Disputes closed without settlement'
+] as const
+
 export const sex = ['Male', 'Female'] as const;
 
 export const formSchema = z.object({
@@ -156,6 +161,7 @@ export const formSchema = z.object({
 	witness: z.string().optional(),
 	duringOffice: z.boolean().default(false),
 	legalAdviceMode: z.enum(legalAdviceMode),
+	terminationMediaCon: z.enum(terminationMediaCon),
 });
 
 export type FormSchema = typeof formSchema;
