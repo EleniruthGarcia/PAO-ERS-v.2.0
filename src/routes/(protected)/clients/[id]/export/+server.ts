@@ -273,7 +273,7 @@ export const GET: ServiceHandler = async (event) => {
 				courtPendingStatus: '',
 				titleOfCaseDocketNum: '',
 				courtBodyTribunal: '',
-				pendingInCourt: '',
+				pendingInCourt: ''
 			}
 		];
 

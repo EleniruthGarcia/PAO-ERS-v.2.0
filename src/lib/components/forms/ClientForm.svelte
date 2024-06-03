@@ -82,7 +82,9 @@
 	$: touchedProof = false;
 	$: filteredProof =
 		$formData.proofOfIndigency && touchedProof
-			? proofOfIndigency.filter((v) => v.toLowerCase().includes($formData.proofOfIndigency?.toLowerCase() ?? ''))
+			? proofOfIndigency.filter((v) =>
+					v.toLowerCase().includes($formData.proofOfIndigency?.toLowerCase() ?? '')
+				)
 			: proofOfIndigency;
 
 	$: touchedPWD = false;

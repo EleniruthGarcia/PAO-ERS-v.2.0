@@ -11,9 +11,7 @@
 		typeOfService,
 		natureOfInstrument,
 		legalAdviceMode,
-
 		terminationMediaCon
-
 	} from '$lib/schema/service';
 	import { type SuperValidated, type Infer, superForm, dateProxy } from 'sveltekit-superforms';
 

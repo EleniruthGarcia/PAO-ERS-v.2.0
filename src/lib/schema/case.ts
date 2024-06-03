@@ -9,7 +9,6 @@ export const natureOfTheCase = [
 	'Labor'
 ] as const;
 
-
 export const clientInvolvement = [
 	'Accused',
 	'Complainant',
@@ -50,7 +49,7 @@ export const terminated = [
 	'Unfavorable Dispositions to Clients',
 	'Other dispositions',
 	'Cases for filing',
-	'Cases considered closed and terminated',
+	'Cases considered closed and terminated'
 ] as const;
 
 export const favorable = [

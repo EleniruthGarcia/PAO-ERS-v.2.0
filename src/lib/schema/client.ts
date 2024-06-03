@@ -86,10 +86,9 @@ export const formSchema = z.object({
 		.string()
 		.min(1, 'Address is required.')
 		.max(40, 'Maximum Characters must be less than 40.'),
-	email: z.union([
-		z.literal(''),
-		z.string().email().optional()]
-	).transform((e) => (e === '' ? undefined : e)),
+	email: z
+		.union([z.literal(''), z.string().email().optional()])
+		.transform((e) => (e === '' ? undefined : e)),
 	contactNumber: z
 		.string()
 		// .regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number.')
@@ -115,10 +114,9 @@ export const formSchema = z.object({
 	spouseLastName: z.string().optional(),
 	spouseNameSuffix: z.string().optional(),
 	spouseAddress: z.string().optional(),
-	spouseEmail: z.union([
-		z.literal(''),
-		z.string().email().optional()]
-	).transform((e) => (e === '' ? undefined : e)),
+	spouseEmail: z
+		.union([z.literal(''), z.string().email().optional()])
+		.transform((e) => (e === '' ? undefined : e)),
 	spouseContactNumber: z
 		.string()
 		// .regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number.')
@@ -126,10 +124,9 @@ export const formSchema = z.object({
 	classification: z.array(z.enum(classification)).optional(),
 	lawEnforcer: z.string().optional(),
 	foreignNational: z.string().optional(),
-	pwd: z.union([
-		z.enum(pwd).optional(),
-		z.string().optional()
-	]).transform((e) => (e === '' ? undefined : e)),
+	pwd: z
+		.union([z.enum(pwd).optional(), z.string().optional()])
+		.transform((e) => (e === '' ? undefined : e)),
 	indigenousPeople: z.string().optional(),
 	urbanPoor: z.string().optional(),
 	ruralPoor: z.string().optional(),
@@ -140,10 +137,9 @@ export const formSchema = z.object({
 			date: z.date()
 		})
 	),
-	proofOfIndigency: z.union([
-		z.enum(proofOfIndigency).optional(),
-		z.string().optional()
-	]).transform((e) => (e === '' ? undefined : e))
+	proofOfIndigency: z
+		.union([z.enum(proofOfIndigency).optional(), z.string().optional()])
+		.transform((e) => (e === '' ? undefined : e))
 });
 
 export type FormSchema = typeof formSchema;
