@@ -214,6 +214,7 @@ export const actions = {
 						ageCrime: {$dateDiff: {startDate: '$case.dateOfBirth', endDate: '$case.dateOfCommission', unit: 'year'}},
 						caseNo: '$case.docketNumber',
 						judge: { $ifNull: ['$case.actionTaken', ''] },
+						assignment: '',
 						assistance: '$service.typeOfAssistance',
 						actionTaken: { $ifNull: ['$case.actionTaken', ''] },
 						CICL: {
@@ -281,7 +282,7 @@ export const actions = {
 			])
 			.toArray();
 
-		const f10 = '';
+		const f10 = services.filter((d) => d.services?.nature?.includes('Barangay Outreach'));;
 		const f11 = services.filter((d) => d.services?.nature?.includes('Jail Visitation'));
 		const f12 = '';
 		const f13 = services
