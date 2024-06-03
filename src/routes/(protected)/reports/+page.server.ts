@@ -211,7 +211,7 @@ export const actions = {
 						titleOfCase: '$case.titleOfCase',
 						remarks: '$case.factsOfTheCase',
 						crimeDate: '$case.dateOfCommission',
-						ageCrime: '',
+						ageCrime: {$dateDiff: {startDate: '$case.dateOfBirth', endDate: '$case.dateOfCommission', unit: 'year'}},
 						caseNo: '$case.docketNumber',
 						judge: { $ifNull: ['$case.actionTaken', ''] },
 						assistance: '$service.typeOfAssistance',
