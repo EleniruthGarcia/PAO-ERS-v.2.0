@@ -9489,11 +9489,24 @@ export const actions = {
 				).length,
 				jmacfpaocl: newCasesForThisMonth.filter(
 					(d: any) =>
-						d.case?.nature === 'Mediation or Conciliation' &&
+						d.case?.nature === 'Mediation or Conciliation' && 
+					d.case?.transferredFrom
 				)
 				.map((d: any) => d.client.length)
 				.reduce((a: any, b: any) => a + b, 0),
-
+				jmactpao: newCasesForThisMonth.filter(
+					(d: any) =>
+						d.case?.nature === 'Mediation or Conciliation' && 
+						d.case?.transferredFrom
+				).length,
+				jmactpaocl: newCasesForThisMonth.filter(
+					(d: any) =>
+						d.case?.nature === 'Mediation or Conciliation' && 
+					d.case?.transferredFrom
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+				
 				
 
 		};

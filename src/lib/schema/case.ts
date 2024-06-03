@@ -51,9 +51,20 @@ export const terminated = [
 	'Other dispositions',
 	'Cases for filing',
 	'Cases considered closed and terminated',
+] as const;
+
+export const terminationMediaCon = [
 	'Disputes settled (compromised agreement)',
 	'Disputes closed without settlement'
-] as const;
+] as const
+
+export const legalAdviceMode = [
+	'In person/walk-in',
+	'air mail',
+	'e-mail',
+	'telephone/mobile phone',
+	'other means of communication'
+]
 
 export const favorable = [
 	'Acquitted',
