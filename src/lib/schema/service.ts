@@ -14,6 +14,13 @@ export const nature = [
 	'Others'
 ] as const;
 
+export const legalAdviceMode = [
+	'In person/walk-in',
+	'Air mail',
+	'E-mail',
+	'Telephone/mobile phone',
+	'Other means of communication'
+]
 
 export const typeOfService = [
 	'Judicial',
@@ -147,7 +154,8 @@ export const formSchema = z.object({
 	),
 	natureOfInstrument: z.array(z.enum(natureOfInstrument)),
 	witness: z.string().optional(),
-	duringOffice: z.boolean().default(false)
+	duringOffice: z.boolean().default(false),
+	legalAdviceMode: z.enum(legalAdviceMode),
 });
 
 export type FormSchema = typeof formSchema;

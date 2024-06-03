@@ -58,14 +58,6 @@ export const terminationMediaCon = [
 	'Disputes closed without settlement'
 ] as const
 
-export const legalAdviceMode = [
-	'In person/walk-in',
-	'air mail',
-	'e-mail',
-	'telephone/mobile phone',
-	'other means of communication'
-]
-
 export const favorable = [
 	'Acquitted',
 	'Dismissed with prejudice',

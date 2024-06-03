@@ -9,7 +9,8 @@
 		type FormSchema,
 		relationshipToClient,
 		typeOfService,
-		natureOfInstrument
+		natureOfInstrument,
+		legalAdviceMode
 	} from '$lib/schema/service';
 	import { type SuperValidated, type Infer, superForm, dateProxy } from 'sveltekit-superforms';
 
@@ -123,6 +124,11 @@
 	$: selectedSex = {
 		label: $formData.limitedSex,
 		value: $formData.limitedSex
+	};
+
+	$: selectedLegalAdviceMode = {
+		label: $formData.legalAdviceMode,
+		value: $formData.legalAdviceMode
 	};
 
 	function removeClientByIndex(index: number) {
@@ -267,6 +273,41 @@
 						</Card.Content>
 					</Form.Fieldset>
 				</Card.Root>
+				{#if $formData.nature.includes('Legal Advice')}
+					<Card.Root>
+						<Card.Header>
+							<Card.Title class="text-sm">
+								Mode of Legal Advice <span class="font-bold text-destructive">*</span>
+							</Card.Title>
+							<!-- <Card.Description>
+								<Form.Description>Please select all the apply.</Form.Description>
+							</Card.Description> -->
+						</Card.Header>
+						<Card.Content>
+							<Form.Field {form} name="legalAdviceMode" class="grid gap-3 sm:col-span-3">
+								<Form.Control let:attrs>
+									<Select.Root
+										selected={selectedLegalAdviceMode}
+										onSelectedChange={(s) => {
+											s && ($formData.legalAdviceMode = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each legalAdviceMode as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</Card.Content>
+					</Card.Root>
+				{/if}
 				<Card.Root>
 					<Form.Fieldset {form} name="typeOfService" class="space-y-0">
 						<Card.Header>
