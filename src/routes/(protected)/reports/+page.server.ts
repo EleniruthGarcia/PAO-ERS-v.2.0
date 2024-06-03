@@ -284,7 +284,7 @@ export const actions = {
 
 		const f10 = services.filter((d) => d.services?.nature?.includes('Barangay Outreach'));;
 		const f11 = services.filter((d) => d.services?.nature?.includes('Jail Visitation'));
-		const f12 = services.filter((d) => d.client?.classification?.includes('Victim'));;
+		const f12 = services.filter((d) => d.client?.classification?.includes('Victim')).map((item, index) => ({ index, ...item }));
 		const f13 = services
 			.filter((d) => d.client?.classification?.includes('Child in Conflict with the Law'))
 			.map((item, index) => ({ index, ...item }));
