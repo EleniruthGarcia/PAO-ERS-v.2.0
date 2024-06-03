@@ -237,76 +237,36 @@ export const actions = {
 						UP: { $cond: [{ $ifNull: ['$client.urbanPoor', 'true'] }, '', 'X'] },
 						RP: { $cond: [{ $ifNull: ['$client.ruralPoor', 'true'] }, '', 'X'] },
 						Judi: {
-							$cond: [
-								{ $in: ['$service.typeOfService', ['Judicial']] },
-								'X',
-								''
-							]
+							$cond: [{ $in: ['$service.typeOfService', ['Judicial']] }, 'X', '']
 						},
 						Quasi: {
-							$cond: [
-								{ $in: ['$service.typeOfService', ['Quasi-Judicial']] },
-								'X',
-								''
-							]
+							$cond: [{ $in: ['$service.typeOfService', ['Quasi-Judicial']] }, 'X', '']
 						},
 						NonJudi: {
-							$cond: [
-								{ $in: ['$service.typeOfService', ['Non-Judicial']] },
-								'X',
-								''
-							]
+							$cond: [{ $in: ['$service.typeOfService', ['Non-Judicial']] }, 'X', '']
 						},
 						genderCase: { $ifNull: ['$case.genderCaseSubject', []] },
 						typePWD: { $ifNull: ['$client.pwd', []] },
 						intellectual: {
-							$cond: [
-								{ $in: ['$client.pwd', ['Intellectual']] },
-								'X',
-								''
-							]
+							$cond: [{ $in: ['$client.pwd', ['Intellectual']] }, 'X', '']
 						},
 						vision: {
-							$cond: [
-								{ $in: ['$client.pwd', ['Vision']] },
-								'X',
-								''
-							]
+							$cond: [{ $in: ['$client.pwd', ['Vision']] }, 'X', '']
 						},
 						hearing: {
-							$cond: [
-								{ $in: ['$client.pwd', ['Hearing']] },
-								'X',
-								''
-							]
+							$cond: [{ $in: ['$client.pwd', ['Hearing']] }, 'X', '']
 						},
 						speech: {
-							$cond: [
-								{ $in: ['$client.pwd', ['Speech']] },
-								'X',
-								''
-							]
+							$cond: [{ $in: ['$client.pwd', ['Speech']] }, 'X', '']
 						},
 						mental: {
-							$cond: [
-								{ $in: ['$client.pwd', ['Psychiatric or Mental Illness']] },
-								'X',
-								''
-							]
+							$cond: [{ $in: ['$client.pwd', ['Psychiatric or Mental Illness']] }, 'X', '']
 						},
 						acquired: {
-							$cond: [
-								{ $in: ['$client.pwd', ['Acquired Disability']] },
-								'X',
-								''
-							]
+							$cond: [{ $in: ['$client.pwd', ['Acquired Disability']] }, 'X', '']
 						},
 						othersPWD: {
-							$cond: [
-								{ $in: ['$client.pwd', ['Others']] },
-								'X',
-								''
-							]
+							$cond: [{ $in: ['$client.pwd', ['Others']] }, 'X', '']
 						},
 						termination: { $ifNull: ['$case.causeOfTermination', ''] },
 						dateCommission: { $ifNull: ['$case.dateOfCommission', ''] },
@@ -324,9 +284,9 @@ export const actions = {
 		const f10 = '';
 		const f11 = services.filter((d) => d.services?.nature?.includes('Jail Visitation'));
 		const f12 = '';
-		const f13 = services.filter((d) =>
-			d.client?.classification?.includes('Child in Conflict with the Law')
-		).map((item, index) => ({ index, ...item }));
+		const f13 = services
+			.filter((d) => d.client?.classification?.includes('Child in Conflict with the Law'))
+			.map((item, index) => ({ index, ...item }));
 		const f14 = '';
 		const f15 = services.filter((d) =>
 			d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation')
@@ -359,15 +319,12 @@ export const actions = {
 		const f26 = '';
 		const f27 = services.filter((d) => d.case?.natureOfTheCase?.includes('Appealed'));
 
-		const f29 = services.filter((d) => d.service?.nature?.includes('Others (PSA)'));
-
 		const f31 = services.filter((d) =>
 			d.case?.terminated?.includes('Favorable Dispositions to Clients')
 		);
-		const f32 = services.filter(
-			(d) =>
-				// d.client?.detainedSince?.contains('') &&
-				d.services?.nature?.includes('Representation in Court or Quasi-Judicial Bodies')
+		const f32 = services.filter((d) =>
+			// d.client?.detainedSince?.contains('') &&
+			d.services?.nature?.includes('Representation in Court or Quasi-Judicial Bodies')
 		);
 		const f33 = services.filter((d) => d.case?.favorable?.includes(''));
 		const f34 = {
@@ -384,7 +341,7 @@ export const actions = {
 
 		const f49 = services.filter((d) => d.service?.nature?.includes('Others (PSA)'));
 
-		const f50 = services.filter((d) => d.service?.nature?.includes('Outreach'));;
+		const f50 = services.filter((d) => d.service?.nature?.includes('Outreach'));
 		const f51 = services.filter((d) => d.service?.nature?.includes('Home Visitation'));
 		const f52 = '';
 
@@ -477,7 +434,7 @@ export const actions = {
 						s.type !== 'Terminated' &&
 						(s.date?.getMonth() + 1 < 12
 							? months[s.date?.getMonth() + 1] === form.data.month &&
-							s.date?.getFullYear() === form.data.year
+								s.date?.getFullYear() === form.data.year
 							: s.date?.getMonth() === 11 && s.date?.getFullYear() === form.data.year - 1)
 				).length > 0
 		);
@@ -7692,6 +7649,1853 @@ export const actions = {
 					d.client?.foreignNational &&
 					d.request?.otherNature?.includes('Assisted During Inquest Investigation')
 			)
+		};
+		const f29 = {
+			// Pending cases from previous months
+			jcrpen: pendingCasesFromPreviousMonth.filter(
+				(d: any) => d.case?.natureOfTheCase === 'Criminal'
+			).length,
+			jcvpen: pendingCasesFromPreviousMonth.filter((d: any) => d.case?.natureOfTheCase === 'Civil')
+				.length,
+			jad1pen: pendingCasesFromPreviousMonth.filter(
+				(d: any) => d.case?.natureOfTheCase === 'Administrative'
+			).length,
+			jad2pen: pendingCasesFromPreviousMonth.filter(
+				(d: any) => d.case?.natureOfTheCase === "Prosecutor's office cases"
+			).length,
+			jad3pen: pendingCasesFromPreviousMonth.filter((d: any) => d.case?.natureOfTheCase === 'Labor')
+				.length,
+			jcrnew: newCasesForThisMonth.filter((d: any) => d.case?.natureOfTheCase === 'Criminal')
+				.length,
+			jcrnecl: newCasesForThisMonth
+				.filter((d: any) => d.case?.natureOfTheCase === 'Criminal')
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvnew: newCasesForThisMonth.filter((d: any) => d.case?.natureOfTheCase === 'Civil').length,
+			jcvnecl: newCasesForThisMonth
+				.filter((d: any) => d.case?.natureOfTheCase === 'Civil')
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1new: newCasesForThisMonth.filter((d: any) => d.case?.natureOfTheCase === 'Administrative')
+				.length,
+			jad1necl: newCasesForThisMonth
+				.filter((d: any) => d.case?.natureOfTheCase === 'Administrative')
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2new: newCasesForThisMonth.filter(
+				(d: any) => d.case?.natureOfTheCase === "Prosecutor's office cases"
+			).length,
+			jad2necl: newCasesForThisMonth
+				.filter((d: any) => d.case?.natureOfTheCase === "Prosecutor's office cases")
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3new: newCasesForThisMonth.filter((d: any) => d.case?.natureOfTheCase === 'Labor').length,
+			jad3necl: newCasesForThisMonth
+				.filter((d: any) => d.case?.natureOfTheCase === 'Labor')
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftea: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.favorable?.includes('Acquitted')
+			),
+			jcrftea: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.favorable?.includes('Acquitted')
+			),
+			jad1ftea: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.favorable?.includes('Acquitted')
+			),
+			jad2ftea: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.favorable?.includes('Acquitted')
+			),
+			jad3ftea: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.favorable?.includes('Acquitted')
+			),
+			jcrfteacl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' && d.case?.favorable?.includes('Acquitted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvfteacl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' && d.case?.favorable?.includes('Acquitted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1fteacl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' && d.case?.favorable?.includes('Acquitted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2fteacl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.favorable?.includes('Acquitted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3fteacl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' && d.case?.favorable?.includes('Acquitted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvfteb: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.favorable?.includes('Dismissed with prejudice')
+			),
+			jcrfteb: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.favorable?.includes('Dismissed with prejudice')
+			),
+			jad1fteb: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.favorable?.includes('Dismissed with prejudice')
+			),
+			jad2fteb: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.favorable?.includes('Dismissed with prejudice')
+			),
+			jad3fteb: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.favorable?.includes('Dismissed with prejudice')
+			),
+			jcrftebcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.favorable?.includes('Dismissed with prejudice')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftebcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.favorable?.includes('Dismissed with prejudice')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1ftebcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.favorable?.includes('Dismissed with prejudice')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2ftebcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.favorable?.includes('Dismissed with prejudice')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3ftebcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.favorable?.includes('Dismissed with prejudice')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftec: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.favorable?.includes('Motion to quash granted')
+			),
+			jcrftec: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.favorable?.includes('Motion to quash granted')
+			),
+			jad1ftec: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.favorable?.includes('Motion to quash granted')
+			),
+			jad2ftec: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.favorable?.includes('Motion to quash granted')
+			),
+			jad3ftec: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.favorable?.includes('Motion to quash granted')
+			),
+			jcrfteccl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.favorable?.includes('Motion to quash granted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvfteccl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.favorable?.includes('Motion to quash granted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1fteccl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.favorable?.includes('Motion to quash granted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2fteccl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.favorable?.includes('Motion to quash granted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3fteccl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.favorable?.includes('Motion to quash granted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvfted: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.favorable?.includes('Demurrer to evidence granted')
+			),
+			jcrfted: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.favorable?.includes('Demurrer to evidence granted')
+			),
+			jad1fted: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.favorable?.includes('Demurrer to evidence granted')
+			),
+			jad2fted: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.favorable?.includes('Demurrer to evidence granted')
+			),
+			jad3fted: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.favorable?.includes('Demurrer to evidence granted')
+			),
+			jcrftedcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.favorable?.includes('Demurrer to evidence granted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftedcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.favorable?.includes('Demurrer to evidence granted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1ftedcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.favorable?.includes('Demurrer to evidence granted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2ftedcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.favorable?.includes('Demurrer to evidence granted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3ftedcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.favorable?.includes('Demurrer to evidence granted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftee: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.favorable?.includes('Provisionally dismissed')
+			),
+			jcrftee: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.favorable?.includes('Provisionally dismissed')
+			),
+			jad1ftee: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.favorable?.includes('Provisionally dismissed')
+			),
+			jad2ftee: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.favorable?.includes('Provisionally dismissed')
+			),
+			jad3ftee: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.favorable?.includes('Provisionally dismissed')
+			),
+			jcrfteecl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.favorable?.includes('Provisionally dismissed')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvfteecl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.favorable?.includes('Provisionally dismissed')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1fteecl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.favorable?.includes('Provisionally dismissed')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2fteecl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.favorable?.includes('Provisionally dismissed')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3fteecl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.favorable?.includes('Provisionally dismissed')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftef: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.favorable?.includes('Convicted to lesser offense')
+			),
+			jcrftef: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.favorable?.includes('Convicted to lesser offense')
+			),
+			jad1ftef: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.favorable?.includes('Convicted to lesser offense')
+			),
+			jad2ftef: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.favorable?.includes('Convicted to lesser offense')
+			),
+			jad3ftef: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.favorable?.includes('Convicted to lesser offense')
+			),
+			jcrftefcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.favorable?.includes('Convicted to lesser offense')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftefcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.favorable?.includes('Convicted to lesser offense')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1ftefcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.favorable?.includes('Convicted to lesser offense')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2ftefcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.favorable?.includes('Convicted to lesser offense')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3ftefcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.favorable?.includes('Convicted to lesser offense')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvfteg: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.favorable?.includes('Probation granted')
+			),
+			jcrfteg: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.favorable?.includes('Probation granted')
+			),
+			jad1fteg: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.favorable?.includes('Probation granted')
+			),
+			jad2fteg: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.favorable?.includes('Probation granted')
+			),
+			jad3fteg: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.favorable?.includes('Probation granted')
+			),
+			jcrftegcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.favorable?.includes('Probation granted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftegcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' && d.case?.favorable?.includes('Probation granted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1ftegcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.favorable?.includes('Probation granted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2ftegcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.favorable?.includes('Probation granted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3ftegcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' && d.case?.favorable?.includes('Probation granted')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvfteh: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.favorable?.includes('Won (civil, labor, and administrative)')
+			),
+			jcrfteh: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.favorable?.includes('Won (civil, labor, and administrative)')
+			),
+			jad1fteh: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.favorable?.includes('Won (civil, labor, and administrative)')
+			),
+			jad2fteh: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.favorable?.includes('Won (civil, labor, and administrative)')
+			),
+			jad3fteh: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.favorable?.includes('Won (civil, labor, and administrative)')
+			),
+			jcrftehcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.favorable?.includes('Won (civil, labor, and administrative)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftehcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.favorable?.includes('Won (civil, labor, and administrative)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1ftehcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.favorable?.includes('Won (civil, labor, and administrative)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2ftehcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.favorable?.includes('Won (civil, labor, and administrative)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3ftehcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.favorable?.includes('Won (civil, labor, and administrative)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftei: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.favorable?.includes('Granted lesser award (civil, administrative & labor)')
+			),
+			jcrftei: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.favorable?.includes('Granted lesser award (civil, administrative & labor)')
+			),
+			jad1ftei: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.favorable?.includes('Granted lesser award (civil, administrative & labor)')
+			),
+			jad2ftei: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.favorable?.includes('Granted lesser award (civil, administrative & labor)')
+			),
+			jad3ftei: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.favorable?.includes('Granted lesser award (civil, administrative & labor)')
+			),
+			jcrfteicl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.favorable?.includes('Granted lesser award (civil, administrative & labor)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvfteicl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.favorable?.includes('Granted lesser award (civil, administrative & labor)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1fteicl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.favorable?.includes('Granted lesser award (civil, administrative & labor)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2fteicl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.favorable?.includes('Granted lesser award (civil, administrative & labor)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3fteicl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.favorable?.includes('Granted lesser award (civil, administrative & labor)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftej: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.favorable?.includes(
+						'Dismissed cases based on compromise agreement (civil & labor)'
+					)
+			),
+			jcrftej: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.favorable?.includes(
+						'Dismissed cases based on compromise agreement (civil & labor)'
+					)
+			),
+			jad1ftej: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.favorable?.includes(
+						'Dismissed cases based on compromise agreement (civil & labor)'
+					)
+			),
+			jad2ftej: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.favorable?.includes(
+						'Dismissed cases based on compromise agreement (civil & labor)'
+					)
+			),
+			jad3ftej: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.favorable?.includes(
+						'Dismissed cases based on compromise agreement (civil & labor)'
+					)
+			),
+			jcrftejcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.favorable?.includes(
+							'Dismissed cases based on compromise agreement (civil & labor)'
+						)
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftejcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.favorable?.includes(
+							'Dismissed cases based on compromise agreement (civil & labor)'
+						)
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1ftejcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.favorable?.includes(
+							'Dismissed cases based on compromise agreement (civil & labor)'
+						)
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2ftejcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.favorable?.includes(
+							'Dismissed cases based on compromise agreement (civil & labor)'
+						)
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3ftejcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.favorable?.includes(
+							'Dismissed cases based on compromise agreement (civil & labor)'
+						)
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftek1: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.favorableCriminalPreliminary?.includes('Case filed in court (complainant)')
+			),
+			jcrftek1: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.favorableCriminalPreliminary?.includes('Case filed in court (complainant)')
+			),
+			jad1ftek1: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.favorableCriminalPreliminary?.includes('Case filed in court (complainant)')
+			),
+			jad2ftek1: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.favorableCriminalPreliminary?.includes('Case filed in court (complainant)')
+			),
+			jad3ftek1: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.favorableCriminalPreliminary?.includes('Case filed in court (complainant)')
+			),
+			jcrftek1cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.favorableCriminalPreliminary?.includes('Case filed in court (complainant)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftek1cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.favorableCriminalPreliminary?.includes('Case filed in court (complainant)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1ftek1cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.favorableCriminalPreliminary?.includes('Case filed in court (complainant)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2ftek1cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.favorableCriminalPreliminary?.includes('Case filed in court (complainant)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3ftek1cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.favorableCriminalPreliminary?.includes('Case filed in court (complainant)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftek2: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.favorableCriminalPreliminary?.includes('Dismissed (respondent)')
+			),
+			jcrftek2: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.favorableCriminalPreliminary?.includes('Dismissed (respondent)')
+			),
+			jad1ftek2: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.favorableCriminalPreliminary?.includes('Dismissed (respondent)')
+			),
+			jad2ftek2: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.favorableCriminalPreliminary?.includes('Dismissed (respondent)')
+			),
+			jad3ftek2: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.favorableCriminalPreliminary?.includes('Dismissed (respondent)')
+			),
+			jcrftek2cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.favorableCriminalPreliminary?.includes('Dismissed (respondent)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftek2cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.favorableCriminalPreliminary?.includes('Dismissed (respondent)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1ftek2cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.favorableCriminalPreliminary?.includes('Dismissed (respondent)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2ftek2cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.favorableCriminalPreliminary?.includes('Dismissed (respondent)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3ftek2cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.favorableCriminalPreliminary?.includes('Dismissed (respondent)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftei1: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Bail (Non-bailable offense)')
+			),
+			jcrftei1: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Bail (Non-bailable offense)')
+			),
+			jad1ftei1: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Bail (Non-bailable offense)')
+			),
+			jad2ftei1: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.pretrialAndOtherDispositions?.includes('Bail (Non-bailable offense)')
+			),
+			jad3ftei1: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Bail (Non-bailable offense)')
+			),
+			jcrftei1cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Bail (Non-bailable offense)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftei1cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Bail (Non-bailable offense)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1ftei1cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Bail (Non-bailable offense)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2ftei1cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.pretrialAndOtherDispositions?.includes('Bail (Non-bailable offense)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3ftei1cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Bail (Non-bailable offense)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftei2: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Recognizance')
+			),
+			jcrftei2: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Recognizance')
+			),
+			jad1ftei2: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Recognizance')
+			),
+			jad2ftei2: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.pretrialAndOtherDispositions?.includes('Recognizance')
+			),
+			jad3ftei2: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Recognizance')
+			),
+			jcrftei2cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Recognizance')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftei2cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Recognizance')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1ftei2cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Recognizance')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2ftei2cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.pretrialAndOtherDispositions?.includes('Recognizance')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3ftei2cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Recognizance')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftei3: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Diversion proceedings / Intervention')
+			),
+			jcrftei3: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Diversion proceedings / Intervention')
+			),
+			jad1ftei3: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Diversion proceedings / Intervention')
+			),
+			jad2ftei3: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.pretrialAndOtherDispositions?.includes('Diversion proceedings / Intervention')
+			),
+			jad3ftei3: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Diversion proceedings / Intervention')
+			),
+			jcrftei3cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Diversion proceedings / Intervention')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftei3cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Diversion proceedings / Intervention')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1ftei3cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Diversion proceedings / Intervention')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2ftei3cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.pretrialAndOtherDispositions?.includes('Diversion proceedings / Intervention')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3ftei3cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Diversion proceedings / Intervention')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftei4: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Suspended sentence')
+			),
+			jcrftei4: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Suspended sentence')
+			),
+			jad1ftei4: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Suspended sentence')
+			),
+			jad2ftei4: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.pretrialAndOtherDispositions?.includes('Suspended sentence')
+			),
+			jad3ftei4: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Suspended sentence')
+			),
+			jcrftei4cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Suspended sentence')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftei4cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Suspended sentence')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1ftei4cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Suspended sentence')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2ftei4cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.pretrialAndOtherDispositions?.includes('Suspended sentence')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3ftei4cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Suspended sentence')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftei5: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Maximum imposable penalty served')
+			),
+			jcrftei5: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Maximum imposable penalty served')
+			),
+			jad1ftei5: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Maximum imposable penalty served')
+			),
+			jad2ftei5: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.pretrialAndOtherDispositions?.includes('Maximum imposable penalty served')
+			),
+			jad3ftei5: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Favorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.pretrialAndOtherDispositions?.includes('Maximum imposable penalty served')
+			),
+			jcrftei5cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Maximum imposable penalty served')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvftei5cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Maximum imposable penalty served')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1ftei5cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Maximum imposable penalty served')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2ftei5cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.pretrialAndOtherDispositions?.includes('Maximum imposable penalty served')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3ftei5cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.pretrialAndOtherDispositions?.includes('Maximum imposable penalty served')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			//unfavorable decisions
+			jcvutea: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.unfavorable?.includes('Convicted as charged')
+			),
+			jcrutea: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.unfavorable?.includes('Convicted as charged')
+			),
+			jad1utea: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.unfavorable?.includes('Convicted as charged')
+			),
+			jad2utea: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.unfavorable?.includes('Convicted as charged')
+			),
+			jad3utea: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.unfavorable?.includes('Convicted as charged')
+			),
+			jcruteacl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.unfavorable?.includes('Convicted as charged')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvuteacl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.unfavorable?.includes('Convicted as charged')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1uteacl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.unfavorable?.includes('Convicted as charged')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2uteacl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.unfavorable?.includes('Convicted as charged')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3uteacl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.unfavorable?.includes('Convicted as charged')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvuteb: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.unfavorable?.includes('Lost (civil, administrative & labor)')
+			),
+			jcruteb: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.unfavorable?.includes('Lost (civil, administrative & labor)')
+			),
+			jad1uteb: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.unfavorable?.includes('Lost (civil, administrative & labor)')
+			),
+			jad2uteb: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.unfavorable?.includes('Lost (civil, administrative & labor)')
+			),
+			jad3uteb: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.unfavorable?.includes('Lost (civil, administrative & labor)')
+			),
+			jcrutebcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.unfavorable?.includes('Lost (civil, administrative & labor)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvutebcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.unfavorable?.includes('Lost (civil, administrative & labor)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1utebcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.unfavorable?.includes('Lost (civil, administrative & labor)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2utebcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.unfavorable?.includes('Lost (civil, administrative & labor)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3utebcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.unfavorable?.includes('Lost (civil, administrative & labor)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvutec: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.unfavorable?.includes('Dismissed (civil, administrative & labor)')
+			),
+			jcrutec: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.unfavorable?.includes('Dismissed (civil, administrative & labor)')
+			),
+			jad1utec: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.unfavorable?.includes('Dismissed (civil, administrative & labor)')
+			),
+			jad2utec: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.unfavorable?.includes('Dismissed (civil, administrative & labor)')
+			),
+			jad3utec: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.unfavorable?.includes('Dismissed (civil, administrative & labor)')
+			),
+			jcruteccl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.unfavorable?.includes('Dismissed (civil, administrative & labor)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvuteccl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.unfavorable?.includes('Dismissed (civil, administrative & labor)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1uteccl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.unfavorable?.includes('Dismissed (civil, administrative & labor)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2uteccl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.unfavorable?.includes('Dismissed (civil, administrative & labor)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3uteccl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.unfavorable?.includes('Dismissed (civil, administrative & labor)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvuted1: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.unfavorableCriminalPreliminary?.includes('Dismissed (complainant)')
+			),
+			jcruted1: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.unfavorableCriminalPreliminary?.includes('Dismissed (complainant)')
+			),
+			jad1uted1: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.unfavorableCriminalPreliminary?.includes('Dismissed (complainant)')
+			),
+			jad2uted1: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.unfavorableCriminalPreliminary?.includes('Dismissed (complainant)')
+			),
+			jad3uted1: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.unfavorableCriminalPreliminary?.includes('Dismissed (complainant)')
+			),
+			jcruted1cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.unfavorableCriminalPreliminary?.includes('Dismissed (complainant)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvuted1cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.unfavorableCriminalPreliminary?.includes('Dismissed (complainant)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1uted1cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.unfavorableCriminalPreliminary?.includes('Dismissed (complainant)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2uted1cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.unfavorableCriminalPreliminary?.includes('Dismissed (complainant)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3uted1cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.unfavorableCriminalPreliminary?.includes('Dismissed (complainant)')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvuted2: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.unfavorableCriminalPreliminary?.includes(
+						'Dismissed (respondent - filed in Court)'
+					)
+			),
+			jcruted2: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.unfavorableCriminalPreliminary?.includes(
+						'Dismissed (respondent - filed in Court)'
+					)
+			),
+			jad1uted2: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.unfavorableCriminalPreliminary?.includes(
+						'Dismissed (respondent - filed in Court)'
+					)
+			),
+			jad2uted2: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.unfavorableCriminalPreliminary?.includes(
+						'Dismissed (respondent - filed in Court)'
+					)
+			),
+			jad3uted2: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Unfavorable Dispositions to Clients') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.unfavorableCriminalPreliminary?.includes(
+						'Dismissed (respondent - filed in Court)'
+					)
+			),
+			jcruted2cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.unfavorableCriminalPreliminary?.includes(
+							'Dismissed (respondent - filed in Court)'
+						)
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvuted2cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.unfavorableCriminalPreliminary?.includes(
+							'Dismissed (respondent - filed in Court)'
+						)
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1uted2cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.unfavorableCriminalPreliminary?.includes(
+							'Dismissed (respondent - filed in Court)'
+						)
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2uted2cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.unfavorableCriminalPreliminary?.includes(
+							'Dismissed (respondent - filed in Court)'
+						)
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3uted2cl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.unfavorableCriminalPreliminary?.includes(
+							'Dismissed (respondent - filed in Court)'
+						)
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			// other decisions
+			jcvotea: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.status?.includes('Archived')
+			),
+			jcrotea: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.status?.includes('Archived')
+			),
+			jad1otea: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.status?.includes('Archived')
+			),
+			jad2otea: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.status?.includes('Archived')
+			),
+			jad3otea: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.status?.includes('Archived')
+			),
+			jcroteacl: endedCasesForThisMonth
+				.filter(
+					(d: any) => d.case?.natureOfTheCase === 'Criminal' && d.case?.status?.includes('Archived')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvoteacl: endedCasesForThisMonth
+				.filter(
+					(d: any) => d.case?.natureOfTheCase === 'Civil' && d.case?.status?.includes('Archived')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1oteacl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' && d.case?.status?.includes('Archived')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2oteacl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.status?.includes('Archived')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3oteacl: endedCasesForThisMonth
+				.filter(
+					(d: any) => d.case?.natureOfTheCase === 'Labor' && d.case?.status?.includes('Archived')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvoteb: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.status?.includes('Withdrawn')
+			),
+			jcroteb: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.status?.includes('Withdrawn')
+			),
+			jad1oteb: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.status?.includes('Withdrawn')
+			),
+			jad2oteb: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.status?.includes('Withdrawn')
+			),
+			jad3oteb: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.status?.includes('Withdrawn')
+			),
+			jcrotebcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' && d.case?.status?.includes('Withdrawn')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvotebcl: endedCasesForThisMonth
+				.filter(
+					(d: any) => d.case?.natureOfTheCase === 'Civil' && d.case?.status?.includes('Withdrawn')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1otebcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' && d.case?.status?.includes('Withdrawn')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2otebcl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.status?.includes('Withdrawn')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3otebcl: endedCasesForThisMonth
+				.filter(
+					(d: any) => d.case?.natureOfTheCase === 'Labor' && d.case?.status?.includes('Withdrawn')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvotec: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes('Criminal') &&
+					d.case?.status?.includes('Transferred to private lawyer, IBP, etc.')
+			),
+			jcrotec: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes('Civil') &&
+					d.case?.status?.includes('Transferred to private lawyer, IBP, etc.')
+			),
+			jad1otec: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes('Administrative') &&
+					d.case?.status?.includes('Transferred to private lawyer, IBP, etc.')
+			),
+			jad2otec: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes("Prosecutor's office cases") &&
+					d.case?.status?.includes('Transferred to private lawyer, IBP, etc.')
+			),
+			jad3otec: services.filter(
+				(d) =>
+					d.case?.terminated?.includes('Other dispositions') &&
+					d.case?.natureOfTheCase?.includes('Labor') &&
+					d.case?.status?.includes('Transferred to private lawyer, IBP, etc.')
+			),
+			jcroteccl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Criminal' &&
+						d.case?.status?.includes('Transferred to private lawyer, IBP, etc.')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jcvoteccl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Civil' &&
+						d.case?.status?.includes('Transferred to private lawyer, IBP, etc.')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad1oteccl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Administrative' &&
+						d.case?.status?.includes('Transferred to private lawyer, IBP, etc.')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad2oteccl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === "Prosecutor's office cases" &&
+						d.case?.status?.includes('Transferred to private lawyer, IBP, etc.')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+			jad3oteccl: endedCasesForThisMonth
+				.filter(
+					(d: any) =>
+						d.case?.natureOfTheCase === 'Labor' &&
+						d.case?.status?.includes('Transferred to private lawyer, IBP, etc.')
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+				// quasi
+				jmacpen: pendingCasesFromPreviousMonth.filter(
+					(d: any) =>
+						d.case?.nature === 'Mediation or Conciliation'
+				).length,
+				jmaccas: newCasesForThisMonth.filter(
+					(d: any) =>
+						d.case?.nature === 'Mediation or Conciliation'
+				).length,
+				jmaccascl: newCasesForThisMonth.filter(
+					(d: any) =>
+						d.case?.nature === 'Mediation or Conciliation'
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+				jmacfpao: newCasesForThisMonth.filter(
+					(d: any) =>
+						d.case?.nature === 'Mediation or Conciliation' && 
+						d.case?.transferredFrom
+				).length,
+				jmacfpaocl: newCasesForThisMonth.filter(
+					(d: any) =>
+						d.case?.nature === 'Mediation or Conciliation' &&
+				)
+				.map((d: any) => d.client.length)
+				.reduce((a: any, b: any) => a + b, 0),
+
+				
+
 		};
 
 		const quarterlyServices = services.filter(

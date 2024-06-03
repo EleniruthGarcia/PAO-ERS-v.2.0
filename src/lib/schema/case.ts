@@ -41,7 +41,8 @@ export const pending = [
 	'On trial',
 	'Submitted for decision/resolution',
 	'Appealed case from MTC to RTC',
-	'Cases referred to SACS'
+	'Cases referred to SACS',
+	'Appealed Cases to the Regional/Central Office of an Agency'
 ] as const;
 
 export const terminated = [
@@ -49,7 +50,9 @@ export const terminated = [
 	'Unfavorable Dispositions to Clients',
 	'Other dispositions',
 	'Cases for filing',
-	'Cases considered closed and terminated'
+	'Cases considered closed and terminated',
+	'Disputes settled (compromised agreement)',
+	'Disputes closed without settlement'
 ] as const;
 
 export const favorable = [
@@ -61,7 +64,7 @@ export const favorable = [
 	'Convicted to lesser offense',
 	'Probation granted',
 	'Won (civil, labor, and administrative)',
-	'Granted lesser award (civil, administrative & labor',
+	'Granted lesser award (civil, administrative & labor)',
 	'Dismissed cases based on compromise agreement (civil & labor)',
 	'Criminal cases for preliminary investigation',
 	'Pre-trial releases and other dispositions'
@@ -99,7 +102,7 @@ export const unfavorable = [
 
 export const unfavorableCriminalPreliminary = [
 	'Dismissed (complainant)',
-	'Dismissed (respondent (Filed in Court)'
+	'Dismissed (respondent - filed in Court)'
 ] as const;
 
 export const genderCaseSubject = [
@@ -109,7 +112,12 @@ export const genderCaseSubject = [
 	'Sexual Harassment'
 ] as const;
 
-
+export const limitedServices = [
+	'Arraignment only',
+	'Pre-trial only',
+	'Promulgation of judgement only',
+	'Extended other limited services'
+] as const;
 
 export const causeOfTermination = ['MOA', 'AUQNA'] as const;
 
