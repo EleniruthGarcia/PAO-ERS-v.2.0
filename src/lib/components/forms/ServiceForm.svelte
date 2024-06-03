@@ -669,6 +669,28 @@
 								<Form.FieldErrors />
 							</Form.Field>
 							<Separator class="my-4 sm:col-span-8" />
+							<Form.Field {form} name="typeOfRelease" class="grid gap-3 truncate sm:col-span-8">
+								<Form.Control let:attrs>
+									<Form.Label>Type of Jail Visitation Release</Form.Label>
+									<Select.Root
+										selected={selectedTypeOfRelease}
+										onSelectedChange={(s) => {
+											s && ($formData.typeOfRelease = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name}/>
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each typeOfRelease as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
 							<Form.Field {form} name="recommendation" class="grid gap-3 sm:col-span-8">
 								<Form.Control let:attrs>
 									<Form.Label>Recommendation</Form.Label>
@@ -929,37 +951,13 @@
 							</Card.Content>
 						</Card.Root>
 					{/if}
-					{#if $formData.nature.includes('Inquest Legal Assistance') || $formData.nature.includes('Jail Visitation Release')}
+					{#if $formData.nature.includes('Inquest Legal Assistance')}
 						<Card.Root>
 							<Card.Header>
 								<Card.Title>Additonal Information</Card.Title>
 								<Card.Description>Please fill out all additional information.</Card.Description>
 							</Card.Header>
 							<Card.Content class="grid auto-rows-max items-start gap-3">
-								{#if $formData.nature.includes('Jail Visitation Release')}
-									<Form.Field {form} name="typeOfRelease" class="grid gap-3">
-										<Form.Control let:attrs>
-											<Form.Label>Type of Jail Visitation Release</Form.Label>
-											<Select.Root
-												selected={selectedTypeOfRelease}
-												onSelectedChange={(s) => {
-													s && ($formData.typeOfRelease = s.value);
-												}}
-											>
-												<Select.Input name={attrs.name} />
-												<Select.Trigger {...attrs}>
-													<Select.Value placeholder="" />
-												</Select.Trigger>
-												<Select.Content>
-													{#each typeOfRelease as value}
-														<Select.Item {value} />
-													{/each}
-												</Select.Content>
-											</Select.Root>
-										</Form.Control>
-										<Form.FieldErrors />
-									</Form.Field>
-								{/if}
 								{#if $formData.nature.includes('Inquest Legal Assistance')}
 									<Form.Field {form} name="typeOfAssistance" class="grid gap-3">
 										<Form.Control let:attrs>
