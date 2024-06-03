@@ -206,8 +206,8 @@ export const actions = {
 							$concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')']
 						},
 						court: { $ifNull: ['$case.court', ''] },
-						status: '$case.status.type',
-						date: '$case.status.date',
+						status: '$case.currentStatus.type',
+						date: '$case.currentStatus.date',
 						titleOfCase: '$case.titleOfCase',
 						remarks: '$case.factsOfTheCase',
 						crimeDate: '$case.dateOfCommission',
