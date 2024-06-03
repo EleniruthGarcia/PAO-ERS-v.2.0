@@ -109,17 +109,17 @@ export const formSchema = z.object({
 		.or(z.literal(''))
 		.transform((e) => (e === '' ? undefined : e))
 		.optional(),
-	spouse: z.string().optional(),
+	spouseName: z.string().optional(),
 	spouseFirstName: z.string().optional(),
 	spouseMiddleName: z.string().optional(),
 	spouseLastName: z.string().optional(),
 	spouseNameSuffix: z.string().optional(),
-	addressOfSpouse: z.string().optional(),
+	spouseAddress: z.string().optional(),
 	spouseEmail: z.union([
 		z.literal(''),
 		z.string().email().optional()]
 	).transform((e) => (e === '' ? undefined : e)),
-	spouseContactNo: z
+	spouseContactNumber: z
 		.string()
 		// .regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number.')
 		.optional(),
