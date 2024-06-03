@@ -14,6 +14,13 @@ export const nature = [
 	'Others'
 ] as const;
 
+export const legalAdviceMode = [
+	'In person/walk-in',
+	'Air mail',
+	'E-mail',
+	'Telephone/mobile phone',
+	'Other means of communication'
+]
 
 export const typeOfService = [
 	'Judicial',
@@ -106,12 +113,16 @@ export const natureOfInstrument = [
 	'Undertaking (TESDA)'
 ] as const;
 
+export const sex = ['Male', 'Female'] as const;
+
 export const formSchema = z.object({
 	_id: z.string(),
 	title: z.string().min(1, 'Title is required.'),
 	client_id: z.array(z.string()).min(1, 'Client is required.'),
 	lawyer_id: z.string().min(1, 'Lawyer is required.'),
 	case_id: z.array(z.string()).optional(),
+	limitedName: z.string(),
+	limitedSex: z.enum(sex),
 	limitedCases: z.array(z.string()),
 	interviewee_id: z.string().min(1, 'Interviewee is required.'),
 	relationshipToClient: z.enum(relationshipToClient),
@@ -143,7 +154,8 @@ export const formSchema = z.object({
 	),
 	natureOfInstrument: z.array(z.enum(natureOfInstrument)),
 	witness: z.string().optional(),
-	duringOffice: z.boolean().default(false)
+	duringOffice: z.boolean().default(false),
+	legalAdviceMode: z.enum(legalAdviceMode),
 });
 
 export type FormSchema = typeof formSchema;
