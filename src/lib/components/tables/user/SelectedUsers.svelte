@@ -114,7 +114,7 @@
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
 					<span class="text-muted-foreground">Rank</span>
-					<span>{user.position}</span>
+					<span>{user.position} {user.rank == 'N/A' ? '' : user.rank}</span>
 				</li>
 				<li class="flex items-center justify-between gap-2 truncate">
 					<span class="text-muted-foreground">Branch</span>

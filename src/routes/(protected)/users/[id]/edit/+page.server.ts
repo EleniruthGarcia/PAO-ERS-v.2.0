@@ -89,10 +89,10 @@ export const actions = {
 		if (user.modifiedCount === 0 && user.upsertedCount === 0) return fail(304, { form });
 
 		redirect(
-			'/users/' + form.data.username,
+			'/users/',
 			user.modifiedCount > 0 || user.upsertedCount > 0
 				? { type: 'success', message: 'User updated!' }
-				: { type: 'info', message: 'No changes made...' },
+				: { type: 'info', message: 'No changes made.' },
 			event
 		);
 	}

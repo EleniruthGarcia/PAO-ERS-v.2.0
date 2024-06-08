@@ -358,7 +358,7 @@
 						<Form.Field {form} name="reportsTo" class="grid gap-3">
 							<Form.Control let:attrs>
 								<Form.Label>
-									Reports To <span class="font-bold text-destructive">*</span>
+									Reports To<!--  <span class="font-bold text-destructive">*</span> -->
 								</Form.Label>
 								<Select.Root
 									selected={selectedReportsTo}

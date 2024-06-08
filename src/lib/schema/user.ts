@@ -2,7 +2,7 @@ import z from 'zod';
 
 export const role = ['Administrator', 'Lawyer', 'Staff'] as const;
 
-export const rank = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'] as const;
+export const rank = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'N/A'] as const;
 
 export const sex = ['Male', 'Female'] as const;
 

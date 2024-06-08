@@ -34,7 +34,7 @@ export const actions = {
 			'/clients',
 			client.modifiedCount > 0 || client.upsertedCount > 0
 				? { type: 'success', message: 'Client archived!' }
-				: { type: 'info', message: 'No changes made...' },
+				: { type: 'info', message: 'No changes made.' },
 			event
 		);
 	}

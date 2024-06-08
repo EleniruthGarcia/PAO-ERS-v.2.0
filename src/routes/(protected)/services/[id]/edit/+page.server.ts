@@ -77,7 +77,7 @@ export const actions = {
 			'/services/' + form.data._id,
 			service.modifiedCount > 0 || service.upsertedCount > 0
 				? { type: 'success', message: 'Service updated!' }
-				: { type: 'info', message: 'No changes made...' },
+				: { type: 'info', message: 'No changes made.' },
 			event
 		);
 	}

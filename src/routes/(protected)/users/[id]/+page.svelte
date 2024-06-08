@@ -15,7 +15,6 @@
 </script>
 
 <main class="grid gap-4 md:grid-cols-5">
-	<div class="grid auto-rows-max items-start gap-4 md:col-span-3 md:gap-8">
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
 				<div class="grid gap-0.5">
@@ -155,7 +154,7 @@
 						</li>
 					</ul>
 				</div>
-				<Separator class="my-4" />
+				<!-- <Separator class="my-4" />
 				<div class="grid gap-3">
 					<div class="font-semibold">Personal Information</div>
 					<ul class="grid gap-3">
@@ -186,7 +185,7 @@
 							<span>{data.user.contactNumber}</span>
 						</li>
 					</ul>
-				</div>
+				</div> -->
 			</Card.Content>
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
@@ -194,8 +193,6 @@
 				</div>
 			</Card.Footer>
 		</Card.Root>
-	</div>
-	<div class="md:col-span-2">
 		<!-- <Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
 				<div class="grid gap-0.5">
@@ -219,5 +216,4 @@
 			</Card.Content>
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3"></Card.Footer>
 		</Card.Root> -->
-	</div>
 </main>

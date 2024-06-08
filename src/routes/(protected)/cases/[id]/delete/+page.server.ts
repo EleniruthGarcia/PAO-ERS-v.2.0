@@ -34,7 +34,7 @@ export const actions = {
 			'/cases',
 			_case.modifiedCount > 0 || _case.upsertedCount > 0
 				? { type: 'success', message: 'Case archived!' }
-				: { type: 'info', message: 'No changes made...' },
+				: { type: 'info', message: 'No changes made.' },
 			event
 		);
 	}

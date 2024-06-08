@@ -32,7 +32,7 @@ export const actions = {
 			'/users',
 			user.modifiedCount > 0 || user.upsertedCount > 0
 				? { type: 'success', message: 'User archived!' }
-				: { type: 'info', message: 'No changes made...' },
+				: { type: 'info', message: 'No changes made.' },
 			event
 		);
 	}

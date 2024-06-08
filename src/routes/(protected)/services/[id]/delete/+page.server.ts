@@ -34,7 +34,7 @@ export const actions = {
 			'/services',
 			service.modifiedCount > 0 || service.upsertedCount > 0
 				? { type: 'success', message: 'Service archived!' }
-				: { type: 'info', message: 'No changes made...' },
+				: { type: 'info', message: 'No changes made.' },
 			event
 		);
 	}
