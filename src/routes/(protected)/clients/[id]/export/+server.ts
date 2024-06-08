@@ -192,18 +192,18 @@ export const GET: ServiceHandler = async (event) => {
 								$cond: [
 									{
 										$and: [
-											{ $eq: [{ $ifNull: ['$case.titleOfCase', ''] }, ''] },
+											{ $eq: [{ $ifNull: ['$case.titleOfTheCase', ''] }, ''] },
 											{ $eq: [{ $ifNull: ['$case.docketNumber', ''] }, ''] }
 										]
 									},
 									'',
-									{ $concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')'] }
+									{ $concat: ['$case.titleOfTheCase', ' (', '$case.docketNumber', ')'] }
 								]
 							},
 							''
 						]
 					},
-					courtBodyTribunal: { $ifNull: ['$case.courtBody', ''] }
+					court: { $ifNull: ['$case.court', ''] }
 				}
 			}
 		])
@@ -272,7 +272,7 @@ export const GET: ServiceHandler = async (event) => {
 				natureOfOffence: '',
 				courtPendingStatus: '',
 				titleOfCaseDocketNum: '',
-				courtBodyTribunal: '',
+				court: '',
 				pendingInCourt: ''
 			}
 		];

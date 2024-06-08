@@ -111,7 +111,7 @@ async function addTextToPDF(data: any) {
 
 		// nature of service
 		natureOfService,
-		otherNatureOfService,
+		otherNature,
 		PDLStatus, // from client.detained
 		natureOfTheCase,
 		caseSpecs,
@@ -133,7 +133,7 @@ async function addTextToPDF(data: any) {
 		causeOfActionOrNatureOfOffence,
 		pendingInCourt,
 		titleOfCaseDocketNum,
-		courtBodyTribunal
+		court
 	} = data;
 
 	// Load existing PDF
@@ -355,7 +355,7 @@ async function addTextToPDF(data: any) {
 			borderColor: undefined // No border
 		});
 	}
-	if (natureOfService.includes('Representation in Court/Quasi-Judicial Bodies')) {
+	if (natureOfService.includes('Representation in Court or Quasi-Judicial Bodies')) {
 		// rep in court
 		firstPage.drawRectangle({
 			x: 335,
@@ -377,7 +377,7 @@ async function addTextToPDF(data: any) {
 			borderColor: undefined // No border
 		});
 	}
-	if (natureOfService.includes('Mediation/Conciliation')) {
+	if (natureOfService.includes('Mediation or Conciliation')) {
 		// mediation
 		firstPage.drawRectangle({
 			x: 203,
@@ -409,7 +409,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-		firstPage.drawText(otherNatureOfService ?? 'N/A', {
+		firstPage.drawText(otherNature ?? 'N/A', {
 			x: 80,
 			y: 748,
 			size: 10,
@@ -1156,14 +1156,14 @@ async function addTextToPDF(data: any) {
 		// 	});
 		// }
 	}
-	if (pendingInCourt === 'Yes') {
+	if (pendingInCourt === 'True') {
 		secondPage.drawText('X' ?? 'N/A', {
 			x: 322,
 			y: 358,
 			size: 12,
 			color: rgb(1, 1, 1) // Black
 		});
-	} else if (pendingInCourt === 'No') {
+	} else if (pendingInCourt === 'False') {
 		secondPage.drawText('X' ?? 'N/A', {
 			x: 357,
 			y: 358,
@@ -1234,7 +1234,7 @@ async function addTextToPDF(data: any) {
 	}
 	var adversePartyMaxLength = 60;
 	var yCoordinate = 295;
-	const judiciary = courtBodyTribunal ? courtBodyTribunal : 'N/A';
+	const judiciary = court ? court : 'N/A';
 	for (let i = 0; i < judiciary?.length; i += adversePartyMaxLength) {
 		const textChunk = judiciary.substring(i, i + adversePartyMaxLength);
 		secondPage.drawText(textChunk ?? 'N/A', {
