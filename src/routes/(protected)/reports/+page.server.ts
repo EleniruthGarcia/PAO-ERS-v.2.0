@@ -9515,7 +9515,9 @@ export const actions = {
 					(d) =>
 						d.service?.typeOfAssistance === 'Counseled during Inquest or Night Duty'
 				),
-				
+				// custodial inquest check
+				//finish f29
+				//finish other reports
 
 		};
 

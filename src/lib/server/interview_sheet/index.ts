@@ -1139,7 +1139,7 @@ async function addTextToPDF(data: any) {
 			height: 7,
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
-		});
+		}); }
 		if (proofOfIndigency.includes('Certification from DSWD')) {
 			secondPage.drawRectangle({
 				x: 295,
@@ -1150,24 +1150,23 @@ async function addTextToPDF(data: any) {
 				borderColor: undefined // No border
 			});
 		}
-
-		// else if (typeof item === 'object' && item.hasOwnProperty('Others')) {
-		// 	secondPage.drawRectangle({
-		// 		x: 415,
-		// 		y: 229,
-		// 		width: 7,
-		// 		height: 7,
-		// 		color: rgb(0, 0, 0),
-		// 		borderColor: undefined // No border
-		// 	});
-		// 	secondPage.drawText(item['Others'] ?? 'N/A', {
-		// 		x: 425,
-		// 		y: 217,
-		// 		size: 10,
-		// 		color: rgb(0, 0, 0) // Black
-		// 	});
+		if (proofOfIndigency && proofOfIndigency.length > 0) {
+			secondPage.drawRectangle({
+				x: 415,
+				y: 229,
+				width: 7,
+				height: 7,
+				color: rgb(0, 0, 0),
+				borderColor: undefined // No border
+			});
+			secondPage.drawText(proofOfIndigency ?? 'N/A', {
+				x: 425,
+				y: 217,
+				size: 10,
+				color: rgb(0, 0, 0) // Black
+			});
+		}
 		// }
-	}
 	if (pendingInCourt === true) {
 		secondPage.drawText('X' ?? 'N/A', {
 			x: 322,
