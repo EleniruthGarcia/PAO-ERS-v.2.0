@@ -1168,14 +1168,14 @@ async function addTextToPDF(data: any) {
 		// 	});
 		// }
 	}
-	if (pendingInCourt === 'True') {
+	if (pendingInCourt === true) {
 		secondPage.drawText('X' ?? 'N/A', {
 			x: 322,
 			y: 358,
 			size: 12,
 			color: rgb(1, 1, 1) // Black
 		});
-	} else if (pendingInCourt === 'False') {
+	} else if (pendingInCourt === false) {
 		secondPage.drawText('X' ?? 'N/A', {
 			x: 357,
 			y: 358,
