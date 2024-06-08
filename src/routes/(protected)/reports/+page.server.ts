@@ -9506,7 +9506,34 @@ export const actions = {
 				)
 				.map((d: any) => d.client.length)
 				.reduce((a: any, b: any) => a + b, 0),
-				
+				ndocust : services.filter(
+					(d) =>
+						d.service?.typeOfAssistance === 'Assisted during Custodial Interrogation' && 
+						d.service?.duringOffice === true
+				),
+				nbocust : services.filter(
+					(d) =>
+						d.service?.typeOfAssistance === 'Assisted during Custodial Interrogation' && 
+						d.service?.duringOffice === false
+				),
+				ndoinq : services.filter(
+					(d) =>
+						d.service?.typeOfAssistance === 'Assisted during Inquest Investigation' && 
+						d.service?.duringOffice === true
+				),
+				nboinq : services.filter(
+					(d) =>
+						d.service?.typeOfAssistance === 'Assisted during Inquest Investigation' && 
+						d.service?.duringOffice === false
+				),
+				nblo : services.filter(
+					(d) =>
+						d.service?.typeOfAssistance === 'Counseled during Inquest or Night Duty'
+				),
+				nbnum : services.filter(
+					(d) =>
+						d.service?.typeOfAssistance === 'Counseled during Inquest or Night Duty'
+				),
 				
 
 		};
