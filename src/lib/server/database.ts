@@ -3,12 +3,16 @@ import { MongoClient, ServerApiVersion } from 'mongodb';
 
 import type { User, Client, Service, Case } from '$lib/schema';
 
-const client = new MongoClient(process.env['DATABASE_URL'] ?? 'mongodb://admin:password@localhost:27017/pao?maxPoolSize=20&w=majority&authSource=admin', {
-	serverApi: {
-		version: ServerApiVersion.v1,
-		strict: !dev
+const client = new MongoClient(
+	process.env['DATABASE_URL'] ??
+		'mongodb://admin:password@localhost:27017/pao?maxPoolSize=20&w=majority&authSource=admin',
+	{
+		serverApi: {
+			version: ServerApiVersion.v1,
+			strict: !dev
+		}
 	}
-});
+);
 
 export const db = client.db();
 

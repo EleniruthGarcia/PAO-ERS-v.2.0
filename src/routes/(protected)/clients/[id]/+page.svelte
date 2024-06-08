@@ -205,6 +205,10 @@
 									: 'N/A'}</span
 							>
 						</li>
+						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground">Proof of Indigency</span>
+							<span>{data.client.proofOfIndigency !== '' && data.client.proofOfIndigency ? data.client.proofOfIndigency : 'N/A'}</span>
+						</li>
 					</ul>
 				</div>
 				<Separator class="my-4" />

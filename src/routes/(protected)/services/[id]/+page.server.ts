@@ -71,7 +71,7 @@ export const load: PageServerLoad = async (event) => {
 		.aggregate([
 			{
 				$match: { _id: { $in: service.client_id } }
-			},
+			}
 		])
 		.toArray();
 

@@ -20,13 +20,9 @@ export const legalAdviceMode = [
 	'E-mail',
 	'Telephone/mobile phone',
 	'Other means of communication'
-]
+];
 
-export const typeOfService = [
-	'Judicial',
-	'Quasi-Judicial',
-	'Non-Judicial'
-] as const;
+export const typeOfService = ['Judicial', 'Quasi-Judicial', 'Non-Judicial'] as const;
 
 // other nature of cases possible
 export const otherNature = [
@@ -113,6 +109,11 @@ export const natureOfInstrument = [
 	'Undertaking (TESDA)'
 ] as const;
 
+export const terminationMediaCon = [
+	'Disputes settled (compromised agreement)',
+	'Disputes closed without settlement'
+] as const;
+
 export const sex = ['Male', 'Female'] as const;
 
 export const formSchema = z.object({
@@ -134,12 +135,15 @@ export const formSchema = z.object({
 		required_error: 'Type of Service is required.'
 	}),
 	currentStatus: z.enum(status),
-	beneficiary: z.array(z.object({
-		name: z.string(),
-		address: z.string(),
-		gender: z.string(),
-		age: z.number().int(),
-		ethnicity: z.string()})),
+	beneficiary: z.array(
+		z.object({
+			name: z.string(),
+			address: z.string(),
+			gender: z.string(),
+			age: z.number().int(),
+			ethnicity: z.string()
+		})
+	),
 	dateOfVisit: z
 		.date()
 		.or(z.literal(''))
@@ -156,6 +160,7 @@ export const formSchema = z.object({
 	witness: z.string().optional(),
 	duringOffice: z.boolean().default(false),
 	legalAdviceMode: z.enum(legalAdviceMode),
+	terminationMediaCon: z.enum(terminationMediaCon)
 });
 
 export type FormSchema = typeof formSchema;

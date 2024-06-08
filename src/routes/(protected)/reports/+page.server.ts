@@ -177,8 +177,8 @@ export const actions = {
 						educationalAttainment: '$client.educationalAttainment',
 						languageDialect: '$client.language',
 						contactNo: { $ifNull: ['$client.contactNumber', 'N/A'] },
-						spouse: { $ifNull: ['$client.spouse', ''] },
-						addressOfSpouse: { $ifNull: ['$client.addressOfSpouse', ''] },
+						spouse: { $ifNull: ['$client.spouseName', ''] },
+						addressOfSpouse: { $ifNull: ['$client.spouseAddress', ''] },
 						spouseContactNo: { $ifNull: ['$client.spouseContactNumber', ''] },
 						placeOfDetention: '$client.detainedAt',
 						proofOfIndigency: { $ifNull: ['$client.proofOfIndigency', []] },
@@ -206,14 +206,15 @@ export const actions = {
 							$concat: ['$case.titleOfCase', ' (', '$case.docketNumber', ')']
 						},
 						court: { $ifNull: ['$case.court', ''] },
-						status: '$case.status.type',
-						date: '$case.status.date',
+						status: '$case.currentStatus.type',
+						date: '$case.currentStatus.date',
 						titleOfCase: '$case.titleOfCase',
 						remarks: '$case.factsOfTheCase',
 						crimeDate: '$case.dateOfCommission',
-						ageCrime: '',
+						ageCrime: {$dateDiff: {startDate: '$case.dateOfBirth', endDate: '$case.dateOfCommission', unit: 'year'}},
 						caseNo: '$case.docketNumber',
 						judge: { $ifNull: ['$case.actionTaken', ''] },
+						assignment: '',
 						assistance: '$service.typeOfAssistance',
 						actionTaken: { $ifNull: ['$case.actionTaken', ''] },
 						CICL: {
@@ -281,9 +282,9 @@ export const actions = {
 			])
 			.toArray();
 
-		const f10 = '';
+		const f10 = services.filter((d) => d.services?.nature?.includes('Barangay Outreach'));;
 		const f11 = services.filter((d) => d.services?.nature?.includes('Jail Visitation'));
-		const f12 = '';
+		const f12 = services.filter((d) => d.client?.classification?.includes('Victim')).map((item, index) => ({ index, ...item }));
 		const f13 = services
 			.filter((d) => d.client?.classification?.includes('Child in Conflict with the Law'))
 			.map((item, index) => ({ index, ...item }));
@@ -291,12 +292,12 @@ export const actions = {
 		const f15 = services.filter((d) =>
 			d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation')
 		);
-		const f16 = services.filter((d) => d.client?.foreignNational?.includes('Taiwanese'));
+		const f16 = services.filter((d) => d.client?.foreignNational?.includes('Taiwanese')).map((item, index) => ({ index, ...item }));
 		const f18 = services.filter(
 			(d) =>
 				d.client?.classification?.includes('OFW') &&
 				d.services?.nature?.includes('Inquest Legal Assistance')
-		);
+		).map((item, index) => ({ index, ...item }));
 		const f19 = {
 			criminal: services.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')),
 			civil: services.filter((d) => d.case?.natureOfTheCase?.includes('Civil')),
@@ -308,14 +309,14 @@ export const actions = {
 		};
 		const f20 = services.filter((d) => d.client?.PWD?.includes(true));
 		const f21 = services.filter((d) => d.service?.nature?.includes('Administration of Oath'));
-		const f22 = services.filter((d) => d.service?.nature?.includes('Others (PSA)'));
+		const f22 = services.filter((d) => d.service?.nature?.includes('Others (PSA)')).map((item, index) => ({ index, ...item }));
 		const f23 = services.filter((d) =>
 			d.client?.classification?.includes('Denied or Disqualified')
 		);
 		const f24 = services.filter((d) =>
 			d.client?.classification?.includes('Beneficiary of Hernan Ruling (R.A. No. 10951)')
-		);
-		const f25 = services.filter((d) => d.case?.genderCaseSubject?.includes(''));
+		).map((item, index) => ({ index, ...item }));
+		const f25 = services.filter((d) => d.case?.genderCaseSubject?.includes('')).map((item, index) => ({ index, ...item }));
 		const f26 = '';
 		const f27 = services.filter((d) => d.case?.natureOfTheCase?.includes('Appealed'));
 
@@ -325,8 +326,8 @@ export const actions = {
 		const f32 = services.filter((d) =>
 			// d.client?.detainedSince?.contains('') &&
 			d.services?.nature?.includes('Representation in Court or Quasi-Judicial Bodies')
-		);
-		const f33 = services.filter((d) => d.case?.favorable?.includes(''));
+		).map((item, index) => ({ index, ...item }));
+		const f33 = services.filter((d) => d.case?.favorable?.includes('')).map((item, index) => ({ index, ...item }));
 		const f34 = {
 			criminal: services.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')),
 			civil: services.filter((d) => d.case?.natureOfTheCase?.includes('Civil')),
@@ -421,7 +422,8 @@ export const actions = {
 				{
 					$addFields: {
 						'case.transferredFrom': { $arrayElemAt: ['$case.transferredFrom', 0] },
-						'case.transferredTo': { $arrayElemAt: ['$case.transferredTo', 0] }
+						'case.transferredTo': { $arrayElemAt: ['$case.transferredTo', 0] },
+						service: '$$ROOT'
 					}
 				}
 			])
@@ -459,47 +461,30 @@ export const actions = {
 				).length > 0
 		);
 
-		console.log(
-			'CICL',
-
-			'\n\tNew Case:',
-			newCasesForThisMonth.filter(
+		const monthlyClients = (month: number) =>
+			services.filter(
 				(d: any) =>
-					d.case?.natureOfTheCase === 'Criminal' &&
-					d.client?.filter((c: any) => c.classification?.includes('Child in Conflict with the Law'))
-			).length,
+					d.case?.status?.filter(
+						(s: any) =>
+							s.type === 'New' &&
+							s.date?.getMonth() === month &&
+							s.date?.getFullYear() === form.data.year
+					).length > 0
+			);
 
-			'\n\t# of Clients Involved sa New Case',
-			newCasesForThisMonth
-				.filter(
-					(d: any) =>
-						d.case?.natureOfTheCase === 'Criminal' &&
-						d.client?.filter((c: any) =>
-							c.classification?.includes('Child in Conflict with the Law')
-						)
-				)
-				.map((d: any) => d.client.length)
-				.reduce((a: any, b: any) => a + b, 0),
-
-			'\n\tPending Case:',
-			pendingCasesFromPreviousMonth.filter(
+		// (1) No. of clients for month of january, judicial type of service, client class is "Petitioner for Voluntary Rehabilitation (Drugs)"(
+		const q1 = monthlyClients(0)
+			.filter(
 				(d: any) =>
-					d.case?.natureOfTheCase === 'Criminal' &&
-					d.client?.filter((c: any) => c.classification?.includes('Child in Conflict with the Law'))
-			).length,
+					d.service?.typeOfService === 'Judicial' &&
+					d.client?.filter((c: any) =>
+						c.classification?.includes('Petitioner for Voluntary Rehabilitation (Drugs)')
+					)
+			)
+			.reduce((length, d) => length + d.service?.client_id?.length, 0);
 
-			'\n\t# of Clients Involved sa Pending Case',
-			pendingCasesFromPreviousMonth
-				.filter(
-					(d: any) =>
-						d.case?.natureOfTheCase === 'Criminal' &&
-						d.client?.filter((c: any) =>
-							c.classification?.includes('Child in Conflict with the Law')
-						)
-				)
-				.map((d: any) => d.client.length)
-				.reduce((a: any, b: any) => a + b, 0)
-		);
+		// (2) count the number of clients assisted in january in F35
+		const q2 = monthlyClients(0).reduce((length, d) => length + d.service?.client_id?.length, 0);
 
 		const f28 = {
 			// Pending cases from previous months
@@ -9467,19 +9452,15 @@ export const actions = {
 				)
 				.map((d: any) => d.client.length)
 				.reduce((a: any, b: any) => a + b, 0),
-				// quasi
-				jmacpen: pendingCasesFromPreviousMonth.filter(
-					(d: any) =>
-						d.case?.nature === 'Mediation or Conciliation'
-				).length,
-				jmaccas: newCasesForThisMonth.filter(
-					(d: any) =>
-						d.case?.nature === 'Mediation or Conciliation'
-				).length,
-				jmaccascl: newCasesForThisMonth.filter(
-					(d: any) =>
-						d.case?.nature === 'Mediation or Conciliation'
-				)
+			// quasi
+			jmacpen: pendingCasesFromPreviousMonth.filter(
+				(d: any) => d.case?.nature === 'Mediation or Conciliation'
+			).length,
+			jmaccas: newCasesForThisMonth.filter(
+				(d: any) => d.case?.nature === 'Mediation or Conciliation'
+			).length,
+			jmaccascl: newCasesForThisMonth
+				.filter((d: any) => d.case?.nature === 'Mediation or Conciliation')
 				.map((d: any) => d.client.length)
 				.reduce((a: any, b: any) => a + b, 0),
 				jmacfpao: newCasesForThisMonth.filter(
@@ -9912,7 +9893,9 @@ export const actions = {
 				assignedCourts: new Set(services.map((d) => d.case?.court).filter(Boolean)),
 				f10: outreaches,
 				f11,
+				f12,
 				f13,
+				f14,
 				f15,
 				f16,
 				f17: [...services, ...outreaches],
@@ -9943,3 +9926,5 @@ export const actions = {
 		};
 	}
 } satisfies Actions;
+
+//12,13,14,16,18,19,22,24,25,32,33,34

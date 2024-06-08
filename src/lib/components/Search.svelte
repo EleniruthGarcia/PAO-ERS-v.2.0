@@ -18,7 +18,7 @@
 >
 	<MagnifyingGlass class="h-4 w-4" />
 	<span class="w-auto truncate px-4 text-start max-[480px]:hidden md:w-[280px]">
-		Type a command or search...
+		Search or Command
 	</span>
 	<Shortcut>⌘K</Shortcut>
 </Button>
