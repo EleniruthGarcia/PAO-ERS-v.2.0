@@ -1,17 +1,17 @@
 import z from 'zod';
 
 export const nature = [
-	'Administration of Oath',
-	'Barangay Outreach',
+	'Administration of Oath', //
+	'Barangay Outreach', //
 	'Home Visitation',
-	'Inquest Legal Assistance',
+	'Inquest Legal Assistance',//
 	'Jail Visitation Release',
-	'Legal Advice',
-	'Legal Documentation',
+	'Legal Advice',//
+	'Legal Documentation', //
 	'Limited Services',
-	'Mediation or Conciliation',
-	'Representation in Court or Quasi-Judicial Bodies',
-	'Others'
+	'Mediation or Conciliation', //
+	'Representation in Court or Quasi-Judicial Bodies',//
+	'Others'//
 ] as const;
 
 export const legalAdviceMode = [

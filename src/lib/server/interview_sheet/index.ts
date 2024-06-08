@@ -399,7 +399,8 @@ async function addTextToPDF(data: any) {
 			borderColor: undefined // No border
 		});
 	}
-	if (natureOfService.includes('Others')) {
+	if (natureOfService.includes('Others') || natureOfService.includes('Home Visitation') || natureOfService.includes('Jail Visitation Release')
+		|| natureOfService.includes('Limited Services')) {
 		// others
 		firstPage.drawRectangle({
 			x: 34,
@@ -409,7 +410,18 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-		firstPage.drawText(otherNature ?? 'N/A', {
+		let otherNatures = '';
+		if (natureOfService.includes('Home Visitation')) {
+			otherNatures += 'Home Visitation/';
+		}
+		if (natureOfService.includes('Jail Visitation Release')) {
+			otherNatures += 'Jail Visitation Release/';
+		}
+		if (natureOfService.includes('Limited Services')) {
+			otherNatures += 'Limited Services/';
+		}
+		otherNatures += otherNature;
+		firstPage.drawText(otherNatures ?? 'N/A', {
 			x: 80,
 			y: 748,
 			size: 10,
@@ -1171,6 +1183,12 @@ async function addTextToPDF(data: any) {
 			color: rgb(1, 1, 1) // Black
 		});
 	} else {
+		secondPage.drawText(pendingInCourt ?? 'N/A', {
+			x: 357,
+			y: 358,
+			size: 12,
+			color: rgb(1, 1, 1) // Black
+		});
 	}
 	var adversePartyMaxLength = 48;
 	var yCoordinate = 845;
