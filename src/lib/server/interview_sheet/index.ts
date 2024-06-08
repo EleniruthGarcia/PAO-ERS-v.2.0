@@ -410,18 +410,18 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-		let otherNatures = '';
-		if (natureOfService.includes('Home Visitation')) {
-			otherNatures += 'Home Visitation/';
-		}
-		if (natureOfService.includes('Jail Visitation Release')) {
-			otherNatures += 'Jail Visitation Release/';
-		}
-		if (natureOfService.includes('Limited Services')) {
-			otherNatures += 'Limited Services/';
-		}
-		otherNatures += otherNature;
-		firstPage.drawText(otherNatures ?? 'N/A', {
+		// let otherNatures = '';
+		// if (natureOfService.includes('Home Visitation')) {
+		// 	otherNatures += 'Home Visitation/';
+		// }
+		// if (natureOfService.includes('Jail Visitation Release')) {
+		// 	otherNatures += 'Jail Visitation Release/';
+		// }
+		// if (natureOfService.includes('Limited Services')) {
+		// 	otherNatures += 'Limited Services/';
+		// }
+		// otherNatures += otherNature;
+		firstPage.drawText(otherNature ?? 'N/A', {
 			x: 80,
 			y: 748,
 			size: 10,
