@@ -29,7 +29,7 @@ export const otherNature = [
 	'Document/Pleadings Prepared',
 	'Assisted During Custodial Interrogation',
 	'Assisted During Inquest Investigation'
-];
+] as const;
 
 export const relationshipToClient = [
 	'Self',
@@ -128,7 +128,9 @@ export const formSchema = z.object({
 	interviewee_id: z.string().min(1, 'Interviewee is required.'),
 	relationshipToClient: z.enum(relationshipToClient),
 	nature: z.array(z.enum(nature)).min(1, 'Nature of Service is required.'),
-	otherNature: z.array(z.string()).optional(),
+	otherNature: z
+		.union([z.enum(otherNature).optional(), z.string().optional()])
+		.transform((e) => (e === '' ? undefined : e)),
 	typeOfAssistance: z.enum(typeOfAssistance).optional(),
 	typeOfRelease: z.enum(typeOfRelease).optional(),
 	typeOfService: z.enum(typeOfService, {

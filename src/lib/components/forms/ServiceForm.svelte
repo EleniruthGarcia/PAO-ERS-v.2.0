@@ -11,11 +11,14 @@
 		typeOfService,
 		natureOfInstrument,
 		legalAdviceMode,
-		terminationMediaCon
+		terminationMediaCon,
+
+		otherNature
+
 	} from '$lib/schema/service';
 	import { type SuperValidated, type Infer, superForm, dateProxy } from 'sveltekit-superforms';
 
-	import { ChevronLeft, PlusCircled, Trash, Cross1, Minus, Plus } from 'svelte-radix';
+	import { ChevronLeft, PlusCircled, Trash, Cross1, Minus, Plus, CaretSort, Check } from 'svelte-radix';
 
 	import Loading from '$lib/components/Loading.svelte';
 
@@ -30,6 +33,8 @@
 	import * as RadioGroup from '$lib/components/ui/radio-group';
 	import { sex } from '$lib/schema/client';
 	import Textarea from '../ui/textarea/textarea.svelte';
+	import { Combobox } from 'bits-ui';
+	import { flyAndScale } from '$lib/utils';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -136,6 +141,14 @@
 		label: $formData.terminationMediaCon,
 		value: $formData.terminationMediaCon
 	};
+
+	$: touchedNature = false;
+	$: filteredNature =
+		$formData.otherNature && touchedNature
+			? otherNature.filter((v) =>
+					v.toLowerCase().includes($formData.otherNature?.toLowerCase() ?? '')
+				)
+			: otherNature;
 
 	function removeClientByIndex(index: number) {
 		$formData.client_id = $formData.client_id.filter((_, i) => i !== index);
@@ -252,22 +265,45 @@
 								<Form.Field {form} name="otherNature" class="grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label>Others</Form.Label>
-										{#each $formData.otherNature ?? [] as _, i}
-											<div class="flex gap-2">
-												<Input
-													{...attrs}
-													name="otherNature[{i}]"
-													bind:value={$formData.otherNature[i]}
-												/>
-												<Button
-													variant="destructive"
-													class="gap-2"
-													on:click={() => removeNatureByIndex(i)}
+										<Combobox.Root
+										items={filteredNature}
+										bind:inputValue={$formData.otherNature}
+										bind:touchedInput={touchedNature}
+									>
+										<div class="relative">
+											<Combobox.Input
+												class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+												placeholder="Please type or select."
+											/>
+											<CaretSort class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50" />
+										</div>
+
+										<Combobox.Content
+											class="relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
+											transition={flyAndScale}
+											sideOffset={8}
+										>
+											{#each filteredNature as value}
+												<Combobox.Item
+													class="elative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
+													{value}
 												>
-													<Trash class="h-3.5 w-3.5" />
-												</Button>
-											</div>
-										{/each}
+													{value}
+													<Combobox.ItemIndicator
+														class="absolute right-3 flex h-3.5 w-3.5 items-center justify-center"
+														asChild={false}
+													>
+														<Check class="h-4 w-4" />
+													</Combobox.ItemIndicator>
+												</Combobox.Item>
+											{:else}
+												<span class="block px-5 py-2 text-sm text-muted-foreground">
+													No results found.
+												</span>
+											{/each}
+										</Combobox.Content>
+										<Combobox.HiddenInput name="otherNature" />
+									</Combobox.Root>
 									</Form.Control>
 									<Button variant="outline" class="gap-2" on:click={addNature}>
 										<PlusCircled class="h-3.5 w-3.5" />
