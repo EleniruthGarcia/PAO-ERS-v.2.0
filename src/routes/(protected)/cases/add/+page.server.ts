@@ -52,6 +52,8 @@ export const actions: Actions = {
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) return fail(400, { form });
 
+		form.data._id = form.data.controlNo;
+
 		const _case = await db.cases.insertOne(form.data);
 		if (!_case.acknowledged) return fail(500, { form });
 

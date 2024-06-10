@@ -148,16 +148,28 @@
 					<div class="font-semibold">Case Information</div>
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground">Case Title</span>
+							<span>{data._case.titleOfTheCase ?? 'N/A'}</span>
+						</li>
+						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground">Docket No.</span>
+							<span>{data._case.docketNumber ?? 'N/A'}</span>
+						</li>
+						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground">Court</span>
+							<span>{data._case.court ?? 'N/A'}</span>
+						</li>
+						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Nature</span>
-							<span>{data._case.natureOfTheCase}</span>
+							<span>{data._case.natureOfTheCase ?? 'N/A'}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Specification</span>
-							<span>{data._case.caseSpecs}</span>
+							<span>{data._case.caseSpecs ?? 'N/A'}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Client Involvement</span>
-							<span>{data._case.clientInvolvement}</span>
+							<span>{data._case.clientInvolvement ?? 'N/A'}</span>
 						</li>
 					</ul>
 				</div>
@@ -167,38 +179,18 @@
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Name</span>
-							<span>{data._case.adversePartyName}</span>
+							<span>{data._case.adversePartyName ?? 'N/A'}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Involvement</span>
-							<span>{data._case.adversePartyInvolvement}</span>
+							<span>{data._case.adversePartyInvolvement ?? 'N/A'}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Address</span>
-							<span>{data._case.adversePartyAddress}</span>
+							<span>{data._case.adversePartyAddress ?? 'N/A'}</span>
 						</li>
 					</ul>
 				</div>
-				{#if data._case.pendingInCourt}
-					<Separator class="my-4" />
-					<div class="grid gap-3">
-						<div class="font-semibold">Court Information</div>
-						<ul class="grid gap-3">
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground">Case Title</span>
-								<span>{data._case.titleOfTheCase}</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground">Docket No.</span>
-								<span>{data._case.docketNumber}</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground">Court</span>
-								<span>{data._case.court}</span>
-							</li>
-						</ul>
-					</div>
-				{/if}
 			</Card.Content>
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
@@ -220,12 +212,12 @@
 			<Card.Content class="p-6 text-sm">
 				<div class="grid gap-3">
 					<div class="font-semibold">Facts of the Case</div>
-					<span>{data._case.factsOfTheCase}</span>
+					<span>{data._case.factsOfTheCase ?? 'N/A'}</span>
 				</div>
 				<Separator class="my-4" />
 				<div class="grid gap-3">
 					<div class="font-semibold">Cause of Action or Nature of Offense</div>
-					<span>{data._case.causeOfActionOrNatureOfOffence}</span>
+					<span>{data._case.causeOfActionOrNatureOfOffence ?? 'N/A'}</span>
 				</div>
 			</Card.Content>
 		</Card.Root>
@@ -244,11 +236,11 @@
 						<ul class="grid gap-3">
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Type</span>
-								<span>{status.type}</span>
+								<span>{status.type ?? 'N/A'}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Date</span>
-								<span>{status.date}</span>
+								<span>{status.date ?? 'N/A'}</span>
 							</li>
 						</ul>
 					</div>

@@ -159,15 +159,15 @@
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Age</span>
-							<span>{data.client.age}</span>
+							<span>{data.client.age ?? 'N/A'}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Sex</span>
-							<span>{data.client.sex}</span>
+							<span>{data.client.sex ?? 'N/A'}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Civil Status</span>
-							<span>{data.client.civilStatus}</span>
+							<span>{data.client.civilStatus ?? 'N/A'}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Citizenship</span>
@@ -195,7 +195,7 @@
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Educational Attainment</span>
-							<span>{data.client.educationalAttainment}</span>
+							<span>{data.client.educationalAttainment ?? 'N/A'}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Individual Monthly Income</span>
@@ -207,7 +207,11 @@
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Proof of Indigency</span>
-							<span>{data.client.proofOfIndigency !== '' && data.client.proofOfIndigency ? data.client.proofOfIndigency : 'N/A'}</span>
+							<span
+								>{data.client.proofOfIndigency !== '' && data.client.proofOfIndigency
+									? data.client.proofOfIndigency
+									: 'N/A'}</span
+							>
 						</li>
 					</ul>
 				</div>
@@ -217,7 +221,7 @@
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Address</span>
-							<span>{data.client.address}</span>
+							<span>{data.client.address ?? 'N/A'}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Email</span>
@@ -227,7 +231,7 @@
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Contact Number</span>
-							<span>{data.client.contactNumber}</span>
+							<span>{data.client.contactNumber ?? 'N/A'}</span>
 						</li>
 					</ul>
 				</div>
@@ -238,11 +242,11 @@
 						<ul class="grid gap-3">
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Name</span>
-								<span>{data.client.spouseName}</span>
+								<span>{data.client.spouseName ?? 'N/A'}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Address</span>
-								<span>{data.client.spouseAddress}</span>
+								<span>{data.client.spouseAddress ?? 'N/A'}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Email</span>
@@ -250,7 +254,7 @@
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Contact Number</span>
-								<span>{data.client.spouseContactNumber}</span>
+								<span>{data.client.spouseContactNumber ?? 'N/A'}</span>
 							</li>
 						</ul>
 					</div>
@@ -262,11 +266,11 @@
 						<ul class="grid gap-3">
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Place of Detention</span>
-								<span>{data.client.detainedAt}</span>
+								<span>{data.client.detainedAt ?? 'N/A'}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Detained Since</span>
-								<span>{data.client.detainedSince}</span>
+								<span>{data.client.detainedSince ?? 'N/A'}</span>
 							</li>
 						</ul>
 					</div>
@@ -279,37 +283,37 @@
 							{#if data.client.foreignNational}
 								<li class="flex items-center justify-between gap-2 truncate">
 									<span class="text-muted-foreground">Foreign Nationality</span>
-									<span>{data.client.foreignNational}</span>
+									<span>{data.client.foreignNational ?? 'N/A'}</span>
 								</li>
 							{/if}
 							{#if data.client.pwd}
 								<li class="flex items-center justify-between gap-2 truncate">
 									<span class="text-muted-foreground">Disability</span>
-									<span>{data.client.pwd}</span>
+									<span>{data.client.pwd ?? 'N/A'}</span>
 								</li>
 							{/if}
 							{#if data.client.indigenousPeople}
 								<li class="flex items-center justify-between gap-2 truncate">
 									<span class="text-muted-foreground">Indigenous Group</span>
-									<span>{data.client.indigenousPeople}</span>
+									<span>{data.client.indigenousPeople ?? 'N/A'}</span>
 								</li>
 							{/if}
 							{#if data.client.lawEnforcer}
 								<li class="flex items-center justify-between gap-2 truncate">
 									<span class="text-muted-foreground">Enforcer Rank</span>
-									<span>{data.client.lawEnforcer}</span>
+									<span>{data.client.lawEnforcer ?? 'N/A'}</span>
 								</li>
 							{/if}
 							{#if data.client.urbanPoor}
 								<li class="flex items-center justify-between gap-2 truncate">
 									<span class="text-muted-foreground">Urban Poor</span>
-									<span>{data.client.urbanPoor}</span>
+									<span>{data.client.urbanPoor ?? 'N/A'}</span>
 								</li>
 							{/if}
 							{#if data.client.ruralPoor}
 								<li class="flex items-center justify-between gap-2 truncate">
 									<span class="text-muted-foreground">Rural Poor</span>
-									<span>{data.client.ruralPoor}</span>
+									<span>{data.client.ruralPoor ?? 'N/A'}</span>
 								</li>
 							{/if}
 						</ul>
@@ -320,7 +324,7 @@
 					<div>
 						<div class="mb-3 font-semibold">Classifications</div>
 						{#each data.client.classification as classification}
-							<Badge class="m-1">{classification}</Badge>
+							<Badge class="m-1">{classification ?? 'N/A'}</Badge>
 						{/each}
 					</div>
 				{/if}

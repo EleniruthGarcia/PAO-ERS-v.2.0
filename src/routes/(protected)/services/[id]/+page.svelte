@@ -156,11 +156,11 @@
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Interviewee</span>
-							<span>{data.service.interviewee.name}</span>
+							<span>{data.service.interviewee.name ?? 'N/A'}</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Relationship to Client</span>
-							<span>{data.service.relationshipToClient}</span>
+							<span>{data.service.relationshipToClient ?? 'N/A'}</span>
 						</li>
 					</ul>
 				</div>
@@ -170,7 +170,7 @@
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Lawyer</span>
-							<span>{data.service.lawyer.name}</span>
+							<span>{data.service.lawyer.name ?? 'N/A'}</span>
 						</li>
 					</ul>
 				</div>
@@ -198,19 +198,19 @@
 						<ul class="grid gap-3">
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Name</span>
-								<span>{client.name}</span>
+								<span>{client.name ?? 'N/A'}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Age</span>
-								<span>{client.age}</span>
+								<span>{client.age ?? 'N/A'}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Sex</span>
-								<span>{client.sex}</span>
+								<span>{client.sex ?? 'N/A'}</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Civil Status</span>
-								<span>{client.civilStatus}</span>
+								<span>{client.civilStatus ?? 'N/A'}</span>
 							</li>
 						</ul>
 					</div>

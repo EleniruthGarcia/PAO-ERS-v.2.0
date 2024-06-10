@@ -115,10 +115,39 @@
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
 				<Card.Root>
 					<Card.Header>
-						<Card.Title>Case Information</Card.Title>
+						<Card.Title
+							>Case Information <span class="font-bold text-destructive">*</span></Card.Title
+						>
 						<Card.Description>Please fill out all necessary information.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
+						<Form.Field {form} name="titleOfTheCase" class="grid gap-3">
+							<Form.Control let:attrs>
+								<Form.Label
+									>Title of the Case <span class="font-bold text-destructive">*</span></Form.Label
+								>
+								<Input {...attrs} bind:value={$formData.titleOfTheCase} />
+							</Form.Control>
+							<Form.FieldErrors />
+						</Form.Field>
+						<div class="grid items-start gap-3 sm:grid-cols-2">
+							<Form.Field {form} name="docketNumber" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label
+										>Docket Number <span class="font-bold text-destructive">*</span></Form.Label
+									>
+									<Input {...attrs} bind:value={$formData.docketNumber} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="court" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Court <span class="font-bold text-destructive">*</span></Form.Label>
+									<Input {...attrs} bind:value={$formData.court} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</div>
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="natureOfTheCase" class="grid gap-3">
 								<Form.Control let:attrs>
@@ -226,43 +255,6 @@
 						</div>
 					</Card.Content>
 				</Card.Root>
-				{#if $formData.pendingInCourt}
-					<Card.Root>
-						<Card.Header>
-							<Card.Title>Court Information</Card.Title>
-							<Card.Description>Please fill out all necessary information.</Card.Description>
-						</Card.Header>
-						<Card.Content class="grid auto-rows-max items-start gap-3">
-							<Form.Field {form} name="titleOfTheCase" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Title of the Case</Form.Label>
-									<Input {...attrs} bind:value={$formData.titleOfTheCase} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-							<div class="grid items-start gap-3 sm:grid-cols-2">
-								<Form.Field {form} name="docketNumber" class="grid gap-3">
-									<Form.Control let:attrs>
-										<Form.Label>Docket Number</Form.Label>
-										<Input
-											{...attrs}
-											bind:value={$formData.docketNumber}
-											placeholder="Docket Number"
-										/>
-									</Form.Control>
-									<Form.FieldErrors />
-								</Form.Field>
-								<Form.Field {form} name="court" class="grid gap-3">
-									<Form.Control let:attrs>
-										<Form.Label>Court</Form.Label>
-										<Input {...attrs} bind:value={$formData.court} />
-									</Form.Control>
-									<Form.FieldErrors />
-								</Form.Field>
-							</div>
-						</Card.Content>
-					</Card.Root>
-				{/if}
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Facts of the Case</Card.Title>

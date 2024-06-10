@@ -120,6 +120,9 @@ export const causeOfTermination = ['MOA', 'AUQNA'] as const;
 
 export const formSchema = z.object({
 	_id: z.string().optional(),
+	titleOfTheCase: z.string().min(1, 'Title of the Case is required.'),
+	docketNumber: z.string().min(1, 'Docket Number is required.'),
+	court: z.string().min(1, 'Court is required.'),
 	controlNo: z.string().min(1, 'Control No. is required.'),
 	natureOfTheCase: z.string(),
 	caseSpecs: z.string(),
@@ -133,9 +136,6 @@ export const formSchema = z.object({
 	factsOfTheCase: z.string().optional(),
 	causeOfActionOrNatureOfOffence: z.string().optional(),
 	pendingInCourt: z.boolean(),
-	titleOfTheCase: z.string().optional(),
-	docketNumber: z.string().optional(),
-	court: z.string().optional(),
 	currentStatus: z.enum(status),
 	status: z.array(
 		z.object({
@@ -146,7 +146,9 @@ export const formSchema = z.object({
 	actionTaken: z.string(),
 	transferredTo: z.string().optional(),
 	transferredFrom: z.string().optional(),
-	genderCaseSubject: z.enum(genderCaseSubject).optional(),
+	genderCaseSubject: z
+		.union([z.literal(''), z.enum(genderCaseSubject).optional()])
+		.transform((e) => (e === '' ? undefined : e)),
 	dateOfBirth: z
 		.date()
 		.or(z.literal(''))
