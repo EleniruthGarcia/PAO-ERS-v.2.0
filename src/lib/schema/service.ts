@@ -20,7 +20,7 @@ export const legalAdviceMode = [
 	'E-mail',
 	'Telephone/mobile phone',
 	'Other means of communication'
-];
+] as const;
 
 export const typeOfService = ['Judicial', 'Quasi-Judicial', 'Non-Judicial'] as const;
 
@@ -114,6 +114,9 @@ export const terminationMediaCon = [
 	'Disputes closed without settlement'
 ] as const;
 
+export const limitedCases = [
+] as const;
+
 export const sex = ['Male', 'Female'] as const;
 
 export const formSchema = z.object({
@@ -128,9 +131,9 @@ export const formSchema = z.object({
 	interviewee_id: z.string().min(1, 'Interviewee is required.'),
 	relationshipToClient: z.enum(relationshipToClient),
 	nature: z.array(z.enum(nature)).min(1, 'Nature of Service is required.'),
-	otherNature: z
-		.union([z.enum(otherNature).optional(), z.string().optional()])
-		.transform((e) => (e === '' ? undefined : e)),
+	otherNature: z.array(z.enum(otherNature)).optional(),
+	// .union([z.enum(otherNature).optional(), z.string().optional()])
+	// .transform((e) => (e === '' ? undefined : e)),
 	typeOfAssistance: z.enum(typeOfAssistance).optional(),
 	typeOfRelease: z.enum(typeOfRelease).optional(),
 	typeOfService: z.enum(typeOfService, {
@@ -141,7 +144,7 @@ export const formSchema = z.object({
 		z.object({
 			name: z.string(),
 			address: z.string(),
-			gender: z.string(),
+			sex: z.string(),
 			age: z.number().int(),
 			ethnicity: z.string()
 		})

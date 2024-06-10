@@ -6,6 +6,7 @@ import { formSchema, months } from '$lib/schema/report';
 import { superValidate } from 'sveltekit-superforms';
 import { fail } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
+import { status } from '$lib/schema/user';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {
@@ -55,10 +56,23 @@ export const actions = {
 		const branch = await db.branches.findOne({ _id: lawyer?.branch_id });
 		const notedBy = await db.users.findOne({ _id: form.data.notedBy });
 
-		const outreaches = await db.outreaches.find().toArray();
 		let services = await db.services
 			.aggregate([
 				{
+					$match: {
+						status: {
+							$elemMatch: {
+								type: 'New',
+								date: {
+									$gte: new Date(form.data.year, months.indexOf(form.data.month), 1),
+									$lt: months.indexOf(form.data.month) + 1 < 12 ? new Date(form.data.year + 1, 0, 1)
+										: new Date(form.data.year, months.indexOf(form.data.month) + 1, 1)
+								}
+							}
+						},
+						lawyer_id: event.locals.user.id
+					}
+				}, {
 					$lookup: {
 						from: 'users',
 						localField: 'lawyer_id',
@@ -71,9 +85,6 @@ export const actions = {
 						lawyer: { $arrayElemAt: ['$lawyer', 0] }
 					}
 				},
-				// {
-				// 	$match: { 'lawyer._id': event.locals.user.role === 'Administrator' ? '' : event.locals.user.id }
-				// },
 				{
 					$lookup: {
 						from: 'clients',
@@ -211,7 +222,7 @@ export const actions = {
 						titleOfCase: '$case.titleOfCase',
 						remarks: '$case.factsOfTheCase',
 						crimeDate: '$case.dateOfCommission',
-						ageCrime: {$dateDiff: {startDate: '$case.dateOfBirth', endDate: '$case.dateOfCommission', unit: 'year'}},
+						ageCrime: { $dateDiff: { startDate: '$case.dateOfBirth', endDate: '$case.dateOfCommission', unit: 'year' } },
 						caseNo: '$case.docketNumber',
 						judge: { $ifNull: ['$case.actionTaken', ''] },
 						assignment: '',
@@ -282,6 +293,8 @@ export const actions = {
 			])
 			.toArray();
 
+		console.log(services);
+
 		const f10 = services.filter((d) => d.services?.nature?.includes('Barangay Outreach'));;
 		const f11 = services.filter((d) => d.services?.nature?.includes('Jail Visitation'));
 		const f12 = services.filter((d) => d.client?.classification?.includes('Victim')).map((item, index) => ({ index, ...item }));
@@ -293,6 +306,7 @@ export const actions = {
 			d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation')
 		);
 		const f16 = services.filter((d) => d.client?.foreignNational?.includes('Taiwanese')).map((item, index) => ({ index, ...item }));
+		const f17 = services;
 		const f18 = services.filter(
 			(d) =>
 				d.client?.classification?.includes('OFW') &&
@@ -436,7 +450,7 @@ export const actions = {
 						s.type !== 'Terminated' &&
 						(s.date?.getMonth() + 1 < 12
 							? months[s.date?.getMonth() + 1] === form.data.month &&
-								s.date?.getFullYear() === form.data.year
+							s.date?.getFullYear() === form.data.year
 							: s.date?.getMonth() === 11 && s.date?.getFullYear() === form.data.year - 1)
 				).length > 0
 		);
@@ -9463,61 +9477,61 @@ export const actions = {
 				.filter((d: any) => d.case?.nature === 'Mediation or Conciliation')
 				.map((d: any) => d.client.length)
 				.reduce((a: any, b: any) => a + b, 0),
-				jmacfpao: newCasesForThisMonth.filter(
-					(d: any) =>
-						d.case?.nature === 'Mediation or Conciliation' && 
-						d.case?.transferredFrom
-				).length,
-				jmacfpaocl: newCasesForThisMonth.filter(
-					(d: any) =>
-						d.case?.nature === 'Mediation or Conciliation' && 
+			jmacfpao: newCasesForThisMonth.filter(
+				(d: any) =>
+					d.case?.nature === 'Mediation or Conciliation' &&
 					d.case?.transferredFrom
-				)
+			).length,
+			jmacfpaocl: newCasesForThisMonth.filter(
+				(d: any) =>
+					d.case?.nature === 'Mediation or Conciliation' &&
+					d.case?.transferredFrom
+			)
 				.map((d: any) => d.client.length)
 				.reduce((a: any, b: any) => a + b, 0),
-				jmactpao: newCasesForThisMonth.filter(
-					(d: any) =>
-						d.case?.nature === 'Mediation or Conciliation' && 
-						d.case?.transferredFrom
-				).length,
-				jmactpaocl: newCasesForThisMonth.filter(
-					(d: any) =>
-						d.case?.nature === 'Mediation or Conciliation' && 
+			jmactpao: newCasesForThisMonth.filter(
+				(d: any) =>
+					d.case?.nature === 'Mediation or Conciliation' &&
 					d.case?.transferredFrom
-				)
+			).length,
+			jmactpaocl: newCasesForThisMonth.filter(
+				(d: any) =>
+					d.case?.nature === 'Mediation or Conciliation' &&
+					d.case?.transferredFrom
+			)
 				.map((d: any) => d.client.length)
 				.reduce((a: any, b: any) => a + b, 0),
-				ndocust : services.filter(
-					(d) =>
-						d.service?.typeOfAssistance === 'Assisted during Custodial Interrogation' && 
-						d.service?.duringOffice === true
-				),
-				nbocust : services.filter(
-					(d) =>
-						d.service?.typeOfAssistance === 'Assisted during Custodial Interrogation' && 
-						d.service?.duringOffice === false
-				),
-				ndoinq : services.filter(
-					(d) =>
-						d.service?.typeOfAssistance === 'Assisted during Inquest Investigation' && 
-						d.service?.duringOffice === true
-				),
-				nboinq : services.filter(
-					(d) =>
-						d.service?.typeOfAssistance === 'Assisted during Inquest Investigation' && 
-						d.service?.duringOffice === false
-				),
-				nblo : services.filter(
-					(d) =>
-						d.service?.typeOfAssistance === 'Counseled during Inquest or Night Duty'
-				),
-				nbnum : services.filter(
-					(d) =>
-						d.service?.typeOfAssistance === 'Counseled during Inquest or Night Duty'
-				),
-				// custodial inquest check
-				//finish f29
-				//finish other reports
+			ndocust: services.filter(
+				(d) =>
+					d.service?.typeOfAssistance === 'Assisted during Custodial Interrogation' &&
+					d.service?.duringOffice === true
+			),
+			nbocust: services.filter(
+				(d) =>
+					d.service?.typeOfAssistance === 'Assisted during Custodial Interrogation' &&
+					d.service?.duringOffice === false
+			),
+			ndoinq: services.filter(
+				(d) =>
+					d.service?.typeOfAssistance === 'Assisted during Inquest Investigation' &&
+					d.service?.duringOffice === true
+			),
+			nboinq: services.filter(
+				(d) =>
+					d.service?.typeOfAssistance === 'Assisted during Inquest Investigation' &&
+					d.service?.duringOffice === false
+			),
+			nblo: services.filter(
+				(d) =>
+					d.service?.typeOfAssistance === 'Counseled during Inquest or Night Duty'
+			),
+			nbnum: services.filter(
+				(d) =>
+					d.service?.typeOfAssistance === 'Counseled during Inquest or Night Duty'
+			),
+			// custodial inquest check
+			//finish f29
+			//finish other reports
 
 		};
 
@@ -9893,14 +9907,14 @@ export const actions = {
 				year: form.data.year,
 				notedBy,
 				assignedCourts: new Set(services.map((d) => d.case?.court).filter(Boolean)),
-				f10: outreaches,
+				f10,
 				f11,
 				f12,
 				f13,
 				f14,
 				f15,
 				f16,
-				f17: [...services, ...outreaches],
+				f17,
 				f18,
 				f19,
 				f20,
@@ -9917,7 +9931,7 @@ export const actions = {
 				f32,
 				f33,
 				f34,
-				f35: [...services, ...outreaches],
+				f35,
 				f38,
 				f48,
 				f49,

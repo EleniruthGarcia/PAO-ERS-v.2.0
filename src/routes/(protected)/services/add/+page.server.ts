@@ -33,7 +33,8 @@ export const load: PageServerLoad = async (event) => {
 			{ errors: false }
 		),
 		lawyers: await db.users.find().toArray(),
-		clients: await db.clients.find().toArray()
+		clients: await db.clients.find().toArray(),
+		cases: await db.cases.find().toArray(),
 	};
 };
 

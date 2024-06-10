@@ -12,7 +12,8 @@
 		natureOfInstrument,
 		legalAdviceMode,
 		terminationMediaCon,
-		otherNature
+		otherNature,
+		limitedCases
 	} from '$lib/schema/service';
 	import { type SuperValidated, type Infer, superForm, dateProxy } from 'sveltekit-superforms';
 
@@ -50,7 +51,7 @@
 		validators: zodClient(formSchema)
 	});
 
-	const { form: formData, enhance, delayed } = form;
+	const { form: formData, enhance, delayed, allErrors } = form;
 
 	// const proxyDate = dateProxy(form, 'date', {
 	// 	format: 'date',
@@ -71,7 +72,12 @@
 		};
 	});
 
-	let selectedCase: { label: string; value: string } = '';
+	let selectedCase: { label: string; value: string } = {};
+	$: $formData.case_id?.length > 0 &&
+		(selectedCase = {
+			label: $page.data.cases.find((c: any) => c._id === $formData.case_id[0])?.name ?? '',
+			value: $formData.case_id[0]
+		});
 
 	let selectedNatureOfInstrument: { label: string; value: string }[] = [];
 	$: $formData.natureOfInstrument?.forEach((_, i) => {
@@ -178,7 +184,7 @@
 	}
 
 	function addBeneficiary() {
-		$formData.beneficiary = [...$formData.beneficiary, ''];
+		$formData.beneficiary = [...$formData.beneficiary, {}];
 	}
 
 	function addInstrument() {
@@ -480,7 +486,7 @@
 							<Form.Fieldset {form} name="beneficiary" class="grid gap-3">
 								{#each $formData.beneficiary as _, i}
 									<Separator class="my-4" />
-									<Form.ElementField {form} name="beneficiary[{i}]">
+									<Form.ElementField {form} name="beneficiary[{i}].name">
 										<Form.Field {form} name="beneficiary" class="grid gap-3">
 											<Form.Control let:attrs>
 												<Form.Label class="flex items-end justify-between">
@@ -493,28 +499,32 @@
 														<Cross1 class="h-3 w-3" />
 													</Button>
 												</Form.Label>
-												<Input {...attrs} bind:value={$formData.beneficiary.name} />
+												<Input {...attrs} bind:value={$formData.beneficiary[i].name} />
 											</Form.Control>
 											<Form.FieldErrors />
 										</Form.Field>
 										<div class="grid items-start gap-3 sm:grid-cols-3">
-											<Form.Field {form} name="beneficiary.age" class="grid gap-3">
+											<Form.Field {form} name="beneficiary[{i}].age" class="grid gap-3">
 												<Form.Control let:attrs>
 													<Form.Label>
 														Age <span class="font-bold text-destructive">*</span>
 													</Form.Label>
-													<Input {...attrs} type="number" />
+													<Input
+														{...attrs}
+														type="number"
+														bind:value={$formData.beneficiary[i].age}
+													/>
 												</Form.Control>
 												<Form.FieldErrors />
 											</Form.Field>
-											<Form.Field {form} name="beneficiary.sex" class="grid gap-3">
+											<Form.Field {form} name="beneficiary[{i}].sex" class="grid gap-3">
 												<Form.Control let:attrs>
 													<Form.Label>
 														Sex <span class="font-bold text-destructive">*</span>
 													</Form.Label>
 													<Select.Root
 														onSelectedChange={(s) => {
-															s && ($formData.sex = s.value);
+															s && ($formData.beneficiary[i].sex = s.value);
 														}}
 													>
 														<Select.Input name={attrs.name} />
@@ -530,22 +540,22 @@
 												</Form.Control>
 												<Form.FieldErrors />
 											</Form.Field>
-											<Form.Field {form} name="beneficiary.ethnicity" class="grid gap-3">
+											<Form.Field {form} name="beneficiary[{i}].ethnicity" class="grid gap-3">
 												<Form.Control let:attrs>
 													<Form.Label>
 														Ethnicity <span class="font-bold text-destructive">*</span>
 													</Form.Label>
-													<Input {...attrs} bind:value={$formData.beneficiary.ethnicity} />
+													<Input {...attrs} bind:value={$formData.beneficiary[i].ethnicity} />
 												</Form.Control>
 												<Form.FieldErrors />
 											</Form.Field>
 										</div>
-										<Form.Field {form} name="beneficiary.address" class="grid gap-3">
+										<Form.Field {form} name="beneficiary[{i}].address" class="grid gap-3">
 											<Form.Control let:attrs>
 												<Form.Label>
 													Address <span class="font-bold text-destructive">*</span>
 												</Form.Label>
-												<Input {...attrs} bind:value={$formData.beneficiary.address} />
+												<Input {...attrs} bind:value={$formData.beneficiary[i].address} />
 											</Form.Control>
 											<Form.FieldErrors />
 										</Form.Field>

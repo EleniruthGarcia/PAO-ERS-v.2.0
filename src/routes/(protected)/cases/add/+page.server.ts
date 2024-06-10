@@ -26,7 +26,6 @@ export const load: PageServerLoad = async (event) => {
 		],
 		form: await superValidate(
 			{
-				_id: 'CASE-' + Date.now().toString(36).toUpperCase(),
 				currentStatus: 'New',
 				status: [{ type: 'New', date: new Date() }]
 			},
@@ -58,7 +57,7 @@ export const actions: Actions = {
 
 		if (form.data.transferredTo) {
 			const service = await db.services.updateOne(
-				{ _id: form.data._id },
+				{ _id: form.data.controlNo },
 				{ $set: { lawyer_id: form.data.transferredTo } }
 			);
 			if (!service) return fail(500, { form });

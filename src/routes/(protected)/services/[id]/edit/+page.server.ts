@@ -42,7 +42,8 @@ export const load: PageServerLoad = async (event) => {
 			{ errors: false }
 		),
 		clients: await db.clients.find().toArray(),
-		lawyers: await db.users.find().toArray()
+		lawyers: await db.users.find().toArray(),
+		cases: await db.cases.find().toArray()
 	};
 };
 
