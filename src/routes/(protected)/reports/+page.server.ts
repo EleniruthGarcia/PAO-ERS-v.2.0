@@ -233,10 +233,10 @@ export const actions = {
 								''
 							]
 						},
-						IG: { $cond: [{ $ifNull: ['$client.indigenousPeople', 'true'] }, '', 'X'] },
-						PWD: { $cond: [{ $ifNull: ['$client.pwd', 'true'] }, '', 'X'] },
-						UP: { $cond: [{ $ifNull: ['$client.urbanPoor', 'true'] }, '', 'X'] },
-						RP: { $cond: [{ $ifNull: ['$client.ruralPoor', 'true'] }, '', 'X'] },
+						IG: { $cond: [{ $ifNull: ['$client.indigenousPeople', true] }, '', 'X'] },
+						PWD: { $cond: [{ $ifNull: ['$client.pwd', true] }, '', 'X'] },
+						UP: { $cond: [{ $ifNull: ['$client.urbanPoor', true] }, '', 'X'] },
+						RP: { $cond: [{ $ifNull: ['$client.ruralPoor', true] }, '', 'X'] },
 						Judi: {
 							$cond: [{ $in: ['$service.typeOfService', ['Judicial']] }, 'X', '']
 						},
@@ -275,10 +275,10 @@ export const actions = {
 						typeOfService: { $ifNull: ['$service.typeOfService', []] },
 						position: { $ifNull: ['$client.lawEnforcer', ''] }
 					}
-				},
-				{
-					$addFields: {}
 				}
+				// {
+				// 	$addFields: {}
+				// }
 			])
 			.toArray();
 
@@ -318,7 +318,7 @@ export const actions = {
 		).map((item, index) => ({ index, ...item }));
 		const f25 = services.filter((d) => d.case?.genderCaseSubject?.includes('')).map((item, index) => ({ index, ...item }));
 		const f26 = '';
-		const f27 = services.filter((d) => d.case?.natureOfTheCase?.includes('Appealed'));
+		const f27 = services.filter((d) => d.case?.pending?.includes('Cases referred to SACS')).map((item, index) => ({ index, ...item }));
 
 		const f31 = services.filter((d) =>
 			d.case?.terminated?.includes('Favorable Dispositions to Clients')
