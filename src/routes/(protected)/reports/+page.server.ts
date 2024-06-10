@@ -293,8 +293,6 @@ export const actions = {
 			])
 			.toArray();
 
-		console.log(services);
-
 		const f10 = services.filter((d) => d.services?.nature?.includes('Barangay Outreach'));;
 		const f11 = services.filter((d) => d.services?.nature?.includes('Jail Visitation'));
 		const f12 = services.filter((d) => d.client?.classification?.includes('Victim')).map((item, index) => ({ index, ...item }));
