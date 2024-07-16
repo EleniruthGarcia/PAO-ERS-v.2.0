@@ -65,13 +65,13 @@ export const load: PageServerLoad = async (event) => {
 						as: 'case'
 					}
 				},
-				{
-					$addFields: {
+				// {
+					// $addFields: {
 						// 'client.age': {
 						// 	$dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' }
 						// }
-					}
-				}
+					// }
+				// }
 			])
 			.toArray(),
 		users: db.users.find().toArray()
