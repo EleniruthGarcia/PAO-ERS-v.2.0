@@ -282,14 +282,11 @@ export const actions = {
 						},
 						termination: { $ifNull: ['$case.causeOfTermination', ''] },
 						dateCommission: { $ifNull: ['$case.dateOfCommission', ''] },
-						natureOfInstrument: { $ifNull: ['$service.natureOfInstrument', []] },
+						natureOfInstrument: { $ifNull: ['$natureOfInstrument', []] },
 						typeOfService: { $ifNull: ['$service.typeOfService', []] },
 						position: { $ifNull: ['$client.lawEnforcer', ''] }
 					}
 				}
-				// {
-				// 	$addFields: {}
-				// }
 			])
 			.toArray();
 

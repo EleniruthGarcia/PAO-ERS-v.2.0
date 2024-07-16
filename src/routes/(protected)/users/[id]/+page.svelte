@@ -154,7 +154,7 @@
 					</li>
 				</ul>
 			</div>
-			<Separator class="my-4" />
+			<!-- <Separator class="my-4" />
 			<div class="grid gap-3">
 				<div class="font-semibold">Personal Information</div>
 				<ul class="grid gap-3">
@@ -185,7 +185,7 @@
 						<span>{data.user.contactNumber ?? 'N/A'}</span>
 					</li>
 				</ul>
-			</div>
+			</div> -->
 		</Card.Content>
 		<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 			<div class="text-xs text-muted-foreground">

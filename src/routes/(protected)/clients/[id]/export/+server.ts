@@ -248,7 +248,7 @@ export const GET: ServiceHandler = async (event) => {
 				clientClasses: client?.classification || [],
 				lawEnforcer: client?.lawEnforcer,
 				foreignNational: client?.foreignNational,
-				pwd: client?.client.pwd,
+				pwd: client?.pwd,
 				indigenousPeople: client?.indigenousPeople,
 				urbanPoor: client?.urbanPoor,
 				ruralPoor: client?.ruralPoor,
