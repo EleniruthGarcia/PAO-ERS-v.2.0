@@ -177,7 +177,7 @@
 							{#each row.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>
 									<Table.Cell {...attrs} class="[&:has([role=checkbox])]:pl-3">
-										{#if cell.id === 'user'}
+										<!-- {#if cell.id === 'user'}
 											<Button
 												class="text-left font-medium text-foreground"
 												variant="link"
@@ -185,9 +185,9 @@
 											>
 												<Render of={cell.render()} />
 											</Button>
-										{:else}
-											<Render of={cell.render()} />
-										{/if}
+										{:else} -->
+										<Render of={cell.render()} />
+										<!-- {/if} -->
 									</Table.Cell>
 								</Subscribe>
 							{/each}
