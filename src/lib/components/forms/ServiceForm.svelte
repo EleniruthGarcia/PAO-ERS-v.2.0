@@ -15,7 +15,14 @@
 		otherNature,
 		limitedCases
 	} from '$lib/schema/service';
-	import { type SuperValidated, type Infer, superForm, dateProxy } from 'sveltekit-superforms';
+	import {
+		type SuperValidated,
+		type Infer,
+		superForm,
+		dateProxy,
+		arrayProxy,
+		intProxy
+	} from 'sveltekit-superforms';
 
 	import {
 		ChevronLeft,
@@ -43,6 +50,7 @@
 	import Textarea from '../ui/textarea/textarea.svelte';
 	import { Combobox } from 'bits-ui';
 	import { flyAndScale } from '$lib/utils';
+	import { toast } from 'svelte-sonner';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -53,12 +61,21 @@
 
 	const { form: formData, enhance, delayed, allErrors } = form;
 
+	$: for (const error of $allErrors) {
+		toast.error(`Error on '${error.path}', ${error.messages.join(', ')}.`);
+	}
+
 	// const proxyDate = dateProxy(form, 'date', {
 	// 	format: 'date',
 	// 	empty: 'undefined'
 	// });
 
 	const proxyDateOfVisit = dateProxy(form, 'dateOfVisit', {
+		format: 'date',
+		empty: 'undefined'
+	});
+
+	const proxySettlementDate = dateProxy(form, 'settlementDate', {
 		format: 'date',
 		empty: 'undefined'
 	});
@@ -72,10 +89,14 @@
 		};
 	});
 
-	let selectedCase: { label: string; value: string } = {};
-	$: $formData.case_id?.length > 0 &&
+	let selectedCase: { label: string; value: string } = {
+		label: '',
+		value: ''
+	};
+	$: $formData.case_id &&
+		$formData.case_id?.length > 0 &&
 		(selectedCase = {
-			label: $page.data.cases.find((c: any) => c._id === $formData.case_id[0])?.name ?? '',
+			label: $page.data.cases.find((c: any) => c._id === ($formData.case_id ?? [])[0])?.name ?? '',
 			value: $formData.case_id[0]
 		});
 
@@ -103,7 +124,7 @@
 	// 						return x[0].lastName + ', et al.';
 	// 				}
 	// 			})($formData.client_id.map((id) => $page.data.clients.find((c) => c._id === id)))
-	// 		: undefined;
+	// 		: '';
 
 	$: selectedLawyer = {
 		label: $page.data.lawyers.find((lawyer: any) => lawyer._id === $formData.lawyer_id)?.name ?? '',
@@ -157,9 +178,9 @@
 
 	$: touchedNature = false;
 	$: filteredNature =
-		$formData.otherNature && touchedNature
+		$formData.otherNature && $formData.otherNature[-1] && touchedNature
 			? otherNature.filter((v) =>
-					v.toLowerCase().includes($formData.otherNature?.toLowerCase() ?? '')
+					v.toLowerCase().includes(($formData.otherNature ?? [])[-1].toLowerCase() ?? '')
 				)
 			: otherNature;
 
@@ -187,12 +208,28 @@
 		$formData.beneficiary = [...$formData.beneficiary, {}];
 	}
 
+	function addHearing() {
+		$formData.hearing = [...$formData.hearing, ''];
+	}
+
+	function removeHearingByIndex(index: number) {
+		$formData.hearing = $formData.hearing?.filter((_, i) => i !== index);
+	}
+
 	function addInstrument() {
 		$formData.natureOfInstrument = [...$formData.natureOfInstrument, ''];
 	}
 
 	function removeInstrumentByIndex(index: number) {
 		$formData.natureOfInstrument = $formData.natureOfInstrument?.filter((_, i) => i !== index);
+	}
+
+	function addMedDate() {
+		$formData.mediationDate = [...$formData.mediationDate, ''];
+	}
+
+	function removeMedDateByIndex(index: number) {
+		$formData.mediationDate = $formData.mediationDate?.filter((_, i) => i !== index);
 	}
 
 	function removeNatureByIndex(index: number) {
@@ -216,7 +253,7 @@
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
 	{#if $delayed}<Loading />{/if}
 	<input type="hidden" name="_id" bind:value={$formData._id} />
-	<input type="hidden" name="title" bind:value={$formData.title} />
+	<!-- <input type="hidden" name="title" bind:value={$formData.title} /> -->
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
 		<div class="flex items-center gap-4">
 			<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>
@@ -234,6 +271,38 @@
 		</div>
 		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-5 lg:gap-8">
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+				<Card.Root>
+					<Form.Fieldset {form} name="typeOfService" class="space-y-0">
+						<Card.Header>
+							<Card.Title>
+								<Form.Legend>
+									Type of Service <span class="font-bold text-destructive">*</span>
+								</Form.Legend>
+							</Card.Title>
+							<!-- <Card.Description>
+								<Form.Description>Please select all the apply.</Form.Description>
+							</Card.Description> -->
+						</Card.Header>
+						<Card.Content>
+							<div class="space-y-2">
+								<RadioGroup.Root bind:value={$formData.typeOfService}>
+									{#each typeOfService as item}
+										<div class="flex flex-row items-start space-x-3">
+											<Form.Control let:attrs>
+												<RadioGroup.Item {...attrs} value={item} />
+												<Form.Label class="text-sm font-normal">
+													{item}
+												</Form.Label>
+											</Form.Control>
+										</div>
+									{/each}
+									<RadioGroup.Input name="typeOfService" />
+								</RadioGroup.Root>
+								<Form.FieldErrors />
+							</div>
+						</Card.Content>
+					</Form.Fieldset>
+				</Card.Root>
 				<Card.Root>
 					<Form.Fieldset {form} name="nature" class="space-y-0">
 						<Card.Header>
@@ -407,47 +476,81 @@
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
+							<Form.Field {form} name="mediationDates" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Mediation Dates</Form.Label>
+									{#each $formData.mediationDate ?? [] as _, i}
+										<div class="flex gap-2">
+											<DatePicker />
+											<Button
+												variant="destructive"
+												class="gap-2"
+												on:click={() => removeMedDateByIndex(i)}
+											>
+												<Trash class="h-3.5 w-3.5" />
+											</Button>
+										</div>
+									{/each}
+								</Form.Control>
+								<Button variant="outline" class="gap-2" on:click={addMedDate}>
+									<PlusCircled class="h-3.5 w-3.5" />
+									<span>Add Mediation Date</span>
+								</Button>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="settlementDate" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label
+										>Settlement Date <span class="font-bold text-destructive">*</span></Form.Label
+									>
+									<DatePicker bind:value={$proxySettlementDate} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
 						</Card.Content>
 					</Card.Root>
 				{/if}
-				<Card.Root>
-					<Form.Fieldset {form} name="typeOfService" class="space-y-0">
+				{#if $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies')}
+					<Card.Root>
 						<Card.Header>
-							<Card.Title>
-								<Form.Legend>
-									Type of Service <span class="font-bold text-destructive">*</span>
-								</Form.Legend>
+							<Card.Title class="text-sm">
+								Hearing Dates <span class="font-bold text-destructive">*</span>
 							</Card.Title>
 							<!-- <Card.Description>
 								<Form.Description>Please select all the apply.</Form.Description>
 							</Card.Description> -->
 						</Card.Header>
 						<Card.Content>
-							<div class="space-y-2">
-								<RadioGroup.Root bind:value={$formData.typeOfService}>
-									{#each typeOfService as item}
-										<div class="flex flex-row items-start space-x-3">
-											<Form.Control let:attrs>
-												<RadioGroup.Item {...attrs} value={item} />
-												<Form.Label class="text-sm font-normal">
-													{item}
-												</Form.Label>
-											</Form.Control>
+							<Form.Field {form} name="hearing" class="grid gap-3">
+								<Form.Control let:attrs>
+									{#each $formData.hearing ?? [] as _, i}
+										<div class="flex gap-2">
+											<DatePicker />
+											<Button
+												variant="destructive"
+												class="gap-2"
+												on:click={() => removeHearingByIndex(i)}
+											>
+												<Trash class="h-3.5 w-3.5" />
+											</Button>
 										</div>
 									{/each}
-									<RadioGroup.Input name="typeOfService" />
-								</RadioGroup.Root>
+								</Form.Control>
+								<Button variant="outline" class="gap-2" on:click={addHearing}>
+									<PlusCircled class="h-3.5 w-3.5" />
+									<span>Add Hearing Date</span>
+								</Button>
 								<Form.FieldErrors />
-							</div>
+							</Form.Field>
 						</Card.Content>
-					</Form.Fieldset>
-				</Card.Root>
+					</Card.Root>
+				{/if}
 			</div>
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
 				{#if $formData.nature.includes('Barangay Outreach')}
 					<Card.Root>
 						<Card.Header>
-							<Card.Title>Beneficiary Information</Card.Title>
+							<Card.Title>Outreach Information</Card.Title>
 							<Card.Description>
 								Please fill out all necessary information. Required fields are marked with <span
 									class="font-bold text-destructive"
@@ -458,8 +561,71 @@
 							</Card.Description>
 						</Card.Header>
 						<Card.Content class="grid auto-rows-max items-start gap-3">
+							<Form.Field {form} name="barangay" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label
+										>Barangay<span class="font-bold text-destructive"> * </span></Form.Label
+									>
+									<Input {...attrs} name={attrs.name} bind:value={$formData.barangay} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="problemsPresented" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label
+										>Problems Presented<span class="font-bold text-destructive">
+											*
+										</span></Form.Label
+									>
+									<Input {...attrs} name={attrs.name} bind:value={$formData.problemsPresented} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="activitiesUndertaken" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label
+										>Activities Undertaken<span class="font-bold text-destructive">
+											*
+										</span></Form.Label
+									>
+									<Input {...attrs} name={attrs.name} bind:value={$formData.activitiesUndertaken} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+
+							<Form.Field {form} name="lawyer_id" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>
+										Lawyer <span class="font-bold text-destructive">*</span>
+									</Form.Label>
+									<Select.Root
+										selected={selectedLawyer}
+										onSelectedChange={(s) => {
+											s && ($formData.lawyer_id = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each $page.data.lawyers as lawyer}
+												<Select.Item bind:value={lawyer._id}>{lawyer.name}</Select.Item>
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</Card.Content>
+					</Card.Root>
+					<Card.Root>
+						<Card.Header>
+							<Card.Title>Beneficiary Information</Card.Title>
+						</Card.Header>
+						<Card.Content class="grid auto-rows-max items-start gap-3">
 							<div class="space-between flex">
-								<p class="text-sm text-bold">Number of Beneficiaries</p>
+								<p class="text-bold text-sm">Number of Beneficiaries</p>
 								<div class="ml-auto flex gap-4">
 									<Button
 										variant="outline"
@@ -475,7 +641,6 @@
 										class="h-6 w-12 text-center [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
 										on:change={(e) => {
 											let newBnfNo = Number(e.currentTarget?.value);
-											console.log(newBnfNo);
 											if (newBnfNo > bnfNo) {
 												while (bnfNo < newBnfNo) {
 													addBnf(1);
@@ -509,7 +674,12 @@
 										<Form.Field {form} name="beneficiary" class="grid gap-3">
 											<Form.Control let:attrs>
 												<Form.Label class="flex items-end justify-between">
-													<span class="text-xs rounded-md border border-input bg-transparent px-3 py-0.5">{i + 1}</span><span class="pb-1 pl-2">Name </span><span class="font-bold text-destructive pb-1">&nbsp;*</span>
+													<span
+														class="rounded-md border border-input bg-primary px-3 py-0.5 text-xs text-primary-foreground"
+														>{i + 1}</span
+													><span class="pb-1 pl-2">Name </span><span
+														class="pb-1 font-bold text-destructive">&nbsp;*</span
+													>
 													<Button
 														variant="ghost"
 														class="ml-auto h-6 rounded-md px-2 text-xs"
@@ -530,7 +700,7 @@
 													</Form.Label>
 													<Input
 														{...attrs}
-														type="number"
+														type="string"
 														bind:value={$formData.beneficiary[i].age}
 													/>
 												</Form.Control>
@@ -636,7 +806,7 @@
 									<Form.FieldErrors />
 								</Form.Field>
 							</div>
-							<Form.Fieldset {form} name="client_id" class="grid gap-3">
+							<Form.Fieldset {form} name="case_id" class="grid gap-3">
 								<Form.Legend>
 									Cases <span class="font-bold text-destructive">*</span>
 								</Form.Legend>
@@ -842,18 +1012,12 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div> -->
-							<Form.Field {form} name="title" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Title</Form.Label>
-									<Input {...attrs} name={attrs.name} bind:value={$formData.title} />
-								</Form.Control>
-							</Form.Field>
 							<Form.Fieldset {form} name="client_id" class="grid gap-3">
 								<Form.Legend>
 									Client <span class="font-bold text-destructive">*</span>
 								</Form.Legend>
 								{#each $formData.client_id as _, i}
-									<Form.ElementField {form} name="client_id[{i}]">
+									<Form.ElementField {form} name="client_id[{i}]" class="grid gap-3">
 										<Form.Control let:attrs>
 											<div class="flex gap-2">
 												<Select.Root
@@ -941,8 +1105,32 @@
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
+								{#if $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies')}
+									<Form.Field {form} name="case_id" class="grid gap-3 sm:col-span-8">
+										<Form.Control let:attrs>
+											<Form.Label>Case <span class="font-bold text-destructive">*</span></Form.Label
+											>
+											<Select.Root
+												selected={selectedCase}
+												onSelectedChange={(s) => {
+													s && ($formData.case_id = s.value);
+												}}
+											>
+												<Select.Input name="case_id" bind:value={$formData.case_id} />
+												<Select.Trigger {...attrs}>
+													<Select.Value placeholder="" />
+												</Select.Trigger>
+												<Select.Content>
+													{#each $page.data.cases.filter((c) => !$formData.case_id.includes(c._id)) as _case}
+														<Select.Item bind:value={_case._id}>{_case.name}</Select.Item>
+													{/each}
+												</Select.Content>
+											</Select.Root>
+										</Form.Control>
+										<Form.FieldErrors />
+									</Form.Field>
+								{/if}
 							</div>
-							<Separator />
 							<Form.Field {form} name="lawyer_id" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>
@@ -981,7 +1169,7 @@
 								<Form.Fieldset {form} name="natureOfInstrument" class="grid gap-3">
 									<Form.Legend>Nature of Instrument</Form.Legend>
 									{#each $formData.natureOfInstrument as _, i}
-										<Form.ElementField {form} name="natureOfInstrument[{i}]">
+										<Form.ElementField {form} name="natureOfInstrument[{i}]" class="grid gap-3">
 											<Form.Control let:attrs>
 												<div class="flex gap-2">
 													<Select.Root
@@ -1014,14 +1202,16 @@
 											</Form.Control>
 										</Form.ElementField>
 									{/each}
-									{#if natureOfInstrument.length > $formData.natureOfInstrument.length}
-										<Button variant="outline" class="gap-2" on:click={addInstrument}>
-											<PlusCircled class="h-3.5 w-3.5" />
-											<span>Add Nature of Instrument</span>
-										</Button>
-									{/if}
-									<Form.FieldErrors />
-								</Form.Fieldset>
+									<div>
+										{#if natureOfInstrument.length > $formData.natureOfInstrument.length}
+											<Button variant="outline" class="gap-2" on:click={addInstrument}>
+												<PlusCircled class="h-3.5 w-3.5" />
+												<span>Add Nature of Instrument</span>
+											</Button>
+										{/if}
+										<Form.FieldErrors />
+									</div></Form.Fieldset
+								>
 								<Form.Field {form} name="witness" class="grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label>Witness</Form.Label>
@@ -1108,7 +1298,7 @@
 					{/if}
 				{/if}
 				{#if $formData.nature.length != 0}
-					<div class="items-center justify-center gap-2 hidden md:flex">
+					<div class="hidden items-center justify-center gap-2 md:flex">
 						<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 						<Form.Button type="submit" size="sm">Submit</Form.Button>
 					</div>

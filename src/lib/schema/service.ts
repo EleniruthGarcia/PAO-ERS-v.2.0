@@ -119,7 +119,7 @@ export const sex = ['Male', 'Female'] as const;
 
 export const formSchema = z.object({
 	_id: z.string(),
-	title: z.string().min(1, 'Title is required.'),
+	// title: z.string().min(1, 'Title is required.'),
 	client_id: z.array(z.string()).min(1, 'Client is required.'),
 	lawyer_id: z.string().min(1, 'Lawyer is required.'),
 	case_id: z.array(z.string()).optional(),

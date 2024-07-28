@@ -60,7 +60,8 @@
 		}),
 		table.column({
 			id: 'title',
-			accessor: (item) => item.title,
+			accessor: (item) =>
+				`${item.otherNature || item.nature} - ${item.client.length > 1 ? (item.client.length > 2 ? `${item.client[0].lastName} et. al.` : `${item.client[0].lastName} and ${item.client[1].lastName}`) : item.client[0].name}`,
 			header: 'Title'
 		}),
 		table.column({

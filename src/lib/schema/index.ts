@@ -5,7 +5,7 @@ import type { Case } from './case';
 
 interface ServiceWithJoins extends Service {
 	lawyer: User;
-	client: Client;
+	client: Client[];
 	interviewee: Client;
 	case: Case;
 }
