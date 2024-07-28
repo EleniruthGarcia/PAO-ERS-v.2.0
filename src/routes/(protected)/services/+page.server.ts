@@ -33,9 +33,9 @@ export const load: PageServerLoad = async (event) => {
 						preserveNullAndEmptyArrays: true
 					}
 				},
-				// {
-				// 	$match: { lawyer_id: event.locals.user.role === 'Administrator' ? { $exists: true } : event.locals.user._id }
-				// },
+				{
+					$match: { lawyer_id: event.locals.user.role === 'Administrator' ? { $exists: true } : event.locals.user.id }
+				},
 				{
 					$lookup: {
 						from: 'clients',
