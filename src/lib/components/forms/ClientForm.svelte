@@ -357,7 +357,7 @@
 							<Form.Field {form} name="contactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>
-										Contact Number <span class="font-bold text-destructive">*</span>
+										Contact Number
 									</Form.Label>
 									<Input {...attrs} bind:value={$formData.contactNumber} />
 								</Form.Control>

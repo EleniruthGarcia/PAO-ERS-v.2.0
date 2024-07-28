@@ -866,7 +866,7 @@
 													<Select.Trigger {...attrs}>
 														<Select.Value placeholder="" />
 													</Select.Trigger>
-													<Select.Content>
+													<Select.Content class="max-h-[200px] overflow-y-auto">
 														{#each $page.data.clients.filter((c) => !$formData.client_id.includes(c._id)) as client}
 															<Select.Item bind:value={client._id}>{client.name}</Select.Item>
 														{/each}
