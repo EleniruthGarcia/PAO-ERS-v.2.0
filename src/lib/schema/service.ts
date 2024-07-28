@@ -77,13 +77,14 @@ export const status = [
 
 export const natureOfInstrument = [
 	'Affidavit of Indigency',
-	'BENECO-Waiver',
+	'BENECO Waiver',
 	'Cohabitation (PDL)',
 	'Cohabitation',
 	'Confirmation (PNP)',
 	'Consent (PMA)',
 	'Consent to Travel',
 	'Delayed Registration of Birth',
+	"Detainee's Manifestation",
 	'Legitimation',
 	'Loss (General)',
 	'Low Income (Both Parents)',
@@ -137,11 +138,14 @@ export const formSchema = z.object({
 		required_error: 'Type of Service is required.'
 	}),
 	currentStatus: z.enum(status),
+	barangay: z.string().optional(),
+	problemsPresented: z.string().optional(),
+	activitiesUndertaken: z.string().optional(),
 	beneficiary: z.array(
 		z.object({
 			name: z.string(),
 			address: z.string(),
-			sex: z.string(),
+			sex: z.enum(sex),
 			age: z.number().int(),
 			ethnicity: z.string()
 		})
@@ -164,6 +168,7 @@ export const formSchema = z.object({
 	legalAdviceMode: z.enum(legalAdviceMode),
 	terminationMediaCon: z.enum(terminationMediaCon),
 	additionalNotes: z.string().optional(),
+	settlementDate: z.date().optional(),
 });
 
 export type FormSchema = typeof formSchema;
