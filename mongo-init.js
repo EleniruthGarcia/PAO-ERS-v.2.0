@@ -6,7 +6,7 @@ db.branches.insertMany([
 		province: 'Benguet',
 		region: 'Cordillera Administrative Region',
 	}, {
-		_id: 'Baguio',
+		_id: 'baguio',
 		name: 'Baguio City District Office',
 		district: 'Baguio City',
 		province: 'Benguet',
