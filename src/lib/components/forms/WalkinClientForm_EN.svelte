@@ -5,8 +5,6 @@
 		classification,
 		educationalAttainment,
 		formSchema,
-		proofOfIndigency,
-		pwd,
 		sex,
 		type FormSchema
 	} from '$lib/schema/client';
@@ -18,7 +16,7 @@
 		intProxy
 	} from 'sveltekit-superforms';
 
-	import { CaretSort, Check, ChevronLeft } from 'svelte-radix';
+	import { ChevronLeft } from 'svelte-radix';
 
 	import Loading from '$lib/components/Loading.svelte';
 
@@ -30,9 +28,6 @@
 	import * as Select from '$lib/components/ui/select';
 
 	import DatePicker from '$lib/components/DatePicker.svelte';
-	import { Combobox } from 'bits-ui';
-	import { flyAndScale } from '$lib/utils';
-	import Separator from '../ui/separator/separator.svelte';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -78,27 +73,13 @@
 		label: $formData.educationalAttainment,
 		value: $formData.educationalAttainment
 	};
-
-	$: touchedProof = false;
-	$: filteredProof =
-		$formData.proofOfIndigency && touchedProof
-			? proofOfIndigency.filter((v) =>
-					v.toLowerCase().includes($formData.proofOfIndigency?.toLowerCase() ?? '')
-				)
-			: proofOfIndigency;
-
-	$: touchedPWD = false;
-	$: filteredPWD =
-		$formData.pwd && touchedPWD
-			? pwd.filter((v) => v.toLowerCase().includes($formData.pwd?.toLowerCase() ?? ''))
-			: pwd;
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
 	{#if $delayed}<Loading />{/if}
 	<input type="hidden" name="_id" bind:value={$formData._id} />
 	<input type="hidden" name="name" bind:value={$formData.name} />
-	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
+	<div class="mx-auto grid max-w-[48rem] flex-1 auto-rows-max gap-4">
 		<div class="flex items-center gap-4">
 			<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>
 				<ChevronLeft class="h-4 w-4" />
@@ -113,27 +94,18 @@
 				<Form.Button type="submit" size="sm">Submit</Form.Button>
 			</div>
 		</div>
-		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-5 lg:gap-8">
-			<div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
+		<div class="flex gap-4">
+			<div class="grid auto-rows-max items-start gap-4">
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Personal Information</Card.Title>
-						<Card.Description>
-							Please fill out all necessary information. Required fields are marked with <span
-								class="font-bold text-destructive"
-							>
-								*
-							</span>
-							.
-						</Card.Description>
+						<Card.Description>Please fill out all necessary information.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
 						<div class="grid items-start gap-3 sm:grid-cols-7">
 							<Form.Field {form} name="firstName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>
-										Name <span class="font-bold text-destructive">*</span>
-									</Form.Label>
+									<Form.Label>Name</Form.Label>
 									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -163,18 +135,14 @@
 						<div class="grid items-start gap-3 sm:grid-cols-3">
 							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>
-										Age <span class="font-bold text-destructive">*</span>
-									</Form.Label>
+									<Form.Label>Age</Form.Label>
 									<Input {...attrs} bind:value={$proxyAge} type="number" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="sex" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>
-										Sex <span class="font-bold text-destructive">*</span>
-									</Form.Label>
+									<Form.Label>Sex</Form.Label>
 									<Select.Root
 										selected={selectedSex}
 										onSelectedChange={(s) => {
@@ -196,9 +164,7 @@
 							</Form.Field>
 							<Form.Field {form} name="civilStatus" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>
-										Civil Status <span class="font-bold text-destructive">*</span>
-									</Form.Label>
+									<Form.Label>Civil Status</Form.Label>
 									<Select.Root
 										selected={selectedCivilStatus}
 										onSelectedChange={(s) => {
@@ -245,9 +211,7 @@
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="educationalAttainment" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>
-										Education <span class="font-bold text-destructive">*</span>
-									</Form.Label>
+									<Form.Label>Education</Form.Label>
 									<Select.Root
 										selected={selectedEducationalAttainment}
 										onSelectedChange={(s) => {
@@ -275,68 +239,21 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid items-start gap-3 sm:grid-cols-2">
-							<Form.Field {form} name="proofOfIndigency" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Proof of Indigency</Form.Label>
-									<Combobox.Root
-										items={filteredProof}
-										bind:inputValue={$formData.proofOfIndigency}
-										bind:touchedInput={touchedProof}
-									>
-										<div class="relative">
-											<Combobox.Input
-												class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-												placeholder="Please type or select."
-											/>
-											<CaretSort class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50" />
-										</div>
-
-										<Combobox.Content
-											class="relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
-											transition={flyAndScale}
-											sideOffset={8}
-										>
-											{#each filteredProof as value}
-												<Combobox.Item
-													class="elative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
-													{value}
-												>
-													{value}
-													<Combobox.ItemIndicator
-														class="absolute right-3 flex h-3.5 w-3.5 items-center justify-center"
-														asChild={false}
-													>
-														<Check class="h-4 w-4" />
-													</Combobox.ItemIndicator>
-												</Combobox.Item>
-											{:else}
-												<span class="block px-5 py-2 text-sm text-muted-foreground">
-													No results found.
-												</span>
-											{/each}
-										</Combobox.Content>
-										<Combobox.HiddenInput name="proofOfIndigency" />
-									</Combobox.Root>
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-							<Form.Field
-								{form}
-								name="detained"
-								class="flex w-fit flex-row items-center space-x-3 space-y-0 rounded-md border p-4"
-							>
-								<Form.Control let:attrs>
-									<Checkbox {...attrs} bind:checked={$formData.detained} />
-									<div class="h-10 space-y-2 truncate leading-none">
-										<Form.Label>Detained</Form.Label>
-										<Form.Description>Check if the client is detained.</Form.Description>
-									</div>
-									<input name={attrs.name} bind:value={$formData.detained} hidden />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-						</div>
+						<Form.Field
+							{form}
+							name="detained"
+							class="flex w-fit flex-row items-center space-x-3 space-y-0 rounded-md border p-4"
+						>
+							<Form.Control let:attrs>
+								<Checkbox {...attrs} bind:checked={$formData.detained} />
+								<div class="h-10 space-y-2 truncate leading-none">
+									<Form.Label>Detained</Form.Label>
+									<Form.Description>Check if the client is detained.</Form.Description>
+								</div>
+								<input name={attrs.name} bind:value={$formData.detained} hidden />
+							</Form.Control>
+							<Form.FieldErrors />
+						</Form.Field>
 					</Card.Content>
 				</Card.Root>
 				<Card.Root>
@@ -347,18 +264,14 @@
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="address" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>
-										Address <span class="font-bold text-destructive">*</span>
-									</Form.Label>
+									<Form.Label>Address</Form.Label>
 									<Input {...attrs} bind:value={$formData.address} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="contactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>
-										Contact Number
-									</Form.Label>
+									<Form.Label>Contact Number</Form.Label>
 									<Input {...attrs} bind:value={$formData.contactNumber} />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -373,7 +286,7 @@
 						</div>
 					</Card.Content>
 				</Card.Root>
-				{#if $formData.civilStatus === 'Married'}
+				{#if $formData.civilStatus === 'Married' || $formData.civilStatus === 'Widowed'}
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Spouse Information</Card.Title>
@@ -476,151 +389,9 @@
 						</Card.Content>
 					</Card.Root>
 				{/if}
-				<div class="items-center justify-center gap-2 hidden md:flex">
-					<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
-					<Form.Button type="submit" size="sm">Submit</Form.Button>
-				</div>
-			</div>
-			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-				<Card.Root>
-					<Form.Fieldset {form} name="classification" class="space-y-0">
-						<Card.Header>
-							<Card.Title>
-								<Form.Legend>
-									Client Classification <span class="font-bold text-destructive">*</span>
-								</Form.Legend>
-							</Card.Title>
-							<Card.Description>
-								<Form.Description>Please select all the apply.</Form.Description>
-							</Card.Description>
-						</Card.Header>
-						<Card.Content>
-							<div class="space-y-2">
-								{#each classification as item}
-									{@const checked = $formData.classification?.includes(item) ?? false}
-									<div class="flex flex-row items-start space-x-3">
-										<Form.Control let:attrs>
-											<Checkbox
-												{...attrs}
-												{checked}
-												onCheckedChange={(v) => {
-													if (v) {
-														$formData.classification = [...($formData.classification ?? []), item];
-													} else {
-														$formData.classification = $formData.classification?.filter(
-															(v) => v !== item
-														);
-													}
-												}}
-											/>
-											<Form.Label class="text-sm font-normal">
-												{item}
-											</Form.Label>
-											<input hidden type="checkbox" name={attrs.name} value={item} {checked} />
-										</Form.Control>
-									</div>
-								{/each}
-								<Form.FieldErrors />
-							</div>
-						</Card.Content>
-					</Form.Fieldset>
-				</Card.Root>
-				<Card.Root>
-					<Form.Fieldset {form} name="classification" class="space-y-0">
-						<Card.Header>
-							<Card.Title><Form.Legend>Other Classifications</Form.Legend></Card.Title>
-							<Card.Description>
-								<Form.Description>Please input all the apply.</Form.Description>
-							</Card.Description>
-						</Card.Header>
-						<Card.Content>
-							<Form.Field {form} name="foreignNational" class="grid grid-cols-2 items-center">
-								<Form.Control let:attrs>
-									<Form.Label>Foreign National</Form.Label>
-									<Input {...attrs} bind:value={$formData.foreignNational} />
-								</Form.Control>
-								<Form.FieldErrors class="col-span-2" />
-							</Form.Field>
-							<Form.Field {form} name="indigenousPeople" class="grid grid-cols-2 items-center">
-								<Form.Control let:attrs>
-									<Form.Label>Indigenous People</Form.Label>
-									<Input {...attrs} bind:value={$formData.indigenousPeople} />
-								</Form.Control>
-								<Form.FieldErrors class="col-span-2" />
-							</Form.Field>
-							<Form.Field {form} name="lawEnforcer" class="grid grid-cols-2 items-center">
-								<Form.Control let:attrs>
-									<Form.Label>Law Enforcer</Form.Label>
-									<Input {...attrs} bind:value={$formData.lawEnforcer} />
-								</Form.Control>
-								<Form.FieldErrors class="col-span-2" />
-							</Form.Field>
-							<Form.Field {form} name="urbanPoor" class="grid grid-cols-2 items-center">
-								<Form.Control let:attrs>
-									<Form.Label>Urban Poor</Form.Label>
-									<Input {...attrs} bind:value={$formData.urbanPoor} />
-								</Form.Control>
-								<Form.FieldErrors class="col-span-2" />
-							</Form.Field>
-							<Form.Field {form} name="ruralPoor" class="grid grid-cols-2 items-center">
-								<Form.Control let:attrs>
-									<Form.Label>Rural Poor</Form.Label>
-									<Input {...attrs} bind:value={$formData.ruralPoor} />
-								</Form.Control>
-								<Form.FieldErrors class="col-span-2" />
-							</Form.Field>
-							<Separator class="my-4" />
-							<Form.Field {form} name="pwd" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Person with Disability</Form.Label>
-									<Combobox.Root
-										items={filteredPWD}
-										bind:inputValue={$formData.pwd}
-										bind:touchedInput={touchedPWD}
-									>
-										<div class="relative">
-											<Combobox.Input
-												class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-												placeholder="Please type disability or select from options."
-											/>
-											<CaretSort class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50" />
-										</div>
-
-										<Combobox.Content
-											class="relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
-											transition={flyAndScale}
-											sideOffset={8}
-										>
-											{#each filteredPWD as value}
-												<Combobox.Item
-													class="elative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
-													{value}
-												>
-													{value}
-													<Combobox.ItemIndicator
-														class="absolute right-3 flex h-3.5 w-3.5 items-center justify-center"
-														asChild={false}
-													>
-														<Check class="h-4 w-4" />
-													</Combobox.ItemIndicator>
-												</Combobox.Item>
-											{:else}
-												<span class="block px-5 py-2 text-sm text-muted-foreground">
-													No results found.
-												</span>
-											{/each}
-										</Combobox.Content>
-										<Combobox.HiddenInput name="pwd" />
-									</Combobox.Root>
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-						</Card.Content>
-					</Form.Fieldset>
-				</Card.Root>
 			</div>
 		</div>
-		<div class="flex items-center justify-center gap-2 md:hidden">
+		<div class="flex items-center justify-center gap-2">
 			<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 			<Form.Button type="submit" size="sm">Submit</Form.Button>
 		</div>

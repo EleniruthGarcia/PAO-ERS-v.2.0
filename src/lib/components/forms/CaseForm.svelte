@@ -373,6 +373,10 @@
 						</div>
 					</Card.Content>
 				</Card.Root>
+				<div class="items-center justify-center gap-2 hidden md:flex">
+					<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
+					<Form.Button type="submit" size="sm">Submit</Form.Button>
+				</div>
 			</div>
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
 				<Card.Root>

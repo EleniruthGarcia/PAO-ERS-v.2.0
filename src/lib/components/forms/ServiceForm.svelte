@@ -459,7 +459,7 @@
 						</Card.Header>
 						<Card.Content class="grid auto-rows-max items-start gap-3">
 							<div class="space-between flex">
-								<p class="text-sm">Number of Beneficiaries</p>
+								<p class="text-sm text-bold">Number of Beneficiaries</p>
 								<div class="ml-auto flex gap-4">
 									<Button
 										variant="outline"
@@ -509,7 +509,7 @@
 										<Form.Field {form} name="beneficiary" class="grid gap-3">
 											<Form.Control let:attrs>
 												<Form.Label class="flex items-end justify-between">
-													Name <span class="font-bold text-destructive">&nbsp;*</span>
+													<span class="text-xs rounded-md border border-input bg-transparent px-3 py-0.5">{i + 1}</span><span class="pb-1 pl-2">Name </span><span class="font-bold text-destructive pb-1">&nbsp;*</span>
 													<Button
 														variant="ghost"
 														class="ml-auto h-6 rounded-md px-2 text-xs"
@@ -1106,6 +1106,12 @@
 							</Card.Content>
 						</Card.Root>
 					{/if}
+				{/if}
+				{#if $formData.nature.length != 0}
+					<div class="items-center justify-center gap-2 hidden md:flex">
+						<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
+						<Form.Button type="submit" size="sm">Submit</Form.Button>
+					</div>
 				{/if}
 			</div>
 			<div class="flex items-center justify-center gap-2 md:hidden">

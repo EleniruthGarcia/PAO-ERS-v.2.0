@@ -22,5 +22,12 @@
 			personnel.
 		</p>
 	</div>
-	<Button href="/create">Generate Interview Sheet</Button>
+	<div class="rounded-md shadow-sm border border-input bg-transparent px-7 py-3">
+		<span class="font-bold text-lg">Generate Interview Sheet<span>
+		<div class="mt-2 pb-2 items-center justify-center gap-2 hidden md:flex">
+			<Button href="/create_en">English</Button>
+			<Button href="/create_tl">Tagalog</Button>
+		</div>
+	</div>
+	
 </div>
