@@ -164,7 +164,13 @@ export const GET: ServiceHandler = async (event) => {
 					natureOfTheCase: { $ifNull: ['$case.natureOfTheCase', ''] },
 					otherNature: { $ifNull: ['$case.otherNature', ''] },
 					caseSpecs: { $ifNull: ['$case._id', ''] },
-					factsOfTheCase: { $ifNull: ['$case.factsOfTheCase', ''] },
+					factsOfTheCase: {
+						$concat: [
+							{ $ifNull: ['$additionalNotes', ''] },
+							"\n",
+							{ $ifNull: ['$case.factsOfTheCase', ''] }
+						]
+					},
 					causeOfActionOrNatureOfOffence: { $ifNull: ['$case.causeOfActionOrNatureOfOffence', ''] },
 					clientInvolvement: { $ifNull: ['$case.clientInvolvement', ''] },
 					adversePartyInvolvement: { $ifNull: ['$case.adversePartyInvolvement', ''] },

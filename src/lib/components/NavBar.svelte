@@ -24,7 +24,9 @@
 			<span class="w-[100px] font-bold">PAO-ERS</span>
 		</a>
 		{#each links as link}
-			<NavLink {link} />
+			{#if link.label === 'Dashboard'}
+				<NavLink {link} />
+			{/if}
 		{/each}
 	</nav>
 	<HomeMenu />

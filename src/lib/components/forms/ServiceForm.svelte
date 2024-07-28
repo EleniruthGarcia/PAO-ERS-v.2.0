@@ -203,14 +203,13 @@
 		$formData.otherNature = [...($formData.otherNature ?? []), ''];
 	}
 
-	let bnfNo = 0;
+	$: bnfNo = $formData.beneficiary?.length ?? 0;
 	function addBnf(adjustment: number) {
 		if (adjustment > 0) {
 			addBeneficiary();
 		} else {
 			removeBeneficiaryByIndex(0);
 		}
-		bnfNo = Math.max(0, Math.min(50, bnfNo + adjustment));
 	}
 </script>
 
@@ -471,7 +470,27 @@
 									>
 										<Minus class="h-3 w-3" />
 									</Button>
-									<p class="w-6 text-center font-bold">{bnfNo}</p>
+									<Input
+										type="number"
+										class="h-6 w-12 text-center [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+										on:change={(e) => {
+											let newBnfNo = Number(e.currentTarget?.value);
+											console.log(newBnfNo);
+											if (newBnfNo > bnfNo) {
+												while (bnfNo < newBnfNo) {
+													addBnf(1);
+													newBnfNo--;
+												}
+											} else {
+												while (bnfNo > newBnfNo) {
+													addBnf(-1);
+													newBnfNo++;
+												}
+											}
+										}}
+										value={bnfNo}
+									/>
+									<!-- <p class="w-6 text-center font-bold">{bnfNo}</p> -->
 									<Button
 										variant="outline"
 										size="icon"
@@ -1065,6 +1084,25 @@
 										</Form.Field>
 									</Form.Field>
 								{/if}
+							</Card.Content>
+						</Card.Root>
+					{/if}
+					{#if $formData.nature.includes('Mediation or Conciliation') || $formData.nature.includes('Legal Advice')}
+						<Card.Root>
+							<Card.Header>
+								<Card.Title>Additional Notes</Card.Title>
+								<Card.Description
+									>Type details of the legal advice or mediation here. This will appear in the Facts
+									of the Case section of the Interview Sheet.</Card.Description
+								>
+							</Card.Header>
+							<Card.Content class="grid auto-rows-max items-start gap-3">
+								<Form.Field {form} name="additionalNotes">
+									<Form.Control let:attrs>
+										<Textarea {...attrs} bind:value={$formData.additionalNotes} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
 							</Card.Content>
 						</Card.Root>
 					{/if}

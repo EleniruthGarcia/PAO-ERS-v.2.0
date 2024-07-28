@@ -76,6 +76,7 @@ export const status = [
 ] as const;
 
 export const natureOfInstrument = [
+	'Affidavit of Indigency',
 	'BENECO-Waiver',
 	'Cohabitation (PDL)',
 	'Cohabitation',
@@ -84,11 +85,7 @@ export const natureOfInstrument = [
 	'Consent to Travel',
 	'Delayed Registration of Birth',
 	'Legitimation',
-	'Loss (ATM)',
-	'Loss (Books)',
 	'Loss (General)',
-	'Loss (Passport)',
-	'Loss (Plate Number)',
 	'Low Income (Both Parents)',
 	'Low Income (Single Parent/Widow/Guardian',
 	'No Pending Case',
@@ -165,7 +162,8 @@ export const formSchema = z.object({
 	witness: z.string().optional(),
 	duringOffice: z.boolean().default(false),
 	legalAdviceMode: z.enum(legalAdviceMode),
-	terminationMediaCon: z.enum(terminationMediaCon)
+	terminationMediaCon: z.enum(terminationMediaCon),
+	additionalNotes: z.string().optional(),
 });
 
 export type FormSchema = typeof formSchema;

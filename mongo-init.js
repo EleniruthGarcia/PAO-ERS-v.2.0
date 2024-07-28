@@ -3,7 +3,7 @@ db.branches.insertMany([
 		_id: 'car',
 		name: 'Regional Office - CAR',
 		district: 'Baguio City',
-		provice: 'Benguet',
+		province: 'Benguet',
 		region: 'Cordillera Administrative Region',
 	}, {
 		_id: 'Baguio',
@@ -12,7 +12,6 @@ db.branches.insertMany([
 		province: 'Benguet',
 		region: 'Cordillera Administrative Region',
 	}
-
 ]);
 
 db.users.insertOne({

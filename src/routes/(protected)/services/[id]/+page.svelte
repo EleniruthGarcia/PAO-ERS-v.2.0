@@ -156,7 +156,15 @@
 					<ul class="grid gap-3">
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Interviewee</span>
-							<span>{data.service.interviewee.name ?? 'N/A'}</span>
+							<span>
+								<Button
+									variant="link"
+									class="m-0 h-auto p-0 text-foreground underline-offset-auto"
+									href="/clients/{data.service.interviewee._id}"
+								>
+									{data.service.interviewee.name ?? 'N/A'}
+								</Button>
+							</span>
 						</li>
 						<li class="flex items-center justify-between gap-2 truncate">
 							<span class="text-muted-foreground">Relationship to Client</span>
@@ -198,7 +206,15 @@
 						<ul class="grid gap-3">
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Name</span>
-								<span>{client.name ?? 'N/A'}</span>
+								<span>
+									<Button
+										variant="link"
+										class="m-0 h-auto p-0 text-foreground underline-offset-auto"
+										href="/clients/{client._id}"
+									>
+										{client.name ?? 'N/A'}
+									</Button>
+								</span>
 							</li>
 							<li class="flex items-center justify-between gap-2 truncate">
 								<span class="text-muted-foreground">Age</span>

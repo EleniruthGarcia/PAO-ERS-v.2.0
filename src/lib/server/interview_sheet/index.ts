@@ -146,145 +146,145 @@ async function addTextToPDF(data: any) {
 	firstPage.drawText(controlNo ?? 'N/A', {
 		x: 90,
 		y: 863,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(values[0] ?? 'N/A', {
 		x: 70,
 		y: 875,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(region ?? 'N/A', {
 		x: 250,
 		y: 895,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(districtProvince ?? 'N/A', {
 		x: 250,
 		y: 885,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(monthYear ?? 'N/A', {
 		x: 300,
 		y: 152,
-		size: 8.5,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(district ?? 'N/A', {
 		x: 380,
 		y: 162,
-		size: 8.5,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(province ?? 'N/A', {
 		x: 380,
 		y: 152,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(values[2]?.toString() ?? 'N/A', {
 		x: 250,
 		y: 152,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(monthYear ?? 'N/A', {
 		x: 332,
 		y: 212,
-		size: 8.5,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(district ?? 'N/A', {
 		x: 405,
 		y: 220,
-		size: 8.5,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(province ?? 'N/A', {
 		x: 405,
 		y: 212,
-		size: 8.5,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(values[2]?.toString() ?? 'N/A', {
 		x: 285,
 		y: 212,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 
 	firstPage.drawText(name ?? 'N/A', {
 		x: 70,
 		y: 705,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(age?.toString() ?? 'N/A', {
 		x: 320,
 		y: 705,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(sex ?? 'N/A', {
 		x: 370,
 		y: 705,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	const religionTxt = religion ? religion : 'N/A';
 	firstPage.drawText(religionTxt ?? 'N/A', {
 		x: 90,
 		y: 691,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(educationalAttainment ?? 'N/A', {
 		x: 390,
 		y: 691,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	const citizen = citizenship ? citizenship : 'N/A';
 	firstPage.drawText(citizen ?? 'N/A', {
 		x: 100,
 		y: 677,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	const language = languageDialect ? languageDialect : 'N/A';
 	firstPage.drawText(language ?? 'N/A', {
 		x: 390,
 		y: 677,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(address ?? 'N/A', {
 		x: 80,
 		y: 663,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(contactNo ?? 'N/A', {
 		x: 390,
 		y: 663,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	const clientEmail = email ? email : 'N/A';
 	firstPage.drawText(clientEmail ?? 'N/A', {
 		x: 80,
 		y: 649,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	const MonthlyIncome = individualMonthlyIncome ? individualMonthlyIncome : 'N/A';
 	firstPage.drawText(MonthlyIncome ?? 'N/A', {
 		x: 150,
 		y: 635,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	if (PDLStatus) {
@@ -300,13 +300,13 @@ async function addTextToPDF(data: any) {
 		firstPage.drawText(detainedSince ?? 'N/A', {
 			x: 100,
 			y: 607,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 		firstPage.drawText(placeOfDetention ?? 'N/A', {
 			x: 390,
 			y: 607,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
@@ -322,13 +322,13 @@ async function addTextToPDF(data: any) {
 		firstPage.drawText('N/A' ?? 'N/A', {
 			x: 100,
 			y: 607,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 		firstPage.drawText('N/A' ?? 'N/A', {
 			x: 390,
 			y: 607,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	}
@@ -424,7 +424,7 @@ async function addTextToPDF(data: any) {
 		firstPage.drawText(otherNature ?? 'N/A', {
 			x: 80,
 			y: 748,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	}
@@ -441,14 +441,14 @@ async function addTextToPDF(data: any) {
 		firstPage.drawText(caseSpecs ?? 'N/A', {
 			x: 85,
 			y: 504,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
 		firstPage.drawText('N/A' ?? 'N/A', {
 			x: 85,
 			y: 504,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	}
@@ -466,14 +466,14 @@ async function addTextToPDF(data: any) {
 		firstPage.drawText(caseSpecs ?? 'N/A', {
 			x: 105,
 			y: 490,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
 		firstPage.drawText('N/A' ?? 'N/A', {
 			x: 105,
 			y: 490,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	}
@@ -491,14 +491,14 @@ async function addTextToPDF(data: any) {
 		firstPage.drawText(caseSpecs ?? 'N/A', {
 			x: 265,
 			y: 490,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
 		firstPage.drawText('N/A' ?? 'N/A', {
 			x: 265,
 			y: 490,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	}
@@ -516,14 +516,14 @@ async function addTextToPDF(data: any) {
 		firstPage.drawText(caseSpecs ?? 'N/A', {
 			x: 265,
 			y: 504,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
 		firstPage.drawText('N/A' ?? 'N/A', {
 			x: 265,
 			y: 504,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	}
@@ -541,14 +541,14 @@ async function addTextToPDF(data: any) {
 		firstPage.drawText(caseSpecs ?? 'N/A', {
 			x: 420,
 			y: 504,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
 		firstPage.drawText('N/A' ?? 'N/A', {
 			x: 420,
 			y: 504,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	}
@@ -721,14 +721,14 @@ async function addTextToPDF(data: any) {
 		firstPage.drawText(pwd ?? 'N/A', {
 			x: 473,
 			y: 402,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
 		firstPage.drawText('N/A' ?? 'N/A', {
 			x: 485,
 			y: 402,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	}
@@ -746,14 +746,14 @@ async function addTextToPDF(data: any) {
 		firstPage.drawText(foreignNational ?? 'N/A', {
 			x: 456,
 			y: 458,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
 		firstPage.drawText('N/A' ?? 'N/A', {
 			x: 455,
 			y: 458,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	}
@@ -771,14 +771,14 @@ async function addTextToPDF(data: any) {
 		firstPage.drawText(urbanPoor ?? 'N/A', {
 			x: 430,
 			y: 444,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
 		firstPage.drawText('N/A' ?? 'N/A', {
 			x: 425,
 			y: 444,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	}
@@ -795,14 +795,14 @@ async function addTextToPDF(data: any) {
 		firstPage.drawText(ruralPoor ?? 'N/A', {
 			x: 430,
 			y: 430,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
 		firstPage.drawText('N/A' ?? 'N/A', {
 			x: 425,
 			y: 430,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	}
@@ -819,14 +819,14 @@ async function addTextToPDF(data: any) {
 		firstPage.drawText(indigenousPeople ?? 'N/A', {
 			x: 455,
 			y: 416,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
 		firstPage.drawText('N/A' ?? 'N/A', {
 			x: 455,
 			y: 416,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	}
@@ -835,14 +835,14 @@ async function addTextToPDF(data: any) {
 	firstPage.drawText(name ?? 'N/A', {
 		x: 205,
 		y: 365,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 
 	firstPage.drawText(civilStatus ?? 'N/A', {
 		x: 473,
 		y: 705,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	const addressPartner = addressOfSpouse ? addressOfSpouse : 'N/A';
@@ -853,7 +853,7 @@ async function addTextToPDF(data: any) {
 	firstPage.drawText(partner ?? 'N/ASP', {
 		x: 350,
 		y: 294,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(addressPartner ?? 'N/A', {
@@ -865,13 +865,13 @@ async function addTextToPDF(data: any) {
 	firstPage.drawText(contactPartner ?? 'N/A', {
 		x: 390,
 		y: 621,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(partner1 ?? 'N/A', {
 		x: 340,
 		y: 649,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	if (civilStatus === 'Married') {
@@ -910,58 +910,58 @@ async function addTextToPDF(data: any) {
 	firstPage.drawText(intervieweeName ?? 'N/A', {
 		x: 70,
 		y: 573,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(intervieweeAge?.toString() ?? 'N/A', {
 		x: 320,
 		y: 573,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(intervieweeSex ?? 'N/A', {
 		x: 370,
 		y: 573,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(intervieweeCivilStatus ?? 'N/A', {
 		x: 473,
 		y: 573,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 
 	firstPage.drawText(intervieweeAddress ?? 'N/A', {
 		x: 78,
 		y: 559,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(intervieweeContactNo ?? 'N/A', {
 		x: 345,
 		y: 559,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(relationshipToClient ?? 'N/A', {
 		x: 125,
 		y: 545,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	if (intervieweeEmail) {
 		firstPage.drawText(intervieweeEmail ?? 'N/A', {
 			x: 320,
 			y: 545,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
 		firstPage.drawText('N/A' ?? 'N/A', {
 			x: 320,
 			y: 545,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 	}
@@ -969,26 +969,26 @@ async function addTextToPDF(data: any) {
 	firstPage.drawText(districtProvince ?? 'N/A', {
 		x: 25,
 		y: 330,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(name ?? 'N/A', {
 		x: 70,
 		y: 294,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	firstPage.drawText(address ?? 'N/A', {
 		x: 100,
 		y: 282,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	const MonthlyIncome1 = individualMonthlyIncome ? individualMonthlyIncome : 'N/A';
 	firstPage.drawText(MonthlyIncome1?.toString() ?? 'N/A', {
 		x: 230,
 		y: 246,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 
@@ -1080,7 +1080,7 @@ async function addTextToPDF(data: any) {
 			secondPage.drawText(item[key] ?? 'N/A', {
 				x: 410,
 				y: 915,
-				size: 10,
+				size: 8,
 				color: rgb(0, 0, 0) // Black
 			});
 		}
@@ -1139,34 +1139,35 @@ async function addTextToPDF(data: any) {
 			height: 7,
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
-		}); }
-		if (proofOfIndigency.includes('Certification from DSWD')) {
-			secondPage.drawRectangle({
-				x: 295,
-				y: 229,
-				width: 7,
-				height: 7,
-				color: rgb(0, 0, 0),
-				borderColor: undefined // No border
-			});
-		}
-		if (proofOfIndigency && proofOfIndigency.length > 0) {
-			secondPage.drawRectangle({
-				x: 415,
-				y: 229,
-				width: 7,
-				height: 7,
-				color: rgb(0, 0, 0),
-				borderColor: undefined // No border
-			});
-			secondPage.drawText(proofOfIndigency ?? 'N/A', {
-				x: 425,
-				y: 217,
-				size: 10,
-				color: rgb(0, 0, 0) // Black
-			});
-		}
-		// }
+		});
+	}
+	if (proofOfIndigency.includes('Certification from DSWD')) {
+		secondPage.drawRectangle({
+			x: 295,
+			y: 229,
+			width: 7,
+			height: 7,
+			color: rgb(0, 0, 0),
+			borderColor: undefined // No border
+		});
+	}
+	if (proofOfIndigency && proofOfIndigency.length > 0) {
+		secondPage.drawRectangle({
+			x: 415,
+			y: 229,
+			width: 7,
+			height: 7,
+			color: rgb(0, 0, 0),
+			borderColor: undefined // No border
+		});
+		secondPage.drawText(proofOfIndigency ?? 'N/A', {
+			x: 425,
+			y: 217,
+			size: 8,
+			color: rgb(0, 0, 0) // Black
+		});
+	}
+	// }
 	if (pendingInCourt === true) {
 		secondPage.drawText('X' ?? 'N/A', {
 			x: 322,
@@ -1196,7 +1197,7 @@ async function addTextToPDF(data: any) {
 		secondPage.drawText(textChunk ?? 'N/A', {
 			x: 70,
 			y: yCoordinate,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 		yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
@@ -1208,7 +1209,7 @@ async function addTextToPDF(data: any) {
 		secondPage.drawText(textChunk ?? 'N/A', {
 			x: 330,
 			y: yCoordinate,
-			size: 10,
+			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
 		yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
@@ -1267,7 +1268,7 @@ async function addTextToPDF(data: any) {
 	secondPage.drawText(name ?? 'N/A', {
 		x: 190,
 		y: 150,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 
@@ -1275,13 +1276,13 @@ async function addTextToPDF(data: any) {
 	thirdPage.drawText(getFormattedDate()[0] ?? 'N/A', {
 		x: 100,
 		y: 75,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	thirdPage.drawText(name ?? 'N/A', {
 		x: 105,
 		y: 122,
-		size: 10,
+		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	// Save the modified PDF
