@@ -42,7 +42,7 @@
 					</Card.Title>
 					<Card.Description>ID: {data.client._id}</Card.Description>
 				</div>
-				<div class="invisible ml-auto flex items-center gap-1 sm:visible">
+				<div class="invisible ml-auto flex items-center gap-1 md:visible">
 					<Button
 						size="sm"
 						variant="outline"
@@ -95,7 +95,7 @@
 						</AlertDialog.Content>
 					</AlertDialog.Root>
 				</div>
-				<div class="visible ml-auto flex items-center gap-1 sm:hidden">
+				<div class="visible ml-auto flex items-center gap-1 md:hidden">
 					<AlertDialog.Root>
 						<DropdownMenu.Root>
 							<DropdownMenu.Trigger asChild let:builder>

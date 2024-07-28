@@ -90,11 +90,7 @@ export const formSchema = z.object({
 		.union([z.literal(''), z.string().email().optional()])
 		.transform((e) => (e === '' ? undefined : e)),
 	contactNumber: z
-		.string()
-		// .regex(/^(?=\s*$)|(09|\+639)\d{9}$/, 'Invalid contact number.')
-		.refine((value) => value !== '', {
-			message: 'Contact number is required.'
-		}),
+		.string(),
 	civilStatus: z.enum(civilStatus),
 	religion: z.string().optional(),
 	citizenship: z.string().optional(),
