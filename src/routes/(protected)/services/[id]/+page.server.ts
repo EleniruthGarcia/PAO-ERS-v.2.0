@@ -84,7 +84,7 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/services', text: 'Services' },
 			{
 				href: '/services/' + event.params.id,
-				text: `${service.otherNature || service.nature} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et. al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
+				text: `${[...service.nature, ...(service.otherNature ?? [])].join(', ')} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
 			}
 		],
 		client,

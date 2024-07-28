@@ -10,6 +10,7 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Separator } from '$lib/components/ui/separator';
 	import { Badge } from '$lib/components/ui/badge';
+	import { otherNature } from '$lib/schema/service';
 
 	export let data: PageServerData;
 </script>
@@ -25,7 +26,11 @@
 							class="p-0 text-lg text-foreground"
 							href="/services/{data.service._id}"
 						>
-							{data.service.otherNature || data.service.nature}
+							{data.client.length > 1
+								? data.client.length > 2
+									? `${data.client[0].lastName} et al.`
+									: `${data.client[0].lastName} and ${data.client[1].lastName}`
+								: data.client[0].name}
 						</Button>
 						<Button
 							size="icon"
@@ -42,11 +47,14 @@
 					</Card.Title>
 					<Card.Description>
 						<Badge variant="outline" class="mr-2">{data.service.typeOfService}</Badge>
-						{data.client.length > 1
+						{#each [...data.service.nature, ...(data.service.otherNature ?? [])] as nature}
+							<Badge variant="outline" class="mr-2">{nature}</Badge>
+						{/each}
+						<!-- {data.client.length > 1
 							? data.client.length > 2
 								? `${data.client[0].lastName} et. al.`
 								: `${data.client[0].lastName} and ${data.client[1].lastName}`
-							: data.client[0].name}
+							: data.client[0].name} -->
 					</Card.Description>
 				</div>
 				<div class="invisible ml-auto flex items-center gap-1 sm:visible">

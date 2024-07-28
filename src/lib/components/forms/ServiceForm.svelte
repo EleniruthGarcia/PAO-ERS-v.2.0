@@ -1204,7 +1204,7 @@
 									{/each}
 									<div>
 										{#if natureOfInstrument.length > $formData.natureOfInstrument.length}
-											<Button variant="outline" class="gap-2" on:click={addInstrument}>
+											<Button variant="outline" class="w-full gap-2" on:click={addInstrument}>
 												<PlusCircled class="h-3.5 w-3.5" />
 												<span>Add Nature of Instrument</span>
 											</Button>

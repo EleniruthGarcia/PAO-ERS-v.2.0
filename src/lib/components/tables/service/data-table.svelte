@@ -59,14 +59,14 @@
 			}
 		}),
 		table.column({
-			id: 'title',
+			id: 'client',
 			accessor: (item) =>
-				`${item.otherNature || item.nature} - ${item.client.length > 1 ? (item.client.length > 2 ? `${item.client[0].lastName} et. al.` : `${item.client[0].lastName} and ${item.client[1].lastName}`) : item.client[0].name}`,
-			header: 'Title'
+				`${item.client.length > 1 ? (item.client.length > 2 ? `${item.client[0].lastName} et al.` : `${item.client[0].lastName} and ${item.client[1].lastName}`) : item.client[0].name}`,
+			header: 'Client'
 		}),
 		table.column({
-			accessor: (item) => (item.otherNature ? item.otherNature : item.nature),
-			header: 'Nature of Service'
+			accessor: (item) => [...item.nature, ...(item.otherNature ?? [])].join(', '),
+			header: 'Nature'
 		}),
 		table.column({
 			accessor: (item) => item.currentStatus,
@@ -187,7 +187,7 @@
 							{#each row.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>
 									<Table.Cell {...attrs} class="[&:has([role=checkbox])]:pl-3">
-										{#if cell.id === 'title'}
+										{#if cell.id === 'client'}
 											<Button
 												class="text-left font-medium text-foreground"
 												variant="link"
