@@ -53,7 +53,8 @@ export const actions: Actions = {
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) return fail(400, { form });
 
-		const branch = await db.branches.findOne({ _id: event.locals.user.branch_id });
+		const lawyer = await db.users.findOne({ _id: form.data.lawyer_id });
+		const branch = await db.branches.findOne({ _id: lawyer?.branch_id });
 
 		if (form.data.nature.includes('Barangay Outreach') && !form.data.barangay)
 			return setError(form, 'barangay', 'Barangay is required.');
