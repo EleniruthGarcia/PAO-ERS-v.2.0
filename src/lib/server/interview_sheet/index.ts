@@ -143,7 +143,7 @@ async function addTextToPDF(data: any) {
 	const firstPage = pdfDoc.getPages()[0];
 
 	// Add text to the first page
-	firstPage.drawText(controlNo ?? 'N/A', {
+	firstPage.drawText(controlNo.split(':').splice(1).join(':') ?? 'N/A', {
 		x: 90,
 		y: 863,
 		size: 8,

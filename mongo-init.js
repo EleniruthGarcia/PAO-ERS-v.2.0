@@ -1,12 +1,12 @@
 db.branches.insertMany([
 	{
-		_id: 'car',
+		_id: 'CAR',
 		name: 'Regional Office - CAR',
 		district: 'Baguio City',
 		province: 'Benguet',
 		region: 'Cordillera Administrative Region',
 	}, {
-		_id: 'baguio',
+		_id: 'BAGUIO',
 		name: 'Baguio City District Office',
 		district: 'Baguio City',
 		province: 'Benguet',
