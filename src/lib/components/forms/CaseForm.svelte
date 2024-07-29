@@ -202,7 +202,9 @@
 										<Select.Content>
 											{#each $page.data.services as service}
 												<Select.Item value={service._id}>
-													[{service._id}] {service.title}
+													{service._id} - {[...service.nature, ...(service.otherNature ?? [])].join(
+														', '
+													)}
 												</Select.Item>
 											{/each}
 										</Select.Content>
@@ -373,7 +375,7 @@
 						</div>
 					</Card.Content>
 				</Card.Root>
-				<div class="items-center justify-center gap-2 hidden md:flex">
+				<div class="hidden items-center justify-center gap-2 md:flex">
 					<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 					<Form.Button type="submit" size="sm">Submit</Form.Button>
 				</div>

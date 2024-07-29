@@ -96,7 +96,7 @@
 	$: $formData.case_id &&
 		$formData.case_id?.length > 0 &&
 		(selectedCase = {
-			label: $page.data.cases.find((c: any) => c._id === ($formData.case_id ?? [])[0])?.name ?? '',
+			label: $page.data.cases.find((c: any) => c._id === $formData.case_id)?.titleOfTheCase ?? '',
 			value: $formData.case_id[0]
 		});
 
@@ -905,8 +905,8 @@
 											<Select.Value placeholder="" />
 										</Select.Trigger>
 										<Select.Content>
-											{#each $page.data.cases.filter((c) => !$formData.case_id.includes(c._id)) as _case}
-												<Select.Item bind:value={_case._id}>{_case.name}</Select.Item>
+											{#each $page.data.cases.filter((c) => $formData.case_id !== c._id) as _case}
+												<Select.Item bind:value={_case._id}>{_case.titleOfTheCase}</Select.Item>
 											{/each}
 										</Select.Content>
 									</Select.Root>

@@ -122,7 +122,7 @@ export const formSchema = z.object({
 	// title: z.string().min(1, 'Title is required.'),
 	client_id: z.array(z.string()).min(1, 'Client is required.'),
 	lawyer_id: z.string().min(1, 'Lawyer is required.'),
-	case_id: z.array(z.string()).optional(),
+	case_id: z.string().optional(),
 	limitedName: z.string(),
 	limitedSex: z.enum(sex),
 	limitedCases: z.array(z.string()),
