@@ -773,40 +773,29 @@
 							</Card.Description>
 						</Card.Header>
 						<Card.Content class="grid auto-rows-max items-start gap-3">
-							<div class="grid gap-3 sm:grid-cols-7">
-								<Form.Field {form} name="client_id" class="grid gap-3 sm:col-span-5">
-									<Form.Control let:attrs>
-										<Form.Label>Name <span class="font-bold text-destructive">*</span></Form.Label>
-										<Input {...attrs} bind:value={$formData.limitedName} />
-									</Form.Control>
-									<Form.FieldErrors />
-								</Form.Field>
-								<Form.Field {form} name="limitedSex" class="grid gap-3 sm:col-span-2">
-									<Form.Control let:attrs>
-										<Form.Label>
-											Sex <span class="font-bold text-destructive">*</span>
-										</Form.Label>
-										<Select.Root
-											selected={selectedSex}
-											onSelectedChange={(s) => {
-												s && ($formData.limitedSex = s.value);
-											}}
-										>
-											<Select.Input name={attrs.name} />
-											<Select.Trigger {...attrs}>
-												<Select.Value placeholder="" />
-											</Select.Trigger>
-											<Select.Content>
-												{#each sex as value}
-													<Select.Item {value} />
-												{/each}
-											</Select.Content>
-										</Select.Root>
-									</Form.Control>
-									<Form.FieldErrors />
-								</Form.Field>
-							</div>
-							<Form.Fieldset {form} name="case_id" class="grid gap-3">
+							<Form.Field {form} name="client_id" class="grid gap-3 sm:col-span-8">
+								<Form.Control let:attrs>
+									<Form.Label>Client <span class="font-bold text-destructive">*</span></Form.Label>
+									<Select.Root
+										selected={selectedClient[0]}
+										onSelectedChange={(s) => {
+											s && ($formData.client_id[0] = s.value);
+										}}
+									>
+										<Select.Input name="client_id" bind:value={$formData.client_id} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each $page.data.clients.filter((c) => !$formData.client_id.includes(c._id)) as client}
+												<Select.Item bind:value={client._id}>{client.name}</Select.Item>
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Fieldset {form} name="limitedCases" class="grid gap-3 sm:col-span-8">
 								<Form.Legend>
 									Cases <span class="font-bold text-destructive">*</span>
 								</Form.Legend>
@@ -844,7 +833,7 @@
 										</Form.Control>
 									</Form.ElementField>
 								{/each}
-								{#if $page.data.clients.length > $formData.client_id.length}
+								{#if $page.data.cases.length > $formData.limitedCases?.length}
 									<Button variant="outline" class="gap-2" on:click={addCase}>
 										<PlusCircled class="h-3.5 w-3.5" />
 										<span>Add Case</span>

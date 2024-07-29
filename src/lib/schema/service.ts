@@ -122,21 +122,21 @@ export const formSchema = z.object({
 	// title: z.string().min(1, 'Title is required.'),
 	client_id: z.array(z.string()).min(1, 'Client is required.'),
 	lawyer_id: z.string().min(1, 'Lawyer is required.'),
+	typeOfService: z.enum(typeOfService, {
+		required_error: 'Type of Service is required.'
+	}),
+	nature: z.array(z.enum(nature)).min(1, 'Nature of Service is required.'),
 	case_id: z.string().optional(),
 	limitedName: z.string(),
 	limitedSex: z.enum(sex),
 	limitedCases: z.array(z.string()),
-	interviewee_id: z.string().min(1, 'Interviewee is required.'),
+	interviewee_id: z.string(),
 	relationshipToClient: z.enum(relationshipToClient),
-	nature: z.array(z.enum(nature)).min(1, 'Nature of Service is required.'),
 	otherNature: z.array(z.enum(otherNature)).optional(),
 	// .union([z.enum(otherNature).optional(), z.string().optional()])
 	// .transform((e) => (e === '' ? undefined : e)),
 	typeOfAssistance: z.enum(typeOfAssistance).optional(),
 	typeOfRelease: z.enum(typeOfRelease).optional(),
-	typeOfService: z.enum(typeOfService, {
-		required_error: 'Type of Service is required.'
-	}),
 	currentStatus: z.enum(status),
 	barangay: z.string().optional(),
 	problemsPresented: z.string().optional(),
