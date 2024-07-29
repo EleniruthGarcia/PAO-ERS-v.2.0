@@ -158,39 +158,41 @@
 					</AlertDialog.Root>
 				</div>
 			</Card.Header>
-			<Card.Content class="p-6 text-sm">
-				<div class="grid gap-3">
-					<div class="font-semibold">Interviewee Information</div>
-					<ul class="grid gap-3">
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground">Interviewee</span>
-							<span>
-								<Button
-									variant="link"
-									class="m-0 h-auto p-0 text-foreground underline-offset-auto"
-									href="/clients/{data.service.interviewee._id}"
-								>
-									{data.service.interviewee.name ?? 'N/A'}
-								</Button>
-							</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground">Relationship to Client</span>
-							<span>{data.service.relationshipToClient ?? 'N/A'}</span>
-						</li>
-					</ul>
-				</div>
-				<Separator class="my-4" />
-				<div class="grid gap-3">
-					<div class="font-semibold">Lawyer Information</div>
-					<ul class="grid gap-3">
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground">Lawyer</span>
-							<span>{data.service.lawyer.name ?? 'N/A'}</span>
-						</li>
-					</ul>
-				</div>
-			</Card.Content>
+			{#if data.service.interviewee_id}
+				<Card.Content class="p-6 text-sm">
+					<div class="grid gap-3">
+						<div class="font-semibold">Interviewee Information</div>
+						<ul class="grid gap-3">
+							<li class="flex items-center justify-between gap-2 truncate">
+								<span class="text-muted-foreground">Interviewee</span>
+								<span>
+									<Button
+										variant="link"
+										class="m-0 h-auto p-0 text-foreground underline-offset-auto"
+										href="/clients/{data.service.interviewee._id}"
+									>
+										{data.service.interviewee.name ?? 'N/A'}
+									</Button>
+								</span>
+							</li>
+							<li class="flex items-center justify-between gap-2 truncate">
+								<span class="text-muted-foreground">Relationship to Client</span>
+								<span>{data.service.relationshipToClient ?? 'N/A'}</span>
+							</li>
+						</ul>
+					</div>
+					<Separator class="my-4" />
+					<div class="grid gap-3">
+						<div class="font-semibold">Lawyer Information</div>
+						<ul class="grid gap-3">
+							<li class="flex items-center justify-between gap-2 truncate">
+								<span class="text-muted-foreground">Lawyer</span>
+								<span>{data.service.lawyer.name ?? 'N/A'}</span>
+							</li>
+						</ul>
+					</div>
+				</Card.Content>
+			{/if}
 			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
 					Updated <time>
