@@ -476,9 +476,9 @@
 							<Form.Field {form} name="mediationDates" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Mediation Dates</Form.Label>
-									{#each $formData.mediationDate ?? [] as _, i}
+									{#each $formData.mediationDates ?? [] as _, i}
 										<div class="flex gap-2">
-											<DatePicker />
+											<Date {form} name="mediationDates[{i}]" />
 											<Button
 												variant="destructive"
 												class="gap-2"
@@ -500,7 +500,7 @@
 									<Form.Label
 										>Settlement Date <span class="font-bold text-destructive">*</span></Form.Label
 									>
-									<DatePicker bind:value={$proxySettlementDate} />
+									<Date {form} name="settlementDate" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>

@@ -167,6 +167,7 @@ const normal = z.object({
 	terminationMediaCon: z.enum(terminationMediaCon),
 	additionalNotes: z.string().optional(),
 	settlementDate: z.date().optional(),
+	mediationDates: z.array(z.date()).optional(),
 });
 
 const outreach = z.object({
