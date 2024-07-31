@@ -15,14 +15,7 @@
 		otherNature,
 		limitedCases
 	} from '$lib/schema/service';
-	import {
-		type SuperValidated,
-		type Infer,
-		superForm,
-		dateProxy,
-		arrayProxy,
-		intProxy
-	} from 'sveltekit-superforms';
+	import { type SuperValidated, type Infer, superForm, dateProxy } from 'sveltekit-superforms';
 
 	import {
 		ChevronLeft,
@@ -42,7 +35,7 @@
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import DatePicker from '$lib/components/DatePicker.svelte';
 	import * as Form from '$lib/components/ui/form';
-	import { Input } from '$lib/components/ui/input';
+	import { Input, Number, Date } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
 	import { Separator } from '$lib/components/ui/separator';
 	import * as RadioGroup from '$lib/components/ui/radio-group';
@@ -60,6 +53,10 @@
 	});
 
 	const { form: formData, enhance, delayed, allErrors } = form;
+
+	$: $formData.nature.includes('Barangay Outreach')
+		? ($formData.nature = ['Barangay Outreach']) && ($formData.discriminator = 'outreach')
+		: ($formData.discriminator = 'normal');
 
 	$: for (const error of $allErrors) {
 		toast.error(`Error on '${error.path}', ${error.messages.join(', ')}.`);
@@ -698,11 +695,7 @@
 													<Form.Label>
 														Age <span class="font-bold text-destructive">*</span>
 													</Form.Label>
-													<Input
-														{...attrs}
-														type="string"
-														bind:value={$formData.beneficiary[i].age}
-													/>
+													<Number {...attrs} {form} name="beneficiary[{i}].age" />
 												</Form.Control>
 												<Form.FieldErrors />
 											</Form.Field>
