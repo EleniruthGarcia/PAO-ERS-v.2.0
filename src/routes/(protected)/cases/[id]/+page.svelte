@@ -64,9 +64,9 @@
 					>
 						Edit
 					</Button>
-					<!-- <Button size="sm" class="h-7 gap-1 text-sm" href="/cases/{data._case._id}/export"
+					<Button size="sm" class="h-7 gap-1 text-sm" href="/cases/{data._case._id}/export"
 						>Export</Button
-					> -->
+					>
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
 							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm">
@@ -113,7 +113,7 @@
 							</DropdownMenu.Trigger>
 							<DropdownMenu.Content align="end">
 								<DropdownMenu.Item href="/cases/{data._case._id}/edit">Edit</DropdownMenu.Item>
-								<!-- <DropdownMenu.Item href="/cases/{_case._id}/export">Export</DropdownMenu.Item> -->
+								<DropdownMenu.Item href="/cases/{data._case._id}/export">Export</DropdownMenu.Item>
 								<DropdownMenu.Separator />
 								<AlertDialog.Trigger class="w-full">
 									<DropdownMenu.Item>Delete</DropdownMenu.Item>

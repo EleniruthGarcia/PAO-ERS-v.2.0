@@ -13,32 +13,11 @@ export const GET: ServiceHandler = async (event) => {
 		);
 	}
 
-	const branch = await db.branches.findOne({ _id: event.locals.user.branch_id });
-	const client = await db.clients
-		.aggregate([
-			{
-				$match: { _id: event.params.id }
-			},
-			{
-				$addFields: {
-					// age: { $dateDiff: { startDate: '$dateOfBirth', endDate: '$$NOW', unit: 'year' } },
-					detainedSince: {
-						$dateToString: {
-							date: '$detainedSince',
-							format: '%B %d, %Y',
-							timezone: '+08:00',
-							onNull: 'N/A'
-						}
-					}
-				}
-			}
-		])
-		.next();
-
-	const services = await db.services.find({ client_id: event.params.id }).toArray();
-
 	let data = await db.services
 		.aggregate([
+			{
+				$match: { '_id': event.params.id }
+			},
 			{
 				$lookup: {
 					from: 'clients',
@@ -49,9 +28,6 @@ export const GET: ServiceHandler = async (event) => {
 			},
 			{
 				$unwind: '$client'
-			},
-			{
-				$match: { 'client._id': event.params.id }
 			},
 			{
 				$lookup: {
@@ -217,87 +193,7 @@ export const GET: ServiceHandler = async (event) => {
 		.toArray();
 
 	if (!data) {
-		redirect('/clients', { type: 'warning', message: 'Client not found!' }, event);
-	}
-
-	if (data.length === 0) {
-		if (!branch || !client) {
-			redirect('/clients', { type: 'warning', message: 'Client not found!' }, event);
-		}
-
-		data = [
-			{
-				// monthYear: `${form.data.month}, ${form.data.year}`,
-				region: branch.region,
-				districtProvince: `${branch.district}, ${branch.province}`,
-				district: branch.district,
-				province: branch.province,
-				controlNo: '',
-				religion: client?.religion || 'N/A',
-				citizenship: client?.citizenship || 'N/A',
-				name: client?.name,
-				age: client?.age,
-				address: client?.address,
-				email: client?.email || '',
-				individualMonthlyIncome: client?.individualMonthlyIncome?.toString() || 'N/A',
-				detainedSince: client?.detainedSince,
-				civilStatus: client?.civilStatus || 'N/A',
-				sex: client?.sex,
-				educationalAttainment: client?.educationalAttainment,
-				languageDialect: client.language || 'N/A',
-				contactNo: client?.contactNumber || 'N/A',
-				spouse: client?.spouseName || '',
-				addressOfSpouse: client?.spouseAdress || '',
-				spouseContactNo: client?.spouseContactNumber || '',
-				placeOfDetention: client?.detainedAt,
-				proofOfIndigency: client?.proofOfIndigency || [],
-				clientClasses: client?.classification || [],
-				lawEnforcer: client?.lawEnforcer,
-				foreignNational: client?.foreignNational,
-				pwd: client?.pwd,
-				indigenousPeople: client?.indigenousPeople,
-				urbanPoor: client?.urbanPoor,
-				ruralPoor: client?.ruralPoor,
-				PDLStatus: client?.detained,
-				intervieweeName: '',
-				intervieweeAddress: '',
-				intervieweeAge: '',
-				intervieweeSex: '',
-				intervieweeCivilStatus: '',
-				intervieweeContactNo: '',
-				intervieweeEmail: '',
-				relationshipToClient: '',
-				natureOfService: '',
-				otherNature: '',
-				natureOfTheCase: '',
-				caseSpecs: '',
-				factsOfTheCase: '',
-				causeOfActionOrNatureOfOffence: '',
-				clientInvolvement: '',
-				adversePartyInvolvement: '',
-				adversePartyName: '',
-				adversePartyAddress: '',
-				natureOfOffence: '',
-				courtPendingStatus: '',
-				titleOfCaseDocketNum: '',
-				court: '',
-				pendingInCourt: ''
-			}
-		];
-
-		const interviewSheet = await generateInterviewSheet(data);
-
-		return new Response(interviewSheet.blob, {
-			headers: {
-				'Content-Type': interviewSheet.type,
-				'Content-Disposition': `attachment; filename*=UTF-8''${encodeURIComponent(
-					interviewSheet.name
-				)
-					.replace(/['()]/g, escape)
-					.replace(/\*/g, '%2A')
-					.replace(/%(?:7C|60|5E)/g, unescape)}`
-			}
-		});
+		redirect('/services', { type: 'warning', message: 'Service not found!' }, event);
 	}
 
 	const interviewSheet = await generateInterviewSheet(data);

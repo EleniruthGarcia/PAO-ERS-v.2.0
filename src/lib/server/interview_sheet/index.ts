@@ -9,17 +9,17 @@ export const generateInterviewSheet = async (data: any) => {
 		const zip = new JSZip();
 
 		for (const item of data)
-			zip.file(`Interview Sheet_${item.controlNo}.pdf`, await addTextToPDF(item));
+			zip.file(`Interview Sheet_${item.name}.pdf`, await addTextToPDF(item));
 
 		return {
-			name: `Interview Sheet_${data[0].name}.zip`,
+			name: `Interview Sheet_${data[0].controlNo}.zip`,
 			blob: await zip.generateAsync({ type: 'blob' }),
 			type: 'application/zip'
 		};
 	}
 
 	return {
-		name: `Interview Sheet_${data[0].name}.pdf`,
+		name: `Interview Sheet_${data[0].controlNo}.pdf`,
 		blob: new Blob([await addTextToPDF(data[0])], { type: 'application/pdf' }),
 		type: 'application/pdf'
 	};

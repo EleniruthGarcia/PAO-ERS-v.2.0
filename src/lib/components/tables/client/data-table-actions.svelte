@@ -18,7 +18,7 @@
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content align="end">
 			<DropdownMenu.Item href="/clients/{id}/edit">Edit</DropdownMenu.Item>
-			<DropdownMenu.Item href="/clients/{id}/export">Export</DropdownMenu.Item>
+			<!-- <DropdownMenu.Item href="/clients/{id}/export">Export</DropdownMenu.Item> -->
 			<DropdownMenu.Separator />
 			<AlertDialog.Trigger class="w-full">
 				<DropdownMenu.Item>{status === 'Archived' ? 'Restore' : 'Delete'}</DropdownMenu.Item>

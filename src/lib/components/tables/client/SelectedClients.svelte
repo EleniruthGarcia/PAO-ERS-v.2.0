@@ -78,7 +78,7 @@
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Content align="end">
 						<DropdownMenu.Item href="/clients/{client._id}/edit">Edit</DropdownMenu.Item>
-						<DropdownMenu.Item href="/clients/{client._id}/export">Export</DropdownMenu.Item>
+						<!-- <DropdownMenu.Item href="/clients/{client._id}/export">Export</DropdownMenu.Item> -->
 						<DropdownMenu.Separator />
 						<AlertDialog.Trigger class="w-full">
 							<DropdownMenu.Item>Delete</DropdownMenu.Item>
