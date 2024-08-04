@@ -213,39 +213,75 @@
 				</div>
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
-				{#each data.client as client, i}
-					<div class="grid gap-3">
-						<ul class="grid gap-3">
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground">Name</span>
-								<span>
-									<Button
-										variant="link"
-										class="m-0 h-auto p-0 text-foreground underline-offset-auto"
-										href="/clients/{client._id}"
-									>
-										{client.name ?? 'N/A'}
-									</Button>
-								</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground">Age</span>
-								<span>{client.age ?? 'N/A'}</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground">Sex</span>
-								<span>{client.sex ?? 'N/A'}</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground">Civil Status</span>
-								<span>{client.civilStatus ?? 'N/A'}</span>
-							</li>
-						</ul>
-					</div>
-					{#if data.client.length - 1 !== i}
-						<Separator class="my-4" />
-					{/if}
-				{/each}
+				{#if data.client.length > 0}
+					{#each data.client as client, i}
+						<div class="grid gap-3">
+							<ul class="grid gap-3">
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Name</span>
+									<span>
+										<Button
+											variant="link"
+											class="m-0 h-auto p-0 text-foreground underline-offset-auto"
+											href="/clients/{client._id}"
+										>
+											{client.name ?? 'N/A'}
+										</Button>
+									</span>
+								</li>
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Age</span>
+									<span>{client.age ?? 'N/A'}</span>
+								</li>
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Sex</span>
+									<span>{client.sex ?? 'N/A'}</span>
+								</li>
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Civil Status</span>
+									<span>{client.civilStatus ?? 'N/A'}</span>
+								</li>
+							</ul>
+						</div>
+						{#if data.client.length - 1 !== i}
+							<Separator class="my-4" />
+						{/if}
+					{/each}
+				{:else}
+					{#each data.service.beneficiary as client, i}
+						<div class="grid gap-3">
+							<ul class="grid gap-3">
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Name</span>
+									<span>
+										<Button
+											variant="link"
+											class="m-0 h-auto p-0 text-foreground underline-offset-auto"
+											href="/clients/{client._id}"
+										>
+											{client.name ?? 'N/A'}
+										</Button>
+									</span>
+								</li>
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Age</span>
+									<span>{client.age ?? 'N/A'}</span>
+								</li>
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Sex</span>
+									<span>{client.sex ?? 'N/A'}</span>
+								</li>
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Ethnicity</span>
+									<span>{client.ethnicity ?? 'N/A'}</span>
+								</li>
+							</ul>
+						</div>
+						{#if data.client.length - 1 !== i}
+							<Separator class="my-4" />
+						{/if}
+					{/each}
+				{/if}
 			</Card.Content>
 			<!-- <Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
