@@ -35,7 +35,7 @@
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import DatePicker from '$lib/components/DatePicker.svelte';
 	import * as Form from '$lib/components/ui/form';
-	import { Input, Number, Date } from '$lib/components/ui/input';
+	import { Input, Number, Date as DateInput } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
 	import { Separator } from '$lib/components/ui/separator';
 	import * as RadioGroup from '$lib/components/ui/radio-group';
@@ -222,11 +222,11 @@
 	}
 
 	function addMedDate() {
-		$formData.mediationDate = [...$formData.mediationDate, ''];
+		$formData.mediationDates = [...($formData.mediationDates ?? []), null];
 	}
 
 	function removeMedDateByIndex(index: number) {
-		$formData.mediationDate = $formData.mediationDate?.filter((_, i) => i !== index);
+		$formData.mediationDates = $formData.mediationDates?.filter((_, i) => i !== index);
 	}
 
 	function removeNatureByIndex(index: number) {
@@ -478,7 +478,7 @@
 									<Form.Label>Mediation Dates</Form.Label>
 									{#each $formData.mediationDates ?? [] as _, i}
 										<div class="flex gap-2">
-											<Date {form} name="mediationDates[{i}]" />
+											<DateInput {form} name="mediationDates[{i}]" />
 											<Button
 												variant="destructive"
 												class="gap-2"
@@ -500,7 +500,7 @@
 									<Form.Label
 										>Settlement Date <span class="font-bold text-destructive">*</span></Form.Label
 									>
-									<Date {form} name="settlementDate" />
+									<DateInput {form} name="settlementDate" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>

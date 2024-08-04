@@ -160,7 +160,7 @@
 					</AlertDialog.Root>
 				</div>
 			</Card.Header>
-			{#if data.service.interviewee_id}
+			{#if data.service.interviewee}
 				<Card.Content class="p-6 text-sm">
 					<div class="grid gap-3">
 						<div class="font-semibold">Interviewee Information</div>

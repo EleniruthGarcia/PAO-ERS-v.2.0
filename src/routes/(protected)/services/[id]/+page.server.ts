@@ -67,13 +67,7 @@ export const load: PageServerLoad = async (event) => {
 		.next();
 	if (!service) redirect('/services', { type: 'warning', message: 'Service not found!' }, event);
 
-	const client = service.client_id > 0 ? await db.clients
-		.aggregate([
-			{
-				$match: { _id: { $in: service.client_id } }
-			}
-		])
-		.toArray() : [];
+	const client = service.client;
 
 	return {
 		breadcrumbs: [
@@ -81,7 +75,7 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/services', text: 'Services' },
 			{
 				href: '/services/' + event.params.id,
-				text: service.nature.includes('Barangay Outreach') ? `${service.baranagy} - ${service.problemsPresented}` : `${[...service.nature, ...(service.otherNature ?? [])].join(', ')} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
+				text: service.nature.includes('Barangay Outreach') ? `${service.barangay} - ${service.problemsPresented}` : `${[...service.nature, ...(service.otherNature ?? [])].join(', ')} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
 			}
 		],
 		client,

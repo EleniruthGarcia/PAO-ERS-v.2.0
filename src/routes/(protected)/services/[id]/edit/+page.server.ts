@@ -19,9 +19,7 @@ export const load: PageServerLoad = async (event) => {
 	const service = await db.services.findOne({ _id: event.params.id });
 	if (!service) redirect('/services', { type: 'warning', message: 'Service not found!' }, event);
 
-	const client = await db.clients.find({ _id: { $in: service.client_id } }).toArray();
-	if (!client || client.length === 0)
-		redirect('/services', { type: 'warning', message: 'Client not found!' }, event);
+	const client = service.client_id?.map((id) => db.clients.findOne({ _id: id }));
 
 	return {
 		breadcrumbs: [
@@ -29,7 +27,7 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/services', text: 'Services' },
 			{
 				href: '/services/' + event.params.id,
-				text: `${service.otherNature || service.nature} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et. al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
+				text: service.nature.includes('Barangay Outreach') ? `${service.barangay} - ${service.problemsPresented}` : `${[...service.nature, ...(service.otherNature ?? [])].join(', ')} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
 			},
 			{ href: '/services/' + event.params.id + '/edit', text: `Edit` }
 		],
