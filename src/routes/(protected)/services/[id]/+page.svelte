@@ -26,11 +26,13 @@
 							class="p-0 text-lg text-foreground"
 							href="/services/{data.service._id}"
 						>
-							{data.client.length > 1
-								? data.client.length > 2
-									? `${data.client[0].lastName} et al.`
-									: `${data.client[0].lastName} and ${data.client[1].lastName}`
-								: data.client[0].name}
+							{data.service.nature.includes('Barangay Outreach')
+								? `${data.service.barangay} - ${data.service.problemsPresented}`
+								: data.client.length > 1
+									? data.client.length > 2
+										? `${data.client[0].lastName} et al.`
+										: `${data.client[0].lastName} and ${data.client[1].lastName}`
+									: data.client[0].name}
 						</Button>
 						<Button
 							size="icon"
