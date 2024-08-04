@@ -267,7 +267,7 @@
 			<div>
 				<div class="mb-3 font-semibold">Classifications</div>
 				{#each client.classification as classification}
-					<Badge class="mr-1">{classification}</Badge>
+					<Badge class="m-1">{classification}</Badge>
 				{/each}
 			</div>
 		{/if}

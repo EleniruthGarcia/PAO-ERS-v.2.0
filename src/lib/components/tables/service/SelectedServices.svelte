@@ -26,7 +26,7 @@
 		<div class="grid gap-0.5">
 			<Card.Title class="group flex items-center gap-2 text-lg">
 				<Button variant="link" class="p-0 text-lg text-foreground" href="/services/{service._id}">
-					{`${service.nature.includes('Barangay Outreach') ? `${service.barangay} - ${service.problemsPresented}` : service.client.length > 1 ? (service.client.length > 2 ? `${service.client[0].lastName} et al.` : `${service.client[0].lastName} and ${service.client[1].lastName}`) : service.client[0].name}`}
+					{`${service.nature.includes('Barangay Outreach') ? service.barangay : service.client.length > 1 ? (service.client.length > 2 ? `${service.client[0].lastName} et al.` : `${service.client[0].lastName} and ${service.client[1].lastName}`) : service.client[0].name}`}
 				</Button>
 				{#if $selectedServices.length > 1}
 					<Button

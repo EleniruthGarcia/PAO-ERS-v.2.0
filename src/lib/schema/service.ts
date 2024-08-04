@@ -77,6 +77,7 @@ export const status = [
 
 export const natureOfInstrument = [
 	'Affidavit of Indigency',
+	'Affidavit of Loss (General)',
 	'BENECO Waiver',
 	'Cohabitation (PDL)',
 	'Cohabitation',
@@ -86,7 +87,6 @@ export const natureOfInstrument = [
 	'Delayed Registration of Birth',
 	"Detainee's Manifestation",
 	'Legitimation',
-	'Loss (General)',
 	'Low Income (Both Parents)',
 	'Low Income (Single Parent/Widow/Guardian',
 	'No Pending Case',

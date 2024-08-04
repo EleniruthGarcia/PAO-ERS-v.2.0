@@ -561,7 +561,7 @@
 							<Form.Field {form} name="barangay" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label
-										>Barangay<span class="font-bold text-destructive"> * </span></Form.Label
+										>Barangay <span class="font-bold text-destructive">*</span></Form.Label
 									>
 									<Input {...attrs} name={attrs.name} bind:value={$formData.barangay} />
 								</Form.Control>
@@ -570,22 +570,22 @@
 							<Form.Field {form} name="problemsPresented" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label
-										>Problems Presented<span class="font-bold text-destructive">
+										>Problems Presented <span class="font-bold text-destructive">
 											*
 										</span></Form.Label
 									>
-									<Input {...attrs} name={attrs.name} bind:value={$formData.problemsPresented} />
+									<Textarea {...attrs} bind:value={$formData.problemsPresented} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="activitiesUndertaken" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label
-										>Activities Undertaken<span class="font-bold text-destructive">
+										>Activities Undertaken <span class="font-bold text-destructive">
 											*
 										</span></Form.Label
 									>
-									<Input {...attrs} name={attrs.name} bind:value={$formData.activitiesUndertaken} />
+									<Textarea {...attrs} bind:value={$formData.activitiesUndertaken} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
