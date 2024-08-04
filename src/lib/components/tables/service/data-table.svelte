@@ -20,9 +20,8 @@
 	import * as Table from '$lib/components/ui/table';
 	import { Input } from '$lib/components/ui/input';
 	import { getContext, onDestroy, onMount } from 'svelte';
-	import type { ServiceWithJoins } from '$lib/schema';
 
-	export let data: ServiceWithJoins[];
+	export let data: any[];
 
 	const table = createTable(readable(data), {
 		page: addPagination(),
@@ -61,7 +60,7 @@
 		table.column({
 			id: 'client',
 			accessor: (item) =>
-				`${item.client.length > 1 ? (item.client.length > 2 ? `${item.client[0].lastName} et al.` : `${item.client[0].lastName} and ${item.client[1].lastName}`) : item.client[0].name}`,
+				`${item.nature.includes('Barangay Outreach') ? `${item.barangay} - ${item.problemsPresented}` : item.client.length > 1 ? (item.client.length > 2 ? `${item.client[0].lastName} et al.` : `${item.client[0].lastName} and ${item.client[1].lastName}`) : item.client[0].name}`,
 			header: 'Client'
 		}),
 		table.column({

@@ -26,7 +26,7 @@
 		<div class="grid gap-0.5">
 			<Card.Title class="group flex items-center gap-2 text-lg">
 				<Button variant="link" class="p-0 text-lg text-foreground" href="/services/{service._id}">
-					{service.title}
+					{`${service.nature.includes('Barangay Outreach') ? `${service.barangay} - ${service.problemsPresented}` : service.client.length > 1 ? (service.client.length > 2 ? `${service.client[0].lastName} et al.` : `${service.client[0].lastName} and ${service.client[1].lastName}`) : service.client[0].name}`}
 				</Button>
 				{#if $selectedServices.length > 1}
 					<Button
@@ -108,32 +108,34 @@
 		</div>
 	</Card.Header>
 	<Card.Content class="p-6 text-sm">
-		<div class="grid gap-3">
-			<div class="font-semibold">Client Information</div>
-			<ul class="grid gap-3">
-				{#each service.client as client}
+		{#if service.client.length > 0 && service.interviewee != null}
+			<div class="grid gap-3">
+				<div class="font-semibold">Client Information</div>
+				<ul class="grid gap-3">
+					{#each service.client as client}
+						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground">Client</span>
+							<span>{client.name}</span>
+						</li>
+					{/each}
+				</ul>
+			</div>
+			<Separator class="my-4" />
+			<div class="grid gap-3">
+				<div class="font-semibold">Interviewee Information</div>
+				<ul class="grid gap-3">
 					<li class="flex items-center justify-between gap-2 truncate">
-						<span class="text-muted-foreground">Client</span>
-						<span>{client.name}</span>
+						<span class="text-muted-foreground">Interviewee</span>
+						<span>{service.interviewee.name}</span>
 					</li>
-				{/each}
-			</ul>
-		</div>
-		<Separator class="my-4" />
-		<div class="grid gap-3">
-			<div class="font-semibold">Interviewee Information</div>
-			<ul class="grid gap-3">
-				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground">Interviewee</span>
-					<span>{service.interviewee.name}</span>
-				</li>
-				<li class="flex items-center justify-between gap-2 truncate">
-					<span class="text-muted-foreground">Relationship to Client</span>
-					<span>{service.relationshipToClient}</span>
-				</li>
-			</ul>
-		</div>
-		<Separator class="my-4" />
+					<li class="flex items-center justify-between gap-2 truncate">
+						<span class="text-muted-foreground">Relationship to Client</span>
+						<span>{service.relationshipToClient}</span>
+					</li>
+				</ul>
+			</div>
+			<Separator class="my-4" />
+		{/if}
 		<div class="grid gap-3">
 			<div class="font-semibold">Lawyer Information</div>
 			<ul class="grid gap-3">
