@@ -117,17 +117,15 @@ export const limitedCases = [
 
 export const sex = ['Male', 'Female'] as const;
 
-const base = z.object({
-	_id: z.string(),
-	discriminator: z.enum(['normal', 'outreach']).default('normal'),
+export const formSchema = z.object({
+	// base
+	_id: z.string().min(1, 'ID is required.'),
 	lawyer_id: z.string().min(1, 'Lawyer is required.'),
 	typeOfService: z.enum(typeOfService, {
 		required_error: 'Type of Service is required.'
 	}),
 	nature: z.array(z.enum(nature)).min(1, 'Nature of Service is required.'),
 	otherNature: z.array(z.enum(otherNature)).optional(),
-	// .union([z.enum(otherNature).optional(), z.string().optional()])
-	// .transform((e) => (e === '' ? undefined : e)),
 	currentStatus: z.enum(status, {
 		required_error: 'Status is required.'
 	}),
@@ -138,56 +136,246 @@ const base = z.object({
 		}),
 		{ required_error: 'Status is required.' }
 	),
-});
 
-const normal = z.object({
-	// title: z.string().min(1, 'Title is required.'),
-	discriminator: z.literal('normal'),
-	client_id: z.array(z.string()).min(1, 'Client is required.'),
-	interviewee_id: z.string().min(1, 'Interviewee is required.'),
-	relationshipToClient: z.enum(relationshipToClient, {
-		required_error: 'Relationship to Client is required.',
-	}),
-	case_id: z.string().optional(),
-	typeOfAssistance: z.enum(typeOfAssistance).optional(),
-	typeOfRelease: z.enum(typeOfRelease).optional(),
-	dateOfVisit: z
-		.date()
-		.or(z.literal(''))
-		.transform((e) => (e === '' ? undefined : e))
-		.optional(),
-	recommendation: z.string().optional(),
-	limitedName: z.string(),
-	limitedSex: z.enum(sex),
-	limitedCases: z.array(z.string()),
-	natureOfInstrument: z.array(z.enum(natureOfInstrument)),
+	// common to all services except limited services and barangay outreach 
+	client_id: z.array(z.string()).optional(),
+
+	// common to all services except barangay outreach, jail visitation release, and limited services
+	interviewee_id: z.string().optional(),
+	relationshipToClient: z.enum(relationshipToClient).default('' as unknown as 'Self').optional(),
+	// adminisration of oath
+	natureOfInstrument: z.array(z.enum(natureOfInstrument).default('' as unknown as 'Affidavit of Indigency')).optional(),
 	witness: z.string().optional(),
-	duringOffice: z.boolean().default(false),
-	legalAdviceMode: z.enum(legalAdviceMode),
-	terminationMediaCon: z.enum(terminationMediaCon),
-	additionalNotes: z.string().optional(),
-	settlementDate: z.date().optional(),
-	mediationDates: z.array(z.date()).optional(),
-});
 
-const outreach = z.object({
-	discriminator: z.literal('outreach'),
-	barangay: z.string().min(1, 'Barangay is required.'),
-	problemsPresented: z.string().min(1, 'Problems Presented is required.'),
-	activitiesUndertaken: z.string().min(1, 'Activities Undertaken is required.'),
+	// barangay outreach
+	barangay: z.string().optional(),
+	problemsPresented: z.string().optional(),
+	activitiesUndertaken: z.string().optional(),
 	beneficiary: z.array(
 		z.object({
 			name: z.string(),
 			address: z.string(),
-			sex: z.enum(sex),
-			age: z.number().int(),
+			sex: z.enum(sex).default('' as unknown as 'Male'),
+			age: z.number().int().default('' as unknown as 0),
 			ethnicity: z.string()
-		}),
-		{ required_error: 'Beneficiary is required.' }
-	),
+		})
+	).optional(),
+
+	// inquest legal assistance
+	typeOfAssistance: z.enum(typeOfAssistance).default('' as 'Assisted during Custodial Interrogation').optional(),
+	duringOffice: z.boolean().default(false).optional(),
+
+	// common to jail visitation release and representation in court or quasi-judicial bodies
+	case_id: z.string().optional(),
+
+	// jail visitation release
+	dateOfVisit: z.date().optional(),
+	typeOfRelease: z.enum(typeOfRelease).default('' as unknown as 'Acquitted (After trial)').optional(),
+	recommendation: z.string().optional(),
+
+	// limited services
+	limitedName: z.string().optional(),
+	limitedCases: z.array(z.string()).optional(),
+
+	// common to legal advice and mediation or conciliation
+	additionalNotes: z.string().optional(),
+
+	// legal advice
+	legalAdviceMode: z.enum(legalAdviceMode).default('' as unknown as 'In person/walk-in').optional(),
+
+	// mediation or conciliation
+	settlementDate: z.date().optional(),
+	mediationDates: z.array(z.date()).optional(),
+	terminationMediaCon: z.enum(terminationMediaCon).default('' as unknown as 'Disputes settled (compromised agreement)').optional(),
+
+	// representation in court or quasi-judicial bodies
+	hearingDates: z.array(z.date()).optional(),
+}).superRefine((data, ctx) => {
+	if (!data.nature.includes('Barangay Outreach') && !data.nature.includes('Limited Services')) {
+		if (!data.client_id || data.client_id.length < 1)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Client is required.',
+				path: ['client_id']
+			});
+
+		if (!data.nature.includes('Jail Visitation Release')) {
+			if (!data.interviewee_id || data.interviewee_id.length < 1)
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message: 'Interviewee is required.',
+					path: ['interviewee_id']
+				});
+
+			if (!data.relationshipToClient)
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message: 'Relationship to Client is required.',
+					path: ['relationshipToClient']
+				});
+		}
+	}
+
+	if (data.nature.includes('Administration of Oath')) {
+		if (!data.natureOfInstrument || data.natureOfInstrument.length < 1)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Nature of Instrument is required.',
+				path: ['natureOfInstrument']
+			});
+	}
+
+	if (data.nature.includes('Barangay Outreach')) {
+		if (data.nature.length > 1)
+			ctx.addIssue({
+				code: z.ZodIssueCode.too_big,
+				maximum: 1,
+				type: 'array',
+				inclusive: true,
+				message: 'Barangay Outreach cannot be combined with other natures of service.',
+				exact: true,
+				path: ['nature']
+			});
+
+		if (!data.beneficiary || data.beneficiary.length < 1)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Beneficiary is required.',
+				path: ['beneficiary']
+			});
+
+		if (!data.problemsPresented)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Problems Presented is required.',
+				path: ['problemsPresented']
+			});
+
+		if (!data.activitiesUndertaken)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Activities Undertaken is required.',
+				path: ['activitiesUndertaken']
+			});
+
+		if (!data.barangay)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Barangay is required.',
+				path: ['barangay']
+			});
+	}
+
+	if (data.nature.includes('Inquest Legal Assistance')) {
+		if (!data.typeOfAssistance)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Type of Assistance is required.',
+				path: ['typeOfAssistance']
+			});
+
+		if (data.duringOffice === undefined)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'During Office is required.',
+				path: ['duringOffice']
+			});
+	}
+
+	if (data.nature.includes('Jail Visitation Release') || data.nature.includes('Representation in Court or Quasi-Judicial Bodies')) {
+		if (!data.case_id)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Case is required.',
+				path: ['case_id']
+			});
+
+		if (data.nature.includes('Jail Visitation Release')) {
+			if (!data.dateOfVisit)
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message: 'Date of Visit is required.',
+					path: ['dateOfVisit']
+				});
+
+			if (!data.typeOfRelease)
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message: 'Type of Release is required.',
+					path: ['typeOfRelease']
+				});
+		}
+	}
+
+	if (data.nature.includes('Limited Services')) {
+		if (data.nature.length > 1)
+			ctx.addIssue({
+				code: z.ZodIssueCode.too_big,
+				maximum: 1,
+				type: 'array',
+				inclusive: true,
+				message: 'Limited Services cannot be combined with other natures of service.',
+				exact: true,
+			});
+
+		if (!data.limitedCases || data.limitedCases.length < 1)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Case is required.',
+				path: ['limitedCases']
+			});
+
+		if (!data.limitedName)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Name is required.',
+				path: ['limitedName']
+			});
+
+	}
+
+	if (data.nature.includes('Legal Advice')) {
+		if (!data.legalAdviceMode)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Legal Advice Mode is required.',
+				path: ['legalAdviceMode']
+			});
+	}
+
+	if (data.nature.includes('Mediation or Conciliation')) {
+		if (!data.settlementDate)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Settlement Date is required.',
+				path: ['settlementDate']
+			});
+
+		if (!data.mediationDates || data.mediationDates.length < 1)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Mediation Dates is required.',
+				path: ['mediationDates']
+			});
+
+		if (!data.terminationMediaCon)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Termination Media/Con is required.',
+				path: ['terminationMediaCon']
+			});
+	}
+
+	if (data.nature.includes('Representation in Court or Quasi-Judicial Bodies')) {
+		if (!data.hearingDates || data.hearingDates.length < 1)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Hearing Dates is required.',
+				path: ['hearingDates']
+			});
+	}
 });
 
-export const formSchema = z.discriminatedUnion('discriminator', [normal, outreach]).and(base);
 
 export type FormSchema = typeof formSchema;
 export type Service = z.infer<typeof formSchema>;

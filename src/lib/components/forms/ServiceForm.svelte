@@ -54,10 +54,6 @@
 
 	const { form: formData, enhance, delayed, allErrors } = form;
 
-	$: $formData.nature.includes('Barangay Outreach')
-		? ($formData.nature = ['Barangay Outreach']) && ($formData.discriminator = 'outreach')
-		: ($formData.discriminator = 'normal');
-
 	$: for (const error of $allErrors) {
 		toast.error(`Error on '${error.path}', ${error.messages.join(', ')}.`);
 	}
@@ -78,11 +74,12 @@
 	});
 
 	let selectedClient: { label: string; value: string }[] = [];
-	$: $formData.client_id.forEach((_, i) => {
+	$: $formData.client_id?.forEach((_, i) => {
 		selectedClient[i] = {
 			label:
-				$page.data.clients.find((client: any) => client._id === $formData.client_id[i])?.name ?? '',
-			value: $formData.client_id[i]
+				$page.data.clients.find((client: any) => client._id === ($formData.client_id ?? [])[i])
+					?.name ?? '',
+			value: ($formData.client_id ?? [])[i] ?? ''
 		};
 	});
 
@@ -100,8 +97,8 @@
 	let selectedNatureOfInstrument: { label: string; value: string }[] = [];
 	$: $formData.natureOfInstrument?.forEach((_, i) => {
 		selectedNatureOfInstrument[i] = {
-			label: natureOfInstrument.find((n) => n === $formData.natureOfInstrument[i]) ?? '',
-			value: $formData.natureOfInstrument[i]
+			label: natureOfInstrument.find((n) => n === ($formData.natureOfInstrument ?? [])[i]) ?? '',
+			value: ($formData.natureOfInstrument ?? [])[i]
 		};
 	});
 
@@ -130,7 +127,8 @@
 
 	$: selectedInterviewee = {
 		label:
-			$page.data.clients.find((client: any) => client._id === $formData.interviewee_id)?.name ?? '',
+			$page.data.clients.find((client: any) => client._id === ($formData.interviewee_id ?? []))
+				?.name ?? '',
 		value: $formData.interviewee_id
 	};
 
@@ -158,11 +156,6 @@
 			}
 		: undefined;
 
-	$: selectedSex = {
-		label: $formData.limitedSex,
-		value: $formData.limitedSex
-	};
-
 	$: selectedLegalAdviceMode = {
 		label: $formData.legalAdviceMode,
 		value: $formData.legalAdviceMode
@@ -182,39 +175,39 @@
 			: otherNature;
 
 	function removeClientByIndex(index: number) {
-		$formData.client_id = $formData.client_id.filter((_, i) => i !== index);
+		$formData.client_id = ($formData.client_id ?? []).filter((_, i) => i !== index);
 	}
 
 	function addClient() {
-		$formData.client_id = [...$formData.client_id, ''];
+		$formData.client_id = [...($formData.client_id ?? []), ''];
 	}
 
 	function removeCaseByIndex(index: number) {
-		$formData.limitedCases = $formData.limitedCases.filter((_, i) => i !== index);
+		$formData.limitedCases = ($formData.limitedCases ?? []).filter((_, i) => i !== index);
 	}
 
 	function addCase() {
-		$formData.limitedCases = [...$formData.limitedCases, ''];
+		$formData.limitedCases = [...($formData.limitedCases ?? []), ''];
 	}
 
 	function removeBeneficiaryByIndex(index: number) {
-		$formData.beneficiary = $formData.beneficiary.filter((_, i) => i !== index);
+		$formData.beneficiary = ($formData.beneficiary ?? []).filter((_, i) => i !== index);
 	}
 
 	function addBeneficiary() {
-		$formData.beneficiary = [...$formData.beneficiary, {}];
+		$formData.beneficiary = [...($formData.beneficiary ?? []), {}];
 	}
 
 	function addHearing() {
-		$formData.hearing = [...$formData.hearing, ''];
+		$formData.hearingDates = [...($formData.hearingDates ?? []), null];
 	}
 
 	function removeHearingByIndex(index: number) {
-		$formData.hearing = $formData.hearing?.filter((_, i) => i !== index);
+		$formData.hearingDates = $formData.hearingDates?.filter((_, i) => i !== index);
 	}
 
 	function addInstrument() {
-		$formData.natureOfInstrument = [...$formData.natureOfInstrument, ''];
+		$formData.natureOfInstrument = [...($formData.natureOfInstrument ?? []), ''];
 	}
 
 	function removeInstrumentByIndex(index: number) {
@@ -518,9 +511,9 @@
 							</Card.Description> -->
 						</Card.Header>
 						<Card.Content>
-							<Form.Field {form} name="hearing" class="grid gap-3">
+							<Form.Field {form} name="hearingDates" class="grid gap-3">
 								<Form.Control let:attrs>
-									{#each $formData.hearing ?? [] as _, i}
+									{#each $formData.hearingDates ?? [] as _, i}
 										<div class="flex gap-2">
 											<DatePicker />
 											<Button
@@ -560,8 +553,7 @@
 						<Card.Content class="grid auto-rows-max items-start gap-3">
 							<Form.Field {form} name="barangay" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label
-										>Barangay <span class="font-bold text-destructive">*</span></Form.Label
+									<Form.Label>Barangay <span class="font-bold text-destructive">*</span></Form.Label
 									>
 									<Input {...attrs} name={attrs.name} bind:value={$formData.barangay} />
 								</Form.Control>
@@ -665,7 +657,7 @@
 								</div>
 							</div>
 							<Form.Fieldset {form} name="beneficiary" class="grid gap-3">
-								{#each $formData.beneficiary as _, i}
+								{#each $formData.beneficiary ?? [] as _, i}
 									<Separator class="my-4" />
 									<Form.ElementField {form} name="beneficiary[{i}].name">
 										<Form.Field {form} name="beneficiary" class="grid gap-3">
@@ -792,7 +784,7 @@
 								<Form.Legend>
 									Cases <span class="font-bold text-destructive">*</span>
 								</Form.Legend>
-								{#each $formData.limitedCases as _, i}
+								{#each $formData.limitedCases ?? [] as _, i}
 									<Form.ElementField {form} name="limitedCases[{i}]">
 										<Form.Control let:attrs>
 											<div class="flex gap-2">
@@ -810,7 +802,7 @@
 														<Select.Value placeholder="" />
 													</Select.Trigger>
 													<Select.Content>
-														{#each $page.data.cases.filter((c) => !$formData.limitedCases.includes(c._id)) as _case}
+														{#each $page.data.cases.filter((c) => !$formData.limitedCases?.includes(c._id)) as _case}
 															<Select.Item bind:value={_case._id}>{_case._id}</Select.Item>
 														{/each}
 													</Select.Content>
@@ -826,7 +818,7 @@
 										</Form.Control>
 									</Form.ElementField>
 								{/each}
-								{#if $page.data.cases.length > $formData.limitedCases?.length}
+								{#if $page.data.cases.length > ($formData.limitedCases?.length ?? 0)}
 									<Button variant="outline" class="gap-2" on:click={addCase}>
 										<PlusCircled class="h-3.5 w-3.5" />
 										<span>Add Case</span>
@@ -998,7 +990,7 @@
 								<Form.Legend>
 									Client <span class="font-bold text-destructive">*</span>
 								</Form.Legend>
-								{#each $formData.client_id as _, i}
+								{#each $formData.client_id ?? [] as _, i}
 									<Form.ElementField {form} name="client_id[{i}]" class="grid gap-3">
 										<Form.Control let:attrs>
 											<div class="flex gap-2">
@@ -1029,7 +1021,7 @@
 										</Form.Control>
 									</Form.ElementField>
 								{/each}
-								{#if $page.data.clients.length > $formData.client_id.length}
+								{#if $page.data.clients.length > ($formData.client_id?.length ?? 0)}
 									<Button variant="outline" class="gap-2" on:click={addClient}>
 										<PlusCircled class="h-3.5 w-3.5" />
 										<span>Add Client</span>
@@ -1150,7 +1142,7 @@
 							<Card.Content class="grid auto-rows-max items-start gap-3">
 								<Form.Fieldset {form} name="natureOfInstrument" class="grid gap-3">
 									<Form.Legend>Nature of Instrument</Form.Legend>
-									{#each $formData.natureOfInstrument as _, i}
+									{#each $formData.natureOfInstrument ?? [] as _, i}
 										<Form.ElementField {form} name="natureOfInstrument[{i}]" class="grid gap-3">
 											<Form.Control let:attrs>
 												<div class="flex gap-2">
@@ -1168,7 +1160,7 @@
 															<Select.Value placeholder="" />
 														</Select.Trigger>
 														<Select.Content class="max-h-[200px] overflow-y-auto">
-															{#each natureOfInstrument.filter((n) => !$formData.natureOfInstrument.includes(n)) as nature}
+															{#each natureOfInstrument.filter((n) => !$formData.natureOfInstrument?.includes(n)) as nature}
 																<Select.Item bind:value={nature}>{nature}</Select.Item>
 															{/each}
 														</Select.Content>
@@ -1185,7 +1177,7 @@
 										</Form.ElementField>
 									{/each}
 									<div>
-										{#if natureOfInstrument.length > $formData.natureOfInstrument.length}
+										{#if natureOfInstrument.length > ($formData.natureOfInstrument?.length ?? 0)}
 											<Button variant="outline" class="w-full gap-2" on:click={addInstrument}>
 												<PlusCircled class="h-3.5 w-3.5" />
 												<span>Add Nature of Instrument</span>
