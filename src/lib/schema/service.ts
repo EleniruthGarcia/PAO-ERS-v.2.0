@@ -119,7 +119,7 @@ export const sex = ['Male', 'Female'] as const;
 
 export const formSchema = z.object({
 	// base
-	_id: z.string().min(1, 'ID is required.'),
+	_id: z.string(),
 	lawyer_id: z.string().min(1, 'Lawyer is required.'),
 	typeOfService: z.enum(typeOfService, {
 		required_error: 'Type of Service is required.'
@@ -142,9 +142,9 @@ export const formSchema = z.object({
 
 	// common to all services except barangay outreach, jail visitation release, and limited services
 	interviewee_id: z.string().optional(),
-	relationshipToClient: z.enum(relationshipToClient).default('' as unknown as 'Self').optional(),
+	relationshipToClient: z.enum(relationshipToClient).default(undefined as unknown as 'Self').optional(),
 	// adminisration of oath
-	natureOfInstrument: z.array(z.enum(natureOfInstrument).default('' as unknown as 'Affidavit of Indigency')).optional(),
+	natureOfInstrument: z.array(z.enum(natureOfInstrument).default(undefined as unknown as 'Affidavit of Indigency')).optional(),
 	witness: z.string().optional(),
 
 	// barangay outreach
@@ -153,16 +153,16 @@ export const formSchema = z.object({
 	activitiesUndertaken: z.string().optional(),
 	beneficiary: z.array(
 		z.object({
-			name: z.string(),
-			address: z.string(),
-			sex: z.enum(sex).default('' as unknown as 'Male'),
-			age: z.number().int().default('' as unknown as 0),
-			ethnicity: z.string()
+			name: z.string().min(1, 'Name is required.'),
+			address: z.string().min(1, 'Address is required.'),
+			sex: z.enum(sex, { required_error: 'Sex is required.' }).default(undefined as unknown as 'Male'),
+			age: z.number({ required_error: 'Age is required.' }).int().default(undefined as unknown as 0),
+			ethnicity: z.string().min(1, 'Ethincity is required.'),
 		})
 	).optional(),
 
 	// inquest legal assistance
-	typeOfAssistance: z.enum(typeOfAssistance).default('' as 'Assisted during Custodial Interrogation').optional(),
+	typeOfAssistance: z.enum(typeOfAssistance).default(undefined as unknown as 'Assisted during Custodial Interrogation').optional(),
 	duringOffice: z.boolean().default(false).optional(),
 
 	// common to jail visitation release and representation in court or quasi-judicial bodies
@@ -170,7 +170,7 @@ export const formSchema = z.object({
 
 	// jail visitation release
 	dateOfVisit: z.date().optional(),
-	typeOfRelease: z.enum(typeOfRelease).default('' as unknown as 'Acquitted (After trial)').optional(),
+	typeOfRelease: z.enum(typeOfRelease).default(undefined as unknown as 'Acquitted (After trial)').optional(),
 	recommendation: z.string().optional(),
 
 	// limited services
@@ -181,12 +181,12 @@ export const formSchema = z.object({
 	additionalNotes: z.string().optional(),
 
 	// legal advice
-	legalAdviceMode: z.enum(legalAdviceMode).default('' as unknown as 'In person/walk-in').optional(),
+	legalAdviceMode: z.enum(legalAdviceMode).default(undefined as unknown as 'In person/walk-in').optional(),
 
 	// mediation or conciliation
 	settlementDate: z.date().optional(),
 	mediationDates: z.array(z.date()).optional(),
-	terminationMediaCon: z.enum(terminationMediaCon).default('' as unknown as 'Disputes settled (compromised agreement)').optional(),
+	terminationMediaCon: z.enum(terminationMediaCon).default(undefined as unknown as 'Disputes settled (compromised agreement)').optional(),
 
 	// representation in court or quasi-judicial bodies
 	hearingDates: z.array(z.date()).optional(),
