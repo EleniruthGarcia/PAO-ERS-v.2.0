@@ -25,7 +25,7 @@
 			View Service
 		</h1>
 		<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
-		<div class="invisible ml-auto flex items-center gap-1 md:visible">
+		<div class="ml-auto hidden items-center gap-1 md:flex">
 			<Button
 				size="sm"
 				variant="outline"
@@ -336,9 +336,7 @@
 			<Card.Root class="overflow-hidden">
 				<Card.Header class="flex flex-row items-start bg-muted/50">
 					<div class="grid gap-0.5">
-						<Card.Title class="text-md group flex items-center gap-2">
-							Notes
-						</Card.Title>
+						<Card.Title class="text-md group flex items-center gap-2">Notes</Card.Title>
 					</div>
 				</Card.Header>
 				<Card.Content class="p-6 text-sm">

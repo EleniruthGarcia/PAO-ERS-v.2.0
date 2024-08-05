@@ -35,7 +35,7 @@
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import DatePicker from '$lib/components/DatePicker.svelte';
 	import * as Form from '$lib/components/ui/form';
-	import { Input, Number, Date as DateInput } from '$lib/components/ui/input';
+	import { Input, Number as NumberInput, Date as DateInput } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
 	import { Separator } from '$lib/components/ui/separator';
 	import * as RadioGroup from '$lib/components/ui/radio-group';
@@ -687,7 +687,7 @@
 													<Form.Label>
 														Age <span class="font-bold text-destructive">*</span>
 													</Form.Label>
-													<Number {...attrs} {form} name="beneficiary[{i}].age" />
+													<NumberInput {...attrs} {form} name="beneficiary[{i}].age" />
 												</Form.Control>
 												<Form.FieldErrors />
 											</Form.Field>
