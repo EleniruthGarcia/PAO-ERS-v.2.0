@@ -184,34 +184,6 @@
 							</Form.Field>
 						</div>
 						<div class="grid items-start gap-3 lg:grid-cols-2">
-							<Form.Field {form} name="controlNo" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>
-										Control Number <span class="font-bold text-destructive">*</span>
-									</Form.Label>
-									<Select.Root
-										selected={selectedService}
-										onSelectedChange={(s) => {
-											s && ($formData.controlNo = s.value);
-										}}
-									>
-										<Select.Input name={attrs.name} />
-										<Select.Trigger {...attrs}>
-											<Select.Value placeholder="" />
-										</Select.Trigger>
-										<Select.Content>
-											{#each $page.data.services as service}
-												<Select.Item value={service._id}>
-													{service._id} - {[...service.nature, ...(service.otherNature ?? [])].join(
-														', '
-													)}
-												</Select.Item>
-											{/each}
-										</Select.Content>
-									</Select.Root>
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
 							<Form.Field
 								{form}
 								name="pendingInCourt"

@@ -122,7 +122,7 @@
 			</AlertDialog.Root>
 		</div>
 	</div>
-	<div class="grid auto-rows-max items-start gap-4 md:gap-8">
+	<div class="grid auto-rows-max items-start gap-4">
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
 				<div class="grid gap-0.5">
@@ -332,7 +332,7 @@
 				</div>
 			</Card.Footer>
 		</Card.Root>
-		{#if data.service.nature.includes('Legal Advice') || data.service.nature.includes('Mediation or Conciliation')}
+		{#if data.service.additionalNotes}
 			<Card.Root class="overflow-hidden">
 				<Card.Header class="flex flex-row items-start bg-muted/50">
 					<div class="grid gap-0.5">
@@ -341,7 +341,7 @@
 				</Card.Header>
 				<Card.Content class="p-6 text-sm">
 					<div class="grid gap-3">
-						<span>{data.service.additionalNotes ?? 'N/A'}</span>
+						<span>{data.service.additionalNotes}</span>
 					</div>
 				</Card.Content>
 			</Card.Root>

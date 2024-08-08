@@ -867,7 +867,7 @@
 							</Form.Field>
 							<Form.Field {form} name="case_id" class="grid gap-3 sm:col-span-5">
 								<Form.Control let:attrs>
-									<Form.Label>Case <span class="font-bold text-destructive">*</span></Form.Label>
+									<Form.Label>Docket Number</Form.Label>
 									<Select.Root
 										selected={selectedCase}
 										onSelectedChange={(s) => {
@@ -879,8 +879,8 @@
 											<Select.Value placeholder="" />
 										</Select.Trigger>
 										<Select.Content>
-											{#each $page.data.cases.filter((c) => $formData.case_id !== c._id) as _case}
-												<Select.Item bind:value={_case._id}>{_case.titleOfTheCase}</Select.Item>
+											{#each $page.data.cases.filter((c) => $formData.case_id !== c.docketNumber) as _case}
+												<Select.Item bind:value={_case.docketNumber}>{_case.titleOfTheCase}</Select.Item>
 											{/each}
 										</Select.Content>
 									</Select.Root>
@@ -1079,10 +1079,10 @@
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
-								{#if $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies')}
+								{#if $formData.nature.includes('Legal Advice') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies')}
 									<Form.Field {form} name="case_id" class="grid gap-3 sm:col-span-8">
 										<Form.Control let:attrs>
-											<Form.Label>Case <span class="font-bold text-destructive">*</span></Form.Label
+											<Form.Label>Docket Number <span class="font-bold text-destructive">*</span></Form.Label
 											>
 											<Select.Root
 												selected={selectedCase}
@@ -1095,8 +1095,8 @@
 													<Select.Value placeholder="" />
 												</Select.Trigger>
 												<Select.Content>
-													{#each $page.data.cases.filter((c) => !$formData.case_id.includes(c._id)) as _case}
-														<Select.Item bind:value={_case._id}>{_case.name}</Select.Item>
+													{#each $page.data.cases.filter((c) => $formData.case_id !== c.docketNumber) as _case}
+														<Select.Item bind:value={_case.docketNumber}>{_case.titleOfTheCase}</Select.Item>
 													{/each}
 												</Select.Content>
 											</Select.Root>
@@ -1251,25 +1251,23 @@
 							</Card.Content>
 						</Card.Root>
 					{/if}
-					{#if $formData.nature.includes('Mediation or Conciliation') || $formData.nature.includes('Legal Advice')}
-						<Card.Root>
-							<Card.Header>
-								<Card.Title>Additional Notes</Card.Title>
-								<Card.Description
-									>Type details of the legal advice or mediation here. This will appear in the Facts
-									of the Case section of the Interview Sheet.</Card.Description
-								>
-							</Card.Header>
-							<Card.Content class="grid auto-rows-max items-start gap-3">
-								<Form.Field {form} name="additionalNotes">
-									<Form.Control let:attrs>
-										<Textarea {...attrs} bind:value={$formData.additionalNotes} />
-									</Form.Control>
-									<Form.FieldErrors />
-								</Form.Field>
-							</Card.Content>
-						</Card.Root>
-					{/if}
+					<Card.Root>
+						<Card.Header>
+							<Card.Title>Additional Notes</Card.Title>
+							<Card.Description
+								>Type details of the legal advice or mediation here. This will appear in the Facts
+								of the Case section of the Interview Sheet.</Card.Description
+							>
+						</Card.Header>
+						<Card.Content class="grid auto-rows-max items-start gap-3">
+							<Form.Field {form} name="additionalNotes">
+								<Form.Control let:attrs>
+									<Textarea {...attrs} bind:value={$formData.additionalNotes} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</Card.Content>
+					</Card.Root>
 				{/if}
 				{#if $formData.nature.length != 0}
 					<div class="hidden items-center justify-center gap-2 md:flex">
