@@ -13,7 +13,7 @@
 </script>
 
 <DatePicker.Root weekdayFormat="short" fixedWeeks={true} bind:value>
-	<div class="flex w-full max-w-[232px] flex-col gap-1.5">
+	<div class="flex w-full flex-col gap-1.5">
 		<DatePicker.Input
 			let:segments
 			class={cn(

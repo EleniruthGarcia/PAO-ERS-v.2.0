@@ -58,10 +58,6 @@
 		label: $formData.currentStatus,
 		value: $formData.currentStatus
 	};
-	$: selectedService = {
-		label: $page.data.services.find((service) => service._id === $formData.controlNo)?.title ?? '',
-		value: $formData.controlNo
-	};
 	$: selectedCauseOfTermination = {
 		label: $formData.causeOfTermination,
 		value: $formData.causeOfTermination

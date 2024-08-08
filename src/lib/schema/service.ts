@@ -156,8 +156,8 @@ export const formSchema = z.object({
 			name: z.string().min(1, 'Name is required.'),
 			address: z.string().min(1, 'Address is required.'),
 			sex: z.enum(sex, { required_error: 'Sex is required.' }).default(undefined as unknown as 'Male'),
-			age: z.number({ required_error: 'Age is required.' }).int().default(undefined as unknown as 0),
-			ethnicity: z.string().min(1, 'Ethincity is required.'),
+			age: z.number({ required_error: 'Age is required.', invalid_type_error: 'Age is required.' }).int().default(undefined as unknown as 0),
+			ethnicity: z.string().optional(),
 		})
 	).optional(),
 
@@ -243,6 +243,37 @@ export const formSchema = z.object({
 				message: 'Beneficiary is required.',
 				path: ['beneficiary']
 			});
+		else {
+			data.beneficiary.forEach((b, i) => {
+				if (!b.name)
+					ctx.addIssue({
+						code: z.ZodIssueCode.custom,
+						message: 'Name is required.',
+						path: ['beneficiary', i, 'name']
+					});
+
+				if (!b.address)
+					ctx.addIssue({
+						code: z.ZodIssueCode.custom,
+						message: 'Address is required.',
+						path: ['beneficiary', i, 'address']
+					});
+
+				if (!b.age)
+					ctx.addIssue({
+						code: z.ZodIssueCode.custom,
+						message: 'Age is required.',
+						path: ['beneficiary', i, 'age']
+					});
+
+				if (!b.sex)
+					ctx.addIssue({
+						code: z.ZodIssueCode.custom,
+						message: 'Sex is required.',
+						path: ['beneficiary', i, 'sex']
+					});
+			});
+		}
 
 		if (!data.problemsPresented)
 			ctx.addIssue({

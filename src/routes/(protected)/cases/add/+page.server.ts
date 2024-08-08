@@ -52,14 +52,14 @@ export const actions: Actions = {
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) return fail(400, { form });
 
-		form.data._id = form.data.controlNo;
+		form.data._id = form.data.docketNumber;
 
 		const _case = await db.cases.insertOne(form.data);
 		if (!_case.acknowledged) return fail(500, { form });
 
 		if (form.data.transferredTo) {
 			const service = await db.services.updateOne(
-				{ _id: form.data.controlNo },
+				{ _id: form.data.docketNumber },
 				{ $set: { lawyer_id: form.data.transferredTo } }
 			);
 			if (!service) return fail(500, { form });

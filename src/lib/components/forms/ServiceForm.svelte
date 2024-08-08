@@ -54,9 +54,9 @@
 
 	const { form: formData, enhance, delayed, allErrors } = form;
 
-	$: for (const error of $allErrors) {
-		toast.error(`Error on '${error.path}', ${error.messages.join(', ')}.`);
-	}
+	// $: for (const error of $allErrors) {
+	// 	toast.error(`Error on '${error.path}', ${error.messages.join(', ')}`);
+	// }
 
 	// const proxyDate = dateProxy(form, 'date', {
 	// 	format: 'date',
@@ -399,6 +399,26 @@
 						</Card.Content>
 					</Form.Fieldset>
 				</Card.Root>
+				{#if $formData.nature.includes('Jail Visitation Release')}
+					<Card.Root>
+						<Card.Header>
+							<Card.Title class="text-sm">
+								Date of Visitation <span class="font-bold text-destructive">*</span>
+							</Card.Title>
+							<!-- <Card.Description>
+								<Form.Description>Please select all the apply.</Form.Description>
+							</Card.Description> -->
+						</Card.Header>
+						<Card.Content>
+							<Form.Field {form} name="dateOfVisit" class="grid gap-3">
+								<Form.Control let:attrs>
+									<DateInput {form} name="dateOfVisit" />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						</Card.Content>
+					</Card.Root>
+				{/if}
 				{#if $formData.nature.includes('Legal Advice')}
 					<Card.Root>
 						<Card.Header>
@@ -515,7 +535,7 @@
 								<Form.Control let:attrs>
 									{#each $formData.hearingDates ?? [] as _, i}
 										<div class="flex gap-2">
-											<DatePicker />
+											<DateInput {form} name="hearingDates[{i}]" />
 											<Button
 												variant="destructive"
 												class="gap-2"
@@ -716,9 +736,7 @@
 											</Form.Field>
 											<Form.Field {form} name="beneficiary[{i}].ethnicity" class="grid gap-3">
 												<Form.Control let:attrs>
-													<Form.Label>
-														Ethnicity <span class="font-bold text-destructive">*</span>
-													</Form.Label>
+													<Form.Label>Ethnicity</Form.Label>
 													<Input {...attrs} bind:value={$formData.beneficiary[i].ethnicity} />
 												</Form.Control>
 												<Form.FieldErrors />
@@ -733,6 +751,7 @@
 											</Form.Control>
 											<Form.FieldErrors />
 										</Form.Field>
+										<Form.FieldErrors />
 									</Form.ElementField>
 								{/each}
 								<Button variant="outline" class="gap-2" on:click={() => addBnf(1)}>
@@ -829,108 +848,7 @@
 						</Card.Content>
 					</Card.Root>
 				{/if}
-				{#if $formData.nature.includes('Jail Visitation Release')}
-					<Card.Root>
-						<Card.Header>
-							<Card.Title>Jail Visitation Information</Card.Title>
-							<Card.Description>
-								Please fill out all necessary information. Required fields are marked with <span
-									class="font-bold text-destructive"
-								>
-									*
-								</span>
-								.
-							</Card.Description>
-						</Card.Header>
-						<Card.Content class="grid auto-rows-max items-start gap-3 sm:grid-cols-8">
-							<Form.Field {form} name="client_id" class="grid gap-3 sm:col-span-8">
-								<Form.Control let:attrs>
-									<Form.Label>Client <span class="font-bold text-destructive">*</span></Form.Label>
-									<Select.Root
-										selected={selectedClient[0]}
-										onSelectedChange={(s) => {
-											s && ($formData.client_id[0] = s.value);
-										}}
-									>
-										<Select.Input name="client_id" bind:value={$formData.client_id} />
-										<Select.Trigger {...attrs}>
-											<Select.Value placeholder="" />
-										</Select.Trigger>
-										<Select.Content>
-											{#each $page.data.clients.filter((c) => !$formData.client_id.includes(c._id)) as client}
-												<Select.Item bind:value={client._id}>{client.name}</Select.Item>
-											{/each}
-										</Select.Content>
-									</Select.Root>
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-							<Form.Field {form} name="case_id" class="grid gap-3 sm:col-span-5">
-								<Form.Control let:attrs>
-									<Form.Label>Docket Number</Form.Label>
-									<Select.Root
-										selected={selectedCase}
-										onSelectedChange={(s) => {
-											s && ($formData.case_id = s.value);
-										}}
-									>
-										<Select.Input name="case_id" bind:value={$formData.case_id} />
-										<Select.Trigger {...attrs}>
-											<Select.Value placeholder="" />
-										</Select.Trigger>
-										<Select.Content>
-											{#each $page.data.cases.filter((c) => $formData.case_id !== c.docketNumber) as _case}
-												<Select.Item bind:value={_case.docketNumber}>{_case.titleOfTheCase}</Select.Item>
-											{/each}
-										</Select.Content>
-									</Select.Root>
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-							<Form.Field {form} name="dateOfVisit" class="grid gap-3 sm:col-span-3">
-								<Form.Control let:attrs>
-									<Form.Label
-										>Date of Visitation <span class="font-bold text-destructive">*</span
-										></Form.Label
-									>
-									<DatePicker bind:value={$proxyDateOfVisit} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-							<Separator class="my-4 sm:col-span-8" />
-							<Form.Field {form} name="typeOfRelease" class="grid gap-3 truncate sm:col-span-8">
-								<Form.Control let:attrs>
-									<Form.Label>Type of Jail Visitation Release</Form.Label>
-									<Select.Root
-										selected={selectedTypeOfRelease}
-										onSelectedChange={(s) => {
-											s && ($formData.typeOfRelease = s.value);
-										}}
-									>
-										<Select.Input name={attrs.name} />
-										<Select.Trigger {...attrs}>
-											<Select.Value placeholder="" />
-										</Select.Trigger>
-										<Select.Content>
-											{#each typeOfRelease as value}
-												<Select.Item {value} />
-											{/each}
-										</Select.Content>
-									</Select.Root>
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-							<Form.Field {form} name="recommendation" class="grid gap-3 sm:col-span-8">
-								<Form.Control let:attrs>
-									<Form.Label>Recommendation</Form.Label>
-									<Textarea {...attrs} bind:value={$formData.recommendation} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-						</Card.Content>
-					</Card.Root>
-				{/if}
-				{#if $formData.nature.includes('Administration of Oath') || $formData.nature.includes('Home Visitation') || $formData.nature.includes('Inquest Legal Assistance') || $formData.nature.includes('Legal Advice') || $formData.nature.includes('Legal Documentation') || $formData.nature.includes('Mediation or Conciliation') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies') || $formData.nature.includes('Others')}
+				{#if $formData.nature.includes('Administration of Oath') || $formData.nature.includes('Home Visitation') || $formData.nature.includes('Inquest Legal Assistance') || $formData.nature.includes('Jail Visitation Release') || $formData.nature.includes('Legal Advice') || $formData.nature.includes('Legal Documentation') || $formData.nature.includes('Mediation or Conciliation') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies') || $formData.nature.includes('Others')}
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Service Information</Card.Title>
@@ -1079,11 +997,10 @@
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
-								{#if $formData.nature.includes('Legal Advice') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies')}
+								{#if $formData.nature.includes('Legal Advice') || $formData.nature.includes('Jail Visitation Release') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies')}
 									<Form.Field {form} name="case_id" class="grid gap-3 sm:col-span-8">
 										<Form.Control let:attrs>
-											<Form.Label>Docket Number <span class="font-bold text-destructive">*</span></Form.Label
-											>
+											<Form.Label>Case<span class="font-bold text-destructive">*</span></Form.Label>
 											<Select.Root
 												selected={selectedCase}
 												onSelectedChange={(s) => {
@@ -1096,10 +1013,43 @@
 												</Select.Trigger>
 												<Select.Content>
 													{#each $page.data.cases.filter((c) => $formData.case_id !== c.docketNumber) as _case}
-														<Select.Item bind:value={_case.docketNumber}>{_case.titleOfTheCase}</Select.Item>
+														<Select.Item bind:value={_case.docketNumber}
+															>{_case.titleOfTheCase} - {_case.docketNumber}</Select.Item
+														>
 													{/each}
 												</Select.Content>
 											</Select.Root>
+										</Form.Control>
+										<Form.FieldErrors />
+									</Form.Field>
+								{/if}
+								{#if $formData.nature.includes('Jail Visitation Release')}
+									<Form.Field {form} name="typeOfRelease" class="grid gap-3 truncate sm:col-span-8">
+										<Form.Control let:attrs>
+											<Form.Label>Type of Jail Visitation Release</Form.Label>
+											<Select.Root
+												selected={selectedTypeOfRelease}
+												onSelectedChange={(s) => {
+													s && ($formData.typeOfRelease = s.value);
+												}}
+											>
+												<Select.Input name={attrs.name} />
+												<Select.Trigger {...attrs}>
+													<Select.Value placeholder="" />
+												</Select.Trigger>
+												<Select.Content>
+													{#each typeOfRelease as value}
+														<Select.Item {value} />
+													{/each}
+												</Select.Content>
+											</Select.Root>
+										</Form.Control>
+										<Form.FieldErrors />
+									</Form.Field>
+									<Form.Field {form} name="recommendation" class="grid gap-3 sm:col-span-8">
+										<Form.Control let:attrs>
+											<Form.Label>Recommendation</Form.Label>
+											<Textarea {...attrs} bind:value={$formData.recommendation} />
 										</Form.Control>
 										<Form.FieldErrors />
 									</Form.Field>
