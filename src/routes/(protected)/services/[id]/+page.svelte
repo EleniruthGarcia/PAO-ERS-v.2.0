@@ -355,7 +355,7 @@
 			<Card.Header class="flex flex-row items-start bg-muted/50">
 				<div class="grid gap-0.5">
 					<Card.Title class="text-md group flex items-center gap-2">Client List</Card.Title>
-					<Card.Description>All clients connected to this service are shown here. There are <span class="font-bold">{data.client.length > 0 ? data.client.length : data.service.beneficiary.length}</span> clients are listed.</Card.Description>
+					<Card.Description>All clients connected to this service are shown here. The list contains <span class="font-bold">{data.client.length > 0 ? data.client.length : data.service.beneficiary.length}</span> client(s).</Card.Description>
 				</div>
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
@@ -394,7 +394,7 @@
 						{/if}
 					{/each}
 				{:else}
-				<div class="h-56 overflow-y-scroll">
+				<div class="max-h-[23.5rem] overflow-y-scroll">
 					<Table.Root>
 						<Table.Header>
 							<Table.Row>
