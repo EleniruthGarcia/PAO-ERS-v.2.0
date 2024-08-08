@@ -61,3 +61,24 @@ export const load: PageServerLoad = async (event) => {
 		client
 	};
 };
+
+export const actions: Actions = {
+	default: async (event) => {
+		if (!event.locals.user) {
+			event.cookies.set('redirect', event.params.id, { path: '/' });
+			redirect(
+				'/login',
+				{ type: 'warning', message: 'You must be logged in to access this page!' },
+				event
+			);
+		}
+
+		event.cookies.set('client', event.params.id, { path: '/' });
+
+		redirect(
+			'/services/add',
+			{ type: 'info', message: `Add service for ${event.locals}.` },
+			event
+		);
+	}
+};

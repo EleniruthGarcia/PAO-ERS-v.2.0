@@ -18,6 +18,13 @@ export const load: PageServerLoad = async (event) => {
 		);
 	}
 
+	let client_id: string[] | undefined = undefined;
+	if (event.cookies.get('client')) {
+		client_id = [event.cookies.get('client') ?? ''];
+		event.cookies.set('client', '', { path: '/' });
+	}
+
+
 	return {
 		breadcrumbs: [
 			{ href: '/', text: 'PAO-ERS' },
@@ -29,6 +36,7 @@ export const load: PageServerLoad = async (event) => {
 				currentStatus: 'New',
 				status: [{ type: 'New', date: new Date() }],
 				lawyer_id: event.locals.user.id,
+				client_id,
 			},
 			zod(formSchema),
 			{ errors: false }

@@ -346,10 +346,12 @@
 					<Card.Description>All active services are shown here.</Card.Description>
 				</div>
 				<div class="ml-auto flex items-center gap-1">
-					<Button size="sm" variant="outline" class="h-7 gap-2 text-sm" href="/services/add">
-						<PlusCircled class="h-3.5 w-3.5" />
-						<span class="sr-only sm:not-sr-only">Add</span>
-					</Button>
+					<form method="POST">
+						<Button type="submit" size="sm" variant="outline" class="h-7 gap-2 text-sm">
+							<PlusCircled class="h-3.5 w-3.5" />
+							<span class="sr-only sm:not-sr-only">Add</span>
+						</Button>
+					</form>
 				</div>
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
