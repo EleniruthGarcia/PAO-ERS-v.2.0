@@ -123,7 +123,7 @@ export const formSchema = z.object({
 	titleOfTheCase: z.string().min(1, 'Title of the Case is required.'),
 	docketNumber: z.string().min(1, 'Docket Number is required.'),
 	court: z.string().min(1, 'Court is required.'),
-	controlNo: z.string().min(1, 'Control No. is required.'),
+	// controlNo: z.string().min(1, 'Control No. is required.'),
 	natureOfTheCase: z.string(),
 	caseSpecs: z.string(),
 	clientInvolvement: z.array(z.enum(clientInvolvement)).min(1, 'Client Involvement is required.'),

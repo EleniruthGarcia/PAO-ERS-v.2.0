@@ -113,6 +113,7 @@
 	}
 
 	onMount(() => {
+		$pageRows = $pageRows.reverse();
 		updateHiddenColumns();
 		window.addEventListener('resize', updateHiddenColumns);
 	});
@@ -159,7 +160,7 @@
 												</Button>
 											</div>
 										{:else if cell.id === 'name'}
-											<Button variant="ghost">
+											<Button variant="ghost" on:click={props.sort.toggle}>
 												<Render of={cell.render()} />
 												<CaretSort class={'ml-2 h-4 w-4'} />
 											</Button>

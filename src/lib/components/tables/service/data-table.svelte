@@ -126,6 +126,7 @@
 	}
 
 	onMount(() => {
+		$pageRows = $pageRows.reverse();
 		updateHiddenColumns();
 		window.addEventListener('resize', updateHiddenColumns);
 	});
