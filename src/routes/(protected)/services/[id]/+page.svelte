@@ -12,6 +12,9 @@
 	import { Badge } from '$lib/components/ui/badge';
 	import { otherNature } from '$lib/schema/service';
 
+	import * as Table from '$lib/components/ui/table';
+	import { PageEmbeddingMismatchedContextError } from 'pdf-lib';
+
 	export let data: PageServerData;
 </script>
 
@@ -352,7 +355,7 @@
 			<Card.Header class="flex flex-row items-start bg-muted/50">
 				<div class="grid gap-0.5">
 					<Card.Title class="text-md group flex items-center gap-2">Client List</Card.Title>
-					<Card.Description>All clients connected to this service are shown here.</Card.Description>
+					<Card.Description>All clients connected to this service are shown here. There are <span class="font-bold">{data.client.length > 0 ? data.client.length : data.service.beneficiary.length}</span> clients are listed.</Card.Description>
 				</div>
 			</Card.Header>
 			<Card.Content class="p-6 text-sm">
@@ -391,7 +394,29 @@
 						{/if}
 					{/each}
 				{:else}
-					{#each data.service.beneficiary as client, i}
+				<div class="h-56 overflow-y-scroll">
+					<Table.Root>
+						<Table.Header>
+							<Table.Row>
+								<Table.Head>Name</Table.Head>
+								<Table.Head>Age</Table.Head>
+								<Table.Head>Sex</Table.Head>
+								<Table.Head>Ethnicity</Table.Head>
+							</Table.Row>
+						</Table.Header>
+						<Table.Body class="overflow-y-scroll">
+							{#each data.service.beneficiary as client}
+								<Table.Row>
+									<Table.Cell class="font-medium">{client.name}</Table.Cell>
+									<Table.Cell>{client.age}</Table.Cell>
+									<Table.Cell>{client.sex === 'Male' ? 'M' : 'F'}</Table.Cell>
+									<Table.Cell>{client.ethnicity}</Table.Cell>
+								</Table.Row>
+							{/each}
+						</Table.Body>
+					</Table.Root>
+					</div>
+					<!-- {#each data.service.beneficiary as client, i}
 						<div class="grid gap-3">
 							<ul class="grid gap-3">
 								<li class="flex items-center justify-between gap-2 truncate">
@@ -415,7 +440,7 @@
 						{#if data.client.length - 1 !== i}
 							<Separator class="my-4" />
 						{/if}
-					{/each}
+					{/each} -->
 				{/if}
 			</Card.Content>
 			<!-- <Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
