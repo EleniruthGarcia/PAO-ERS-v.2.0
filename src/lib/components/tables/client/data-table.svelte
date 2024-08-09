@@ -25,7 +25,9 @@
 
 	const table = createTable(readable(data), {
 		page: addPagination(),
-		sort: addSortBy(),
+		sort: addSortBy({
+			initialSortKeys: [{ id: '_id', order: 'desc' }]
+		}),
 		filter: addTableFilter({
 			fn: ({ filterValue, value }) => value.toLowerCase().includes(filterValue.toLowerCase())
 		}),
@@ -52,7 +54,7 @@
 			},
 			plugins: {
 				filter: { exclude: true },
-				sort: { disable: true }
+				sort: { disable: true, getSortValue: (value) => Number(value) }
 			}
 		}),
 		table.column({
@@ -113,7 +115,6 @@
 	}
 
 	onMount(() => {
-		$pageRows = $pageRows.reverse();
 		updateHiddenColumns();
 		window.addEventListener('resize', updateHiddenColumns);
 	});
