@@ -235,56 +235,55 @@ export const actions = {
 								''
 							]
 						},
-						Women: { $cond: [{ $in: ['$client.classification', ['Women']] }, 'X', ''] },
-						Senior: { $cond: [{ $in: ['$client.classification', ['Senior Citizen']] }, 'X', ''] },
-						OFW: {
-							$cond: [
-								{ $in: ['$client.classification', ['OFW (Land-Based)', 'OFW (Sea-Based)']] },
-								'X',
-								''
-							]
-						},
+						Women: { $cond: [{$or: [{ $in: ['Woman Client', '$client.classification'] }, { $in: ['Woman Client (Non-VAWC Victim)', '$client.classification'] }]}, 'X', ''] },
+						Senior: { $cond: [{ $in: ['Senior Citizen', '$client.classification'] }, 'X', ''] },
+						OFW: { $cond: [{$or: [{ $in: ['OFW (Land-Based)', '$client.classification'] }, { $in: ['OFW (Sea-Based)', '$client.classification'] }]}, 'X', ''] },
 						IG: { $cond: [{ $ifNull: ['$client.indigenousPeople', true] }, '', 'X'] },
 						PWD: { $cond: [{ $ifNull: ['$client.pwd', true] }, '', 'X'] },
 						UP: { $cond: [{ $ifNull: ['$client.urbanPoor', true] }, '', 'X'] },
 						RP: { $cond: [{ $ifNull: ['$client.ruralPoor', true] }, '', 'X'] },
 						Judi: {
-							$cond: [{ $in: ['$service.typeOfService', ['Judicial']] }, 'X', '']
+							$cond: [{ $eq: ['Judicial', '$service.typeOfService'] }, 'X', '']
 						},
 						Quasi: {
-							$cond: [{ $in: ['$service.typeOfService', ['Quasi-Judicial']] }, 'X', '']
+							$cond: [{ $eq: ['Quasi-Judicial', '$service.typeOfService'] }, 'X', '']
 						},
 						NonJudi: {
-							$cond: [{ $in: ['$service.typeOfService', ['Non-Judicial']] }, 'X', '']
+							$cond: [{ $eq: ['Non-Judicial', '$service.typeOfService'] }, 'X', '']
 						},
 						genderCase: { $ifNull: ['$case.genderCaseSubject', []] },
 						typePWD: { $ifNull: ['$client.pwd', []] },
 						intellectual: {
-							$cond: [{ $in: ['$client.pwd', ['Intellectual']] }, 'X', '']
+							$cond: [{ $eq: ['Intellectual', '$client.pwd'] }, 'X', '']
 						},
 						vision: {
-							$cond: [{ $in: ['$client.pwd', ['Vision']] }, 'X', '']
+							$cond: [{ $eq: ['Vision', '$client.pwd'] }, 'X', '']
 						},
 						hearing: {
-							$cond: [{ $in: ['$client.pwd', ['Hearing']] }, 'X', '']
+							$cond: [{ $eq: ['Hearing', '$client.pwd'] }, 'X', '']
 						},
 						speech: {
-							$cond: [{ $in: ['$client.pwd', ['Speech']] }, 'X', '']
+							$cond: [{ $eq: ['Speech', '$client.pwd'] }, 'X', '']
 						},
 						mental: {
-							$cond: [{ $in: ['$client.pwd', ['Psychiatric or Mental Illness']] }, 'X', '']
+							$cond: [{ $eq: ['Psychiatric or Mental Illness', '$client.pwd'] }, 'X', '']
 						},
 						acquired: {
-							$cond: [{ $in: ['$client.pwd', ['Acquired Disability']] }, 'X', '']
+							$cond: [{ $eq: ['Acquired Disability', '$client.pwd'] }, 'X', '']
 						},
 						othersPWD: {
-							$cond: [{ $in: ['$client.pwd', ['Others']] }, 'X', '']
+							$cond: [{ $eq: ['Others', '$client.pwd'] }, 'X', '']
 						},
 						termination: { $ifNull: ['$case.causeOfTermination', ''] },
 						dateCommission: { $ifNull: ['$case.dateOfCommission', ''] },
 						natureOfInstrument: { $ifNull: ['$natureOfInstrument', []] },
 						typeOfService: { $ifNull: ['$service.typeOfService', []] },
-						position: { $ifNull: ['$client.lawEnforcer', ''] }
+						position: { $ifNull: ['$client.lawEnforcer', ''] },
+						barangay: '$service.barangay',
+						outreachName: '$service.beneficiary.name',
+						outreachSex: '$service.beneficiary.sex',
+						problem: '$service.problemsPresented',
+						activity: '$service.activitiesUndertaken'
 					}
 				}
 			])
