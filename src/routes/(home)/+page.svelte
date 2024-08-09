@@ -22,14 +22,12 @@
 			personnel.
 		</p>
 	</div>
-	<div class="rounded-md border border-input bg-transparent px-7 py-3 shadow-sm">
-		<span class="text-sm font-bold md:text-lg"
-			>Generate Interview Sheet<span>
-				<div class="mt-2 flex items-center justify-center gap-2 pb-2">
-					<Button href="/create_en">English</Button>
-					<Button href="/create_tl">Tagalog</Button>
+	<div class="flex flex-col rounded-md border border-input items-center bg-transparent px-7 py-3 shadow-sm">
+		<span class="text-sm font-bold md:text-base">Generate Interview Sheet</span>
+				<div class="mt-2 flex items-center justify-center gap-2 pb-2 text-sm md:text-base">
+					<Button href="/create_en" class="hidden md:block">English</Button><Button href="/create_en" class="block md:hidden">EN</Button>
+					<Button href="/create_tl" class="hidden md:block">Tagalog</Button><Button href="/create_tl" class="block md:hidden">TL</Button>
+					<Button href="/create_il" class="hidden md:block">Ilocano</Button><Button href="/create_il" class="block md:hidden">IL</Button>
 				</div>
-			</span></span
-		>
 	</div>
 </div>

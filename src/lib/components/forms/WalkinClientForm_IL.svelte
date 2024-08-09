@@ -90,8 +90,8 @@
 			</h1>
 			<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
-				<Form.Button type="reset" variant="outline" size="sm">Burahin Lahat</Form.Button>
-				<Form.Button type="submit" size="sm">Isumite</Form.Button>
+				<Form.Button type="reset" variant="outline" size="sm">Ikkaten Amin</Form.Button>
+				<Form.Button type="submit" size="sm">Idatag</Form.Button>
 			</div>
 		</div>
 		<div class="flex gap-4">
@@ -99,21 +99,21 @@
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Personal Information</Card.Title>
-						<Card.Description>Mangyaring lagyan ang kinakailangang impormasyon.</Card.Description>
+						<Card.Description>Pangngaasiyo nga punnuen amin a kasapulan nga impormasion.</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
 						<div class="grid items-start gap-3 sm:grid-cols-7">
 							<Form.Field {form} name="firstName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>Pangalan</Form.Label>
-									<Input {...attrs} bind:value={$formData.firstName} placeholder="Mga Pangalan" />
+									<Form.Label>Nagan</Form.Label>
+									<Input {...attrs} bind:value={$formData.firstName} placeholder="Nagan" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="middleName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-									<Input {...attrs} bind:value={$formData.middleName} placeholder="Gitnang Apelyido" />
+									<Input {...attrs} bind:value={$formData.middleName} placeholder="Tengngang Apelyido" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -164,7 +164,7 @@
 							</Form.Field>
 							<Form.Field {form} name="civilStatus" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Kalagayang Sibil</Form.Label>
+									<Form.Label>Estado Sibil</Form.Label>
 									<Select.Root
 										selected={selectedCivilStatus}
 										onSelectedChange={(s) => {
@@ -188,14 +188,14 @@
 						<div class="grid items-start gap-3 sm:grid-cols-3">
 							<Form.Field {form} name="citizenship" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Citizenship</Form.Label>
+									<Form.Label>Pannakipag-ili</Form.Label>
 									<Input {...attrs} bind:value={$formData.citizenship} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="language" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Wika</Form.Label>
+									<Form.Label>Pagsasao</Form.Label>
 									<Input {...attrs} bind:value={$formData.language} />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -211,7 +211,7 @@
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="educationalAttainment" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Natapos na Edukasyon</Form.Label>
+									<Form.Label>Adal nga Naturpos</Form.Label>
 									<Select.Root
 										selected={selectedEducationalAttainment}
 										onSelectedChange={(s) => {
@@ -233,7 +233,7 @@
 							</Form.Field>
 							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Buwanang Kita</Form.Label>
+									<Form.Label>Binnulan nga Sweldo</Form.Label>
 									<Input {...attrs} bind:value={$formData.individualMonthlyIncome} />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -247,8 +247,8 @@
 							<Form.Control let:attrs>
 								<Checkbox {...attrs} bind:checked={$formData.detained} />
 								<div class="h-10 space-y-2 truncate leading-none">
-									<Form.Label>Detained</Form.Label>
-									<Form.Description>Icheck kung nakabilanggo.</Form.Description>
+									<Form.Label>Nakabalud</Form.Label>
+									<Form.Description>Checkan no nakabalud.</Form.Description>
 								</div>
 								<input name={attrs.name} bind:value={$formData.detained} hidden />
 							</Form.Control>
@@ -264,14 +264,14 @@
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="address" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>Tirahan</Form.Label>
+									<Form.Label>Pagnaedan</Form.Label>
 									<Input {...attrs} bind:value={$formData.address} placeholder="Address"/>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="contactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Contact Number</Form.Label>
+									<Form.Label>Telepono</Form.Label>
 									<Input {...attrs} bind:value={$formData.contactNumber} />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -295,11 +295,11 @@
 							<div class="grid items-start gap-3 sm:grid-cols-7">
 								<Form.Field {form} name="spouseFirstName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
-										<Form.Label>Pangalan ng Asawa</Form.Label>
+										<Form.Label>Nagan ti Asawa</Form.Label>
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseFirstName}
-											placeholder="Mga Pangalan"
+											placeholder="Nagan"
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -310,7 +310,7 @@
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseMiddleName}
-											placeholder="Gitnang Apelyido"
+											placeholder="Tengngang Apelyido"
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -340,7 +340,7 @@
 							</div>
 							<Form.Field {form} name="spouseAddress" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Tirahan ng Asawa</Form.Label>
+									<Form.Label>Pagnaedan ti Asawa</Form.Label>
 									<Input {...attrs} bind:value={$formData.spouseAddress} placeholder="Spouse's Address"/>
 								</Form.Control>
 								<Form.FieldErrors />
@@ -348,7 +348,7 @@
 							<div class="grid items-start gap-3 sm:grid-cols-2">
 								<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
 									<Form.Control let:attrs>
-										<Form.Label>Contact Number</Form.Label>
+										<Form.Label>Telepono ti Asawa</Form.Label>
 										<Input {...attrs} bind:value={$formData.spouseContactNumber} />
 									</Form.Control>
 									<Form.FieldErrors />
@@ -373,14 +373,14 @@
 							<div class="grid items-start gap-3 sm:grid-cols-8">
 								<Form.Field {form} name="detainedAt" class="grid gap-3 sm:col-span-5">
 									<Form.Control let:attrs>
-										<Form.Label>Lugar ng Bilangguan</Form.Label>
+										<Form.Label>Lugar ti Nakaibaludan</Form.Label>
 										<Input {...attrs} bind:value={$formData.detainedAt} />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="detainedSince" class="grid gap-3 sm:col-span-3">
 									<Form.Control let:attrs>
-										<Form.Label>Nabilanggo Noong</Form.Label>
+										<Form.Label>Naibalud idi pay</Form.Label>
 										<DatePicker bind:value={$proxyDetainedSince} />
 									</Form.Control>
 									<Form.FieldErrors />
@@ -392,8 +392,8 @@
 			</div>
 		</div>
 		<div class="flex items-center justify-center gap-2">
-			<Form.Button type="reset" variant="outline" size="sm">Burahin Lahat</Form.Button>
-			<Form.Button type="submit" size="sm">Isumite</Form.Button>
+			<Form.Button type="reset" variant="outline" size="sm">Ikkaten Amin</Form.Button>
+			<Form.Button type="submit" size="sm">Idatag</Form.Button>
 		</div>
 	</div>
 </form>
