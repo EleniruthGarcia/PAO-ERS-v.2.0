@@ -1001,7 +1001,8 @@
 									<Form.Field {form} name="case_id" class="grid gap-3 sm:col-span-8">
 										<Form.Control let:attrs>
 											<Form.Label
-												>Docket Number <span class="font-bold text-destructive">*</span></Form.Label
+												>Docket Number {#if $formData.nature.includes('Jail Visitation Release') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies')}
+													<span class="font-bold text-destructive">*</span>{/if}</Form.Label
 											>
 											<Input {...attrs} bind:value={$formData.case_id} />
 										</Form.Control>
