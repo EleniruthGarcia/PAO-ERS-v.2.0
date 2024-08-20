@@ -25,7 +25,9 @@
 
 	const table = createTable(readable(data), {
 		page: addPagination(),
-		sort: addSortBy(),
+		sort: addSortBy({
+			initialSortKeys: [{ id: '_id', order: 'desc' }]
+		}),
 		filter: addTableFilter({
 			fn: ({ filterValue, value }) => value.toLowerCase().includes(filterValue.toLowerCase())
 		}),
