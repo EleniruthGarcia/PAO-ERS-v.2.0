@@ -63,6 +63,11 @@
 		value: $formData.causeOfTermination
 	};
 
+	$: selectedDocketNumber = {
+		label: $formData.docketNumber,
+		value: $formData.docketNumber
+	};
+
 	$: $formData.currentStatus === 'Transferred to private lawyer, IBP, etc.'
 		? ($formData.transferredFrom = $formData.transferredFrom ?? $page.data.users[0]?._id)
 		: ($formData.transferredFrom = undefined);
@@ -132,7 +137,23 @@
 									<Form.Label
 										>Docket Number <span class="font-bold text-destructive">*</span></Form.Label
 									>
-									<Input {...attrs} bind:value={$formData.docketNumber} />
+									<!-- <Input {...attrs} bind:value={$formData.docketNumber} /> -->
+									<Select.Root
+										selected={selectedDocketNumber}
+										onSelectedChange={(s) => {
+											s && ($formData.docketNumber = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each $page.data.docketNumber.map((v) => v.case_id) as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>

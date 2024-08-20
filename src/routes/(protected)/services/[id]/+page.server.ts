@@ -1,6 +1,6 @@
 import db from '$lib/server/database';
 import { redirect } from 'sveltekit-flash-message/server';
-import type { PageServerLoad } from './$types';
+import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {
@@ -81,4 +81,25 @@ export const load: PageServerLoad = async (event) => {
 		client,
 		service
 	};
+};
+
+export const actions: Actions = {
+	default: async (event) => {
+		if (!event.locals.user) {
+			event.cookies.set('redirect', event.params.id, { path: '/' });
+			redirect(
+				'/login',
+				{ type: 'warning', message: 'You must be logged in to access this page!' },
+				event
+			);
+		}
+
+		event.cookies.set('controlNo', event.params.id, { path: '/' });
+
+		redirect(
+			'/cases/add',
+			{ type: 'info', message: `Add service for ${event.locals}.` },
+			event
+		);
+	}
 };

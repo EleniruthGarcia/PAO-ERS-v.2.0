@@ -1000,25 +1000,10 @@
 								{#if $formData.nature.includes('Legal Advice') || $formData.nature.includes('Jail Visitation Release') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies')}
 									<Form.Field {form} name="case_id" class="grid gap-3 sm:col-span-8">
 										<Form.Control let:attrs>
-											<Form.Label>Case<span class="font-bold text-destructive">*</span></Form.Label>
-											<Select.Root
-												selected={selectedCase}
-												onSelectedChange={(s) => {
-													s && ($formData.case_id = s.value);
-												}}
+											<Form.Label
+												>Docket Number <span class="font-bold text-destructive">*</span></Form.Label
 											>
-												<Select.Input name="case_id" bind:value={$formData.case_id} />
-												<Select.Trigger {...attrs}>
-													<Select.Value placeholder="" />
-												</Select.Trigger>
-												<Select.Content>
-													{#each $page.data.cases.filter((c) => $formData.case_id !== c.docketNumber) as _case}
-														<Select.Item bind:value={_case.docketNumber}
-															>{_case.titleOfTheCase} - {_case.docketNumber}</Select.Item
-														>
-													{/each}
-												</Select.Content>
-											</Select.Root>
+											<Input {...attrs} bind:value={$formData.case_id} />
 										</Form.Control>
 										<Form.FieldErrors />
 									</Form.Field>

@@ -24,7 +24,6 @@ export const load: PageServerLoad = async (event) => {
 		event.cookies.set('client', '', { path: '/' });
 	}
 
-
 	return {
 		breadcrumbs: [
 			{ href: '/', text: 'PAO-ERS' },

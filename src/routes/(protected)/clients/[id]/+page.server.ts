@@ -1,6 +1,6 @@
 import db from '$lib/server/database';
 import { redirect } from 'sveltekit-flash-message/server';
-import type { PageServerLoad } from './$types';
+import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {

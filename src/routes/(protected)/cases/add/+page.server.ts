@@ -18,6 +18,24 @@ export const load: PageServerLoad = async (event) => {
 		);
 	}
 
+	let controlNo: string | undefined = undefined;
+	if (event.cookies.get('controlNo')) {
+		controlNo = event.cookies.get('controlNo');
+		event.cookies.set('controlNo', '', { path: '/' });
+	}
+
+	let docketNumber: string | undefined = undefined;
+	if (controlNo) {
+		const service = await db.services.findOne({ _id: controlNo });
+		if (service) docketNumber = service.docketNumber;
+	}
+
+	console.log(await db.services.find({
+		case_id: { $ne: undefined },
+	}, {
+		projection: { case_id: 1 },
+	}).toArray());
+
 	return {
 		breadcrumbs: [
 			{ href: '/', text: 'PAO-ERS' },
@@ -27,14 +45,20 @@ export const load: PageServerLoad = async (event) => {
 		form: await superValidate(
 			{
 				currentStatus: 'New',
-				status: [{ type: 'New', date: new Date() }]
+				status: [{ type: 'New', date: new Date() }],
+				docketNumber,
 			},
 			zod(formSchema),
 			{ errors: false }
 		),
 		services: await db.services.find().toArray(),
 		clients: await db.clients.find().toArray(),
-		users: await db.users.find().toArray()
+		users: await db.users.find().toArray(),
+		docketNumber: await db.services.find({
+			case_id: { $ne: undefined },
+		}, {
+			projection: { case_id: 1 },
+		}).toArray(),
 	};
 };
 
