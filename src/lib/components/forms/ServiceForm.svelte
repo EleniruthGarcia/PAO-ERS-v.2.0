@@ -238,6 +238,14 @@
 			removeBeneficiaryByIndex(0);
 		}
 	}
+	$: touchedNatureOfInstrument = false;
+	$: filteredNatureOfInstrument = 
+  $formData.natureOfInstrument && touchedNatureOfInstrument
+    ? natureOfInstrument.filter((v) => 
+        $formData.natureOfInstrument
+          .some((entry) => entry?.toLowerCase().includes(v.toLowerCase()))
+      )
+    : natureOfInstrument;
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
@@ -705,7 +713,7 @@
 											<Form.Field {form} name="beneficiary[{i}].age" class="grid gap-3">
 												<Form.Control let:attrs>
 													<Form.Label>
-														Age <span class="font-bold text-destructive">*</span>
+														Age
 													</Form.Label>
 													<NumberInput {...attrs} {form} name="beneficiary[{i}].age" />
 												</Form.Control>
@@ -1082,25 +1090,44 @@
 										<Form.ElementField {form} name="natureOfInstrument[{i}]" class="grid gap-3">
 											<Form.Control let:attrs>
 												<div class="flex gap-2">
-													<Select.Root
-														selected={selectedNatureOfInstrument[i]}
-														onSelectedChange={(s) => {
-															s && ($formData.natureOfInstrument[i] = s.value);
-														}}
+													<Combobox.Root
+														items={filteredNatureOfInstrument}
+														bind:inputValue={$formData.natureOfInstrument[i]}
+														bind:touchedInput={touchedNatureOfInstrument}
 													>
-														<Select.Input
-															name="natureOfInstrument[{i}]"
-															bind:value={$formData.natureOfInstrument[i]}
-														/>
-														<Select.Trigger {...attrs}>
-															<Select.Value placeholder="" />
-														</Select.Trigger>
-														<Select.Content class="max-h-[200px] overflow-y-auto">
-															{#each natureOfInstrument.filter((n) => !$formData.natureOfInstrument?.includes(n)) as nature}
-																<Select.Item bind:value={nature}>{nature}</Select.Item>
+														<div class="relative w-full">
+															<Combobox.Input
+																class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+																placeholder="Please type or select from options."
+															/>
+															<CaretSort class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50" />
+														</div>
+														<Combobox.Content
+															class="relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
+															transition={flyAndScale}
+															sideOffset={8}
+														>
+															{#each natureOfInstrument.filter((n) => !$formData.natureOfInstrument?.includes(n)) as value}
+																<Combobox.Item
+																	class="relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
+																	{value}
+																>
+																	{value}
+																	<Combobox.ItemIndicator
+																		class="absolute right-3 flex h-3.5 w-3.5 items-center justify-center"
+																		asChild={false}
+																	>
+																		<Check class="h-4 w-4" />
+																	</Combobox.ItemIndicator>
+																</Combobox.Item>
+															{:else}
+																<span class="block px-5 py-2 text-sm text-muted-foreground">
+																	No results found.
+																</span>
 															{/each}
-														</Select.Content>
-													</Select.Root>
+														</Combobox.Content>
+														<Combobox.HiddenInput name="natureOfInstrument[{i}]" />
+													</Combobox.Root>
 													<Button
 														variant="destructive"
 														class="gap-2"
@@ -1120,8 +1147,8 @@
 											</Button>
 										{/if}
 										<Form.FieldErrors />
-									</div></Form.Fieldset
-								>
+									</div>
+								</Form.Fieldset>
 								<Form.Field {form} name="witness" class="grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label>Witness</Form.Label>

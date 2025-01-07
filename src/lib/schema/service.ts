@@ -5,7 +5,7 @@ export const nature = [
 	'Barangay Outreach', //
 	'Home Visitation',
 	'Inquest Legal Assistance',//
-	'Jail Visitation Release',
+	'Jail Visitation',
 	'Legal Advice',//
 	'Legal Documentation', //
 	'Limited Services',
@@ -144,7 +144,7 @@ export const formSchema = z.object({
 	interviewee_id: z.string().optional(),
 	relationshipToClient: z.enum(relationshipToClient).default(undefined as unknown as 'Self').optional(),
 	// adminisration of oath
-	natureOfInstrument: z.array(z.enum(natureOfInstrument).default(undefined as unknown as 'Affidavit of Indigency')).optional(),
+	natureOfInstrument: z.array(z.union([z.enum(natureOfInstrument), z.string()]).transform((e) => (e === '' ? undefined : e))).default([]),
 	witness: z.string().optional(),
 
 	// barangay outreach
@@ -156,7 +156,7 @@ export const formSchema = z.object({
 			name: z.string().min(1, 'Name is required.'),
 			address: z.string().min(1, 'Address is required.'),
 			sex: z.enum(sex, { required_error: 'Sex is required.' }).default(undefined as unknown as 'Male'),
-			age: z.number({ required_error: 'Age is required.', invalid_type_error: 'Age is required.' }).int().default(undefined as unknown as 0),
+			age: z.union([z.literal(''), z.number().optional()]).transform((e) => (e === '' ? undefined : e)).optional(),
 			ethnicity: z.string().optional(),
 		})
 	).optional(),

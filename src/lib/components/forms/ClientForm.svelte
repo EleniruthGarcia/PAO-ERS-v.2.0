@@ -43,12 +43,16 @@
 
 	const { form: formData, enhance, delayed } = form;
 
-	const proxyAge = intProxy(form, 'age', { initiallyEmptyIfZero: true });
+	const proxyAge = intProxy(form, 'age', { empty: 'undefined' });
 	// const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
 	// 	format: 'date',
 	// 	empty: 'undefined'
 	// });
 	const proxyDetainedSince = dateProxy(form, 'detainedSince', {
+		format: 'date',
+		empty: 'undefined'
+	});
+	const proxyDetainedUntil = dateProxy(form, 'detainedUntil', {
 		format: 'date',
 		empty: 'undefined'
 	});
@@ -164,7 +168,7 @@
 							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>
-										Age <span class="font-bold text-destructive">*</span>
+										Age
 									</Form.Label>
 									<Input {...attrs} bind:value={$proxyAge} type="number" />
 								</Form.Control>
@@ -458,17 +462,24 @@
 						</Card.Header>
 						<Card.Content>
 							<div class="grid items-start gap-3 sm:grid-cols-8">
-								<Form.Field {form} name="detainedAt" class="grid gap-3 sm:col-span-5">
+								<Form.Field {form} name="detainedAt" class="grid gap-3 sm:col-span-8">
 									<Form.Control let:attrs>
 										<Form.Label>Place of Detention</Form.Label>
 										<Input {...attrs} bind:value={$formData.detainedAt} />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
-								<Form.Field {form} name="detainedSince" class="grid gap-3 sm:col-span-3">
+								<Form.Field {form} name="detainedSince" class="grid gap-3 sm:col-span-4">
 									<Form.Control let:attrs>
 										<Form.Label>Detained Since</Form.Label>
 										<DatePicker bind:value={$proxyDetainedSince} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
+								<Form.Field {form} name="detainedUntil" class="grid gap-3 sm:col-span-4">
+									<Form.Control let:attrs>
+										<Form.Label>Detained Until</Form.Label>
+										<DatePicker bind:value={$proxyDetainedUntil} />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>

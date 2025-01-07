@@ -12,7 +12,7 @@
 	export let form: SuperForm<T>;
 	export let name: U;
 
-	const proxy = intProxy(form, name, { initiallyEmptyIfZero: true });
+	const proxy = intProxy(form, name, { empty: 'undefined' });
 </script>
 
 <Input bind:value={$proxy} type="number" {...$$restProps} />

@@ -43,7 +43,7 @@ export const proofOfIndigency = [
 	'Certification from DSWD'
 ] as const;
 
-export const civilStatus = ['Single', 'Married', 'Widow/Widower'] as const;
+export const civilStatus = ['Single', 'Married', 'Widow/Widower', 'Legally Separated'] as const;
 
 export const educationalAttainment = [
 	'No Formal Schooling',
@@ -53,6 +53,7 @@ export const educationalAttainment = [
 	'High School Graduate',
 	'College Level',
 	'College Degree',
+	'Vocational/Technical',
 	"Bachelor's Degree",
 	"With Master's Units",
 	"Master's Degree",
@@ -74,13 +75,8 @@ export const formSchema = z.object({
 	// 	required_error: 'Date of birth is required.'
 	// }),
 	age: z
-		.number({
-			invalid_type_error: 'Age is required.',
-			required_error: 'Age is required.'
-		})
-		.positive({
-			message: 'Age must be a positive number.'
-		}),
+		.union([z.literal(''), z.number().optional()])
+		.transform((e) => (e === '' ? undefined : e)).optional(),
 	sex: z.enum(sex),
 	address: z
 		.string()
@@ -100,6 +96,11 @@ export const formSchema = z.object({
 	detained: z.boolean().default(false),
 	detainedAt: z.string().optional(),
 	detainedSince: z
+		.date()
+		.or(z.literal(''))
+		.transform((e) => (e === '' ? undefined : e))
+		.optional(),
+	detainedUntil: z
 		.date()
 		.or(z.literal(''))
 		.transform((e) => (e === '' ? undefined : e))
