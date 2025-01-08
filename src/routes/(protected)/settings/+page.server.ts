@@ -69,6 +69,6 @@ export const actions = {
 		if (user.matchedCount === 0) return fail(404, { form });
 		if (user.modifiedCount === 0 && user.upsertedCount === 0) return fail(304, { form });
 
-		return message(form, 'User updated!');
+		return message(form, 'Settings updated!');
 	}
 } satisfies Actions;
