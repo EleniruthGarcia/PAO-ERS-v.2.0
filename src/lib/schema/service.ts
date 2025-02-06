@@ -140,7 +140,7 @@ export const formSchema = z.object({
 	// common to all services except limited services and barangay outreach 
 	client_id: z.array(z.string()).optional(),
 
-	// common to all services except barangay outreach, jail visitation release, and limited services
+	// common to all services except barangay outreach, Jail Visitation, and limited services
 	interviewee_id: z.string().optional(),
 	relationshipToClient: z.enum(relationshipToClient).default(undefined as unknown as 'Self').optional(),
 	// adminisration of oath
@@ -165,10 +165,10 @@ export const formSchema = z.object({
 	typeOfAssistance: z.enum(typeOfAssistance).default(undefined as unknown as 'Assisted during Custodial Interrogation').optional(),
 	duringOffice: z.boolean().default(false).optional(),
 
-	// common to jail visitation release and representation in court or quasi-judicial bodies
+	// common to Jail Visitation and representation in court or quasi-judicial bodies
 	case_id: z.string().optional(),
 
-	// jail visitation release
+	// Jail Visitation
 	dateOfVisit: z.date().optional(),
 	typeOfRelease: z.enum(typeOfRelease).default(undefined as unknown as 'Acquitted (After trial)').optional(),
 	recommendation: z.string().optional(),
@@ -199,7 +199,7 @@ export const formSchema = z.object({
 				path: ['client_id']
 			});
 
-		if (!data.nature.includes('Jail Visitation Release')) {
+		if (!data.nature.includes('Jail Visitation')) {
 			if (!data.interviewee_id || data.interviewee_id.length < 1)
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
@@ -313,7 +313,7 @@ export const formSchema = z.object({
 			});
 	}
 
-	if (data.nature.includes('Jail Visitation Release') || data.nature.includes('Representation in Court or Quasi-Judicial Bodies')) {
+	if (data.nature.includes('Jail Visitation') || data.nature.includes('Representation in Court or Quasi-Judicial Bodies')) {
 		if (!data.case_id)
 			ctx.addIssue({
 				code: z.ZodIssueCode.custom,
@@ -321,7 +321,7 @@ export const formSchema = z.object({
 				path: ['case_id']
 			});
 
-		if (data.nature.includes('Jail Visitation Release')) {
+		if (data.nature.includes('Jail Visitation')) {
 			if (!data.dateOfVisit)
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,

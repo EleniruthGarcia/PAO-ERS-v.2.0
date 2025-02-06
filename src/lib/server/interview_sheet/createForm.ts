@@ -69,78 +69,11 @@ function addOrdinalSuffix(day: number): string {
 	}
 }
 async function addTextToPDF(data: any) {
-	const values = getFormattedDate();
-	const monthYear = getFormattedDate()[1] + ', ' + getFormattedDate()[3];
-	const {
-		// branch data
-		region,
-		districtProvince,
-		district,
-		province,
-		controlNo,
-
-		// client data
-		religion,
-		citizenship,
-		name,
-		age,
-		address,
-		email,
-		individualMonthlyIncome,
-		detainedSince,
-		civilStatus,
-		sex,
-		educationalAttainment,
-		languageDialect,
-		contactNo,
-		spouse,
-		addressOfSpouse,
-		spouseContactNo,
-		placeOfDetention,
-		proofOfIndigency,
-
-		// interviewee data
-		intervieweeName,
-		intervieweeAddress,
-		relationshipToClient,
-		intervieweeAge,
-		intervieweeSex,
-		intervieweeCivilStatus,
-		intervieweeContactNo,
-		intervieweeEmail,
-
-		// nature of service
-		natureOfService,
-		otherNature,
-		PDLStatus, // from client.detained
-		natureOfTheCase,
-		caseSpecs,
-
-		// client class
-		clientClasses,
-		clientInvolvement,
-		lawEnforcer,
-		foreignNational,
-		pwd,
-		indigenousPeople,
-		urbanPoor,
-		ruralPoor,
-
-		adversePartyInvolvement,
-		adversePartyName,
-		adversePartyAddress,
-		factsOfTheCase,
-		causeOfActionOrNatureOfOffence,
-		pendingInCourt,
-		titleOfCaseDocketNum,
-		court
-	} = data;
-
 	// Load existing PDF
 	const pdfBytes = await read(templateFile).arrayBuffer();
 	const pdfDoc = await PDFDocument.load(pdfBytes);
-	// Get the first page of the PDF
 	const firstPage = pdfDoc.getPages()[0];
+	const firstPageForm = pdfDoc.getForm();
 
 	// Add text to the first page
 	// firstPage.drawText(controlNo ?? 'N/A', {
@@ -149,7 +82,8 @@ async function addTextToPDF(data: any) {
 	// 	size: 8,
 	// 	color: rgb(0, 0, 0) // Black
 	// });
-	firstPage.drawText(values[0] ?? 'N/A', {
+	const dateField = firstPageForm.createTextField('date')
+	dateField.addToPage({
 		x: 70,
 		y: 875,
 		size: 8,

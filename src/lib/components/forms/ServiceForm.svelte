@@ -239,13 +239,14 @@
 		}
 	}
 	$: touchedNatureOfInstrument = false;
-	$: filteredNatureOfInstrument = 
-  $formData.natureOfInstrument && touchedNatureOfInstrument
-    ? natureOfInstrument.filter((v) => 
-        $formData.natureOfInstrument
-          .some((entry) => entry?.toLowerCase().includes(v.toLowerCase()))
-      )
-    : natureOfInstrument;
+	$: filteredNatureOfInstrument =
+		$formData.natureOfInstrument && touchedNatureOfInstrument
+			? natureOfInstrument.filter((v) =>
+					$formData.natureOfInstrument.some((entry) =>
+						entry?.toLowerCase().includes(v.toLowerCase())
+					)
+				)
+			: natureOfInstrument;
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
@@ -407,7 +408,7 @@
 						</Card.Content>
 					</Form.Fieldset>
 				</Card.Root>
-				{#if $formData.nature.includes('Jail Visitation Release')}
+				{#if $formData.nature.includes('Jail Visitation')}
 					<Card.Root>
 						<Card.Header>
 							<Card.Title class="text-sm">
@@ -712,9 +713,7 @@
 										<div class="grid items-start gap-3 sm:grid-cols-3">
 											<Form.Field {form} name="beneficiary[{i}].age" class="grid gap-3">
 												<Form.Control let:attrs>
-													<Form.Label>
-														Age
-													</Form.Label>
+													<Form.Label>Age</Form.Label>
 													<NumberInput {...attrs} {form} name="beneficiary[{i}].age" />
 												</Form.Control>
 												<Form.FieldErrors />
@@ -856,7 +855,7 @@
 						</Card.Content>
 					</Card.Root>
 				{/if}
-				{#if $formData.nature.includes('Administration of Oath') || $formData.nature.includes('Home Visitation') || $formData.nature.includes('Inquest Legal Assistance') || $formData.nature.includes('Jail Visitation Release') || $formData.nature.includes('Legal Advice') || $formData.nature.includes('Legal Documentation') || $formData.nature.includes('Mediation or Conciliation') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies') || $formData.nature.includes('Others')}
+				{#if $formData.nature.includes('Administration of Oath') || $formData.nature.includes('Home Visitation') || $formData.nature.includes('Inquest Legal Assistance') || $formData.nature.includes('Jail Visitation') || $formData.nature.includes('Legal Advice') || $formData.nature.includes('Legal Documentation') || $formData.nature.includes('Mediation or Conciliation') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies') || $formData.nature.includes('Others')}
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Service Information</Card.Title>
@@ -1005,11 +1004,11 @@
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
-								{#if $formData.nature.includes('Legal Advice') || $formData.nature.includes('Jail Visitation Release') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies')}
+								{#if $formData.nature.includes('Legal Advice') || $formData.nature.includes('Jail Visitation') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies')}
 									<Form.Field {form} name="case_id" class="grid gap-3 sm:col-span-8">
 										<Form.Control let:attrs>
 											<Form.Label
-												>Docket Number {#if $formData.nature.includes('Jail Visitation Release') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies')}
+												>Docket Number {#if $formData.nature.includes('Jail Visitation') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies')}
 													<span class="font-bold text-destructive">*</span>{/if}</Form.Label
 											>
 											<Input {...attrs} bind:value={$formData.case_id} />
@@ -1017,10 +1016,10 @@
 										<Form.FieldErrors />
 									</Form.Field>
 								{/if}
-								{#if $formData.nature.includes('Jail Visitation Release')}
+								{#if $formData.nature.includes('Jail Visitation')}
 									<Form.Field {form} name="typeOfRelease" class="grid gap-3 truncate sm:col-span-8">
 										<Form.Control let:attrs>
-											<Form.Label>Type of Jail Visitation Release</Form.Label>
+											<Form.Label>Type of Jail Visitation</Form.Label>
 											<Select.Root
 												selected={selectedTypeOfRelease}
 												onSelectedChange={(s) => {
@@ -1100,7 +1099,9 @@
 																class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
 																placeholder="Please type or select from options."
 															/>
-															<CaretSort class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50" />
+															<CaretSort
+																class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50"
+															/>
 														</div>
 														<Combobox.Content
 															class="relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
