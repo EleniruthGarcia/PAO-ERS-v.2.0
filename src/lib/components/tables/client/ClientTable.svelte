@@ -54,21 +54,35 @@
 				{#await $page.data.clients}
 					<Loading />
 				{:then clients}
-					{#if clients.filter((client) => client.status?.at(-1).type !== 'Archived').length > 0}
-						<Table data={clients.filter((client) => client.status?.at(-1).type !== 'Archived')} />
-					{:else}
-						<div
-							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
-						>
-							<div class="flex flex-col items-center gap-1 text-center">
-								<h3 class="text-2xl font-bold tracking-tight">You have no clients.</h3>
-								<p class="text-sm text-muted-foreground">
-									You can start rendering services as soon as you add a new client.
-								</p>
-								<Button class="mt-4" href="/clients/add">Add Client</Button>
+					{#await $page.data.services}
+						<Loading />
+					{:then services}
+						{#if clients.filter((client) => client.status?.at(-1).type !== 'Archived' && services.filter((service) => service.lawyer_id == $page.data.user.id && service.client_id?.includes(client._id)).length > 0).length > 0}
+							<Table
+								data={clients.filter(
+									(client) =>
+										client.status?.at(-1).type !== 'Archived' &&
+										services.filter(
+											(service) =>
+												service.lawyer_id == $page.data.user.id &&
+												service.client_id?.includes(client._id)
+										).length > 0
+								)}
+							/>
+						{:else}
+							<div
+								class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
+							>
+								<div class="flex flex-col items-center gap-1 text-center">
+									<h3 class="text-2xl font-bold tracking-tight">You have no clients.</h3>
+									<p class="text-sm text-muted-foreground">
+										You can start rendering services as soon as you add a new client.
+									</p>
+									<Button class="mt-4" href="/clients/add">Add Client</Button>
+								</div>
 							</div>
-						</div>
-					{/if}
+						{/if}
+					{/await}
 				{/await}
 			</Card.Content>
 		</Card.Root>

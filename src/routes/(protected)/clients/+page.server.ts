@@ -18,5 +18,6 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/clients', text: 'Clients' }
 		],
 		clients: db.clients.find().toArray(),
+		services: db.services.find().toArray()
 	};
 };
