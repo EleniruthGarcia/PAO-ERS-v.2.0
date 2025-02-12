@@ -263,13 +263,6 @@ export const formSchema = z.object({
 						path: ['beneficiary', i, 'address']
 					});
 
-				if (!b.age)
-					ctx.addIssue({
-						code: z.ZodIssueCode.custom,
-						message: 'Age is required.',
-						path: ['beneficiary', i, 'age']
-					});
-
 				if (!b.sex)
 					ctx.addIssue({
 						code: z.ZodIssueCode.custom,
