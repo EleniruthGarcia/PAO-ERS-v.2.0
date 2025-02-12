@@ -14,6 +14,8 @@
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Label } from '$lib/components/ui/label';
 
 	import { toast } from 'svelte-sonner';
 
@@ -147,25 +149,59 @@
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-
-						<div class="grid items-start gap-3 sm:grid-cols-2">
-							<Form.Field {form} name="password" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Password</Form.Label>
-									<Input {...attrs} type="password" bind:value={$formData.password} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-							<Form.Field {form} name="confirmPassword" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Confirm Password</Form.Label>
-									<Input {...attrs} type="password" bind:value={$formData.confirmPassword} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-						</div>
+						<Form.Field
+							{form}
+							name="changePassword"
+							class="flex w-fit flex-row items-center space-x-3 space-y-0 rounded-md border p-4"
+						>
+							<Form.Control let:attrs>
+								<Checkbox {...attrs} bind:checked={$formData.changePassword} />
+								<div class="h-10 space-y-2 truncate leading-none">
+									<Form.Label>Change Password</Form.Label>
+									<Form.Description>Check if you want to change your password.</Form.Description>
+								</div>
+								<input name={attrs.name} bind:value={$formData.changePassword} hidden />
+							</Form.Control>
+							<Form.FieldErrors />
+						</Form.Field>
 					</Card.Content>
 				</Card.Root>
+				{#if $formData.changePassword}
+					<Card.Root>
+						<Card.Header>
+							<Card.Title>Password Information</Card.Title>
+							<Card.Description>
+								Please fill out all necessary information. Required fields are marked with <span
+									class="font-bold text-destructive"
+								>
+									*
+								</span>
+								.
+							</Card.Description>
+						</Card.Header>
+						<Card.Content class="grid auto-rows-max items-start gap-3">
+							<div class="grid items-start gap-3 sm:grid-cols-2">
+								<Form.Field {form} name="password" class="grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>Password</Form.Label>
+										<Input {...attrs} type="password" bind:value={$formData.password} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
+								<Form.Field {form} name="confirmPassword" class="grid gap-3">
+									<Form.Control let:attrs>
+										<Form.Label>Confirm Password</Form.Label>
+										<Input {...attrs} type="password" bind:value={$formData.confirmPassword} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
+							</div>
+						</Card.Content>
+					</Card.Root>
+				{:else}
+					<input type="hidden" name="password" bind:value={$formData.password} />
+					<input type="hidden" name="confirmPassword" bind:value={$formData.confirmPassword} />
+				{/if}
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Personal Information</Card.Title>

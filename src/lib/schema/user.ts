@@ -25,11 +25,12 @@ export const position = [
 
 export const formSchema = z.object({
 	_id: z.string(),
-	role: z.enum(role),
+	role: z.enum(role).default('Staff'),
 	branch_id: z.string().min(1, 'Branch is required!'),
 	username: z.string().min(1, 'Username is required!'),
-	password: z.string().min(1, 'Password is required!'),
-	confirmPassword: z.string().min(1, 'Confirm password is required!'),
+	changePassword: z.boolean().default(false),
+	password: z.string().optional(),
+	confirmPassword: z.string().optional(),
 	hashedPassword: z.string().min(1, 'Hashed password is required!'),
 	position: z.enum(position),
 	rank: z.string().min(1, 'Rank is required!'),
@@ -60,9 +61,16 @@ export const formSchema = z.object({
 		})
 	),
 	reportsTo: z.string().optional()
+}).superRefine((data, ctx) => {
+	if (data.changePassword) {
+		if (data.password !== data.confirmPassword)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Passwords do not match!',
+				path: ['confirmPassword']
+			});
+	}
 });
 
 export type FormSchema = typeof formSchema;
-
-const userSchema = formSchema.omit({ password: true, confirmPassword: true });
-export type User = z.infer<typeof userSchema>;
+export type User = z.infer<typeof formSchema>;

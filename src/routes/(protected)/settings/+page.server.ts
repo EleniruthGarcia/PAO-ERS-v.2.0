@@ -17,6 +17,8 @@ export const load: PageServerLoad = async (event) => {
 		);
 	}
 
+	const user = await db.users.findOne({ _id: event.locals.user.id });
+
 	return {
 		breadcrumbs: [
 			{ href: '/', text: 'PAO-ERS' },
@@ -25,7 +27,8 @@ export const load: PageServerLoad = async (event) => {
 		form: await superValidate(
 			{
 				...event.locals.user,
-				currentStatus: 'Updated'
+				currentStatus: 'Updated',
+				hashedPassword: user?.hashedPassword,
 			},
 			zod(formSchema),
 			{ errors: false }
@@ -49,14 +52,14 @@ export const actions = {
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) return fail(400, { form });
 
-		if (form.data.password !== form.data.confirmPassword)
-			return setError(form, '', 'Passwords do not match!');
-
 		const existingUser = await db.users.findOne({ username: form.data.username });
 		if (existingUser && existingUser._id !== event.locals.user.id)
 			return setError(form, '', 'Username already exists!');
 
-		form.data.hashedPassword = await new Argon2id().hash(form.data.password);
+		if (form.data.changePassword && form.data.password) {
+			form.data.hashedPassword = await new Argon2id().hash(form.data.password);
+			form.data.changePassword = false;
+		}
 
 		const formData: any = form.data;
 		delete formData._id;
