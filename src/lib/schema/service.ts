@@ -112,7 +112,11 @@ export const terminationMediaCon = [
 	'Disputes closed without settlement'
 ] as const;
 
-export const limitedCases = [
+export const limitedServices = [
+	'For Arraignment Only',
+	'For Pre-trial Only',
+	'For Promulgation of Judgment Only',
+	'Others'
 ] as const;
 
 export const sex = ['Male', 'Female'] as const;
@@ -175,7 +179,7 @@ export const formSchema = z.object({
 
 	// limited services
 	limitedName: z.string().optional(),
-	limitedCases: z.array(z.string()).optional(),
+	limitedService: z.string().optional(),
 
 	// common to legal advice and mediation or conciliation
 	additionalNotes: z.string().optional(),
@@ -349,11 +353,11 @@ export const formSchema = z.object({
 				exact: true,
 			});
 
-		if (!data.limitedCases || data.limitedCases.length < 1)
+		if (!data.limitedService || data.limitedService.length < 1)
 			ctx.addIssue({
 				code: z.ZodIssueCode.custom,
-				message: 'Case is required.',
-				path: ['limitedCases']
+				message: 'Limited Service is required.',
+				path: ['limitedService']
 			});
 
 		if (!data.limitedName)

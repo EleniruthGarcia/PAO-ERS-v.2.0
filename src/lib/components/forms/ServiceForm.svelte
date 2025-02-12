@@ -13,7 +13,7 @@
 		legalAdviceMode,
 		terminationMediaCon,
 		otherNature,
-		limitedCases
+		limitedServices
 	} from '$lib/schema/service';
 	import { type SuperValidated, type Infer, superForm, dateProxy } from 'sveltekit-superforms';
 
@@ -132,6 +132,11 @@
 		value: $formData.interviewee_id
 	};
 
+	$: selectedLimitedService = {
+		label: $formData.limitedService,
+		value: $formData.limitedService
+	};
+
 	$: selectedRelationshipToClient = {
 		label: $formData.relationshipToClient,
 		value: $formData.relationshipToClient
@@ -180,14 +185,6 @@
 
 	function addClient() {
 		$formData.client_id = [...($formData.client_id ?? []), ''];
-	}
-
-	function removeCaseByIndex(index: number) {
-		$formData.limitedCases = ($formData.limitedCases ?? []).filter((_, i) => i !== index);
-	}
-
-	function addCase() {
-		$formData.limitedCases = [...($formData.limitedCases ?? []), ''];
 	}
 
 	function removeBeneficiaryByIndex(index: number) {
@@ -640,6 +637,11 @@
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Beneficiary Information</Card.Title>
+							<Card.Description>
+								Please fill out all necessary information. Required fields are marked with <span
+									class="font-bold text-destructive">*</span
+								>.
+							</Card.Description>
 						</Card.Header>
 						<Card.Content class="grid auto-rows-max items-start gap-3">
 							<div class="space-between flex">
@@ -773,85 +775,47 @@
 				{#if $formData.nature.includes('Limited Services')}
 					<Card.Root>
 						<Card.Header>
-							<Card.Title>Limited Services Information</Card.Title>
+							<Card.Title>Limited Service Information</Card.Title>
 							<Card.Description>
 								Please fill out all necessary information. Required fields are marked with <span
-									class="font-bold text-destructive"
-								>
-									*
-								</span>
-								.
+									class="font-bold text-destructive">*</span
+								>.
 							</Card.Description>
 						</Card.Header>
 						<Card.Content class="grid auto-rows-max items-start gap-3">
-							<Form.Field {form} name="client_id" class="grid gap-3 sm:col-span-8">
+							<Form.Field {form} name="limitedName" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Client <span class="font-bold text-destructive">*</span></Form.Label>
+									<Form.Label>
+										Name <span class="font-bold text-destructive">*</span>
+									</Form.Label>
+									<Input {...attrs} bind:value={$formData.limitedName} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+							<Form.Field {form} name="limitedService" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>
+										Limited Service <span class="font-bold text-destructive">*</span>
+									</Form.Label>
 									<Select.Root
-										selected={selectedClient[0]}
+										selected={selectedLimitedService}
 										onSelectedChange={(s) => {
-											s && ($formData.client_id[0] = s.value);
+											s && ($formData.limitedService = s.value);
 										}}
 									>
-										<Select.Input name="client_id" bind:value={$formData.client_id} />
+										<Select.Input name={attrs.name} />
 										<Select.Trigger {...attrs}>
 											<Select.Value placeholder="" />
 										</Select.Trigger>
 										<Select.Content>
-											{#each $page.data.clients.filter((c) => !$formData.client_id.includes(c._id)) as client}
-												<Select.Item bind:value={client._id}>{client.name}</Select.Item>
+											{#each limitedServices as value}
+												<Select.Item {value} />
 											{/each}
 										</Select.Content>
 									</Select.Root>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Fieldset {form} name="limitedCases" class="grid gap-3 sm:col-span-8">
-								<Form.Legend>
-									Cases <span class="font-bold text-destructive">*</span>
-								</Form.Legend>
-								{#each $formData.limitedCases ?? [] as _, i}
-									<Form.ElementField {form} name="limitedCases[{i}]">
-										<Form.Control let:attrs>
-											<div class="flex gap-2">
-												<Select.Root
-													selected={limitedCases[i]}
-													onSelectedChange={(s) => {
-														s && ($formData.limitedCases[i] = s.value);
-													}}
-												>
-													<Select.Input
-														name="limitedCases[{i}]"
-														bind:value={$formData.limitedCases[i]}
-													/>
-													<Select.Trigger {...attrs}>
-														<Select.Value placeholder="" />
-													</Select.Trigger>
-													<Select.Content>
-														{#each $page.data.cases.filter((c) => !$formData.limitedCases?.includes(c._id)) as _case}
-															<Select.Item bind:value={_case._id}>{_case._id}</Select.Item>
-														{/each}
-													</Select.Content>
-												</Select.Root>
-												<Button
-													variant="destructive"
-													class="gap-2"
-													on:click={() => removeCaseByIndex(i)}
-												>
-													<Trash class="h-3.5 w-3.5" />
-												</Button>
-											</div>
-										</Form.Control>
-									</Form.ElementField>
-								{/each}
-								{#if $page.data.cases.length > ($formData.limitedCases?.length ?? 0)}
-									<Button variant="outline" class="gap-2" on:click={addCase}>
-										<PlusCircled class="h-3.5 w-3.5" />
-										<span>Add Case</span>
-									</Button>
-								{/if}
-								<Form.FieldErrors />
-							</Form.Fieldset>
 						</Card.Content>
 					</Card.Root>
 				{/if}
