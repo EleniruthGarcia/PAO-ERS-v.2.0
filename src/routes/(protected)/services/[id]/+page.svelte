@@ -243,7 +243,7 @@
 							</ul>
 						</div>
 					{/if}
-					{#if data.service.nature.includes('Jail Visitation Release')}
+					{#if data.service.nature.includes('Jail Visitation')}
 						<Separator class="my-4" />
 						<div class="grid gap-3">
 							<div class="font-semibold">Jail Visitation Information</div>
