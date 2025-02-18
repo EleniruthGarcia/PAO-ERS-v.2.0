@@ -36,6 +36,7 @@ export const load: PageServerLoad = async (event) => {
 				status: [{ type: 'New', date: new Date() }],
 				lawyer_id: event.locals.user.id,
 				client_id,
+				date: new Date(),
 			},
 			zod(formSchema),
 			{ errors: false }
