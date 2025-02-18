@@ -608,6 +608,14 @@
 								<Form.FieldErrors />
 							</Form.Field>
 
+							<Form.Field {form} name="dateOfOutreach" class="grid gap-3">
+								<Form.Control let:attrs>
+									<Form.Label>Date <span class="font-bold text-destructive"> * </span></Form.Label>
+									<DateInput {form} name="dateOfOutreach" />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+
 							<Form.Field {form} name="lawyer_id" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>

@@ -147,6 +147,7 @@ export const formSchema = z.object({
 	// common to all services except barangay outreach, Jail Visitation, and limited services
 	interviewee_id: z.string().optional(),
 	relationshipToClient: z.enum(relationshipToClient).default(undefined as unknown as 'Self').optional(),
+
 	// adminisration of oath
 	natureOfInstrument: z.array(z.union([z.enum(natureOfInstrument), z.string()]).transform((e) => (e === '' ? undefined : e))).default([]),
 	witness: z.string().optional(),
@@ -164,6 +165,7 @@ export const formSchema = z.object({
 			ethnicity: z.string().optional(),
 		})
 	).optional(),
+	dateOfOutreach: z.date().optional(),
 
 	// inquest legal assistance
 	typeOfAssistance: z.enum(typeOfAssistance).default(undefined as unknown as 'Assisted during Custodial Interrogation').optional(),
@@ -291,6 +293,13 @@ export const formSchema = z.object({
 				code: z.ZodIssueCode.custom,
 				message: 'Barangay is required.',
 				path: ['barangay']
+			});
+
+		if (!data.dateOfOutreach)
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Date of Outreach is required.',
+				path: ['dateOfOutreach']
 			});
 	}
 

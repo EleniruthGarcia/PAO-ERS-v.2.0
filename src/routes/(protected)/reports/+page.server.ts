@@ -6,7 +6,6 @@ import { formSchema, months } from '$lib/schema/report';
 import { superValidate } from 'sveltekit-superforms';
 import { fail } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
-import { status } from '$lib/schema/user';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {
@@ -279,17 +278,83 @@ export const actions = {
 						natureOfInstrument: { $ifNull: ['$natureOfInstrument', []] },
 						typeOfService: { $ifNull: ['$service.typeOfService', []] },
 						position: { $ifNull: ['$client.lawEnforcer', ''] },
-						barangay: { $ifNull: ['$service.barangay', ''] },
-						outreachName: { $ifNull: ['$service.beneficiary.name', ''] },
-						outreachSex: { $ifNull: ['$service.beneficiary.sex', ''] },
-						problem: { $ifNull: ['$service.problemsPresented', ''] },
-						activity: { $ifNull: ['$service.activitiesUndertaken', ''] },
 					}
 				}
 			])
 			.toArray();
 
-		const f10 = services.filter((d) => d.services?.nature?.includes('Barangay Outreach'));;
+		const f10 = await db.services.aggregate([
+			{
+				$match: {
+					status: {
+						$elemMatch: {
+							type: 'New',
+							date: {
+								$gte: new Date(form.data.year, months.indexOf(form.data.month), 1),
+								$lt: months.indexOf(form.data.month) + 1 < 12 ? new Date(form.data.year + 1, 0, 1)
+									: new Date(form.data.year, months.indexOf(form.data.month) + 1, 1)
+							}
+						}
+					},
+					nature: 'Barangay Outreach',
+					lawyer_id: event.locals.user.id
+				}
+			}, {
+				$lookup: {
+					from: 'users',
+					localField: 'lawyer_id',
+					foreignField: '_id',
+					as: 'lawyer'
+				}
+			},
+			{
+				$lookup: {
+					from: 'branches',
+					localField: 'lawyer.branch_id',
+					foreignField: '_id',
+					as: 'branch'
+				}
+			},
+			{
+				$addFields: {
+					lawyer: { $arrayElemAt: ['$lawyer', 0] },
+					branch: { $arrayElemAt: ['$branch', 0] }
+				}
+			},
+			{
+				$unwind: '$beneficiary'
+			},
+			{
+				$project: {
+					branch: '$branch',
+					service: '$$ROOT',
+					lawyer: '$lawyer',
+					monthYear: {
+						$dateToString: {
+							date: '$date',
+							format: '%B %Y',
+							timezone: '+08:00',
+							onNull: 'N/A'
+						}
+					},
+					region: '$branch.region',
+					districtProvince: {
+						$concat: ['$branch.district', ', ', '$branch.province']
+					},
+					district: '$branch.district',
+					province: '$branch.province',
+					controlNo: '$_id',
+					date: '$dateOfOutreach',
+					barangay: { $ifNull: ['$service.barangay', ''] },
+					outreachName: { $ifNull: ['$service.beneficiary.name', 'N/A'] },
+					outreachSex: { $ifNull: ['$service.beneficiary.sex', 'N/A'] },
+					problem: { $ifNull: ['$service.problemsPresented', ''] },
+					activity: { $ifNull: ['$service.activitiesUndertaken', ''] },
+					remarks: { $ifNull: ['$service.factsOfTheCase', ''] },
+				}
+			}
+		]).toArray();
+
 		const f11 = services.filter((d) => d.services?.nature?.includes('Jail Visitation'));
 		const f12 = services.filter((d) => d.client?.classification?.includes('Victim')).map((item, index) => ({ index, ...item }));
 		const f13 = services
@@ -357,6 +422,20 @@ export const actions = {
 		services = await db.services
 			.aggregate([
 				{
+					$match: {
+						status: {
+							$elemMatch: {
+								type: 'New',
+								date: {
+									$gte: new Date(form.data.year, months.indexOf(form.data.month), 1),
+									$lt: months.indexOf(form.data.month) + 1 < 12 ? new Date(form.data.year + 1, 0, 1)
+										: new Date(form.data.year, months.indexOf(form.data.month) + 1, 1)
+								}
+							}
+						},
+						lawyer_id: event.locals.user.id
+					}
+				}, {
 					$lookup: {
 						from: 'users',
 						localField: 'lawyer_id',
@@ -369,9 +448,6 @@ export const actions = {
 						lawyer: { $arrayElemAt: ['$lawyer', 0] }
 					}
 				},
-				// {
-				// 	$match: { 'lawyer._id': event.locals.user.role === 'Administrator' ? '' : event.locals.user.id }
-				// },
 				{
 					$lookup: {
 						from: 'clients',
