@@ -235,9 +235,9 @@ export const actions = {
 								''
 							]
 						},
-						Women: { $cond: [{$or: [{ $in: ['Woman Client', '$client.classification'] }, { $in: ['Woman Client (Non-VAWC Victim)', '$client.classification'] }]}, 'X', ''] },
+						Women: { $cond: [{ $or: [{ $in: ['Woman Client', '$client.classification'] }, { $in: ['Woman Client (Non-VAWC Victim)', '$client.classification'] }] }, 'X', ''] },
 						Senior: { $cond: [{ $in: ['Senior Citizen', '$client.classification'] }, 'X', ''] },
-						OFW: { $cond: [{$or: [{ $in: ['OFW (Land-Based)', '$client.classification'] }, { $in: ['OFW (Sea-Based)', '$client.classification'] }]}, 'X', ''] },
+						OFW: { $cond: [{ $or: [{ $in: ['OFW (Land-Based)', '$client.classification'] }, { $in: ['OFW (Sea-Based)', '$client.classification'] }] }, 'X', ''] },
 						IG: { $cond: [{ $ifNull: ['$client.indigenousPeople', true] }, '', 'X'] },
 						PWD: { $cond: [{ $ifNull: ['$client.pwd', true] }, '', 'X'] },
 						UP: { $cond: [{ $ifNull: ['$client.urbanPoor', true] }, '', 'X'] },
@@ -279,11 +279,11 @@ export const actions = {
 						natureOfInstrument: { $ifNull: ['$natureOfInstrument', []] },
 						typeOfService: { $ifNull: ['$service.typeOfService', []] },
 						position: { $ifNull: ['$client.lawEnforcer', ''] },
-						barangay: '$service.barangay',
-						outreachName: '$service.beneficiary.name',
-						outreachSex: '$service.beneficiary.sex',
-						problem: '$service.problemsPresented',
-						activity: '$service.activitiesUndertaken'
+						barangay: { $ifNull: ['$service.barangay', ''] },
+						outreachName: { $ifNull: ['$service.beneficiary.name', ''] },
+						outreachSex: { $ifNull: ['$service.beneficiary.sex', ''] },
+						problem: { $ifNull: ['$service.problemsPresented', ''] },
+						activity: { $ifNull: ['$service.activitiesUndertaken', ''] },
 					}
 				}
 			])
