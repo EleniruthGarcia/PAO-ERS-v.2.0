@@ -123,13 +123,12 @@ export const sex = ['Male', 'Female'] as const;
 
 export const formSchema = z.object({
 	// base
-	_id: z.string(),
-	lawyer_id: z.string().min(1, 'Lawyer is required.'),
-	typeOfService: z.enum(typeOfService, {
-		required_error: 'Type of Service is required.'
-	}),
-	nature: z.array(z.enum(nature)).min(1, 'Nature of Service is required.'),
+	_id: z.string({ required_error: 'ID is required.' }),
+	lawyer_id: z.string({ required_error: 'Lawyer is required.' }),
+	typeOfService: z.enum(typeOfService, { required_error: 'Type of Service is required.' }),
+	nature: z.array(z.enum(nature)).nonempty({ message: 'Nature of Service is required.' }),
 	otherNature: z.array(z.enum(otherNature)).optional(),
+	date: z.date({ required_error: 'Date is required.' }),
 	currentStatus: z.enum(status, {
 		required_error: 'Status is required.'
 	}),
@@ -146,10 +145,10 @@ export const formSchema = z.object({
 
 	// common to all services except barangay outreach, Jail Visitation, and limited services
 	interviewee_id: z.string().optional(),
-	relationshipToClient: z.enum(relationshipToClient).default(undefined as unknown as 'Self').optional(),
+	relationshipToClient: z.enum(relationshipToClient).optional(),
 
 	// adminisration of oath
-	natureOfInstrument: z.array(z.union([z.enum(natureOfInstrument), z.string()]).transform((e) => (e === '' ? undefined : e))).default([]),
+	natureOfInstrument: z.array(z.enum(natureOfInstrument)).optional(),
 	witness: z.string().optional(),
 
 	// barangay outreach
@@ -158,25 +157,23 @@ export const formSchema = z.object({
 	activitiesUndertaken: z.string().optional(),
 	beneficiary: z.array(
 		z.object({
-			name: z.string().min(1, 'Name is required.'),
-			address: z.string().min(1, 'Address is required.'),
-			sex: z.enum(sex, { required_error: 'Sex is required.' }).default(undefined as unknown as 'Male'),
-			age: z.union([z.literal(''), z.number().optional()]).transform((e) => (e === '' ? undefined : e)).optional(),
+			name: z.string().optional(),
+			address: z.string().optional(),
+			sex: z.enum(sex).optional(),
+			age: z.number().optional(),
 			ethnicity: z.string().optional(),
 		})
 	).optional(),
-	dateOfOutreach: z.date().optional(),
 
 	// inquest legal assistance
-	typeOfAssistance: z.enum(typeOfAssistance).default(undefined as unknown as 'Assisted during Custodial Interrogation').optional(),
-	duringOffice: z.boolean().default(false).optional(),
+	typeOfAssistance: z.enum(typeOfAssistance).optional(),
+	duringOffice: z.boolean().optional(),
 
 	// common to Jail Visitation and representation in court or quasi-judicial bodies
 	case_id: z.string().optional(),
 
 	// Jail Visitation
-	dateOfVisit: z.date().optional(),
-	typeOfRelease: z.enum(typeOfRelease).default(undefined as unknown as 'Acquitted (After trial)').optional(),
+	typeOfRelease: z.enum(typeOfRelease).optional(),
 	recommendation: z.string().optional(),
 
 	// limited services
@@ -187,12 +184,12 @@ export const formSchema = z.object({
 	additionalNotes: z.string().optional(),
 
 	// legal advice
-	legalAdviceMode: z.enum(legalAdviceMode).default(undefined as unknown as 'In person/walk-in').optional(),
+	legalAdviceMode: z.enum(legalAdviceMode).optional(),
 
 	// mediation or conciliation
 	settlementDate: z.date().optional(),
 	mediationDates: z.array(z.date()).optional(),
-	terminationMediaCon: z.enum(terminationMediaCon).default(undefined as unknown as 'Disputes settled (compromised agreement)').optional(),
+	terminationMediaCon: z.enum(terminationMediaCon).optional(),
 
 	// representation in court or quasi-judicial bodies
 	hearingDates: z.array(z.date()).optional(),
@@ -294,13 +291,6 @@ export const formSchema = z.object({
 				message: 'Barangay is required.',
 				path: ['barangay']
 			});
-
-		if (!data.dateOfOutreach)
-			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
-				message: 'Date of Outreach is required.',
-				path: ['dateOfOutreach']
-			});
 	}
 
 	if (data.nature.includes('Inquest Legal Assistance')) {
@@ -328,13 +318,6 @@ export const formSchema = z.object({
 			});
 
 		if (data.nature.includes('Jail Visitation')) {
-			if (!data.dateOfVisit)
-				ctx.addIssue({
-					code: z.ZodIssueCode.custom,
-					message: 'Date of Visit is required.',
-					path: ['dateOfVisit']
-				});
-
 			if (!data.typeOfRelease)
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
@@ -412,7 +395,6 @@ export const formSchema = z.object({
 			});
 	}
 });
-
 
 export type FormSchema = typeof formSchema;
 export type Service = z.infer<typeof formSchema>;

@@ -254,7 +254,7 @@
 								</li>
 								<li class="flex items-center justify-between gap-2 truncate">
 									<span class="text-muted-foreground">Date of Visitation</span>
-									<span>{data.service.dateOfVisit.toDateString() ?? 'N/A'}</span>
+									<span>{data.service.date.toDateString() ?? 'N/A'}</span>
 								</li>
 								<li class="flex items-center justify-between gap-2 truncate">
 									<span class="text-muted-foreground">Type</span>
@@ -306,6 +306,7 @@
 					{/if}
 				{/if}
 				{#if data.service.barangay}
+					<Separator class="my-4" />
 					<div class="grid gap-3">
 						<div class="font-semibold">Barangay Information</div>
 						<ul class="grid gap-3">
