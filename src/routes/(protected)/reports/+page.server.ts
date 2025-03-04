@@ -215,7 +215,7 @@ export const actions = {
 					adverseParty: { $ifNull: ['$case.adversePartyInvolvement', ''] },
 					adversePartyName: { $ifNull: ['$case.adversePartyName', 'N/A'] },
 					adversePartyAddress: { $ifNull: ['$case.adversePartyAddress', 'N/A'] },
-					natureOfOffence: { $ifNull: ['$case.natureOfOffence', ''] },
+					natureOfOffence: { $ifNull: ['$case.causeOfActionOrNatureOfOffence', ''] },
 					courtPendingStatus: { $ifNull: ['$case.status', ''] },
 					titleOfCaseDocketNum: { $concat: ['$case.titleOfTheCase', ' (', '$case.docketNumber', ')'] },
 					court: { $ifNull: ['$case.court', ''] },
@@ -271,7 +271,7 @@ export const actions = {
 			.map((item, index) => ({ index, ...item }));
 		const f14 = '';
 		const f15 = services.filter((d) =>
-			d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation')
+			d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation (Drugs)')
 		);
 		const f16 = services.filter((d) => d.client?.foreignNational?.includes('Taiwanese')).map((item, index) => ({ index, ...item }));
 		const f17 = services;
