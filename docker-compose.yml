@@ -23,7 +23,7 @@ services:
     command: mongod --replSet rs0
     healthcheck:
       test: |
-        mongosh --eval "try { rs.status().ok } catch (e) { rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: 'localhost:27017' }] }).ok }"
+        mongosh --eval "try { rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: '172.17.0.1' }] }).ok} catch (e) { rs.status().ok }"
       start_period: 0s
       interval: 500ms
       timeout: 5s
