@@ -94,6 +94,7 @@ export const natureOfInstrument = [
 	'Non-employment (For petition for correction with LCP)',
 	'Omnibus Certification',
 	'Paternity & Filation',
+	'Personal Data Sheet',
 	'Singleness (PNP)',
 	'Supplemental (Blank Entry)',
 	'Supplmemental (Baby Boy, Baby Girl/Blank name',
@@ -104,7 +105,8 @@ export const natureOfInstrument = [
 	'Undertaking (BWD - Not to Install Booster Pump)',
 	'Undertaking (BWD-Owner/ Not the Owner of the Lot)',
 	'Undertaking (CASHBOND)',
-	'Undertaking (TESDA)'
+	'Undertaking (TESDA)',
+	'Others'
 ] as const;
 
 export const terminationMediaCon = [

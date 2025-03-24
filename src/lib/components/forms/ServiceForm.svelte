@@ -670,7 +670,7 @@
 											<Select.Trigger {...attrs}>
 												<Select.Value placeholder="" />
 											</Select.Trigger>
-											<Select.Content>
+											<Select.Content class="max-h-[200px] overflow-y-auto">
 												{#each $page.data.clients as client}
 													<Select.Item bind:value={client._id}>{client.name}</Select.Item>
 												{/each}
@@ -694,7 +694,7 @@
 											<Select.Trigger {...attrs}>
 												<Select.Value placeholder="" />
 											</Select.Trigger>
-											<Select.Content>
+											<Select.Content class="max-h-[200px] overflow-y-auto">
 												{#each relationshipToClient as value}
 													<Select.Item {value} />
 												{/each}
@@ -763,7 +763,7 @@
 											<Select.Trigger {...attrs}>
 												<Select.Value placeholder="" />
 											</Select.Trigger>
-											<Select.Content>
+											<Select.Content class="max-h-[200px] overflow-y-auto">
 												{#each typeOfRelease as value}
 													<Select.Item {value} />
 												{/each}
@@ -806,7 +806,7 @@
 										<Select.Trigger {...attrs}>
 											<Select.Value placeholder="" />
 										</Select.Trigger>
-										<Select.Content>
+										<Select.Content class="max-h-[200px] overflow-y-auto">
 											{#each $page.data.lawyers as lawyer}
 												<Select.Item bind:value={lawyer._id}>{lawyer.name}</Select.Item>
 											{/each}
@@ -919,7 +919,7 @@
 														<Select.Trigger {...attrs}>
 															<Select.Value placeholder="" />
 														</Select.Trigger>
-														<Select.Content>
+														<Select.Content class="max-h-[200px] overflow-y-auto">
 															{#each sex as value}
 																<Select.Item {value} />
 															{/each}
@@ -987,7 +987,7 @@
 														/>
 													</div>
 													<Combobox.Content
-														class="relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
+														class="relative z-50 min-w-[8rem] max-h-[200px] overflow-y-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
 														transition={flyAndScale}
 														sideOffset={8}
 													>
@@ -1068,7 +1068,7 @@
 											<Select.Trigger {...attrs}>
 												<Select.Value placeholder="" />
 											</Select.Trigger>
-											<Select.Content>
+											<Select.Content class="max-h-[200px] overflow-y-auto">
 												{#each typeOfAssistance as value}
 													<Select.Item {value} />
 												{/each}
