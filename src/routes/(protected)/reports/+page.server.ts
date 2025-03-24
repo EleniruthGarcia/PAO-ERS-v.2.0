@@ -215,11 +215,11 @@ export const actions = {
 					adverseParty: { $ifNull: ['$case.adversePartyInvolvement', ''] },
 					adversePartyName: { $ifNull: ['$case.adversePartyName', 'N/A'] },
 					adversePartyAddress: { $ifNull: ['$case.adversePartyAddress', 'N/A'] },
-					natureOfOffence: { $ifNull: ['$case.natureOfOffence', ''] },
+					natureOfOffence: { $ifNull: ['$case.causeOfActionOrNatureOfOffence', ''] },
 					courtPendingStatus: { $ifNull: ['$case.status', ''] },
 					titleOfCaseDocketNum: { $concat: ['$case.titleOfTheCase', ' (', '$case.docketNumber', ')'] },
 					court: { $ifNull: ['$case.court', ''] },
-					status: { $ifNull: ['$case.currentStatus', '$service.currentStatus'] },
+					status: '$case.currentStatus.type',
 					titleOfCase: '$case.titleOfTheCase',
 					remarks: '$case.factsOfTheCase',
 					crimeDate: '$case.dateOfCommission',
@@ -266,9 +266,13 @@ export const actions = {
 		const f10 = services.filter((d) => d.service?.nature?.includes('Barangay Outreach'));
 		const f11 = services.filter((d) => d.service?.nature?.includes('Jail Visitation'));
 		const f12 = services.filter((d) => d.client?.classification?.includes('Victim')).map((item, index) => ({ index, ...item }));
-		const f13 = services.filter((d) => d.client?.classification?.includes('Child in Conflict with the Law')).map((item, index) => ({ index, ...item }));
-		const f14 = services.filter((d) => d.client?.detained).map((item, index) => ({ index, ...item }));
-		const f15 = services.filter((d) => d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation'));
+		const f13 = services
+			.filter((d) => d.client?.classification?.includes('Child in Conflict with the Law'))
+			.map((item, index) => ({ index, ...item }));
+		const f14 = '';
+		const f15 = services.filter((d) =>
+			d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation (Drugs)')
+		);
 		const f16 = services.filter((d) => d.client?.foreignNational?.includes('Taiwanese')).map((item, index) => ({ index, ...item }));
 		const f17 = services;
 		const f18 = services.filter(
