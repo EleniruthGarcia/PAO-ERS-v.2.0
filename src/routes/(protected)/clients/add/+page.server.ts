@@ -2,7 +2,7 @@ import type { PageServerLoad, Actions } from './$types';
 import { fail } from '@sveltejs/kit';
 import { redirect } from 'sveltekit-flash-message/server';
 
-import db from '$lib/server/database';
+import db, { client } from '$lib/server/database';
 
 import { formSchema } from '$lib/schema/client';
 import { zod } from 'sveltekit-superforms/adapters';

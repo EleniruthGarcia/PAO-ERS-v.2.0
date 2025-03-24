@@ -62,6 +62,13 @@ export const formSchema = z.object({
 	),
 	reportsTo: z.string().optional()
 }).superRefine((data, ctx) => {
+	if (data.password && data.password.length < 8)
+		ctx.addIssue({
+			code: z.ZodIssueCode.custom,
+			message: 'Password must be at least 8 characters!',
+			path: ['password']
+		});
+
 	if (data.changePassword) {
 		if (data.password !== data.confirmPassword)
 			ctx.addIssue({

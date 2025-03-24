@@ -2,7 +2,7 @@ import type { PageServerLoad, Actions } from './$types';
 import { fail } from '@sveltejs/kit';
 import { redirect } from 'sveltekit-flash-message/server';
 
-import db from '$lib/server/database';
+import db, { client } from '$lib/server/database';
 
 import { formSchema } from '$lib/schema/service';
 import { zod } from 'sveltekit-superforms/adapters';
@@ -61,32 +61,33 @@ export const actions: Actions = {
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) return fail(400, { form });
 
-		const lawyer = await db.users.findOne({ _id: form.data.lawyer_id });
-		const branch = await db.branches.findOne({ _id: lawyer?.branch_id });
+		const txnResult = await client.withSession(async (session) =>
+			session.withTransaction(async () => {
+				const lawyer = await db.users.findOne({ _id: form.data.lawyer_id }, { session });
+				const branch = await db.branches.findOne({ _id: lawyer?.branch_id }, { session });
 
-		// if (form.data.nature.includes('Barangay Outreach') && !form.data.barangay)
-		// 	return setError(form, 'barangay', 'Barangay is required.');
+				const service = await db.services.insertOne({
+					...form.data,
+					// _id: `${branch?.region}:${branch?.district}:${new Date().getFullYear()}:${new Date().getMonth()}:${(await db.counters.findOneAndUpdate({ _id: 'services', branch_id: branch?._id }, { $inc: { count: 1 } }, { upsert: true }))?.count}`
+					_id: `${new Date().getFullYear()}:${String(new Date().getMonth()).padStart(2, '0')}:${String((await db.counters.findOneAndUpdate({ _id: `services_${branch?.region}_${branch?.district}` }, { $inc: { count: 1 } }, { upsert: true }))?.count ?? 0).padStart(6, '0')}`
+				}, { session });
+				if (!service.acknowledged) {
+					await session.abortTransaction();
+					return { type: 'error', error: 'Failed to add service!' };
+				}
 
-		// if (form.data.nature.includes('Barangay Outreach') && !form.data.problemsPresented)
-		// 	return setError(form, 'problemsPresented', 'Problems Presented is required.');
-
-		// if (form.data.nature.includes('Barangay Outreach') && !form.data.activitiesUndertaken)
-		// 	return setError(form, 'activitiesUndertaken', 'Activities Undertaken is required.');
-
-		// if (form.data.nature.includes('Barangay Outreach') && !form.data.beneficiary)
-		// 	return setError(form, 'Beneficiary is required.');
-
-		const service = await db.services.insertOne({
-			...form.data,
-			// _id: `${branch?.region}:${branch?.district}:${new Date().getFullYear()}:${new Date().getMonth()}:${(await db.counters.findOneAndUpdate({ _id: 'services', branch_id: branch?._id }, { $inc: { count: 1 } }, { upsert: true }))?.count}`
-			_id: `${new Date().getFullYear()}:${String(new Date().getMonth()).padStart(2, '0')}:${String((await db.counters.findOneAndUpdate({ _id: `services_${branch?.region}_${branch?.district}` }, { $inc: { count: 1 } }, { upsert: true }))?.count ?? 0).padStart(6, '0')}`
-		});
-		if (!service.acknowledged) return fail(500, { form });
-
-		redirect(
-			'/services/' + service.insertedId,
-			{ type: 'success', message: 'Service added successfully!' },
-			event
+				return { type: 'success', service };
+			}, undefined)
 		);
+
+		if (txnResult.type === 'success') {
+			redirect(
+				'/services/' + txnResult.service!.insertedId,
+				{ type: 'success', message: 'Service added successfully!' },
+				event
+			);
+		} else {
+			return fail(500, { form });
+		}
 	}
 };

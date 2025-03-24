@@ -2,7 +2,7 @@ import type { PageServerLoad, Actions } from './$types.js';
 import { fail } from '@sveltejs/kit';
 import { redirect } from 'sveltekit-flash-message/server';
 
-import db from '$lib/server/database';
+import db, { client } from '$lib/server/database';
 import { lucia } from '$lib/server/auth';
 import { Argon2id } from 'oslo/password';
 
@@ -28,32 +28,47 @@ export const actions: Actions = {
 
 		const { username, password } = form.data;
 
-		const existingUser = await db.users.findOne({
-			username
-		});
+		const txnResult = await client.withSession(async (session) =>
+			session.withTransaction(async (session) => {
+				const existingUser = await db.users.findOne({ username }, { session });
+				if (!existingUser) {
+					await session.abortTransaction();
+					return { type: 'error', message: 'User does not exist!' };
+				}
 
-		if (!existingUser) {
-			return setError(form, 'username', 'User does not exist!');
+				const validPassword = await new Argon2id().verify(existingUser.hashedPassword, password);
+				if (!validPassword) {
+					await session.abortTransaction();
+					return { type: 'error', message: 'Wrong password!' };
+				}
+
+				const luciaSession = await lucia.createSession(existingUser._id, {});
+				const sessionCookie = lucia.createSessionCookie(luciaSession.id);
+				event.cookies.set(sessionCookie.name, sessionCookie.value, {
+					path: '.',
+					...sessionCookie.attributes
+				});
+
+				let redirectUrl = existingUser.role === 'Administrator' ? '/admin' : '/dashboard';
+				if (event.cookies.get('redirect') !== undefined || event.cookies.get('redirect') !== '') {
+					redirectUrl = event.cookies.get('redirect') || redirectUrl;
+					event.cookies.set('redirect', '', { path: '/' });
+				}
+
+				return { type: 'success', redirectUrl };
+			}, undefined)
+		);
+
+		if (txnResult.type == 'success' && txnResult.redirectUrl) {
+			redirect(txnResult.redirectUrl, { type: 'success', message: 'Logged in successfully!' }, event);
+		} else {
+			if (txnResult.message === 'User does not exist!') {
+				return setError(form, 'username', 'User does not exist!');
+			}
+			if (txnResult.message === 'Wrong password!') {
+				return setError(form, 'password', 'Wrong password!');
+			}
+			return fail(500, { form });
 		}
-
-		const validPassword = await new Argon2id().verify(existingUser.hashedPassword, password);
-		if (!validPassword) {
-			return setError(form, 'password', 'Wrong password!');
-		}
-
-		const session = await lucia.createSession(existingUser._id, {});
-		const sessionCookie = lucia.createSessionCookie(session.id);
-		event.cookies.set(sessionCookie.name, sessionCookie.value, {
-			path: '.',
-			...sessionCookie.attributes
-		});
-
-		let redirectUrl = existingUser.role === 'Administrator' ? '/admin' : '/dashboard';
-		if (event.cookies.get('redirect') !== undefined || event.cookies.get('redirect') !== '') {
-			redirectUrl = event.cookies.get('redirect') || redirectUrl;
-			event.cookies.set('redirect', '', { path: '/' });
-		}
-
-		redirect(redirectUrl, { type: 'success', message: 'Logged in successfully!' }, event);
 	}
 };

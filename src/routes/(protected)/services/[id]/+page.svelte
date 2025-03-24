@@ -43,24 +43,24 @@
 			<AlertDialog.Root>
 				<AlertDialog.Trigger>
 					<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm">
-						{data.service.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+						{data.service.currentStatus === 'Archived' ? 'Restore' : 'Delete'}
 					</Button>
 				</AlertDialog.Trigger>
 				<AlertDialog.Content>
 					<AlertDialog.Header>
 						<AlertDialog.Title>
-							{data.service.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Service
+							{data.service.currentStatus === 'Archived' ? 'Restore' : 'Delete'} Service
 						</AlertDialog.Title>
 						<AlertDialog.Description>
 							Are you absolutely sure? The service will be
-							{data.service.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
+							{data.service.currentStatus === 'Archived' ? 'restored' : 'archived'}.
 						</AlertDialog.Description>
 					</AlertDialog.Header>
 					<AlertDialog.Footer>
 						<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 						<form
 							method="POST"
-							action="/services/{data.service._id}/{data.service.status?.at(-1)?.type === 'Archived'
+							action="/services/{data.service._id}/{data.service.currentStatus === 'Archived'
 								? 'restore'
 								: 'delete'}"
 						>
@@ -68,7 +68,7 @@
 								type="submit"
 								class="w-full bg-destructive hover:bg-destructive/90"
 							>
-								{data.service.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+								{data.service.currentStatus === 'Archived' ? 'Restore' : 'Delete'}
 							</AlertDialog.Action>
 						</form>
 					</AlertDialog.Footer>
@@ -90,7 +90,7 @@
 						<DropdownMenu.Separator />
 						<AlertDialog.Trigger class="w-full text-left">
 							<DropdownMenu.Item>
-								{data.service.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+								{data.service.currentStatus === 'Archived' ? 'Restore' : 'Delete'}
 							</DropdownMenu.Item>
 						</AlertDialog.Trigger>
 					</DropdownMenu.Content>
@@ -98,18 +98,18 @@
 				<AlertDialog.Content>
 					<AlertDialog.Header>
 						<AlertDialog.Title>
-							{data.service.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Service
+							{data.service.currentStatus === 'Archived' ? 'Restore' : 'Delete'} Service
 						</AlertDialog.Title>
 						<AlertDialog.Description>
 							Are you absolutely sure? The service will be
-							{data.service.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
+							{data.service.currentStatus === 'Archived' ? 'restored' : 'archived'}.
 						</AlertDialog.Description>
 					</AlertDialog.Header>
 					<AlertDialog.Footer>
 						<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 						<form
 							method="POST"
-							action="/services/{data.service._id}/{data.service.status?.at(-1)?.type === 'Archived'
+							action="/services/{data.service._id}/{data.service.currentStatus === 'Archived'
 								? 'restore'
 								: 'delete'}"
 						>
@@ -117,7 +117,7 @@
 								type="submit"
 								class="w-full bg-destructive hover:bg-destructive/90"
 							>
-								{data.service.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+								{data.service.currentStatus === 'Archived' ? 'Restore' : 'Delete'}
 							</AlertDialog.Action>
 						</form>
 					</AlertDialog.Footer>

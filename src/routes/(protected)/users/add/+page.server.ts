@@ -2,7 +2,7 @@ import type { PageServerLoad, Actions } from './$types';
 import { fail } from '@sveltejs/kit';
 import { redirect } from 'sveltekit-flash-message/server';
 
-import db from '$lib/server/database';
+import db, { client } from '$lib/server/database';
 
 import { formSchema } from '$lib/schema/user';
 import { zod } from 'sveltekit-superforms/adapters';
@@ -61,23 +61,50 @@ export const actions: Actions = {
 		if (form.data.password !== form.data.confirmPassword)
 			return setError(form, '', 'Passwords do not match!');
 
-		const existingUser = await db.users.findOne({ username: form.data.username });
-		if (existingUser) return setError(form, '', 'Username already exists!');
+		const txnResult = await client.withSession(async (session) =>
+			session.withTransaction(async (session) => {
+				const existingUser = await db.users.findOne({ username: form.data.username }, { session });
+				if (existingUser) {
+					await session.abortTransaction();
+					return { type: 'error', error: 'Username already exists!' };
+				}
 
-		form.data._id = String((await db.users.countDocuments()) + 1);
-		form.data.hashedPassword = await new Argon2id().hash(form.data.password);
+				if (!form.data.password) {
+					await session.abortTransaction();
+					return { type: 'error', error: 'Password is required!' };
+				}
 
-		const formData: any = form.data;
-		delete formData.password;
-		delete formData.confirmPassword;
+				form.data._id = String((await db.users.countDocuments({ session })) + 1);
+				form.data.hashedPassword = await new Argon2id().hash(form.data.password);
 
-		const user = await db.users.insertOne(formData);
-		if (!user) return fail(500, { form });
+				const formData: any = form.data;
+				delete formData.password;
+				delete formData.confirmPassword;
 
-		redirect(
-			'/users/' + formData.username,
-			{ type: 'success', message: 'User added successfully!' },
-			event
+				const user = await db.users.insertOne(formData, { session });
+				if (!user) {
+					await session.abortTransaction();
+					return { type: 'error', error: 'User not inserted!' };
+				}
+
+				return { type: 'success', message: 'User added successfully!' };
+			}, undefined)
 		);
+
+		if (txnResult.type == 'success') {
+			redirect(
+				'/users/' + form.data.username,
+				{ type: 'success', message: 'User added successfully!' },
+				event
+			);
+		} else {
+			if (txnResult.error == 'Username already exists!') {
+				return setError(form, '', 'Username already exists!');
+			} else if (txnResult.error == 'Password is required!') {
+				return setError(form, '', 'Password is required!');
+			} else {
+				return fail(500, { form });
+			}
+		}
 	}
 };

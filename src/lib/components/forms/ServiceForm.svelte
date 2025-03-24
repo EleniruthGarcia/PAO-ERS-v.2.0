@@ -15,7 +15,7 @@
 		otherNature,
 		limitedServices
 	} from '$lib/schema/service';
-	import { type SuperValidated, type Infer, superForm, dateProxy } from 'sveltekit-superforms';
+	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 
 	import {
 		ChevronLeft,
@@ -33,7 +33,6 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Checkbox } from '$lib/components/ui/checkbox';
-	import DatePicker from '$lib/components/DatePicker.svelte';
 	import * as Form from '$lib/components/ui/form';
 	import { Input, Number as NumberInput, Date as DateInput } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
@@ -43,7 +42,6 @@
 	import Textarea from '../ui/textarea/textarea.svelte';
 	import { Combobox } from 'bits-ui';
 	import { flyAndScale } from '$lib/utils';
-	import { toast } from 'svelte-sonner';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -53,25 +51,6 @@
 	});
 
 	const { form: formData, enhance, delayed, allErrors } = form;
-
-	// $: for (const error of $allErrors) {
-	// 	toast.error(`Error on '${error.path}', ${error.messages.join(', ')}`);
-	// }
-
-	// const proxyDate = dateProxy(form, 'date', {
-	// 	format: 'date',
-	// 	empty: 'undefined'
-	// });
-
-	const proxyDateOfVisit = dateProxy(form, 'dateOfVisit', {
-		format: 'date',
-		empty: 'undefined'
-	});
-
-	const proxySettlementDate = dateProxy(form, 'settlementDate', {
-		format: 'date',
-		empty: 'undefined'
-	});
 
 	let selectedClient: { label: string; value: string }[] = [];
 	$: $formData.client_id?.forEach((_, i) => {
@@ -141,11 +120,6 @@
 		label: $formData.relationshipToClient,
 		value: $formData.relationshipToClient
 	};
-
-	// $: selectDistrictProvince = {
-	// 	label: $formData.districtProvince,
-	// 	value: $formData.districtProvince
-	// };
 
 	$: selectedTypeOfAssistance = $formData.typeOfAssistance
 		? {
