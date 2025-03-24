@@ -17,18 +17,19 @@ services:
     restart: unless-stopped
     volumes:
       - mongodb:/data/db
-      - ./keyfile:/opt/keyfile/keyfile:ro
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     ports:
       - ${DB_PORT}:27017
-    command: "--bind_ip_all --keyFile /opt/keyfile/keyfile --replSet rs0"
+    command: [ "--replSet", "rs0", "--bind_ip_all", "--port", "27017" ]
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     healthcheck:
-      test: |
-        mongosh --eval "try { rs.initiate().ok} catch (e) { rs.status().ok }"
+      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'host.docker.internal:27017'}]}) }" | mongosh --port 27017 --quiet
+      interval: 5s
+      timeout: 30s
       start_period: 0s
-      interval: 500ms
-      timeout: 5s
-      retries: 5
+      start_interval: 1s
+      retries: 30
     environment:
       MONGO_INITDB_DATABASE: ${DB_NAME}
       MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
