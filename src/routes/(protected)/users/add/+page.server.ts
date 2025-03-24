@@ -74,7 +74,7 @@ export const actions: Actions = {
 					return { type: 'error', error: 'Password is required!' };
 				}
 
-				form.data._id = String((await db.users.countDocuments({ session })) + 1);
+				form.data._id = String((await db.users.countDocuments({}, { session })) + 1);
 				form.data.hashedPassword = await new Argon2id().hash(form.data.password);
 
 				const formData: any = form.data;
