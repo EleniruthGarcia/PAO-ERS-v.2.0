@@ -72,24 +72,24 @@
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
 							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm">
-								{data._case.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+								{data._case.currentStatus === 'Archived' ? 'Restore' : 'Delete'}
 							</Button>
 						</AlertDialog.Trigger>
 						<AlertDialog.Content>
 							<AlertDialog.Header>
 								<AlertDialog.Title>
-									{data._case.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'} Case
+									{data._case.currentStatus === 'Archived' ? 'Restore' : 'Delete'} Case
 								</AlertDialog.Title>
 								<AlertDialog.Description>
 									Are you absolutely sure? The case will be
-									{data._case.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
+									{data._case.currentStatus === 'Archived' ? 'restored' : 'archived'}.
 								</AlertDialog.Description>
 							</AlertDialog.Header>
 							<AlertDialog.Footer>
 								<AlertDialog.Cancel class="mt-2">Cancel</AlertDialog.Cancel>
 								<form
 									method="POST"
-									action="/cases/{data._case._id}/{data._case.status?.at(-1)?.type === 'Archived'
+									action="/cases/{data._case._id}/{data._case.currentStatus === 'Archived'
 										? 'restore'
 										: 'delete'}"
 								>
@@ -97,7 +97,7 @@
 										type="submit"
 										class="w-full bg-destructive hover:bg-destructive/90"
 									>
-										{data._case.status?.at(-1)?.type === 'Archived' ? 'Restore' : 'Delete'}
+										{data._case.currentStatus === 'Archived' ? 'Restore' : 'Delete'}
 									</AlertDialog.Action>
 								</form>
 							</AlertDialog.Footer>
@@ -127,7 +127,7 @@
 								<AlertDialog.Title>Delete Case</AlertDialog.Title>
 								<AlertDialog.Description>
 									Are you absolutely sure? The case will be
-									{data._case.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
+									{data._case.currentStatus === 'Archived' ? 'restored' : 'archived'}.
 								</AlertDialog.Description>
 							</AlertDialog.Header>
 							<AlertDialog.Footer>

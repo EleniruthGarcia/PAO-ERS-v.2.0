@@ -92,7 +92,7 @@
 						<AlertDialog.Title>Delete Service</AlertDialog.Title>
 						<AlertDialog.Description>
 							Are you absolutely sure? The service will be
-							{service.status?.at(-1)?.type === 'Archived' ? 'restored' : 'archived'}.
+							{service.currentStatus === 'Archived' ? 'restored' : 'archived'}.
 						</AlertDialog.Description>
 					</AlertDialog.Header>
 					<AlertDialog.Footer>

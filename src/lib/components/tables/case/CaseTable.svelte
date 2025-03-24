@@ -55,8 +55,8 @@
 				{#await $page.data.cases}
 					<Loading />
 				{:then cases}
-					{#if cases.filter((c) => c.status?.at(-1)?.type !== 'Archived').length > 0}
-						<Table data={cases.filter((c) => c.status?.at(-1)?.type !== 'Archived')} />
+					{#if cases.filter((c) => c.currentStatus !== 'Archived').length > 0}
+						<Table data={cases.filter((c) => c.currentStatus !== 'Archived')} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -84,8 +84,8 @@
 				{#await $page.data.cases}
 					<Loading />
 				{:then cases}
-					{#if cases.filter((c) => c.status?.at(-1)?.type === 'New').length > 0}
-						<Table data={cases.filter((c) => c.status?.at(-1)?.type === 'New')} />
+					{#if cases.filter((c) => c.currentStatus === 'New').length > 0}
+						<Table data={cases.filter((c) => c.currentStatus === 'New')} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -113,8 +113,8 @@
 				{#await $page.data.cases}
 					<Loading />
 				{:then cases}
-					{#if cases.filter((c) => c.status?.at(-1)?.type === 'Archived').length > 0}
-						<Table data={cases.filter((c) => c.status?.at(-1)?.type === 'Archived')} />
+					{#if cases.filter((c) => c.currentStatus === 'Archived').length > 0}
+						<Table data={cases.filter((c) => c.currentStatus === 'Archived')} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -140,8 +140,8 @@
 				{#await $page.data.cases}
 					<Loading />
 				{:then cases}
-					{#if cases.filter((c) => c.status?.at(-1)?.type === 'Terminated').length > 0}
-						<Table data={cases.filter((c) => c.status?.at(-1)?.type === 'Terminated')} />
+					{#if cases.filter((c) => c.currentStatus === 'Terminated').length > 0}
+						<Table data={cases.filter((c) => c.currentStatus === 'Terminated')} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"

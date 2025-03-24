@@ -142,11 +142,11 @@
 							{#await $page.data.services}
 								<Loading />
 							{:then services}
-								{#if clients.filter((client) => client.status?.at(-1).type !== 'Archived' && services.filter((service) => service.lawyer_id == $page.data.user.id && service.client_id?.includes(client._id)).length > 0).length > 0}
+								{#if clients.filter((client) => client.currentStatus !== 'Archived' && services.filter((service) => service.lawyer_id == $page.data.user.id && service.client_id?.includes(client._id)).length > 0).length > 0}
 									<ClientTable
 										data={clients.filter(
 											(client) =>
-												client.status?.at(-1).type !== 'Archived' &&
+												client.currentStatus !== 'Archived' &&
 												services.filter(
 													(service) =>
 														service.lawyer_id == $page.data.user.id &&
@@ -182,9 +182,9 @@
 						{#await $page.data.services}
 							<Loading />
 						{:then services}
-							{#if services.filter((service) => service.status?.at(-1).type !== 'Archived').length > 0}
+							{#if services.filter((service) => service.currentStatus !== 'Archived').length > 0}
 								<ServiceTable
-									data={services.filter((service) => service.status?.at(-1).type !== 'Archived')}
+									data={services.filter((service) => service.currentStatus !== 'Archived')}
 								/>
 							{:else}
 								<div
@@ -213,10 +213,8 @@
 						{#await $page.data.cases}
 							<Loading />
 						{:then cases}
-							{#if cases.filter((_case) => _case.status?.at(-1).type !== 'Archived').length > 0}
-								<CaseTable
-									data={cases.filter((_case) => _case.status?.at(-1).type !== 'Archived')}
-								/>
+							{#if cases.filter((_case) => _case.currentStatus !== 'Archived').length > 0}
+								<CaseTable data={cases.filter((_case) => _case.currentStatus !== 'Archived')} />
 							{:else}
 								<div
 									class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
