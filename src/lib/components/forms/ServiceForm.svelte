@@ -696,7 +696,7 @@
 											<Select.Trigger {...attrs}>
 												<Select.Value placeholder="" />
 											</Select.Trigger>
-											<Select.Content>
+											<Select.Content class="max-h-[200px] overflow-y-auto">
 												{#each $page.data.clients as client}
 													<Select.Item bind:value={client._id}>{client.name}</Select.Item>
 												{/each}
@@ -720,7 +720,7 @@
 											<Select.Trigger {...attrs}>
 												<Select.Value placeholder="" />
 											</Select.Trigger>
-											<Select.Content>
+											<Select.Content class="max-h-[200px] overflow-y-auto">
 												{#each relationshipToClient as value}
 													<Select.Item {value} />
 												{/each}
@@ -789,7 +789,7 @@
 											<Select.Trigger {...attrs}>
 												<Select.Value placeholder="" />
 											</Select.Trigger>
-											<Select.Content>
+											<Select.Content class="max-h-[200px] overflow-y-auto">
 												{#each typeOfRelease as value}
 													<Select.Item {value} />
 												{/each}
@@ -832,7 +832,7 @@
 										<Select.Trigger {...attrs}>
 											<Select.Value placeholder="" />
 										</Select.Trigger>
-										<Select.Content>
+										<Select.Content class="max-h-[200px] overflow-y-auto">
 											{#each $page.data.lawyers as lawyer}
 												<Select.Item bind:value={lawyer._id}>{lawyer.name}</Select.Item>
 											{/each}
@@ -945,7 +945,7 @@
 														<Select.Trigger {...attrs}>
 															<Select.Value placeholder="" />
 														</Select.Trigger>
-														<Select.Content>
+														<Select.Content class="max-h-[200px] overflow-y-auto">
 															{#each sex as value}
 																<Select.Item {value} />
 															{/each}
@@ -1094,7 +1094,7 @@
 											<Select.Trigger {...attrs}>
 												<Select.Value placeholder="" />
 											</Select.Trigger>
-											<Select.Content>
+											<Select.Content class="max-h-[200px] overflow-y-auto">
 												{#each typeOfAssistance as value}
 													<Select.Item {value} />
 												{/each}
