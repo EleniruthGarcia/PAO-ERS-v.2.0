@@ -6,34 +6,16 @@ services:
       - 80:80
       - 443:443
     depends_on:
-      - database
+      mongo1:
+        condition: service_healthy
+    networks:
+      - mongo-cluster
     labels:
       - 'com.centurylinklabs.watchtower.enable=true'
     environment:
       ORIGIN: ${APP_ORIGIN}
       DATABASE_URL: ${DATABASE_URL}
-  database:
-    image: mongo
-    restart: unless-stopped
-    volumes:
-      - mongodb:/data/db
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-    ports:
-      - ${DB_PORT}:27017
-    command: [ "--replSet", "rs0", "--bind_ip_all", "--port", "27017" ]
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    healthcheck:
-      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'host.docker.internal:27017'}]}) }" | mongosh --port 27017 --quiet
-      interval: 5s
-      timeout: 30s
-      start_period: 0s
-      start_interval: 1s
-      retries: 30
-    environment:
-      MONGO_INITDB_DATABASE: ${DB_NAME}
-      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+
   watchtower:
     image: containrrr/watchtower
     restart: unless-stopped
@@ -43,5 +25,87 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
+  mongo1:
+    container_name: mongo_rs0
+    image: mongo:7.0-jammy
+    hostname: mongo1
+    command: [ "--replSet", "rs0", "--bind_ip", "127.0.0.1,mongo1", "--port", "27017", "--keyFile", "/etc/mongodb/pki/keyfile" ]
+    volumes:
+      - mongo1-data:/data/db
+      - ./keyfile:/etc/mongodb/pki/keyfile
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/init-mongo.js
+    ports:
+      - 27017:27017
+    networks:
+      - mongo-cluster
+    healthcheck:
+      test: echo "try {rs.status()} catch(err) {rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo1:27017',priority:1},{_id:1,host:'mongo2:27018',priority:0.5},{_id:2,host:'mongo3:27019',priority:0.5}]})}" | mongosh --port 27017 -u '${DB_USERNAME}' -p '${DB_PASSWORD}' --authenticationDatabase admin --quiet
+      interval: 5m
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: '${DB_USERNAME}'
+      MONGO_INITDB_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MONGO_INITDB_DATABASE: '${DB_NAME}'
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+  mongo2:
+    container_name: mongo_rs2
+    image: mongo:7.0-jammy
+    hostname: mongo2
+    command: [ "--replSet", "rs0", "--bind_ip", "127.0.0.1,mongo2", "--port", "27018", "--keyFile", "/etc/mongodb/pki/keyfile" ]
+    volumes:
+      - mongo2-data:/data/db
+      - ./keyfile:/etc/mongodb/pki/keyfile
+    ports:
+      - 27018:27017
+    networks:
+      - mongo-cluster
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: '${DB_USERNAME}'
+      MONGO_INITDB_ROOT_PASSWORD: '${DB_PASSWORD}'
+
+  mongo3:
+    container_name: mongo_rs3
+    image: mongo:7.0-jammy
+    hostname: mongo3
+    command: [ "--replSet", "rs0", "--bind_ip", "127.0.0.1,mongo3", "--port", "27019", "--keyFile", "/etc/mongodb/pki/keyfile" ]
+    volumes:
+      - mongo3-data:/data/db
+      - ./keyfile:/etc/mongodb/pki/keyfile
+    ports:
+      - 27019:27017
+    networks:
+      - mongo-cluster
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: '${DB_USERNAME}'
+      MONGO_INITDB_ROOT_PASSWORD: '${DB_PASSWORD}'
+
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    ports:
+      - 8081:8081
+    networks:
+      - mongo-cluster
+    environment:
+      ME_CONFIG_BASICAUTH: false
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: false
+      ME_CONFIG_MONGODB_ADMINUSERNAME: '${DB_USERNAME}'
+      ME_CONFIG_MONGODB_ADMINPASSWORD: '${DB_PASSWORD}'
+      ME_CONFIG_MONGODB_URL: ${DATABASE_URL}
+    depends_on:
+      mongo1:
+        condition: service_healthy
+
 volumes:
-  mongodb:
+  mongo1-data:
+  mongo2-data:
+  mongo3-data:
+
+
+networks:
+  mongo-cluster:
+    driver: bridge
