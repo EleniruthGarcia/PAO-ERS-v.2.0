@@ -94,6 +94,7 @@ export const natureOfInstrument = [
 	'Non-employment (For petition for correction with LCP)',
 	'Omnibus Certification',
 	'Paternity & Filation',
+	'Personal Data Sheet',
 	'Singleness (PNP)',
 	'Supplemental (Blank Entry)',
 	'Supplmemental (Baby Boy, Baby Girl/Blank name',
