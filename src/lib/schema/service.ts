@@ -105,7 +105,8 @@ export const natureOfInstrument = [
 	'Undertaking (BWD - Not to Install Booster Pump)',
 	'Undertaking (BWD-Owner/ Not the Owner of the Lot)',
 	'Undertaking (CASHBOND)',
-	'Undertaking (TESDA)'
+	'Undertaking (TESDA)',
+	'Others'
 ] as const;
 
 export const terminationMediaCon = [
