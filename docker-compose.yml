@@ -44,6 +44,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+    restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: '${DB_USERNAME}'
       MONGO_INITDB_ROOT_PASSWORD: '${DB_PASSWORD}'
@@ -63,6 +64,7 @@ services:
       - 27018:27017
     networks:
       - mongo-cluster
+    restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: '${DB_USERNAME}'
       MONGO_INITDB_ROOT_PASSWORD: '${DB_PASSWORD}'
@@ -79,6 +81,7 @@ services:
       - 27019:27017
     networks:
       - mongo-cluster
+    restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: '${DB_USERNAME}'
       MONGO_INITDB_ROOT_PASSWORD: '${DB_PASSWORD}'
@@ -90,6 +93,7 @@ services:
       - 8081:8081
     networks:
       - mongo-cluster
+    restart: unless-stopped
     environment:
       ME_CONFIG_BASICAUTH: false
       ME_CONFIG_MONGODB_ENABLE_ADMIN: false
