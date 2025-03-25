@@ -6,7 +6,7 @@ import db, { client } from '$lib/server/database';
 
 import { formSchema } from '$lib/schema/client';
 import { zod } from 'sveltekit-superforms/adapters';
-import { superValidate } from 'sveltekit-superforms';
+import { setError, superValidate } from 'sveltekit-superforms';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {
@@ -26,7 +26,6 @@ export const load: PageServerLoad = async (event) => {
 		],
 		form: await superValidate(
 			{
-				_id: '',
 				currentStatus: 'New',
 				status: [{ type: 'New', date: new Date() }]
 			},
@@ -53,24 +52,24 @@ export const actions: Actions = {
 		const txnResult = await client.withSession(async (session) =>
 			session.withTransaction(async (session) => {
 				form.data._id = String((await db.clients.countDocuments({}, { session })) + 1);
-				const client = await db.clients.insertOne(form.data, { session });
-				if (!client.acknowledged) {
+				const insertedClient = await db.clients.insertOne(form.data, { session });
+				if (!insertedClient.acknowledged) {
 					await session.abortTransaction();
 					return { type: 'error' };
 				}
 
-				return { type: 'success', client };
+				return { type: 'success', insertedClient };
 			}, undefined)
 		);
 
 		if (txnResult.type === 'success') {
 			redirect(
-				'/clients/' + txnResult.client!.insertedId,
+				'/clients/' + txnResult.insertedClient!.insertedId,
 				{ type: 'success', message: 'Client added successfully!' },
 				event
 			);
 		} else {
-			return fail(500, { form });
+			return setError(form, '', 'An error occurred while adding the client.');
 		}
 	}
 };
