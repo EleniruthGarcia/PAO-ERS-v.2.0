@@ -151,9 +151,6 @@
 							{@const filteredUsers = users.filter((u) => u.currentStatus !== 'Archived')}
 							{#if filteredUsers.length > 0}
 								<UserTable data={filteredUsers} />
-							{@const filteredUsers = users.filter((u) => u.currentStatus !== 'Archived')}
-							{#if filteredUsers.length > 0}
-								<UserTable data={filteredUsers} />
 							{:else}
 								<div
 									class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -213,9 +210,6 @@
 						{#await $page.data.services}
 							<Loading />
 						{:then services}
-							{@const filteredServices = services.filter((r) => r.currentStatus !== 'Archived')}
-							{#if filteredServices.length > 0}
-								<ServiceTable data={filteredServices} />
 							{@const filteredServices = services.filter((r) => r.currentStatus !== 'Archived')}
 							{#if filteredServices.length > 0}
 								<ServiceTable data={filteredServices} />
