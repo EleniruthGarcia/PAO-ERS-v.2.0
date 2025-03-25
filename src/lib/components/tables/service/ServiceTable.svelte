@@ -57,8 +57,7 @@
 					{@const filteredServices = services.filter(
 						(r) =>
 							r.currentStatus !== 'Archived' &&
-							!($page.data.user.role === 'Administrator') &&
-							r.lawyer_id === $page.data.user.id
+							($page.data.user.role === 'Administrator' || r.lawyer_id === $page.data.user.id)
 					)}
 					{#if filteredServices.length > 0}
 						<Table data={filteredServices} />
@@ -92,8 +91,7 @@
 					{@const filteredServices = services.filter(
 						(r) =>
 							r.currentStatus === 'New' &&
-							!($page.data.user.role === 'Administrator') &&
-							r.lawyer_id === $page.data.user.id
+							($page.data.user.role === 'Administrator' || r.lawyer_id === $page.data.user.id)
 					)}
 					{#if filteredServices.length > 0}
 						<Table data={filteredServices} />
@@ -127,8 +125,7 @@
 					{@const filteredServices = services.filter(
 						(r) =>
 							r.currentStatus === 'Archived' &&
-							!($page.data.user.role === 'Administrator') &&
-							r.lawyer_id === $page.data.user.id
+							($page.data.user.role === 'Administrator' || r.lawyer_id === $page.data.user.id)
 					)}
 					{#if filteredServices.length > 0}
 						<Table data={filteredServices} />

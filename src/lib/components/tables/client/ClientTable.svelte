@@ -104,7 +104,8 @@
 							(client) =>
 								client.currentStatus !== 'Archived' &&
 								services.filter(
-									service.client_id?.includes(client._id) &&
+									(service) =>
+										service.client_id?.includes(client._id) &&
 										($page.data.user.role === 'Administrator' ||
 											service.lawyer_id === $page.data.user.id)
 								).length === 0
@@ -149,7 +150,8 @@
 							(client) =>
 								client.currentStatus === 'Archived' &&
 								services.filter(
-									service.client_id?.includes(client._id) &&
+									(service) =>
+										service.client_id?.includes(client._id) &&
 										($page.data.user.role === 'Administrator' ||
 											service.lawyer_id === $page.data.user.id)
 								).length > 0
