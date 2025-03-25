@@ -55,21 +55,35 @@
 				{#await $page.data.cases}
 					<Loading />
 				{:then cases}
-					{#if cases.filter((c) => c.currentStatus !== 'Archived').length > 0}
-						<Table data={cases.filter((c) => c.currentStatus !== 'Archived')} />
-					{:else}
-						<div
-							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
-						>
-							<div class="flex flex-col items-center gap-1 text-center">
-								<h3 class="text-2xl font-bold tracking-tight">You have no cases.</h3>
-								<p class="text-sm text-muted-foreground">
-									You can start using the system as soon as you add a new case.
-								</p>
-								<Button class="mt-4" href="/cases/add">Add Case</Button>
+					{#await $page.data.services}
+						<Loading />
+					{:then services}
+						{@const filteredCases = cases.filter(
+							(c) =>
+								c.currentStatus !== 'Archived' &&
+								services.filter(
+									(service) =>
+										(!($page.data.user.role === 'Administator') ||
+											service.lawyer_id === $page.data.user.id) &&
+										service.case_id === c._id
+								).length > 0
+						)}
+						{#if filteredCases.length > 0}
+							<Table data={filteredCases} />
+						{:else}
+							<div
+								class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
+							>
+								<div class="flex flex-col items-center gap-1 text-center">
+									<h3 class="text-2xl font-bold tracking-tight">You have no cases.</h3>
+									<p class="text-sm text-muted-foreground">
+										You can start using the system as soon as you add a new case.
+									</p>
+									<Button class="mt-4" href="/cases/add">Add Case</Button>
+								</div>
 							</div>
-						</div>
-					{/if}
+						{/if}
+					{/await}
 				{/await}
 			</Card.Content>
 		</Card.Root>
@@ -84,21 +98,35 @@
 				{#await $page.data.cases}
 					<Loading />
 				{:then cases}
-					{#if cases.filter((c) => c.currentStatus === 'New').length > 0}
-						<Table data={cases.filter((c) => c.currentStatus === 'New')} />
-					{:else}
-						<div
-							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
-						>
-							<div class="flex flex-col items-center gap-1 text-center">
-								<h3 class="text-2xl font-bold tracking-tight">You have no new cases.</h3>
-								<p class="text-sm text-muted-foreground">
-									You can start using the system as soon as you add a new case.
-								</p>
-								<Button class="mt-4" href="/cases/add">Add Case</Button>
+					{#await $page.data.services}
+						<Loading />
+					{:then services}
+						{@const filteredCases = cases.filter(
+							(c) =>
+								c.currentStatus === 'New' &&
+								services.filter(
+									(service) =>
+										(!($page.data.user.role === 'Administator') ||
+											service.lawyer_id === $page.data.user.id) &&
+										service.case_id === c._id
+								).length > 0
+						)}
+						{#if filteredCases.length > 0}
+							<Table data={filteredCases} />
+						{:else}
+							<div
+								class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
+							>
+								<div class="flex flex-col items-center gap-1 text-center">
+									<h3 class="text-2xl font-bold tracking-tight">You have no new cases.</h3>
+									<p class="text-sm text-muted-foreground">
+										You can start using the system as soon as you add a new case.
+									</p>
+									<Button class="mt-4" href="/cases/add">Add Case</Button>
+								</div>
 							</div>
-						</div>
-					{/if}
+						{/if}
+					{/await}
 				{/await}
 			</Card.Content>
 		</Card.Root>
@@ -113,19 +141,35 @@
 				{#await $page.data.cases}
 					<Loading />
 				{:then cases}
-					{#if cases.filter((c) => c.currentStatus === 'Archived').length > 0}
-						<Table data={cases.filter((c) => c.currentStatus === 'Archived')} />
-					{:else}
-						<div
-							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
-						>
-							<div class="flex flex-col items-center gap-1 text-center">
-								<h3 class="text-2xl font-bold tracking-tight">You have no archived cases.</h3>
-								<p class="text-sm text-muted-foreground">You may view your archived cases here.</p>
-								<Button class="mt-4" href="/cases/add">Add Case</Button>
+					{#await $page.data.services}
+						<Loading />
+					{:then services}
+						{@const filteredCases = cases.filter(
+							(c) =>
+								c.currentStatus === 'Archived' &&
+								services.filter(
+									(service) =>
+										(!($page.data.user.role === 'Administator') ||
+											service.lawyer_id === $page.data.user.id) &&
+										service.case_id === c._id
+								).length > 0
+						)}
+						{#if filteredCases.length > 0}
+							<Table data={filteredCases} />
+						{:else}
+							<div
+								class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
+							>
+								<div class="flex flex-col items-center gap-1 text-center">
+									<h3 class="text-2xl font-bold tracking-tight">You have no archived cases.</h3>
+									<p class="text-sm text-muted-foreground">
+										You may view your archived cases here.
+									</p>
+									<Button class="mt-4" href="/cases/add">Add Case</Button>
+								</div>
 							</div>
-						</div>
-					{/if}
+						{/if}
+					{/await}
 				{/await}
 			</Card.Content>
 		</Card.Root>
@@ -140,21 +184,35 @@
 				{#await $page.data.cases}
 					<Loading />
 				{:then cases}
-					{#if cases.filter((c) => c.currentStatus === 'Terminated').length > 0}
-						<Table data={cases.filter((c) => c.currentStatus === 'Terminated')} />
-					{:else}
-						<div
-							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
-						>
-							<div class="flex flex-col items-center gap-1 text-center">
-								<h3 class="text-2xl font-bold tracking-tight">You have no terminated cases.</h3>
-								<p class="text-sm text-muted-foreground">
-									You may view your terminated cases here.
-								</p>
-								<Button class="mt-4" href="/cases/add">Add Case</Button>
+					{#await $page.data.services}
+						<Loading />
+					{:then services}
+						{@const filteredCases = cases.filter(
+							(c) =>
+								c.currentStatus === 'Terminated' &&
+								services.filter(
+									(service) =>
+										(!($page.data.user.role === 'Administator') ||
+											service.lawyer_id === $page.data.user.id) &&
+										service.case_id === c._id
+								).length > 0
+						)}
+						{#if filteredCases.length > 0}
+							<Table data={filteredCases} />
+						{:else}
+							<div
+								class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
+							>
+								<div class="flex flex-col items-center gap-1 text-center">
+									<h3 class="text-2xl font-bold tracking-tight">You have no terminated cases.</h3>
+									<p class="text-sm text-muted-foreground">
+										You may view your terminated cases here.
+									</p>
+									<Button class="mt-4" href="/cases/add">Add Case</Button>
+								</div>
 							</div>
-						</div>
-					{/if}
+						{/if}
+					{/await}
 				{/await}
 			</Card.Content>
 		</Card.Root>

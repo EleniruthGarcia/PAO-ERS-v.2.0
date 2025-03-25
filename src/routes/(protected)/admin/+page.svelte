@@ -148,8 +148,9 @@
 						{#await $page.data.users}
 							<Loading />
 						{:then users}
-							{#if users.filter((user) => user.currentStatus !== 'Archived').length > 0}
-								<UserTable data={users.filter((user) => user.currentStatus !== 'Archived')} />
+							{@const filteredUsers = users.filter((u) => u.currentStatus !== 'Archived')}
+							{#if filteredUsers.length > 0}
+								<UserTable data={filteredUsers} />
 							{:else}
 								<div
 									class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -177,23 +178,31 @@
 						{#await $page.data.clients}
 							<Loading />
 						{:then clients}
-							{#if clients.filter((client) => client.currentStatus !== 'Archived').length > 0}
-								<ClientTable
-									data={clients.filter((client) => client.currentStatus !== 'Archived')}
-								/>
-							{:else}
-								<div
-									class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
-								>
-									<div class="flex flex-col items-center gap-1 text-center">
-										<h3 class="text-2xl font-bold tracking-tight">You have no clients.</h3>
-										<p class="text-sm text-muted-foreground">
-											You can start rendering services as soon as you add a new client.
-										</p>
-										<Button class="mt-4" href="/clients/add">Add Client</Button>
+							{#await $page.data.services}
+								<Loading />
+							{:then services}
+								{@const filteredClients = clients.filter(
+									(client) =>
+										client.currentStatus !== 'Archived' &&
+										services.filter((service) => service.client_id?.includes(client._id)).length >=
+											0
+								)}
+								{#if filteredClients.length > 0}
+									<ClientTable data={filteredClients} />
+								{:else}
+									<div
+										class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
+									>
+										<div class="flex flex-col items-center gap-1 text-center">
+											<h3 class="text-2xl font-bold tracking-tight">You have no clients!</h3>
+											<p class="text-sm text-muted-foreground">
+												You can start rendering services as soon as you add a new client.
+											</p>
+											<Button class="mt-4" href="/clients/add">Add Client</Button>
+										</div>
 									</div>
-								</div>
-							{/if}
+								{/if}
+							{/await}
 						{/await}
 					</Card.Content>
 				</Card.Root>
@@ -208,16 +217,15 @@
 						{#await $page.data.services}
 							<Loading />
 						{:then services}
-							{#if services.filter((service) => service.currentStatus !== 'Archived').length > 0}
-								<ServiceTable
-									data={services.filter((service) => service.currentStatus !== 'Archived')}
-								/>
+							{@const filteredServices = services.filter((r) => r.currentStatus !== 'Archived')}
+							{#if filteredServices.length > 0}
+								<ServiceTable data={filteredServices} />
 							{:else}
 								<div
 									class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
 								>
 									<div class="flex flex-col items-center gap-1 text-center">
-										<h3 class="text-2xl font-bold tracking-tight">You have no services.</h3>
+										<h3 class="text-2xl font-bold tracking-tight">You have no services!</h3>
 										<p class="text-sm text-muted-foreground">
 											You can start rendering services as soon as you add a new client.
 										</p>
@@ -239,21 +247,30 @@
 						{#await $page.data.cases}
 							<Loading />
 						{:then cases}
-							{#if cases.filter((_case) => _case.currentStatus !== 'Archived').length > 0}
-								<CaseTable data={cases.filter((_case) => _case.currentStatus !== 'Archived')} />
-							{:else}
-								<div
-									class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
-								>
-									<div class="flex flex-col items-center gap-1 text-center">
-										<h3 class="text-2xl font-bold tracking-tight">You have no cases.</h3>
-										<p class="text-sm text-muted-foreground">
-											You can start using the system as soon as you add a new case.
-										</p>
-										<Button class="mt-4" href="/cases/add">Add Case</Button>
+							{#await $page.data.services}
+								<Loading />
+							{:then services}
+								{@const filteredCases = cases.filter(
+									(c) =>
+										c.currentStatus !== 'Archived' &&
+										services.filter((service) => service.case_id === c._id).length > 0
+								)}
+								{#if filteredCases.length > 0}
+									<CaseTable data={filteredCases} />
+								{:else}
+									<div
+										class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
+									>
+										<div class="flex flex-col items-center gap-1 text-center">
+											<h3 class="text-2xl font-bold tracking-tight">You have no cases!</h3>
+											<p class="text-sm text-muted-foreground">
+												You can start rendering services as soon as you add a new case.
+											</p>
+											<Button class="mt-4" href="/cases/add">Add Case</Button>
+										</div>
 									</div>
-								</div>
-							{/if}
+								{/if}
+							{/await}
 						{/await}
 					</Card.Content>
 				</Card.Root>
