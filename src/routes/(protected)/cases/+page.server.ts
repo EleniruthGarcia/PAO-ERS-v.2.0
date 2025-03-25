@@ -17,6 +17,7 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/', text: 'PAO-ERS' },
 			{ href: '/cases', text: 'Cases' }
 		],
-		cases: db.cases.find().toArray()
+		cases: db.cases.find().toArray(),
+		services: db.services.find().toArray()
 	};
 };

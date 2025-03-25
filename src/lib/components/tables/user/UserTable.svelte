@@ -54,8 +54,9 @@
 				{#await $page.data.users}
 					<Loading />
 				{:then users}
-					{#if users.filter((u) => u.currentStatus !== 'Archived').length > 0}
-						<Table data={users.filter((u) => u.currentStatus !== 'Archived')} />
+					{@const filteredUsers = users.filter((u) => u.currentStatus !== 'Archived')}
+					{#if filteredUsers.length > 0}
+						<Table data={filteredUsers} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -83,8 +84,9 @@
 				{#await $page.data.users}
 					<Loading />
 				{:then users}
-					{#if users.filter((u) => u.currentStatus === 'New').length > 0}
-						<Table data={users.filter((u) => u.currentStatus === 'New')} />
+					{@const filteredUsers = users.filter((u) => u.currentStatus === 'New')}
+					{#if filteredUsers.length > 0}
+						<Table data={filteredUsers} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -112,8 +114,9 @@
 				{#await $page.data.users}
 					<Loading />
 				{:then users}
-					{#if users.filter((u) => u.currentStatus === 'Archived').length > 0}
-						<Table data={users.filter((u) => u.currentStatus === 'Archived')} />
+					{@const filteredUsers = users.filter((u) => u.currentStatus === 'Archived')}
+					{#if filteredUsers.length > 0}
+						<Table data={filteredUsers} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"

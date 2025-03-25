@@ -54,12 +54,14 @@
 				{#await $page.data.services}
 					<Loading />
 				{:then services}
-					{#if services.filter((r) => r.currentStatus !== 'Archived' && r.lawyer_id === $page.data.user.id).length > 0}
-						<Table
-							data={services.filter(
-								(r) => r.currentStatus !== 'Archived' && r.lawyer_id === $page.data.user.id
-							)}
-						/>
+					{@const filteredServices = services.filter(
+						(r) =>
+							r.currentStatus !== 'Archived' &&
+							!($page.data.user.role === 'Administrator') &&
+							r.lawyer_id === $page.data.user.id
+					)}
+					{#if filteredServices.length > 0}
+						<Table data={filteredServices} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -87,12 +89,14 @@
 				{#await $page.data.services}
 					<Loading />
 				{:then services}
-					{#if services.filter((r) => r.currentStatus === 'New' && r.lawyer_id === $page.data.user.id).length > 0}
-						<Table
-							data={services.filter(
-								(r) => r.currentStatus === 'New' && r.lawyer_id === $page.data.user.id
-							)}
-						/>
+					{@const filteredServices = services.filter(
+						(r) =>
+							r.currentStatus === 'New' &&
+							!($page.data.user.role === 'Administrator') &&
+							r.lawyer_id === $page.data.user.id
+					)}
+					{#if filteredServices.length > 0}
+						<Table data={filteredServices} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -120,12 +124,14 @@
 				{#await $page.data.services}
 					<Loading />
 				{:then services}
-					{#if services.filter((r) => r.currentStatus === 'Archived' && r.lawyer_id === $page.data.user.id).length > 0}
-						<Table
-							data={services.filter(
-								(r) => r.currentStatus === 'Archived' && r.lawyer_id === $page.data.user.id
-							)}
-						/>
+					{@const filteredServices = services.filter(
+						(r) =>
+							r.currentStatus === 'Archived' &&
+							!($page.data.user.role === 'Administrator') &&
+							r.lawyer_id === $page.data.user.id
+					)}
+					{#if filteredServices.length > 0}
+						<Table data={filteredServices} />
 					{:else}
 						<div
 							class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"

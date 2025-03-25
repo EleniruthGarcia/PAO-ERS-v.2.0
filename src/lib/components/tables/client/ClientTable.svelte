@@ -11,7 +11,7 @@
 	import Loading from '$lib/components/Loading.svelte';
 </script>
 
-<Tabs.Root value="all">
+<Tabs.Root value={$page.data.user.role === 'Staff' ? 'recents' : 'all'}>
 	<div class="flex items-center">
 		<Tabs.List>
 			<Tabs.Trigger value="all">All</Tabs.Trigger>
@@ -57,18 +57,18 @@
 					{#await $page.data.services}
 						<Loading />
 					{:then services}
-						{#if clients.filter((client) => client.currentStatus !== 'Archived' && services.filter((service) => service.client_id?.includes(client._id) && service.lawyer_id === $page.data.user.id).length > 0).length > 0}
-							<Table
-								data={clients.filter(
-									(client) =>
-										client.currentStatus !== 'Archived' &&
-										services.filter(
-											(service) =>
-												service.client_id?.includes(client._id) &&
-												service.lawyer_id === $page.data.user.id
-										).length > 0
-								)}
-							/>
+						{@const filteredClients = clients.filter(
+							(client) =>
+								client.currentStatus !== 'Archived' &&
+								services.filter(
+									(service) =>
+										service.client_id?.includes(client._id) &&
+										($page.data.user.role === 'Administrator' ||
+											service.lawyer_id === $page.data.user.id)
+								).length > 0
+						)}
+						{#if filteredClients.length > 0}
+							<Table data={filteredClients} />
 						{:else}
 							<div
 								class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -100,18 +100,17 @@
 					{#await $page.data.services}
 						<Loading />
 					{:then services}
-						{#if clients.filter((client) => client.currentStatus === 'New' && services.filter((service) => service.client_id?.includes(client._id) && service.lawyer_id === $page.data.user.id).length > 0).length > 0}
-							<Table
-								data={clients.filter(
-									(client) =>
-										client.currentStatus === 'New' &&
-										services.filter(
-											(service) =>
-												service.client_id?.includes(client._id) &&
-												service.lawyer_id === $page.data.user.id
-										).length > 0
-								)}
-							/>
+						{@const filteredClients = clients.filter(
+							(client) =>
+								client.currentStatus !== 'Archived' &&
+								services.filter(
+									service.client_id?.includes(client._id) &&
+										($page.data.user.role === 'Administrator' ||
+											service.lawyer_id === $page.data.user.id)
+								).length === 0
+						)}
+						{#if filteredClients.length > 0}
+							<Table data={filteredClients} />
 						{:else}
 							<div
 								class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -146,18 +145,17 @@
 					{#await $page.data.services}
 						<Loading />
 					{:then services}
-						{#if clients.filter((client) => client.currentStatus === 'Archived' && services.filter((service) => service.client_id?.includes(client._id) && service.lawyer_id === $page.data.user.id).length > 0).length > 0}
-							<Table
-								data={clients.filter(
-									(client) =>
-										client.currentStatus === 'Archived' &&
-										services.filter(
-											(service) =>
-												service.client_id?.includes(client._id) &&
-												service.lawyer_id === $page.data.user.id
-										).length > 0
-								)}
-							/>
+						{@const filteredClients = clients.filter(
+							(client) =>
+								client.currentStatus === 'Archived' &&
+								services.filter(
+									service.client_id?.includes(client._id) &&
+										($page.data.user.role === 'Administrator' ||
+											service.lawyer_id === $page.data.user.id)
+								).length > 0
+						)}
+						{#if filteredClients.length > 0}
+							<Table data={filteredClients} />
 						{:else}
 							<div
 								class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
