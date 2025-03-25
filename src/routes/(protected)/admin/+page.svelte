@@ -151,6 +151,9 @@
 							{@const filteredUsers = users.filter((u) => u.currentStatus !== 'Archived')}
 							{#if filteredUsers.length > 0}
 								<UserTable data={filteredUsers} />
+							{@const filteredUsers = users.filter((u) => u.currentStatus !== 'Archived')}
+							{#if filteredUsers.length > 0}
+								<UserTable data={filteredUsers} />
 							{:else}
 								<div
 									class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
@@ -213,11 +216,15 @@
 							{@const filteredServices = services.filter((r) => r.currentStatus !== 'Archived')}
 							{#if filteredServices.length > 0}
 								<ServiceTable data={filteredServices} />
+							{@const filteredServices = services.filter((r) => r.currentStatus !== 'Archived')}
+							{#if filteredServices.length > 0}
+								<ServiceTable data={filteredServices} />
 							{:else}
 								<div
 									class="flex h-full flex-1 items-center justify-center rounded-lg border border-dashed border-muted-foreground/50 p-6 shadow-sm"
 								>
 									<div class="flex flex-col items-center gap-1 text-center">
+										<h3 class="text-2xl font-bold tracking-tight">You have no services!</h3>
 										<h3 class="text-2xl font-bold tracking-tight">You have no services!</h3>
 										<p class="text-sm text-muted-foreground">
 											You can start rendering services as soon as you add a new client.
