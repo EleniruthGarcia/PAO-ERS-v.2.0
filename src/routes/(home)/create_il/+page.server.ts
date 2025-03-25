@@ -35,13 +35,13 @@ export const actions: Actions = {
 					return { type: 'error' };
 				}
 
-				return { type: 'success', insertedClient };
+				return { type: 'success' };
 			}, undefined)
 		);
 
 		if (txnResult.type === 'success') {
 			redirect(
-				'/clients/' + txnResult.insertedClient!.insertedId,
+				'/',
 				{ type: 'success', message: 'Client added successfully!' },
 				event
 			);
