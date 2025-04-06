@@ -48,6 +48,22 @@
 		empty: 'undefined'
 	});
 
+	$: if ($formData.sex === 'Female') {
+		if (!$formData.classification?.includes('Woman Client'))
+			$formData.classification = [...($formData.classification ?? []), 'Woman Client'];
+	} else {
+		if ($formData.classification?.includes('Woman Client'))
+			$formData.classification = $formData.classification?.filter((v) => v !== 'Woman Client');
+	}
+
+	$: if ($formData.age && $formData.age >= 60) {
+		if (!$formData.classification?.includes('Senior Citizen'))
+			$formData.classification = [...($formData.classification ?? []), 'Senior Citizen'];
+	} else {
+		if ($formData.classification?.includes('Senior Citizen'))
+			$formData.classification = $formData.classification?.filter((v) => v !== 'Senior Citizen');
+	}
+
 	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${
 		$formData.lastName
 	}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
@@ -113,7 +129,11 @@
 							<Form.Field {form} name="middleName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-									<Input {...attrs} bind:value={$formData.middleName} placeholder="Gitnang Apelyido" />
+									<Input
+										{...attrs}
+										bind:value={$formData.middleName}
+										placeholder="Gitnang Apelyido"
+									/>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -233,8 +253,10 @@
 							</Form.Field>
 							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Buwanang Kita</Form.Label>
-									<Input {...attrs} bind:value={$formData.individualMonthlyIncome} />
+									<Form.Label>Monthly Net Income</Form.Label>
+									<span class="flex items-center gap-2">
+										₱<Input {...attrs} bind:value={$formData.individualMonthlyIncome} /></span
+									>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -265,7 +287,7 @@
 							<Form.Field {form} name="address" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label>Tirahan</Form.Label>
-									<Input {...attrs} bind:value={$formData.address} placeholder="Address"/>
+									<Input {...attrs} bind:value={$formData.address} placeholder="Address" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -341,7 +363,11 @@
 							<Form.Field {form} name="spouseAddress" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Tirahan ng Asawa</Form.Label>
-									<Input {...attrs} bind:value={$formData.spouseAddress} placeholder="Spouse's Address"/>
+									<Input
+										{...attrs}
+										bind:value={$formData.spouseAddress}
+										placeholder="Spouse's Address"
+									/>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>

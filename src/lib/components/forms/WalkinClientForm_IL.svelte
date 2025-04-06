@@ -48,6 +48,22 @@
 		empty: 'undefined'
 	});
 
+	$: if ($formData.sex === 'Female') {
+		if (!$formData.classification?.includes('Woman Client'))
+			$formData.classification = [...($formData.classification ?? []), 'Woman Client'];
+	} else {
+		if ($formData.classification?.includes('Woman Client'))
+			$formData.classification = $formData.classification?.filter((v) => v !== 'Woman Client');
+	}
+
+	$: if ($formData.age && $formData.age >= 60) {
+		if (!$formData.classification?.includes('Senior Citizen'))
+			$formData.classification = [...($formData.classification ?? []), 'Senior Citizen'];
+	} else {
+		if ($formData.classification?.includes('Senior Citizen'))
+			$formData.classification = $formData.classification?.filter((v) => v !== 'Senior Citizen');
+	}
+
 	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${
 		$formData.lastName
 	}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
@@ -99,7 +115,9 @@
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Personal Information</Card.Title>
-						<Card.Description>Pangngaasiyo nga punnuen amin a kasapulan nga impormasion.</Card.Description>
+						<Card.Description
+							>Pangngaasiyo nga punnuen amin a kasapulan nga impormasion.</Card.Description
+						>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
 						<div class="grid items-start gap-3 sm:grid-cols-7">
@@ -113,7 +131,11 @@
 							<Form.Field {form} name="middleName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-									<Input {...attrs} bind:value={$formData.middleName} placeholder="Tengngang Apelyido" />
+									<Input
+										{...attrs}
+										bind:value={$formData.middleName}
+										placeholder="Tengngang Apelyido"
+									/>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -233,8 +255,10 @@
 							</Form.Field>
 							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Binnulan nga Sweldo</Form.Label>
-									<Input {...attrs} bind:value={$formData.individualMonthlyIncome} />
+									<Form.Label>Monthly Net Income</Form.Label>
+									<span class="flex items-center gap-2">
+										₱<Input {...attrs} bind:value={$formData.individualMonthlyIncome} /></span
+									>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -265,7 +289,7 @@
 							<Form.Field {form} name="address" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label>Pagnaedan</Form.Label>
-									<Input {...attrs} bind:value={$formData.address} placeholder="Address"/>
+									<Input {...attrs} bind:value={$formData.address} placeholder="Address" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -296,11 +320,7 @@
 								<Form.Field {form} name="spouseFirstName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label>Nagan ti Asawa</Form.Label>
-										<Input
-											{...attrs}
-											bind:value={$formData.spouseFirstName}
-											placeholder="Nagan"
-										/>
+										<Input {...attrs} bind:value={$formData.spouseFirstName} placeholder="Nagan" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
@@ -341,7 +361,11 @@
 							<Form.Field {form} name="spouseAddress" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Pagnaedan ti Asawa</Form.Label>
-									<Input {...attrs} bind:value={$formData.spouseAddress} placeholder="Spouse's Address"/>
+									<Input
+										{...attrs}
+										bind:value={$formData.spouseAddress}
+										placeholder="Spouse's Address"
+									/>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>

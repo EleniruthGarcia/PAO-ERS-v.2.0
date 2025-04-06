@@ -57,6 +57,22 @@
 		empty: 'undefined'
 	});
 
+	$: if ($formData.sex === 'Female') {
+		if (!$formData.classification?.includes('Woman Client'))
+			$formData.classification = [...($formData.classification ?? []), 'Woman Client'];
+	} else {
+		if ($formData.classification?.includes('Woman Client'))
+			$formData.classification = $formData.classification?.filter((v) => v !== 'Woman Client');
+	}
+
+	$: if ($formData.age && $formData.age >= 60) {
+		if (!$formData.classification?.includes('Senior Citizen'))
+			$formData.classification = [...($formData.classification ?? []), 'Senior Citizen'];
+	} else {
+		if ($formData.classification?.includes('Senior Citizen'))
+			$formData.classification = $formData.classification?.filter((v) => v !== 'Senior Citizen');
+	}
+
 	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${
 		$formData.lastName
 	}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
@@ -167,9 +183,7 @@
 						<div class="grid items-start gap-3 sm:grid-cols-3">
 							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>
-										Age
-									</Form.Label>
+									<Form.Label>Age</Form.Label>
 									<Input {...attrs} bind:value={$proxyAge} type="number" />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -273,8 +287,10 @@
 							</Form.Field>
 							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Monthly Income</Form.Label>
-									<Input {...attrs} bind:value={$formData.individualMonthlyIncome} />
+									<Form.Label>Net Monthly Income</Form.Label>
+									<span class="flex items-center gap-2">
+										₱<Input {...attrs} bind:value={$formData.individualMonthlyIncome} /></span
+									>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -360,9 +376,7 @@
 							</Form.Field>
 							<Form.Field {form} name="contactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>
-										Contact Number
-									</Form.Label>
+									<Form.Label>Contact Number</Form.Label>
 									<Input {...attrs} bind:value={$formData.contactNumber} />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -487,7 +501,7 @@
 						</Card.Content>
 					</Card.Root>
 				{/if}
-				<div class="items-center justify-center gap-2 hidden md:flex">
+				<div class="hidden items-center justify-center gap-2 md:flex">
 					<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 					<Form.Button type="submit" size="sm">Submit</Form.Button>
 				</div>

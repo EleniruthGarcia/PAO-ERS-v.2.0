@@ -143,12 +143,12 @@ async function addTextToPDF(data: any) {
 	const firstPage = pdfDoc.getPages()[0];
 
 	// Add text to the first page
-	// firstPage.drawText(controlNo ?? 'N/A', {
-	// 	x: 90,
-	// 	y: 863,
-	// 	size: 8,
-	// 	color: rgb(0, 0, 0) // Black
-	// });
+	firstPage.drawText(controlNo ?? 'N/A', {
+		x: 90,
+		y: 863,
+		size: 8,
+		color: rgb(0, 0, 0) // Black
+	});
 	firstPage.drawText(values[0] ?? 'N/A', {
 		x: 70,
 		y: 875,
@@ -161,7 +161,7 @@ async function addTextToPDF(data: any) {
 		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
-	firstPage.drawText(districtProvince ?? 'N/A', {
+	firstPage.drawText(district ?? 'N/A', {
 		x: 250,
 		y: 885,
 		size: 8,
@@ -173,13 +173,13 @@ async function addTextToPDF(data: any) {
 		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
-	firstPage.drawText(district ?? 'N/A', {
-		x: 380,
-		y: 162,
-		size: 8,
-		color: rgb(0, 0, 0) // Black
-	});
-	firstPage.drawText(province ?? 'N/A', {
+	// firstPage.drawText(district ?? 'N/A', {
+	// 	x: 380,
+	// 	y: 162,
+	// 	size: 8,
+	// 	color: rgb(0, 0, 0) // Black
+	// });
+	firstPage.drawText(districtProvince ?? 'N/A', {
 		x: 380,
 		y: 152,
 		size: 8,
@@ -1265,12 +1265,12 @@ async function addTextToPDF(data: any) {
 	}
 
 	// PARTY/REP
-	secondPage.drawText(name ?? 'N/A', {
-		x: 190,
-		y: 150,
-		size: 8,
-		color: rgb(0, 0, 0) // Black
-	});
+	// secondPage.drawText(name ?? 'N/A', {
+	// 	x: 190,
+	// 	y: 150,
+	// 	size: 8,
+	// 	color: rgb(0, 0, 0) // Black
+	// });
 
 	const thirdPage = pdfDoc.getPages()[2];
 	thirdPage.drawText(getFormattedDate()[0] ?? 'N/A', {

@@ -54,7 +54,6 @@ export const educationalAttainment = [
 	'College Level',
 	'College Degree',
 	'Vocational/Technical',
-	"Bachelor's Degree",
 	"With Master's Units",
 	"Master's Degree",
 	'With Doctoral Units',

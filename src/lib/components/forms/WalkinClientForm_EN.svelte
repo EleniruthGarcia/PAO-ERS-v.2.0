@@ -48,6 +48,22 @@
 		empty: 'undefined'
 	});
 
+	$: if ($formData.sex === 'Female') {
+		if (!$formData.classification?.includes('Woman Client'))
+			$formData.classification = [...($formData.classification ?? []), 'Woman Client'];
+	} else {
+		if ($formData.classification?.includes('Woman Client'))
+			$formData.classification = $formData.classification?.filter((v) => v !== 'Woman Client');
+	}
+
+	$: if ($formData.age && $formData.age >= 60) {
+		if (!$formData.classification?.includes('Senior Citizen'))
+			$formData.classification = [...($formData.classification ?? []), 'Senior Citizen'];
+	} else {
+		if ($formData.classification?.includes('Senior Citizen'))
+			$formData.classification = $formData.classification?.filter((v) => v !== 'Senior Citizen');
+	}
+
 	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${
 		$formData.lastName
 	}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
@@ -233,8 +249,10 @@
 							</Form.Field>
 							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Monthly Income</Form.Label>
-									<Input {...attrs} bind:value={$formData.individualMonthlyIncome} />
+									<Form.Label>Net Monthly Income</Form.Label>
+									<span class="flex items-center gap-2">
+										₱<Input {...attrs} bind:value={$formData.individualMonthlyIncome} /></span
+									>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
