@@ -213,8 +213,8 @@
 	$: filteredNatureOfInstrument =
 		$formData.natureOfInstrument && touchedNatureOfInstrument
 			? natureOfInstrument.filter((v) =>
-					$formData.natureOfInstrument.some((entry) =>
-						entry?.toLowerCase().includes(v.toLowerCase())
+					$formData.natureOfInstrument?.some((entry) =>
+						entry?.toLowerCase().startsWith(v.toLowerCase())
 					)
 				)
 			: natureOfInstrument;
@@ -417,9 +417,7 @@
 				{#if $formData.nature.includes('Mediation or Conciliation')}
 					<Card.Root>
 						<Card.Header>
-							<Card.Title class="text-sm">
-								Termination Condition <span class="font-bold text-destructive">*</span>
-							</Card.Title>
+							<Card.Title class="text-sm">Termination Condition</Card.Title>
 							<!-- <Card.Description>
 								<Form.Description>Please select all the apply.</Form.Description>
 							</Card.Description> -->
@@ -470,9 +468,7 @@
 							</Form.Field>
 							<Form.Field {form} name="settlementDate" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label
-										>Settlement Date <span class="font-bold text-destructive">*</span></Form.Label
-									>
+									<Form.Label>Settlement Date</Form.Label>
 									<DateInput {form} name="settlementDate" />
 								</Form.Control>
 								<Form.FieldErrors />
@@ -657,9 +653,7 @@
 							{#if $formData.nature.includes('Administration of Oath') || $formData.nature.includes('Home Visitation') || $formData.nature.includes('Inquest Legal Assistance') || $formData.nature.includes('Jail Visitation') || $formData.nature.includes('Legal Advice') || $formData.nature.includes('Legal Documentation') || $formData.nature.includes('Mediation or Conciliation') || $formData.nature.includes('Representation in Court or Quasi-Judicial Bodies') || $formData.nature.includes('Others')}
 								<Form.Field {form} name="interviewee_id" class="grid gap-3 sm:col-span-5">
 									<Form.Control let:attrs>
-										<Form.Label>
-											Interviewee <span class="font-bold text-destructive">*</span>
-										</Form.Label>
+										<Form.Label>Interviewee</Form.Label>
 										<Select.Root
 											selected={selectedInterviewee}
 											onSelectedChange={(s) => {
@@ -681,9 +675,7 @@
 								</Form.Field>
 								<Form.Field {form} name="relationshipToClient" class="grid gap-3 sm:col-span-3">
 									<Form.Control let:attrs>
-										<Form.Label>
-											Relation to Client <span class="font-bold text-destructive">*</span>
-										</Form.Label>
+										<Form.Label>Relation to Client</Form.Label>
 										<Select.Root
 											selected={selectedRelationshipToClient}
 											onSelectedChange={(s) => {
@@ -987,7 +979,7 @@
 														/>
 													</div>
 													<Combobox.Content
-														class="relative z-50 min-w-[8rem] max-h-[200px] overflow-y-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
+														class="relative z-50 max-h-[200px] min-w-[8rem] overflow-y-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
 														transition={flyAndScale}
 														sideOffset={8}
 													>

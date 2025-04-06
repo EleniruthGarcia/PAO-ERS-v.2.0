@@ -108,7 +108,7 @@
 		</div>
 	</Card.Header>
 	<Card.Content class="p-6 text-sm">
-		{#if service.client.length > 0 && service.interviewee != null}
+		{#if service.client.length > 0}
 			<div class="grid gap-3">
 				<div class="font-semibold">Client Information</div>
 				<ul class="grid gap-3">
@@ -121,20 +121,22 @@
 				</ul>
 			</div>
 			<Separator class="my-4" />
-			<div class="grid gap-3">
-				<div class="font-semibold">Interviewee Information</div>
-				<ul class="grid gap-3">
-					<li class="flex items-center justify-between gap-2 truncate">
-						<span class="text-muted-foreground">Interviewee</span>
-						<span>{service.interviewee.name}</span>
-					</li>
-					<li class="flex items-center justify-between gap-2 truncate">
-						<span class="text-muted-foreground">Relationship to Client</span>
-						<span>{service.relationshipToClient}</span>
-					</li>
-				</ul>
-			</div>
-			<Separator class="my-4" />
+			{#if service.interviewee}
+				<div class="grid gap-3">
+					<div class="font-semibold">Interviewee Information</div>
+					<ul class="grid gap-3">
+						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground">Interviewee</span>
+							<span>{service.interviewee.name}</span>
+						</li>
+						<li class="flex items-center justify-between gap-2 truncate">
+							<span class="text-muted-foreground">Relationship to Client</span>
+							<span>{service.relationshipToClient}</span>
+						</li>
+					</ul>
+				</div>
+				<Separator class="my-4" />
+			{/if}
 		{/if}
 		<div class="grid gap-3">
 			<div class="font-semibold">Lawyer Information</div>

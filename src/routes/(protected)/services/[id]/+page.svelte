@@ -175,28 +175,30 @@
 							<Badge class="m-1">{nature}</Badge>
 						{/each}
 					</div>
-					<Separator class="my-4" />
-					<div class="grid gap-3">
-						<div class="font-semibold">Interviewee Information</div>
-						<ul class="grid gap-3">
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground">Interviewee</span>
-								<span>
-									<Button
-										variant="link"
-										class="m-0 h-auto p-0 text-foreground underline-offset-auto"
-										href="/clients/{data.service.interviewee._id}"
-									>
-										{data.service.interviewee.name ?? 'N/A'}
-									</Button>
-								</span>
-							</li>
-							<li class="flex items-center justify-between gap-2 truncate">
-								<span class="text-muted-foreground">Relationship to Client</span>
-								<span>{data.service.relationshipToClient ?? 'N/A'}</span>
-							</li>
-						</ul>
-					</div>
+					{#if data.service.interviewee}
+						<Separator class="my-4" />
+						<div class="grid gap-3">
+							<div class="font-semibold">Interviewee Information</div>
+							<ul class="grid gap-3">
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Interviewee</span>
+									<span>
+										<Button
+											variant="link"
+											class="m-0 h-auto p-0 text-foreground underline-offset-auto"
+											href="/clients/{data.service.interviewee._id}"
+										>
+											{data.service.interviewee.name ?? 'N/A'}
+										</Button>
+									</span>
+								</li>
+								<li class="flex items-center justify-between gap-2 truncate">
+									<span class="text-muted-foreground">Relationship to Client</span>
+									<span>{data.service.relationshipToClient ?? 'N/A'}</span>
+								</li>
+							</ul>
+						</div>
+					{/if}
 					<Separator class="my-4" />
 					<div class="grid gap-3">
 						<div class="font-semibold">Lawyer Information</div>
@@ -254,7 +256,7 @@
 								</li>
 								<li class="flex items-center justify-between gap-2 truncate">
 									<span class="text-muted-foreground">Date of Visitation</span>
-									<span>{data.service.date.toDateString() ?? 'N/A'}</span>
+									<span>{data.service.date?.toDateString() ?? 'N/A'}</span>
 								</li>
 								<li class="flex items-center justify-between gap-2 truncate">
 									<span class="text-muted-foreground">Type</span>
@@ -292,14 +294,18 @@
 								<li class="flex items-start justify-between gap-2 truncate">
 									<span class="text-muted-foreground">Mediation Dates</span>
 									<div class="grid gap-1">
-										{#each data.service.mediationDates as medDate}
-											<span class="text-right">{medDate.toDateString() ?? 'N/A'}</span>
-										{/each}
+										{#if data.service.mediationDates}
+											{#each data.service.mediationDates as medDate}
+												<span class="text-right">{medDate.toDateString() ?? 'N/A'}</span>
+											{/each}
+										{:else}
+											<span class="text-right">N/A</span>
+										{/if}
 									</div>
 								</li>
 								<li class="flex items-center justify-between gap-2 truncate">
 									<span class="text-muted-foreground">Settlement Date</span>
-									<span>{data.service.settlementDate.toDateString() ?? 'N/A'}</span>
+									<span>{data.service.settlementDate?.toDateString() ?? 'N/A'}</span>
 								</li>
 							</ul>
 						</div>

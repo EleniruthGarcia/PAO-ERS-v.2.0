@@ -129,7 +129,7 @@ export const formSchema = z.object({
 	lawyer_id: z.string({ required_error: 'Lawyer is required.' }),
 	typeOfService: z.enum(typeOfService, { required_error: 'Type of Service is required.' }),
 	nature: z.array(z.enum(nature)).nonempty({ message: 'Nature of Service is required.' }),
-	otherNature: z.array(z.enum(otherNature)).optional(),
+	otherNature: z.array(z.string()).optional(),
 	date: z.date({ required_error: 'Date is required.' }),
 	currentStatus: z.enum(status, {
 		required_error: 'Status is required.'
@@ -150,7 +150,7 @@ export const formSchema = z.object({
 	relationshipToClient: z.enum(relationshipToClient).optional(),
 
 	// adminisration of oath
-	natureOfInstrument: z.array(z.enum(natureOfInstrument)).optional(),
+	natureOfInstrument: z.array(z.string()).optional(),
 	witness: z.string().optional(),
 
 	// barangay outreach
@@ -203,22 +203,6 @@ export const formSchema = z.object({
 				message: 'Client is required.',
 				path: ['client_id']
 			});
-
-		if (!data.nature.includes('Jail Visitation')) {
-			if (!data.interviewee_id || data.interviewee_id.length < 1)
-				ctx.addIssue({
-					code: z.ZodIssueCode.custom,
-					message: 'Interviewee is required.',
-					path: ['interviewee_id']
-				});
-
-			if (!data.relationshipToClient)
-				ctx.addIssue({
-					code: z.ZodIssueCode.custom,
-					message: 'Relationship to Client is required.',
-					path: ['relationshipToClient']
-				});
-		}
 	}
 
 	if (data.nature.includes('Administration of Oath')) {
@@ -362,29 +346,6 @@ export const formSchema = z.object({
 				code: z.ZodIssueCode.custom,
 				message: 'Legal Advice Mode is required.',
 				path: ['legalAdviceMode']
-			});
-	}
-
-	if (data.nature.includes('Mediation or Conciliation')) {
-		if (!data.settlementDate)
-			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
-				message: 'Settlement Date is required.',
-				path: ['settlementDate']
-			});
-
-		if (!data.mediationDates || data.mediationDates.length < 1)
-			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
-				message: 'Mediation Dates is required.',
-				path: ['mediationDates']
-			});
-
-		if (!data.terminationMediaCon)
-			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
-				message: 'Termination Media/Con is required.',
-				path: ['terminationMediaCon']
 			});
 	}
 
