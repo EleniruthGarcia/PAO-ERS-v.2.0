@@ -122,19 +122,13 @@ export const GET: ServiceHandler = async (event) => {
 					urbanPoor: '$client.urbanPoor',
 					ruralPoor: '$client.ruralPoor',
 					PDLStatus: '$client.detained',
-					intervieweeName: { $ifNull: ['$interviewee.name', '$client.name'] },
-					intervieweeAddress: { $ifNull: ['$interviewee.address', '$client.address'] },
-					intervieweeAge: {
-						$ifNull: [
-							'$interviewee.age',
-							{ $dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' } },
-							'N/A'
-						]
-					},
-					intervieweeSex: { $ifNull: ['$interviewee.sex', '$client.sex'] },
-					intervieweeCivilStatus: { $ifNull: ['$interviewee.civilStatus', '$client.civilStatus'] },
-					intervieweeContactNo: { $ifNull: ['$interviewee.contactNumber', 'N/A'] },
-					intervieweeEmail: { $ifNull: ['$interviewee.email', ''] },
+					intervieweeName: '$interviewee.name',
+					intervieweeAddress: '$interviewee.address',
+					intervieweeAge: '$interviewee.age',
+					intervieweeSex: '$interviewee.sex',
+					intervieweeCivilStatus: '$interviewee.civilStatus',
+					intervieweeContactNo: '$interviewee.contactNumber',
+					intervieweeEmail: '$interviewee.email',
 					relationshipToClient: '$relationshipToClient',
 					natureOfService: '$nature',
 					natureOfTheCase: { $ifNull: ['$case.natureOfTheCase', ''] },
