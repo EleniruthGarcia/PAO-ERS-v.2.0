@@ -34,7 +34,10 @@ export const load: PageServerLoad = async (event) => {
 					}
 				},
 				{
-					$match: { lawyer_id: event.locals.user.role === 'Administrator' ? { $exists: true } : event.locals.user.id }
+					$match: {
+						lawyer_id:
+							event.locals.user.role === 'Administrator' ? { $exists: true } : event.locals.user.id
+					}
 				},
 				{
 					$lookup: {

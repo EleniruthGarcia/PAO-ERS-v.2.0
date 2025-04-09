@@ -28,7 +28,7 @@ export const load: PageServerLoad = async (event) => {
 			{
 				...event.locals.user,
 				currentStatus: 'Updated',
-				hashedPassword: user?.hashedPassword,
+				hashedPassword: user?.hashedPassword
 			},
 			zod(formSchema),
 			{ errors: false }

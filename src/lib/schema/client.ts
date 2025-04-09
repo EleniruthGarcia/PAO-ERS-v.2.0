@@ -75,7 +75,8 @@ export const formSchema = z.object({
 	// }),
 	age: z
 		.union([z.literal(''), z.number().optional()])
-		.transform((e) => (e === '' ? undefined : e)).optional(),
+		.transform((e) => (e === '' ? undefined : e))
+		.optional(),
 	sex: z.enum(sex),
 	address: z
 		.string()
@@ -84,8 +85,7 @@ export const formSchema = z.object({
 	email: z
 		.union([z.literal(''), z.string().email().optional()])
 		.transform((e) => (e === '' ? undefined : e)),
-	contactNumber: z
-		.string(),
+	contactNumber: z.string(),
 	civilStatus: z.enum(civilStatus),
 	religion: z.string().optional(),
 	citizenship: z.string().optional(),

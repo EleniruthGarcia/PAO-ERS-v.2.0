@@ -57,7 +57,7 @@ export const load: PageServerLoad = async (event) => {
 					foreignField: '_id',
 					as: 'case'
 				}
-			},
+			}
 		])
 		.toArray();
 	const cases = db.cases.find().toArray();
@@ -69,6 +69,6 @@ export const load: PageServerLoad = async (event) => {
 		],
 		clients,
 		services,
-		cases,
+		cases
 	};
 };

@@ -75,7 +75,9 @@ export const load: PageServerLoad = async (event) => {
 			{ href: '/services', text: 'Services' },
 			{
 				href: '/services/' + event.params.id,
-				text: service.nature.includes('Barangay Outreach') ? `${service.barangay} - ${service.problemsPresented}` : `${[...service.nature, ...(service.otherNature ?? [])].join(', ')} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
+				text: service.nature.includes('Barangay Outreach')
+					? `${service.barangay} - ${service.problemsPresented}`
+					: `${[...service.nature, ...(service.otherNature ?? [])].join(', ')} - ${client.length > 1 ? (client.length > 2 ? `${client[0].lastName} et al.` : `${client[0].lastName} and ${client[1].lastName}`) : client[0].name}`
 			}
 		],
 		client,
@@ -96,10 +98,6 @@ export const actions: Actions = {
 
 		event.cookies.set('controlNo', event.params.id, { path: '/' });
 
-		redirect(
-			'/cases/add',
-			{ type: 'info', message: `Add service for ${event.locals}.` },
-			event
-		);
+		redirect('/cases/add', { type: 'info', message: `Add service for ${event.locals}.` }, event);
 	}
 };

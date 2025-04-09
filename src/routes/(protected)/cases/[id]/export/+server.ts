@@ -16,7 +16,7 @@ export const GET: ServiceHandler = async (event) => {
 	let data = await db.services
 		.aggregate([
 			{
-				$match: { '_id': event.params.id }
+				$match: { _id: event.params.id }
 			},
 			{
 				$lookup: {
@@ -143,7 +143,7 @@ export const GET: ServiceHandler = async (event) => {
 					factsOfTheCase: {
 						$concat: [
 							{ $ifNull: ['$additionalNotes', ''] },
-							"\n",
+							'\n',
 							{ $ifNull: ['$case.factsOfTheCase', ''] }
 						]
 					},

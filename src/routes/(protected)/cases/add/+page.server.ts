@@ -30,11 +30,18 @@ export const load: PageServerLoad = async (event) => {
 		if (service) docketNumber = service.docketNumber;
 	}
 
-	console.log(await db.services.find({
-		case_id: { $ne: undefined },
-	}, {
-		projection: { case_id: 1 },
-	}).toArray());
+	console.log(
+		await db.services
+			.find(
+				{
+					case_id: { $ne: undefined }
+				},
+				{
+					projection: { case_id: 1 }
+				}
+			)
+			.toArray()
+	);
 
 	return {
 		breadcrumbs: [
@@ -46,7 +53,7 @@ export const load: PageServerLoad = async (event) => {
 			{
 				currentStatus: 'New',
 				status: [{ type: 'New', date: new Date() }],
-				docketNumber,
+				docketNumber
 			},
 			zod(formSchema),
 			{ errors: false }
@@ -54,11 +61,16 @@ export const load: PageServerLoad = async (event) => {
 		services: await db.services.find().toArray(),
 		clients: await db.clients.find().toArray(),
 		users: await db.users.find().toArray(),
-		docketNumber: await db.services.find({
-			case_id: { $ne: undefined },
-		}, {
-			projection: { case_id: 1 },
-		}).toArray(),
+		docketNumber: await db.services
+			.find(
+				{
+					case_id: { $ne: undefined }
+				},
+				{
+					projection: { case_id: 1 }
+				}
+			)
+			.toArray()
 	};
 };
 

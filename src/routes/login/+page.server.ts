@@ -60,7 +60,11 @@ export const actions: Actions = {
 		);
 
 		if (txnResult.type == 'success' && txnResult.redirectUrl) {
-			redirect(txnResult.redirectUrl, { type: 'success', message: 'Logged in successfully!' }, event);
+			redirect(
+				txnResult.redirectUrl,
+				{ type: 'success', message: 'Logged in successfully!' },
+				event
+			);
 		} else {
 			if (txnResult.message === 'User does not exist!') {
 				return setError(form, 'username', 'User does not exist!');

@@ -8,8 +8,7 @@ export const generateInterviewSheet = async (data: any) => {
 	if (data.length > 1) {
 		const zip = new JSZip();
 
-		for (const item of data)
-			zip.file(`Interview Sheet_${item.name}.pdf`, await addTextToPDF(item));
+		for (const item of data) zip.file(`Interview Sheet_${item.name}.pdf`, await addTextToPDF(item));
 
 		return {
 			name: `Interview Sheet_${data[0].controlNo}.zip`,
@@ -399,8 +398,12 @@ async function addTextToPDF(data: any) {
 			borderColor: undefined // No border
 		});
 	}
-	if (natureOfService.includes('Others') || natureOfService.includes('Home Visitation') || natureOfService.includes('Jail Visitation')
-		|| natureOfService.includes('Limited Services')) {
+	if (
+		natureOfService.includes('Others') ||
+		natureOfService.includes('Home Visitation') ||
+		natureOfService.includes('Jail Visitation') ||
+		natureOfService.includes('Limited Services')
+	) {
 		// others
 		firstPage.drawRectangle({
 			x: 34,

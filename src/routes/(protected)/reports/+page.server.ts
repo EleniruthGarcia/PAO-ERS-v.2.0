@@ -55,217 +55,278 @@ export const actions = {
 		const branch = await db.branches.findOne({ _id: lawyer?.branch_id });
 		const notedBy = await db.users.findOne({ _id: form.data.notedBy });
 
-		let services = await db.services.aggregate([
-			{
-				$match: {
-					status: {
-						$elemMatch: {
-							type: 'New',
-							date: {
-								$gte: new Date(form.data.year, months.indexOf(form.data.month), 1),
-								$lt: months.indexOf(form.data.month) + 1 < 12 ? new Date(form.data.year + 1, 0, 1)
-									: new Date(form.data.year, months.indexOf(form.data.month) + 1, 1)
+		let services = await db.services
+			.aggregate([
+				{
+					$match: {
+						status: {
+							$elemMatch: {
+								type: 'New',
+								date: {
+									$gte: new Date(form.data.year, months.indexOf(form.data.month), 1),
+									$lt:
+										months.indexOf(form.data.month) + 1 < 12
+											? new Date(form.data.year + 1, 0, 1)
+											: new Date(form.data.year, months.indexOf(form.data.month) + 1, 1)
+								}
 							}
-						}
-					},
-					currentStatus: { $ne: 'Archived' },
-					lawyer_id: event.locals.user.id
+						},
+						currentStatus: { $ne: 'Archived' },
+						lawyer_id: event.locals.user.id
+					}
+				},
+				{
+					$lookup: {
+						from: 'users',
+						localField: 'lawyer_id',
+						foreignField: '_id',
+						as: 'lawyer'
+					}
+				},
+				{
+					$addFields: {
+						lawyer: { $arrayElemAt: ['$lawyer', 0] }
+					}
+				},
+				{
+					$lookup: {
+						from: 'clients',
+						localField: 'client_id',
+						foreignField: '_id',
+						as: 'client'
+					}
+				},
+				{
+					$unwind: {
+						path: '$client',
+						preserveNullAndEmptyArrays: true
+					}
+				},
+				{
+					$lookup: {
+						from: 'clients',
+						localField: 'interviewee_id',
+						foreignField: '_id',
+						as: 'interviewee'
+					}
+				},
+				{
+					$lookup: {
+						from: 'cases',
+						localField: 'case_id',
+						foreignField: 'docketNumber',
+						as: 'case'
+					}
+				},
+				{
+					$lookup: {
+						from: 'branches',
+						localField: 'lawyer.branch_id',
+						foreignField: '_id',
+						as: 'branch'
+					}
+				},
+				{
+					$addFields: {
+						branch: { $arrayElemAt: ['$branch', 0] },
+						interviewee: { $arrayElemAt: ['$interviewee', 0] },
+						case: { $arrayElemAt: ['$case', 0] }
+					}
+				},
+				{
+					$lookup: {
+						from: 'users',
+						localField: 'case.transferredFrom',
+						foreignField: '_id',
+						as: 'case.transferredFrom'
+					}
+				},
+				{
+					$lookup: {
+						from: 'users',
+						localField: 'case.transferredTo',
+						foreignField: '_id',
+						as: 'case.transferredTo'
+					}
+				},
+				{
+					$addFields: {
+						'case.transferredFrom': { $arrayElemAt: ['$case.transferredFrom', 0] },
+						'case.transferredTo': { $arrayElemAt: ['$case.transferredTo', 0] }
+					}
+				},
+				{
+					$unwind: {
+						path: '$beneficiary',
+						preserveNullAndEmptyArrays: true
+					}
+				},
+				{
+					$project: {
+						interviewee: '$interviewee',
+						case: '$case',
+						branch: '$branch',
+						service: '$$ROOT',
+						lawyer: '$lawyer',
+						monthYear: {
+							$dateToString: {
+								date: '$date',
+								format: '%B %Y',
+								timezone: '+08:00',
+								onNull: 'N/A'
+							}
+						},
+						region: '$branch.region',
+						districtProvince: { $concat: ['$branch.district', ', ', '$branch.province'] },
+						district: '$branch.district',
+						province: '$branch.province',
+						controlNo: '$_id',
+						date: '$date',
+						religion: { $ifNull: ['$client.religion', '$beneficiary.religion', 'N/A'] },
+						citizenship: { $ifNull: ['$client.citizenship', '$beneficiary.citizenship', 'N/A'] },
+						name: { $ifNull: ['$client.name', '$beneficiary.name'] },
+						birthday: { $ifNull: ['$case.dateOfBirth', ''] },
+						age: { $ifNull: ['$client.age', '$beneficiary.age'] },
+						address: { $ifNull: ['$client.address', '$beneficiary.address', ''] },
+						email: { $ifNull: ['$client.email', '$beneficiary.email', ''] },
+						individualMonthlyIncome: {
+							$toString: { $ifNull: ['$client.individualMonthlyIncome', 'N/A'] }
+						},
+						detainedSince: '$client.detainedSince',
+						civilStatus: { $ifNull: ['$client.civilStatus', 'N/A'] },
+						sex: { $ifNull: ['$client.sex', '$beneficiary.sex'] },
+						educationalAttainment: '$client.educationalAttainment',
+						languageDialect: '$client.language',
+						contactNo: { $ifNull: ['$client.contactNumber', 'N/A'] },
+						spouse: { $ifNull: ['$client.spouseName', ''] },
+						addressOfSpouse: { $ifNull: ['$client.spouseAddress', ''] },
+						spouseContactNo: { $ifNull: ['$client.spouseContactNumber', ''] },
+						placeOfDetention: '$client.detainedAt',
+						proofOfIndigency: { $ifNull: ['$client.proofOfIndigency', []] },
+						intervieweeName: '$interviewee.name',
+						intervieweeAddress: '$interviewee.address',
+						intervieweeAge: '$interviewee.age',
+						intervieweeSex: '$interviewee.sex',
+						intervieweeCivilStatus: '$interviewee.civilStatus',
+						intervieweeContactNo: { $ifNull: ['$interviewee.contactNumber', 'N/A'] },
+						intervieweeEmail: { $ifNull: ['$interviewee.email', ''] },
+						relationshipToClient: '$relationshipToClient',
+						natureOfService: '$natureOfService',
+						PDLStatus: '$client.detained',
+						natureOfTheCase: { $ifNull: ['$case.natureOfTheCase', ''] },
+						caseSpecs: { $ifNull: ['$case._id', ''] },
+						factsOfTheCase: { $ifNull: ['$case.factsOfTheCase', ''] },
+						clientClasses: { $ifNull: ['$client.classification', []] },
+						clientInvolvement: { $ifNull: ['$case.clientInvolvement', ''] },
+						adverseParty: { $ifNull: ['$case.adversePartyInvolvement', ''] },
+						adversePartyName: { $ifNull: ['$case.adversePartyName', 'N/A'] },
+						adversePartyAddress: { $ifNull: ['$case.adversePartyAddress', 'N/A'] },
+						natureOfOffence: { $ifNull: ['$case.causeOfActionOrNatureOfOffence', ''] },
+						courtPendingStatus: { $ifNull: ['$case.status', ''] },
+						titleOfCaseDocketNum: {
+							$concat: ['$case.titleOfTheCase', ' (', '$case.docketNumber', ')']
+						},
+						court: { $ifNull: ['$case.court', ''] },
+						status: '$case.currentStatus.type',
+						titleOfCase: '$case.titleOfTheCase',
+						remarks: '$case.factsOfTheCase',
+						crimeDate: '$case.dateOfCommission',
+						ageCrime: {
+							$dateDiff: {
+								startDate: '$case.dateOfBirth',
+								endDate: '$case.dateOfCommission',
+								unit: 'year'
+							}
+						},
+						caseNo: '$case.docketNumber',
+						judge: { $ifNull: ['$case.actionTaken', ''] },
+						assignment: '',
+						assistance: '$service.typeOfAssistance',
+						actionTaken: { $ifNull: ['$case.actionTaken', ''] },
+						CICL: {
+							$cond: [
+								{
+									$in: [
+										'Child in Conflict with the Law',
+										{ $ifNull: ['$client.classification', []] }
+									]
+								},
+								'X',
+								''
+							]
+						},
+						Women: {
+							$cond: [
+								{
+									$or: [
+										{ $in: ['Woman Client', { $ifNull: ['$client.classification', []] }] },
+										{
+											$in: [
+												'Woman Client (Non-VAWC Victim)',
+												{ $ifNull: ['$client.classification', []] }
+											]
+										}
+									]
+								},
+								'X',
+								''
+							]
+						},
+						Senior: {
+							$cond: [
+								{ $in: ['Senior Citizen', { $ifNull: ['$client.classification', []] }] },
+								'X',
+								''
+							]
+						},
+						OFW: {
+							$cond: [
+								{
+									$or: [
+										{ $in: ['OFW (Land-Based)', { $ifNull: ['$client.classification', []] }] },
+										{ $in: ['OFW (Sea-Based)', { $ifNull: ['$client.classification', []] }] }
+									]
+								},
+								'X',
+								''
+							]
+						},
+						IG: { $cond: [{ $ifNull: ['$client.indigenousPeople', true] }, '', 'X'] },
+						PWD: { $cond: [{ $ifNull: ['$client.pwd', true] }, '', 'X'] },
+						UP: { $cond: [{ $ifNull: ['$client.urbanPoor', true] }, '', 'X'] },
+						RP: { $cond: [{ $ifNull: ['$client.ruralPoor', true] }, '', 'X'] },
+						Judi: { $cond: [{ $eq: ['Judicial', '$service.typeOfService'] }, 'X', ''] },
+						Quasi: { $cond: [{ $eq: ['Quasi-Judicial', '$service.typeOfService'] }, 'X', ''] },
+						NonJudi: { $cond: [{ $eq: ['Non-Judicial', '$service.typeOfService'] }, 'X', ''] },
+						genderCase: { $ifNull: ['$case.genderCaseSubject', []] },
+						typePWD: { $ifNull: ['$client.pwd', []] },
+						intellectual: { $cond: [{ $eq: ['Intellectual', '$client.pwd'] }, 'X', ''] },
+						vision: { $cond: [{ $eq: ['Vision', '$client.pwd'] }, 'X', ''] },
+						hearing: { $cond: [{ $eq: ['Hearing', '$client.pwd'] }, 'X', ''] },
+						speech: { $cond: [{ $eq: ['Speech', '$client.pwd'] }, 'X', ''] },
+						mental: { $cond: [{ $eq: ['Psychiatric or Mental Illness', '$client.pwd'] }, 'X', ''] },
+						acquired: { $cond: [{ $eq: ['Acquired Disability', '$client.pwd'] }, 'X', ''] },
+						othersPWD: { $cond: [{ $eq: ['Others', '$client.pwd'] }, 'X', ''] },
+						termination: { $ifNull: ['$case.causeOfTermination', ''] },
+						dateCommission: { $ifNull: ['$case.dateOfCommission', ''] },
+						natureOfInstrument: { $ifNull: ['$natureOfInstrument', []] },
+						typeOfService: { $ifNull: ['$service.typeOfService', []] },
+						position: { $ifNull: ['$client.lawEnforcer', ''] },
+						barangay: { $ifNull: ['$service.barangay', ''] },
+						problem: { $ifNull: ['$service.problemsPresented', ''] },
+						activity: { $ifNull: ['$service.activitiesUndertaken', ''] }
+					}
 				}
-			}, {
-				$lookup: {
-					from: 'users',
-					localField: 'lawyer_id',
-					foreignField: '_id',
-					as: 'lawyer'
-				}
-			},
-			{
-				$addFields: {
-					lawyer: { $arrayElemAt: ['$lawyer', 0] }
-				}
-			},
-			{
-				$lookup: {
-					from: 'clients',
-					localField: 'client_id',
-					foreignField: '_id',
-					as: 'client'
-				}
-			},
-			{
-				$unwind: {
-					path: '$client',
-					preserveNullAndEmptyArrays: true
-				}
-			},
-			{
-				$lookup: {
-					from: 'clients',
-					localField: 'interviewee_id',
-					foreignField: '_id',
-					as: 'interviewee'
-				}
-			},
-			{
-				$lookup: {
-					from: 'cases',
-					localField: 'case_id',
-					foreignField: 'docketNumber',
-					as: 'case'
-				}
-			},
-			{
-				$lookup: {
-					from: 'branches',
-					localField: 'lawyer.branch_id',
-					foreignField: '_id',
-					as: 'branch'
-				}
-			},
-			{
-				$addFields: {
-					branch: { $arrayElemAt: ['$branch', 0] },
-					interviewee: { $arrayElemAt: ['$interviewee', 0] },
-					case: { $arrayElemAt: ['$case', 0] }
-				}
-			},
-			{
-				$lookup: {
-					from: 'users',
-					localField: 'case.transferredFrom',
-					foreignField: '_id',
-					as: 'case.transferredFrom'
-				}
-			},
-			{
-				$lookup: {
-					from: 'users',
-					localField: 'case.transferredTo',
-					foreignField: '_id',
-					as: 'case.transferredTo'
-				}
-			},
-			{
-				$addFields: {
-					'case.transferredFrom': { $arrayElemAt: ['$case.transferredFrom', 0] },
-					'case.transferredTo': { $arrayElemAt: ['$case.transferredTo', 0] }
-				}
-			},
-			{
-				$unwind: {
-					path: '$beneficiary',
-					preserveNullAndEmptyArrays: true
-				}
-			},
-			{
-				$project: {
-					interviewee: '$interviewee',
-					case: '$case',
-					branch: '$branch',
-					service: '$$ROOT',
-					lawyer: '$lawyer',
-					monthYear: {
-						$dateToString: {
-							date: '$date',
-							format: '%B %Y',
-							timezone: '+08:00',
-							onNull: 'N/A'
-						}
-					},
-					region: '$branch.region',
-					districtProvince: { $concat: ['$branch.district', ', ', '$branch.province'] },
-					district: '$branch.district',
-					province: '$branch.province',
-					controlNo: '$_id',
-					date: '$date',
-					religion: { $ifNull: ['$client.religion', '$beneficiary.religion', 'N/A'] },
-					citizenship: { $ifNull: ['$client.citizenship', '$beneficiary.citizenship', 'N/A'] },
-					name: { $ifNull: ['$client.name', '$beneficiary.name'] },
-					birthday: { $ifNull: ['$case.dateOfBirth', ''] },
-					age: { $ifNull: ['$client.age', '$beneficiary.age'] },
-					address: { $ifNull: ['$client.address', '$beneficiary.address', ''] },
-					email: { $ifNull: ['$client.email', '$beneficiary.email', ''] },
-					individualMonthlyIncome: { $toString: { $ifNull: ['$client.individualMonthlyIncome', 'N/A'] } },
-					detainedSince: '$client.detainedSince',
-					civilStatus: { $ifNull: ['$client.civilStatus', 'N/A'] },
-					sex: { $ifNull: ['$client.sex', '$beneficiary.sex'] },
-					educationalAttainment: '$client.educationalAttainment',
-					languageDialect: '$client.language',
-					contactNo: { $ifNull: ['$client.contactNumber', 'N/A'] },
-					spouse: { $ifNull: ['$client.spouseName', ''] },
-					addressOfSpouse: { $ifNull: ['$client.spouseAddress', ''] },
-					spouseContactNo: { $ifNull: ['$client.spouseContactNumber', ''] },
-					placeOfDetention: '$client.detainedAt',
-					proofOfIndigency: { $ifNull: ['$client.proofOfIndigency', []] },
-					intervieweeName: '$interviewee.name',
-					intervieweeAddress: '$interviewee.address',
-					intervieweeAge: '$interviewee.age',
-					intervieweeSex: '$interviewee.sex',
-					intervieweeCivilStatus: '$interviewee.civilStatus',
-					intervieweeContactNo: { $ifNull: ['$interviewee.contactNumber', 'N/A'] },
-					intervieweeEmail: { $ifNull: ['$interviewee.email', ''] },
-					relationshipToClient: '$relationshipToClient',
-					natureOfService: '$natureOfService',
-					PDLStatus: '$client.detained',
-					natureOfTheCase: { $ifNull: ['$case.natureOfTheCase', ''] },
-					caseSpecs: { $ifNull: ['$case._id', ''] },
-					factsOfTheCase: { $ifNull: ['$case.factsOfTheCase', ''] },
-					clientClasses: { $ifNull: ['$client.classification', []] },
-					clientInvolvement: { $ifNull: ['$case.clientInvolvement', ''] },
-					adverseParty: { $ifNull: ['$case.adversePartyInvolvement', ''] },
-					adversePartyName: { $ifNull: ['$case.adversePartyName', 'N/A'] },
-					adversePartyAddress: { $ifNull: ['$case.adversePartyAddress', 'N/A'] },
-					natureOfOffence: { $ifNull: ['$case.causeOfActionOrNatureOfOffence', ''] },
-					courtPendingStatus: { $ifNull: ['$case.status', ''] },
-					titleOfCaseDocketNum: { $concat: ['$case.titleOfTheCase', ' (', '$case.docketNumber', ')'] },
-					court: { $ifNull: ['$case.court', ''] },
-					status: '$case.currentStatus.type',
-					titleOfCase: '$case.titleOfTheCase',
-					remarks: '$case.factsOfTheCase',
-					crimeDate: '$case.dateOfCommission',
-					ageCrime: { $dateDiff: { startDate: '$case.dateOfBirth', endDate: '$case.dateOfCommission', unit: 'year' } },
-					caseNo: '$case.docketNumber',
-					judge: { $ifNull: ['$case.actionTaken', ''] },
-					assignment: '',
-					assistance: '$service.typeOfAssistance',
-					actionTaken: { $ifNull: ['$case.actionTaken', ''] },
-					CICL: { $cond: [{ $in: ['Child in Conflict with the Law', { $ifNull: ['$client.classification', []] }] }, 'X', ''] },
-					Women: { $cond: [{ $or: [{ $in: ['Woman Client', { $ifNull: ['$client.classification', []] }] }, { $in: ['Woman Client (Non-VAWC Victim)', { $ifNull: ['$client.classification', []] }] }] }, 'X', ''] },
-					Senior: { $cond: [{ $in: ['Senior Citizen', { $ifNull: ['$client.classification', []] }] }, 'X', ''] },
-					OFW: { $cond: [{ $or: [{ $in: ['OFW (Land-Based)', { $ifNull: ['$client.classification', []] }] }, { $in: ['OFW (Sea-Based)', { $ifNull: ['$client.classification', []] }] }] }, 'X', ''] },
-					IG: { $cond: [{ $ifNull: ['$client.indigenousPeople', true] }, '', 'X'] },
-					PWD: { $cond: [{ $ifNull: ['$client.pwd', true] }, '', 'X'] },
-					UP: { $cond: [{ $ifNull: ['$client.urbanPoor', true] }, '', 'X'] },
-					RP: { $cond: [{ $ifNull: ['$client.ruralPoor', true] }, '', 'X'] },
-					Judi: { $cond: [{ $eq: ['Judicial', '$service.typeOfService'] }, 'X', ''] },
-					Quasi: { $cond: [{ $eq: ['Quasi-Judicial', '$service.typeOfService'] }, 'X', ''] },
-					NonJudi: { $cond: [{ $eq: ['Non-Judicial', '$service.typeOfService'] }, 'X', ''] },
-					genderCase: { $ifNull: ['$case.genderCaseSubject', []] },
-					typePWD: { $ifNull: ['$client.pwd', []] },
-					intellectual: { $cond: [{ $eq: ['Intellectual', '$client.pwd'] }, 'X', ''] },
-					vision: { $cond: [{ $eq: ['Vision', '$client.pwd'] }, 'X', ''] },
-					hearing: { $cond: [{ $eq: ['Hearing', '$client.pwd'] }, 'X', ''] },
-					speech: { $cond: [{ $eq: ['Speech', '$client.pwd'] }, 'X', ''] },
-					mental: { $cond: [{ $eq: ['Psychiatric or Mental Illness', '$client.pwd'] }, 'X', ''] },
-					acquired: { $cond: [{ $eq: ['Acquired Disability', '$client.pwd'] }, 'X', ''] },
-					othersPWD: { $cond: [{ $eq: ['Others', '$client.pwd'] }, 'X', ''] },
-					termination: { $ifNull: ['$case.causeOfTermination', ''] },
-					dateCommission: { $ifNull: ['$case.dateOfCommission', ''] },
-					natureOfInstrument: { $ifNull: ['$natureOfInstrument', []] },
-					typeOfService: { $ifNull: ['$service.typeOfService', []] },
-					position: { $ifNull: ['$client.lawEnforcer', ''] },
-					barangay: { $ifNull: ['$service.barangay', ''] },
-					problem: { $ifNull: ['$service.problemsPresented', ''] },
-					activity: { $ifNull: ['$service.activitiesUndertaken', ''] },
-				}
-			}
-		]).toArray();
+			])
+			.toArray();
 
 		console.log(services);
 
 		const f10 = services.filter((d) => d.service?.nature?.includes('Barangay Outreach'));
 		const f11 = services.filter((d) => d.service?.nature?.includes('Jail Visitation'));
-		const f12 = services.filter((d) => d.client?.classification?.includes('Victim')).map((item, index) => ({ index, ...item }));
+		const f12 = services
+			.filter((d) => d.client?.classification?.includes('Victim'))
+			.map((item, index) => ({ index, ...item }));
 		const f13 = services
 			.filter((d) => d.client?.classification?.includes('Child in Conflict with the Law'))
 			.map((item, index) => ({ index, ...item }));
@@ -273,13 +334,17 @@ export const actions = {
 		const f15 = services.filter((d) =>
 			d.client?.classification?.includes('Petitioner for Voluntary Rehabilitation (Drugs)')
 		);
-		const f16 = services.filter((d) => d.client?.foreignNational?.includes('Taiwanese')).map((item, index) => ({ index, ...item }));
+		const f16 = services
+			.filter((d) => d.client?.foreignNational?.includes('Taiwanese'))
+			.map((item, index) => ({ index, ...item }));
 		const f17 = services;
-		const f18 = services.filter(
-			(d) =>
-				d.client?.classification?.includes('OFW') &&
-				d.services?.nature?.includes('Inquest Legal Assistance')
-		).map((item, index) => ({ index, ...item }));
+		const f18 = services
+			.filter(
+				(d) =>
+					d.client?.classification?.includes('OFW') &&
+					d.services?.nature?.includes('Inquest Legal Assistance')
+			)
+			.map((item, index) => ({ index, ...item }));
 		const f19 = {
 			criminal: services.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')),
 			civil: services.filter((d) => d.case?.natureOfTheCase?.includes('Civil')),
@@ -291,25 +356,37 @@ export const actions = {
 		};
 		const f20 = services.filter((d) => d.client?.PWD?.includes(true));
 		const f21 = services.filter((d) => d.service?.nature?.includes('Administration of Oath'));
-		const f22 = services.filter((d) => d.service?.nature?.includes('Others (PSA)')).map((item, index) => ({ index, ...item }));
+		const f22 = services
+			.filter((d) => d.service?.nature?.includes('Others (PSA)'))
+			.map((item, index) => ({ index, ...item }));
 		const f23 = services.filter((d) =>
 			d.client?.classification?.includes('Denied or Disqualified')
 		);
-		const f24 = services.filter((d) =>
-			d.client?.classification?.includes('Beneficiary of Hernan Ruling (R.A. No. 10951)')
-		).map((item, index) => ({ index, ...item }));
-		const f25 = services.filter((d) => d.case?.genderCaseSubject?.includes('')).map((item, index) => ({ index, ...item }));
+		const f24 = services
+			.filter((d) =>
+				d.client?.classification?.includes('Beneficiary of Hernan Ruling (R.A. No. 10951)')
+			)
+			.map((item, index) => ({ index, ...item }));
+		const f25 = services
+			.filter((d) => d.case?.genderCaseSubject?.includes(''))
+			.map((item, index) => ({ index, ...item }));
 		const f26 = '';
-		const f27 = services.filter((d) => d.case?.pending?.includes('Cases referred to SACS')).map((item, index) => ({ index, ...item }));
+		const f27 = services
+			.filter((d) => d.case?.pending?.includes('Cases referred to SACS'))
+			.map((item, index) => ({ index, ...item }));
 
 		const f31 = services.filter((d) =>
 			d.case?.terminated?.includes('Favorable Dispositions to Clients')
 		);
-		const f32 = services.filter((d) =>
-			// d.client?.detainedSince?.contains('') &&
-			d.services?.nature?.includes('Representation in Court or Quasi-Judicial Bodies')
-		).map((item, index) => ({ index, ...item }));
-		const f33 = services.filter((d) => d.case?.favorable?.includes('')).map((item, index) => ({ index, ...item }));
+		const f32 = services
+			.filter((d) =>
+				// d.client?.detainedSince?.contains('') &&
+				d.services?.nature?.includes('Representation in Court or Quasi-Judicial Bodies')
+			)
+			.map((item, index) => ({ index, ...item }));
+		const f33 = services
+			.filter((d) => d.case?.favorable?.includes(''))
+			.map((item, index) => ({ index, ...item }));
 		const f34 = {
 			criminal: services.filter((d) => d.case?.natureOfTheCase?.includes('Criminal')),
 			civil: services.filter((d) => d.case?.natureOfTheCase?.includes('Civil')),
@@ -337,14 +414,17 @@ export const actions = {
 								type: 'New',
 								date: {
 									$gte: new Date(form.data.year, months.indexOf(form.data.month), 1),
-									$lt: months.indexOf(form.data.month) + 1 < 12 ? new Date(form.data.year + 1, 0, 1)
-										: new Date(form.data.year, months.indexOf(form.data.month) + 1, 1)
+									$lt:
+										months.indexOf(form.data.month) + 1 < 12
+											? new Date(form.data.year + 1, 0, 1)
+											: new Date(form.data.year, months.indexOf(form.data.month) + 1, 1)
 								}
 							}
 						},
 						lawyer_id: event.locals.user.id
 					}
-				}, {
+				},
+				{
 					$lookup: {
 						from: 'users',
 						localField: 'lawyer_id',
@@ -429,7 +509,7 @@ export const actions = {
 						s.type !== 'Terminated' &&
 						(s.date?.getMonth() + 1 < 12
 							? months[s.date?.getMonth() + 1] === form.data.month &&
-							s.date?.getFullYear() === form.data.year
+								s.date?.getFullYear() === form.data.year
 							: s.date?.getMonth() === 11 && s.date?.getFullYear() === form.data.year - 1)
 				).length > 0
 		);
@@ -9457,27 +9537,21 @@ export const actions = {
 				.map((d: any) => d.client.length)
 				.reduce((a: any, b: any) => a + b, 0),
 			jmacfpao: newCasesForThisMonth.filter(
-				(d: any) =>
-					d.case?.nature === 'Mediation or Conciliation' &&
-					d.case?.transferredFrom
+				(d: any) => d.case?.nature === 'Mediation or Conciliation' && d.case?.transferredFrom
 			).length,
-			jmacfpaocl: newCasesForThisMonth.filter(
-				(d: any) =>
-					d.case?.nature === 'Mediation or Conciliation' &&
-					d.case?.transferredFrom
-			)
+			jmacfpaocl: newCasesForThisMonth
+				.filter(
+					(d: any) => d.case?.nature === 'Mediation or Conciliation' && d.case?.transferredFrom
+				)
 				.map((d: any) => d.client.length)
 				.reduce((a: any, b: any) => a + b, 0),
 			jmactpao: newCasesForThisMonth.filter(
-				(d: any) =>
-					d.case?.nature === 'Mediation or Conciliation' &&
-					d.case?.transferredFrom
+				(d: any) => d.case?.nature === 'Mediation or Conciliation' && d.case?.transferredFrom
 			).length,
-			jmactpaocl: newCasesForThisMonth.filter(
-				(d: any) =>
-					d.case?.nature === 'Mediation or Conciliation' &&
-					d.case?.transferredFrom
-			)
+			jmactpaocl: newCasesForThisMonth
+				.filter(
+					(d: any) => d.case?.nature === 'Mediation or Conciliation' && d.case?.transferredFrom
+				)
 				.map((d: any) => d.client.length)
 				.reduce((a: any, b: any) => a + b, 0),
 			ndocust: services.filter(
@@ -9501,17 +9575,14 @@ export const actions = {
 					d.service?.duringOffice === false
 			),
 			nblo: services.filter(
-				(d) =>
-					d.service?.typeOfAssistance === 'Counseled during Inquest or Night Duty'
+				(d) => d.service?.typeOfAssistance === 'Counseled during Inquest or Night Duty'
 			),
 			nbnum: services.filter(
-				(d) =>
-					d.service?.typeOfAssistance === 'Counseled during Inquest or Night Duty'
-			),
+				(d) => d.service?.typeOfAssistance === 'Counseled during Inquest or Night Duty'
+			)
 			// custodial inquest check
 			//finish f29
 			//finish other reports
-
 		};
 
 		const quarterlyServices = services.filter(

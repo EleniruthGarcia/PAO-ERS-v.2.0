@@ -29,7 +29,17 @@ services:
     container_name: mongo_rs0
     image: mongo:7.0-jammy
     hostname: mongo1
-    command: [ "--replSet", "rs0", "--bind_ip", "127.0.0.1,mongo1", "--port", "27017", "--keyFile", "/etc/mongodb/pki/keyfile" ]
+    command:
+      [
+        '--replSet',
+        'rs0',
+        '--bind_ip',
+        '127.0.0.1,mongo1',
+        '--port',
+        '27017',
+        '--keyFile',
+        '/etc/mongodb/pki/keyfile'
+      ]
     volumes:
       - mongo1-data:/data/db
       - ./keyfile:/etc/mongodb/pki/keyfile
@@ -56,7 +66,17 @@ services:
     container_name: mongo_rs2
     image: mongo:7.0-jammy
     hostname: mongo2
-    command: [ "--replSet", "rs0", "--bind_ip", "127.0.0.1,mongo2", "--port", "27018", "--keyFile", "/etc/mongodb/pki/keyfile" ]
+    command:
+      [
+        '--replSet',
+        'rs0',
+        '--bind_ip',
+        '127.0.0.1,mongo2',
+        '--port',
+        '27018',
+        '--keyFile',
+        '/etc/mongodb/pki/keyfile'
+      ]
     volumes:
       - mongo2-data:/data/db
       - ./keyfile:/etc/mongodb/pki/keyfile
@@ -73,7 +93,17 @@ services:
     container_name: mongo_rs3
     image: mongo:7.0-jammy
     hostname: mongo3
-    command: [ "--replSet", "rs0", "--bind_ip", "127.0.0.1,mongo3", "--port", "27019", "--keyFile", "/etc/mongodb/pki/keyfile" ]
+    command:
+      [
+        '--replSet',
+        'rs0',
+        '--bind_ip',
+        '127.0.0.1,mongo3',
+        '--port',
+        '27019',
+        '--keyFile',
+        '/etc/mongodb/pki/keyfile'
+      ]
     volumes:
       - mongo3-data:/data/db
       - ./keyfile:/etc/mongodb/pki/keyfile
@@ -108,7 +138,6 @@ volumes:
   mongo1-data:
   mongo2-data:
   mongo3-data:
-
 
 networks:
   mongo-cluster:

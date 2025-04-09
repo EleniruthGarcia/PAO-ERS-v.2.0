@@ -287,7 +287,14 @@
 							<Form.Field {form} name="address" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label>Tirahan</Form.Label>
-									<Input {...attrs} bind:value={$formData.address} placeholder="Address" />
+									<div class="flex items-center gap-2">
+										<Input {...attrs} bind:value={$formData.address} placeholder="Address"/>
+										<span class="w-20 text-nowrap text-right text-muted-foreground"
+											><span class={$formData.address.length > 40 ? 'text-destructive' : ''}
+												>{$formData.address.length}</span
+											> / 40</span
+										>
+									</div>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>

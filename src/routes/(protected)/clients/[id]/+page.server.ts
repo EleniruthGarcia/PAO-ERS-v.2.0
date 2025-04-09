@@ -75,10 +75,6 @@ export const actions: Actions = {
 
 		event.cookies.set('client', event.params.id, { path: '/' });
 
-		redirect(
-			'/services/add',
-			{ type: 'info', message: `Add service for ${event.locals}.` },
-			event
-		);
+		redirect('/services/add', { type: 'info', message: `Add service for ${event.locals}.` }, event);
 	}
 };

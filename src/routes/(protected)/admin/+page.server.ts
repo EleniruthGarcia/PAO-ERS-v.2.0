@@ -64,13 +64,13 @@ export const load: PageServerLoad = async (event) => {
 						foreignField: '_id',
 						as: 'case'
 					}
-				},
+				}
 				// {
-					// $addFields: {
-						// 'client.age': {
-						// 	$dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' }
-						// }
-					// }
+				// $addFields: {
+				// 'client.age': {
+				// 	$dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' }
+				// }
+				// }
 				// }
 			])
 			.toArray(),

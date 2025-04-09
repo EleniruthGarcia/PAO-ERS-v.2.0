@@ -40,11 +40,7 @@ export const actions: Actions = {
 		);
 
 		if (txnResult.type === 'success') {
-			redirect(
-				'/',
-				{ type: 'success', message: 'Client added successfully!' },
-				event
-			);
+			redirect('/', { type: 'success', message: 'Client added successfully!' }, event);
 		} else {
 			return setError(form, '', 'An error occurred while adding the client.');
 		}
