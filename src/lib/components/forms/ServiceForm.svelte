@@ -25,7 +25,8 @@
 		Minus,
 		Plus,
 		CaretSort,
-		Check
+		Check,
+		MagnifyingGlass
 	} from 'svelte-radix';
 
 	import Loading from '$lib/components/Loading.svelte';
@@ -42,6 +43,7 @@
 	import Textarea from '../ui/textarea/textarea.svelte';
 	import { Combobox } from 'bits-ui';
 	import { flyAndScale } from '$lib/utils';
+	import Search from '../Search.svelte';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -61,6 +63,9 @@
 			value: ($formData.client_id ?? [])[i] ?? ''
 		};
 	});
+
+	let clientSearch: string[] = [];
+	let intervieweeSearch: string = '';
 
 	let selectedCase: { label: string; value: string } = {
 		label: '',
@@ -622,10 +627,26 @@
 													<Select.Trigger {...attrs}>
 														<Select.Value placeholder="" />
 													</Select.Trigger>
-													<Select.Content class="max-h-[200px] overflow-y-auto">
-														{#each $page.data.clients.filter((c) => !$formData.client_id.includes(c._id)) as client}
-															<Select.Item bind:value={client._id}>{client.name}</Select.Item>
-														{/each}
+													<Select.Content>
+														<div class="flex items-center border-b px-3">
+															<MagnifyingGlass class="mr-2 h-4 w-4 shrink-0 opacity-50" />
+															<Input
+																class="flex h-9 w-full rounded-md border-none bg-transparent px-3 py-1 text-sm shadow-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+																placeholder="Search clients..."
+																bind:value={clientSearch[i]}
+															/>
+														</div>
+														<div class="max-h-[200px] overflow-y-auto">
+															{#each $page.data.clients.filter((c) => c.name
+																	.toLowerCase()
+																	.includes((clientSearch[i] || '').toLowerCase())) as client}
+																<Select.Item bind:value={client._id}>{client.name}</Select.Item>
+															{:else}
+																<span class="block px-5 py-2 text-sm text-muted-foreground">
+																	No results found.
+																</span>
+															{/each}
+														</div>
 													</Select.Content>
 												</Select.Root>
 												<Button
@@ -664,10 +685,26 @@
 											<Select.Trigger {...attrs}>
 												<Select.Value placeholder="" />
 											</Select.Trigger>
-											<Select.Content class="max-h-[200px] overflow-y-auto">
-												{#each $page.data.clients as client}
-													<Select.Item bind:value={client._id}>{client.name}</Select.Item>
-												{/each}
+											<Select.Content>
+												<div class="flex items-center border-b px-3">
+													<MagnifyingGlass class="mr-2 h-4 w-4 shrink-0 opacity-50" />
+													<Input
+														class="flex h-9 w-full rounded-md border-none bg-transparent px-3 py-1 text-sm shadow-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+														placeholder="Search clients..."
+														bind:value={intervieweeSearch}
+													/>
+												</div>
+												<div class="max-h-[200px] overflow-y-auto">
+													{#each $page.data.clients.filter((c) => c.name
+															.toLowerCase()
+															.includes((intervieweeSearch || '').toLowerCase())) as client}
+														<Select.Item bind:value={client._id}>{client.name}</Select.Item>
+													{:else}
+														<span class="block px-5 py-2 text-sm text-muted-foreground">
+															No results found.
+														</span>
+													{/each}
+												</div>
 											</Select.Content>
 										</Select.Root>
 									</Form.Control>
@@ -983,7 +1020,7 @@
 														transition={flyAndScale}
 														sideOffset={8}
 													>
-														{#each natureOfInstrument.filter((n) => !$formData.natureOfInstrument?.includes(n)) as value}
+														{#each natureOfInstrument.filter((n) => n.includes($formData.natureOfInstrument[i]) || n == 'Others') as value}
 															<Combobox.Item
 																class="relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
 																{value}
