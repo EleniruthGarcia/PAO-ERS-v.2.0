@@ -70,7 +70,7 @@ export const actions: Actions = {
 					{
 						...form.data,
 						// _id: `${branch?.region}:${branch?.district}:${new Date().getFullYear()}:${new Date().getMonth()}:${(await db.counters.findOneAndUpdate({ _id: 'services', branch_id: branch?._id }, { $inc: { count: 1 } }, { upsert: true }))?.count}`
-						_id: `${new Date().getFullYear()}:${String(new Date().getMonth()).padStart(2, '0')}:${String((await db.counters.findOneAndUpdate({ _id: `services_${branch?.region}_${branch?.district}` }, { $inc: { count: 1 } }, { upsert: true }))?.count ?? 0).padStart(6, '0')}`
+						_id: `${new Date().getFullYear()}:${String(new Date().getMonth() + 1).padStart(2, '0')}:${String((await db.counters.findOneAndUpdate({ _id: `services_${branch?.region}_${branch?.district}` }, { $inc: { count: 1 } }, { upsert: true }))?.count ?? 0).padStart(6, '0')}`
 					},
 					{ session }
 				);
