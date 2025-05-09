@@ -77,6 +77,7 @@ async function addTextToPDF(data: any) {
 		district,
 		province,
 		controlNo,
+		interviewer,
 
 		// client data
 		religion,
@@ -141,8 +142,17 @@ async function addTextToPDF(data: any) {
 	// Get the first page of the PDF
 	const firstPage = pdfDoc.getPages()[0];
 
+	const publicAtty = "Atty. " + interviewer;
+
 	// Add text to the first page
 	firstPage.drawText(controlNo ?? 'N/A', {
+		x: 90,
+		y: 863,
+		size: 8,
+		color: rgb(0, 0, 0) // Black
+	});
+	//Attorney Name
+	firstPage.drawText(publicAtty, {
 		x: 90,
 		y: 863,
 		size: 8,
