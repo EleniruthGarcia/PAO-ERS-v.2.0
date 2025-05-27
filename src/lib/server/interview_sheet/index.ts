@@ -142,7 +142,7 @@ async function addTextToPDF(data: any) {
 	// Get the first page of the PDF
 	const firstPage = pdfDoc.getPages()[0];
 
-	const publicAtty = "Atty. " + interviewer;
+	const publicAtty = 'Atty. ' + interviewer;
 
 	// Add text to the first page
 	firstPage.drawText(controlNo ?? 'N/A', {

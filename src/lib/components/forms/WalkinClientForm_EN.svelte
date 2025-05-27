@@ -1,4 +1,11 @@
+<!-- Public Attorney's Office - Electronic Records System
+Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando -->
+
+<!-- Please refer to ClientForm.svelte for comments. It is the same form with non-client cards removed and in English. -->
+
 <script lang="ts">
+	// Import all necessary components and dependencies.
+
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import {
 		civilStatus,
@@ -284,7 +291,7 @@
 								<Form.Control let:attrs>
 									<Form.Label>Address</Form.Label>
 									<div class="flex items-center gap-2">
-										<Input {...attrs} bind:value={$formData.address} placeholder="Address"/>
+										<Input {...attrs} bind:value={$formData.address} placeholder="Address" />
 										<span class="w-20 text-nowrap text-right text-muted-foreground"
 											><span class={$formData.address.length > 40 ? 'text-destructive' : ''}
 												>{$formData.address.length}</span

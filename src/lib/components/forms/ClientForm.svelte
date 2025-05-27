@@ -1,4 +1,9 @@
+<!-- Public Attorney's Office - Electronic Records System
+Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando -->
+
 <script lang="ts">
+	// Import all necessary components and dependencies.
+
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import {
 		civilStatus,
@@ -17,18 +22,14 @@
 		dateProxy,
 		intProxy
 	} from 'sveltekit-superforms';
-
 	import { CaretSort, Check, ChevronLeft } from 'svelte-radix';
-
 	import Loading from '$lib/components/Loading.svelte';
-
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
-
 	import DatePicker from '$lib/components/DatePicker.svelte';
 	import { Combobox } from 'bits-ui';
 	import { flyAndScale } from '$lib/utils';
@@ -44,10 +45,6 @@
 	const { form: formData, enhance, delayed } = form;
 
 	const proxyAge = intProxy(form, 'age', { empty: 'undefined' });
-	// const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
-	// 	format: 'date',
-	// 	empty: 'undefined'
-	// });
 	const proxyDetainedSince = dateProxy(form, 'detainedSince', {
 		format: 'date',
 		empty: 'undefined'
@@ -115,7 +112,13 @@
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
-	{#if $delayed}<Loading />{/if}
+	{#if $delayed}
+		<Loading />
+	{/if}
+	<!-- Show loading interface while data is loading. -->
+
+	<!-- PAGE HEADER -->
+
 	<input type="hidden" name="_id" bind:value={$formData._id} />
 	<input type="hidden" name="name" bind:value={$formData.name} />
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
@@ -127,13 +130,14 @@
 			<h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
 				{$formData.currentStatus === 'New' ? 'Add Client' : 'Update Client'}
 			</h1>
-			<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 				<Form.Button type="submit" size="sm">Submit</Form.Button>
 			</div>
 		</div>
 		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-5 lg:gap-8">
+			<!-- MAIN CLIENT INFORMATION -->
+
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
 				<Card.Root>
 					<Card.Header>
@@ -359,6 +363,9 @@
 						</div>
 					</Card.Content>
 				</Card.Root>
+
+				<!-- CLIENT CONTACT INFORMATION -->
+
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Contact Information</Card.Title>
@@ -371,7 +378,7 @@
 										Address <span class="font-bold text-destructive">*</span>
 									</Form.Label>
 									<div class="flex items-center gap-2">
-										<Input {...attrs} bind:value={$formData.address} placeholder="Address"/>
+										<Input {...attrs} bind:value={$formData.address} placeholder="Address" />
 										<span class="w-20 text-nowrap text-right text-muted-foreground"
 											><span class={$formData.address.length > 40 ? 'text-destructive' : ''}
 												>{$formData.address.length}</span
@@ -398,6 +405,10 @@
 						</div>
 					</Card.Content>
 				</Card.Root>
+
+				<!-- SPOUSE INFORMATION
+				This is for married clients only. -->
+
 				{#if $formData.civilStatus === 'Married'}
 					<Card.Root>
 						<Card.Header>
@@ -476,6 +487,10 @@
 						</Card.Content>
 					</Card.Root>
 				{/if}
+
+				<!-- DETAINEE INFORMATION
+				This is for detained clients only. -->
+
 				{#if $formData.detained}
 					<Card.Root>
 						<Card.Header>
@@ -508,11 +523,17 @@
 						</Card.Content>
 					</Card.Root>
 				{/if}
+
+				<!-- These are submit options that appear at the button of the page for user convenience. -->
+
 				<div class="hidden items-center justify-center gap-2 md:flex">
 					<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 					<Form.Button type="submit" size="sm">Submit</Form.Button>
 				</div>
 			</div>
+
+			<!-- CLIENT CLASSIFICATION -->
+
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
 				<Card.Root>
 					<Form.Fieldset {form} name="classification" class="space-y-0">
@@ -652,6 +673,9 @@
 				</Card.Root>
 			</div>
 		</div>
+
+		<!-- These are submit options that appear at the button of the page for user convenience. -->
+
 		<div class="flex items-center justify-center gap-2 md:hidden">
 			<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 			<Form.Button type="submit" size="sm">Submit</Form.Button>

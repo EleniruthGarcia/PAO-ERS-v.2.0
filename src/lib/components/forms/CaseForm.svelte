@@ -1,4 +1,9 @@
+<!-- Public Attorney's Office - Electronic Records System
+Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando -->
+
 <script lang="ts">
+	// Import all necessary components and dependencies.
+
 	import { page } from '$app/stores';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import {
@@ -12,18 +17,14 @@
 		causeOfTermination
 	} from '$lib/schema/case';
 	import { type SuperValidated, type Infer, superForm, dateProxy } from 'sveltekit-superforms';
-
 	import { CaretSort, Check, ChevronLeft } from 'svelte-radix';
-
 	import Loading from '$lib/components/Loading.svelte';
-
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
-
 	import { Textarea } from '$lib/components/ui/textarea';
 	import { Combobox } from 'bits-ui';
 	import { flyAndScale } from '$lib/utils';
@@ -96,8 +97,14 @@
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
-	{#if $delayed}<Loading />{/if}
+	{#if $delayed}
+		<Loading />
+	{/if}
+	<!-- Show loading interface while data is loading. -->
+
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
+		<!-- PAGE HEADER -->
+
 		<div class="flex items-center gap-4">
 			<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>
 				<ChevronLeft class="h-4 w-4" />
@@ -112,7 +119,10 @@
 				<Form.Button type="submit" size="sm">Submit</Form.Button>
 			</div>
 		</div>
+
 		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-5 lg:gap-8">
+			<!-- MAIN CASE INFORMATION -->
+
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
 				<Card.Root>
 					<Card.Header>
@@ -137,7 +147,6 @@
 									<Form.Label
 										>Docket Number <span class="font-bold text-destructive">*</span></Form.Label
 									>
-									<!-- <Input {...attrs} bind:value={$formData.docketNumber} /> -->
 									<Select.Root
 										selected={selectedDocketNumber}
 										onSelectedChange={(s) => {
@@ -219,6 +228,9 @@
 						</div>
 					</Card.Content>
 				</Card.Root>
+
+				<!-- ADVERSE PARTY'S INFORMATION -->
+
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Adverse Party's Information</Card.Title>
@@ -246,6 +258,9 @@
 						</div>
 					</Card.Content>
 				</Card.Root>
+
+				<!-- FACTS OF THE CASE -->
+
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Facts of the Case</Card.Title>
@@ -276,6 +291,10 @@
 						</Form.Field>
 					</Card.Content>
 				</Card.Root>
+
+				<!-- GENDER-RELATED CASE INFORMATION
+				This is for gender-related cases like VAWC. -->
+
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Gender-Related Case Information</Card.Title>
@@ -331,6 +350,10 @@
 						</Form.Field>
 					</Card.Content>
 				</Card.Root>
+
+				<!-- CICL CASE INFORMATION
+				This is for CICL cases only. -->
+
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>CICL Case Information</Card.Title>
@@ -364,11 +387,18 @@
 						</div>
 					</Card.Content>
 				</Card.Root>
+
+				<!-- These are submit options that appear at the button of the page for user convenience. -->
+
 				<div class="hidden items-center justify-center gap-2 md:flex">
 					<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 					<Form.Button type="submit" size="sm">Submit</Form.Button>
 				</div>
 			</div>
+
+			<!-- CASE STATUS
+			Note that depending on the status, additional cards appear. -->
+
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
 				<Card.Root>
 					<Card.Header>
@@ -496,6 +526,9 @@
 						</Card.Content>
 					</Card.Root>
 				{/if}
+
+				<!-- CLIENT'S CASE INVOLVEMENT -->
+
 				<Card.Root>
 					<Form.Fieldset {form} name="clientInvolvement" class="space-y-0">
 						<Card.Header>
@@ -556,6 +589,9 @@
 						</Card.Content>
 					</Form.Fieldset>
 				</Card.Root>
+
+				<!-- ADVERSE PARTY'S CASE INVOLVEMENT -->
+
 				<Card.Root>
 					<Form.Fieldset {form} name="adversePartyInvolvement" class="space-y-0">
 						<Card.Header>
@@ -599,6 +635,9 @@
 					</Form.Fieldset>
 				</Card.Root>
 			</div>
+
+			<!-- These are submit options that appear at the button of the page for user convenience. -->
+
 			<div class="flex items-center justify-center gap-2 md:hidden">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 				<Form.Button type="submit" size="sm">Submit</Form.Button>

@@ -1,19 +1,20 @@
+<!-- Public Attorney's Office - Electronic Records System
+Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando -->
+
 <script lang="ts">
+	// Import all necessary components and dependencies.
+
 	import { page } from '$app/stores';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { months, reports, formSchema, type FormSchema } from '$lib/schema/report';
+	import { months, formSchema, type FormSchema } from '$lib/schema/report';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { ChevronLeft } from 'svelte-radix';
-
 	import Loading from '$lib/components/Loading.svelte';
-
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
-	import { Checkbox } from '$lib/components/ui/checkbox';
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
-	import { Separator } from '$lib/components/ui/separator';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -43,8 +44,14 @@
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
-	{#if $delayed}<Loading />{/if}
+	{#if $delayed}
+		<Loading />
+	{/if}
+	<!-- Show loading interface while data is loading. -->
+
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
+		<!-- PAGE HEADER -->
+
 		<div class="flex items-center gap-4">
 			<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>
 				<ChevronLeft class="h-4 w-4" />
@@ -53,13 +60,14 @@
 			<h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
 				Generate Report
 			</h1>
-			<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 			<div class="hidden items-center gap-2 md:ml-auto md:flex">
 				<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 				<Form.Button type="submit" size="sm">Generate Report</Form.Button>
 			</div>
 		</div>
 		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-8 lg:gap-8">
+			<!-- This is a report list for custom import of reports, which has been temprarily discontinued as per client request. -->
+
 			<!-- <div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
 				<Card.Root>
 					<Form.Fieldset {form} name="reports" class="space-y-0">
@@ -98,6 +106,9 @@
 					</Form.Fieldset>
 				</Card.Root>
 			</div> -->
+
+			<!-- This is for miscellaneous information necesarry for report footers. -->
+
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-5 lg:gap-8">
 				<Card.Root>
 					<Card.Header>
@@ -185,6 +196,9 @@
 					</Card.Content>
 				</Card.Root>
 			</div>
+
+			<!-- Put all disclaimers here for clients. -->
+
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
 				<Card.Root>
 					<Card.Header>
@@ -231,6 +245,9 @@
 				</Card.Root>
 			</div>
 		</div>
+
+		<!-- These are submit options that appear at the button of the page for user convenience. -->
+
 		<div class="flex items-center justify-center gap-2 md:hidden">
 			<Form.Button type="reset" variant="outline" size="sm">Reset</Form.Button>
 			<Form.Button type="submit" size="sm">Generate Report</Form.Button>

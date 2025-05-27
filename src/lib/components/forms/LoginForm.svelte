@@ -1,10 +1,13 @@
+<!-- Public Attorney's Office - Electronic Records System
+Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando -->
+
 <script lang="ts">
+	// Import all necessary components and dependencies.
+
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { formSchema, type FormSchema } from '$lib/schema/login';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
-
 	import Loading from '$lib/components/Loading.svelte';
-
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Form from '$lib/components/ui/form';
@@ -20,7 +23,13 @@
 </script>
 
 <form method="POST" use:enhance class="grid gap-4">
-	{#if $delayed}<Loading />{/if}
+	{#if $delayed}
+		<Loading />
+	{/if}
+	<!-- Show loading interface while data is loading. -->
+
+	<!-- LOG-IN FORM -->
+
 	<Card.Root class="w-full max-w-sm">
 		<Card.Header>
 			<Card.Title class="text-2xl">Login</Card.Title>

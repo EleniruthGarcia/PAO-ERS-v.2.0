@@ -1,4 +1,9 @@
+<!-- Public Attorney's Office - Electronic Records System
+Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando -->
+
 <script lang="ts">
+	// Import all necessary components and dependencies.
+
 	import { page } from '$app/stores';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import {
@@ -16,7 +21,6 @@
 		limitedServices
 	} from '$lib/schema/service';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
-
 	import {
 		ChevronLeft,
 		PlusCircled,
@@ -28,9 +32,7 @@
 		Check,
 		MagnifyingGlass
 	} from 'svelte-radix';
-
 	import Loading from '$lib/components/Loading.svelte';
-
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Checkbox } from '$lib/components/ui/checkbox';
@@ -43,7 +45,6 @@
 	import Textarea from '../ui/textarea/textarea.svelte';
 	import { Combobox } from 'bits-ui';
 	import { flyAndScale } from '$lib/utils';
-	import Search from '../Search.svelte';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -85,24 +86,6 @@
 			value: ($formData.natureOfInstrument ?? [])[i]
 		};
 	});
-
-	// $: $formData.title =
-	// 	[...($formData.nature ?? []), ...($formData.otherNature ?? [])].length > 0
-	// 		? [...($formData.nature ?? []), ...($formData.otherNature ?? [])].join(', ') +
-	// 			' - ' +
-	// 			(function (x) {
-	// 				switch (x.length) {
-	// 					case 0:
-	// 						return 'No client selected.';
-	// 					case 1:
-	// 						return x[0].name;
-	// 					case 2:
-	// 						return x.map((c) => c.lastName).join(' and ');
-	// 					default:
-	// 						return x[0].lastName + ', et al.';
-	// 				}
-	// 			})($formData.client_id.map((id) => $page.data.clients.find((c) => c._id === id)))
-	// 		: '';
 
 	$: selectedLawyer = {
 		label: $page.data.lawyers.find((lawyer: any) => lawyer._id === $formData.lawyer_id)?.name ?? '',
@@ -226,9 +209,14 @@
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
-	{#if $delayed}<Loading />{/if}
+	{#if $delayed}
+		<Loading />
+	{/if}
+	<!-- Show loading interface while data is loading. -->
+
+	<!-- PAGE HEADER -->
+
 	<input type="hidden" name="_id" bind:value={$formData._id} />
-	<!-- <input type="hidden" name="title" bind:value={$formData.title} /> -->
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
 		<div class="flex items-center gap-4">
 			<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>
@@ -245,6 +233,8 @@
 			</div>
 		</div>
 		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-5 lg:gap-8">
+			<!-- SECONDARY SERVICE INFORMATION -->
+
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
 				<Card.Root>
 					<Form.Fieldset {form} name="typeOfService" class="space-y-0">
@@ -254,9 +244,6 @@
 									Type of Service <span class="font-bold text-destructive">*</span>
 								</Form.Legend>
 							</Card.Title>
-							<!-- <Card.Description>
-								<Form.Description>Please select all the apply.</Form.Description>
-							</Card.Description> -->
 						</Card.Header>
 						<Card.Content>
 							<div class="space-y-2">
@@ -278,6 +265,10 @@
 						</Card.Content>
 					</Form.Fieldset>
 				</Card.Root>
+
+				<!-- NATURE OF SERVICE
+				Note that additional cards appear depending on service nature. -->
+
 				<Card.Root>
 					<Form.Fieldset {form} name="nature" class="space-y-0">
 						<Card.Header>
@@ -390,9 +381,6 @@
 							<Card.Title class="text-sm">
 								Mode of Legal Advice <span class="font-bold text-destructive">*</span>
 							</Card.Title>
-							<!-- <Card.Description>
-								<Form.Description>Please select all the apply.</Form.Description>
-							</Card.Description> -->
 						</Card.Header>
 						<Card.Content>
 							<Form.Field {form} name="legalAdviceMode" class="grid gap-3 sm:col-span-3">
@@ -517,6 +505,10 @@
 					</Card.Root>
 				{/if}
 			</div>
+
+			<!-- MAIN SERVICE INFORMATION
+			Note that additional cards appear as needed. Please check the if statements. -->
+
 			<div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
 				<Card.Root>
 					<Card.Header>
@@ -531,6 +523,7 @@
 						</Card.Description>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
+						<!-- This is for additional servcie information but has been temporarily removed as per client request. -->
 						<!-- <div class="grid grid-cols-3 items-start gap-3">
 							<Form.Field {form} name="districtProvince" class="grid gap-3">
 								<Form.Control let:attrs>
@@ -1127,6 +1120,9 @@
 						</Card.Content>
 					</Card.Root>
 				{/if}
+
+				<!-- This is for clients to input additional service information. -->
+
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Additional Notes</Card.Title>
@@ -1144,6 +1140,8 @@
 						</Form.Field>
 					</Card.Content>
 				</Card.Root>
+
+				<!-- These are submit options that appear at the button of the page for user convenience. -->
 
 				{#if $formData.nature.length != 0}
 					<div class="hidden items-center justify-center gap-2 md:flex">
