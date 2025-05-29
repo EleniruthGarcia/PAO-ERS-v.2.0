@@ -10,7 +10,6 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 </script>
 
 <div class="h-dvh w-screen lg:flex">
-
 	<!-- SIDE PANEL -->
 
 	<div class="hidden h-full flex-col items-center justify-center gap-6 lg:flex">

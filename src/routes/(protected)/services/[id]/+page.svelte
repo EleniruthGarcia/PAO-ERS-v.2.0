@@ -1,24 +1,25 @@
+<!-- Public Attorney's Office - Electronic Records System
+Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando -->
+
 <script lang="ts">
+	// Import all necessary dependencies and components.
 	import type { PageServerData } from './$types';
 	import { ChevronLeft, Copy, DotsVertical } from 'svelte-radix';
-
 	import { toast } from 'svelte-sonner';
-
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Separator } from '$lib/components/ui/separator';
 	import { Badge } from '$lib/components/ui/badge';
-	import { otherNature } from '$lib/schema/service';
-
 	import * as Table from '$lib/components/ui/table';
-	import { PageEmbeddingMismatchedContextError } from 'pdf-lib';
 
 	export let data: PageServerData;
 </script>
 
 <main class="grid gap-4 md:grid-cols-2">
+	<!-- PAGE HEADER -->
+
 	<div class="flex items-center gap-4 md:col-span-2">
 		<Button variant="outline" size="icon" class="h-7 w-7" on:click={() => history.back()}>
 			<ChevronLeft class="h-4 w-4" />
@@ -27,7 +28,6 @@
 		<h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
 			View Service
 		</h1>
-		<!-- <Badge class="ml-auto sm:ml-0">In stock</Badge> -->
 		<div class="ml-auto hidden items-center gap-1 md:flex">
 			<Button
 				size="sm"
@@ -125,6 +125,10 @@
 			</AlertDialog.Root>
 		</div>
 	</div>
+
+	<!-- MAIN SERVICE INFORMATION
+	Note that some information are conditional (if they exist). -->
+
 	<div class="grid auto-rows-max items-start gap-4">
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
@@ -159,11 +163,6 @@
 					<Card.Description>
 						<Badge variant="outline" class="mr-2">{data.service.typeOfService}</Badge> ID: {data
 							.service._id}
-						<!-- {data.client.length > 1
-							? data.client.length > 2
-								? `${data.client[0].lastName} et. al.`
-								: `${data.client[0].lastName} and ${data.client[1].lastName}`
-							: data.client[0].name} -->
 					</Card.Description>
 				</div>
 			</Card.Header>
@@ -357,6 +356,9 @@
 			</Card.Root>
 		{/if}
 	</div>
+
+	<!-- SERVICE-RELATED CASES -->
+
 	<div>
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
@@ -428,33 +430,9 @@
 							</Table.Body>
 						</Table.Root>
 					</div>
-					<!-- {#each data.service.beneficiary as client, i}
-						<div class="grid gap-3">
-							<ul class="grid gap-3">
-								<li class="flex items-center justify-between gap-2 truncate">
-									<span class="text-muted-foreground">Name</span>
-									<span>{client.name ?? 'N/A'}</span>
-								</li>
-								<li class="flex items-center justify-between gap-2 truncate">
-									<span class="text-muted-foreground">Age</span>
-									<span>{client.age ?? 'N/A'}</span>
-								</li>
-								<li class="flex items-center justify-between gap-2 truncate">
-									<span class="text-muted-foreground">Sex</span>
-									<span>{client.sex ?? 'N/A'}</span>
-								</li>
-								<li class="flex items-center justify-between gap-2 truncate">
-									<span class="text-muted-foreground">Ethnicity</span>
-									<span>{client.ethnicity ?? 'N/A'}</span>
-								</li>
-							</ul>
-						</div>
-						{#if data.client.length - 1 !== i}
-							<Separator class="my-4" />
-						{/if}
-					{/each} -->
 				{/if}
 			</Card.Content>
+			<!-- This part has been commented out temporarily. The update time mechanism hasn't been implemented. -->
 			<!-- <Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
 					Updated <time dateTime="2023-11-23">November 23, 2023</time>

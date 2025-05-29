@@ -66,7 +66,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 			</div>
 		</div>
 		<div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-8 lg:gap-8">
-			<!-- This is a report list for custom import of reports, which has been temprarily discontinued as per client request. -->
+			<!-- This is a report list for custom import of reports, which has been temporarily discontinued as per client request. -->
 
 			<!-- <div class="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
 				<Card.Root>

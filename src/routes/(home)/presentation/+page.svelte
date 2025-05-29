@@ -19,7 +19,6 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 
 <main class="grid gap-4">
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
-
 		<!-- DESCRIPTION OF THE SYSTEM -->
 
 		<Card.Root>

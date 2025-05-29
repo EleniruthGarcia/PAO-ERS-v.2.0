@@ -1,7 +1,10 @@
+<!-- Public Attorney's Office - Electronic Records System
+Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando -->
+
 <script lang="ts">
+	// Import all necessary dependencies and components.
 	import clsx from 'clsx';
 	import { ClientTable, SelectedClients } from '$lib/components/tables/client';
-
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 

@@ -1,9 +1,11 @@
+<!-- Public Attorney's Office - Electronic Records System
+Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando -->
+
 <script lang="ts">
+	// Import all necessary dependencies and components.
 	import type { PageServerData } from './$types';
 	import { Copy, DotsVertical } from 'svelte-radix';
-
 	import { toast } from 'svelte-sonner';
-
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
@@ -15,6 +17,8 @@
 </script>
 
 <main class="grid gap-4 md:grid-cols-5">
+	<!-- MAIN CASE INFORMATION -->
+
 	<div class="grid auto-rows-max items-start gap-4 md:col-span-3 md:gap-8">
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
@@ -202,6 +206,9 @@
 				</div>
 			</Card.Footer>
 		</Card.Root>
+
+		<!-- ADDITIONAL CASE INFORMATION -->
+
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
 				<div class="grid gap-0.5">
@@ -224,6 +231,9 @@
 			</Card.Content>
 		</Card.Root>
 	</div>
+
+	<!-- CASE STATUS HSTORY -->
+
 	<div class="md:col-span-2">
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
@@ -251,6 +261,7 @@
 					{/if}
 				{/each}
 			</Card.Content>
+			<!-- This part has been commented out temporarily. The update time mechanism hasn't been implemented. -->
 			<!-- <Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
 					Updated <time dateTime="2023-11-23">November 23, 2023</time>

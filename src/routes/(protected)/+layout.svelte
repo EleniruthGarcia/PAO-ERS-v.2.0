@@ -20,7 +20,6 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	<Sidebar />
 	<ScrollArea class="h-dvh w-full">
 		<div class="flex h-full min-h-dvh w-full flex-col md:gap-4 md:py-4">
-
 			<!-- MAIN HEADER -->
 
 			<header

@@ -1,9 +1,11 @@
+<!-- Public Attorney's Office - Electronic Records System
+Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando -->
+
 <script lang="ts">
+	// Import all necessary dependencies and components.
 	import type { PageServerData } from './$types';
 	import { Copy, PlusCircled, DotsVertical } from 'svelte-radix';
-
 	import { toast } from 'svelte-sonner';
-
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
@@ -15,6 +17,9 @@
 </script>
 
 <main class="grid gap-4 md:grid-cols-2">
+	<!-- MAIN SERVICE INFORMATION
+	Note that some information are conditional (if they exist). -->
+
 	<div class="grid auto-rows-max items-start gap-4 md:gap-8">
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
@@ -51,9 +56,6 @@
 					>
 						Edit
 					</Button>
-					<!-- <Button size="sm" class="h-7 gap-1 text-sm" href="/clients/{data.client._id}/export">
-						Export
-					</Button> -->
 					<AlertDialog.Root>
 						<AlertDialog.Trigger>
 							<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm">
@@ -104,9 +106,6 @@
 							</DropdownMenu.Trigger>
 							<DropdownMenu.Content align="end">
 								<DropdownMenu.Item href="/clients/{data.client._id}/edit">Edit</DropdownMenu.Item>
-								<!-- <DropdownMenu.Item href="/clients/{data.client._id}/export">
-									Export
-								</DropdownMenu.Item> -->
 								<DropdownMenu.Separator />
 								<DropdownMenu.Item>
 									<AlertDialog.Trigger class="w-full text-left">
@@ -334,6 +333,9 @@
 			</Card.Footer>
 		</Card.Root>
 	</div>
+
+	<!-- CLIENT-RELATED SERVICES -->
+
 	<div>
 		<Card.Root class="overflow-hidden">
 			<Card.Header class="flex flex-row items-start bg-muted/50">
@@ -369,6 +371,7 @@
 					{/if}
 				{/each}
 			</Card.Content>
+			<!-- This part has been commented out temporarily. The update time mechanism hasn't been implemented. -->
 			<!-- <Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 				<div class="text-xs text-muted-foreground">
 					Updated <time>{data.services[0].status[data.services.status.length - 1].date.toLocaleString()}</time>

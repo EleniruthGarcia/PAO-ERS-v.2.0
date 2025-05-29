@@ -46,6 +46,8 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	)}
 >
 	<div class="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
+		<!-- TOP DASHBOARD CARDS -->
+
 		<div class="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
 			<Card.Root class="sm:col-span-2">
 				<Card.Header class="pb-3">
@@ -109,6 +111,10 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 				</Card.Footer>
 			</Card.Root>
 		</div>
+
+		<!-- DASHBOARD TABS
+		The tabs have similar content patterns. Please ensure consistency. -->
+
 		<Tabs.Root value="users">
 			<div class="flex items-center">
 				<Tabs.List>

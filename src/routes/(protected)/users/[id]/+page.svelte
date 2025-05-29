@@ -1,15 +1,16 @@
+<!-- Public Attorney's Office - Electronic Records System
+Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando -->
+
 <script lang="ts">
+	// Import all necessary dependencies and components.
 	import type { PageServerData } from './$types';
 	import { Copy, DotsVertical } from 'svelte-radix';
-
 	import { toast } from 'svelte-sonner';
-
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	import { Separator } from '$lib/components/ui/separator';
 
 	export let data: PageServerData;
 </script>
@@ -52,9 +53,6 @@
 				>
 					Edit
 				</Button>
-				<!-- <Button size="sm" class="h-7 gap-1 text-sm" href="/users/{data.user.username}/export"
-						>Export</Button
-					> -->
 				<AlertDialog.Root>
 					<AlertDialog.Trigger>
 						<Button size="sm" variant="destructive" class="h-7 gap-1 bg-destructive text-sm">
@@ -102,7 +100,6 @@
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content align="end">
 							<DropdownMenu.Item href="/users/{data.user.username}/edit">Edit</DropdownMenu.Item>
-							<!-- <DropdownMenu.Item href="/users/{data.user.username}/export">Export</DropdownMenu.Item> -->
 							<DropdownMenu.Separator />
 							<AlertDialog.Trigger class="w-full text-left">
 								<DropdownMenu.Item>
@@ -142,6 +139,9 @@
 				</AlertDialog.Root>
 			</div>
 		</Card.Header>
+
+		<!-- ACCOUNT INFORMATION -->
+
 		<Card.Content class="p-6 text-sm">
 			<div class="grid gap-3">
 				<div class="font-semibold">Account Information</div>
@@ -152,38 +152,6 @@
 					</li>
 				</ul>
 			</div>
-			<!-- <Separator class="my-4" />
-			<div class="grid gap-3">
-				<div class="font-semibold">Personal Information</div>
-				<ul class="grid gap-3">
-					<li class="flex items-center justify-between gap-2 truncate">
-						<span class="text-muted-foreground">Age</span>
-						<span>{data.user.age ?? 'N/A'}</span>
-					</li>
-					<li class="flex items-center justify-between gap-2 truncate">
-						<span class="text-muted-foreground">Sex</span>
-						<span>{data.user.sex ?? 'N/A'}</span>
-					</li>
-				</ul>
-			</div>
-			<Separator class="my-4" />
-			<div class="grid gap-3">
-				<div class="font-semibold">Contact Information</div>
-				<ul class="grid gap-3">
-					<li class="flex items-center justify-between gap-2 truncate">
-						<span class="text-muted-foreground">Address</span>
-						<span>{data.user.address ?? 'N/A'}</span>
-					</li>
-					<li class="flex items-center justify-between gap-2 truncate">
-						<span class="text-muted-foreground">Email</span>
-						<span>{data.user.email ?? 'N/A'}</span>
-					</li>
-					<li class="flex items-center justify-between gap-2 truncate">
-						<span class="text-muted-foreground">Contact Number</span>
-						<span>{data.user.contactNumber ?? 'N/A'}</span>
-					</li>
-				</ul>
-			</div> -->
 		</Card.Content>
 		<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 			<div class="text-xs text-muted-foreground">
@@ -191,27 +159,4 @@
 			</div>
 		</Card.Footer>
 	</Card.Root>
-	<!-- <Card.Root class="overflow-hidden">
-			<Card.Header class="flex flex-row items-start bg-muted/50">
-				<div class="grid gap-0.5">
-					<Card.Title class="text-md group flex items-center gap-2">Office Information</Card.Title>
-					<Card.Description>The user's workplace information are shown here.</Card.Description>
-				</div>
-			</Card.Header>
-			<Card.Content class="p-6 text-sm">
-				<div class="grid gap-3">
-					<ul class="grid gap-3">
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Branch </span>
-							<span>{data.user.branch_id}</span>
-						</li>
-						<li class="flex items-center justify-between gap-2 truncate">
-							<span class="text-muted-foreground"> Supervisor </span>
-							<span>{data.user.reportsTo}</span>
-						</li>
-					</ul>
-				</div>
-			</Card.Content>
-			<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3"></Card.Footer>
-		</Card.Root> -->
 </main>

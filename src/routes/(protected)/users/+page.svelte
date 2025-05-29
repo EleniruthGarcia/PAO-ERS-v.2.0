@@ -1,4 +1,8 @@
+<!-- Public Attorney's Office - Electronic Records System
+Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando -->
+
 <script lang="ts">
+	// Import all necessary dependencies and components.
 	import clsx from 'clsx';
 	import { UserTable, SelectedUsers } from '$lib/components/tables/user';
 
