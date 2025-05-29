@@ -1,4 +1,8 @@
+<!-- Public Attorney's Office - Electronic Records System
+Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando -->
+
 <script lang="ts">
+	// Import all necessary dependencies and components.
 	import type { PageServerData } from './$types';
 	import LoginForm from '$lib/components/forms/LoginForm.svelte';
 
@@ -6,6 +10,9 @@
 </script>
 
 <div class="h-dvh w-screen lg:flex">
+
+	<!-- SIDE PANEL -->
+
 	<div class="hidden h-full flex-col items-center justify-center gap-6 lg:flex">
 		<img
 			src="/favicon.png"
@@ -27,6 +34,9 @@
 			</p>
 		</div>
 	</div>
+
+	<!-- LOG-IN FORM -->
+
 	<div class="flex h-full w-full items-center justify-center bg-secondary p-12">
 		<LoginForm data={data.form} />
 	</div>

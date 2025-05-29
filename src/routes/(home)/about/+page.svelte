@@ -1,3 +1,6 @@
+<!-- Public Attorney's Office - Electronic Records System
+Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando -->
+
 <script>
 	import { Button } from '$lib/components/ui/button';
 </script>
@@ -7,7 +10,7 @@
 		src="/favicon.png"
 		alt="PAO-ERS Logo"
 		class="aspect-square w-32 [view-transition-name:logo] sm:w-40 md:w-48"
-	/>
+	/> <!--  In case PAO changes logo, please change the file in the root folder. -->
 	<div class="flex w-7/12 flex-col items-center justify-center gap-4">
 		<span class="text-center">
 			<h1 class="text-xl font-bold sm:text-2xl md:text-4xl">Public Attorney's Office</h1>

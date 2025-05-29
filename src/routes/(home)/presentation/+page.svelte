@@ -1,12 +1,13 @@
-<script lang="ts">
-	import { SelectedClients } from '$lib/components/tables/client';
+<!-- Public Attorney's Office - Electronic Records System
+Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando -->
 
+<script lang="ts">
+	// Import all necessary dependencies and components.
+	import { SelectedClients } from '$lib/components/tables/client';
 	import * as Card from '$lib/components/ui/card';
 	import NightToggle from '$lib/components/NightToggle.svelte';
 	import { Separator } from '$lib/components/ui/separator';
-
 	import * as Avatar from '$lib/components/ui/avatar';
-
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 
@@ -14,8 +15,13 @@
 	setContext('selectedClients', selectedClients);
 </script>
 
+<!-- This is the file for original creators. DO NOT MODIFY THIS FILE SPECIFICALLY WITHOUT PRIOR PERMISSION. -->
+
 <main class="grid gap-4">
 	<div class="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
+
+		<!-- DESCRIPTION OF THE SYSTEM -->
+
 		<Card.Root>
 			<Card.Header>
 				<Card.Title>Introduction</Card.Title>
@@ -40,6 +46,9 @@
 				</p>
 			</Card.Content>
 		</Card.Root>
+
+		<!-- CREATORS -->
+
 		<Card.Root>
 			<Card.Header>
 				<Card.Title>Developer Team</Card.Title>
@@ -101,6 +110,9 @@
 				</div>
 			</Card.Content>
 		</Card.Root>
+
+		<!-- SYSTEM FEATURES -->
+
 		<Card.Root>
 			<Card.Header>
 				<Card.Title>Summary of Customer Priorities</Card.Title>
@@ -182,6 +194,10 @@
 				</p>
 			</Card.Content>
 		</Card.Root>
+
+		<!-- SYSTEM COLORS
+		Please contact the creators in case of changes in the design system. -->
+
 		<Card.Root>
 			<Card.Header>
 				<div class="flex">
@@ -287,9 +303,4 @@
 			</Card.Content>
 		</Card.Root>
 	</div>
-	{#if Object.entries($selectedClients).length > 0}
-		<div>
-			<SelectedClients />
-		</div>
-	{/if}
 </main>
