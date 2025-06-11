@@ -8,15 +8,32 @@
 
 	let className: $$Props['class'] = undefined;
 	export let value: $$Props['value'] = undefined;
+
+	//new line to toggle uppercase
+	export let uppercase: boolean = true;
+
 	export { className as class };
+
+	//function to call uppercase event
+	function onInput(event: Event) {
+		const input = event.target as HTMLInputElement;
+		if (uppercase) {
+			value = input.value.toUpperCase();
+		} else {
+			value = input.value;
+		}
+	}
+
 </script>
+
 
 <input
 	class={cn(
 		'flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
 		className
 	)}
-	bind:value
+	value={value}
+	style="text-transform: {uppercase ? 'uppercase' : 'none'}"	
 	on:blur
 	on:change
 	on:click
@@ -30,6 +47,6 @@
 	on:mouseenter
 	on:mouseleave
 	on:paste
-	on:input
+	on:input={onInput}
 	{...$$restProps}
 />

@@ -65,10 +65,21 @@ export const status = ['New', 'Updated', 'Archived', 'Restored'] as const;
 export const formSchema = z.object({
 	_id: z.string().optional(),
 	name: z.string().min(1, 'Name is required.'),
-	firstName: z.string().min(1, 'First name is required.'),
-	middleName: z.string().optional(),
-	lastName: z.string().min(1, 'Last name is required.'),
-	nameSuffix: z.string().optional(),
+	firstName: z
+		.string()
+		.min(1, 'First name is required.')
+		.transform(val => (typeof val === 'string' && val.trim() !== '' ? val.toUpperCase() : val)),
+	middleName: z
+		.string()
+		.transform(val => (typeof val === 'string' && val.trim() !== '' ? val.toUpperCase() : val)),
+	lastName: z
+		.string()
+		.min(1, 'Last name is required.')
+		.transform(val => (typeof val === 'string' && val.trim() !== '' ? val.toUpperCase() : val)),
+	nameSuffix: z
+		.string()
+		.optional()
+		.transform(val => (typeof val === 'string' && val.trim() !== '' ? val.toUpperCase() : val)),
 	// dateOfBirth: z.date({
 	// 	invalid_type_error: 'Date of birth is required.',
 	// 	required_error: 'Date of birth is required.'
@@ -81,16 +92,26 @@ export const formSchema = z.object({
 	address: z
 		.string()
 		.min(1, 'Address is required.')
-		.max(40, 'Maximum Characters must be less than 40.'),
+		.max(40, 'Maximum Characters must be less than 40.')
+		.transform(val => (typeof val === 'string' && val.trim() !== '' ? val.toUpperCase() : val)),
 	email: z
 		.union([z.literal(''), z.string().email().optional()])
-		.transform((e) => (e === '' ? undefined : e)),
+		.transform(e => (e === '' ? undefined : e)),	
 	contactNumber: z.string(),
 	civilStatus: z.enum(civilStatus),
-	religion: z.string().optional(),
-	citizenship: z.string().optional(),
+	religion: z
+		.string()
+		.optional()
+		.transform(val => (typeof val === 'string' && val.trim() !== '' ? val.toUpperCase() : val)),
+	citizenship: z
+		.string()
+		.optional()
+		.transform(val => (typeof val === 'string' && val.trim() !== '' ? val.toUpperCase() : val)),
 	educationalAttainment: z.enum(educationalAttainment),
-	language: z.string().optional(),
+	language: z
+		.string()
+		.optional()
+		.transform(val => (typeof val === 'string' && val.trim() !== '' ? val.toUpperCase() : val)),
 	individualMonthlyIncome: z.string().optional(),
 	detained: z.boolean().default(false),
 	detainedAt: z.string().optional(),
