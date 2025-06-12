@@ -395,13 +395,18 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="email" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Email</Form.Label>
-									<Input {...attrs} bind:value={$formData.email} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
+							<Form.Field {form} name="email" class="grid gap-3 sm:col-span-4">
+							<Form.Control let:attrs>
+								<Form.Label>Email Address</Form.Label>
+								<Input
+									{...attrs}
+									type="email"
+									placeholder="example@email.com"
+									bind:value={$formData.email}
+								/>
+							</Form.Control>
+							<Form.FieldErrors />
+						</Form.Field>
 						</div>
 					</Card.Content>
 				</Card.Root>
