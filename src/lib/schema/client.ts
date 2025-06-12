@@ -94,9 +94,18 @@ export const formSchema = z.object({
 		.min(1, 'Address is required.')
 		.max(40, 'Maximum Characters must be less than 40.')
 		.transform(val => (typeof val === 'string' && val.trim() !== '' ? val.toUpperCase() : val)),
+	
+	//Changes to email on June 12 
 	email: z
-		.union([z.literal(''), z.string().email().optional()])
-		.transform(e => (e === '' ? undefined : e)),	
+		.union([
+			z.literal(''),
+			z.string().email('Please include "@" and ".com" in a valid email address.').optional()])
+		.transform((e) => (e === '' ? undefined : e)),
+	
+	//email: z
+	//	.union([z.literal(''), z.string().email().optional()])
+	//	.transform(e => (e === '' ? undefined : e)),	
+	
 	contactNumber: z.string(),
 	civilStatus: z.enum(civilStatus),
 	religion: z
