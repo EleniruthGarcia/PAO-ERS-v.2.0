@@ -249,20 +249,46 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
+
+							<!--Language and Religion dropdown update as of June 16-->
 							<Form.Field {form} name="language" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Language</Form.Label>
-									<Input {...attrs} bind:value={$formData.language} />
+									<select {...attrs} bind:value={$formData.language} class="px-3 py-2 border rounded-md">
+										<option disabled selected value="">-- Language(Mother Tongue) --</option>
+										<option value="Tagalog">Tagalog</option>
+										<option value="Ilocano">Ilocano</option>
+										<option value="English">English</option>
+										<option value="Kankanaey">Kankanaey</option>
+										<option value="Kalinga">Kalinga</option>
+										<option value="Ibaloi/Ibaloy">Ibaloi/Ibaloy</option>
+										<option value="Other Languages/Dialects">Other Languages/Dialects</option>
+									</select>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
+
+							<!--New religion dropdown-->
 							<Form.Field {form} name="religion" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Religion</Form.Label>
-									<Input {...attrs} bind:value={$formData.religion} />
+									<select {...attrs} bind:value={$formData.religion} class="px-3 py-2 border rounded-md">
+										<option disabled selected value="">-- Select Religion --</option>
+										<option value="Catholic">Catholic</option>
+										<option value="Islam">Islam</option>
+										<option value="Iglesia ni Cristo">Iglesia ni Cristo</option>
+										<option value="Seventh Day Adventist">Seventh Day Adventist</option>
+										<option value="Agplipay">Agplipay</option>
+										<option value="Iglesia Filipina">Iglesia Filipina</option>
+										<option value="Bible Baptist Church">Bible Baptist Church</option>
+										<option value="UCC of the Philippines">UCC of the Philippines</option>
+										<option value="Other religious affiliations">Other religious affiliations</option>
+										<option value="None">None</option>
+									</select>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
+
 						</div>
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="educationalAttainment" class="grid gap-3">
