@@ -44,14 +44,14 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 
 	const { form: formData, enhance, delayed } = form;
 
-	const proxyAge = intProxy(form, 'age', { empty: 'undefined' });
+	const proxyAge = intProxy(form, 'age', { empty: '' });
 	const proxyDetainedSince = dateProxy(form, 'detainedSince', {
 		format: 'date',
-		empty: 'undefined'
+		empty: ''
 	});
 	const proxyDetainedUntil = dateProxy(form, 'detainedUntil', {
 		format: 'date',
-		empty: 'undefined'
+		empty: ''
 	});
 
 	$: if ($formData.sex === 'Female') {
@@ -79,7 +79,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 			? `${$formData.spouseFirstName}${
 					$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''
 				} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`
-			: undefined;
+			: '';
 
 	$: selectedSex = {
 		label: $formData.sex,

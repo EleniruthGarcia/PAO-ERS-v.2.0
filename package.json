@@ -2,9 +2,6 @@
 	"name": "pao-ers",
 	"version": "1.0.0",
 	"private": true,
-	"engines": {
-		"node":"20"
-	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -58,7 +55,7 @@
 		"formsnap": "^0.5.1",
 		"jszip": "^3.10.1",
 		"mode-watcher": "^0.3.0",
-		"mongodb": "^6.5.0",
+		"mongodb": "^6.17.0",
 		"node-cron": "^3.0.3",
 		"oslo": "^1.1.3",
 		"pdf-lib": "^1.17.1",
