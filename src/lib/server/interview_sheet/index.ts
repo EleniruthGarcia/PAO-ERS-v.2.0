@@ -1,3 +1,4 @@
+//src>lib>server>interview_sheet>index.ts
 import { read } from '$app/server';
 import templateFile from './template.pdf?url';
 import { PDFDocument, rgb } from 'pdf-lib';
@@ -17,10 +18,22 @@ export const generateInterviewSheet = async (data: any) => {
 		};
 	}
 
+	// Ensure we pass a proper ArrayBuffer to Blob (not SharedArrayBuffer)
+	const pdfBytes = await addTextToPDF(data[0]);
+	let arrayBuffer: ArrayBuffer;
+	if (pdfBytes instanceof Uint8Array) {
+		arrayBuffer = ArrayBuffer.prototype.slice.call(pdfBytes.buffer, pdfBytes.byteOffset, pdfBytes.byteOffset + pdfBytes.byteLength) as ArrayBuffer;
+	} else if (Object.prototype.toString.call(pdfBytes) === '[object ArrayBuffer]') {
+		arrayBuffer = pdfBytes;
+	} else {
+		throw new Error('Unsupported pdfBytes type');
+	}
+
 	return {
 		name: `Interview Sheet_${data[0].controlNo}.pdf`,
-		blob: new Blob([await addTextToPDF(data[0])], { type: 'application/pdf' }),
-		type: 'application/pdf'
+		blob: new Blob([arrayBuffer], { type: 'application/pdf' }),
+		type: 'application/pdf',
+		error: false
 	};
 };
 
@@ -328,13 +341,13 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 100,
 			y: 607,
 			size: 8,
 			color: rgb(0, 0, 0) // Black
 		});
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 390,
 			y: 607,
 			size: 8,
@@ -458,7 +471,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 85,
 			y: 504,
 			size: 8,
@@ -483,7 +496,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 105,
 			y: 490,
 			size: 8,
@@ -508,7 +521,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 265,
 			y: 490,
 			size: 8,
@@ -533,7 +546,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 265,
 			y: 504,
 			size: 8,
@@ -558,7 +571,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 420,
 			y: 504,
 			size: 8,
@@ -738,7 +751,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 485,
 			y: 402,
 			size: 8,
@@ -763,7 +776,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 455,
 			y: 458,
 			size: 8,
@@ -788,7 +801,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 425,
 			y: 444,
 			size: 8,
@@ -812,7 +825,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 425,
 			y: 430,
 			size: 8,
@@ -836,7 +849,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 455,
 			y: 416,
 			size: 8,
@@ -971,7 +984,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 320,
 			y: 545,
 			size: 8,
@@ -1182,14 +1195,14 @@ async function addTextToPDF(data: any) {
 	}
 	// }
 	if (pendingInCourt === true) {
-		secondPage.drawText('X' ?? 'N/A', {
+		secondPage.drawText('X', {
 			x: 322,
 			y: 358,
 			size: 12,
 			color: rgb(1, 1, 1) // Black
 		});
 	} else if (pendingInCourt === false) {
-		secondPage.drawText('X' ?? 'N/A', {
+		secondPage.drawText('X', {
 			x: 357,
 			y: 358,
 			size: 12,
