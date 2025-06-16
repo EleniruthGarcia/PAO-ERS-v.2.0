@@ -9,20 +9,7 @@
 	let className: $$Props['class'] = undefined;
 	export let value: $$Props['value'] = undefined;
 
-	//new line to toggle uppercase
-	export let uppercase: boolean = true;
-
 	export { className as class };
-
-	//function to call uppercase event
-	function onInput(event: Event) {
-		const input = event.target as HTMLInputElement;
-		if (uppercase) {
-			value = input.value.toUpperCase();
-		} else {
-			value = input.value;
-		}
-	}
 
 </script>
 
@@ -33,7 +20,6 @@
 		className
 	)}
 	value={value}
-	style="text-transform: {uppercase ? 'uppercase' : 'none'}"	
 	on:blur
 	on:change
 	on:click
@@ -47,6 +33,6 @@
 	on:mouseenter
 	on:mouseleave
 	on:paste
-	on:input={onInput}
+	on:input
 	{...$$restProps}
 />
