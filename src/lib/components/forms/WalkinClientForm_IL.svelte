@@ -165,7 +165,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Edad</Form.Label>
-									<Input {...attrs} bind:value={$proxyAge} type="number" />
+									<Input {...attrs} bind:value={$proxyAge} type="number" min=0/>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -310,7 +310,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							<Form.Field {form} name="contactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Telepono</Form.Label>
-									<Input {...attrs} bind:value={$formData.contactNumber} />
+									<Input {...attrs} bind:value={$formData.contactNumber} type="number" min=0 />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
