@@ -13,6 +13,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		educationalAttainment,
 		formSchema,
 		sex,
+		religion,
 		type FormSchema
 	} from '$lib/schema/client';
 	import {
@@ -96,6 +97,11 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		label: $formData.educationalAttainment,
 		value: $formData.educationalAttainment
 	};
+
+	$: selectedReligion = {
+		label: $formData.religion,
+		value: $formData.religion
+	}
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
@@ -226,7 +232,22 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							<Form.Field {form} name="religion" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Religion</Form.Label>
-									<Input {...attrs} bind:value={$formData.religion} />
+									<Select.Root
+										selected={selectedReligion}
+										onSelectedChange={(s) => {
+											s && ($formData.religion = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each religion as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>

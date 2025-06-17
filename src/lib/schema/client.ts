@@ -37,6 +37,19 @@ export const pwd = [
 
 export const sex = ['Male', 'Female'] as const;
 
+export const religion = [
+	'Roman Catholic',
+	'Islam',
+	'Iglesia ni Cristo',
+	'Seventh Day Adventist',
+	'Aglipay',
+	'Iglesia Filipina',
+	'Bible Baptist Church',
+	'UCC of the Philippines',
+	'Other religious affiliations',
+	'None'
+] as const;
+
 export const proofOfIndigency = [
 	'Income Tax Return',
 	'Certification from Barangay',
