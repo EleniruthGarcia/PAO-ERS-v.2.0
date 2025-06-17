@@ -258,7 +258,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>Net Monthly Income</Form.Label>
 									<span class="flex items-center gap-2">
-										₱<Input {...attrs} bind:value={$formData.individualMonthlyIncome} /></span
+										₱<Input {...attrs} bind:value={$formData.individualMonthlyIncome} min=0/></span
 									>
 								</Form.Control>
 								<Form.FieldErrors />
