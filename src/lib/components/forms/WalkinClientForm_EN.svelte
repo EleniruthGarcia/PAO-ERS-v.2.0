@@ -1,5 +1,5 @@
 <!-- Public Attorney's Office - Electronic Records System
-Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando.AbortController -->
+Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando.AbortController .-->
 
 <!-- Please refer to ClientForm.svelte for comments. It is the same form with non-client cards removed and in English. -->
 
