@@ -55,6 +55,7 @@ export const proofOfIndigency = [
 	'Certification from Barangay',
 	'Certification from DSWD'
 ] as const;
+export const citizenship = ['Filipino', 'Taiwanese', 'Afghan', 'Albanian', 'Algerian', 'American', 'Andorran'] as const;
 
 export const civilStatus = ['Single', 'Married', 'Widow/Widower', 'Legally Separated'] as const;
 

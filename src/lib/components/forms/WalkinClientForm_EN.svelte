@@ -14,6 +14,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		formSchema,
 		sex,
 		religion,
+		citizenship,
 		type FormSchema
 	} from '$lib/schema/client';
 	import {
@@ -101,6 +102,10 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	$: selectedReligion = {
 		label: $formData.religion,
 		value: $formData.religion
+	}
+	$: selectedCitizenship = {
+		label: $formData.citizenship,
+		value: $formData.citizenship
 	}
 </script>
 
@@ -215,10 +220,25 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</Form.Field>
 						</div>
 						<div class="grid items-start gap-3 sm:grid-cols-3">
-							<Form.Field {form} name="citizenship" class="grid gap-3">
+							<Form.Field {form} name="religion" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Citizenship</Form.Label>
-									<Input {...attrs} bind:value={$formData.citizenship} />
+									<Select.Root
+										selected={selectedCitizenship}
+										onSelectedChange={(s) => {
+											s && ($formData.citizenship = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each citizenship as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
