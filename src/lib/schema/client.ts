@@ -51,27 +51,27 @@ export const religion = [
 ] as const;
 
 export const proofOfIndigency = [
-	'Income Tax Return',
-	'Certification from Barangay',
-	'Certification from DSWD'
+	'INCOME TAX RETURN',
+	'CERTIFICATION FROM BARANGAY',
+	'CERTIFICATION FROM DSWD'
 ] as const;
 export const citizenship = ['Filipino', 'Taiwanese', 'Afghan', 'Albanian', 'Algerian', 'American', 'Andorran'] as const;
 
-export const civilStatus = ['Single', 'Married', 'Widow/Widower', 'Legally Separated'] as const;
+export const civilStatus = ['SINGLE', 'MARRIED', 'WIDOW/WIDOWER', 'LEGALLY SEPARATED'] as const;
 
 export const educationalAttainment = [
-	'No Formal Schooling',
-	'Elementary Level',
-	'Elementary Graduate',
-	'High School Level',
-	'High School Graduate',
-	'College Level',
-	'College Degree',
-	'Vocational/Technical',
-	"With Master's Units",
-	"Master's Degree",
-	'With Doctoral Units',
-	'Doctorate Degree'
+	'NO FORMAL SCHOOLING',
+	'ELEMENTARY LEVEL',
+	'ELEMENTARY GRADUATE',
+	'HIGH SCHOOL LEVEL',
+	'HIGH SCHOOL GRADUATE',
+	'COLLEGE LEVEL',
+	'COLLEGE DEGREE',
+	'VOCATIONAL/TECHNICAL',
+	"WITH MASTER'S UNITS",
+	"MASTER'S DEGREE",
+	'WITH DOCTORAL UNITS',
+	'DOCTORATE DEGREE'
 ] as const;
 
 export const status = ['New', 'Updated', 'Archived', 'Restored'] as const;
