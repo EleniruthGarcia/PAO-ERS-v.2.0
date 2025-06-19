@@ -75,7 +75,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
 
 	$: $formData.spouseName =
-		$formData.civilStatus === 'Married' && $formData.spouseFirstName && $formData.spouseLastName
+		$formData.civilStatus === 'MARRIED' && $formData.spouseFirstName && $formData.spouseLastName
 			? `${$formData.spouseFirstName}${
 					$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''
 				} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`
@@ -440,7 +440,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 				<!-- SPOUSE INFORMATION
 				This is for married clients only. -->
 
-				{#if $formData.civilStatus === 'Married'}
+				{#if $formData.civilStatus === 'MARRIED'}
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Spouse Information</Card.Title>

@@ -15,6 +15,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		sex,
 		religion,
 		citizenship,
+		netMonthlyIncome,
 		type FormSchema
 	} from '$lib/schema/client';
 	import {
@@ -78,7 +79,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
 
 	$: $formData.spouseName =
-		$formData.civilStatus === 'Married' && $formData.spouseFirstName && $formData.spouseLastName
+		$formData.civilStatus === 'MARRIED' && $formData.spouseFirstName && $formData.spouseLastName
 			? `${$formData.spouseFirstName}${
 					$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''
 				} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`
@@ -103,6 +104,12 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		label: $formData.religion,
 		value: $formData.religion
 	}
+
+	$: selectednetMonthlyIncome = {
+		label: $formData.netMonthlyIncome,
+		value: $formData.netMonthlyIncome
+	}
+
 	$: selectedCitizenship = {
 		label: $formData.citizenship,
 		value: $formData.citizenship
@@ -140,28 +147,28 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							<Form.Field {form} name="firstName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label>Name</Form.Label>
-									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
+									<Input {...attrs} bind:value={$formData.firstName} placeholder="FIRST NAME" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="middleName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-									<Input {...attrs} bind:value={$formData.middleName} placeholder="Middle Name" />
+									<Input {...attrs} bind:value={$formData.middleName} placeholder="MIDDLE NAME" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="lastName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-									<Input {...attrs} bind:value={$formData.lastName} placeholder="Last Name" />
+									<Input {...attrs} bind:value={$formData.lastName} placeholder="LAST NAME" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-									<Input {...attrs} bind:value={$formData.nameSuffix} placeholder="Suffix" />
+									<Input {...attrs} bind:value={$formData.nameSuffix} placeholder="SUFFIX" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -295,12 +302,25 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
+							<Form.Field {form} name="netMonthlyIncome" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Net Monthly Income</Form.Label>
-									<span class="flex items-center gap-2">
-										₱<Input {...attrs} bind:value={$formData.individualMonthlyIncome} min=0/></span
+									<Select.Root
+										selected={selectednetMonthlyIncome}
+										onSelectedChange={(s) => {
+											s && ($formData.netMonthlyIncome = s.value);
+										}}
 									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each netMonthlyIncome as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -332,7 +352,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>Address</Form.Label>
 									<div class="flex items-center gap-2">
-										<Input {...attrs} bind:value={$formData.address} placeholder="Address" />
+										<Input {...attrs} bind:value={$formData.address} placeholder="ADDRESS" />
 										<span class="w-20 text-nowrap text-right text-muted-foreground"
 											><span class={$formData.address.length > 40 ? 'text-destructive' : ''}
 												>{$formData.address.length}</span
@@ -359,7 +379,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 						</div>
 					</Card.Content>
 				</Card.Root>
-				{#if $formData.civilStatus === 'Married' || $formData.civilStatus === 'Widowed'}
+				{#if $formData.civilStatus === 'MARRIED' || $formData.civilStatus === 'WIDOW/WIDOWER'}
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Spouse Information</Card.Title>
@@ -372,7 +392,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseFirstName}
-											placeholder="First Name"
+											placeholder="FIRST NAME"
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -383,7 +403,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseMiddleName}
-											placeholder="Middle Name"
+											placeholder="MIDDLE NAME"
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -394,7 +414,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseLastName}
-											placeholder="Last Name"
+											placeholder="LAST NAME"
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -405,7 +425,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseNameSuffix}
-											placeholder="Suffix"
+											placeholder="SUFFIX"
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -414,7 +434,10 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							<Form.Field {form} name="spouseAddress" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Address</Form.Label>
-									<Input {...attrs} bind:value={$formData.spouseAddress} />
+									<Input 
+									{...attrs} 
+									bind:value={$formData.spouseAddress}
+									placeholder="ADDRESS" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>

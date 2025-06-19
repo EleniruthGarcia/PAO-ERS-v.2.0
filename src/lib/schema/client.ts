@@ -35,7 +35,7 @@ export const pwd = [
 	'Others'
 ] as const;
 
-export const sex = ['Male', 'Female'] as const;
+export const sex = ['MALE', 'FEMALE'] as const;
 
 export const religion = [
 	'ROMAN CATHOLIC',
@@ -74,6 +74,15 @@ export const educationalAttainment = [
 	'DOCTORATE DEGREE'
 ] as const;
 
+export const netMonthlyIncome = [
+	"0 - 10,000",
+	"10,001 - 20,000",
+	"20,001 - 22,000",
+	"22,001 - 50,000",
+	"50,001 - 100,000",
+	"100,001 and above"
+] as const;
+
 export const status = ['New', 'Updated', 'Archived', 'Restored'] as const;
 
 export const formSchema = z.object({
@@ -103,11 +112,11 @@ export const formSchema = z.object({
 		.transform((e) => (e === '' ? undefined : e)),
 	contactNumber: z.string(),
 	civilStatus: z.enum(civilStatus),
-	religion: z.string().optional(),
-	citizenship: z.string().optional(),
+	religion: z.enum(religion),
+	citizenship: z.enum(citizenship),
 	educationalAttainment: z.enum(educationalAttainment),
 	language: z.string().optional(),
-	individualMonthlyIncome: z.string().optional(),
+	netMonthlyIncome: z.enum(netMonthlyIncome),
 	detained: z.boolean().default(false),
 	detainedAt: z.string().optional(),
 	detainedSince: z
