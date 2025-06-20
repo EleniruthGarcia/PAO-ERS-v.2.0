@@ -50,6 +50,15 @@ export const religion = [
 	'NONE'
 ] as const;
 
+export const languages = [
+	
+	'ENGLISH',
+	'TAGALOG',
+	'ILOCANO',
+	'OTHER LANGUAGES/DIALECTS',
+	
+] as const;
+
 export const proofOfIndigency = [
 	'INCOME TAX RETURN',
 	'CERTIFICATION FROM BARANGAY',
