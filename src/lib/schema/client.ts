@@ -127,7 +127,7 @@ export const formSchema = z.object({
 	religion: z.enum(religion).optional(),
 	citizenship: z.enum(citizenship),
 	educationalAttainment: z.enum(educationalAttainment),
-	language: z.string().optional(),
+	languages: z.array(z.enum(languages)).optional(),
 	netMonthlyIncome: z.enum(netMonthlyIncome),
 	detained: z.boolean().default(false),
 	detainedAt: z.string().optional(),
