@@ -55,7 +55,10 @@ export const proofOfIndigency = [
 	'CERTIFICATION FROM BARANGAY',
 	'CERTIFICATION FROM DSWD'
 ] as const;
-export const citizenship = ['Filipino', 'Taiwanese', 'Afghan', 'Albanian', 'Algerian', 'American', 'Andorran'] as const;
+
+export const citizenship = [
+'FILIPINO', 'TAIWANESE', 'OTHERS'
+] as const;
 
 export const civilStatus = ['SINGLE', 'MARRIED', 'WIDOW/WIDOWER', 'LEGALLY SEPARATED'] as const;
 
@@ -80,7 +83,7 @@ export const netMonthlyIncome = [
 	"20,001 - 22,000",
 	"22,001 - 50,000",
 	"50,001 - 100,000",
-	"100,001 and above"
+	"100,001 AND ABOVE"
 ] as const;
 
 export const status = ['New', 'Updated', 'Archived', 'Restored'] as const;
@@ -100,7 +103,7 @@ export const formSchema = z.object({
 		.union([z.literal(''), z.number().optional()])
 		.transform((e) => (e === '' ? undefined : e))
 		.optional(),
-	sex: z.enum(sex),
+	sex: z.enum(sex).optional(),
 	address: z
 		.string()
 		.min(1, 'Address is required.')
@@ -112,7 +115,7 @@ export const formSchema = z.object({
 		.transform((e) => (e === '' ? undefined : e)),
 	contactNumber: z.string(),
 	civilStatus: z.enum(civilStatus),
-	religion: z.enum(religion),
+	religion: z.enum(religion).optional(),
 	citizenship: z.enum(citizenship),
 	educationalAttainment: z.enum(educationalAttainment),
 	language: z.string().optional(),
