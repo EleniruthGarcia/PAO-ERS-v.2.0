@@ -4,8 +4,6 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 <!-- Please refer to ClientForm.svelte for comments. It is the same form with non-client cards removed and in English. -->
 
 <script lang="ts">
-	// Import all necessary components and dependencies.
-
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import {
 		civilStatus,
@@ -19,6 +17,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		netMonthlyIncome,
 		type FormSchema
 	} from '$lib/schema/client';
+
 	import {
 		type SuperValidated,
 		type Infer,
@@ -28,17 +27,15 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	} from 'sveltekit-superforms';
 
 	import { ChevronLeft } from 'svelte-radix';
-
 	import Loading from '$lib/components/Loading.svelte';
-
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
-
 	import DatePicker from '$lib/components/DatePicker.svelte';
+
 	import type { z } from 'zod';
 	type FormDataType = z.infer<typeof formSchema>;
 
@@ -48,17 +45,10 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		dataType: 'json',
 		validators: zodClient(formSchema)
 	});
-
-	const { form: formData, enhance, delayed } = form;
+	const { form: rawFormData, enhance, delayed } = form;
 	const formData = rawFormData as unknown as import('svelte/store').Writable<FormDataType>;
 
 	const proxyAge = intProxy(form, 'age', { initiallyEmptyIfZero: true });
-
-	// const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
-	// 	format: 'date',
-	// 	empty: 'undefined'
-	// });
-
 	const proxyDetainedSince = dateProxy(form, 'detainedSince', {
 		format: 'date',
 		empty: 'undefined'
@@ -76,6 +66,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		}
 	}
 
+	// Reactive selected dropdown values for display
 	let selectedSex = { label: '', value: '' };
 	let selectedCivilStatus = { label: '', value: '' };
 	let selectedEducationalAttainment = { label: '', value: '' };
@@ -84,34 +75,6 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	let selectedCitizenship = { label: '', value: '' };
 
 	$: if (!$formData.languages) $formData.languages = [];
-
-
-	$: if ($formData.sex === 'Female') {
-		if (!$formData.classification?.includes('Woman Client'))
-			$formData.classification = [...($formData.classification ?? []), 'Woman Client'];
-	} else {
-		if ($formData.classification?.includes('Woman Client'))
-			$formData.classification = $formData.classification?.filter((v) => v !== 'Woman Client');
-	}
-
-	$: if ($formData.age && $formData.age >= 60) {
-		if (!$formData.classification?.includes('Senior Citizen'))
-			$formData.classification = [...($formData.classification ?? []), 'Senior Citizen'];
-	} else {
-		if ($formData.classification?.includes('Senior Citizen'))
-			$formData.classification = $formData.classification?.filter((v) => v !== 'Senior Citizen');
-	}
-
-	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${
-		$formData.lastName
-	}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
-
-	$: $formData.spouseName =
-		$formData.civilStatus === 'MARRIED' && $formData.spouseFirstName && $formData.spouseLastName
-			? `${$formData.spouseFirstName}${
-					$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''
-				} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`
-			: undefined;
 
 	$: selectedSex = {
 		label: $formData.sex,
@@ -131,17 +94,46 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	$: selectedReligion = {
 		label: $formData.religion,
 		value: $formData.religion
-	}
+	};
 
-	$: selectednetMonthlyIncome = {
+	$: selectedNetMonthlyIncome = {
 		label: $formData.netMonthlyIncome,
 		value: $formData.netMonthlyIncome
-	}
+	};
 
 	$: selectedCitizenship = {
 		label: $formData.citizenship,
 		value: $formData.citizenship
+	};
+
+	$: if ($formData.sex === 'Female') {
+		if (!$formData.classification?.includes('Woman Client')) {
+			$formData.classification = [...($formData.classification ?? []), 'Woman Client'];
+		}
+	} else {
+		if ($formData.classification?.includes('Woman Client')) {
+			$formData.classification = $formData.classification?.filter((v) => v !== 'Woman Client');
+		}
 	}
+
+	$: if ($formData.age && $formData.age >= 60) {
+		if (!$formData.classification?.includes('Senior Citizen')) {
+			$formData.classification = [...($formData.classification ?? []), 'Senior Citizen'];
+		}
+	} else {
+		if ($formData.classification?.includes('Senior Citizen')) {
+			$formData.classification = $formData.classification?.filter((v) => v !== 'Senior Citizen');
+		}
+	}
+
+	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${$formData.lastName}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
+
+	$: $formData.spouseName =
+		$formData.civilStatus === 'MARRIED' &&
+		$formData.spouseFirstName &&
+		$formData.spouseLastName
+			? `${$formData.spouseFirstName}${$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`
+			: undefined;
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
