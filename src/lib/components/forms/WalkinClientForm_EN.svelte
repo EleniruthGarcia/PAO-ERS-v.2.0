@@ -13,6 +13,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		educationalAttainment,
 		formSchema,
 		sex,
+		languages,
 		religion,
 		citizenship,
 		netMonthlyIncome,
@@ -38,25 +39,52 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	import * as Select from '$lib/components/ui/select';
 
 	import DatePicker from '$lib/components/DatePicker.svelte';
+	import type { z } from 'zod';
+	type FormDataType = z.infer<typeof formSchema>;
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
-	const form = superForm(data, {
+	const form = superForm<z.infer<typeof formSchema>>(data, {
 		dataType: 'json',
 		validators: zodClient(formSchema)
 	});
 
 	const { form: formData, enhance, delayed } = form;
+	const formData = rawFormData as unknown as import('svelte/store').Writable<FormDataType>;
 
 	const proxyAge = intProxy(form, 'age', { initiallyEmptyIfZero: true });
+
 	// const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
 	// 	format: 'date',
 	// 	empty: 'undefined'
 	// });
+
 	const proxyDetainedSince = dateProxy(form, 'detainedSince', {
 		format: 'date',
 		empty: 'undefined'
 	});
+
+	let dropdownOpen = false;
+
+	function toggleLanguage(lang: string, checked: boolean) {
+		if (checked) {
+			if (!$formData.languages.includes(lang)) {
+				$formData.languages = [...$formData.languages, lang];
+			}
+		} else {
+			$formData.languages = $formData.languages.filter((l) => l !== lang);
+		}
+	}
+
+	let selectedSex = { label: '', value: '' };
+	let selectedCivilStatus = { label: '', value: '' };
+	let selectedEducationalAttainment = { label: '', value: '' };
+	let selectedReligion = { label: '', value: '' };
+	let selectednetMonthlyIncome = { label: '', value: '' };
+	let selectedCitizenship = { label: '', value: '' };
+
+	$: if (!$formData.languages) $formData.languages = [];
+
 
 	$: if ($formData.sex === 'Female') {
 		if (!$formData.classification?.includes('Woman Client'))
@@ -249,13 +277,30 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="language" class="grid gap-3">
+
+							<Form.Field {form} name="languages" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Language</Form.Label>
-									<Input {...attrs} bind:value={$formData.language} />
+									<Form.Label>Language (Check all that applies)</Form.Label>
+
+									<div class="border rounded-lg p-4 space-y-2">
+										{#each languages as lang}
+											<label class="flex items-center gap-3 cursor-pointer">
+												<input
+													type="checkbox"
+													class="appearance-none w-4 h-4 border border-gray-400 rounded-full checked:bg-blue-600 checked:border-transparent focus:outline-none"
+													checked={$formData.languages?.includes(lang)}
+													on:change={(e) => toggleLanguage(lang, e.target.checked)}
+													{...attrs}
+													value={lang}
+												/>
+												<span class="text-sm">{lang}</span>
+											</label>
+										{/each}
+									</div>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
+
 							<Form.Field {form} name="religion" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Religion</Form.Label>
