@@ -100,9 +100,19 @@ export const status = ['New', 'Updated', 'Archived', 'Restored'] as const;
 export const formSchema = z.object({
 	_id: z.string().optional(),
 	name: z.string().min(1, 'Name is required.'),
-	firstName: z.string().min(1, 'First name is required.'),
-	middleName: z.string().optional(),
-	lastName: z.string().min(1, 'Last name is required.'),
+	firstName: z.string()
+	.min(1, 'First name is required.')
+	.transform((val) => val.toUpperCase()),
+
+	middleName: z.string()
+	.min(1, 'Middle name is required.')
+	.transform((val) => val.toUpperCase()),
+
+
+	lastName: z.string()
+	.min(1, 'Last name is required.')
+	.transform((val) => val.toUpperCase()),
+
 	nameSuffix: z.string().optional(),
 	// dateOfBirth: z.date({
 	// 	invalid_type_error: 'Date of birth is required.',

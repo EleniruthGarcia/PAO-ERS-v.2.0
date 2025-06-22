@@ -37,6 +37,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	import DatePicker from '$lib/components/DatePicker.svelte';
 
 	import type { z } from 'zod';
+	import { Field } from 'formsnap';
 	type FormDataType = z.infer<typeof formSchema>;
 
 	export let data: SuperValidated<Infer<FormSchema>>;
@@ -164,27 +165,44 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
 						<div class="grid items-start gap-3 sm:grid-cols-7">
-							<Form.Field {form} name="firstName" class="grid gap-3 sm:col-span-2">
+							<Form.Field {form} name="firstname" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label>Name</Form.Label>
-									<Input {...attrs} bind:value={$formData.firstName} placeholder="FIRST NAME" />
+									<Input
+									{...attrs}
+									bind:value={$formData.firstname}
+									placeholder="FIRST NAME"
+									class="uppercase"
+									/>
+									<Form.FieldErrors />
 								</Form.Control>
-								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="middleName" class="grid gap-3 sm:col-span-2">
+							
+							<Form.Field {form} name="middlename" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-									<Input {...attrs} bind:value={$formData.middleName} placeholder="MIDDLE NAME" />
+									<Form.Label>Middle Name</Form.Label>
+									<Input
+									{...attrs}
+									bind:value={$formData.middlename}
+									placeholder="MIDDLE NAME"
+									class="uppercase"
+									/>
+									<Form.FieldErrors />
 								</Form.Control>
-								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="lastName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-									<Input {...attrs} bind:value={$formData.lastName} placeholder="LAST NAME" />
+									<Input
+									{...attrs}
+									bind:value={$formData.lastName}
+									placeholder="LAST NAME"
+									class="uppercase"
+									/>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
+							
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
