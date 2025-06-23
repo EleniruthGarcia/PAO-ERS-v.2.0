@@ -119,10 +119,12 @@ export const formSchema = z.object({
 	// 	invalid_type_error: 'Date of birth is required.',
 	// 	required_error: 'Date of birth is required.'
 	// }),
-	age: z
-		.union([z.literal(''), z.number().optional()])
-		.transform((e) => (e === '' ? undefined : e))
-		.optional(),
+	 age: z.union([
+    z.number().min(1, 'Invalid Input').max(115, 'Invalid input'),
+    z.literal('')
+	])
+	.transform((e) => (e === '' ? undefined : e))
+	.optional(),
 	sex: z.enum(sex).optional(),
 	address: z
 		.string()
