@@ -58,7 +58,8 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 
 	let dropdownOpen = false;
 
-	function toggleLanguage(lang: string, checked: boolean) {
+	function toggleLanguage(lang: typeof languages[number], checked: boolean) {
+		if (!$formData.languages) $formData.languages = [];
 		if (checked) {
 			if (!$formData.languages.includes(lang)) {
 				$formData.languages = [...$formData.languages, lang];
@@ -79,8 +80,8 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	$: if (!$formData.languages) $formData.languages = [];
 
 	$: selectedSex = {
-		label: $formData.sex,
-		value: $formData.sex
+		label: $formData.sex ?? '',
+		value: $formData.sex ?? ''
 	};
 
 	$: selectedCivilStatus = {
@@ -94,8 +95,8 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	};
 
 	$: selectedReligion = {
-		label: $formData.religion,
-		value: $formData.religion
+		label: $formData.religion ?? '',
+		value: $formData.religion ?? ''
 	};
 
 	$: selectedNetMonthlyIncome = {
@@ -108,11 +109,11 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		value: $formData.citizenship
 	};
 	$: selectedSuffifx = {
-		label: $formData.nameSuffix,
-		value: $formData.nameSuffix
+		label: $formData.suffix,
+		value: $formData.suffix
 	};
 
-	$: if ($formData.sex === 'Female') {
+	$: if ($formData.sex === 'FEMALE') {
 		if (!$formData.classification?.includes('Woman Client')) {
 			$formData.classification = [...($formData.classification ?? []), 'Woman Client'];
 		}
@@ -132,7 +133,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		}
 	}
 
-	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${$formData.lastName}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
+	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${$formData.lastName}${$formData.suffix ? ', ' + $formData.suffix : ''}`;
 
 	$: $formData.spouseName =
 		$formData.civilStatus === 'MARRIED' &&
@@ -170,12 +171,12 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
 						<div class="grid items-start gap-3 sm:grid-cols-7">
-							<Form.Field {form} name="firstname" class="grid gap-3 sm:col-span-2">
+							<Form.Field {form} name="firstName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>Name</Form.Label>
+									<Form.Label>First Name</Form.Label>
 									<Input
 									{...attrs}
-									bind:value={$formData.firstname}
+									bind:value={$formData.firstName}
 									placeholder="FIRST NAME"
 									class="uppercase"
 									/>
@@ -183,12 +184,12 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 							</Form.Field>
 							
-							<Form.Field {form} name="middlename" class="grid gap-3 sm:col-span-2">
+							<Form.Field {form} name="middleName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label>Middle Name</Form.Label>
 									<Input
 									{...attrs}
-									bind:value={$formData.middlename}
+									bind:value={$formData.middleName}
 									placeholder="MIDDLE NAME"
 									class="uppercase"
 									/>
@@ -268,7 +269,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 									<Select.Root
 										selected={selectedCivilStatus}
 										onSelectedChange={(s) => {
-											s && ($formData.civilStatus = s.value);
+											s && ($formData.CivilStatus = s.value);
 										}}
 									>
 										<Select.Input name={attrs.name} />
@@ -384,7 +385,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 									<Select.Root
 										selected={selectednetMonthlyIncome}
 										onSelectedChange={(s) => {
-											s && ($formData.netMonthlyIncome = s.value);
+											s && ($formData.netMonthlyIncome = s.value as typeof netMonthlyIncome[number]);
 										}}
 									>
 										<Select.Input name={attrs.name} />
