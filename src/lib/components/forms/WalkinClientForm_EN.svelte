@@ -15,6 +15,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		religion,
 		citizenship,
 		netMonthlyIncome,
+		suffix,
 		type FormSchema
 	} from '$lib/schema/client';
 
@@ -106,6 +107,10 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		label: $formData.citizenship,
 		value: $formData.citizenship
 	};
+	$: selectedSuffifx = {
+		label: $formData.nameSuffix,
+		value: $formData.nameSuffix
+	};
 
 	$: if ($formData.sex === 'Female') {
 		if (!$formData.classification?.includes('Woman Client')) {
@@ -192,7 +197,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</Form.Field>
 							<Form.Field {form} name="lastName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
+									<Form.Label>Last Name</Form.Label>
 									<Input
 									{...attrs}
 									bind:value={$formData.lastName}
@@ -202,14 +207,30 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							
-							<Form.Field {form} name="nameSuffix" class="grid gap-3">
+							<Form.Field {form} name="suffix" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-									<Input {...attrs} bind:value={$formData.nameSuffix} placeholder="SUFFIX" />
+									<Form.Label>Suffix</Form.Label>
+									<Select.Root
+										selected={selectedSuffifx}
+										onSelectedChange={(s) => {
+											s && ($formData.suffix = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each suffix as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
+							
+							
 						</div>
 						<div class="grid items-start gap-3 sm:grid-cols-3">
 							<Form.Field {form} name="age" class="grid gap-3">

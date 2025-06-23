@@ -94,6 +94,7 @@ export const netMonthlyIncome = [
 	"50,001 - 100,000",
 	"100,001 AND ABOVE"
 ] as const;
+export const suffix = ['JR.', 'SR.', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'] as const;
 
 export const status = ['New', 'Updated', 'Archived', 'Restored'] as const;
 
@@ -113,7 +114,7 @@ export const formSchema = z.object({
 	.min(1, 'Last name is required.')
 	.transform((val) => val.toUpperCase()),
 
-	nameSuffix: z.string().optional(),
+	suffix: z.enum(suffix).optional(),
 	// dateOfBirth: z.date({
 	// 	invalid_type_error: 'Date of birth is required.',
 	// 	required_error: 'Date of birth is required.'
