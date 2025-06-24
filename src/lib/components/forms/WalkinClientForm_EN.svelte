@@ -385,7 +385,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 									<Select.Root
 										selected={selectednetMonthlyIncome}
 										onSelectedChange={(s) => {
-											s && ($formData.netMonthlyIncome = s.value as typeof netMonthlyIncome[number]);
+											s && ($formData.netMonthlyIncome = s.value);
 										}}
 									>
 										<Select.Input name={attrs.name} />
