@@ -269,7 +269,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 									<Select.Root
 										selected={selectedCivilStatus}
 										onSelectedChange={(s) => {
-											s && ($formData.CivilStatus = s.value);
+											s && ($formData.civilStatus = s.value);
 										}}
 									>
 										<Select.Input name={attrs.name} />
