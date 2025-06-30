@@ -337,7 +337,7 @@ export const actions = {
 		const f16 = services
 			.filter((d) => d.client?.foreignNational?.includes('Taiwanese'))
 			.map((item, index) => ({ index, ...item }));
-		const f17 = services;
+		const f17 = services.flatMap((d) => d.service?.nature?.map((nature: String) => ({ ...d, nature })));
 		const f18 = services
 			.filter(
 				(d) =>
@@ -355,7 +355,7 @@ export const actions = {
 			labor: services.filter((d) => d.case?.natureOfTheCase?.includes('Labor'))
 		};
 		const f20 = services.filter((d) => d.client?.PWD?.includes(true));
-		const f21 = services.filter((d) => d.service?.nature?.includes('Administration of Oath'));
+		const f21 = services.filter((d) => d.service?.nature?.includes('Administration of Oath')).flatMap((d) => d.natureOfInstrument?.map((instrument: String) => ({ ...d, instrument })));
 		const f22 = services
 			.filter((d) => d.service?.nature?.includes('Others (PSA)'))
 			.map((item, index) => ({ index, ...item }));
