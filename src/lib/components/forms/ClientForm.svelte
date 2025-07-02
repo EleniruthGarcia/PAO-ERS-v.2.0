@@ -13,6 +13,9 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		proofOfIndigency,
 		pwd,
 		sex,
+		religion,
+		languages,
+		suffix,
 		type FormSchema
 	} from '$lib/schema/client';
 	import {
@@ -72,7 +75,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 
 	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${
 		$formData.lastName
-	}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
+	}${$formData.suffix ? ', ' + $formData.suffix : ''}`;
 
 	$: $formData.spouseName =
 		$formData.civilStatus === 'MARRIED' && $formData.spouseFirstName && $formData.spouseLastName
@@ -95,6 +98,30 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		label: $formData.educationalAttainment,
 		value: $formData.educationalAttainment
 	};
+	$: selectedReligion = {
+		label: $formData.religion,
+		value: $formData.religion
+	};
+	$: slectedSuffix = {
+		label: $formData.suffix,
+		value: $formData.suffix
+	};
+
+	$: touchedSuffix = false;
+	$: filteredSuffix =
+		$formData.suffix && touchedSuffix
+			? suffix.filter((v) =>
+					v.toLowerCase().includes($formData.suffix?.toLowerCase() ?? '')
+				)
+			: suffix;
+
+	$: touchedReligion = false;
+	$: filteredReligion =
+		$formData.religion && touchedReligion
+			? religion.filter((v) =>
+					v.toLowerCase().includes($formData.religion?.toLowerCase() ?? '')
+				)
+			: religion;
 
 	$: touchedProof = false;
 	$: filteredProof =
@@ -176,10 +203,48 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="nameSuffix" class="grid gap-3">
+							<Form.Field {form} name="suffix" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-									<Input {...attrs} bind:value={$formData.nameSuffix} placeholder="Suffix" />
+									<Form.Label>Suffix</Form.Label>
+									<Combobox.Root
+										items={filteredSuffix}
+										bind:inputValue={$formData.suffix}
+										bind:touchedInput={touchedSuffix}
+									>
+										<div class="relative">
+											<Combobox.Input
+												class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+												placeholder=""
+											/>
+											<CaretSort class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50" />
+										</div>
+
+										<Combobox.Content
+											class="relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
+											transition={flyAndScale}
+											sideOffset={8}
+										>
+											{#each filteredSuffix as value}
+												<Combobox.Item
+													class="elative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
+													{value}
+												>
+													{value}
+													<Combobox.ItemIndicator
+														class="absolute right-3 flex h-3.5 w-3.5 items-center justify-center"
+														asChild={false}
+													>
+														<Check class="h-4 w-4" />
+													</Combobox.ItemIndicator>
+												</Combobox.Item>
+											{:else}
+												<span class="block px-5 py-2 text-sm text-muted-foreground">
+													No results found.
+												</span>
+											{/each}
+										</Combobox.Content>
+										<Combobox.HiddenInput name="suffix" />
+									</Combobox.Root>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -241,7 +306,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid items-start gap-3 sm:grid-cols-3">
+						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="citizenship" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Citizenship</Form.Label>
@@ -250,46 +315,96 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.FieldErrors />
 							</Form.Field>
 
-							<!--Language and Religion dropdown update as of June 16-->
-							<Form.Field {form} name="language" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Language</Form.Label>
-									<select {...attrs} bind:value={$formData.language} class="px-3 py-2 border rounded-md">
-										<option disabled selected value="">-- Language(Mother Tongue) --</option>
-										<option value="Tagalog">Tagalog</option>
-										<option value="Ilocano">Ilocano</option>
-										<option value="English">English</option>
-										<option value="Kankanaey">Kankanaey</option>
-										<option value="Kalinga">Kalinga</option>
-										<option value="Ibaloi/Ibaloy">Ibaloi/Ibaloy</option>
-										<option value="Other Languages/Dialects">Other Languages/Dialects</option>
-									</select>
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-
 							<!--New religion dropdown-->
 							<Form.Field {form} name="religion" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Religion</Form.Label>
-									<select {...attrs} bind:value={$formData.religion} class="px-3 py-2 border rounded-md">
-										<option disabled selected value="">-- Select Religion --</option>
-										<option value="Catholic">Catholic</option>
-										<option value="Islam">Islam</option>
-										<option value="Iglesia ni Cristo">Iglesia ni Cristo</option>
-										<option value="Seventh Day Adventist">Seventh Day Adventist</option>
-										<option value="Agplipay">Agplipay</option>
-										<option value="Iglesia Filipina">Iglesia Filipina</option>
-										<option value="Bible Baptist Church">Bible Baptist Church</option>
-										<option value="UCC of the Philippines">UCC of the Philippines</option>
-										<option value="Other religious affiliations">Other religious affiliations</option>
-										<option value="None">None</option>
-									</select>
+									<Combobox.Root
+										items={filteredReligion}
+										bind:inputValue={$formData.religion}
+										bind:touchedInput={touchedReligion}
+									>
+										<div class="relative">
+											<Combobox.Input
+												class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+												placeholder="Please type or select."
+											/>
+											<CaretSort class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50" />
+										</div>
+
+										<Combobox.Content
+											class="relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
+											transition={flyAndScale}
+											sideOffset={8}
+										>
+											{#each filteredReligion as value}
+												<Combobox.Item
+													class="elative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
+													{value}
+												>
+													{value}
+													<Combobox.ItemIndicator
+														class="absolute right-3 flex h-3.5 w-3.5 items-center justify-center"
+														asChild={false}
+													>
+														<Check class="h-4 w-4" />
+													</Combobox.ItemIndicator>
+												</Combobox.Item>
+											{:else}
+												<span class="block px-5 py-2 text-sm text-muted-foreground">
+													No results found.
+												</span>
+											{/each}
+										</Combobox.Content>
+										<Combobox.HiddenInput name="religion" />
+									</Combobox.Root>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 
 						</div>
+						<!--Language and Religion dropdown update as of June 16-->
+						<Form.Fieldset {form} name="language" class="flex flex-col gap-3 space-y-0">
+							
+							
+							<Form.Legend>
+								Languages (Mother Tounge) <span class="font-bold text-destructive">*</span>
+							</Form.Legend>
+							
+							
+							<Form.Description>Please select all the apply.</Form.Description>
+							
+							
+							<div class="grid items-start gap-3 sm:grid-cols-4">
+						
+								{#each languages as item}
+									{@const checked = $formData.language?.includes(item) ?? false}
+									<div class="flex flex-row items-start space-x-3">
+										<Form.Control let:attrs>
+											<Checkbox
+												{...attrs}
+												{checked}
+												onCheckedChange={(v) => {
+													if (v) {
+														$formData.language = [...($formData.language ?? []), item];
+													} else {
+														$formData.language = $formData.language?.filter(
+															(v) => v !== item
+														);
+													}
+												}}
+											/>
+											<Form.Label class="text-sm font-normal">
+												{item}
+											</Form.Label>
+											<input hidden type="checkbox" name={attrs.name} value={item} {checked} />
+										</Form.Control>
+									</div>
+								{/each}
+								<Form.FieldErrors />
+							</div>
+						
+					</Form.Fieldset>
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="educationalAttainment" class="grid gap-3">
 								<Form.Control let:attrs>

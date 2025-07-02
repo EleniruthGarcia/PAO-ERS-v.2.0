@@ -55,7 +55,7 @@ export const languages = [
 	'ENGLISH',
 	'TAGALOG',
 	'ILOCANO',
-	'OTHER LANGUAGES/DIALECTS',
+	'OTHERS',
 	
 ] as const;
 
@@ -140,7 +140,7 @@ export const formSchema = z.object({
 	religion: z.enum(religion).optional(),
 	citizenship: z.enum(citizenship),
 	educationalAttainment: z.enum(educationalAttainment),
-	languages: z.array(z.enum(languages)).optional(),
+	language: z.array(z.enum(languages)).optional(),
 	netMonthlyIncome: z.enum(netMonthlyIncome),
 	detained: z.boolean().default(false),
 	detainedAt: z.string().optional(),
