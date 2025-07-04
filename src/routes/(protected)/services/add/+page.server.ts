@@ -36,11 +36,13 @@ export const load: PageServerLoad = async (event) => {
 				status: [{ type: 'New', date: new Date() }],
 				lawyer_id: event.locals.user.id,
 				client_id,
-				date: new Date()
+				date: new Date(),
+				nature: ['Administration of Oath'] 
 			},
 			zod(formSchema),
 			{ errors: false }
 		),
+
 		lawyers: await db.users.find().toArray(),
 		clients: await db.clients.find().toArray(),
 		cases: await db.cases.find().toArray()

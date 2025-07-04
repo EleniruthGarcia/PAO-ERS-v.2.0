@@ -145,7 +145,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							<Form.Field {form} name="docketNumber" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label
-										>Docket Number <span class="font-bold text-destructive">*</span></Form.Label
+										>Case Number <span class="font-bold text-destructive">*</span></Form.Label
 									>
 									<Select.Root
 										selected={selectedDocketNumber}

@@ -368,7 +368,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							
 							
 							<Form.Legend>
-								Languages (Mother Tounge) <span class="font-bold text-destructive">*</span>
+								Languages (Mother Tongue) <span class="font-bold text-destructive">*</span>
 							</Form.Legend>
 							
 							
