@@ -560,53 +560,38 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 						<Card.Header>
 							<Card.Title>Spouse Information</Card.Title>
 						</Card.Header>
-						<Card.Content>
+						<Card.Content class="grid auto-rows-max items-start gap-3">
 							<div class="grid items-start gap-3 sm:grid-cols-7">
 								<Form.Field {form} name="spouseFirstName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label>Name</Form.Label>
-										<Input
-											{...attrs}
-											bind:value={$formData.spouseFirstName}
-											placeholder="First Name"
-										/>
+										<Input {...attrs} bind:value={$formData.spouseFirstName} placeholder="First Name" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseMiddleName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-										<Input
-											{...attrs}
-											bind:value={$formData.spouseMiddleName}
-											placeholder="Middle Name"
-										/>
+										<Input {...attrs} bind:value={$formData.spouseMiddleName} placeholder="Middle Name" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseLastName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-										<Input
-											{...attrs}
-											bind:value={$formData.spouseLastName}
-											placeholder="Last Name"
-										/>
+										<Input {...attrs} bind:value={$formData.spouseLastName} placeholder="Last Name" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseNameSuffix" class="grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-										<Input
-											{...attrs}
-											bind:value={$formData.spouseNameSuffix}
-											placeholder="Suffix"
-										/>
+										<Input {...attrs} bind:value={$formData.spouseNameSuffix} placeholder="Suffix" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 							</div>
+
 							<Form.Field {form} name="spouseAddress" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Address</Form.Label>
@@ -614,6 +599,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
+
 							<div class="grid items-start gap-3 sm:grid-cols-2">
 								<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
 									<Form.Control let:attrs>
