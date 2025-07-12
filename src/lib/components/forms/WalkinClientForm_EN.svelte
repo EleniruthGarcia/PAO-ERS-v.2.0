@@ -173,7 +173,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 						<div class="grid items-start gap-3 sm:grid-cols-7">
 							<Form.Field {form} name="firstName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>First Name</Form.Label>
+									<Form.Label>Full Name</Form.Label>
 									<Input
 									{...attrs}
 									bind:value={$formData.firstName}
@@ -186,7 +186,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							
 							<Form.Field {form} name="middleName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>Middle Name</Form.Label>
+									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 									<Input
 									{...attrs}
 									bind:value={$formData.middleName}
@@ -198,7 +198,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</Form.Field>
 							<Form.Field {form} name="lastName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>Last Name</Form.Label>
+									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 									<Input
 									{...attrs}
 									bind:value={$formData.lastName}
@@ -319,7 +319,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 											<label class="flex items-center gap-3 cursor-pointer">
 												<input
 													type="checkbox"
-													class="appearance-none w-4 h-4 border border-gray-400 rounded-full checked:bg-blue-600 checked:border-transparent focus:outline-none"
+													class="appearance-none w-4 h-4 border border-gray-400 rounded-full checked:bg-green-600 checked:border-transparent focus:outline-none"
 													checked={$formData.languages?.includes(lang)}
 													on:change={(e) => toggleLanguage(lang, e.target.checked)}
 													{...attrs}

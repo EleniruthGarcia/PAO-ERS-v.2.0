@@ -319,7 +319,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 											<label class="flex items-center gap-3 cursor-pointer">
 												<input
 													type="checkbox"
-													class="appearance-none w-4 h-4 border border-gray-400 rounded-full checked:bg-blue-600 checked:border-transparent focus:outline-none"
+													class="appearance-none w-4 h-4 border border-gray-400 rounded-full checked:bg-green-600 checked:border-transparent focus:outline-none"
 													checked={$formData.languages?.includes(lang)}
 													on:change={(e) => toggleLanguage(lang, e.target.checked)}
 													{...attrs}
