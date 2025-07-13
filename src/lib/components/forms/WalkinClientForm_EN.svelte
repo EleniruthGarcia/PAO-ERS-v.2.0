@@ -108,7 +108,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		label: $formData.citizenship,
 		value: $formData.citizenship
 	};
-	$: selectedSuffifx = {
+	$: selectedSuffix = {
 		label: $formData.suffix,
 		value: $formData.suffix
 	};
@@ -212,7 +212,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>Suffix</Form.Label>
 									<Select.Root
-										selected={selectedSuffifx}
+										selected={selectedSuffix}
 										onSelectedChange={(s) => {
 											s && ($formData.suffix = s.value);
 										}}
