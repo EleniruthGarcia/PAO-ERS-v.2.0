@@ -59,13 +59,13 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	let dropdownOpen = false;
 
 	function toggleLanguage(lang: typeof languages[number], checked: boolean) {
-		if (!$formData.languages) $formData.languages = [];
+		if (!$formData.language) $formData.language = [];
 		if (checked) {
-			if (!$formData.languages.includes(lang)) {
-				$formData.languages = [...$formData.languages, lang];
+			if (!$formData.language.includes(lang)) {
+				$formData.language = [...$formData.language, lang];
 			}
 		} else {
-			$formData.languages = $formData.languages.filter((l) => l !== lang);
+			$formData.language = $formData.language.filter((l) => l !== lang);
 		}
 	}
 
@@ -77,7 +77,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	let selectednetMonthlyIncome = { label: '', value: '' };
 	let selectedcitizenship = { label: '', value: '' };
 
-	$: if (!$formData.languages) $formData.languages = [];
+	$: if (!$formData.language) $formData.language = [];
 
 	$: selectedsex = {
 		label: $formData.sex,
@@ -100,8 +100,8 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	};
 
 	$: selectedNetMonthlyIncome = {
-		label: $formData.netMonthlyIncome,
-		value: $formData.netMonthlyIncome
+		label: $formData.individualMonthlyIncome,
+		value: $formData.individualMonthlyIncome
 	};
 
 	$: selectedcitizenship = {
@@ -109,8 +109,8 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		value: $formData.citizenship
 	};
 	$: selectedSuffifx = {
-		label: $formData.suffix,
-		value: $formData.suffix
+		label: $formData.nameSuffix,
+		value: $formData.nameSuffix
 	};
 
 	$: if ($formData.sex === 'FEMALE') {
@@ -133,7 +133,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		}
 	}
 
-	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${$formData.lastName}${$formData.suffix ? ', ' + $formData.suffix : ''}`;
+	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${$formData.lastName}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
 
 	$: $formData.spouseName =
 		$formData.civilStatus === 'MARRIED' &&
@@ -208,13 +208,13 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="suffix" class="grid gap-3">
+							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Suffix</Form.Label>
 									<Select.Root
 										selected={selectedSuffifx}
 										onSelectedChange={(s) => {
-											s && ($formData.suffix = s.value);
+											s && ($formData.nameSuffix = s.value);
 										}}
 									>
 										<Select.Input name={attrs.name} />
@@ -320,7 +320,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 												<input
 													type="checkbox"
 													class="appearance-none w-4 h-4 border border-gray-400 rounded-full checked:bg-green-600 checked:border-transparent focus:outline-none"
-													checked={$formData.languages?.includes(lang)}
+													checked={$formData.language?.includes(lang)}
 													on:change={(e) => toggleLanguage(lang, e.target.checked)}
 													{...attrs}
 													value={lang}
@@ -363,7 +363,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 									<Select.Root
 										selected={selectedEducationalAttainment}
 										onSelectedChange={(s) => {
-											s && ($formData.EducationalAttainment = s.value);
+											s && ($formData.educationalAttainment = s.value);
 										}}
 									>
 										<Select.Input name={attrs.name} />
@@ -379,13 +379,13 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="netMonthlyIncome" class="grid gap-3">
+							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Net Monthly Income</Form.Label>
 									<Select.Root
 										selected={selectednetMonthlyIncome}
 										onSelectedChange={(s) => {
-											s && ($formData.netMonthlyIncome = s.value);
+											s && ($formData.individualMonthlyIncome = s.value);
 										}}
 									>
 										<Select.Input name={attrs.name} />

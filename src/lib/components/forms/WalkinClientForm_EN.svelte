@@ -59,13 +59,13 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	let dropdownOpen = false;
 
 	function toggleLanguage(lang: typeof languages[number], checked: boolean) {
-		if (!$formData.languages) $formData.languages = [];
+		if (!$formData.language) $formData.language = [];
 		if (checked) {
-			if (!$formData.languages.includes(lang)) {
-				$formData.languages = [...$formData.languages, lang];
+			if (!$formData.language.includes(lang)) {
+				$formData.language = [...$formData.language, lang];
 			}
 		} else {
-			$formData.languages = $formData.languages.filter((l) => l !== lang);
+			$formData.language = $formData.language.filter((l) => l !== lang);
 		}
 	}
 
@@ -77,7 +77,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	let selectednetMonthlyIncome = { label: '', value: '' };
 	let selectedcitizenship = { label: '', value: '' };
 
-	$: if (!$formData.languages) $formData.languages = [];
+	$: if (!$formData.language) $formData.language = [];
 
 	$: selectedsex = {
 		label: $formData.sex,
@@ -109,8 +109,8 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		value: $formData.citizenship
 	};
 	$: selectedSuffix = {
-		label: $formData.suffix,
-		value: $formData.suffix
+		label: $formData.nameSuffix,
+		value: $formData.nameSuffix
 	};
 
 	$: if ($formData.sex === 'FEMALE') {
@@ -133,7 +133,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		}
 	}
 
-	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${$formData.lastName}${$formData.suffix ? ', ' + $formData.suffix : ''}`;
+	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${$formData.lastName}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
 
 	$: $formData.spouseName =
 		$formData.civilStatus === 'MARRIED' &&
@@ -208,13 +208,13 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="suffix" class="grid gap-3">
+							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Suffix</Form.Label>
 									<Select.Root
 										selected={selectedSuffix}
 										onSelectedChange={(s) => {
-											s && ($formData.suffix = s.value);
+											s && ($formData.nameSuffix = s.value);
 										}}
 									>
 										<Select.Input name={attrs.name} />

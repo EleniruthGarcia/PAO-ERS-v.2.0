@@ -114,7 +114,7 @@ export const formSchema = z.object({
 	.min(1, 'Last name is required.')
 	.transform((val) => val.toUpperCase()),
 
-	suffix: z.union([z.enum(suffix), z.literal('')])
+	nameSuffix: z.union([z.enum(suffix), z.literal('')])
   	.transform((val) => (val === '' ? undefined : val))
   	.optional(),
 	// dateOfBirth: z.date({

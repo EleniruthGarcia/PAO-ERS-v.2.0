@@ -76,7 +76,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 
 	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${
 		$formData.lastName
-	}${$formData.suffix ? ', ' + $formData.suffix : ''}`;
+	}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
 
 	$: $formData.spouseName =
 		$formData.civilStatus === 'MARRIED' && $formData.spouseFirstName && $formData.spouseLastName
@@ -105,8 +105,8 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		value: $formData.religion
 	};
 	$: selectedSuffix = {
-		label: $formData.suffix,
-		value: $formData.suffix
+		label: $formData.nameSuffix,
+		value: $formData.nameSuffix
 	};
 	$: selectedIndividualMonthlyIncome = {
 		label: $formData.individualMonthlyIncome,
@@ -125,7 +125,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	$: filteredSuffix =
 		$formData.suffix && touchedSuffix
 			? suffix.filter((v) =>
-					v.toLowerCase().includes($formData.suffix?.toLowerCase() ?? '')
+					v.toLowerCase().includes($formData.nameSuffix?.toLowerCase() ?? '')
 				)
 			: suffix;
 			
@@ -218,12 +218,12 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="suffix" class="grid gap-3">
+							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Suffix</Form.Label>
 									<Combobox.Root
 										items={filteredSuffix}
-										bind:inputValue={$formData.suffix}
+										bind:inputValue={$formData.nameSuffix}
 										bind:touchedInput={touchedSuffix}
 									>
 										<div class="relative">
@@ -258,7 +258,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 												</span>
 											{/each}
 										</Combobox.Content>
-										<Combobox.HiddenInput name="suffix" />
+										<Combobox.HiddenInput name="nameSuffix" />
 									</Combobox.Root>
 								</Form.Control>
 								<Form.FieldErrors />
@@ -606,7 +606,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 				<!-- SPOUSE INFORMATION
 				This is for married clients only. -->
 
-				{#if $formData.civilStatus === 'MARRIED'}
+				{#if $formData.civilStatus === 'MARRIED' || $formData.civilStatus === 'WIDOW/WIDOWER'}
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Spouse Information</Card.Title>
