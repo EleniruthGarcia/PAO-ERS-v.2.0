@@ -13,6 +13,10 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		proofOfIndigency,
 		pwd,
 		sex,
+		religion,
+		languages,
+		suffix,
+		individualMonthlyIncome,
 		type FormSchema
 	} from '$lib/schema/client';
 	import {
@@ -44,14 +48,14 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 
 	const { form: formData, enhance, delayed } = form;
 
-	const proxyAge = intProxy(form, 'age', { empty: 'undefined' });
+	const proxyAge = intProxy(form, 'age', { empty: '' });
 	const proxyDetainedSince = dateProxy(form, 'detainedSince', {
 		format: 'date',
-		empty: 'undefined'
+		empty: ''
 	});
 	const proxyDetainedUntil = dateProxy(form, 'detainedUntil', {
 		format: 'date',
-		empty: 'undefined'
+		empty: ''
 	});
 
 	$: if ($formData.sex === 'Female') {
@@ -75,11 +79,11 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
 
 	$: $formData.spouseName =
-		$formData.civilStatus === 'Married' && $formData.spouseFirstName && $formData.spouseLastName
+		$formData.civilStatus === 'MARRIED' && $formData.spouseFirstName && $formData.spouseLastName
 			? `${$formData.spouseFirstName}${
 					$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''
 				} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`
-			: undefined;
+			: '';
 
 	$: selectedSex = {
 		label: $formData.sex,
@@ -95,6 +99,44 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		label: $formData.educationalAttainment,
 		value: $formData.educationalAttainment
 	};
+	
+	$: selectedReligion = {
+		label: $formData.religion,
+		value: $formData.religion
+	};
+	$: selectedSuffix = {
+		label: $formData.nameSuffix,
+		value: $formData.nameSuffix
+	};
+	$: selectedIndividualMonthlyIncome = {
+		label: $formData.individualMonthlyIncome,
+		value: $formData.individualMonthlyIncome
+	};
+
+	$: touchedIndividualMonthlyIncome = false;
+	$: filteredIndividualMonthlyIncome =
+		$formData.individualMonthlyIncome && touchedIndividualMonthlyIncome
+			? individualMonthlyIncome.filter((v) =>
+					v.toLowerCase().includes($formData.individualMonthlyIncome?.toLowerCase() ?? '')
+				)
+			: individualMonthlyIncome;
+
+	$: touchedSuffix = false;
+	$: filteredSuffix =
+		$formData.suffix && touchedSuffix
+			? suffix.filter((v) =>
+					v.toLowerCase().includes($formData.nameSuffix?.toLowerCase() ?? '')
+				)
+			: suffix;
+			
+
+	$: touchedReligion = false;
+	$: filteredReligion =
+		$formData.religion && touchedReligion
+			? religion.filter((v) =>
+					v.toLowerCase().includes($formData.religion?.toLowerCase() ?? '')
+				)
+			: religion;
 
 	$: touchedProof = false;
 	$: filteredProof =
@@ -178,8 +220,46 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</Form.Field>
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-									<Input {...attrs} bind:value={$formData.nameSuffix} placeholder="Suffix" />
+									<Form.Label>Suffix</Form.Label>
+									<Combobox.Root
+										items={filteredSuffix}
+										bind:inputValue={$formData.nameSuffix}
+										bind:touchedInput={touchedSuffix}
+									>
+										<div class="relative">
+											<Combobox.Input
+												class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+												placeholder="NONE"
+											/>
+											<CaretSort class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50" />
+										</div>
+
+										<Combobox.Content
+											class="relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
+											transition={flyAndScale}
+											sideOffset={8}
+										>
+											{#each filteredSuffix as value}
+												<Combobox.Item
+													class="elative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
+													{value}
+												>
+													{value}
+													<Combobox.ItemIndicator
+														class="absolute right-3 flex h-3.5 w-3.5 items-center justify-center"
+														asChild={false}
+													>
+														<Check class="h-4 w-4" />
+													</Combobox.ItemIndicator>
+												</Combobox.Item>
+											{:else}
+												<span class="block px-5 py-2 text-sm text-muted-foreground">
+													No results found.
+												</span>
+											{/each}
+										</Combobox.Content>
+										<Combobox.HiddenInput name="nameSuffix" />
+									</Combobox.Root>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -241,7 +321,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid items-start gap-3 sm:grid-cols-3">
+						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="citizenship" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Citizenship</Form.Label>
@@ -249,21 +329,97 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="language" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Language</Form.Label>
-									<Input {...attrs} bind:value={$formData.language} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
+
+							<!--New religion dropdown-->
 							<Form.Field {form} name="religion" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Religion</Form.Label>
-									<Input {...attrs} bind:value={$formData.religion} />
+									<Combobox.Root
+										items={filteredReligion}
+										bind:inputValue={$formData.religion}
+										bind:touchedInput={touchedReligion}
+									>
+										<div class="relative">
+											<Combobox.Input
+												class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+												placeholder="Please type or select."
+											/>
+											<CaretSort class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50" />
+										</div>
+
+										<Combobox.Content
+											class="relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
+											transition={flyAndScale}
+											sideOffset={8}
+										>
+											{#each filteredReligion as value}
+												<Combobox.Item
+													class="elative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
+													{value}
+												>
+													{value}
+													<Combobox.ItemIndicator
+														class="absolute right-3 flex h-3.5 w-3.5 items-center justify-center"
+														asChild={false}
+													>
+														<Check class="h-4 w-4" />
+													</Combobox.ItemIndicator>
+												</Combobox.Item>
+											{:else}
+												<span class="block px-5 py-2 text-sm text-muted-foreground">
+													No results found.
+												</span>
+											{/each}
+										</Combobox.Content>
+										<Combobox.HiddenInput name="religion" />
+									</Combobox.Root>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
+
 						</div>
+						<!--Language and Religion dropdown update as of June 16-->
+						<Form.Fieldset {form} name="language" class="flex flex-col gap-3 space-y-0">
+							
+							
+							<Form.Legend>
+								Languages (Mother Tongue) <span class="font-bold text-destructive">*</span>
+							</Form.Legend>
+							
+							
+							<Form.Description>Please select all the apply.</Form.Description>
+							
+							
+							<div class="grid items-start gap-3 sm:grid-cols-4">
+						
+								{#each languages as item}
+									{@const checked = $formData.language?.includes(item) ?? false}
+									<div class="flex flex-row items-start space-x-3">
+										<Form.Control let:attrs>
+											<Checkbox
+												{...attrs}
+												{checked}
+												onCheckedChange={(v) => {
+													if (v) {
+														$formData.language = [...($formData.language ?? []), item];
+													} else {
+														$formData.language = $formData.language?.filter(
+															(v) => v !== item
+														);
+													}
+												}}
+											/>
+											<Form.Label class="text-sm font-normal">
+												{item}
+											</Form.Label>
+											<input hidden type="checkbox" name={attrs.name} value={item} {checked} />
+										</Form.Control>
+									</div>
+								{/each}
+								<Form.FieldErrors />
+							</div>
+						
+					</Form.Fieldset>
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="educationalAttainment" class="grid gap-3">
 								<Form.Control let:attrs>
@@ -291,10 +447,46 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</Form.Field>
 							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Net Monthly Income</Form.Label>
-									<span class="flex items-center gap-2">
-										₱<Input {...attrs} bind:value={$formData.individualMonthlyIncome} /></span
+									<Form.Label>Individual Monthly Income</Form.Label>
+									<Combobox.Root
+										items={filteredIndividualMonthlyIncome}
+										bind:inputValue={$formData.individualMonthlyIncome}
+										bind:touchedInput={touchedIndividualMonthlyIncome}
 									>
+										<div class="relative">
+											<Combobox.Input
+												class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+												placeholder=""
+											/>
+											<CaretSort class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50" />
+										</div>
+
+										<Combobox.Content
+											class="relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
+											transition={flyAndScale}
+											sideOffset={8}
+										>
+											{#each filteredIndividualMonthlyIncome as value}
+												<Combobox.Item
+													class="elative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
+													{value}
+												>
+													{value}
+													<Combobox.ItemIndicator
+														class="absolute right-3 flex h-3.5 w-3.5 items-center justify-center"
+														asChild={false}
+													>
+														<Check class="h-4 w-4" />
+													</Combobox.ItemIndicator>
+												</Combobox.Item>
+											{:else}
+												<span class="block px-5 py-2 text-sm text-muted-foreground">
+													No results found.
+												</span>
+											{/each}
+										</Combobox.Content>
+										<Combobox.HiddenInput name="individualMonthlyIncome" />
+									</Combobox.Root>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -395,13 +587,18 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="email" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Email</Form.Label>
-									<Input {...attrs} bind:value={$formData.email} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
+							<Form.Field {form} name="email" class="grid gap-3 sm:col-span-4">
+							<Form.Control let:attrs>
+								<Form.Label>Email Address</Form.Label>
+								<Input
+									{...attrs}
+									type="email"
+									placeholder="example@email.com"
+									bind:value={$formData.email}
+								/>
+							</Form.Control>
+							<Form.FieldErrors />
+						</Form.Field>
 						</div>
 					</Card.Content>
 				</Card.Root>
@@ -409,58 +606,43 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 				<!-- SPOUSE INFORMATION
 				This is for married clients only. -->
 
-				{#if $formData.civilStatus === 'Married'}
+				{#if $formData.civilStatus === 'MARRIED' || $formData.civilStatus === 'WIDOW/WIDOWER'}
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Spouse Information</Card.Title>
 						</Card.Header>
-						<Card.Content>
+						<Card.Content class="grid auto-rows-max items-start gap-3">
 							<div class="grid items-start gap-3 sm:grid-cols-7">
 								<Form.Field {form} name="spouseFirstName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label>Name</Form.Label>
-										<Input
-											{...attrs}
-											bind:value={$formData.spouseFirstName}
-											placeholder="First Name"
-										/>
+										<Input {...attrs} bind:value={$formData.spouseFirstName} placeholder="First Name" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseMiddleName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-										<Input
-											{...attrs}
-											bind:value={$formData.spouseMiddleName}
-											placeholder="Middle Name"
-										/>
+										<Input {...attrs} bind:value={$formData.spouseMiddleName} placeholder="Middle Name" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseLastName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-										<Input
-											{...attrs}
-											bind:value={$formData.spouseLastName}
-											placeholder="Last Name"
-										/>
+										<Input {...attrs} bind:value={$formData.spouseLastName} placeholder="Last Name" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseNameSuffix" class="grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-										<Input
-											{...attrs}
-											bind:value={$formData.spouseNameSuffix}
-											placeholder="Suffix"
-										/>
+										<Input {...attrs} bind:value={$formData.spouseNameSuffix} placeholder="Suffix" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 							</div>
+
 							<Form.Field {form} name="spouseAddress" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Address</Form.Label>
@@ -468,6 +650,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
+
 							<div class="grid items-start gap-3 sm:grid-cols-2">
 								<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
 									<Form.Control let:attrs>

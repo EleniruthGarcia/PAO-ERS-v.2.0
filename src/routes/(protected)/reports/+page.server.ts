@@ -322,11 +322,17 @@ export const actions = {
 
 		console.log(services);
 
-		const f10 = services.filter((d) => d.service?.nature?.includes('Barangay Outreach'));
-		const f11 = services.filter((d) => d.service?.nature?.includes('Jail Visitation'));
+		//const f10 = services.filter((d) => d.service?.nature?.includes('Barangay Outreach'));
+		const f10 = services.filter((d) => d.service?.nature?.includes('Barangay Outreach')).flatMap((d) => d.natureOfInstrument?.map((instrument: String) => ({ ...d, instrument })));
+		//const f11 = services.filter((d) => d.service?.nature?.includes('Jail Visitation'));
+		const f11 = services.filter((d) => d.service?.nature?.includes('Jail Visitation')).flatMap((d) => d.natureOfInstrument?.map((instrument: String) => ({ ...d, instrument })));
 		const f12 = services
-			.filter((d) => d.client?.classification?.includes('Victim'))
-			.map((item, index) => ({ index, ...item }));
+  			.filter((d) => d.client?.classification?.includes('Victim'))
+  			.map((item, index) => ({
+   			 row: index + 1,
+   			 ...item
+ 	 		}));
+
 		const f13 = services
 			.filter((d) => d.client?.classification?.includes('Child in Conflict with the Law'))
 			.map((item, index) => ({ index, ...item }));
@@ -337,7 +343,16 @@ export const actions = {
 		const f16 = services
 			.filter((d) => d.client?.foreignNational?.includes('Taiwanese'))
 			.map((item, index) => ({ index, ...item }));
-		const f17 = services;
+		// First, generate your flattened list of { …d, nature } objects
+		const flatNatures = services.flatMap(d =>
+		d.service?.nature?.map((nature: string) => ({ ...d, nature })) ?? []
+		)
+
+		// Then add a 1-based row counter to each item
+		const f17 = flatNatures.map((item, index) => ({
+		row: index + 1,
+		...item
+		}))
 		const f18 = services
 			.filter(
 				(d) =>
@@ -355,7 +370,7 @@ export const actions = {
 			labor: services.filter((d) => d.case?.natureOfTheCase?.includes('Labor'))
 		};
 		const f20 = services.filter((d) => d.client?.PWD?.includes(true));
-		const f21 = services.filter((d) => d.service?.nature?.includes('Administration of Oath'));
+		const f21 = services.filter((d) => d.service?.nature?.includes('Administration of Oath')).flatMap((d) => d.natureOfInstrument?.map((instrument: String) => ({ ...d, instrument })));
 		const f22 = services
 			.filter((d) => d.service?.nature?.includes('Others (PSA)'))
 			.map((item, index) => ({ index, ...item }));

@@ -1,11 +1,9 @@
 <!-- Public Attorney's Office - Electronic Records System
-Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando -->
+Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimando.AbortController .-->
 
 <!-- Please refer to ClientForm.svelte for comments. It is the same form with non-client cards removed and in English. -->
 
 <script lang="ts">
-	// Import all necessary components and dependencies.
-
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import {
 		civilStatus,
@@ -13,8 +11,14 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		educationalAttainment,
 		formSchema,
 		sex,
+		languages,
+		religion,
+		citizenship,
+		individualMonthlyIncome,
+		suffix,
 		type FormSchema
 	} from '$lib/schema/client';
+
 	import {
 		type SuperValidated,
 		type Infer,
@@ -24,65 +28,58 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	} from 'sveltekit-superforms';
 
 	import { ChevronLeft } from 'svelte-radix';
-
 	import Loading from '$lib/components/Loading.svelte';
-
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
-
 	import DatePicker from '$lib/components/DatePicker.svelte';
+
+	import type { z } from 'zod';
+	import { Field } from 'formsnap';
+	type FormDataType = z.infer<typeof formSchema>;
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 
-	const form = superForm(data, {
+	const form = superForm<z.infer<typeof formSchema>>(data, {
 		dataType: 'json',
 		validators: zodClient(formSchema)
 	});
-
-	const { form: formData, enhance, delayed } = form;
+	const { form: rawFormData, enhance, delayed } = form;
+	const formData = rawFormData as unknown as import('svelte/store').Writable<FormDataType>;
 
 	const proxyAge = intProxy(form, 'age', { initiallyEmptyIfZero: true });
-	// const proxyDateOfBirth = dateProxy(form, 'dateOfBirth', {
-	// 	format: 'date',
-	// 	empty: 'undefined'
-	// });
 	const proxyDetainedSince = dateProxy(form, 'detainedSince', {
 		format: 'date',
 		empty: 'undefined'
 	});
 
-	$: if ($formData.sex === 'Female') {
-		if (!$formData.classification?.includes('Woman Client'))
-			$formData.classification = [...($formData.classification ?? []), 'Woman Client'];
-	} else {
-		if ($formData.classification?.includes('Woman Client'))
-			$formData.classification = $formData.classification?.filter((v) => v !== 'Woman Client');
+	let dropdownOpen = false;
+
+	function toggleLanguage(lang: typeof languages[number], checked: boolean) {
+		if (!$formData.language) $formData.language = [];
+		if (checked) {
+			if (!$formData.language.includes(lang)) {
+				$formData.language = [...$formData.language, lang];
+			}
+		} else {
+			$formData.language = $formData.language.filter((l) => l !== lang);
+		}
 	}
 
-	$: if ($formData.age && $formData.age >= 60) {
-		if (!$formData.classification?.includes('Senior Citizen'))
-			$formData.classification = [...($formData.classification ?? []), 'Senior Citizen'];
-	} else {
-		if ($formData.classification?.includes('Senior Citizen'))
-			$formData.classification = $formData.classification?.filter((v) => v !== 'Senior Citizen');
-	}
+	// Reactive selected dropdown values for display
+	let selectedSex = { label: '', value: '' };
+	let selectedcivilStatus = { label: '', value: '' };
+	let selectedEducationalAttainment = { label: '', value: '' };
+	let selectedReligion = { label: '', value: '' };
+	let selectednetMonthlyIncome = { label: '', value: '' };
+	let selectedcitizenship = { label: '', value: '' };
 
-	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${
-		$formData.lastName
-	}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
+	$: if (!$formData.language) $formData.language = [];
 
-	$: $formData.spouseName =
-		$formData.civilStatus === 'Married' && $formData.spouseFirstName && $formData.spouseLastName
-			? `${$formData.spouseFirstName}${
-					$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''
-				} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`
-			: undefined;
-
-	$: selectedSex = {
+	$: selectedsex = {
 		label: $formData.sex,
 		value: $formData.sex
 	};
@@ -96,6 +93,54 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		label: $formData.educationalAttainment,
 		value: $formData.educationalAttainment
 	};
+
+	$: selectedreligion = {
+		label: $formData.religion,
+		value: $formData.religion
+	};
+
+	$: selectedIndividualMonthlyIncome = {
+		label: $formData.individualMonthlyIncome,
+		value: $formData.individualMonthlyIncome
+	};
+
+	$: selectedcitizenship = {
+		label: $formData.citizenship,
+		value: $formData.citizenship
+	};
+	$: selectedSuffix = {
+		label: $formData.nameSuffix,
+		value: $formData.nameSuffix
+	};
+
+	$: if ($formData.sex === 'FEMALE') {
+		if (!$formData.classification?.includes('Woman Client')) {
+			$formData.classification = [...($formData.classification ?? []), 'Woman Client'];
+		}
+	} else {
+		if ($formData.classification?.includes('Woman Client')) {
+			$formData.classification = $formData.classification?.filter((v) => v !== 'Woman Client');
+		}
+	}
+
+	$: if ($formData.age && $formData.age >= 60) {
+		if (!$formData.classification?.includes('Senior Citizen')) {
+			$formData.classification = [...($formData.classification ?? []), 'Senior Citizen'];
+		}
+	} else {
+		if ($formData.classification?.includes('Senior Citizen')) {
+			$formData.classification = $formData.classification?.filter((v) => v !== 'Senior Citizen');
+		}
+	}
+
+	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${$formData.lastName}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
+
+	$: $formData.spouseName =
+		$formData.civilStatus === 'MARRIED' &&
+		$formData.spouseFirstName &&
+		$formData.spouseLastName
+			? `${$formData.spouseFirstName}${$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`
+			: undefined;
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
@@ -128,38 +173,71 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 						<div class="grid items-start gap-3 sm:grid-cols-7">
 							<Form.Field {form} name="firstName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>Name</Form.Label>
-									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
+									<Form.Label>Full Name</Form.Label>
+									<Input
+									{...attrs}
+									bind:value={$formData.firstName}
+									placeholder="FIRST NAME"
+									class="uppercase"
+									/>
+									<Form.FieldErrors />
 								</Form.Control>
-								<Form.FieldErrors />
 							</Form.Field>
+							
 							<Form.Field {form} name="middleName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-									<Input {...attrs} bind:value={$formData.middleName} placeholder="Middle Name" />
+									<Input
+									{...attrs}
+									bind:value={$formData.middleName}
+									placeholder="MIDDLE NAME"
+									class="uppercase"
+									/>
+									<Form.FieldErrors />
 								</Form.Control>
-								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="lastName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-									<Input {...attrs} bind:value={$formData.lastName} placeholder="Last Name" />
+									<Input
+									{...attrs}
+									bind:value={$formData.lastName}
+									placeholder="LAST NAME"
+									class="uppercase"
+									/>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-									<Input {...attrs} bind:value={$formData.nameSuffix} placeholder="Suffix" />
+									<Form.Label>Suffix</Form.Label>
+									<Select.Root
+										selected={selectedSuffix}
+										onSelectedChange={(s) => {
+											s && ($formData.nameSuffix = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each suffix as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
+							
+							
 						</div>
 						<div class="grid items-start gap-3 sm:grid-cols-3">
 							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Age</Form.Label>
-									<Input {...attrs} bind:value={$proxyAge} type="number" />
+									<Input {...attrs} bind:value={$proxyAge} type="number" min=0/>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -167,7 +245,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>Sex</Form.Label>
 									<Select.Root
-										selected={selectedSex}
+										selected={selectedsex}
 										onSelectedChange={(s) => {
 											s && ($formData.sex = s.value);
 										}}
@@ -189,7 +267,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>Civil Status</Form.Label>
 									<Select.Root
-										selected={selectedCivilStatus}
+										selected={selectedcivilStatus}
 										onSelectedChange={(s) => {
 											s && ($formData.civilStatus = s.value);
 										}}
@@ -208,29 +286,98 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid items-start gap-3 sm:grid-cols-3">
+						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="citizenship" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Citizenship</Form.Label>
-									<Input {...attrs} bind:value={$formData.citizenship} />
+									<Select.Root
+										selected={selectedcitizenship}
+										onSelectedChange={(s) => {
+											s && ($formData.citizenship = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each citizenship as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="language" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Language</Form.Label>
-									<Input {...attrs} bind:value={$formData.language} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
+
+						
+
 							<Form.Field {form} name="religion" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Religion</Form.Label>
-									<Input {...attrs} bind:value={$formData.religion} />
+									<Select.Root
+										selected={selectedreligion}
+										onSelectedChange={(s) => {
+											s && ($formData.religion = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="Please type or select" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each religion as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
+						<!--Language and Religion dropdown update as of July 14-->
+						<Form.Fieldset {form} name="language" class="flex flex-col gap-3 space-y-0">
+							
+							
+							<Form.Legend>
+								Languages (Mother Tongue) <span class="font-bold text-destructive">*</span>
+							</Form.Legend>
+							
+							
+							<Form.Description>Please select all the apply.</Form.Description>
+							
+							
+							<div class="grid items-start gap-3 sm:grid-cols-4">
+						
+								{#each languages as item}
+									{@const checked = $formData.language?.includes(item) ?? false}
+									<div class="flex flex-row items-start space-x-3">
+										<Form.Control let:attrs>
+											<Checkbox
+												{...attrs}
+												{checked}
+												onCheckedChange={(v) => {
+													if (v) {
+														$formData.language = [...($formData.language ?? []), item];
+													} else {
+														$formData.language = $formData.language?.filter(
+															(v) => v !== item
+														);
+													}
+												}}
+											/>
+											<Form.Label class="text-sm font-normal">
+												{item}
+											</Form.Label>
+											<input hidden type="checkbox" name={attrs.name} value={item} {checked} />
+										</Form.Control>
+									</div>
+								{/each}
+								<Form.FieldErrors />
+							</div>
+						
+					</Form.Fieldset>
+						
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="educationalAttainment" class="grid gap-3">
 								<Form.Control let:attrs>
@@ -256,10 +403,23 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</Form.Field>
 							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Net Monthly Income</Form.Label>
-									<span class="flex items-center gap-2">
-										₱<Input {...attrs} bind:value={$formData.individualMonthlyIncome} /></span
+									<Form.Label>Individual Monthly Income</Form.Label>
+									<Select.Root
+										selected={selectedIndividualMonthlyIncome}
+										onSelectedChange={(s) => {
+											s && ($formData.individualMonthlyIncome = s.value);
+										}}
 									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content>
+											{#each individualMonthlyIncome as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -291,7 +451,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>Address</Form.Label>
 									<div class="flex items-center gap-2">
-										<Input {...attrs} bind:value={$formData.address} placeholder="Address" />
+										<Input {...attrs} bind:value={$formData.address} placeholder="ADDRESS" />
 										<span class="w-20 text-nowrap text-right text-muted-foreground"
 											><span class={$formData.address.length > 40 ? 'text-destructive' : ''}
 												>{$formData.address.length}</span
@@ -304,7 +464,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							<Form.Field {form} name="contactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Contact Number</Form.Label>
-									<Input {...attrs} bind:value={$formData.contactNumber} />
+									<Input {...attrs} bind:value={$formData.contactNumber}/>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -318,7 +478,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 						</div>
 					</Card.Content>
 				</Card.Root>
-				{#if $formData.civilStatus === 'Married' || $formData.civilStatus === 'Widowed'}
+				{#if $formData.civilStatus === 'MARRIED' || $formData.civilStatus === 'WIDOW/WIDOWER'}
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Spouse Information</Card.Title>
@@ -331,7 +491,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseFirstName}
-											placeholder="First Name"
+											placeholder="FIRST NAME"
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -342,7 +502,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseMiddleName}
-											placeholder="Middle Name"
+											placeholder="MIDDLE NAME"
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -353,7 +513,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseLastName}
-											placeholder="Last Name"
+											placeholder="LAST NAME"
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -364,7 +524,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseNameSuffix}
-											placeholder="Suffix"
+											placeholder="SUFFIX"
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -373,7 +533,10 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							<Form.Field {form} name="spouseAddress" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Address</Form.Label>
-									<Input {...attrs} bind:value={$formData.spouseAddress} />
+									<Input 
+									{...attrs} 
+									bind:value={$formData.spouseAddress}
+									placeholder="ADDRESS" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>

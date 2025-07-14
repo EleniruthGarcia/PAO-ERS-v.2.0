@@ -35,63 +35,115 @@ export const pwd = [
 	'Others'
 ] as const;
 
-export const sex = ['Male', 'Female'] as const;
+export const sex = ['MALE', 'FEMALE'] as const;
+
+export const religion = [
+	'ROMAN CATHOLIC',
+	'ISLAM',
+	'IGLESIA NI CRISTO',
+	'SEVENTH DAY ADVENTIST',
+	'AGLIPAY',
+	'IGLESIA FILIPINA',
+	'BIBLE BAPTIST CHURCH',
+	'UCC OF THE PHILIPPINES',
+	'OTHER RELIGIOUS AFFILIATIONS',
+	'NONE'
+] as const;
+
+export const languages = [
+	
+	'ENGLISH',
+	'TAGALOG',
+	'ILOCANO',
+	'OTHERS',
+	
+] as const;
 
 export const proofOfIndigency = [
-	'Income Tax Return',
-	'Certification from Barangay',
-	'Certification from DSWD'
+	'INCOME TAX RETURN',
+	'CERTIFICATION FROM BARANGAY',
+	'CERTIFICATION FROM DSWD'
 ] as const;
 
-export const civilStatus = ['Single', 'Married', 'Widow/Widower', 'Legally Separated'] as const;
+export const citizenship = [
+'FILIPINO', 'TAIWANESE', 'OTHERS'
+] as const;
+
+export const civilStatus = ['SINGLE', 'MARRIED', 'WIDOW/WIDOWER', 'LEGALLY SEPARATED'] as const;
 
 export const educationalAttainment = [
-	'No Formal Schooling',
-	'Elementary Level',
-	'Elementary Graduate',
-	'High School Level',
-	'High School Graduate',
-	'College Level',
-	'College Degree',
-	'Vocational/Technical',
-	"With Master's Units",
-	"Master's Degree",
-	'With Doctoral Units',
-	'Doctorate Degree'
+	'NO FORMAL SCHOOLING',
+	'ELEMENTARY LEVEL',
+	'ELEMENTARY GRADUATE',
+	'HIGH SCHOOL LEVEL',
+	'HIGH SCHOOL GRADUATE',
+	'COLLEGE LEVEL',
+	'COLLEGE DEGREE',
+	'VOCATIONAL/TECHNICAL',
+	"WITH MASTER'S UNITS",
+	"MASTER'S DEGREE",
+	'WITH DOCTORAL UNITS',
+	'DOCTORATE DEGREE'
 ] as const;
+
+export const individualMonthlyIncome = [
+	"0 - 10,000",
+	"10,001 - 20,000",
+	"20,001 - 22,000",
+	"22,001 - 50,000",
+	"50,001 - 100,000",
+	"100,001 AND ABOVE"
+] as const;
+export const suffix = ['JR.', 'SR.', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'] as const;
 
 export const status = ['New', 'Updated', 'Archived', 'Restored'] as const;
 
 export const formSchema = z.object({
 	_id: z.string().optional(),
 	name: z.string().min(1, 'Name is required.'),
-	firstName: z.string().min(1, 'First name is required.'),
-	middleName: z.string().optional(),
-	lastName: z.string().min(1, 'Last name is required.'),
-	nameSuffix: z.string().optional(),
+	firstName: z.string()
+	.min(1, 'First name is required.')
+	.transform((val) => val.toUpperCase()),
+
+	middleName: z.string()
+	.min(1, 'Middle name is required.')
+	.transform((val) => val.toUpperCase()),
+
+
+	lastName: z.string()
+	.min(1, 'Last name is required.')
+	.transform((val) => val.toUpperCase()),
+
+	nameSuffix: z.union([z.enum(suffix), z.literal('')])
+  	.transform((val) => (val === '' ? undefined : val))
+  	.optional(),
 	// dateOfBirth: z.date({
 	// 	invalid_type_error: 'Date of birth is required.',
 	// 	required_error: 'Date of birth is required.'
 	// }),
-	age: z
-		.union([z.literal(''), z.number().optional()])
-		.transform((e) => (e === '' ? undefined : e))
-		.optional(),
-	sex: z.enum(sex),
+	 age: z.union([
+    z.number().min(1, 'Invalid Input').max(115, 'Invalid input'),
+    z.literal('')
+	])
+	.transform((e) => (e === '' ? undefined : e))
+	.optional(),
+	sex: z.enum(sex).optional(),
 	address: z
 		.string()
 		.min(1, 'Address is required.')
 		.max(40, 'Maximum Characters must be less than 40.'),
 	email: z
-		.union([z.literal(''), z.string().email().optional()])
+		.union([
+			z.literal(''),
+			z.string().email('Please include "@" and ".com" in a valid email address.').optional()])
 		.transform((e) => (e === '' ? undefined : e)),
 	contactNumber: z.string(),
 	civilStatus: z.enum(civilStatus),
-	religion: z.string().optional(),
-	citizenship: z.string().optional(),
+	religion: z.enum(religion).optional(),
+	citizenship: z.enum(citizenship),
 	educationalAttainment: z.enum(educationalAttainment),
-	language: z.string().optional(),
-	individualMonthlyIncome: z.string().optional(),
+	language: z.array(z.enum(languages)).optional(),
+	individualMonthlyIncome: z.enum(individualMonthlyIncome).optional(),
 	detained: z.boolean().default(false),
 	detainedAt: z.string().optional(),
 	detainedSince: z

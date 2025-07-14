@@ -1,28 +1,95 @@
+//src>lib>server>interview_sheet>createForm.ts
 import { read } from '$app/server';
 import templateFile from './template.pdf?url';
 import { PDFDocument, rgb } from 'pdf-lib';
 import JSZip from 'jszip';
 
-export const generateInterviewSheet = async (data: any) => {
-	if (data.length < 1) return { name: '', blob: '', type: '', error: true };
-	if (data.length > 1) {
-		const zip = new JSZip();
-
-		for (const item of data) zip.file(`Interview Sheet_${item.name}.pdf`, await addTextToPDF(item));
-
-		return {
-			name: `Interview Sheet_${data[0].controlNo}.zip`,
-			blob: await zip.generateAsync({ type: 'blob' }),
-			type: 'application/zip'
-		};
+export const generateInterviewSheet = async (data: any[]) => {
+	if (data.length < 1) {
+		return { name: '', blob: '', type: '', error: true };
 	}
 
-	return {
-		name: `Interview Sheet_${data[0].controlNo}.pdf`,
-		blob: new Blob([await addTextToPDF(data[0])], { type: 'application/pdf' }),
-		type: 'application/pdf'
-	};
+	if (data.length > 1) {
+		const zip = new JSZip();
+		for (const item of data) {
+			const filename = `Interview Sheet_${item.name ?? item.controlNo ?? 'unnamed'}.pdf`;
+			try {
+				const pdfContent = await addTextToPDF(item); // Uint8Array or ArrayBuffer
+				if (pdfContent) {
+					zip.file(filename, pdfContent);
+				}
+			} catch (error) {
+				console.error(`Error generating PDF for ${filename}:`, error);
+				// Continue with other items even if one fails
+			}
+		}
+
+		try {
+			return {
+				name: `Interview Sheet_${data[0].controlNo}.zip`,
+				blob: await zip.generateAsync({ type: 'blob' }),
+				type: 'application/zip',
+				error: false
+			};
+		} catch (error) {
+			console.error('Error generating ZIP:', error);
+			return { name: '', blob: '', type: '', error: true };
+		}
+	}
+
+	try {
+		const pdfBytes = await addTextToPDF(data[0]);
+		
+		// Check if pdfBytes is valid
+		if (!pdfBytes) {
+			console.error('addTextToPDF returned null or undefined');
+			return { name: '', blob: '', type: '', error: true };
+		}
+
+		// Convert pdfBytes to a valid format for Blob
+		let blobData: Uint8Array;
+		
+		// Type-safe checks without instanceof for generic types
+		if (pdfBytes && typeof pdfBytes === 'object' && 'buffer' in pdfBytes && 'byteLength' in pdfBytes && 'byteOffset' in pdfBytes) {
+			// This handles Uint8Array and similar typed arrays
+			const typedArray = pdfBytes as any;
+			blobData = new Uint8Array(typedArray.buffer, typedArray.byteOffset, typedArray.byteLength);
+		} else if (pdfBytes && typeof pdfBytes === 'object' && (pdfBytes as any).constructor?.name === 'ArrayBuffer') {
+			// Handle ArrayBuffer
+			blobData = new Uint8Array(pdfBytes as ArrayBuffer);
+		} else if (typeof pdfBytes === 'string') {
+			// If it's a base64 string or similar, convert it
+			try {
+				const binaryString = atob(pdfBytes);
+				const bytes = new Uint8Array(binaryString.length);
+				for (let i = 0; i < binaryString.length; i++) {
+					bytes[i] = binaryString.charCodeAt(i);
+				}
+				blobData = bytes;
+			} catch (e) {
+				// If atob fails, treat as regular string
+				blobData = new TextEncoder().encode(pdfBytes);
+			}
+		} else if (Array.isArray(pdfBytes)) {
+			blobData = new Uint8Array(pdfBytes);
+		} else {
+			console.error('Unsupported pdfBytes type:', typeof pdfBytes, pdfBytes);
+			return { name: '', blob: '', type: '', error: true };
+		}
+
+		return {
+			name: `Interview Sheet_${data[0].controlNo}.pdf`,
+			bytes: blobData, // Uint8Array
+			type: 'application/pdf',
+			error: false
+		};
+	} catch (error) {
+		console.error('Error generating single PDF:', error);
+		return { name: '', blob: '', type: '', error: true };
+	}
 };
+
+
 
 function getFormattedDate(): [string, string, string, number] {
 	const now = new Date();
@@ -68,6 +135,62 @@ function addOrdinalSuffix(day: number): string {
 	}
 }
 async function addTextToPDF(data: any) {
+	// Destructure all needed fields from data
+    const {
+        region,
+        districtProvince,
+        monthYear,
+        district,
+        province,
+        values,
+        name,
+        age,
+        sex,
+        religion,
+        educationalAttainment,
+        citizenship,
+        languageDialect,
+        address,
+        contactNo,
+        email,
+        individualMonthlyIncome,
+        PDLStatus,
+        detainedSince,
+        placeOfDetention,
+        natureOfService,
+        otherNature,
+        natureOfTheCase,
+        caseSpecs,
+        clientClasses,
+        lawEnforcer,
+        pwd,
+        foreignNational,
+        urbanPoor,
+        ruralPoor,
+        indigenousPeople,
+        civilStatus,
+        addressOfSpouse,
+        spouseContactNo,
+        spouse,
+        intervieweeName,
+        intervieweeAge,
+        intervieweeSex,
+        intervieweeCivilStatus,
+        intervieweeAddress,
+        intervieweeContactNo,
+        relationshipToClient,
+        intervieweeEmail,
+        clientInvolvement,
+        adversePartyInvolvement,
+        proofOfIndigency,
+        pendingInCourt,
+        adversePartyName,
+        adversePartyAddress,
+        factsOfTheCase,
+        causeOfActionOrNatureOfOffence,
+        titleOfCaseDocketNum,
+        court
+    } = data;
 	// Load existing PDF
 	const pdfBytes = await read(templateFile).arrayBuffer();
 	const pdfDoc = await PDFDocument.load(pdfBytes);
@@ -81,19 +204,22 @@ async function addTextToPDF(data: any) {
 	// 	size: 8,
 	// 	color: rgb(0, 0, 0) // Black
 	// });
-	const dateField = firstPageForm.createTextField('date');
-	dateField.addToPage({
-		x: 70,
-		y: 875,
-		size: 8,
-		color: rgb(0, 0, 0) // Black
-	});
-	firstPage.drawText(region ?? 'N/A', {
-		x: 250,
-		y: 895,
-		size: 8,
-		color: rgb(0, 0, 0) // Black
-	});
+const font = await pdfDoc.embedFont('Helvetica'); // or use pdfDoc.embedStandardFont('Helvetica')
+// If you want to add a date field, you need to draw text or create a form field here.
+// Example: Draw the current date as text at the desired position
+const [formattedDate] = getFormattedDate();
+firstPage.drawText(formattedDate ?? 'N/A', {
+	x: 70,
+	y: 875,
+	size: 8,
+	color: rgb(0, 0, 0) // Black
+});
+firstPage.drawText(region ?? 'N/A', {
+	x: 250,
+	y: 895,
+	size: 8,
+	color: rgb(0, 0, 0) // Black
+});
 	firstPage.drawText(districtProvince ?? 'N/A', {
 		x: 250,
 		y: 885,
@@ -252,17 +378,17 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0),
 			borderColor: undefined // No border
 		});
-		firstPage.drawText('N/A' ?? 'N/A', {
-			x: 100,
-			y: 607,
-			size: 8,
-			color: rgb(0, 0, 0) // Black
-		});
-		firstPage.drawText('N/A' ?? 'N/A', {
-			x: 390,
-			y: 607,
-			size: 8,
-			color: rgb(0, 0, 0) // Black
+		firstPage.drawText('N/A', {
+            x: 100,
+            y: 607,
+            size: 8,
+            color: rgb(0, 0, 0) // Black
+        });
+        firstPage.drawText('N/A', {
+            x: 390,
+            y: 607,
+            size: 8,
+            color: rgb(0, 0, 0) // Black
 		});
 	}
 
@@ -382,7 +508,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 85,
 			y: 504,
 			size: 8,
@@ -407,7 +533,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 105,
 			y: 490,
 			size: 8,
@@ -432,7 +558,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 265,
 			y: 490,
 			size: 8,
@@ -457,7 +583,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 265,
 			y: 504,
 			size: 8,
@@ -482,7 +608,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 420,
 			y: 504,
 			size: 8,
@@ -662,7 +788,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 485,
 			y: 402,
 			size: 8,
@@ -687,7 +813,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 455,
 			y: 458,
 			size: 8,
@@ -712,7 +838,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 425,
 			y: 444,
 			size: 8,
@@ -736,7 +862,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 425,
 			y: 430,
 			size: 8,
@@ -760,7 +886,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 455,
 			y: 416,
 			size: 8,
@@ -895,7 +1021,7 @@ async function addTextToPDF(data: any) {
 			color: rgb(0, 0, 0) // Black
 		});
 	} else {
-		firstPage.drawText('N/A' ?? 'N/A', {
+		firstPage.drawText('N/A', {
 			x: 320,
 			y: 545,
 			size: 8,
@@ -1106,14 +1232,14 @@ async function addTextToPDF(data: any) {
 	}
 	// }
 	if (pendingInCourt === true) {
-		secondPage.drawText('X' ?? 'N/A', {
+		secondPage.drawText('X', {
 			x: 322,
 			y: 358,
 			size: 12,
 			color: rgb(1, 1, 1) // Black
 		});
 	} else if (pendingInCourt === false) {
-		secondPage.drawText('X' ?? 'N/A', {
+		secondPage.drawText('X', {
 			x: 357,
 			y: 358,
 			size: 12,
