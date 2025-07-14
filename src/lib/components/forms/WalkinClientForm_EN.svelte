@@ -335,6 +335,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
+						<!--Language and Religion dropdown update as of July 14-->
 						<Form.Fieldset {form} name="language" class="flex flex-col gap-3 space-y-0">
 							
 							
