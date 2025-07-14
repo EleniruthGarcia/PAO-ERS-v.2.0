@@ -14,7 +14,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		languages,
 		religion,
 		citizenship,
-		netMonthlyIncome,
+		individualMonthlyIncome,
 		suffix,
 		type FormSchema
 	} from '$lib/schema/client';
@@ -99,9 +99,9 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		value: $formData.religion
 	};
 
-	$: selectedNetMonthlyIncome = {
-		label: $formData.netMonthlyIncome,
-		value: $formData.netMonthlyIncome
+	$: selectedIndividualMonthlyIncome = {
+		label: $formData.individualMonthlyIncome,
+		value: $formData.individualMonthlyIncome
 	};
 
 	$: selectedcitizenship = {
@@ -286,7 +286,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid items-start gap-3 sm:grid-cols-3">
+						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="citizenship" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Citizenship</Form.Label>
@@ -310,28 +310,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.FieldErrors />
 							</Form.Field>
 
-							<Form.Field {form} name="languages" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Language (Check all that applies)</Form.Label>
-
-									<div class="border rounded-lg p-4 space-y-2">
-										{#each languages as lang}
-											<label class="flex items-center gap-3 cursor-pointer">
-												<input
-													type="checkbox"
-													class="appearance-none w-4 h-4 border border-gray-400 rounded-full checked:bg-green-600 checked:border-transparent focus:outline-none"
-													checked={$formData.languages?.includes(lang)}
-													on:change={(e) => toggleLanguage(lang, e.target.checked)}
-													{...attrs}
-													value={lang}
-												/>
-												<span class="text-sm">{lang}</span>
-											</label>
-										{/each}
-									</div>
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
+						
 
 							<Form.Field {form} name="religion" class="grid gap-3">
 								<Form.Control let:attrs>
@@ -344,7 +323,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 									>
 										<Select.Input name={attrs.name} />
 										<Select.Trigger {...attrs}>
-											<Select.Value placeholder="" />
+											<Select.Value placeholder="Please type or select" />
 										</Select.Trigger>
 										<Select.Content>
 											{#each religion as value}
@@ -356,6 +335,48 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
+						<Form.Fieldset {form} name="language" class="flex flex-col gap-3 space-y-0">
+							
+							
+							<Form.Legend>
+								Languages (Mother Tongue) <span class="font-bold text-destructive">*</span>
+							</Form.Legend>
+							
+							
+							<Form.Description>Please select all the apply.</Form.Description>
+							
+							
+							<div class="grid items-start gap-3 sm:grid-cols-4">
+						
+								{#each languages as item}
+									{@const checked = $formData.language?.includes(item) ?? false}
+									<div class="flex flex-row items-start space-x-3">
+										<Form.Control let:attrs>
+											<Checkbox
+												{...attrs}
+												{checked}
+												onCheckedChange={(v) => {
+													if (v) {
+														$formData.language = [...($formData.language ?? []), item];
+													} else {
+														$formData.language = $formData.language?.filter(
+															(v) => v !== item
+														);
+													}
+												}}
+											/>
+											<Form.Label class="text-sm font-normal">
+												{item}
+											</Form.Label>
+											<input hidden type="checkbox" name={attrs.name} value={item} {checked} />
+										</Form.Control>
+									</div>
+								{/each}
+								<Form.FieldErrors />
+							</div>
+						
+					</Form.Fieldset>
+						
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="educationalAttainment" class="grid gap-3">
 								<Form.Control let:attrs>
@@ -363,7 +384,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 									<Select.Root
 										selected={selectedEducationalAttainment}
 										onSelectedChange={(s) => {
-											s && ($formData.EducationalAttainment = s.value);
+											s && ($formData.educationalAttainment = s.value);
 										}}
 									>
 										<Select.Input name={attrs.name} />
@@ -379,13 +400,13 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="netMonthlyIncome" class="grid gap-3">
+							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Net Monthly Income</Form.Label>
+									<Form.Label>Individual Monthly Income</Form.Label>
 									<Select.Root
-										selected={selectednetMonthlyIncome}
+										selected={selectedIndividualMonthlyIncome}
 										onSelectedChange={(s) => {
-											s && ($formData.netMonthlyIncome = s.value);
+											s && ($formData.individualMonthlyIncome = s.value);
 										}}
 									>
 										<Select.Input name={attrs.name} />
@@ -393,7 +414,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 											<Select.Value placeholder="" />
 										</Select.Trigger>
 										<Select.Content>
-											{#each netMonthlyIncome as value}
+											{#each individualMonthlyIncome as value}
 												<Select.Item {value} />
 											{/each}
 										</Select.Content>

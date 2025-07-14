@@ -16,6 +16,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		religion,
 		languages,
 		suffix,
+		individualMonthlyIncome,
 		type FormSchema
 	} from '$lib/schema/client';
 	import {
@@ -107,6 +108,18 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		label: $formData.suffix,
 		value: $formData.suffix
 	};
+	$: selectedIndividualMonthlyIncome = {
+		label: $formData.individualMonthlyIncome,
+		value: $formData.individualMonthlyIncome
+	};
+
+	$: touchedIndividualMonthlyIncome = false;
+	$: filteredIndividualMonthlyIncome =
+		$formData.individualMonthlyIncome && touchedIndividualMonthlyIncome
+			? individualMonthlyIncome.filter((v) =>
+					v.toLowerCase().includes($formData.individualMonthlyIncome?.toLowerCase() ?? '')
+				)
+			: individualMonthlyIncome;
 
 	$: touchedSuffix = false;
 	$: filteredSuffix =
@@ -115,6 +128,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 					v.toLowerCase().includes($formData.suffix?.toLowerCase() ?? '')
 				)
 			: suffix;
+			
 
 	$: touchedReligion = false;
 	$: filteredReligion =
@@ -433,10 +447,46 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</Form.Field>
 							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Net Monthly Income</Form.Label>
-									<span class="flex items-center gap-2">
-										₱<Input {...attrs} bind:value={$formData.individualMonthlyIncome} /></span
+									<Form.Label>Individual Monthly Income</Form.Label>
+									<Combobox.Root
+										items={filteredIndividualMonthlyIncome}
+										bind:inputValue={$formData.individualMonthlyIncome}
+										bind:touchedInput={touchedIndividualMonthlyIncome}
 									>
+										<div class="relative">
+											<Combobox.Input
+												class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+												placeholder=""
+											/>
+											<CaretSort class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50" />
+										</div>
+
+										<Combobox.Content
+											class="relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md focus:outline-none"
+											transition={flyAndScale}
+											sideOffset={8}
+										>
+											{#each filteredIndividualMonthlyIncome as value}
+												<Combobox.Item
+													class="elative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
+													{value}
+												>
+													{value}
+													<Combobox.ItemIndicator
+														class="absolute right-3 flex h-3.5 w-3.5 items-center justify-center"
+														asChild={false}
+													>
+														<Check class="h-4 w-4" />
+													</Combobox.ItemIndicator>
+												</Combobox.Item>
+											{:else}
+												<span class="block px-5 py-2 text-sm text-muted-foreground">
+													No results found.
+												</span>
+											{/each}
+										</Combobox.Content>
+										<Combobox.HiddenInput name="individualMonthlyIncome" />
+									</Combobox.Root>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>

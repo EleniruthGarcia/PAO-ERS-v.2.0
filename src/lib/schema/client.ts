@@ -86,7 +86,7 @@ export const educationalAttainment = [
 	'DOCTORATE DEGREE'
 ] as const;
 
-export const netMonthlyIncome = [
+export const individualMonthlyIncome = [
 	"0 - 10,000",
 	"10,001 - 20,000",
 	"20,001 - 22,000",
@@ -143,7 +143,7 @@ export const formSchema = z.object({
 	citizenship: z.enum(citizenship),
 	educationalAttainment: z.enum(educationalAttainment),
 	language: z.array(z.enum(languages)).optional(),
-	netMonthlyIncome: z.enum(netMonthlyIncome),
+	individualMonthlyIncome: z.enum(individualMonthlyIncome).optional(),
 	detained: z.boolean().default(false),
 	detainedAt: z.string().optional(),
 	detainedSince: z
