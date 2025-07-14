@@ -14,7 +14,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		languages,
 		religion,
 		citizenship,
-		netMonthlyIncome,
+		individualMonthlyIncome,
 		suffix,
 		type FormSchema
 	} from '$lib/schema/client';
@@ -74,7 +74,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	let selectedCivilStatus = { label: '', value: '' };
 	let selectedEducationalAttainment = { label: '', value: '' };
 	let selectedReligion = { label: '', value: '' };
-	let selectednetMonthlyIncome = { label: '', value: '' };
+	let selectedIndividualMonthlyIncome = { label: '', value: '' };
 	let selectedCitizenship = { label: '', value: '' };
 
 	$: if (!$formData.language) $formData.language = [];
@@ -99,9 +99,9 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		value: $formData.religion ?? ''
 	};
 
-	$: selectedNetMonthlyIncome = {
-		label: $formData.netMonthlyIncome,
-		value: $formData.netMonthlyIncome
+	$: selectedIndividualMonthlyIncome = {
+		label: $formData.individualMonthlyIncome,
+		value: $formData.individualMonthlyIncome
 	};
 
 	$: selectedCitizenship = {
@@ -383,7 +383,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>Net Monthly Income</Form.Label>
 									<Select.Root
-										selected={selectednetMonthlyIncome}
+										selected={selectedIndividualMonthlyIncome}
 										onSelectedChange={(s) => {
 											s && ($formData.individualMonthlyIncome = s.value);
 										}}
@@ -393,7 +393,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 											<Select.Value placeholder="" />
 										</Select.Trigger>
 										<Select.Content>
-											{#each netMonthlyIncome as value}
+											{#each individualMonthlyIncome as value}
 												<Select.Item {value} />
 											{/each}
 										</Select.Content>
