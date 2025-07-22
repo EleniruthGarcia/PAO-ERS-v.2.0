@@ -108,9 +108,9 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		label: $formData.citizenship,
 		value: $formData.citizenship
 	};
-	$: selectedNameSuffix = {
-		label: $formData.nameSuffix,
-		value: $formData.nameSuffix
+	$: selectedSuffix = {
+		label: $formData.suffix,
+		value: $formData.suffix
 	};
 
 	$: if ($formData.sex === 'FEMALE') {

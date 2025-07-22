@@ -104,9 +104,9 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		label: $formData.religion,
 		value: $formData.religion
 	};
-	$: selectedNameSuffix = {
-		label: $formData.nameSuffix,
-		value: $formData.nameSuffix
+	$: selectedSuffix = {
+		label: $formData.suffix,
+		value: $formData.suffix
 	};
 	$: selectedIndividualMonthlyIncome = {
 		label: $formData.individualMonthlyIncome,
@@ -121,11 +121,11 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 				)
 			: individualMonthlyIncome;
 
-	$: touchedNameSuffix = false;
-	$: filteredNameSuffix =
-		$formData.nameSuffix && touchedNameSuffix
-			? nameSuffix.filter((v) =>
-					v.toLowerCase().includes($formData.nameSuffix?.toLowerCase() ?? '')
+	$: touchedSuffix = false;
+	$: filteredSuffix =
+		$formData.suffix && touchedSuffix
+			? suffix.filter((v) =>
+					v.toLowerCase().includes($formData.suffix?.toLowerCase() ?? '')
 				)
 			: nameSuffix;
 
@@ -221,9 +221,9 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>NameSuffix</Form.Label>
 									<Combobox.Root
-										items={filteredNameSuffix}
-										bind:inputValue={$formData.nameSuffix}
-										bind:touchedInput={touchedNameSuffix}
+										items={filteredSuffix}
+										bind:inputValue={$formData.suffix}
+										bind:touchedInput={touchedSuffix}
 									>
 										<div class="relative">
 											<Combobox.Input
@@ -605,7 +605,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 				<!-- SPOUSE INFORMATION
 				This is for married clients only. -->
 
-				{#if $formData.civilStatus === 'MARRIED'}
+				{#if $formData.civilStatus === 'MARRIED' || $formData.civilStatus === 'WIDOW/WIDOWER'}
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Spouse Information</Card.Title>
