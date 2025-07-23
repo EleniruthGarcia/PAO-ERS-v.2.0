@@ -177,13 +177,13 @@ async function addTextToPDF(data: any) {
 		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
-	firstPage.drawText(region ?? 'N/A', {
+	firstPage.drawText(region ?? 'CAR', {
 		x: 250,
 		y: 895,
 		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
-	firstPage.drawText(district ?? 'N/A', {
+	firstPage.drawText(district ?? 'BAGUIO CITY', {
 		x: 250,
 		y: 885,
 		size: 8,
@@ -277,7 +277,7 @@ async function addTextToPDF(data: any) {
 		color: rgb(0, 0, 0) // Black
 	});
 	const language = languageDialect ? languageDialect : 'N/A';
-	firstPage.drawText(language ?? 'N/A', {
+	firstPage.drawText(String(language ?? 'N/A'), {
 		x: 390,
 		y: 677,
 		size: 8,
