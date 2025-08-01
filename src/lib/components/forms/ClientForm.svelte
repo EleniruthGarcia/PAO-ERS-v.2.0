@@ -15,7 +15,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		sex,
 		religion,
 		languages,
-		suffix,
+		nameSuffix,
 		individualMonthlyIncome,
 		type FormSchema
 	} from '$lib/schema/client';
@@ -58,7 +58,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		empty: ''
 	});
 
-	$: if ($formData.sex === 'Female') {
+	$: if ($formData.sex === 'FEMALE') {
 		if (!$formData.classification?.includes('Woman Client'))
 			$formData.classification = [...($formData.classification ?? []), 'Woman Client'];
 	} else {
@@ -76,13 +76,11 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 
 	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${
 		$formData.lastName
-	}${$formData.suffix ? ', ' + $formData.suffix : ''}`;
+	}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
 
 	$: $formData.spouseName =
 		$formData.civilStatus === 'MARRIED' && $formData.spouseFirstName && $formData.spouseLastName
-			? `${$formData.spouseFirstName}${
-					$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''
-				} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`
+			? `${$formData.spouseFirstName}${$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`.toUpperCase()
 			: '';
 
 	$: selectedSex = {
@@ -104,9 +102,9 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		label: $formData.religion,
 		value: $formData.religion
 	};
-	$: selectedSuffix = {
-		label: $formData.suffix,
-		value: $formData.suffix
+	$: selectedNameSuffix = {
+		label: $formData.nameSuffix,
+		value: $formData.nameSuffix
 	};
 	$: selectedIndividualMonthlyIncome = {
 		label: $formData.individualMonthlyIncome,
@@ -121,14 +119,13 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 				)
 			: individualMonthlyIncome;
 
-	$: touchedSuffix = false;
-	$: filteredSuffix =
-		$formData.suffix && touchedSuffix
-			? suffix.filter((v) =>
-					v.toLowerCase().includes($formData.suffix?.toLowerCase() ?? '')
+	$: touchedNameSuffix = false;
+	$: filteredNameSuffix =
+		$formData.nameSuffix && touchedNameSuffix
+			? nameSuffix.filter((v) =>
+					v.toLowerCase().includes($formData.nameSuffix?.toLowerCase() ?? '')
 				)
-			: suffix;
-			
+			: nameSuffix;
 
 	$: touchedReligion = false;
 	$: filteredReligion =
@@ -218,13 +215,13 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="suffix" class="grid gap-3">
+							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Suffix</Form.Label>
+									<Form.Label> Suffix</Form.Label>
 									<Combobox.Root
-										items={filteredSuffix}
-										bind:inputValue={$formData.suffix}
-										bind:touchedInput={touchedSuffix}
+										items={filteredNameSuffix}
+										bind:inputValue={$formData.nameSuffix}
+										bind:touchedInput={touchedNameSuffix}
 									>
 										<div class="relative">
 											<Combobox.Input
@@ -239,7 +236,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 											transition={flyAndScale}
 											sideOffset={8}
 										>
-											{#each filteredSuffix as value}
+											{#each filteredNameSuffix as value}
 												<Combobox.Item
 													class="elative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
 													{value}
@@ -616,21 +613,21 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Field {form} name="spouseFirstName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label>Name</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseFirstName} placeholder="First Name" />
+										<Input {...attrs} bind:value={$formData.spouseFirstName} placeholder="First Name" class="uppercase" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseMiddleName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseMiddleName} placeholder="Middle Name" />
+										<Input {...attrs} bind:value={$formData.spouseMiddleName} placeholder="Middle Name" class="uppercase" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseLastName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseLastName} placeholder="Last Name" />
+										<Input {...attrs} bind:value={$formData.spouseLastName} placeholder="Last Name" class="uppercase" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
