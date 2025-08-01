@@ -108,9 +108,9 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		label: $formData.citizenship,
 		value: $formData.citizenship
 	};
-	$: selectedSuffix = {
-		label: $formData.suffix,
-		value: $formData.suffix
+	$: selectedNameSuffix = {
+		label: $formData.nameSuffix,
+		value: $formData.nameSuffix
 	};
 
 	$: if ($formData.sex === 'FEMALE') {
@@ -218,7 +218,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</Form.Field>
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>NameSuffix</Form.Label>
+									<Form.Label>Name Suffix</Form.Label>
 									<Select.Root
 										selected={selectedNameSuffix}
 										onSelectedChange={(s) => {

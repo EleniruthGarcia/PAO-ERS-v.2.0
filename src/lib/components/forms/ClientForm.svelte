@@ -105,8 +105,8 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		value: $formData.religion
 	};
 	$: selectedSuffix = {
-		label: $formData.suffix,
-		value: $formData.suffix
+		label: $formData.nameSuffix,
+		value: $formData.nameSuffix
 	};
 	$: selectedIndividualMonthlyIncome = {
 		label: $formData.individualMonthlyIncome,
@@ -122,10 +122,10 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 			: individualMonthlyIncome;
 
 	$: touchedSuffix = false;
-	$: filteredSuffix =
-		$formData.suffix && touchedSuffix
-			? suffix.filter((v) =>
-					v.toLowerCase().includes($formData.suffix?.toLowerCase() ?? '')
+	$: filteredNameSuffix =
+		$formData.nameSuffix && touchedSuffix
+			? nameSuffix.filter((v) =>
+					v.toLowerCase().includes($formData.nameSuffix?.toLowerCase() ?? '')
 				)
 			: nameSuffix;
 
@@ -219,10 +219,10 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</Form.Field>
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>NameSuffix</Form.Label>
+									<Form.Label>Name Suffix</Form.Label>
 									<Combobox.Root
 										items={filteredSuffix}
-										bind:inputValue={$formData.suffix}
+										bind:inputValue={$formData.nameSuffix}
 										bind:touchedInput={touchedSuffix}
 									>
 										<div class="relative">
