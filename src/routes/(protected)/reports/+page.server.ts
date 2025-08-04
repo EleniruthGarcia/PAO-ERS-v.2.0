@@ -348,11 +348,18 @@ export const actions = {
 		d.service?.nature?.map((nature: string) => ({ ...d, nature })) ?? []
 		)
 
-		// Then add a 1-based row counter to each item
-		const f17 = flatNatures.map((item, index) => ({
-		row: index + 1,
-		...item
-		}))
+		
+		const f17 = services
+		.flatMap(d =>
+			(d.service?.nature ?? []).map(nature => ({
+			...d,
+			nature
+			}))
+		)
+		.map((item, index) => ({
+			index: index + 1,   // start counting from 1
+			...item
+		}));
 		const f18 = services
 			.filter(
 				(d) =>

@@ -181,6 +181,13 @@ export const formSchema = z
 		typeOfRelease: z.enum(typeOfRelease).optional(),
 		recommendation: z.string().optional(),
 
+		// New additions to Jail Visitation
+		caseTitle: z.string().optional(),
+		natureOfOffense: z.string().optional(),
+		placeOfDetention: z.string().optional(),
+		courtWherePending: z.string().optional(),
+		dateOfConfinement: z.string().optional(),
+
 		// limited services
 		limitedName: z.string().optional(),
 		limitedService: z.string().optional(),
