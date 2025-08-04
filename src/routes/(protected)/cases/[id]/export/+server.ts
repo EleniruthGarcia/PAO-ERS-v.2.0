@@ -26,9 +26,7 @@ export const GET: ServiceHandler = async (event) => {
 					as: 'client'
 				}
 			},
-			{
-				$unwind: '$client'
-			},
+			{ $unwind: '$client' },
 			{
 				$lookup: {
 					from: 'users',
@@ -71,14 +69,6 @@ export const GET: ServiceHandler = async (event) => {
 			},
 			{
 				$project: {
-					// monthYear: {
-					// 	$dateToString: {
-					// 		date: '$date',
-					// 		format: '%B %Y',
-					// 		timezone: '+08:00',
-					// 		onNull: 'N/A'
-					// 	}
-					// },
 					region: '$branch.region',
 					districtProvince: {
 						$concat: ['$branch.district', ', ', '$branch.province']
@@ -89,7 +79,6 @@ export const GET: ServiceHandler = async (event) => {
 					religion: { $ifNull: ['$client.religion', 'N/A'] },
 					citizenship: { $ifNull: ['$client.citizenship', 'N/A'] },
 					name: '$client.name',
-					// age: { $dateDiff: { startDate: '$client.dateOfBirth', endDate: '$$NOW', unit: 'year' } },
 					age: '$client.age',
 					address: '$client.address',
 					email: { $ifNull: ['$client.email', ''] },
@@ -153,20 +142,6 @@ export const GET: ServiceHandler = async (event) => {
 					adversePartyName: { $ifNull: ['$case.adversePartyName', 'N/A'] },
 					adversePartyAddress: { $ifNull: ['$case.adversePartyAddress', 'N/A'] },
 					pendingInCourt: { $ifNull: ['$case.pendingInCourt', ''] },
-					// adversePartyName: {
-					// 	$reduce: {
-					// 		input: '$case.adversePartyName',
-					// 		initialValue: '',
-					// 		in: { $concat: ['$$value', '$$this'] }
-					// 	}
-					// },
-					// adversePartyAddress: {
-					// 	$reduce: {
-					// 		input: '$case.adversePartyAddress',
-					// 		initialValue: '',
-					// 		in: { $concat: ['$$value', ', ', '$$this'] }
-					// 	}
-					// },
 					natureOfOffence: { $ifNull: ['$case.natureOfOffence', ''] },
 					courtPendingStatus: { $ifNull: ['$case.status', ''] },
 					titleOfCaseDocketNum: {
@@ -186,7 +161,16 @@ export const GET: ServiceHandler = async (event) => {
 							''
 						]
 					},
-					court: { $ifNull: ['$case.court', ''] }
+					court: { $ifNull: ['$case.court', ''] },
+
+					// ✅ NEW Jail Visitation Fields
+					caseTitle: { $ifNull: ['$caseTitle', ''] },
+					natureOfOffense: { $ifNull: ['$natureOfOffense', ''] },
+					placeOfDetention: { $ifNull: ['$placeOfDetention', ''] },
+					courtWherePending: { $ifNull: ['$courtWherePending', ''] },
+					dateOfConfinement: { $ifNull: ['$dateOfConfinement', ''] },
+					recommendation: { $ifNull: ['$recommendation', ''] },
+					typeOfRelease: { $ifNull: ['$typeOfRelease', ''] }
 				}
 			}
 		])

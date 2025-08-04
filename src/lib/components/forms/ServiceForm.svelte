@@ -772,36 +772,80 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Field>
 							{/if}
 							{#if $formData.nature.includes('Jail Visitation')}
-								<Form.Field {form} name="typeOfRelease" class="grid gap-3 truncate sm:col-span-8">
-									<Form.Control let:attrs>
-										<Form.Label>Type of Jail Visitation</Form.Label>
-										<Select.Root
-											selected={selectedTypeOfRelease}
-											onSelectedChange={(s) => {
-												s && ($formData.typeOfRelease = s.value);
-											}}
-										>
-											<Select.Input name={attrs.name} />
-											<Select.Trigger {...attrs}>
-												<Select.Value placeholder="" />
-											</Select.Trigger>
-											<Select.Content class="max-h-[200px] overflow-y-auto">
-												{#each typeOfRelease as value}
-													<Select.Item {value} />
-												{/each}
-											</Select.Content>
-										</Select.Root>
-									</Form.Control>
-									<Form.FieldErrors />
-								</Form.Field>
-								<Form.Field {form} name="recommendation" class="grid gap-3 sm:col-span-8">
-									<Form.Control let:attrs>
-										<Form.Label>Recommendation</Form.Label>
-										<Textarea {...attrs} bind:value={$formData.recommendation} />
-									</Form.Control>
-									<Form.FieldErrors />
-								</Form.Field>
-							{/if}
+							<!-- Existing fields -->
+							<Form.Field {form} name="typeOfRelease" class="grid gap-3 truncate sm:col-span-8">
+								<Form.Control let:attrs>
+									<Form.Label>Type of Jail Visitation</Form.Label>
+									<Select.Root
+										selected={selectedTypeOfRelease}
+										onSelectedChange={(s) => {
+											s && ($formData.typeOfRelease = s.value);
+										}}
+									>
+										<Select.Input name={attrs.name} />
+										<Select.Trigger {...attrs}>
+											<Select.Value placeholder="" />
+										</Select.Trigger>
+										<Select.Content class="max-h-[200px] overflow-y-auto">
+											{#each typeOfRelease as value}
+												<Select.Item {value} />
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+
+							<Form.Field {form} name="recommendation" class="grid gap-3 sm:col-span-8">
+								<Form.Control let:attrs>
+									<Form.Label>Recommendation</Form.Label>
+									<Textarea {...attrs} bind:value={$formData.recommendation} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+
+							<!-- ✅ NEW jail visitation fields -->
+							<Form.Field {form} name="caseTitle" class="grid gap-3 sm:col-span-8">
+								<Form.Control let:attrs>
+									<Form.Label>Case Title</Form.Label>
+									<Input {...attrs} bind:value={$formData.caseTitle} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+
+							<Form.Field {form} name="natureOfOffense" class="grid gap-3 sm:col-span-8">
+								<Form.Control let:attrs>
+									<Form.Label>Nature of Offense</Form.Label>
+									<Input {...attrs} bind:value={$formData.natureOfOffense} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+
+							<Form.Field {form} name="placeOfDetention" class="grid gap-3 sm:col-span-8">
+								<Form.Control let:attrs>
+									<Form.Label>Place of Detention</Form.Label>
+									<Input {...attrs} bind:value={$formData.placeOfDetention} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+
+							<Form.Field {form} name="courtWherePending" class="grid gap-3 sm:col-span-8">
+								<Form.Control let:attrs>
+									<Form.Label>Court Where Pending</Form.Label>
+									<Input {...attrs} bind:value={$formData.courtWherePending} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+
+							<Form.Field {form} name="dateOfConfinement" class="grid gap-3 sm:col-span-8">
+								<Form.Control let:attrs>
+									<Form.Label>Date of Confinement</Form.Label>
+									<Input type="date" {...attrs} bind:value={$formData.dateOfConfinement} />
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
+						{/if}
+
 						</div>
 						<div class="grid items-start gap-3 sm:grid-cols-8">
 							<Form.Field {form} name="date" class="grid gap-3 sm:col-span-3">
