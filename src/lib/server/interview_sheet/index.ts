@@ -276,8 +276,10 @@ async function addTextToPDF(data: any) {
 		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
-	const language = languageDialect ? languageDialect : 'N/A';
-	firstPage.drawText(language ?? 'N/A', {
+	const language = typeof languageDialect === 'string' && languageDialect.trim() !== '' 
+  	? languageDialect 
+  	: 'N/A';
+	firstPage.drawText(String(language), {
 		x: 390,
 		y: 677,
 		size: 8,

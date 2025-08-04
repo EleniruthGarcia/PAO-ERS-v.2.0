@@ -15,7 +15,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		religion,
 		citizenship,
 		individualMonthlyIncome,
-		suffix,
+		nameSuffix,
 		type FormSchema
 	} from '$lib/schema/client';
 
@@ -108,7 +108,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		label: $formData.citizenship,
 		value: $formData.citizenship
 	};
-	$: selectedSuffix = {
+	$: selectedNameSuffix = {
 		label: $formData.nameSuffix,
 		value: $formData.nameSuffix
 	};
@@ -141,6 +141,14 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		$formData.spouseLastName
 			? `${$formData.spouseFirstName}${$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`
 			: undefined;
+
+	import { writable } from 'svelte/store';
+
+	let spouseSameAddress = false;
+
+	$: if (spouseSameAddress) {
+		$formData.spouseAddress = $formData.address;
+	}
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
@@ -210,9 +218,9 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</Form.Field>
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Suffix</Form.Label>
+									<Form.Label>Name Suffix</Form.Label>
 									<Select.Root
-										selected={selectedSuffix}
+										selected={selectedNameSuffix}
 										onSelectedChange={(s) => {
 											s && ($formData.nameSuffix = s.value);
 										}}
@@ -222,7 +230,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 											<Select.Value placeholder="" />
 										</Select.Trigger>
 										<Select.Content>
-											{#each suffix as value}
+											{#each nameSuffix as value}
 												<Select.Item {value} />
 											{/each}
 										</Select.Content>
@@ -492,6 +500,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 											{...attrs}
 											bind:value={$formData.spouseFirstName}
 											placeholder="FIRST NAME"
+											class="uppercase"
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -503,6 +512,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 											{...attrs}
 											bind:value={$formData.spouseMiddleName}
 											placeholder="MIDDLE NAME"
+											class="uppercase"
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -514,6 +524,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 											{...attrs}
 											bind:value={$formData.spouseLastName}
 											placeholder="LAST NAME"
+											class="uppercase"
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -532,11 +543,22 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</div>
 							<Form.Field {form} name="spouseAddress" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Address</Form.Label>
+									<div class="flex items-center gap-2">
+										<Form.Label>Address</Form.Label>
+										<label class="flex items-center text-xs gap-1">
+											<input
+												type="checkbox"
+												bind:checked={spouseSameAddress}
+											/>
+											Same as client address
+										</label>
+									</div>
 									<Input 
-									{...attrs} 
-									bind:value={$formData.spouseAddress}
-									placeholder="ADDRESS" />
+										{...attrs} 
+										bind:value={$formData.spouseAddress}
+										placeholder="ADDRESS"
+										disabled={spouseSameAddress}
+									/>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>

@@ -51,12 +51,12 @@ export const religion = [
 ] as const;
 
 export const languages = [
-	
+
 	'ENGLISH',
 	'TAGALOG',
 	'ILOCANO',
 	'OTHERS',
-	
+
 ] as const;
 
 export const proofOfIndigency = [
@@ -66,7 +66,7 @@ export const proofOfIndigency = [
 ] as const;
 
 export const citizenship = [
-'FILIPINO', 'TAIWANESE', 'OTHERS'
+	'FILIPINO', 'TAIWANESE', 'OTHERS'
 ] as const;
 
 export const civilStatus = ['SINGLE', 'MARRIED', 'WIDOW/WIDOWER', 'LEGALLY SEPARATED'] as const;
@@ -94,7 +94,7 @@ export const individualMonthlyIncome = [
 	"50,001 - 100,000",
 	"100,001 AND ABOVE"
 ] as const;
-export const suffix = ['JR.', 'SR.', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'] as const;
+export const nameSuffix = ['JR.', 'SR.', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'] as const;
 
 export const status = ['New', 'Updated', 'Archived', 'Restored'] as const;
 
@@ -102,31 +102,31 @@ export const formSchema = z.object({
 	_id: z.string().optional(),
 	name: z.string().min(1, 'Name is required.'),
 	firstName: z.string()
-	.min(1, 'First name is required.')
-	.transform((val) => val.toUpperCase()),
+		.min(1, 'First name is required.')
+		.transform((val) => val.toUpperCase()),
 
 	middleName: z.string()
-	.min(1, 'Middle name is required.')
-	.transform((val) => val.toUpperCase()),
+		.min(1, 'Middle name is required.')
+		.transform((val) => val.toUpperCase()),
 
 
 	lastName: z.string()
-	.min(1, 'Last name is required.')
-	.transform((val) => val.toUpperCase()),
+		.min(1, 'Last name is required.')
+		.transform((val) => val.toUpperCase()),
 
-	nameSuffix: z.union([z.enum(suffix), z.literal('')])
-  	.transform((val) => (val === '' ? undefined : val))
-  	.optional(),
+	nameSuffix: z.union([z.enum(nameSuffix), z.literal('')])
+		.transform((val) => (val === '' ? undefined : val))
+		.optional(),
 	// dateOfBirth: z.date({
 	// 	invalid_type_error: 'Date of birth is required.',
 	// 	required_error: 'Date of birth is required.'
 	// }),
-	 age: z.union([
-    z.number().min(1, 'Invalid Input').max(115, 'Invalid input'),
-    z.literal('')
+	age: z.union([
+		z.number().min(1, 'Invalid Input').max(115, 'Invalid input'),
+		z.literal('')
 	])
-	.transform((e) => (e === '' ? undefined : e))
-	.optional(),
+		.transform((e) => (e === '' ? undefined : e))
+		.optional(),
 	sex: z.enum(sex).optional(),
 	address: z
 		.string()

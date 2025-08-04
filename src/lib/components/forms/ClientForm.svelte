@@ -15,7 +15,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		sex,
 		religion,
 		languages,
-		suffix,
+		nameSuffix,
 		individualMonthlyIncome,
 		type FormSchema
 	} from '$lib/schema/client';
@@ -58,7 +58,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		empty: ''
 	});
 
-	$: if ($formData.sex === 'Female') {
+	$: if ($formData.sex === 'FEMALE') {
 		if (!$formData.classification?.includes('Woman Client'))
 			$formData.classification = [...($formData.classification ?? []), 'Woman Client'];
 	} else {
@@ -122,13 +122,12 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 			: individualMonthlyIncome;
 
 	$: touchedSuffix = false;
-	$: filteredSuffix =
-		$formData.suffix && touchedSuffix
-			? suffix.filter((v) =>
+	$: filteredNameSuffix =
+		$formData.nameSuffix && touchedSuffix
+			? nameSuffix.filter((v) =>
 					v.toLowerCase().includes($formData.nameSuffix?.toLowerCase() ?? '')
 				)
-			: suffix;
-			
+			: nameSuffix;
 
 	$: touchedReligion = false;
 	$: filteredReligion =
@@ -220,7 +219,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</Form.Field>
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Suffix</Form.Label>
+									<Form.Label>Name Suffix</Form.Label>
 									<Combobox.Root
 										items={filteredSuffix}
 										bind:inputValue={$formData.nameSuffix}
@@ -239,7 +238,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 											transition={flyAndScale}
 											sideOffset={8}
 										>
-											{#each filteredSuffix as value}
+											{#each filteredNameSuffix as value}
 												<Combobox.Item
 													class="elative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
 													{value}
