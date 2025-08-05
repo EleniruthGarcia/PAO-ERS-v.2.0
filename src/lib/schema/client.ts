@@ -94,7 +94,7 @@ export const individualMonthlyIncome = [
 	"50,001 - 100,000",
 	"100,001 AND ABOVE"
 ] as const;
-export const suffix = ['JR.', 'SR.', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'] as const;
+export const nameSuffix = ['JR.', 'SR.', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'] as const;
 
 export const status = ['New', 'Updated', 'Archived', 'Restored'] as const;
 
@@ -114,7 +114,7 @@ export const formSchema = z.object({
 	.min(1, 'Last name is required.')
 	.transform((val) => val.toUpperCase()),
 
-	suffix: z.union([z.enum(suffix), z.literal('')])
+	nameSuffix: z.union([z.enum(nameSuffix), z.literal('')])
   	.transform((val) => (val === '' ? undefined : val))
   	.optional(),
 	// dateOfBirth: z.date({
