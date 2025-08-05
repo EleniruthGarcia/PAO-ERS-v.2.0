@@ -218,7 +218,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</Form.Field>
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Name Suffix</Form.Label>
+									<Form.Label>Suffix</Form.Label>
 									<Select.Root
 										selected={selectedNameSuffix}
 										onSelectedChange={(s) => {
