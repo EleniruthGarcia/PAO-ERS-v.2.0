@@ -115,13 +115,8 @@ export const formSchema = z.object({
 		.transform((val) => val.toUpperCase()),
 
 	nameSuffix: z.union([z.enum(nameSuffix), z.literal('')])
-<<<<<<< HEAD
-		.transform((val) => (val === '' ? undefined : val))
-		.optional(),
-=======
   	.transform((val) => (val === '' ? undefined : val))
   	.optional(),
->>>>>>> eleniruth/master
 	// dateOfBirth: z.date({
 	// 	invalid_type_error: 'Date of birth is required.',
 	// 	required_error: 'Date of birth is required.'
