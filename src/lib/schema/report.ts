@@ -50,17 +50,14 @@ export const months = [
 ] as const;
 
 export const formSchema = z.object({
-	month: z.enum(months, {
-		required_error: 'Month is required.',
-		invalid_type_error: 'Invalid month!'
-	}),
-	day: z.number().min(1, 'Day is required.'),
-	// month: z.enum(months, {
-	// 	required_error: 'Month is required!'
-	// }),
-	year: z.number().min(1, 'Year is required.'),
-	notedBy: z.string().min(1, 'Please indicate who noted the report.'),
-	reports: z.array(z.enum(reports))
+    month: z.enum(months, {
+        required_error: 'Month is required.',
+        invalid_type_error: 'Invalid month!'
+    }),
+    day: z.coerce.number().min(1, 'Day is required.'),   // <-- use coerce here
+    year: z.coerce.number().min(1, 'Year is required.'), // <-- and here if needed
+    notedBy: z.string().min(1, 'Please indicate who noted the report.'),
+    reports: z.array(z.enum(reports))
 });
 
 export type FormSchema = typeof formSchema;
