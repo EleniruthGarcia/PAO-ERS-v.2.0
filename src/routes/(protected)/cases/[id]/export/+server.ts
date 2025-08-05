@@ -166,11 +166,9 @@ export const GET: ServiceHandler = async (event) => {
 					// ✅ NEW Jail Visitation Fields
 					caseTitle: { $ifNull: ['$caseTitle', ''] },
 					natureOfOffense: { $ifNull: ['$natureOfOffense', ''] },
-					placeOfDetention: { $ifNull: ['$placeOfDetention', ''] },
+					jailVisitationPlaceOfDetention: { $ifNull: ['$placeOfDetention', ''] }, // <-- renamed
 					courtWherePending: { $ifNull: ['$courtWherePending', ''] },
 					dateOfConfinement: { $ifNull: ['$dateOfConfinement', ''] },
-					recommendation: { $ifNull: ['$recommendation', ''] },
-					typeOfRelease: { $ifNull: ['$typeOfRelease', ''] }
 				}
 			}
 		])
