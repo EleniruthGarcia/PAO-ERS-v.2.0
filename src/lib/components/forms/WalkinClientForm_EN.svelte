@@ -71,15 +71,15 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 
 	// Reactive selected dropdown values for display
 	let selectedSex = { label: '', value: '' };
-	let selectedcivilStatus = { label: '', value: '' };
+	let selectedCivilStatus = { label: '', value: '' };
 	let selectedEducationalAttainment = { label: '', value: '' };
 	let selectedReligion = { label: '', value: '' };
-	let selectednetMonthlyIncome = { label: '', value: '' };
-	let selectedcitizenship = { label: '', value: '' };
+	let selectedIndividualMonthlyIncome = { label: '', value: '' };
+	let selectedCitizenship = { label: '', value: '' };
 
 	$: if (!$formData.language) $formData.language = [];
 
-	$: selectedsex = {
+	$: selectedSex = {
 		label: $formData.sex,
 		value: $formData.sex
 	};
@@ -94,7 +94,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		value: $formData.educationalAttainment
 	};
 
-	$: selectedreligion = {
+	$: selectedReligion = {
 		label: $formData.religion,
 		value: $formData.religion
 	};
@@ -104,7 +104,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		value: $formData.individualMonthlyIncome
 	};
 
-	$: selectedcitizenship = {
+	$: selectedCitizenship = {
 		label: $formData.citizenship,
 		value: $formData.citizenship
 	};
@@ -141,8 +141,6 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		$formData.spouseLastName
 			? `${$formData.spouseFirstName}${$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`
 			: undefined;
-
-	import { writable } from 'svelte/store';
 
 	let spouseSameAddress = false;
 
@@ -218,7 +216,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</Form.Field>
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Name Suffix</Form.Label>
+									<Form.Label>Suffix</Form.Label>
 									<Select.Root
 										selected={selectedNameSuffix}
 										onSelectedChange={(s) => {
@@ -253,7 +251,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>Sex</Form.Label>
 									<Select.Root
-										selected={selectedsex}
+										selected={selectedSex}
 										onSelectedChange={(s) => {
 											s && ($formData.sex = s.value);
 										}}
@@ -275,7 +273,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>Civil Status</Form.Label>
 									<Select.Root
-										selected={selectedcivilStatus}
+										selected={selectedCivilStatus}
 										onSelectedChange={(s) => {
 											s && ($formData.civilStatus = s.value);
 										}}
@@ -299,7 +297,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>Citizenship</Form.Label>
 									<Select.Root
-										selected={selectedcitizenship}
+										selected={selectedCitizenship}
 										onSelectedChange={(s) => {
 											s && ($formData.citizenship = s.value);
 										}}
@@ -324,7 +322,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>Religion</Form.Label>
 									<Select.Root
-										selected={selectedreligion}
+										selected={selectedReligion}
 										onSelectedChange={(s) => {
 											s && ($formData.religion = s.value);
 										}}
