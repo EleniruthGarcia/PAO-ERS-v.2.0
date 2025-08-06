@@ -54,8 +54,8 @@ export const formSchema = z.object({
 		required_error: 'Month is required.',
 		invalid_type_error: 'Invalid month!'
 	}),
-	day: z.coerce.number().min(1, 'Day is required.'),   // <-- use coerce here
-    year: z.coerce.number().min(1, 'Year is required.'), // <-- and here if needed
+	day: z.coerce.number().min(1, 'Day is required.'), // <-- use coerce here
+	year: z.coerce.number().min(1, 'Year is required.'), // <-- and here if needed
 	notedBy: z.string().min(1, 'Please indicate who noted the report.'),
 	reports: z.array(z.enum(reports))
 });

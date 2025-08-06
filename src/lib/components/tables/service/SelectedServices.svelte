@@ -160,43 +160,41 @@
 			{/if}
 		</div>
 		{#if service.nature.includes('Jail Visitation')}
-		<Separator class="my-4" />
-		<div class="grid gap-3">
-			<div class="font-semibold">Jail Visitation Information</div>
-			<ul class="grid gap-3">
-			<li class="flex justify-between gap-2 truncate">
-				<span class="text-muted-foreground">Case Title</span>
-				<span>{service.caseTitle || 'N/A'}</span>
-			</li>
-			<li class="flex justify-between gap-2 truncate">
-				<span class="text-muted-foreground">Nature of Offense</span>
-				<span>{service.natureOfOffense || 'N/A'}</span>
-			</li>
-			<li class="flex justify-between gap-2 truncate">
-				<span class="text-muted-foreground">Place of Detention</span>
-				<span>{service.placeOfDetention || 'N/A'}</span>
-			</li>
-			<li class="flex justify-between gap-2 truncate">
-				<span class="text-muted-foreground">Court Where Pending</span>
-				<span>{service.courtWherePending || 'N/A'}</span>
-			</li>
-			<li class="flex justify-between gap-2 truncate">
-				<span class="text-muted-foreground">Date of Confinement</span>
-				<span>{service.dateOfConfinement || 'N/A'}</span>
-			</li>
-			<li class="flex justify-between gap-2 truncate">
-				<span class="text-muted-foreground">Recommendation</span>
-				<span>{service.recommendation || 'N/A'}</span>
-			</li>
-			<li class="flex justify-between gap-2 truncate">
-				<span class="text-muted-foreground">Type of Release</span>
-				<span>{service.typeOfRelease || 'N/A'}</span>
-			</li>
-			</ul>
-		</div>
+			<Separator class="my-4" />
+			<div class="grid gap-3">
+				<div class="font-semibold">Jail Visitation Information</div>
+				<ul class="grid gap-3">
+					<li class="flex justify-between gap-2 truncate">
+						<span class="text-muted-foreground">Case Title</span>
+						<span>{service.caseTitle || 'N/A'}</span>
+					</li>
+					<li class="flex justify-between gap-2 truncate">
+						<span class="text-muted-foreground">Nature of Offense</span>
+						<span>{service.natureOfOffense || 'N/A'}</span>
+					</li>
+					<li class="flex justify-between gap-2 truncate">
+						<span class="text-muted-foreground">Place of Detention</span>
+						<span>{service.placeOfDetention || 'N/A'}</span>
+					</li>
+					<li class="flex justify-between gap-2 truncate">
+						<span class="text-muted-foreground">Court Where Pending</span>
+						<span>{service.courtWherePending || 'N/A'}</span>
+					</li>
+					<li class="flex justify-between gap-2 truncate">
+						<span class="text-muted-foreground">Date of Confinement</span>
+						<span>{service.dateOfConfinement || 'N/A'}</span>
+					</li>
+					<li class="flex justify-between gap-2 truncate">
+						<span class="text-muted-foreground">Recommendation</span>
+						<span>{service.recommendation || 'N/A'}</span>
+					</li>
+					<li class="flex justify-between gap-2 truncate">
+						<span class="text-muted-foreground">Type of Release</span>
+						<span>{service.typeOfRelease || 'N/A'}</span>
+					</li>
+				</ul>
+			</div>
 		{/if}
-
-
 	</Card.Content>
 	<Card.Footer class="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
 		<div class="text-xs text-muted-foreground">

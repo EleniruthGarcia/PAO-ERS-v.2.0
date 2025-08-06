@@ -168,7 +168,7 @@ export const GET: ServiceHandler = async (event) => {
 					natureOfOffense: { $ifNull: ['$natureOfOffense', ''] },
 					jailVisitationPlaceOfDetention: { $ifNull: ['$placeOfDetention', ''] }, // <-- renamed
 					courtWherePending: { $ifNull: ['$courtWherePending', ''] },
-					dateOfConfinement: { $ifNull: ['$dateOfConfinement', ''] },
+					dateOfConfinement: { $ifNull: ['$dateOfConfinement', ''] }
 				}
 			}
 		])
