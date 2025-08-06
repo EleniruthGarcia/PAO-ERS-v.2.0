@@ -157,17 +157,11 @@ async function addTextToPDF(data: any) {
 
 	const publicAtty = 'Atty. ' + interviewer;
 
-	// Add text to the first page
-	firstPage.drawText(controlNo ?? 'N/A', {
-		x: 90,
-		y: 863,
-		size: 8,
-		color: rgb(0, 0, 0) // Black
-	});
+	// Add texts to the first page
 	//Attorney Name
 	firstPage.drawText(publicAtty, {
 		x: 90,
-		y: 790,
+		y: 845,
 		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
