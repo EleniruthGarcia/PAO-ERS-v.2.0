@@ -1239,7 +1239,7 @@ async function addTextToPDF(data: any) {
 	for (let i = 0; i < factsOfTheCase?.length; i += adversePartyMaxLength) {
 		const textChunk = factsOfTheCase.substring(i, i + adversePartyMaxLength);
 		secondPage.drawText(textChunk ?? 'N/A', {
-			x: 50,
+			x: 33,
 			y: yCoordinate,
 			size: 10,
 			color: rgb(0, 0, 0) // Black
@@ -1295,13 +1295,13 @@ async function addTextToPDF(data: any) {
 	const thirdPage = pdfDoc.getPages()[2];
 	thirdPage.drawText(getFormattedDate()[0] ?? 'N/A', {
 		x: 100,
-		y: 75,
+		y: 82,
 		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
 	thirdPage.drawText(name ?? 'N/A', {
 		x: 105,
-		y: 122,
+		y: 132,
 		size: 8,
 		color: rgb(0, 0, 0) // Black
 	});
