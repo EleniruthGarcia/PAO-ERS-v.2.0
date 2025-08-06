@@ -58,7 +58,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		empty: ''
 	});
 
-	$: if ($formData.sex === 'FEMALE') {
+	$: if ($formData.sex === 'Female') {
 		if (!$formData.classification?.includes('Woman Client'))
 			$formData.classification = [...($formData.classification ?? []), 'Woman Client'];
 	} else {
@@ -80,7 +80,9 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 
 	$: $formData.spouseName =
 		$formData.civilStatus === 'MARRIED' && $formData.spouseFirstName && $formData.spouseLastName
-			? `${$formData.spouseFirstName}${$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`.toUpperCase()
+			? `${$formData.spouseFirstName}${
+					$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''
+				} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`
 			: '';
 
 	$: selectedSex = {
@@ -119,13 +121,14 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 				)
 			: individualMonthlyIncome;
 
-	$: touchedNameSuffix = false;
-	$: filteredNameSuffix =
-		$formData.nameSuffix && touchedNameSuffix
+	$: touchedSuffix = false;
+	$: filteredSuffix =
+		$formData.nameSuffix && touchedSuffix
 			? nameSuffix.filter((v) =>
 					v.toLowerCase().includes($formData.nameSuffix?.toLowerCase() ?? '')
 				)
 			: nameSuffix;
+			
 
 	$: touchedReligion = false;
 	$: filteredReligion =
@@ -217,11 +220,11 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</Form.Field>
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label> Suffix</Form.Label>
+									<Form.Label>Suffix</Form.Label>
 									<Combobox.Root
-										items={filteredNameSuffix}
+										items={filteredSuffix}
 										bind:inputValue={$formData.nameSuffix}
-										bind:touchedInput={touchedNameSuffix}
+										bind:touchedInput={touchedSuffix}
 									>
 										<div class="relative">
 											<Combobox.Input
@@ -236,7 +239,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 											transition={flyAndScale}
 											sideOffset={8}
 										>
-											{#each filteredNameSuffix as value}
+											{#each filteredSuffix as value}
 												<Combobox.Item
 													class="elative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
 													{value}
@@ -613,21 +616,21 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Field {form} name="spouseFirstName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label>Name</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseFirstName} placeholder="First Name" class="uppercase" />
+										<Input {...attrs} bind:value={$formData.spouseFirstName} placeholder="First Name" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseMiddleName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseMiddleName} placeholder="Middle Name" class="uppercase" />
+										<Input {...attrs} bind:value={$formData.spouseMiddleName} placeholder="Middle Name" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseLastName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseLastName} placeholder="Last Name" class="uppercase" />
+										<Input {...attrs} bind:value={$formData.spouseLastName} placeholder="Last Name" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>

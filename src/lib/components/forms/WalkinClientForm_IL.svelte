@@ -71,15 +71,15 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 
 	// Reactive selected dropdown values for display
 	let selectedSex = { label: '', value: '' };
-	let selectedcivilStatus = { label: '', value: '' };
+	let selectedCivilStatus = { label: '', value: '' };
 	let selectedEducationalAttainment = { label: '', value: '' };
 	let selectedReligion = { label: '', value: '' };
-	let selectednetMonthlyIncome = { label: '', value: '' };
-	let selectedcitizenship = { label: '', value: '' };
+	let selectedIndividualMonthlyIncome = { label: '', value: '' };
+	let selectedCitizenship = { label: '', value: '' };
 
 	$: if (!$formData.language) $formData.language = [];
 
-	$: selectedsex = {
+	$: selectedSex = {
 		label: $formData.sex,
 		value: $formData.sex
 	};
@@ -94,7 +94,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		value: $formData.educationalAttainment
 	};
 
-	$: selectedreligion = {
+	$: selectedReligion = {
 		label: $formData.religion,
 		value: $formData.religion
 	};
@@ -104,7 +104,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		value: $formData.individualMonthlyIncome
 	};
 
-	$: selectedcitizenship = {
+	$: selectedCitizenship = {
 		label: $formData.citizenship,
 		value: $formData.citizenship
 	};
@@ -253,7 +253,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>Kasarian</Form.Label>
 									<Select.Root
-										selected={selectedsex}
+										selected={selectedSex}
 										onSelectedChange={(s) => {
 											s && ($formData.sex = s.value);
 										}}
@@ -275,7 +275,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>Estado Sibil</Form.Label>
 									<Select.Root
-										selected={selectedcivilStatus}
+										selected={selectedCivilStatus}
 										onSelectedChange={(s) => {
 											s && ($formData.civilStatus = s.value);
 										}}
@@ -299,7 +299,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>Pannakipag-ili</Form.Label>
 									<Select.Root
-										selected={selectedcitizenship}
+										selected={selectedCitizenship}
 										onSelectedChange={(s) => {
 											s && ($formData.citizenship = s.value);
 										}}
@@ -324,7 +324,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>Relihiyon</Form.Label>
 									<Select.Root
-										selected={selectedreligion}
+										selected={selectedReligion}
 										onSelectedChange={(s) => {
 											s && ($formData.religion = s.value);
 										}}
