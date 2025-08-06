@@ -1234,6 +1234,18 @@ async function addTextToPDF(data: any) {
 		});
 		yCoordinate -= 13; // Decrease y-coordinate by 13 for the next line
 	}
+
+	const pageWidth = secondPage.getWidth();
+	const pageHeight = secondPage.getHeight();
+
+	secondPage.drawText('N/A', {
+		x: pageWidth / 2 - 80, // Approximate centering, adjust -80 as needed
+		y: pageHeight / 2 - 40, // Approximate centering, adjust -40 as needed
+		size: 80,
+		color: rgb(0, 0, 0)
+		// No rotate option
+	});
+
 	var adversePartyMaxLength = 100;
 	var yCoordinate = 798;
 	for (let i = 0; i < factsOfTheCase?.length; i += adversePartyMaxLength) {
