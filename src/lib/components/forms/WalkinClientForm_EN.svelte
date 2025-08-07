@@ -459,7 +459,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>Address</Form.Label>
 									<div class="flex items-center gap-2">
-										<Input {...attrs} bind:value={$formData.address} placeholder="ADDRESS" />
+										<Input {...attrs} bind:value={$formData.address} placeholder="ADDRESS" class="uppercase"/>
 										<span class="w-20 text-nowrap text-right text-muted-foreground"
 											><span class={$formData.address.length > 40 ? 'text-destructive' : ''}
 												>{$formData.address.length}</span
@@ -536,6 +536,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 											{...attrs}
 											bind:value={$formData.spouseNameSuffix}
 											placeholder="SUFFIX"
+											class="uppercase"
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -557,6 +558,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 										{...attrs} 
 										bind:value={$formData.spouseAddress}
 										placeholder="ADDRESS"
+										class="uppercase"
 										disabled={spouseSameAddress}
 									/>
 								</Form.Control>
@@ -591,7 +593,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Field {form} name="detainedAt" class="grid gap-3 sm:col-span-5">
 									<Form.Control let:attrs>
 										<Form.Label>Place of Detention</Form.Label>
-										<Input {...attrs} bind:value={$formData.detainedAt} />
+										<Input {...attrs} bind:value={$formData.detainedAt} class="uppercase" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>

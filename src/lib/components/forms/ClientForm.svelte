@@ -197,21 +197,21 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 									<Form.Label>
 										Name <span class="font-bold text-destructive">*</span>
 									</Form.Label>
-									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
+									<Input {...attrs} bind:value={$formData.firstName} placeholder="First Name" class="uppercase" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="middleName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-									<Input {...attrs} bind:value={$formData.middleName} placeholder="Middle Name" />
+									<Input {...attrs} bind:value={$formData.middleName} placeholder="Middle Name" class="uppercase" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="lastName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-									<Input {...attrs} bind:value={$formData.lastName} placeholder="Last Name" />
+									<Input {...attrs} bind:value={$formData.lastName} placeholder="Last Name" class="uppercase" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -227,6 +227,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 											<Combobox.Input
 												class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
 												placeholder="NONE"
+											
 											/>
 											<CaretSort class="absolute end-3 top-2.5 ml-2 h-4 w-4 shrink-0 opacity-50" />
 										</div>
@@ -567,12 +568,12 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 										Address <span class="font-bold text-destructive">*</span>
 									</Form.Label>
 									<div class="flex items-center gap-2">
-										<Input {...attrs} bind:value={$formData.address} placeholder="Address" />
+										<Input {...attrs} bind:value={$formData.address} placeholder="Address" class="uppercase"  />
 										<span class="w-20 text-nowrap text-right text-muted-foreground"
 											><span class={$formData.address.length > 40 ? 'text-destructive' : ''}
 												>{$formData.address.length}</span
 											> / 40</span
-										>
+										>    
 									</div>
 								</Form.Control>
 								<Form.FieldErrors />
@@ -643,7 +644,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							<Form.Field {form} name="spouseAddress" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Address</Form.Label>
-									<Input {...attrs} bind:value={$formData.spouseAddress} />
+									<Input {...attrs} bind:value={$formData.spouseAddress} class="uppercase" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -681,7 +682,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Field {form} name="detainedAt" class="grid gap-3 sm:col-span-8">
 									<Form.Control let:attrs>
 										<Form.Label>Place of Detention</Form.Label>
-										<Input {...attrs} bind:value={$formData.detainedAt} />
+										<Input {...attrs} bind:value={$formData.detainedAt} class="uppercase" />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
