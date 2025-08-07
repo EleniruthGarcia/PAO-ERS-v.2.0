@@ -473,7 +473,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 					<Card.Root>
 						<Card.Header>
 							<Card.Title class="text-sm">
-								Hearing Dates <span class="font-bold text-destructive">*</span>
+								Hearing Dates
 							</Card.Title>
 							<!-- <Card.Description>
 								<Form.Description>Please select all the apply.</Form.Description>
@@ -742,7 +742,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Field {form} name="barangay" class="grid gap-3 sm:col-span-8">
 									<Form.Control let:attrs>
 										<Form.Label
-											>Barangay <span class="font-bold text-destructive">*</span></Form.Label
+											>Barangay</Form.Label
 										>
 										<Input {...attrs} name={attrs.name} bind:value={$formData.barangay} />
 									</Form.Control>
@@ -751,10 +751,8 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Field {form} name="problemsPresented" class="grid gap-3 sm:col-span-8">
 									<Form.Control let:attrs>
 										<Form.Label
-											>Problems Presented <span class="font-bold text-destructive">
-												*
-											</span></Form.Label
-										>
+											>Problems Presented
+										</Form.Label>
 										<Textarea {...attrs} bind:value={$formData.problemsPresented} />
 									</Form.Control>
 									<Form.FieldErrors />
@@ -762,9 +760,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Field {form} name="activitiesUndertaken" class="grid gap-3 sm:col-span-8">
 									<Form.Control let:attrs>
 										<Form.Label
-											>Activities Undertaken <span class="font-bold text-destructive">
-												*
-											</span></Form.Label
+											>Activities Undertaken</Form.Label
 										>
 										<Textarea {...attrs} bind:value={$formData.activitiesUndertaken} />
 									</Form.Control>
@@ -850,7 +846,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							<Form.Field {form} name="date" class="grid gap-3 sm:col-span-3">
 								<Form.Control let:attrs>
 									<Form.Label>
-										Date <span class="font-bold text-destructive">*</span>
+										Date
 									</Form.Label>
 									<DateInput {form} name="date" />
 								</Form.Control>
