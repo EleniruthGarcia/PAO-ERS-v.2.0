@@ -78,6 +78,7 @@ export const status = [
 export const natureOfInstrument = [
 	'Affidavit of Indigency',
 	'Affidavit of Loss (General)',
+	'Affidavit of Self-Generated Income',
 	'BENECO Waiver',
 	'Cohabitation (PDL)',
 	'Cohabitation',
