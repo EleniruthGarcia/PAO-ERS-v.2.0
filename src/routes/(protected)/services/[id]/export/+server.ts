@@ -79,6 +79,7 @@ export const GET: ServiceHandler = async (event) => {
 					// 		onNull: 'N/A'
 					// 	}
 					// },
+					lawyer: '$lawyer',
 					region: '$branch.region',
 					districtProvince: {
 						$concat: ['$branch.district', ', ', '$branch.province']

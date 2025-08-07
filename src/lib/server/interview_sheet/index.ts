@@ -155,7 +155,7 @@ async function addTextToPDF(data: any) {
 	// Get the first page of the PDF
 	const firstPage = pdfDoc.getPages()[0];
 
-	const publicAtty = 'Atty. ' + interviewer;
+	const publicAtty = (data.lawyer?.name ?? 'N/A');
 
 	// Add texts to the first page
 	//Attorney Name
@@ -1237,14 +1237,6 @@ async function addTextToPDF(data: any) {
 
 	const pageWidth = secondPage.getWidth();
 	const pageHeight = secondPage.getHeight();
-
-	secondPage.drawText('N/A', {
-		x: pageWidth / 2 - 80, // Approximate centering, adjust -80 as needed
-		y: pageHeight / 2 - 40, // Approximate centering, adjust -40 as needed
-		size: 80,
-		color: rgb(0, 0, 0)
-		// No rotate option
-	});
 
 	var adversePartyMaxLength = 100;
 	var yCoordinate = 798;
