@@ -39,7 +39,7 @@ export const generateInterviewSheet = async (data: any[]) => {
 
 	try {
 		const pdfBytes = await addTextToPDF(data[0]);
-		
+
 		// Check if pdfBytes is valid
 		if (!pdfBytes) {
 			console.error('addTextToPDF returned null or undefined');
@@ -48,13 +48,23 @@ export const generateInterviewSheet = async (data: any[]) => {
 
 		// Convert pdfBytes to a valid format for Blob
 		let blobData: Uint8Array;
-		
+
 		// Type-safe checks without instanceof for generic types
-		if (pdfBytes && typeof pdfBytes === 'object' && 'buffer' in pdfBytes && 'byteLength' in pdfBytes && 'byteOffset' in pdfBytes) {
+		if (
+			pdfBytes &&
+			typeof pdfBytes === 'object' &&
+			'buffer' in pdfBytes &&
+			'byteLength' in pdfBytes &&
+			'byteOffset' in pdfBytes
+		) {
 			// This handles Uint8Array and similar typed arrays
 			const typedArray = pdfBytes as any;
 			blobData = new Uint8Array(typedArray.buffer, typedArray.byteOffset, typedArray.byteLength);
-		} else if (pdfBytes && typeof pdfBytes === 'object' && (pdfBytes as any).constructor?.name === 'ArrayBuffer') {
+		} else if (
+			pdfBytes &&
+			typeof pdfBytes === 'object' &&
+			(pdfBytes as any).constructor?.name === 'ArrayBuffer'
+		) {
 			// Handle ArrayBuffer
 			blobData = new Uint8Array(pdfBytes as ArrayBuffer);
 		} else if (typeof pdfBytes === 'string') {
@@ -88,8 +98,6 @@ export const generateInterviewSheet = async (data: any[]) => {
 		return { name: '', blob: '', type: '', error: true };
 	}
 };
-
-
 
 function getFormattedDate(): [string, string, string, number] {
 	const now = new Date();
@@ -136,61 +144,61 @@ function addOrdinalSuffix(day: number): string {
 }
 async function addTextToPDF(data: any) {
 	// Destructure all needed fields from data
-    const {
-        region,
-        districtProvince,
-        monthYear,
-        district,
-        province,
-        values,
-        name,
-        age,
-        sex,
-        religion,
-        educationalAttainment,
-        citizenship,
-        languageDialect,
-        address,
-        contactNo,
-        email,
-        individualMonthlyIncome,
-        PDLStatus,
-        detainedSince,
-        placeOfDetention,
-        natureOfService,
-        otherNature,
-        natureOfTheCase,
-        caseSpecs,
-        clientClasses,
-        lawEnforcer,
-        pwd,
-        foreignNational,
-        urbanPoor,
-        ruralPoor,
-        indigenousPeople,
-        civilStatus,
-        addressOfSpouse,
-        spouseContactNo,
-        spouse,
-        intervieweeName,
-        intervieweeAge,
-        intervieweeSex,
-        intervieweeCivilStatus,
-        intervieweeAddress,
-        intervieweeContactNo,
-        relationshipToClient,
-        intervieweeEmail,
-        clientInvolvement,
-        adversePartyInvolvement,
-        proofOfIndigency,
-        pendingInCourt,
-        adversePartyName,
-        adversePartyAddress,
-        factsOfTheCase,
-        causeOfActionOrNatureOfOffence,
-        titleOfCaseDocketNum,
-        court
-    } = data;
+	const {
+		region,
+		districtProvince,
+		monthYear,
+		district,
+		province,
+		values,
+		name,
+		age,
+		sex,
+		religion,
+		educationalAttainment,
+		citizenship,
+		languageDialect,
+		address,
+		contactNo,
+		email,
+		individualMonthlyIncome,
+		PDLStatus,
+		detainedSince,
+		placeOfDetention,
+		natureOfService,
+		otherNature,
+		natureOfTheCase,
+		caseSpecs,
+		clientClasses,
+		lawEnforcer,
+		pwd,
+		foreignNational,
+		urbanPoor,
+		ruralPoor,
+		indigenousPeople,
+		civilStatus,
+		addressOfSpouse,
+		spouseContactNo,
+		spouse,
+		intervieweeName,
+		intervieweeAge,
+		intervieweeSex,
+		intervieweeCivilStatus,
+		intervieweeAddress,
+		intervieweeContactNo,
+		relationshipToClient,
+		intervieweeEmail,
+		clientInvolvement,
+		adversePartyInvolvement,
+		proofOfIndigency,
+		pendingInCourt,
+		adversePartyName,
+		adversePartyAddress,
+		factsOfTheCase,
+		causeOfActionOrNatureOfOffence,
+		titleOfCaseDocketNum,
+		court
+	} = data;
 	// Load existing PDF
 	const pdfBytes = await read(templateFile).arrayBuffer();
 	const pdfDoc = await PDFDocument.load(pdfBytes);
@@ -204,22 +212,22 @@ async function addTextToPDF(data: any) {
 	// 	size: 8,
 	// 	color: rgb(0, 0, 0) // Black
 	// });
-const font = await pdfDoc.embedFont('Helvetica'); // or use pdfDoc.embedStandardFont('Helvetica')
-// If you want to add a date field, you need to draw text or create a form field here.
-// Example: Draw the current date as text at the desired position
-const [formattedDate] = getFormattedDate();
-firstPage.drawText(formattedDate ?? 'N/A', {
-	x: 70,
-	y: 875,
-	size: 8,
-	color: rgb(0, 0, 0) // Black
-});
-firstPage.drawText(region ?? 'N/A', {
-	x: 250,
-	y: 895,
-	size: 8,
-	color: rgb(0, 0, 0) // Black
-});
+	const font = await pdfDoc.embedFont('Helvetica'); // or use pdfDoc.embedStandardFont('Helvetica')
+	// If you want to add a date field, you need to draw text or create a form field here.
+	// Example: Draw the current date as text at the desired position
+	const [formattedDate] = getFormattedDate();
+	firstPage.drawText(formattedDate ?? 'N/A', {
+		x: 70,
+		y: 875,
+		size: 8,
+		color: rgb(0, 0, 0) // Black
+	});
+	firstPage.drawText(region ?? 'N/A', {
+		x: 250,
+		y: 895,
+		size: 8,
+		color: rgb(0, 0, 0) // Black
+	});
 	firstPage.drawText(districtProvince ?? 'N/A', {
 		x: 250,
 		y: 885,
@@ -379,16 +387,16 @@ firstPage.drawText(region ?? 'N/A', {
 			borderColor: undefined // No border
 		});
 		firstPage.drawText('N/A', {
-            x: 100,
-            y: 607,
-            size: 8,
-            color: rgb(0, 0, 0) // Black
-        });
-        firstPage.drawText('N/A', {
-            x: 390,
-            y: 607,
-            size: 8,
-            color: rgb(0, 0, 0) // Black
+			x: 100,
+			y: 607,
+			size: 8,
+			color: rgb(0, 0, 0) // Black
+		});
+		firstPage.drawText('N/A', {
+			x: 390,
+			y: 607,
+			size: 8,
+			color: rgb(0, 0, 0) // Black
 		});
 	}
 

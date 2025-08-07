@@ -7,15 +7,14 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import {
 		civilStatus,
-		classification,
 		educationalAttainment,
 		formSchema,
 		sex,
 		languages,
 		religion,
 		citizenship,
-		netMonthlyIncome,
-		suffix,
+		individualMonthlyIncome,
+		nameSuffix,
 		type FormSchema
 	} from '$lib/schema/client';
 
@@ -56,32 +55,19 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		empty: 'undefined'
 	});
 
-	let dropdownOpen = false;
-
-	function toggleLanguage(lang: typeof languages[number], checked: boolean) {
-		if (!$formData.languages) $formData.languages = [];
-		if (checked) {
-			if (!$formData.languages.includes(lang)) {
-				$formData.languages = [...$formData.languages, lang];
-			}
-		} else {
-			$formData.languages = $formData.languages.filter((l) => l !== lang);
-		}
-	}
-
 	// Reactive selected dropdown values for display
 	let selectedSex = { label: '', value: '' };
 	let selectedCivilStatus = { label: '', value: '' };
 	let selectedEducationalAttainment = { label: '', value: '' };
 	let selectedReligion = { label: '', value: '' };
-	let selectednetMonthlyIncome = { label: '', value: '' };
+	let selectedIndividualMonthlyIncome = { label: '', value: '' };
 	let selectedCitizenship = { label: '', value: '' };
 
-	$: if (!$formData.languages) $formData.languages = [];
+	$: if (!$formData.language) $formData.language = [];
 
 	$: selectedSex = {
-		label: $formData.sex ?? '',
-		value: $formData.sex ?? ''
+		label: $formData.sex,
+		value: $formData.sex
 	};
 
 	$: selectedCivilStatus = {
@@ -95,22 +81,22 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	};
 
 	$: selectedReligion = {
-		label: $formData.religion ?? '',
-		value: $formData.religion ?? ''
+		label: $formData.religion,
+		value: $formData.religion
 	};
 
-	$: selectedNetMonthlyIncome = {
-		label: $formData.netMonthlyIncome,
-		value: $formData.netMonthlyIncome
+	$: selectedIndividualMonthlyIncome = {
+		label: $formData.individualMonthlyIncome,
+		value: $formData.individualMonthlyIncome
 	};
 
 	$: selectedCitizenship = {
 		label: $formData.citizenship,
 		value: $formData.citizenship
 	};
-	$: selectedSuffifx = {
-		label: $formData.suffix,
-		value: $formData.suffix
+	$: selectedNameSuffix = {
+		label: $formData.nameSuffix,
+		value: $formData.nameSuffix
 	};
 
 	$: if ($formData.sex === 'FEMALE') {
@@ -133,14 +119,18 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		}
 	}
 
-	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${$formData.lastName}${$formData.suffix ? ', ' + $formData.suffix : ''}`;
+	$: $formData.name = `${$formData.firstName}${$formData.middleName ? ' ' + $formData.middleName : ''} ${$formData.lastName}${$formData.nameSuffix ? ', ' + $formData.nameSuffix : ''}`;
 
 	$: $formData.spouseName =
-		$formData.civilStatus === 'MARRIED' &&
-		$formData.spouseFirstName &&
-		$formData.spouseLastName
+		$formData.civilStatus === 'MARRIED' && $formData.spouseFirstName && $formData.spouseLastName
 			? `${$formData.spouseFirstName}${$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`
 			: undefined;
+
+	let spouseSameAddress = false;
+
+	$: if (spouseSameAddress) {
+		$formData.spouseAddress = $formData.address;
+	}
 </script>
 
 <form class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8" use:enhance method="POST">
@@ -166,8 +156,10 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 			<div class="grid auto-rows-max items-start gap-4">
 				<Card.Root>
 					<Card.Header>
-						<Card.Title>Personal Information</Card.Title>
-						<Card.Description>Mangyaring lagyan ang kinakailangan impormasyon</Card.Description>
+						<Card.Title>Personal na impormasyon</Card.Title>
+						<Card.Description
+							>Mangyaring punan ang lahat ng kinakailangang impormasyon.</Card.Description
+						>
 					</Card.Header>
 					<Card.Content class="grid auto-rows-max items-start gap-3">
 						<div class="grid items-start gap-3 sm:grid-cols-7">
@@ -175,23 +167,23 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label>Pangalan</Form.Label>
 									<Input
-									{...attrs}
-									bind:value={$formData.firstName}
-									placeholder="MGA PANGALAN"
-									class="uppercase"
+										{...attrs}
+										bind:value={$formData.firstName}
+										placeholder="PANGALAN"
+										class="uppercase"
 									/>
 									<Form.FieldErrors />
 								</Form.Control>
 							</Form.Field>
-							
+
 							<Form.Field {form} name="middleName" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
 									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 									<Input
-									{...attrs}
-									bind:value={$formData.middleName}
-									placeholder="GITNANG APELYIDO"
-									class="uppercase"
+										{...attrs}
+										bind:value={$formData.middleName}
+										placeholder="GITNANG PANGALAN"
+										class="uppercase"
 									/>
 									<Form.FieldErrors />
 								</Form.Control>
@@ -200,21 +192,21 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Control let:attrs>
 									<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
 									<Input
-									{...attrs}
-									bind:value={$formData.lastName}
-									placeholder="APELYIDO"
-									class="uppercase"
+										{...attrs}
+										bind:value={$formData.lastName}
+										placeholder="APELYIDO"
+										class="uppercase"
 									/>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="suffix" class="grid gap-3">
+							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Suffix</Form.Label>
 									<Select.Root
-										selected={selectedSuffifx}
+										selected={selectedNameSuffix}
 										onSelectedChange={(s) => {
-											s && ($formData.suffix = s.value);
+											s && ($formData.nameSuffix = s.value);
 										}}
 									>
 										<Select.Input name={attrs.name} />
@@ -222,7 +214,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 											<Select.Value placeholder="" />
 										</Select.Trigger>
 										<Select.Content>
-											{#each suffix as value}
+											{#each nameSuffix as value}
 												<Select.Item {value} />
 											{/each}
 										</Select.Content>
@@ -230,14 +222,12 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							
-							
 						</div>
 						<div class="grid items-start gap-3 sm:grid-cols-3">
 							<Form.Field {form} name="age" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Edad</Form.Label>
-									<Input {...attrs} bind:value={$proxyAge} type="number" min=0/>
+									<Input {...attrs} bind:value={$proxyAge} type="number" min="0" />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -265,11 +255,11 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</Form.Field>
 							<Form.Field {form} name="civilStatus" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Kalagayang Sibil</Form.Label>
+									<Form.Label>Estado Sibil</Form.Label>
 									<Select.Root
 										selected={selectedCivilStatus}
 										onSelectedChange={(s) => {
-											s && ($formData.CivilStatus = s.value);
+											s && ($formData.civilStatus = s.value);
 										}}
 									>
 										<Select.Input name={attrs.name} />
@@ -286,10 +276,10 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
-						<div class="grid items-start gap-3 sm:grid-cols-3">
-							<Form.Field {form} name="religion" class="grid gap-3">
+						<div class="grid items-start gap-3 sm:grid-cols-2">
+							<Form.Field {form} name="citizenship" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Citizenship</Form.Label>
+									<Form.Label>Pagkamamamayan</Form.Label>
 									<Select.Root
 										selected={selectedCitizenship}
 										onSelectedChange={(s) => {
@@ -310,29 +300,6 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.FieldErrors />
 							</Form.Field>
 
-							<Form.Field {form} name="languages" class="grid gap-3">
-								<Form.Control let:attrs>
-									<Form.Label>Wika (piliin lahat ng naaangkop)</Form.Label>
-
-									<div class="border rounded-lg p-4 space-y-2">
-										{#each languages as lang}
-											<label class="flex items-center gap-3 cursor-pointer">
-												<input
-													type="checkbox"
-													class="appearance-none w-4 h-4 border border-gray-400 rounded-full checked:bg-green-600 checked:border-transparent focus:outline-none"
-													checked={$formData.languages?.includes(lang)}
-													on:change={(e) => toggleLanguage(lang, e.target.checked)}
-													{...attrs}
-													value={lang}
-												/>
-												<span class="text-sm">{lang}</span>
-											</label>
-										{/each}
-									</div>
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-
 							<Form.Field {form} name="religion" class="grid gap-3">
 								<Form.Control let:attrs>
 									<Form.Label>Relihiyon</Form.Label>
@@ -344,7 +311,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 									>
 										<Select.Input name={attrs.name} />
 										<Select.Trigger {...attrs}>
-											<Select.Value placeholder="" />
+											<Select.Value placeholder="Please type or select" />
 										</Select.Trigger>
 										<Select.Content>
 											{#each religion as value}
@@ -356,10 +323,45 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.FieldErrors />
 							</Form.Field>
 						</div>
+						<!--Language and Religion dropdown update as of July 14-->
+						<Form.Fieldset {form} name="language" class="flex flex-col gap-3 space-y-0">
+							<Form.Legend>
+								Wika (Mother Tongue) <span class="font-bold text-destructive">*</span>
+							</Form.Legend>
+
+							<Form.Description>Mangyaring piliin ang lahat na mag-apply</Form.Description>
+
+							<div class="grid items-start gap-3 sm:grid-cols-4">
+								{#each languages as item}
+									{@const checked = $formData.language?.includes(item) ?? false}
+									<div class="flex flex-row items-start space-x-3">
+										<Form.Control let:attrs>
+											<Checkbox
+												{...attrs}
+												{checked}
+												onCheckedChange={(v) => {
+													if (v) {
+														$formData.language = [...($formData.language ?? []), item];
+													} else {
+														$formData.language = $formData.language?.filter((v) => v !== item);
+													}
+												}}
+											/>
+											<Form.Label class="text-sm font-normal">
+												{item}
+											</Form.Label>
+											<input hidden type="checkbox" name={attrs.name} value={item} {checked} />
+										</Form.Control>
+									</div>
+								{/each}
+								<Form.FieldErrors />
+							</div>
+						</Form.Fieldset>
+
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="educationalAttainment" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Natapos na Edukasyon</Form.Label>
+									<Form.Label>Education</Form.Label>
 									<Select.Root
 										selected={selectedEducationalAttainment}
 										onSelectedChange={(s) => {
@@ -379,13 +381,13 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-							<Form.Field {form} name="netMonthlyIncome" class="grid gap-3">
+							<Form.Field {form} name="individualMonthlyIncome" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Net Monthly Income</Form.Label>
+									<Form.Label>Individual Monthly Income</Form.Label>
 									<Select.Root
-										selected={selectednetMonthlyIncome}
+										selected={selectedIndividualMonthlyIncome}
 										onSelectedChange={(s) => {
-											s && ($formData.netMonthlyIncome = s.value);
+											s && ($formData.individualMonthlyIncome = s.value);
 										}}
 									>
 										<Select.Input name={attrs.name} />
@@ -393,7 +395,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 											<Select.Value placeholder="" />
 										</Select.Trigger>
 										<Select.Content>
-											{#each netMonthlyIncome as value}
+											{#each individualMonthlyIncome as value}
 												<Select.Item {value} />
 											{/each}
 										</Select.Content>
@@ -410,8 +412,8 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							<Form.Control let:attrs>
 								<Checkbox {...attrs} bind:checked={$formData.detained} />
 								<div class="h-10 space-y-2 truncate leading-none">
-									<Form.Label>Detained</Form.Label>
-									<Form.Description>I-check kung nakabilanggo</Form.Description>
+									<Form.Label>Nakakulong</Form.Label>
+									<Form.Description>Suriin kung ang kliyente ay nakakulong.</Form.Description>
 								</div>
 								<input name={attrs.name} bind:value={$formData.detained} hidden />
 							</Form.Control>
@@ -421,13 +423,13 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 				</Card.Root>
 				<Card.Root>
 					<Card.Header>
-						<Card.Title>Contact Information</Card.Title>
+						<Card.Title>Impormasyon sa pakikipag-ugnayan</Card.Title>
 					</Card.Header>
 					<Card.Content>
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="address" class="grid gap-3 sm:col-span-2">
 								<Form.Control let:attrs>
-									<Form.Label>Tirahan</Form.Label>
+									<Form.Label>Address</Form.Label>
 									<div class="flex items-center gap-2">
 										<Input {...attrs} bind:value={$formData.address} placeholder="ADDRESS" />
 										<span class="w-20 text-nowrap text-right text-muted-foreground"
@@ -441,8 +443,8 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</Form.Field>
 							<Form.Field {form} name="contactNumber" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Contact Number</Form.Label>
-									<Input {...attrs} bind:value={$formData.contactNumber} type=number min=0 />
+									<Form.Label>Telepono</Form.Label>
+									<Input {...attrs} bind:value={$formData.contactNumber} />
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
@@ -459,17 +461,18 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 				{#if $formData.civilStatus === 'MARRIED' || $formData.civilStatus === 'WIDOW/WIDOWER'}
 					<Card.Root>
 						<Card.Header>
-							<Card.Title>Spouse Information</Card.Title>
+							<Card.Title>Impormasyon sa Asawa</Card.Title>
 						</Card.Header>
 						<Card.Content>
 							<div class="grid items-start gap-3 sm:grid-cols-7">
 								<Form.Field {form} name="spouseFirstName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
-										<Form.Label>Name</Form.Label>
+										<Form.Label>Pangalan</Form.Label>
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseFirstName}
-											placeholder="FIRST NAME"
+											placeholder="PANGALAN"
+											class="uppercase"
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -480,7 +483,8 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseMiddleName}
-											placeholder="MIDDLE NAME"
+											placeholder="GITNANG PANGALAN"
+											class="uppercase"
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -491,7 +495,8 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 										<Input
 											{...attrs}
 											bind:value={$formData.spouseLastName}
-											placeholder="LAST NAME"
+											placeholder="APELYIDO"
+											class="uppercase"
 										/>
 									</Form.Control>
 									<Form.FieldErrors />
@@ -510,18 +515,26 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</div>
 							<Form.Field {form} name="spouseAddress" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label>Address</Form.Label>
-									<Input 
-									{...attrs} 
-									bind:value={$formData.spouseAddress}
-									placeholder="ADDRESS" />
+									<div class="flex items-center gap-2">
+										<Form.Label>Address</Form.Label>
+										<label class="flex items-center gap-1 text-xs">
+											<input type="checkbox" bind:checked={spouseSameAddress} />
+											Same as client address
+										</label>
+									</div>
+									<Input
+										{...attrs}
+										bind:value={$formData.spouseAddress}
+										placeholder="ADDRESS"
+										disabled={spouseSameAddress}
+									/>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
 							<div class="grid items-start gap-3 sm:grid-cols-2">
 								<Form.Field {form} name="spouseContactNumber" class="grid gap-3">
 									<Form.Control let:attrs>
-										<Form.Label>Contact Number</Form.Label>
+										<Form.Label>Telepono</Form.Label>
 										<Input {...attrs} bind:value={$formData.spouseContactNumber} />
 									</Form.Control>
 									<Form.FieldErrors />
@@ -540,20 +553,20 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 				{#if $formData.detained}
 					<Card.Root>
 						<Card.Header>
-							<Card.Title>Detainee Information</Card.Title>
+							<Card.Title>Impormasyon sa Detenado</Card.Title>
 						</Card.Header>
 						<Card.Content>
 							<div class="grid items-start gap-3 sm:grid-cols-8">
 								<Form.Field {form} name="detainedAt" class="grid gap-3 sm:col-span-5">
 									<Form.Control let:attrs>
-										<Form.Label>Place of Detention</Form.Label>
+										<Form.Label>Lugar ng Pagkulong</Form.Label>
 										<Input {...attrs} bind:value={$formData.detainedAt} />
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="detainedSince" class="grid gap-3 sm:col-span-3">
 									<Form.Control let:attrs>
-										<Form.Label>Detained Since</Form.Label>
+										<Form.Label>Nakakulong mula pa</Form.Label>
 										<DatePicker bind:value={$proxyDetainedSince} />
 									</Form.Control>
 									<Form.FieldErrors />

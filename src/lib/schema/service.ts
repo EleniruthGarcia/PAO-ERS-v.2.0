@@ -78,6 +78,7 @@ export const status = [
 export const natureOfInstrument = [
 	'Affidavit of Indigency',
 	'Affidavit of Loss (General)',
+	'Affidavit of Self-Generated Income',
 	'BENECO Waiver',
 	'Cohabitation (PDL)',
 	'Cohabitation',
@@ -267,38 +268,10 @@ export const formSchema = z
 						});
 				});
 			}
-
-			if (!data.problemsPresented)
-				ctx.addIssue({
-					code: z.ZodIssueCode.custom,
-					message: 'Problems Presented is required.',
-					path: ['problemsPresented']
-				});
-
-			if (!data.activitiesUndertaken)
-				ctx.addIssue({
-					code: z.ZodIssueCode.custom,
-					message: 'Activities Undertaken is required.',
-					path: ['activitiesUndertaken']
-				});
-
-			if (!data.barangay)
-				ctx.addIssue({
-					code: z.ZodIssueCode.custom,
-					message: 'Barangay is required.',
-					path: ['barangay']
-				});
 		}
 
 		if (data.nature.includes('Inquest Legal Assistance')) {
-			if (!data.typeOfAssistance)
-				ctx.addIssue({
-					code: z.ZodIssueCode.custom,
-					message: 'Type of Assistance is required.',
-					path: ['typeOfAssistance']
-				});
-
-			if (data.duringOffice === undefined)
+				if (data.duringOffice === undefined)
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
 					message: 'During Office is required.',
@@ -359,15 +332,6 @@ export const formSchema = z
 					code: z.ZodIssueCode.custom,
 					message: 'Legal Advice Mode is required.',
 					path: ['legalAdviceMode']
-				});
-		}
-
-		if (data.nature.includes('Representation in Court or Quasi-Judicial Bodies')) {
-			if (!data.hearingDates || data.hearingDates.length < 1)
-				ctx.addIssue({
-					code: z.ZodIssueCode.custom,
-					message: 'Hearing Dates is required.',
-					path: ['hearingDates']
 				});
 		}
 	});

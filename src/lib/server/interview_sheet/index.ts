@@ -22,7 +22,11 @@ export const generateInterviewSheet = async (data: any) => {
 	const pdfBytes = await addTextToPDF(data[0]);
 	let arrayBuffer: ArrayBuffer;
 	if (pdfBytes instanceof Uint8Array) {
-		arrayBuffer = ArrayBuffer.prototype.slice.call(pdfBytes.buffer, pdfBytes.byteOffset, pdfBytes.byteOffset + pdfBytes.byteLength) as ArrayBuffer;
+		arrayBuffer = ArrayBuffer.prototype.slice.call(
+			pdfBytes.buffer,
+			pdfBytes.byteOffset,
+			pdfBytes.byteOffset + pdfBytes.byteLength
+		) as ArrayBuffer;
 	} else if (Object.prototype.toString.call(pdfBytes) === '[object ArrayBuffer]') {
 		arrayBuffer = pdfBytes;
 	} else {

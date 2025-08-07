@@ -80,7 +80,9 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 
 	$: $formData.spouseName =
 		$formData.civilStatus === 'MARRIED' && $formData.spouseFirstName && $formData.spouseLastName
-			? `${$formData.spouseFirstName}${$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`.toUpperCase()
+			? `${$formData.spouseFirstName}${
+					$formData.spouseMiddleName ? ' ' + $formData.spouseMiddleName : ''
+				} ${$formData.spouseLastName}${$formData.spouseNameSuffix ? ', ' + $formData.spouseNameSuffix : ''}`
 			: '';
 
 	$: selectedSex = {
@@ -97,7 +99,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 		label: $formData.educationalAttainment,
 		value: $formData.educationalAttainment
 	};
-	
+
 	$: selectedReligion = {
 		label: $formData.religion,
 		value: $formData.religion
@@ -130,9 +132,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 	$: touchedReligion = false;
 	$: filteredReligion =
 		$formData.religion && touchedReligion
-			? religion.filter((v) =>
-					v.toLowerCase().includes($formData.religion?.toLowerCase() ?? '')
-				)
+			? religion.filter((v) => v.toLowerCase().includes($formData.religion?.toLowerCase() ?? ''))
 			: religion;
 
 	$: touchedProof = false;
@@ -217,7 +217,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 							</Form.Field>
 							<Form.Field {form} name="nameSuffix" class="grid gap-3">
 								<Form.Control let:attrs>
-									<Form.Label> Suffix</Form.Label>
+									<Form.Label>Suffix</Form.Label>
 									<Combobox.Root
 										items={filteredNameSuffix}
 										bind:inputValue={$formData.nameSuffix}
@@ -256,7 +256,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 												</span>
 											{/each}
 										</Combobox.Content>
-										<Combobox.HiddenInput name="suffix" />
+										<Combobox.HiddenInput name="nameSuffix" />
 									</Combobox.Root>
 								</Form.Control>
 								<Form.FieldErrors />
@@ -374,22 +374,16 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>
-
 						</div>
 						<!--Language and Religion dropdown update as of June 16-->
 						<Form.Fieldset {form} name="language" class="flex flex-col gap-3 space-y-0">
-							
-							
 							<Form.Legend>
 								Languages (Mother Tongue) <span class="font-bold text-destructive">*</span>
 							</Form.Legend>
-							
-							
+
 							<Form.Description>Please select all the apply.</Form.Description>
-							
-							
+
 							<div class="grid items-start gap-3 sm:grid-cols-4">
-						
 								{#each languages as item}
 									{@const checked = $formData.language?.includes(item) ?? false}
 									<div class="flex flex-row items-start space-x-3">
@@ -401,9 +395,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 													if (v) {
 														$formData.language = [...($formData.language ?? []), item];
 													} else {
-														$formData.language = $formData.language?.filter(
-															(v) => v !== item
-														);
+														$formData.language = $formData.language?.filter((v) => v !== item);
 													}
 												}}
 											/>
@@ -416,8 +408,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								{/each}
 								<Form.FieldErrors />
 							</div>
-						
-					</Form.Fieldset>
+						</Form.Fieldset>
 						<div class="grid items-start gap-3 sm:grid-cols-2">
 							<Form.Field {form} name="educationalAttainment" class="grid gap-3">
 								<Form.Control let:attrs>
@@ -586,17 +577,17 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.FieldErrors />
 							</Form.Field>
 							<Form.Field {form} name="email" class="grid gap-3 sm:col-span-4">
-							<Form.Control let:attrs>
-								<Form.Label>Email Address</Form.Label>
-								<Input
-									{...attrs}
-									type="email"
-									placeholder="example@email.com"
-									bind:value={$formData.email}
-								/>
-							</Form.Control>
-							<Form.FieldErrors />
-						</Form.Field>
+								<Form.Control let:attrs>
+									<Form.Label>Email Address</Form.Label>
+									<Input
+										{...attrs}
+										type="email"
+										placeholder="example@email.com"
+										bind:value={$formData.email}
+									/>
+								</Form.Control>
+								<Form.FieldErrors />
+							</Form.Field>
 						</div>
 					</Card.Content>
 				</Card.Root>
@@ -604,7 +595,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 				<!-- SPOUSE INFORMATION
 				This is for married clients only. -->
 
-				{#if $formData.civilStatus === 'MARRIED'}
+				{#if $formData.civilStatus === 'MARRIED' || $formData.civilStatus === 'WIDOW/WIDOWER'}
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Spouse Information</Card.Title>
@@ -614,28 +605,44 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Field {form} name="spouseFirstName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label>Name</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseFirstName} placeholder="First Name" class="uppercase" />
+										<Input
+											{...attrs}
+											bind:value={$formData.spouseFirstName}
+											placeholder="First Name"
+										/>
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseMiddleName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseMiddleName} placeholder="Middle Name" class="uppercase" />
+										<Input
+											{...attrs}
+											bind:value={$formData.spouseMiddleName}
+											placeholder="Middle Name"
+										/>
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseLastName" class="grid gap-3 sm:col-span-2">
 									<Form.Control let:attrs>
 										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseLastName} placeholder="Last Name" class="uppercase" />
+										<Input
+											{...attrs}
+											bind:value={$formData.spouseLastName}
+											placeholder="Last Name"
+										/>
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>
 								<Form.Field {form} name="spouseNameSuffix" class="grid gap-3">
 									<Form.Control let:attrs>
 										<Form.Label class="hidden sm:block">&nbsp;</Form.Label>
-										<Input {...attrs} bind:value={$formData.spouseNameSuffix} placeholder="Suffix" />
+										<Input
+											{...attrs}
+											bind:value={$formData.spouseNameSuffix}
+											placeholder="Suffix"
+										/>
 									</Form.Control>
 									<Form.FieldErrors />
 								</Form.Field>

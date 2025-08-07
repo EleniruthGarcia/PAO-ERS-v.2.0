@@ -473,7 +473,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 					<Card.Root>
 						<Card.Header>
 							<Card.Title class="text-sm">
-								Hearing Dates <span class="font-bold text-destructive">*</span>
+								Hearing Dates
 							</Card.Title>
 							<!-- <Card.Description>
 								<Form.Description>Please select all the apply.</Form.Description>
@@ -742,7 +742,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Field {form} name="barangay" class="grid gap-3 sm:col-span-8">
 									<Form.Control let:attrs>
 										<Form.Label
-											>Barangay <span class="font-bold text-destructive">*</span></Form.Label
+											>Barangay</Form.Label
 										>
 										<Input {...attrs} name={attrs.name} bind:value={$formData.barangay} />
 									</Form.Control>
@@ -751,10 +751,8 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Field {form} name="problemsPresented" class="grid gap-3 sm:col-span-8">
 									<Form.Control let:attrs>
 										<Form.Label
-											>Problems Presented <span class="font-bold text-destructive">
-												*
-											</span></Form.Label
-										>
+											>Problems Presented
+										</Form.Label>
 										<Textarea {...attrs} bind:value={$formData.problemsPresented} />
 									</Form.Control>
 									<Form.FieldErrors />
@@ -762,9 +760,7 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								<Form.Field {form} name="activitiesUndertaken" class="grid gap-3 sm:col-span-8">
 									<Form.Control let:attrs>
 										<Form.Label
-											>Activities Undertaken <span class="font-bold text-destructive">
-												*
-											</span></Form.Label
+											>Activities Undertaken</Form.Label
 										>
 										<Textarea {...attrs} bind:value={$formData.activitiesUndertaken} />
 									</Form.Control>
@@ -772,86 +768,85 @@ Creators: Daniel David Bador, Jude Gatchalian, Rance Bobadilla, and Lance Rimand
 								</Form.Field>
 							{/if}
 							{#if $formData.nature.includes('Jail Visitation')}
-							<!-- Existing fields -->
-							<Form.Field {form} name="typeOfRelease" class="grid gap-3 truncate sm:col-span-8">
-								<Form.Control let:attrs>
-									<Form.Label>Type of Jail Visitation</Form.Label>
-									<Select.Root
-										selected={selectedTypeOfRelease}
-										onSelectedChange={(s) => {
-											s && ($formData.typeOfRelease = s.value);
-										}}
-									>
-										<Select.Input name={attrs.name} />
-										<Select.Trigger {...attrs}>
-											<Select.Value placeholder="" />
-										</Select.Trigger>
-										<Select.Content class="max-h-[200px] overflow-y-auto">
-											{#each typeOfRelease as value}
-												<Select.Item {value} />
-											{/each}
-										</Select.Content>
-									</Select.Root>
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
+								<!-- Existing fields -->
+								<Form.Field {form} name="typeOfRelease" class="grid gap-3 truncate sm:col-span-8">
+									<Form.Control let:attrs>
+										<Form.Label>Type of Jail Visitation</Form.Label>
+										<Select.Root
+											selected={selectedTypeOfRelease}
+											onSelectedChange={(s) => {
+												s && ($formData.typeOfRelease = s.value);
+											}}
+										>
+											<Select.Input name={attrs.name} />
+											<Select.Trigger {...attrs}>
+												<Select.Value placeholder="" />
+											</Select.Trigger>
+											<Select.Content class="max-h-[200px] overflow-y-auto">
+												{#each typeOfRelease as value}
+													<Select.Item {value} />
+												{/each}
+											</Select.Content>
+										</Select.Root>
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
 
-							<Form.Field {form} name="recommendation" class="grid gap-3 sm:col-span-8">
-								<Form.Control let:attrs>
-									<Form.Label>Recommendation</Form.Label>
-									<Textarea {...attrs} bind:value={$formData.recommendation} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
+								<Form.Field {form} name="recommendation" class="grid gap-3 sm:col-span-8">
+									<Form.Control let:attrs>
+										<Form.Label>Recommendation</Form.Label>
+										<Textarea {...attrs} bind:value={$formData.recommendation} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
 
-							<!-- ✅ NEW jail visitation fields -->
-							<Form.Field {form} name="caseTitle" class="grid gap-3 sm:col-span-8">
-								<Form.Control let:attrs>
-									<Form.Label>Case Title</Form.Label>
-									<Input {...attrs} bind:value={$formData.caseTitle} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
+								<!-- ✅ NEW jail visitation fields -->
+								<Form.Field {form} name="caseTitle" class="grid gap-3 sm:col-span-8">
+									<Form.Control let:attrs>
+										<Form.Label>Case Title</Form.Label>
+										<Input {...attrs} bind:value={$formData.caseTitle} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
 
-							<Form.Field {form} name="natureOfOffense" class="grid gap-3 sm:col-span-8">
-								<Form.Control let:attrs>
-									<Form.Label>Nature of Offense</Form.Label>
-									<Input {...attrs} bind:value={$formData.natureOfOffense} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
+								<Form.Field {form} name="natureOfOffense" class="grid gap-3 sm:col-span-8">
+									<Form.Control let:attrs>
+										<Form.Label>Nature of Offense</Form.Label>
+										<Input {...attrs} bind:value={$formData.natureOfOffense} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
 
-							<Form.Field {form} name="placeOfDetention" class="grid gap-3 sm:col-span-8">
-								<Form.Control let:attrs>
-									<Form.Label>Place of Detention</Form.Label>
-									<Input {...attrs} bind:value={$formData.placeOfDetention} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
+								<Form.Field {form} name="placeOfDetention" class="grid gap-3 sm:col-span-8">
+									<Form.Control let:attrs>
+										<Form.Label>Place of Detention</Form.Label>
+										<Input {...attrs} bind:value={$formData.placeOfDetention} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
 
-							<Form.Field {form} name="courtWherePending" class="grid gap-3 sm:col-span-8">
-								<Form.Control let:attrs>
-									<Form.Label>Court Where Pending</Form.Label>
-									<Input {...attrs} bind:value={$formData.courtWherePending} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
+								<Form.Field {form} name="courtWherePending" class="grid gap-3 sm:col-span-8">
+									<Form.Control let:attrs>
+										<Form.Label>Court Where Pending</Form.Label>
+										<Input {...attrs} bind:value={$formData.courtWherePending} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
 
-							<Form.Field {form} name="dateOfConfinement" class="grid gap-3 sm:col-span-8">
-								<Form.Control let:attrs>
-									<Form.Label>Date of Confinement</Form.Label>
-									<Input type="date" {...attrs} bind:value={$formData.dateOfConfinement} />
-								</Form.Control>
-								<Form.FieldErrors />
-							</Form.Field>
-						{/if}
-
+								<Form.Field {form} name="dateOfConfinement" class="grid gap-3 sm:col-span-8">
+									<Form.Control let:attrs>
+										<Form.Label>Date of Confinement</Form.Label>
+										<Input type="date" {...attrs} bind:value={$formData.dateOfConfinement} />
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
+							{/if}
 						</div>
 						<div class="grid items-start gap-3 sm:grid-cols-8">
 							<Form.Field {form} name="date" class="grid gap-3 sm:col-span-3">
 								<Form.Control let:attrs>
 									<Form.Label>
-										Date <span class="font-bold text-destructive">*</span>
+										Date
 									</Form.Label>
 									<DateInput {form} name="date" />
 								</Form.Control>

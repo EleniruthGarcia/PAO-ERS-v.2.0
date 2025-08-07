@@ -37,7 +37,7 @@ export const load: PageServerLoad = async (event) => {
 				lawyer_id: event.locals.user.id,
 				client_id,
 				date: new Date(),
-				nature: ['Administration of Oath'] 
+				nature: ['Administration of Oath']
 			},
 			zod(formSchema),
 			{ errors: false }
